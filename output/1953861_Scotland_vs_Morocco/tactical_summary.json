@@ -1,0 +1,127 @@
+{
+  "match_info": {
+    "teams": "Scotland vs Morocco",
+    "score": "0 : 1",
+    "competition": "World Cup Grp. C",
+    "home_formation": "4411",
+    "away_formation": "4231"
+  },
+  "team_stats": {
+    "Scotland": {
+      "total_passes": 484,
+      "pass_accuracy": 83.7,
+      "total_shots": 6,
+      "goals": 0,
+      "possession_proxy": 40.8
+    },
+    "Morocco": {
+      "total_passes": 702,
+      "pass_accuracy": 88.9,
+      "total_shots": 12,
+      "goals": 1,
+      "possession_proxy": 59.2
+    }
+  },
+  "zone_dominance": {
+    "Scotland": {
+      "defensive_third": 40.3,
+      "middle_third": 41.8,
+      "final_third": 17.9
+    },
+    "Morocco": {
+      "defensive_third": 31.6,
+      "middle_third": 50.7,
+      "final_third": 17.7
+    }
+  },
+  "standout_players": {
+    "Scotland": {
+      "top_passers": [
+        {
+          "player": "Jack Hendry",
+          "passes": 75
+        },
+        {
+          "player": "Lewis Ferguson",
+          "passes": 68
+        },
+        {
+          "player": "Andy Robertson",
+          "passes": 65
+        }
+      ],
+      "top_shooters": [
+        {
+          "player": "Scott McTominay",
+          "shots": 2
+        },
+        {
+          "player": "John McGinn",
+          "shots": 1
+        },
+        {
+          "player": "Kieran Tierney",
+          "shots": 1
+        }
+      ],
+      "top_defenders": [
+        {
+          "player": "Lewis Ferguson",
+          "actions": 17
+        },
+        {
+          "player": "Andy Robertson",
+          "actions": 11
+        },
+        {
+          "player": "Angus Gunn",
+          "actions": 10
+        }
+      ]
+    },
+    "Morocco": {
+      "top_passers": [
+        {
+          "player": "Achraf Hakimi",
+          "passes": 96
+        },
+        {
+          "player": "Issa Diop",
+          "passes": 93
+        },
+        {
+          "player": "Neil El Aynaoui",
+          "passes": 81
+        }
+      ],
+      "top_shooters": [
+        {
+          "player": "Achraf Hakimi",
+          "shots": 2
+        },
+        {
+          "player": "Bilal El Khannouss",
+          "shots": 2
+        },
+        {
+          "player": "Ismael Saibari",
+          "shots": 2
+        }
+      ],
+      "top_defenders": [
+        {
+          "player": "Neil El Aynaoui",
+          "actions": 11
+        },
+        {
+          "player": "Noussair Mazraoui",
+          "actions": 11
+        },
+        {
+          "player": "Yassine Bounou",
+          "actions": 10
+        }
+      ]
+    }
+  }
+}

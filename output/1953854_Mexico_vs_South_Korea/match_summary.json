@@ -1,0 +1,451 @@
+{
+  "matchId": 1953854,
+  "startDate": "2026-06-19T00:00:00",
+  "startTime": "2026-06-19T02:00:00",
+  "score": "1 : 0",
+  "ftScore": "1 : 0",
+  "htScore": "0 : 0",
+  "etScore": "",
+  "venueName": "Estadio Guadalajara",
+  "attendance": 45522,
+  "referee": {
+    "officialId": 6527,
+    "firstName": "Gustavo",
+    "lastName": "Tejera",
+    "hasParticipatedMatches": false,
+    "name": "Gustavo Tejera"
+  },
+  "maxMinute": 96,
+  "home": {
+    "teamId": 972,
+    "name": "Mexico",
+    "countryName": "Mexico",
+    "averageAge": 27.5,
+    "formations": [
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 75
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 75,
+        "endMinuteExpanded": 75
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 75,
+        "endMinuteExpanded": 84
+      },
+      {
+        "formationName": "541",
+        "startMinuteExpanded": 84,
+        "endMinuteExpanded": 88
+      },
+      {
+        "formationName": "541",
+        "startMinuteExpanded": 88,
+        "endMinuteExpanded": 96
+      }
+    ],
+    "players": [
+      {
+        "playerId": 527319,
+        "name": "Raúl Rangel",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 447643,
+        "name": "Jorge Sánchez",
+        "shirtNo": 2,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 425115,
+        "name": "Johan Vásquez",
+        "shirtNo": 5,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 322696,
+        "name": "Edson Álvarez",
+        "shirtNo": 4,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 252248,
+        "name": "Jesús Gallardo",
+        "shirtNo": 23,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 447635,
+        "name": "Luis Romo",
+        "shirtNo": 7,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 447638,
+        "name": "Érik Lira",
+        "shirtNo": 6,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 396565,
+        "name": "Brian Gutiérrez",
+        "shirtNo": 26,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 447636,
+        "name": "Roberto Alvarado",
+        "shirtNo": 25,
+        "position": "FWR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 108186,
+        "name": "Raúl Jiménez",
+        "shirtNo": 9,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 509557,
+        "name": "Julián Quiñones",
+        "shirtNo": 16,
+        "position": "FWL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 445061,
+        "name": "Santiago Giménez",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 447634,
+        "name": "Israel Reyes",
+        "shirtNo": 15,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 228547,
+        "name": "Orbelín Pineda",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 498764,
+        "name": "César Huerta",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 419580,
+        "name": "Obed Vargas",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 550680,
+        "name": "Gilberto Mora",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 561632,
+        "name": "Mateo Chávez",
+        "shirtNo": 20,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 579163,
+        "name": "Armando González",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 447629,
+        "name": "Carlos Acevedo",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 447639,
+        "name": "Alexis Vega",
+        "shirtNo": 10,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 447642,
+        "name": "Luis Chávez",
+        "shirtNo": 24,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 21015,
+        "name": "Guillermo Ochoa",
+        "shirtNo": 13,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 470924,
+        "name": "Guillermo Martínez",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 452407,
+        "name": "Álvaro Fidalgo",
+        "shirtNo": 8,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 1159,
+    "name": "South Korea",
+    "countryName": "South Korea",
+    "averageAge": 27.5,
+    "formations": [
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 61
+      },
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 61,
+        "endMinuteExpanded": 75
+      },
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 75,
+        "endMinuteExpanded": 81
+      },
+      {
+        "formationName": "352",
+        "startMinuteExpanded": 81,
+        "endMinuteExpanded": 86
+      },
+      {
+        "formationName": "352",
+        "startMinuteExpanded": 86,
+        "endMinuteExpanded": 96
+      }
+    ],
+    "players": [
+      {
+        "playerId": 71968,
+        "name": "Kim Seung-Gyu",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 531031,
+        "name": "Lee Han-Beom",
+        "shirtNo": 2,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 370912,
+        "name": "Kim Min-Jae",
+        "shirtNo": 4,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 447593,
+        "name": "Lee Gi-Hyuk",
+        "shirtNo": 3,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 414214,
+        "name": "Kim Moon-Hwan",
+        "shirtNo": 15,
+        "position": "DMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 477549,
+        "name": "Seol Young-Woo",
+        "shirtNo": 22,
+        "position": "DML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 362786,
+        "name": "Paik Seung-Ho",
+        "shirtNo": 8,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 371030,
+        "name": "Hwang In-Beom",
+        "shirtNo": 6,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 142959,
+        "name": "Lee Jae-Sung",
+        "shirtNo": 10,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 367780,
+        "name": "Lee Kang-In",
+        "shirtNo": 19,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 91909,
+        "name": "Son Heung-Min",
+        "shirtNo": 7,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 262854,
+        "name": "Hwang Hee-Chan",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 457093,
+        "name": "Yang Hyun-Jun",
+        "shirtNo": 20,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 458184,
+        "name": "Eom Ji-Sung",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 461463,
+        "name": "Oh Hyeon-Gyu",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 447605,
+        "name": "Cho Gue-Sung",
+        "shirtNo": 9,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 431275,
+        "name": "Jens Castrop",
+        "shirtNo": 23,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 510164,
+        "name": "Park Jin-Seob",
+        "shirtNo": 16,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 560835,
+        "name": "Lee Tae-Seok",
+        "shirtNo": 13,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 570094,
+        "name": "Kim Tae-Hyeon",
+        "shirtNo": 5,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 358671,
+        "name": "Jo Hyeon-Woo",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 432553,
+        "name": "Lee Dong-Gyeong",
+        "shirtNo": 26,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 447594,
+        "name": "Song Bum-Keun",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 447598,
+        "name": "Kim Jin-Gyu",
+        "shirtNo": 24,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 498646,
+        "name": "Bae Jun-Ho",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 624489,
+        "name": "Cho Wi-Je",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "International",
+  "league": "FIFA World Cup",
+  "season": "2026",
+  "competitionType": "Knock Out",
+  "competitionStage": "World Cup Grp. A"
+}
