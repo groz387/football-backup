@@ -1,0 +1,142 @@
+{
+  "match": {
+    "match_dir": "output\\1953861_Scotland_vs_Morocco",
+    "home": "Scotland",
+    "away": "Morocco",
+    "score": "0 : 1",
+    "startDate": "2026-06-19T00:00:00",
+    "league": "FIFA World Cup",
+    "competitionStage": "World Cup Grp. C"
+  },
+  "selected_visualizations": [
+    {
+      "id": "goal_chain",
+      "title": "Goal Chain Chalkboard",
+      "available": true,
+      "score": 95,
+      "reason": "Plots the exact event coordinates before the goal."
+    },
+    {
+      "id": "momentum_pendulum",
+      "title": "Momentum Pendulum",
+      "available": true,
+      "score": 90,
+      "reason": "Shows when pressure swung using a transparent event-weighted index."
+    },
+    {
+      "id": "zone_control",
+      "title": "18-Zone Touch Control",
+      "available": true,
+      "score": 90,
+      "reason": "Uses every touch coordinate to show territorial control."
+    }
+  ],
+  "all_candidates": [
+    {
+      "id": "goal_chain",
+      "title": "Goal Chain Chalkboard",
+      "available": true,
+      "score": 95,
+      "reason": "Plots the exact event coordinates before the goal."
+    },
+    {
+      "id": "momentum_pendulum",
+      "title": "Momentum Pendulum",
+      "available": true,
+      "score": 90,
+      "reason": "Shows when pressure swung using a transparent event-weighted index."
+    },
+    {
+      "id": "zone_control",
+      "title": "18-Zone Touch Control",
+      "available": true,
+      "score": 90,
+      "reason": "Uses every touch coordinate to show territorial control."
+    },
+    {
+      "id": "shot_map",
+      "title": "Shot Map",
+      "available": true,
+      "score": 73,
+      "reason": "Maps all shots and separates goals, saves, misses and blocks."
+    },
+    {
+      "id": "goalmouth_wall",
+      "title": "Goalmouth Wall",
+      "available": true,
+      "score": 75,
+      "reason": "Plots goal-mouth placement for goals and saved shots. No xGOT claim without xGOT data."
+    },
+    {
+      "id": "pass_network",
+      "title": "Pass Network",
+      "available": true,
+      "score": 63.400000000000006,
+      "reason": "Highlights circulation and whether possession reached advanced players."
+    },
+    {
+      "id": "sterile_domination",
+      "title": "Sterile Domination Check",
+      "available": true,
+      "score": 78.4,
+      "reason": "Compares pass share with final-third and box presence."
+    },
+    {
+      "id": "xg_xgot_robbery",
+      "title": "xG vs xGOT Robbery Indicator",
+      "available": false,
+      "score": 20,
+      "reason": "Blocked unless external enrichment supplies shot-level xG and xGOT."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "title",
+      "title": "Scotland 0 : 1 Morocco",
+      "visualization": "title",
+      "narration": "Fifty-two seconds. Seventeen passes. Morocco built the goal before Scotland could breathe.",
+      "asset": "video_output\\1953861_Scotland_vs_Morocco\\assets\\01_title.png",
+      "duration": 2.0
+    },
+    {
+      "id": "standard_stats",
+      "title": "Baseline Match Data",
+      "visualization": "standard_stats",
+      "narration": "The receipts back it up: Morocco led pass share, shots, and final-third entries.",
+      "asset": "video_output\\1953861_Scotland_vs_Morocco\\assets\\02_standard_stats.png",
+      "duration": 2.8
+    },
+    {
+      "id": "goal_chain",
+      "title": "Goal Chain Chalkboard",
+      "visualization": "goal_chain",
+      "narration": "Watch the chain: 17 passes, 324.3 metres, one finish.",
+      "asset": "video_output\\1953861_Scotland_vs_Morocco\\assets\\03_goal_chain.png",
+      "duration": 4.8
+    },
+    {
+      "id": "momentum_pendulum",
+      "title": "Momentum Pendulum",
+      "visualization": "momentum_pendulum",
+      "narration": "The pressure spike came in 90-94. The goal chain told us where the game was going.",
+      "asset": "video_output\\1953861_Scotland_vs_Morocco\\assets\\04_momentum_pendulum.png",
+      "duration": 3.2
+    },
+    {
+      "id": "zone_control",
+      "title": "18-Zone Touch Control",
+      "visualization": "zone_control",
+      "narration": "The touch map shows where the match actually lived.",
+      "asset": "video_output\\1953861_Scotland_vs_Morocco\\assets\\05_zone_control.png",
+      "duration": 3.2
+    },
+    {
+      "id": "close",
+      "title": "What The Data Supports",
+      "visualization": "close",
+      "narration": "No invented xG. No vibes dressed as numbers. Just the event feed.",
+      "asset": "video_output\\1953861_Scotland_vs_Morocco\\assets\\06_close.png",
+      "duration": 2.4
+    }
+  ]
+}

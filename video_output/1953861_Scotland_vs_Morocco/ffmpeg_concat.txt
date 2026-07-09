@@ -1,0 +1,13 @@
+file 'C:/Users/Murad Baghirli/Desktop/Scrape-Whoscored-Event-Data/video_output/1953861_Scotland_vs_Morocco/assets/01_title.png'
+duration 2.000
+file 'C:/Users/Murad Baghirli/Desktop/Scrape-Whoscored-Event-Data/video_output/1953861_Scotland_vs_Morocco/assets/02_standard_stats.png'
+duration 2.800
+file 'C:/Users/Murad Baghirli/Desktop/Scrape-Whoscored-Event-Data/video_output/1953861_Scotland_vs_Morocco/assets/03_goal_chain.png'
+duration 4.800
+file 'C:/Users/Murad Baghirli/Desktop/Scrape-Whoscored-Event-Data/video_output/1953861_Scotland_vs_Morocco/assets/04_momentum_pendulum.png'
+duration 3.200
+file 'C:/Users/Murad Baghirli/Desktop/Scrape-Whoscored-Event-Data/video_output/1953861_Scotland_vs_Morocco/assets/05_zone_control.png'
+duration 3.200
+file 'C:/Users/Murad Baghirli/Desktop/Scrape-Whoscored-Event-Data/video_output/1953861_Scotland_vs_Morocco/assets/06_close.png'
+duration 2.400
+file 'C:/Users/Murad Baghirli/Desktop/Scrape-Whoscored-Event-Data/video_output/1953861_Scotland_vs_Morocco/assets/06_close.png'

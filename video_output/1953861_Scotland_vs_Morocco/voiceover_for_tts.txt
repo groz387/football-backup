@@ -1,0 +1,11 @@
+Scotland against Morocco: 0 : 1. Morocco won it, and the event map shows how the game tilted. The event feed points to pass share, shots, territory, and the goal chain.
+
+Morocco had 59.2% of pass attempts and shots finished 6 to 12. This is the baseline before the chalkboard evidence.
+
+Morocco reached Ismael Saibari through 17 passes, 324.3 meters and 52.0 seconds of retained possession.
+
+The pressure index peaks in minutes 90-94, when Morocco created the clearest event pressure. It is a transparent count, not invented xT.
+
+Every touch is grouped into 18 tactical cells. The split cells show who controlled each zone.
+
+Only exported-event claims make the cut. Missing xG or xGOT stays missing until an enrichment source exists.

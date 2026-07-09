@@ -1,0 +1,674 @@
+{
+  "match": {
+    "match_dir": "output\\1953861_Scotland_vs_Morocco",
+    "home": "Scotland",
+    "away": "Morocco",
+    "score": "0 : 1",
+    "startDate": "2026-06-19T00:00:00",
+    "league": "FIFA World Cup",
+    "competitionStage": "World Cup Grp. C"
+  },
+  "data_health": {
+    "event_rows": 1612,
+    "pass_rows": 1186,
+    "shot_rows_from_events": 18,
+    "touch_rows": 1413,
+    "has_coordinates": true,
+    "has_pass_end_coordinates": true,
+    "has_goal_mouth_coordinates": true,
+    "has_vendor_xg": false,
+    "has_vendor_xgot": false,
+    "has_epv": false,
+    "unsupported_claims": [
+      "vendor_xg",
+      "vendor_xgot"
+    ]
+  },
+  "team_stats": {
+    "Scotland": {
+      "h_a": "h",
+      "pass_attempts": 484,
+      "successful_passes": 405,
+      "pass_success_pct": 83.7,
+      "pass_share_pct": 40.8,
+      "touches": 599,
+      "touch_share_pct": 42.4,
+      "shots": 6,
+      "shots_on_target": 3,
+      "goals": 0,
+      "corners": 7,
+      "fouls": 19,
+      "saves": 5,
+      "final_third_passes": 71,
+      "penalty_box_touches": 22
+    },
+    "Morocco": {
+      "h_a": "a",
+      "pass_attempts": 702,
+      "successful_passes": 624,
+      "pass_success_pct": 88.9,
+      "pass_share_pct": 59.2,
+      "touches": 814,
+      "touch_share_pct": 57.6,
+      "shots": 12,
+      "shots_on_target": 6,
+      "goals": 1,
+      "corners": 7,
+      "fouls": 19,
+      "saves": 3,
+      "final_third_passes": 110,
+      "penalty_box_touches": 26
+    }
+  },
+  "momentum": [
+    {
+      "minute_start": 0,
+      "minute_block": "0-4",
+      "home_pressure": 2.0,
+      "away_pressure": 16.2,
+      "swing": -14.2
+    },
+    {
+      "minute_start": 5,
+      "minute_block": "5-9",
+      "home_pressure": 2.0,
+      "away_pressure": 7.4,
+      "swing": -5.4
+    },
+    {
+      "minute_start": 10,
+      "minute_block": "10-14",
+      "home_pressure": 5.2,
+      "away_pressure": 12.6,
+      "swing": -7.4
+    },
+    {
+      "minute_start": 15,
+      "minute_block": "15-19",
+      "home_pressure": 7.0,
+      "away_pressure": 5.2,
+      "swing": 1.8
+    },
+    {
+      "minute_start": 20,
+      "minute_block": "20-24",
+      "home_pressure": 2.2,
+      "away_pressure": 9.0,
+      "swing": -6.8
+    },
+    {
+      "minute_start": 25,
+      "minute_block": "25-29",
+      "home_pressure": 1.0,
+      "away_pressure": 11.4,
+      "swing": -10.4
+    },
+    {
+      "minute_start": 30,
+      "minute_block": "30-34",
+      "home_pressure": 1.0,
+      "away_pressure": 11.2,
+      "swing": -10.2
+    },
+    {
+      "minute_start": 35,
+      "minute_block": "35-39",
+      "home_pressure": 0.0,
+      "away_pressure": 21.6,
+      "swing": -21.6
+    },
+    {
+      "minute_start": 40,
+      "minute_block": "40-44",
+      "home_pressure": 0.0,
+      "away_pressure": 8.5,
+      "swing": -8.5
+    },
+    {
+      "minute_start": 45,
+      "minute_block": "45-49",
+      "home_pressure": 43.0,
+      "away_pressure": 15.2,
+      "swing": 27.8
+    },
+    {
+      "minute_start": 50,
+      "minute_block": "50-54",
+      "home_pressure": 5.0,
+      "away_pressure": 25.8,
+      "swing": -20.8
+    },
+    {
+      "minute_start": 55,
+      "minute_block": "55-59",
+      "home_pressure": 0.0,
+      "away_pressure": 18.0,
+      "swing": -18.0
+    },
+    {
+      "minute_start": 60,
+      "minute_block": "60-64",
+      "home_pressure": 10.0,
+      "away_pressure": 12.2,
+      "swing": -2.2
+    },
+    {
+      "minute_start": 65,
+      "minute_block": "65-69",
+      "home_pressure": 0.0,
+      "away_pressure": 14.0,
+      "swing": -14.0
+    },
+    {
+      "minute_start": 70,
+      "minute_block": "70-74",
+      "home_pressure": 0.0,
+      "away_pressure": 0.0,
+      "swing": 0.0
+    },
+    {
+      "minute_start": 75,
+      "minute_block": "75-79",
+      "home_pressure": 4.5,
+      "away_pressure": 6.4,
+      "swing": -1.9
+    },
+    {
+      "minute_start": 80,
+      "minute_block": "80-84",
+      "home_pressure": 20.6,
+      "away_pressure": 2.0,
+      "swing": 18.6
+    },
+    {
+      "minute_start": 85,
+      "minute_block": "85-89",
+      "home_pressure": 21.7,
+      "away_pressure": 2.0,
+      "swing": 19.7
+    },
+    {
+      "minute_start": 90,
+      "minute_block": "90-94",
+      "home_pressure": 2.2,
+      "away_pressure": 33.9,
+      "swing": -31.7
+    },
+    {
+      "minute_start": 95,
+      "minute_block": "95-99",
+      "home_pressure": 2.0,
+      "away_pressure": 2.0,
+      "swing": 0.0
+    },
+    {
+      "minute_start": 100,
+      "minute_block": "100-104",
+      "home_pressure": 0.0,
+      "away_pressure": 0.0,
+      "swing": 0.0
+    }
+  ],
+  "field_tilt": [
+    {
+      "minute_start": 0,
+      "minute_block": "0-9",
+      "home_final_third_passes": 5,
+      "away_final_third_passes": 6,
+      "home_tilt_pct": 45.5,
+      "away_tilt_pct": 54.5
+    },
+    {
+      "minute_start": 10,
+      "minute_block": "10-19",
+      "home_final_third_passes": 6,
+      "away_final_third_passes": 11,
+      "home_tilt_pct": 35.3,
+      "away_tilt_pct": 64.7
+    },
+    {
+      "minute_start": 20,
+      "minute_block": "20-29",
+      "home_final_third_passes": 2,
+      "away_final_third_passes": 4,
+      "home_tilt_pct": 33.3,
+      "away_tilt_pct": 66.7
+    },
+    {
+      "minute_start": 30,
+      "minute_block": "30-39",
+      "home_final_third_passes": 1,
+      "away_final_third_passes": 18,
+      "home_tilt_pct": 5.3,
+      "away_tilt_pct": 94.7
+    },
+    {
+      "minute_start": 40,
+      "minute_block": "40-49",
+      "home_final_third_passes": 24,
+      "away_final_third_passes": 11,
+      "home_tilt_pct": 68.6,
+      "away_tilt_pct": 31.4
+    },
+    {
+      "minute_start": 50,
+      "minute_block": "50-59",
+      "home_final_third_passes": 2,
+      "away_final_third_passes": 21,
+      "home_tilt_pct": 8.7,
+      "away_tilt_pct": 91.3
+    },
+    {
+      "minute_start": 60,
+      "minute_block": "60-69",
+      "home_final_third_passes": 3,
+      "away_final_third_passes": 22,
+      "home_tilt_pct": 12.0,
+      "away_tilt_pct": 88.0
+    },
+    {
+      "minute_start": 70,
+      "minute_block": "70-79",
+      "home_final_third_passes": 6,
+      "away_final_third_passes": 6,
+      "home_tilt_pct": 50.0,
+      "away_tilt_pct": 50.0
+    },
+    {
+      "minute_start": 80,
+      "minute_block": "80-89",
+      "home_final_third_passes": 12,
+      "away_final_third_passes": 3,
+      "home_tilt_pct": 80.0,
+      "away_tilt_pct": 20.0
+    },
+    {
+      "minute_start": 90,
+      "minute_block": "90-99",
+      "home_final_third_passes": 10,
+      "away_final_third_passes": 8,
+      "home_tilt_pct": 55.6,
+      "away_tilt_pct": 44.4
+    },
+    {
+      "minute_start": 100,
+      "minute_block": "100-109",
+      "home_final_third_passes": 0,
+      "away_final_third_passes": 0,
+      "home_tilt_pct": 50.0,
+      "away_tilt_pct": 50.0
+    }
+  ],
+  "zone_control": [
+    {
+      "xbin": 0,
+      "ybin": 0,
+      "home_touches": 11,
+      "away_touches": 25,
+      "total_touches": 36,
+      "home_share_pct": 30.6
+    },
+    {
+      "xbin": 0,
+      "ybin": 1,
+      "home_touches": 52,
+      "away_touches": 51,
+      "total_touches": 103,
+      "home_share_pct": 50.5
+    },
+    {
+      "xbin": 0,
+      "ybin": 2,
+      "home_touches": 12,
+      "away_touches": 15,
+      "total_touches": 27,
+      "home_share_pct": 44.4
+    },
+    {
+      "xbin": 1,
+      "ybin": 0,
+      "home_touches": 59,
+      "away_touches": 65,
+      "total_touches": 124,
+      "home_share_pct": 47.6
+    },
+    {
+      "xbin": 1,
+      "ybin": 1,
+      "home_touches": 48,
+      "away_touches": 53,
+      "total_touches": 101,
+      "home_share_pct": 47.5
+    },
+    {
+      "xbin": 1,
+      "ybin": 2,
+      "home_touches": 62,
+      "away_touches": 48,
+      "total_touches": 110,
+      "home_share_pct": 56.4
+    },
+    {
+      "xbin": 2,
+      "ybin": 0,
+      "home_touches": 38,
+      "away_touches": 105,
+      "total_touches": 143,
+      "home_share_pct": 26.6
+    },
+    {
+      "xbin": 2,
+      "ybin": 1,
+      "home_touches": 41,
+      "away_touches": 57,
+      "total_touches": 98,
+      "home_share_pct": 41.8
+    },
+    {
+      "xbin": 2,
+      "ybin": 2,
+      "home_touches": 59,
+      "away_touches": 59,
+      "total_touches": 118,
+      "home_share_pct": 50.0
+    },
+    {
+      "xbin": 3,
+      "ybin": 0,
+      "home_touches": 35,
+      "away_touches": 111,
+      "total_touches": 146,
+      "home_share_pct": 24.0
+    },
+    {
+      "xbin": 3,
+      "ybin": 1,
+      "home_touches": 36,
+      "away_touches": 29,
+      "total_touches": 65,
+      "home_share_pct": 55.4
+    },
+    {
+      "xbin": 3,
+      "ybin": 2,
+      "home_touches": 39,
+      "away_touches": 52,
+      "total_touches": 91,
+      "home_share_pct": 42.9
+    },
+    {
+      "xbin": 4,
+      "ybin": 0,
+      "home_touches": 32,
+      "away_touches": 52,
+      "total_touches": 84,
+      "home_share_pct": 38.1
+    },
+    {
+      "xbin": 4,
+      "ybin": 1,
+      "home_touches": 15,
+      "away_touches": 14,
+      "total_touches": 29,
+      "home_share_pct": 51.7
+    },
+    {
+      "xbin": 4,
+      "ybin": 2,
+      "home_touches": 27,
+      "away_touches": 38,
+      "total_touches": 65,
+      "home_share_pct": 41.5
+    },
+    {
+      "xbin": 5,
+      "ybin": 0,
+      "home_touches": 12,
+      "away_touches": 14,
+      "total_touches": 26,
+      "home_share_pct": 46.2
+    },
+    {
+      "xbin": 5,
+      "ybin": 1,
+      "home_touches": 9,
+      "away_touches": 10,
+      "total_touches": 19,
+      "home_share_pct": 47.4
+    },
+    {
+      "xbin": 5,
+      "ybin": 2,
+      "home_touches": 12,
+      "away_touches": 16,
+      "total_touches": 28,
+      "home_share_pct": 42.9
+    }
+  ],
+  "goal_chains": [
+    {
+      "team": "Morocco",
+      "h_a": "a",
+      "minute": 1,
+      "second": 10,
+      "scorer": "Ismael Saibari",
+      "passes": 17,
+      "events": [
+        {
+          "eventId": "7",
+          "type": "Pass",
+          "player": "Chadi Riad",
+          "minute": 0,
+          "second": 18,
+          "x": 37.5,
+          "y": 77.2,
+          "endX": 34.3,
+          "endY": 34.6
+        },
+        {
+          "eventId": "8",
+          "type": "Pass",
+          "player": "Issa Diop",
+          "minute": 0,
+          "second": 22,
+          "x": 35.1,
+          "y": 36.6,
+          "endX": 34.5,
+          "endY": 66.3
+        },
+        {
+          "eventId": "9",
+          "type": "Pass",
+          "player": "Chadi Riad",
+          "minute": 0,
+          "second": 25,
+          "x": 34.2,
+          "y": 67.5,
+          "endX": 38.7,
+          "endY": 79.1
+        },
+        {
+          "eventId": "10",
+          "type": "Pass",
+          "player": "Neil El Aynaoui",
+          "minute": 0,
+          "second": 26,
+          "x": 38.7,
+          "y": 79.1,
+          "endX": 31.6,
+          "endY": 66.3
+        },
+        {
+          "eventId": "11",
+          "type": "Pass",
+          "player": "Chadi Riad",
+          "minute": 0,
+          "second": 32,
+          "x": 34.6,
+          "y": 63.9,
+          "endX": 32.2,
+          "endY": 27.7
+        },
+        {
+          "eventId": "12",
+          "type": "Pass",
+          "player": "Issa Diop",
+          "minute": 0,
+          "second": 35,
+          "x": 32.2,
+          "y": 27.7,
+          "endX": 43.8,
+          "endY": 8.4
+        },
+        {
+          "eventId": "13",
+          "type": "Pass",
+          "player": "Ismael Saibari",
+          "minute": 0,
+          "second": 38,
+          "x": 43.8,
+          "y": 8.4,
+          "endX": 35.2,
+          "endY": 27.9
+        },
+        {
+          "eventId": "14",
+          "type": "Pass",
+          "player": "Issa Diop",
+          "minute": 0,
+          "second": 40,
+          "x": 36.4,
+          "y": 24.4,
+          "endX": 40.8,
+          "endY": 6.4
+        },
+        {
+          "eventId": "15",
+          "type": "Pass",
+          "player": "Ismael Saibari",
+          "minute": 0,
+          "second": 42,
+          "x": 40.8,
+          "y": 6.4,
+          "endX": 38.7,
+          "endY": 31.8
+        },
+        {
+          "eventId": "16",
+          "type": "Pass",
+          "player": "Neil El Aynaoui",
+          "minute": 0,
+          "second": 44,
+          "x": 38.7,
+          "y": 31.8,
+          "endX": 29.9,
+          "endY": 28.5
+        },
+        {
+          "eventId": "17",
+          "type": "Pass",
+          "player": "Ayyoub Bouaddi",
+          "minute": 0,
+          "second": 47,
+          "x": 31.7,
+          "y": 36.3,
+          "endX": 34.4,
+          "endY": 76.9
+        },
+        {
+          "eventId": "18",
+          "type": "Pass",
+          "player": "Noussair Mazraoui",
+          "minute": 0,
+          "second": 48,
+          "x": 34.4,
+          "y": 76.9,
+          "endX": 41.8,
+          "endY": 65.7
+        },
+        {
+          "eventId": "19",
+          "type": "Pass",
+          "player": "Azzedine Ounahi",
+          "minute": 0,
+          "second": 50,
+          "x": 41.8,
+          "y": 65.7,
+          "endX": 35.2,
+          "endY": 74.9
+        },
+        {
+          "eventId": "20",
+          "type": "Pass",
+          "player": "Noussair Mazraoui",
+          "minute": 0,
+          "second": 54,
+          "x": 40.3,
+          "y": 71.5,
+          "endX": 57.0,
+          "endY": 93.4
+        },
+        {
+          "eventId": "21",
+          "type": "Pass",
+          "player": "Bilal El Khannouss",
+          "minute": 1,
+          "second": 0,
+          "x": 57.5,
+          "y": 75.8,
+          "endX": 53.9,
+          "endY": 46.7
+        },
+        {
+          "eventId": "22",
+          "type": "Pass",
+          "player": "Ayyoub Bouaddi",
+          "minute": 1,
+          "second": 3,
+          "x": 54.0,
+          "y": 44.6,
+          "endX": 61.0,
+          "endY": 4.1
+        },
+        {
+          "eventId": "23",
+          "type": "Pass",
+          "player": "Brahim Díaz",
+          "minute": 1,
+          "second": 7,
+          "x": 61.5,
+          "y": 5.1,
+          "endX": 92.1,
+          "endY": 26.1
+        },
+        {
+          "eventId": "24",
+          "type": "Goal",
+          "player": "Ismael Saibari",
+          "minute": 1,
+          "second": 10,
+          "x": 92.4,
+          "y": 30.8,
+          "endX": null,
+          "endY": null
+        }
+      ],
+      "pass_distance_m": 324.3,
+      "duration_seconds": 52.0,
+      "assist_event_id": "23"
+    }
+  ],
+  "facts": [
+    "Scotland vs Morocco finished 0 : 1.",
+    "Pass-share possession proxy: Scotland 40.8%, Morocco 59.2%.",
+    "Shots: Scotland 6 (3 on target), Morocco 12 (6 on target).",
+    "Final-third passes: Scotland 71, Morocco 110.",
+    "Longest goal chain: Morocco goal by Ismael Saibari at 1:10, 17 passes, 324.3 meters of passing, 52.0 seconds.",
+    "Vendor xG/xGOT are not present in the local WhoScored export, so xG claims are blocked."
+  ],
+  "definitions": {
+    "pass_share_possession_proxy": "Team pass attempts divided by total pass attempts in the export. This is not official broadcast possession.",
+    "pressure_index": "A transparent weighted count of attacks: final-third passes, box entries, shots, goals, corners, attacking recoveries and successful take-ons.",
+    "field_tilt": "Share of final-third passes in each time bucket."
+  }
+}
