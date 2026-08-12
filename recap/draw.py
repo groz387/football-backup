@@ -1,0 +1,983 @@
+"""Drawing primitives and the layout grid every scene shares.
+
+Two ideas keep the output consistent:
+
+``Layout``
+    Named horizontal bands in figure coordinates. Scenes place content into
+    bands rather than picking y values by hand, which is what previously left
+    a quarter of the frame empty on some cards and overlapping text on others.
+
+``Timeline``
+    Scenes receive a linear 0-1 position through their own duration and ask for
+    element cues. All easing lives here, so the pipeline never pre-eases the
+    value and animations no longer finish in the first third of a scene.
+"""
+
+from __future__ import annotations
+
+import math
+import textwrap
+from functools import lru_cache
+from pathlib import Path
+from typing import Any, Iterable
+
+import matplotlib
+import numpy as np
+
+matplotlib.use("Agg")
+import matplotlib.patheffects as pe
+import matplotlib.pyplot as plt
+from matplotlib.patches import Circle, Ellipse, FancyArrowPatch, FancyBboxPatch, Polygon, Rectangle
+
+from . import theme
+from .theme import (
+    ASPECT,
+    DISPLAY_FONT,
+    GOAL,
+    HAIRLINE,
+    INK,
+    MONO_FONT,
+    PITCH,
+    PITCH_LINE,
+    SURFACE,
+    SURFACE_HI,
+    TEXT,
+    TEXT_DIM,
+    TEXT_FAINT,
+)
+
+theme.configure_matplotlib()
+
+FIG_SIZE = (9.0, 16.0)
+FIG_DPI = 120
+
+# Animation finishes here and the frame holds, so the viewer can read it.
+HOLD_AT = 0.72
+
+
+# ---------------------------------------------------------------------------
+# easing and cues
+# ---------------------------------------------------------------------------
+
+def clamp01(value: float) -> float:
+    return 0.0 if value < 0.0 else 1.0 if value > 1.0 else value
+
+
+def opacity(value: float) -> float:
+    """Clamp a computed alpha into the range matplotlib accepts.
+
+    Easing curves that overshoot (``ease_out_back``) and expressions that scale
+    a cue up to make an element appear faster can both leave the 0-1 range, and
+    matplotlib raises rather than clipping.
+    """
+    return clamp01(value)
+
+
+def linear(t: float) -> float:
+    return clamp01(t)
+
+
+def ease_out_cubic(t: float) -> float:
+    return 1.0 - (1.0 - clamp01(t)) ** 3
+
+
+def ease_out_quint(t: float) -> float:
+    return 1.0 - (1.0 - clamp01(t)) ** 5
+
+
+def ease_in_out(t: float) -> float:
+    t = clamp01(t)
+    return 4 * t ** 3 if t < 0.5 else 1 - (-2 * t + 2) ** 3 / 2
+
+
+def ease_out_back(t: float) -> float:
+    """Slight overshoot, for elements that should feel like they land."""
+    t = clamp01(t)
+    c1, c3 = 1.70158, 2.70158
+    return 1 + c3 * (t - 1) ** 3 + c1 * (t - 1) ** 2
+
+
+class Timeline:
+    """Turns a scene-wide 0-1 position into per-element progress."""
+
+    def __init__(self, progress: float) -> None:
+        self.raw = clamp01(progress)
+        # Compress the scene so every cue has completed by HOLD_AT.
+        self.t = clamp01(self.raw / HOLD_AT)
+
+    def cue(self, start: float, duration: float = 0.34, ease=ease_out_cubic) -> float:
+        """Progress of an element that animates from *start* for *duration*."""
+        if duration <= 0:
+            return 1.0 if self.t >= start else 0.0
+        return ease(clamp01((self.t - start) / duration))
+
+    def stagger(self, index: int, count: int, start: float = 0.10, span: float = 0.55,
+                duration: float = 0.30, ease=ease_out_cubic) -> float:
+        """Cue for item *index* of *count* in a staggered sequence."""
+        if count <= 1:
+            return self.cue(start, duration, ease)
+        step = span / (count - 1)
+        return self.cue(start + index * step, duration, ease)
+
+    def reveal_count(self, count: int, start: float = 0.08, span: float = 0.62) -> int:
+        """How many of *count* items should be on screen yet."""
+        if count <= 0:
+            return 0
+        local = clamp01((self.t - start) / max(1e-6, span))
+        return max(0, min(count, int(math.ceil(ease_out_cubic(local) * count))))
+
+    def count_to(self, value: float, start: float = 0.06, duration: float = 0.45) -> float:
+        """A number ticking up to *value*."""
+        return value * self.cue(start, duration, ease_out_quint)
+
+
+# ---------------------------------------------------------------------------
+# layout
+# ---------------------------------------------------------------------------
+
+class Layout:
+    """Named bands in figure coordinates, top to bottom.
+
+    ``stage`` is the region a visualization may draw into. Everything else is
+    reserved chrome so that headers and footers never sit on top of the data.
+    """
+
+    MARGIN = 0.062
+    CONTENT_W = 1.0 - 2 * MARGIN
+
+    KICKER_Y = 0.938
+    TITLE_TOP = 0.912
+    SUBTITLE_GAP = 0.026
+
+    STAGE_TOP = 0.800
+    STAGE_BOTTOM = 0.182
+
+    INSIGHT_Y = 0.128
+    FOOTER_Y = 0.052
+
+    @classmethod
+    def stage_rect(cls, top: float | None = None, bottom: float | None = None) -> list[float]:
+        """An ``add_axes`` rect covering the stage."""
+        top = cls.STAGE_TOP if top is None else top
+        bottom = cls.STAGE_BOTTOM if bottom is None else bottom
+        return [cls.MARGIN, bottom, cls.CONTENT_W, top - bottom]
+
+    @classmethod
+    def fitted_rect(cls, aspect: float, top: float | None = None, bottom: float | None = None,
+                    align: str = "center") -> list[float]:
+        """Largest rect of a given width/height *aspect* that fits the stage.
+
+        *aspect* is measured in output pixels, so a vertical pitch passes
+        68/105 and gets a box with true proportions instead of a stretched one.
+        """
+        top = cls.STAGE_TOP if top is None else top
+        bottom = cls.STAGE_BOTTOM if bottom is None else bottom
+        avail_w_px = cls.CONTENT_W * theme.FRAME_W
+        avail_h_px = (top - bottom) * theme.FRAME_H
+
+        width_px = min(avail_w_px, avail_h_px * aspect)
+        height_px = width_px / aspect
+
+        width = width_px / theme.FRAME_W
+        height = height_px / theme.FRAME_H
+        x = cls.MARGIN + (cls.CONTENT_W - width) / 2
+        if align == "top":
+            y = top - height
+        elif align == "bottom":
+            y = bottom
+        else:
+            y = bottom + ((top - bottom) - height) / 2
+        return [x, y, width, height]
+
+
+# ---------------------------------------------------------------------------
+# figure and background
+# ---------------------------------------------------------------------------
+
+def new_figure(design: dict[str, Any]) -> plt.Figure:
+    fig = plt.figure(figsize=FIG_SIZE, dpi=FIG_DPI, facecolor=design["ink"])
+    _paint_background(fig, design)
+    return fig
+
+
+def y_of(x_length: float) -> float:
+    """Figure-y length that occupies the same number of pixels as *x_length*.
+
+    The frame is 1080x1920, so a vertical span has to be multiplied by
+    1080/1920 to look the same size as a horizontal one. Getting this the wrong
+    way round is what previously turned flag tiles into portrait slabs.
+    """
+    return x_length * ASPECT
+
+
+@lru_cache(maxsize=8)
+def _background_pixels(ink: str, home: str, away: str) -> np.ndarray:
+    """The full-frame background as raw pixels.
+
+    Drawn straight into the canvas buffer with ``figimage``, which skips both
+    resampling and an extra axes. Stacking rectangles or resampling a small
+    gradient both cost more per frame than the rest of a scene combined.
+    """
+    base = np.array(theme.hex_to_rgb(ink))
+    top = np.array(theme.hex_to_rgb(home))
+    bottom = np.array(theme.hex_to_rgb(away))
+
+    # figimage rows run bottom-to-top, so fraction 0 is the bottom of the frame.
+    fraction = np.linspace(0.0, 1.0, theme.FRAME_H)[:, None]
+    tint = bottom * (1.0 - fraction) + top * fraction
+    wash = 0.085 * (1.0 - np.abs(fraction - 0.5) * 0.6)
+    colour = base * (1.0 - wash) + tint * wash
+
+    # Vignette so the chrome bands always have a darker base to sit on.
+    from_top = 1.0 - fraction
+    darken = np.where(from_top < 0.17, 0.26 * (1.0 - from_top / 0.17), 0.0)
+    darken = np.where(from_top > 0.76, 0.32 * ((from_top - 0.76) / 0.24), darken)
+    colour = colour * (1.0 - darken)
+
+    column = np.clip(colour * 255.0, 0, 255).astype(np.uint8)
+    return np.repeat(column[:, None, :], theme.FRAME_W, axis=1)
+
+
+def _paint_background(fig: plt.Figure, design: dict[str, Any]) -> None:
+    fig.figimage(
+        _background_pixels(design["ink"], design["home"]["primary"], design["away"]["primary"]),
+        xo=0, yo=0, zorder=0,
+    )
+
+
+def fig_rect(fig: plt.Figure, x: float, y: float, w: float, h: float, color: str,
+             alpha: float = 1.0, zorder: int = 2) -> None:
+    fig.patches.append(
+        Rectangle((x, y), w, h, transform=fig.transFigure, facecolor=color,
+                  edgecolor="none", alpha=opacity(alpha), zorder=zorder)
+    )
+
+
+def fig_panel(fig: plt.Figure, x: float, y: float, w: float, h: float, *,
+              color: str = SURFACE, alpha: float = 1.0, edge: str | None = HAIRLINE,
+              radius: float = 0.014, zorder: int = 2, lw: float = 1.1) -> None:
+    """A rounded surface covering exactly (x, y, w, h) in figure coordinates.
+
+    ``mutation_aspect`` is set so the padding and the corner radius come out
+    square in pixels rather than stretched by the 9:16 frame.
+    """
+    pad_x = min(radius, w / 2 - 1e-4, 0.06)
+    pad_y = y_of(pad_x)
+    fig.patches.append(
+        FancyBboxPatch(
+            (x + pad_x, y + pad_y),
+            max(1e-4, w - 2 * pad_x),
+            max(1e-4, h - 2 * pad_y),
+            boxstyle=f"round,pad={pad_x},rounding_size={pad_x}",
+            transform=fig.transFigure, facecolor=color,
+            edgecolor=edge or "none", linewidth=lw if edge else 0.0,
+            alpha=opacity(alpha), zorder=zorder, mutation_aspect=ASPECT,
+        )
+    )
+
+
+def fig_ellipse(fig: plt.Figure, cx: float, cy: float, radius: float, **kwargs: Any) -> Ellipse:
+    """A true circle in output pixels, placed in figure coordinates."""
+    if "alpha" in kwargs:
+        kwargs["alpha"] = opacity(kwargs["alpha"])
+    patch = Ellipse((cx, cy), radius * 2, y_of(radius * 2), transform=fig.transFigure, **kwargs)
+    fig.patches.append(patch)
+    return patch
+
+
+def outline() -> list[Any]:
+    return [pe.withStroke(linewidth=3.0, foreground="#040605", alpha=0.85)]
+
+
+def soft_shadow() -> list[Any]:
+    return [pe.withStroke(linewidth=5.0, foreground="#040605", alpha=0.55)]
+
+
+# ---------------------------------------------------------------------------
+# text
+# ---------------------------------------------------------------------------
+
+def _renderer(fig: plt.Figure) -> Any:
+    canvas = fig.canvas
+    if not hasattr(canvas, "get_renderer"):
+        fig.canvas.draw()
+    return canvas.get_renderer()
+
+
+def _extent_fractions(fig: plt.Figure, artist: Any) -> tuple[float, float]:
+    """Rendered (width, height) of an artist as fractions of the figure."""
+    try:
+        extent = artist.get_window_extent(_renderer(fig))
+    except Exception:
+        return 0.0, 0.0
+    return (
+        extent.width / (fig.get_figwidth() * fig.dpi),
+        extent.height / (fig.get_figheight() * fig.dpi),
+    )
+
+
+# Mean glyph advance as a fraction of the point size, per font role. Used only
+# to pick a starting wrap width; the result is then verified by measurement.
+_ADVANCE = {DISPLAY_FONT: 0.40, MONO_FONT: 0.60}
+_DEFAULT_ADVANCE = 0.52
+_POINTS_TO_FIG_X = 1.0 / 72.0 / FIG_SIZE[0]
+
+
+def _chars_per_line(size: float, max_width: float, family: str) -> int:
+    advance = _ADVANCE.get(family, _DEFAULT_ADVANCE)
+    char_width = size * _POINTS_TO_FIG_X * advance
+    return max(4, int(max_width / max(1e-6, char_width)))
+
+
+def fit_text(
+    fig: plt.Figure,
+    x: float,
+    y: float,
+    text: str,
+    *,
+    fontsize: float,
+    max_width: float,
+    max_lines: int = 2,
+    min_fontsize: float = 9.0,
+    ha: str = "left",
+    va: str = "top",
+    family: str = theme.BODY_FONT,
+    **kwargs: Any,
+) -> tuple[Any, int]:
+    """Draw *text* so that it fits *max_width* in at most *max_lines* lines.
+
+    The font size is reduced until the measured width fits. Text is never cut:
+    if even ``min_fontsize`` will not fit, the full string is drawn anyway so
+    the overflow is visible rather than silently losing words.
+    """
+    text = " ".join(str(text).split())
+    if not text:
+        return None, 0
+
+    size = float(fontsize)
+    artist = None
+    while True:
+        if max_lines <= 1:
+            lines = [text]
+        else:
+            lines = textwrap.wrap(
+                text, _chars_per_line(size, max_width, family), break_long_words=False
+            ) or [text]
+
+        if artist is not None:
+            artist.remove()
+        if "alpha" in kwargs:
+            kwargs["alpha"] = opacity(kwargs["alpha"])
+        artist = fig.text(x, y, "\n".join(lines), fontsize=size, ha=ha, va=va,
+                          family=family, **kwargs)
+        width, _ = _extent_fractions(fig, artist)
+        if (width <= max_width and len(lines) <= max_lines) or size <= min_fontsize:
+            return artist, len(lines)
+        size = max(min_fontsize, size * 0.93)
+
+
+def kicker(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT_DIM) -> None:
+    if not text:
+        return
+    fit_text(
+        fig, Layout.MARGIN, Layout.KICKER_Y, str(text).upper(),
+        fontsize=13.5, max_width=Layout.CONTENT_W, max_lines=1, min_fontsize=9.0,
+        va="center", color=color, family=MONO_FONT, alpha=alpha, zorder=20,
+    )
+
+
+def headline(fig: plt.Figure, text: str, subtitle: str = "", *, alpha: float = 1.0,
+             fontsize: float = 52.0, color: str = TEXT) -> float:
+    """Title (and optional subtitle). Returns the y the block ends at.
+
+    The returned value is measured, not estimated, so callers can place content
+    directly beneath a title whether it wrapped to one line or two.
+    """
+    y = Layout.TITLE_TOP
+    if text:
+        artist, _ = fit_text(
+            fig, Layout.MARGIN, y, str(text).upper(),
+            fontsize=fontsize, max_width=Layout.CONTENT_W, max_lines=2, min_fontsize=24.0,
+            va="top", color=color, family=DISPLAY_FONT, fontweight="bold",
+            linespacing=0.92, alpha=alpha, zorder=20, path_effects=soft_shadow(),
+        )
+        if artist is not None:
+            _, height = _extent_fractions(fig, artist)
+            y -= height + 0.014
+    if subtitle:
+        artist, _ = fit_text(
+            fig, Layout.MARGIN + 0.003, y, str(subtitle).upper(),
+            fontsize=13.0, max_width=Layout.CONTENT_W, max_lines=1, min_fontsize=9.0,
+            va="top", color=TEXT_DIM, family=MONO_FONT, alpha=alpha, zorder=20,
+        )
+        if artist is not None:
+            _, height = _extent_fractions(fig, artist)
+            y -= height + 0.010
+    return y
+
+
+def insight(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT) -> None:
+    """The single conclusion line in the footer band."""
+    if not text:
+        return
+    fig_rect(fig, 0.0, Layout.FOOTER_Y + 0.030, 1.0, Layout.INSIGHT_Y - Layout.FOOTER_Y + 0.010,
+             "#040605", 0.30 * alpha, zorder=17)
+    fit_text(
+        fig, 0.5, Layout.INSIGHT_Y, str(text),
+        fontsize=25.0, max_width=Layout.CONTENT_W - 0.02, max_lines=2, min_fontsize=15.0,
+        ha="center", va="center", color=color, family=DISPLAY_FONT, fontweight="bold",
+        linespacing=1.05, alpha=alpha, zorder=20, path_effects=soft_shadow(),
+    )
+
+
+def footer(fig: plt.Figure, right_text: str = "", *, alpha: float = 1.0) -> None:
+    from . import i18n
+
+    fig.text(Layout.MARGIN, Layout.FOOTER_Y, i18n.t("watermark"), color=TEXT_FAINT, fontsize=9.5,
+             family=MONO_FONT, ha="left", va="center", alpha=alpha, zorder=20)
+    fit_text(
+        fig, 1 - Layout.MARGIN, Layout.FOOTER_Y, (right_text or theme.DATA_SOURCE).upper(),
+        fontsize=9.0, max_width=0.52, max_lines=1, min_fontsize=6.5,
+        ha="right", va="center", color=TEXT_FAINT, family=MONO_FONT, alpha=alpha, zorder=20,
+    )
+
+
+def legend_row(fig: plt.Figure, y: float, entries: Iterable[tuple[str, str, str]], *,
+               alpha: float = 1.0, fontsize: float = 11.0) -> None:
+    """A centred key. Each entry is (marker, colour, label).
+
+    Marker is one of ``dot``, ``ring``, ``cross`` or ``bar``.
+    """
+    entries = list(entries)
+    if not entries:
+        return
+    slot = (Layout.CONTENT_W) / len(entries)
+    for index, (marker, colour, label) in enumerate(entries):
+        cx = Layout.MARGIN + slot * (index + 0.5)
+        swatch_x = cx - slot * 0.40
+        if marker == "dot":
+            fig_ellipse(fig, swatch_x, y, 0.0085, facecolor=colour, edgecolor="none",
+                        alpha=alpha, zorder=20)
+        elif marker == "ring":
+            fig_ellipse(fig, swatch_x, y, 0.0085, facecolor="none", edgecolor=colour,
+                        linewidth=2.0, alpha=alpha, zorder=20)
+        elif marker == "cross":
+            arm = 0.007
+            for direction in (1, -1):
+                fig.lines.append(
+                    plt.Line2D(
+                        [swatch_x - arm, swatch_x + arm],
+                        [y - y_of(arm) * direction, y + y_of(arm) * direction],
+                        transform=fig.transFigure, color=colour, linewidth=2.0,
+                        alpha=alpha, zorder=20,
+                    )
+                )
+        else:
+            fig_rect(fig, swatch_x - 0.010, y - 0.004, 0.020, 0.008, colour, alpha, zorder=20)
+        fig.text(swatch_x + 0.017, y, label.upper(), color=TEXT_DIM, fontsize=fontsize,
+                 family=MONO_FONT, ha="left", va="center", alpha=alpha, zorder=20)
+
+
+def number_text(value: float, *, decimals: int = 0, suffix: str = "") -> str:
+    if decimals <= 0:
+        return f"{int(round(value))}{suffix}"
+    return f"{value:.{decimals}f}{suffix}"
+
+
+# ---------------------------------------------------------------------------
+# vertical pitch
+# ---------------------------------------------------------------------------
+# WhoScored coordinates: x runs 0-100 from a team's own goal to the goal it is
+# attacking, y runs 0-100 across the width. Vertical framing suits a 9:16 video,
+# so x maps to the figure's vertical axis.
+
+PITCH_LENGTH_M, PITCH_WIDTH_M = 105.0, 68.0
+PITCH_ASPECT = PITCH_WIDTH_M / PITCH_LENGTH_M
+
+_BOX_DEPTH = 16.5 / PITCH_LENGTH_M * 100
+_BOX_HALF_W = 40.32 / PITCH_WIDTH_M * 100 / 2
+_SIX_DEPTH = 5.5 / PITCH_LENGTH_M * 100
+_SIX_HALF_W = 18.32 / PITCH_WIDTH_M * 100 / 2
+_SPOT_DEPTH = 11.0 / PITCH_LENGTH_M * 100
+_GOAL_HALF_W = 7.32 / PITCH_WIDTH_M * 100 / 2
+_CIRCLE_RX = 9.15 / PITCH_WIDTH_M * 100
+_CIRCLE_RY = 9.15 / PITCH_LENGTH_M * 100
+
+
+def to_pitch(x: float, y: float, flip: bool = False) -> tuple[float, float]:
+    """Map WhoScored (x, y) into vertical pitch axes coordinates.
+
+    With ``flip=False`` the team attacks the top of the frame; with
+    ``flip=True`` it attacks the bottom, which is how two teams are shown on
+    one pitch without pretending they shot at the same goal.
+    """
+    if flip:
+        return 100.0 - y, 100.0 - x
+    return y, x
+
+
+def vertical_pitch(fig: plt.Figure, rect: list[float], *, face: str = PITCH,
+                   line: str = PITCH_LINE, alpha: float = 1.0, lw: float = 1.6,
+                   zorder: int = 3) -> plt.Axes:
+    ax = fig.add_axes(rect, zorder=zorder)
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 100)
+    ax.set_facecolor(face)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    draw_pitch_markings(ax, line=line, alpha=alpha, lw=lw)
+    return ax
+
+
+def draw_pitch_markings(ax: plt.Axes, *, line: str = PITCH_LINE, alpha: float = 1.0,
+                        lw: float = 1.6, zorder: int = 4) -> None:
+    alpha = opacity(alpha)
+    style = dict(color=line, lw=lw, alpha=alpha, zorder=zorder, solid_capstyle="butt")
+
+    add_shape(ax, Rectangle((0, 0), 100, 100, fill=False, ec=line, lw=lw, alpha=alpha, zorder=zorder))
+    ax.plot([0, 100], [50, 50], **style)
+    add_shape(
+        ax,
+        Ellipse((50, 50), _CIRCLE_RX * 2, _CIRCLE_RY * 2, fill=False, ec=line, lw=lw,
+                alpha=alpha, zorder=zorder),
+    )
+    ax.plot([50], [50], marker="o", ms=2.4, color=line, alpha=alpha, zorder=zorder)
+
+    for near in (True, False):
+        base = 0.0 if near else 100.0
+        sign = 1 if near else -1
+
+        add_shape(
+            ax,
+            Rectangle((50 - _BOX_HALF_W, base if near else base - _BOX_DEPTH),
+                      _BOX_HALF_W * 2, _BOX_DEPTH, fill=False, ec=line, lw=lw,
+                      alpha=alpha, zorder=zorder),
+        )
+        add_shape(
+            ax,
+            Rectangle((50 - _SIX_HALF_W, base if near else base - _SIX_DEPTH),
+                      _SIX_HALF_W * 2, _SIX_DEPTH, fill=False, ec=line, lw=lw,
+                      alpha=alpha, zorder=zorder),
+        )
+        spot_y = base + sign * _SPOT_DEPTH
+        ax.plot([50], [spot_y], marker="o", ms=2.4, color=line, alpha=alpha, zorder=zorder)
+
+        # Arc of the D, clipped to the part outside the penalty area.
+        arc_x, arc_y = [], []
+        for step in range(61):
+            angle = math.pi * step / 60
+            px = 50 + _CIRCLE_RX * math.cos(angle)
+            py = spot_y + sign * _CIRCLE_RY * math.sin(angle)
+            if (py - base) * sign >= _BOX_DEPTH:
+                arc_x.append(px)
+                arc_y.append(py)
+        if arc_x:
+            ax.plot(arc_x, arc_y, **style)
+
+        # Goal, drawn slightly outside the line so it reads as a frame.
+        ax.plot([50 - _GOAL_HALF_W, 50 + _GOAL_HALF_W], [base, base],
+                color=line, lw=lw * 2.6, alpha=min(1.0, alpha * 1.1),
+                zorder=zorder + 1, solid_capstyle="butt")
+
+
+def pitch_grid_fade(ax: plt.Axes, alpha: float = 0.05) -> None:
+    for value in (100 / 3, 200 / 3):
+        ax.plot([0, 100], [value, value], color=TEXT, lw=0.8, alpha=alpha, zorder=2, ls=(0, (4, 6)))
+
+
+# ---------------------------------------------------------------------------
+# team badges
+# ---------------------------------------------------------------------------
+
+def _flag_painter(key: str):
+    return _FLAGS.get(key)
+
+
+def team_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, *,
+               identity: dict[str, str] | None = None, alpha: float = 1.0,
+               zorder: int = 12) -> None:
+    """A flag tile. Falls back to a legible two-tone crest with initials.
+
+    ``width`` is the tile width in figure-x units; height follows the 3:2 flag
+    ratio in output pixels so tiles are never stretched.
+    """
+    identity = identity or theme.team_identity(team)
+    height = y_of(width * 2 / 3)
+    x0, y0 = cx - width / 2, cy - height / 2
+
+    pad = 0.005
+    fig_panel(fig, x0 - pad, y0 - y_of(pad), width + 2 * pad, height + 2 * y_of(pad),
+              color="#0c100e", alpha=0.92 * alpha, edge=identity["chart"], radius=0.006,
+              zorder=zorder - 1, lw=1.4)
+
+    painter = _flag_painter(identity["key"])
+    if painter is not None:
+        painter(fig, x0, y0, width, height, alpha, zorder)
+    else:
+        _crest_fallback(fig, identity, x0, y0, width, height, alpha, zorder)
+
+    # Border on top of the flag, so the tile stays crisp against the panel.
+    fig.patches.append(
+        Rectangle((x0, y0), width, height, transform=fig.transFigure, facecolor="none",
+                  edgecolor="#050706", linewidth=1.2, alpha=alpha, zorder=zorder + 5)
+    )
+
+
+def _band(fig: plt.Figure, x0: float, y0: float, w: float, h: float,
+          fx: float, fy: float, fw: float, fh: float, color: str,
+          alpha: float, zorder: int) -> None:
+    fig_rect(fig, x0 + fx * w, y0 + fy * h, fw * w, fh * h, color, alpha, zorder)
+
+
+def _crest_fallback(fig: plt.Figure, identity: dict[str, str], x0: float, y0: float,
+                    w: float, h: float, alpha: float, zorder: int) -> None:
+    """Two-tone tile with the team's three letters, sized to the tile."""
+    _band(fig, x0, y0, w, h, 0, 0, 1, 1, identity["primary"], alpha, zorder)
+    _band(fig, x0, y0, w, h, 0, 0, 1, 0.30, identity["secondary"], alpha * 0.95, zorder + 1)
+
+    # Font size derived from the tile's pixel height, not a magic constant.
+    tile_h_px = h * theme.FRAME_H
+    fontsize = max(7.0, tile_h_px * 0.40)
+    fig.text(
+        x0 + w / 2, y0 + h * 0.60, identity["abbr"],
+        color=theme.ink_on(identity["primary"]), fontsize=fontsize, fontweight="bold",
+        family=DISPLAY_FONT, ha="center", va="center", alpha=alpha, zorder=zorder + 2,
+    )
+
+
+def _star_points(cx: float, cy: float, outer: float, inner: float) -> list[tuple[float, float]]:
+    """A five-pointed star in figure coordinates, round in pixels."""
+    points = []
+    for index in range(10):
+        radius = outer if index % 2 == 0 else inner
+        angle = math.pi / 2 + index * math.pi / 5
+        points.append((cx + math.cos(angle) * radius, cy + y_of(math.sin(angle) * radius)))
+    return points
+
+
+def _tricolour_v(colors: tuple[str, str, str]):
+    def painter(fig, x0, y0, w, h, alpha, zorder):
+        for index, color in enumerate(colors):
+            _band(fig, x0, y0, w, h, index / 3, 0, 1 / 3, 1, color, alpha, zorder)
+    return painter
+
+
+def _tricolour_h(colors: tuple[str, str, str]):
+    """Three horizontal bands, given top to bottom."""
+    def painter(fig, x0, y0, w, h, alpha, zorder):
+        for index, color in enumerate(colors):
+            _band(fig, x0, y0, w, h, 0, (2 - index) / 3, 1, 1 / 3, color, alpha, zorder)
+    return painter
+
+
+def _bicolour_h(top: str, bottom: str):
+    def painter(fig, x0, y0, w, h, alpha, zorder):
+        _band(fig, x0, y0, w, h, 0, 0.5, 1, 0.5, top, alpha, zorder)
+        _band(fig, x0, y0, w, h, 0, 0, 1, 0.5, bottom, alpha, zorder)
+    return painter
+
+
+def _solid_with_disc(base: str, disc: str, radius: float = 0.28):
+    def painter(fig, x0, y0, w, h, alpha, zorder):
+        _band(fig, x0, y0, w, h, 0, 0, 1, 1, base, alpha, zorder)
+        fig_ellipse(fig, x0 + w / 2, y0 + h / 2, w * radius, facecolor=disc,
+                    edgecolor="none", alpha=alpha, zorder=zorder + 1)
+    return painter
+
+
+def _nordic_cross(base: str, cross: str, offset: float = 0.5):
+    def painter(fig, x0, y0, w, h, alpha, zorder):
+        _band(fig, x0, y0, w, h, 0, 0, 1, 1, base, alpha, zorder)
+        _band(fig, x0, y0, w, h, 0, 0.40, 1, 0.20, cross, alpha, zorder + 1)
+        _band(fig, x0, y0, w, h, offset - 0.07, 0, 0.14, 1, cross, alpha, zorder + 1)
+    return painter
+
+
+def _swiss(fig, x0, y0, w, h, alpha, zorder):
+    _band(fig, x0, y0, w, h, 0, 0, 1, 1, "#d52b1e", alpha, zorder)
+    _band(fig, x0, y0, w, h, 0.42, 0.20, 0.16, 0.60, "#ffffff", alpha, zorder + 1)
+    _band(fig, x0, y0, w, h, 0.26, 0.40, 0.48, 0.20, "#ffffff", alpha, zorder + 1)
+
+
+def _usa(fig, x0, y0, w, h, alpha, zorder):
+    for index in range(13):
+        _band(fig, x0, y0, w, h, 0, index / 13, 1, 1 / 13,
+              "#b31942" if index % 2 == 0 else "#ffffff", alpha, zorder)
+    _band(fig, x0, y0, w, h, 0, 6 / 13, 0.42, 7 / 13, "#0a3161", alpha, zorder + 1)
+
+
+def _saltire(fig, x0, y0, w, h, alpha, zorder):
+    _band(fig, x0, y0, w, h, 0, 0, 1, 1, "#005eb8", alpha, zorder)
+    for direction in (1, -1):
+        fig.patches.append(
+            Polygon(
+                [
+                    (x0 if direction > 0 else x0 + w, y0 + h * 0.86),
+                    (x0 + w * 0.14 if direction > 0 else x0 + w * 0.86, y0 + h),
+                    (x0 + w if direction > 0 else x0, y0 + h * 0.14),
+                    (x0 + w * 0.86 if direction > 0 else x0 + w * 0.14, y0),
+                ],
+                closed=True, transform=fig.transFigure, facecolor="#ffffff",
+                edgecolor="none", alpha=alpha, zorder=zorder + 1,
+            )
+        )
+
+
+def _morocco(fig, x0, y0, w, h, alpha, zorder):
+    _band(fig, x0, y0, w, h, 0, 0, 1, 1, "#c1272d", alpha, zorder)
+    fig.patches.append(
+        Polygon(_star_points(x0 + w / 2, y0 + h / 2, w * 0.26, w * 0.10),
+                closed=True, transform=fig.transFigure, facecolor="none",
+                edgecolor="#006233", linewidth=1.8, alpha=alpha, zorder=zorder + 1)
+    )
+
+
+def _brazil(fig, x0, y0, w, h, alpha, zorder):
+    _band(fig, x0, y0, w, h, 0, 0, 1, 1, "#009c3b", alpha, zorder)
+    fig.patches.append(
+        Polygon(
+            [(x0 + w * 0.06, y0 + h * 0.5), (x0 + w * 0.5, y0 + h * 0.92),
+             (x0 + w * 0.94, y0 + h * 0.5), (x0 + w * 0.5, y0 + h * 0.08)],
+            closed=True, transform=fig.transFigure, facecolor="#ffdf00",
+            edgecolor="none", alpha=alpha, zorder=zorder + 1,
+        )
+    )
+    fig_ellipse(fig, x0 + w / 2, y0 + h / 2, w * 0.17, facecolor="#002776",
+                edgecolor="none", alpha=alpha, zorder=zorder + 2)
+
+
+def _argentina(fig, x0, y0, w, h, alpha, zorder):
+    for index, color in enumerate(("#74acdf", "#ffffff", "#74acdf")):
+        _band(fig, x0, y0, w, h, 0, index / 3, 1, 1 / 3, color, alpha, zorder)
+    fig_ellipse(fig, x0 + w / 2, y0 + h / 2, w * 0.095, facecolor="#f6b40e",
+                edgecolor="#c8951a", linewidth=0.6, alpha=alpha, zorder=zorder + 1)
+
+
+def _england(fig, x0, y0, w, h, alpha, zorder):
+    _band(fig, x0, y0, w, h, 0, 0, 1, 1, "#ffffff", alpha, zorder)
+    _band(fig, x0, y0, w, h, 0.42, 0, 0.16, 1, "#ce1124", alpha, zorder + 1)
+    _band(fig, x0, y0, w, h, 0, 0.40, 1, 0.20, "#ce1124", alpha, zorder + 1)
+
+
+def _portugal(fig, x0, y0, w, h, alpha, zorder):
+    _band(fig, x0, y0, w, h, 0, 0, 0.40, 1, "#006600", alpha, zorder)
+    _band(fig, x0, y0, w, h, 0.40, 0, 0.60, 1, "#ff0000", alpha, zorder)
+    fig_ellipse(fig, x0 + w * 0.40, y0 + h * 0.5, w * 0.13, facecolor="#ffcc00",
+                edgecolor="#c8951a", linewidth=0.6, alpha=alpha, zorder=zorder + 1)
+
+
+def _spain(fig, x0, y0, w, h, alpha, zorder):
+    _band(fig, x0, y0, w, h, 0, 0, 1, 0.25, "#c60b1e", alpha, zorder)
+    _band(fig, x0, y0, w, h, 0, 0.25, 1, 0.50, "#ffc400", alpha, zorder)
+    _band(fig, x0, y0, w, h, 0, 0.75, 1, 0.25, "#c60b1e", alpha, zorder)
+
+
+def _croatia(fig, x0, y0, w, h, alpha, zorder):
+    for index, color in enumerate(("#171796", "#ffffff", "#ff0000")):
+        _band(fig, x0, y0, w, h, 0, index / 3, 1, 1 / 3, color, alpha, zorder)
+    for row in range(4):
+        for col in range(5):
+            shade = "#ff0000" if (row + col) % 2 == 0 else "#ffffff"
+            _band(fig, x0, y0, w, h, 0.40 + col * 0.04, 0.34 + row * 0.08, 0.04, 0.08,
+                  shade, alpha, zorder + 1)
+
+
+def _south_korea(fig, x0, y0, w, h, alpha, zorder):
+    _band(fig, x0, y0, w, h, 0, 0, 1, 1, "#ffffff", alpha, zorder)
+    fig_ellipse(fig, x0 + w / 2, y0 + h / 2, w * 0.17, facecolor="#c60c30",
+                edgecolor="none", alpha=alpha, zorder=zorder + 1)
+    fig_ellipse(fig, x0 + w / 2, y0 + h * 0.42, w * 0.085, facecolor="#003478",
+                edgecolor="none", alpha=alpha, zorder=zorder + 2)
+
+
+def _mexico(fig, x0, y0, w, h, alpha, zorder):
+    _tricolour_v(("#006847", "#ffffff", "#ce1126"))(fig, x0, y0, w, h, alpha, zorder)
+    fig_ellipse(fig, x0 + w / 2, y0 + h / 2, w * 0.085, facecolor="#8d6b3a",
+                edgecolor="none", alpha=alpha, zorder=zorder + 1)
+
+
+def _egypt(fig, x0, y0, w, h, alpha, zorder):
+    for index, color in enumerate(("#000000", "#ffffff", "#ce1126")):
+        _band(fig, x0, y0, w, h, 0, index / 3, 1, 1 / 3, color, alpha, zorder)
+    fig_ellipse(fig, x0 + w / 2, y0 + h / 2, w * 0.085, facecolor="#c09300",
+                edgecolor="none", alpha=alpha, zorder=zorder + 1)
+
+
+def _germany(fig, x0, y0, w, h, alpha, zorder):
+    for index, color in enumerate(("#ffcc00", "#dd0000", "#000000")):
+        _band(fig, x0, y0, w, h, 0, index / 3, 1, 1 / 3, color, alpha, zorder)
+
+
+def _belgium(fig, x0, y0, w, h, alpha, zorder):
+    _tricolour_v(("#000000", "#fdda24", "#ef3340"))(fig, x0, y0, w, h, alpha, zorder)
+
+
+_FLAGS: dict[str, Any] = {
+    "argentina": _argentina,
+    "belgium": _belgium,
+    "brazil": _brazil,
+    "croatia": _croatia,
+    "denmark": _nordic_cross("#c8102e", "#ffffff", 0.36),
+    "egypt": _egypt,
+    "england": _england,
+    "france": _tricolour_v(("#2b4eb8", "#ffffff", "#ed2939")),
+    "germany": _germany,
+    "italy": _tricolour_v(("#009246", "#ffffff", "#ce2b37")),
+    "ivory coast": _tricolour_v(("#ff8200", "#ffffff", "#009a44")),
+    "japan": _solid_with_disc("#ffffff", "#bc002d", 0.22),
+    "mexico": _mexico,
+    "morocco": _morocco,
+    "netherlands": _tricolour_h(("#ae1c28", "#ffffff", "#21468b")),
+    "nigeria": _tricolour_v(("#008751", "#ffffff", "#008751")),
+    "norway": _nordic_cross("#ba0c2f", "#ffffff", 0.36),
+    "peru": _tricolour_v(("#d91023", "#ffffff", "#d91023")),
+    "poland": _bicolour_h("#ffffff", "#dc143c"),
+    "portugal": _portugal,
+    "scotland": _saltire,
+    "south korea": _south_korea,
+    "spain": _spain,
+    "sweden": _nordic_cross("#006aa7", "#fecc02", 0.36),
+    "switzerland": _swiss,
+    "united states": _usa,
+}
+
+
+# ---------------------------------------------------------------------------
+# comparison bars
+# ---------------------------------------------------------------------------
+
+def comparison_bar(
+    fig: plt.Figure,
+    y: float,
+    label: str,
+    home_value: float,
+    away_value: float,
+    home_color: str,
+    away_color: str,
+    *,
+    progress: float = 1.0,
+    height: float = 0.0165,
+    left: float = 0.215,
+    right: float = 0.785,
+    decimals: int = 0,
+    suffix: str = "",
+    zorder: int = 12,
+) -> None:
+    """One diverging bar: the split point is the two teams' share of the total."""
+    total = home_value + away_value
+    home_share = 0.5 if total <= 0 else home_value / total
+    width = right - left
+
+    fig.text(0.5, y + height + 0.019, str(label).upper(), color=TEXT_DIM, fontsize=13,
+             family=MONO_FONT, ha="center", va="center", alpha=min(1.0, progress * 2.5),
+             zorder=zorder)
+
+    fig_rect(fig, left, y, width, height, "#171d19", 0.95 * min(1.0, progress * 3), zorder=zorder - 2)
+
+    split = left + width * home_share
+    grown_home = (split - left) * progress
+    grown_away = (right - split) * progress
+    fig_rect(fig, split - grown_home, y, grown_home, height, home_color, 0.95, zorder=zorder)
+    fig_rect(fig, split, y, grown_away, height, away_color, 0.95, zorder=zorder)
+
+    fig.text(left - 0.022, y + height / 2, number_text(home_value * progress, decimals=decimals, suffix=suffix),
+             color=home_color, fontsize=38, fontweight="bold", family=DISPLAY_FONT,
+             ha="right", va="center", alpha=min(1.0, progress * 2.5), zorder=zorder,
+             path_effects=soft_shadow())
+    fig.text(right + 0.022, y + height / 2, number_text(away_value * progress, decimals=decimals, suffix=suffix),
+             color=away_color, fontsize=38, fontweight="bold", family=DISPLAY_FONT,
+             ha="left", va="center", alpha=min(1.0, progress * 2.5), zorder=zorder,
+             path_effects=soft_shadow())
+
+
+def impact_burst(ax: plt.Axes, x: float, y: float, color: str, progress: float,
+                 base_radius: float = 2.4, zorder: int = 20, size: float = 190.0) -> None:
+    """A goal marker: rings that expand and fade, over a marker that stays put."""
+    if progress <= 0:
+        return
+    fade = opacity(progress)
+    for index, (scale, weight) in enumerate(((1.0, 2.8), (2.1, 2.0), (3.4, 1.3))):
+        local = clamp01(progress * 1.4 - index * 0.18)
+        if local <= 0:
+            continue
+        add_shape(
+            ax,
+            Circle((x, y), base_radius * scale * (0.35 + 0.65 * local), fill=False,
+                   ec=color, lw=weight, alpha=opacity((1.0 - local) * 0.9), zorder=zorder),
+        )
+    # The expanding rings are transient, so a halo and a filled dot are what
+    # remain visible once the scene settles.
+    add_shape(
+        ax,
+        Circle((x, y), base_radius * 1.5, fill=False, ec=color, lw=1.6,
+               alpha=fade * 0.55, zorder=zorder),
+    )
+    ax.scatter([x], [y], s=size * progress, color=color, edgecolor=TEXT, linewidth=2.0,
+               zorder=zorder + 1, alpha=fade)
+
+
+def add_shape(ax: plt.Axes, patch: Any) -> Any:
+    """Add a patch without recomputing the data limits.
+
+    Every axes here has explicit limits, so ``add_patch``'s bezier extrema
+    calculation is wasted work; on a shot map it was the single biggest cost
+    per frame.
+    """
+    ax.add_artist(patch)
+    return patch
+
+
+def scatter_batch(
+    ax: plt.Axes,
+    xs: list[float],
+    ys: list[float],
+    *,
+    sizes: list[float],
+    colors: list[str],
+    alphas: list[float],
+    marker: str = "o",
+    filled: bool = True,
+    linewidth: float = 1.0,
+    edgecolor: str = "#050706",
+    zorder: int = 10,
+) -> None:
+    """One collection for many markers.
+
+    Drawing each marker as its own ``scatter`` call is the slowest thing a scene
+    can do; per-point size, colour and alpha arrays give the same picture from a
+    single collection.
+    """
+    if not xs:
+        return
+    count = len(xs)
+    kwargs: dict[str, Any] = {
+        "s": sizes,
+        "marker": marker,
+        "linewidths": linewidth,
+        # Matplotlib requires the colour and alpha sequences to be the same
+        # length, so colours are expanded rather than passed as a scalar.
+        "alpha": [opacity(value) for value in alphas],
+        "zorder": zorder,
+    }
+    # Stroke-only markers such as "x" take their colour from facecolors, and
+    # passing edgecolors at all makes matplotlib warn.
+    if marker in {"x", "+", "|", "_", "1", "2", "3", "4"}:
+        kwargs["facecolors"] = list(colors)
+    elif filled:
+        kwargs["facecolors"] = list(colors)
+        kwargs["edgecolors"] = [edgecolor] * count
+    else:
+        kwargs["facecolors"] = ["none"] * count
+        kwargs["edgecolors"] = list(colors)
+    ax.scatter(xs, ys, **kwargs)
+
+
+def save_figure(fig: plt.Figure, path: Path) -> None:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    # Intermediate frames are read once by ffmpeg, so trade file size for speed.
+    fig.savefig(path, facecolor=fig.get_facecolor(), dpi=FIG_DPI, pad_inches=0,
+                pil_kwargs={"compress_level": 1})
+    plt.close(fig)

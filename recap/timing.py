@@ -1,0 +1,213 @@
+"""Scene timing and subtitles.
+
+The previous pipeline gave every scene a fixed length between two and five
+seconds regardless of how much narration it carried, which meant a fifty-word
+line had to be read in two seconds. Here the narration decides the length, and
+the subtitles are derived from the same numbers so they cannot drift.
+"""
+
+from __future__ import annotations
+
+import re
+from typing import Any
+
+# A brisk but intelligible sports-VO pace, in words per second.
+WORDS_PER_SECOND = 2.55
+
+# Breathing room around the spoken line so scenes do not cut on the last word.
+LEAD_IN = 0.45
+TAIL = 0.65
+
+# Cross-dissolve between consecutive scenes.
+TRANSITION = 0.45
+
+# Time each visualization needs to finish animating and still be readable.
+MINIMUM_ON_SCREEN = {
+    "title": 3.2,
+    "standard_stats": 4.5,
+    "goal_timeline": 4.5,
+    "shot_map": 4.2,
+    "momentum": 4.2,
+    "zone_control": 4.0,
+    "goal_chain": 5.0,
+    "goalmouth": 4.0,
+    "pass_network": 4.2,
+    "sterile_domination": 4.0,
+    "close": 3.4,
+}
+DEFAULT_MINIMUM = 4.0
+MAXIMUM_ON_SCREEN = 13.0
+
+# Subtitle readability limits.
+SUBTITLE_MAX_CHARS = 84
+SUBTITLE_LINE_CHARS = 40
+SUBTITLE_MIN_SECONDS = 1.1
+
+
+def word_count(text: str) -> int:
+    return len([token for token in re.split(r"\s+", str(text).strip()) if token])
+
+
+def speech_seconds(text: str) -> float:
+    return word_count(text) / WORDS_PER_SECOND
+
+
+def word_budget(target_seconds: float, scene_count: int) -> int:
+    """Words per scene that would fill *target_seconds* of finished video."""
+    if scene_count <= 0:
+        return 30
+    speakable = max(1.0, target_seconds - scene_count * (LEAD_IN + TAIL) - TRANSITION)
+    return max(14, int(speakable * WORDS_PER_SECOND / scene_count))
+
+
+def plan_durations(scenes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Give every scene an ``on_screen`` (visible) and ``clip`` (encoded) length.
+
+    ``clip`` is longer than ``on_screen`` by one transition, because adjacent
+    clips overlap by that much when the cross-dissolve is applied.
+    """
+    planned = []
+    for scene in scenes:
+        needed = LEAD_IN + speech_seconds(scene.get("narration", "")) + TAIL
+        floor = MINIMUM_ON_SCREEN.get(scene.get("visualization", ""), DEFAULT_MINIMUM)
+        on_screen = round(min(MAXIMUM_ON_SCREEN, max(floor, needed)), 2)
+        planned.append({**scene, "on_screen": on_screen, "clip": round(on_screen + TRANSITION, 2)})
+    return planned
+
+
+def scale_to_audio(scenes: list[dict[str, Any]], audio_seconds: float | None) -> list[dict[str, Any]]:
+    """Stretch or squeeze scenes so the video ends when the narration does.
+
+    Scenes are scaled in proportion to how much narration they carry, and every
+    scene keeps its animation floor.
+    """
+    if not audio_seconds or audio_seconds <= 0 or not scenes:
+        return scenes
+
+    target = max(1.0, audio_seconds - TRANSITION)
+    current = sum(scene["on_screen"] for scene in scenes)
+    if current <= 0:
+        return scenes
+
+    factor = target / current
+    scaled = []
+    for scene in scenes:
+        floor = MINIMUM_ON_SCREEN.get(scene.get("visualization", ""), DEFAULT_MINIMUM)
+        on_screen = round(max(floor * 0.8, scene["on_screen"] * factor), 2)
+        scaled.append({**scene, "on_screen": on_screen, "clip": round(on_screen + TRANSITION, 2)})
+    return scaled
+
+
+def timeline(scenes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Absolute start/end times once the cross-dissolves are accounted for."""
+    placed = []
+    cursor = 0.0
+    for scene in scenes:
+        start = cursor
+        placed.append(
+            {
+                **scene,
+                "clip_start": round(start, 3),
+                "clip_end": round(start + scene["clip"], 3),
+                # The window in which this scene, and only this scene, is legible.
+                "visible_start": round(start + TRANSITION / 2, 3),
+                "visible_end": round(start + scene["clip"] - TRANSITION / 2, 3),
+            }
+        )
+        cursor += scene["clip"] - TRANSITION
+    return placed
+
+
+def total_seconds(scenes: list[dict[str, Any]]) -> float:
+    if not scenes:
+        return 0.0
+    return round(sum(scene["clip"] for scene in scenes) - TRANSITION * (len(scenes) - 1), 3)
+
+
+# ---------------------------------------------------------------------------
+# subtitles
+# ---------------------------------------------------------------------------
+
+def _split_for_subtitles(text: str) -> list[str]:
+    """Break narration into cue-sized chunks on sentence then clause boundaries."""
+    sentences = [part.strip() for part in re.split(r"(?<=[.!?])\s+", str(text).strip()) if part.strip()]
+    chunks: list[str] = []
+    for sentence in sentences:
+        if len(sentence) <= SUBTITLE_MAX_CHARS:
+            chunks.append(sentence)
+            continue
+        buffer = ""
+        for piece in re.split(r"(?<=[,;:])\s+", sentence):
+            candidate = f"{buffer} {piece}".strip()
+            if len(candidate) <= SUBTITLE_MAX_CHARS or not buffer:
+                buffer = candidate
+            else:
+                chunks.append(buffer)
+                buffer = piece
+        if buffer:
+            chunks.append(buffer)
+
+    # Anything still too long gets broken on word boundaries.
+    final: list[str] = []
+    for chunk in chunks:
+        while len(chunk) > SUBTITLE_MAX_CHARS:
+            cut = chunk.rfind(" ", 0, SUBTITLE_MAX_CHARS)
+            cut = cut if cut > 0 else SUBTITLE_MAX_CHARS
+            final.append(chunk[:cut].strip())
+            chunk = chunk[cut:].strip()
+        if chunk:
+            final.append(chunk)
+    return final
+
+
+def _wrap_two_lines(text: str) -> str:
+    if len(text) <= SUBTITLE_LINE_CHARS:
+        return text
+    cut = text.rfind(" ", 0, len(text) // 2 + 8)
+    if cut <= 0:
+        return text
+    return f"{text[:cut].strip()}\n{text[cut:].strip()}"
+
+
+def build_subtitles(scenes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Cues that sit inside each scene's own visible window."""
+    cues: list[dict[str, Any]] = []
+    for scene in scenes:
+        narration = str(scene.get("narration", "")).strip()
+        if not narration:
+            continue
+        start = float(scene["visible_start"])
+        end = float(scene["visible_end"])
+        span = max(0.4, end - start)
+        chunks = _split_for_subtitles(narration) or [narration]
+        weights = [max(1, len(chunk)) for chunk in chunks]
+        total_weight = sum(weights)
+
+        cursor = start
+        for chunk, weight in zip(chunks, weights):
+            length = max(SUBTITLE_MIN_SECONDS, span * weight / total_weight)
+            cue_end = min(end, cursor + length)
+            if cue_end - cursor < 0.25:
+                continue
+            cues.append({"start": round(cursor, 3), "end": round(cue_end, 3), "text": _wrap_two_lines(chunk)})
+            cursor = cue_end
+        if cues and cursor < end:
+            cues[-1]["end"] = round(end, 3)
+    return cues
+
+
+def _srt_timestamp(seconds: float) -> str:
+    seconds = max(0.0, seconds)
+    milliseconds = int(round((seconds - int(seconds)) * 1000))
+    if milliseconds == 1000:
+        seconds, milliseconds = seconds + 1, 0
+    whole = int(seconds)
+    return f"{whole // 3600:02d}:{(whole % 3600) // 60:02d}:{whole % 60:02d},{milliseconds:03d}"
+
+
+def render_srt(cues: list[dict[str, Any]]) -> str:
+    blocks = [
+        f"{index}\n{_srt_timestamp(cue['start'])} --> {_srt_timestamp(cue['end'])}\n{cue['text']}\n"
+        for index, cue in enumerate(cues, 1)
+    ]
+    return "\n".join(blocks)

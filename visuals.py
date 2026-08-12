@@ -132,8 +132,8 @@ def createPassNetworks(match_data, events_df, matchId, team, max_line_width,
     passes_df.insert(28, column='passRecipientId', value=passes_df['playerId'].shift(-1))  
     passes_df.insert(29, column='passRecipientName', value=passes_df['playerName'].shift(-1))  
     passes_df.dropna(subset=["passRecipientName"], inplace=True)
-    passes_df = passes_df.loc[events_df['type'] == 'Pass', :].reset_index(drop=True)
-    passes_df = passes_df.loc[events_df['outcomeType'] == 'Successful', :].reset_index(drop=True)
+    passes_df = passes_df.loc[passes_df['type'] == 'Pass'].reset_index(drop=True)
+    passes_df = passes_df.loc[passes_df['outcomeType'] == 'Successful'].reset_index(drop=True)
     index_names = passes_df.loc[passes_df['playerName']==passes_df['passRecipientName']].index
     passes_df.drop(index_names, inplace=True)
     passes_df = passes_df.merge(match_players_df, on=['playerId', 'playerName'], how='left', validate='m:1')
@@ -320,8 +320,8 @@ def createAttPassNetworks(match_data, events_df, matchId, team, max_line_width,
     passes_df.insert(28, column='passRecipientId', value=passes_df['playerId'].shift(-1))  
     passes_df.insert(29, column='passRecipientName', value=passes_df['playerName'].shift(-1))  
     passes_df.dropna(subset=["passRecipientName"], inplace=True)
-    passes_df = passes_df.loc[events_df['type'] == 'Pass', :].reset_index(drop=True)
-    passes_df = passes_df.loc[events_df['outcomeType'] == 'Successful', :].reset_index(drop=True)
+    passes_df = passes_df.loc[passes_df['type'] == 'Pass'].reset_index(drop=True)
+    passes_df = passes_df.loc[passes_df['outcomeType'] == 'Successful'].reset_index(drop=True)
     index_names = passes_df.loc[passes_df['playerName']==passes_df['passRecipientName']].index
     passes_df.drop(index_names, inplace=True)
     passes_df = passes_df.merge(match_players_df, on=['playerId', 'playerName'], how='left', validate='m:1')
@@ -669,8 +669,8 @@ def createPVFormationMap(match_data, events_df, team, color_palette,
     passes_df.insert(28, column='passRecipientId', value=passes_df['playerId'].shift(-1))  
     passes_df.insert(29, column='passRecipientName', value=passes_df['playerName'].shift(-1))  
     passes_df.dropna(subset=["passRecipientName"], inplace=True)
-    passes_df = passes_df.loc[events_df['type'] == 'Pass', :].reset_index(drop=True)
-    passes_df = passes_df.loc[events_df['outcomeType'] == 'Successful', :].reset_index(drop=True)
+    passes_df = passes_df.loc[passes_df['type'] == 'Pass'].reset_index(drop=True)
+    passes_df = passes_df.loc[passes_df['outcomeType'] == 'Successful'].reset_index(drop=True)
     index_names = passes_df.loc[passes_df['playerName']==passes_df['passRecipientName']].index
     passes_df.drop(index_names, inplace=True)
     passes_df = passes_df.merge(match_players_df, on=['playerId', 'playerName'], how='left', validate='m:1')

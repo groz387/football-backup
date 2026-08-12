@@ -216,7 +216,7 @@ def getMatchUrls(comp_urls, competition, season, maximize_window=True):
     season_names = [re.search(r'\>(.*?)\<',season).group(1) for season in seasons]
     driver.close() 
     print('Seasons available: {}'.format(season_names))
-    raise('Season Not Found.')
+    raise ValueError('Season Not Found.')
     
 
 
@@ -494,21 +494,24 @@ def createEventsDF(data):
 def createMatchesDF(data):
     columns_req_ls = ['matchId', 'attendance', 'venueName', 'startTime', 'startDate',
                       'score', 'home', 'away', 'referee']
-    matches_df = pd.DataFrame(columns=columns_req_ls)
-    if type(data) == dict:
-        matches_dict = dict([(key,val) for key,val in data.items() if key in columns_req_ls])
-        matches_df = pd.DataFrame(matches_dict, columns=columns_req_ls).reset_index(drop=True)
-        matches_df[['home', 'away']] = np.nan  
+    if isinstance(data, dict):
+        matches_dict = {key: val for key, val in data.items() if key in columns_req_ls}
+        matches_df = pd.DataFrame([matches_dict], columns=columns_req_ls)
+        matches_df[['home', 'away']] = np.nan
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", category=FutureWarning)
-            matches_df['home'].iloc[0] = [data['home']]
-            matches_df['away'].iloc[0] = [data['away']]
+            matches_df.at[0, 'home'] = [data['home']]
+            matches_df.at[0, 'away'] = [data['away']]
     else:
+        rows = []
         for match in data:
-            matches_dict = dict([(key,val) for key,val in match.items() if key in columns_req_ls])
-            matches_df = pd.DataFrame(matches_dict, columns=columns_req_ls).reset_index(drop=True)
-    
-    matches_df = matches_df.set_index('matchId')        
+            matches_dict = {key: val for key, val in match.items() if key in columns_req_ls}
+            matches_dict['home'] = [match.get('home')]
+            matches_dict['away'] = [match.get('away')]
+            rows.append(matches_dict)
+        matches_df = pd.DataFrame(rows, columns=columns_req_ls)
+
+    matches_df = matches_df.set_index('matchId')
     return matches_df
 
 

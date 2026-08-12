@@ -5,8 +5,9 @@ seaborn
 selenium==4.16.0
 mplsoccer==1.2.2
 requests
-unzip
+beautifulsoup4
 tqdm
 nodriver
 moviepy
 google-genai
+python-dotenv
