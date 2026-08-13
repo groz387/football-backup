@@ -244,6 +244,22 @@ class MatchBundle:
     def team(self, h_a: str) -> str:
         return self.home if h_a == "h" else self.away
 
+    def team_id(self, h_a: str) -> int | None:
+        side = self.summary.get("home" if h_a == "h" else "away") or {}
+        raw = side.get("teamId")
+        try:
+            return int(raw) if raw is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    @property
+    def home_team_id(self) -> int | None:
+        return self.team_id("h")
+
+    @property
+    def away_team_id(self) -> int | None:
+        return self.team_id("a")
+
     def competition_line(self) -> str:
         bits = [self.league, self.stage]
         return " / ".join(bit for bit in bits if bit)

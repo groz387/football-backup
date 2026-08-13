@@ -34,7 +34,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
-from recap import director, i18n, timing, video, voice
+from recap import director, i18n, logos, theme, timing, video, voice
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -180,6 +180,7 @@ def progress_reporter():
 
 def run(args: argparse.Namespace) -> Path:
     language = i18n.set_language(args.language)
+    team_kind = theme.set_team_kind(args.team)
     match_dir = Path(args.match_dir) if args.match_dir else choose_match(
         Path(args.scrape_output_root), args.interactive
     )
@@ -187,6 +188,13 @@ def run(args: argparse.Namespace) -> Path:
     out_dir = Path(args.output_root) / safe_name(match_dir.name)
     out_dir.mkdir(parents=True, exist_ok=True)
     say(f"  language: {i18n.language_name(language)} ({language})")
+    say(f"  team mode: {team_kind} ({'circular crests + logos' if team_kind == 'club' else 'rectangular flags'})")
+    if team_kind == "club":
+        resolved = logos.warm_logos(
+            bundle.home, bundle.away, bundle.home_team_id, bundle.away_team_id
+        )
+        for name, path in resolved.items():
+            say(f"  crest {name}: {path or 'initials fallback'}")
 
     # -- 1. audit ----------------------------------------------------------
     stage("1. Data audit")
@@ -291,6 +299,8 @@ def run(args: argparse.Namespace) -> Path:
         "generation": {
             "language": language,
             "language_name": i18n.language_name(language),
+            "team_kind": team_kind,
+            "badge_shape": theme.badge_shape(team_kind),
             "gemini_used": bool(gemini and gemini.enabled),
             "gemini_model": gemini.model if gemini else None,
             "gemini_error": (gemini.last_error or None) if gemini else None,
@@ -410,6 +420,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--language", default="en",
                         choices=list(i18n.SUPPORTED),
                         help="On-screen copy and narration language (en/az/es/ru)")
+    parser.add_argument("--team", default="national",
+                        choices=list(theme.TEAM_KINDS),
+                        help="Badge style: national flags (rect) or club crests (circle + logos)")
     parser.add_argument("--instruction", default="", help="Editorial note passed to Gemini")
     parser.add_argument("--model", default=None, help="Gemini model (defaults to GEMINI_MODEL)")
     parser.add_argument("--no-gemini", action="store_true", help="Use only the deterministic script")

@@ -28,3 +28,6 @@ video_output/
 Thumbs.db
 .idea/
 .vscode/
+.cache/
+assets/logos/*
+!assets/logos/.gitkeep

@@ -41,6 +41,11 @@ NEUTRAL_AWAY = "#4fd1a5"
 WATERMARK = "EVENT DATA RECAP"
 DATA_SOURCE = "WhoScored / Opta event feed"
 
+# Badge presentation. ``national`` draws rectangular flags; ``club`` draws
+# circular crests (logo when available, initials otherwise).
+TEAM_KINDS = ("national", "club")
+_team_kind = "national"
+
 # 1080x1920 output. Social overlays eat roughly the top 10% and bottom 16%,
 # so all primary content is kept inside the safe band.
 FRAME_W, FRAME_H = 1080, 1920
@@ -49,8 +54,43 @@ SAFE_TOP = 0.945
 SAFE_BOTTOM = 0.055
 
 
+def normalize_team_kind(value: str | None) -> str:
+    raw = (value or "national").strip().lower()
+    aliases = {
+        "national": "national",
+        "nation": "national",
+        "country": "national",
+        "intl": "national",
+        "international": "national",
+        "club": "club",
+        "clubs": "club",
+        "team": "club",
+    }
+    kind = aliases.get(raw)
+    if kind is None:
+        raise ValueError(f"Unsupported --team value {value!r}. Choose national or club.")
+    return kind
+
+
+def set_team_kind(kind: str) -> str:
+    global _team_kind
+    _team_kind = normalize_team_kind(kind)
+    _team_identity_cached.cache_clear()
+    return _team_kind
+
+
+def get_team_kind() -> str:
+    return _team_kind
+
+
+def badge_shape(kind: str | None = None) -> str:
+    """``rect`` for national flags, ``circle`` for club crests."""
+    return "circle" if (kind or _team_kind) == "club" else "rect"
+
+
 def _register_bundled_fonts() -> None:
-    for path in Path(__file__).resolve().parent.parent.glob("*.ttf"):
+    root = Path(__file__).resolve().parent.parent
+    for path in list(root.glob("*.ttf")) + list(root.glob("Fonts/**/*.ttf")):
         try:
             font_manager.fontManager.addfont(str(path))
         except Exception:
@@ -68,9 +108,20 @@ def _first_available(*preferences: str) -> str:
     return preferences[-1]
 
 
-DISPLAY_FONT = _first_available("FWC2026", "Bebas Neue", "Anton", "Segoe UI Black", "DejaVu Sans")
-BODY_FONT = _first_available("Inter", "Segoe UI", "DejaVu Sans")
-MONO_FONT = _first_available("JetBrains Mono", "Cascadia Mono", "Consolas", "DejaVu Sans Mono")
+# Headlines / big numerals: Bai Jamjuree, drawn in all caps.
+DISPLAY_FONT = _first_available("Bai Jamjuree", "BaiJamjuree", "Segoe UI", "DejaVu Sans")
+BODY_FONT = _first_available("Bai Jamjuree", "Inter", "Segoe UI", "DejaVu Sans")
+# Micro labels above bars / chips ("GOALS", "ON TARGET", phase names).
+LABEL_FONT = _first_available("Bai Jamjuree", "BaiJamjuree", "Segoe UI", "DejaVu Sans")
+MONO_FONT = _first_available("Bai Jamjuree", "JetBrains Mono", "Cascadia Mono", "Consolas", "DejaVu Sans Mono")
+
+# Small chrome labels only — headlines and subtitles are untouched.
+LABEL_SCALE = 1.30
+
+
+def label_size(base: float) -> float:
+    """Bump micro-label type ~30% without touching display headlines."""
+    return round(float(base) * LABEL_SCALE, 1)
 
 
 # ---------------------------------------------------------------------------
@@ -211,19 +262,64 @@ _TEAM_ALIASES = {
     "czechia": "czech republic",
     "iran islamic republic": "iran",
     "turkiye": "turkey",
+    "psg": "paris saint germain",
+    "paris sg": "paris saint germain",
+    "paris saint-germain": "paris saint germain",
+    "man city": "manchester city",
+    "man utd": "manchester united",
+    "manchester utd": "manchester united",
+    "spurs": "tottenham hotspur",
+    "tottenham": "tottenham hotspur",
+    "inter": "inter milan",
+    "internazionale": "inter milan",
+    "bayern": "bayern munich",
+    "dortmund": "borussia dortmund",
+    "bvb": "borussia dortmund",
+}
+
+_CLUB_COLORS: dict[str, tuple[str, str]] = {
+    "arsenal": ("#ef0107", "#ffffff"),
+    "aston villa": ("#670e36", "#95bfe5"),
+    "atletico madrid": ("#c8102e", "#ffffff"),
+    "barcelona": ("#a50044", "#004d98"),
+    "bayern munich": ("#dc052d", "#ffffff"),
+    "benfica": ("#e32636", "#ffffff"),
+    "borussia dortmund": ("#fde100", "#000000"),
+    "chelsea": ("#034694", "#ffffff"),
+    "inter milan": ("#010e80", "#000000"),
+    "juventus": ("#000000", "#ffffff"),
+    "liverpool": ("#c8102e", "#ffffff"),
+    "manchester city": ("#6cabdd", "#1c2c5b"),
+    "manchester united": ("#da291c", "#000000"),
+    "milan": ("#fb090b", "#000000"),
+    "ac milan": ("#fb090b", "#000000"),
+    "napoli": ("#12a0d7", "#ffffff"),
+    "newcastle united": ("#241f20", "#ffffff"),
+    "paris saint germain": ("#004170", "#da291c"),
+    "porto": ("#003893", "#ffffff"),
+    "real madrid": ("#ffffff", "#00529f"),
+    "sevilla": ("#d4a574", "#ffffff"),
+    "tottenham hotspur": ("#132257", "#ffffff"),
+    "ajax": ("#d2122e", "#ffffff"),
+    "lyon": ("#003da5", "#ffffff"),
+    "marseille": ("#2faee0", "#ffffff"),
+    "monaco": ("#e30613", "#ffffff"),
+    "leverkusen": ("#e32221", "#000000"),
+    "rb leipzig": ("#dd0741", "#ffffff"),
 }
 
 
 def canonical_team_key(name: str) -> str:
     key = normalize_team_key(name)
     if key in _TEAM_ALIASES:
-        return _TEAM_ALIASES[key]
-    if key in _TEAM_COLORS:
-        return key
-    compact = key.replace(" ", "")
-    for candidate in _TEAM_COLORS:
-        if candidate.replace(" ", "") == compact:
-            return candidate
+        key = _TEAM_ALIASES[key]
+    for table in (_CLUB_COLORS, _TEAM_COLORS):
+        if key in table:
+            return key
+        compact = key.replace(" ", "")
+        for candidate in table:
+            if candidate.replace(" ", "") == compact:
+                return candidate
     return key
 
 
@@ -236,10 +332,24 @@ def _generated_colors(name: str) -> tuple[str, str]:
     return primary, secondary
 
 
-@lru_cache(maxsize=256)
-def _team_identity_cached(name: str) -> tuple[tuple[str, str], ...]:
+def _colors_for(name: str, kind: str) -> tuple[str, str]:
     key = canonical_team_key(name)
-    primary, secondary = _TEAM_COLORS.get(key, _generated_colors(name))
+    if kind == "club":
+        if key in _CLUB_COLORS:
+            return _CLUB_COLORS[key]
+        if key not in _TEAM_COLORS:
+            return _generated_colors(name)
+    if key in _TEAM_COLORS:
+        return _TEAM_COLORS[key]
+    if key in _CLUB_COLORS:
+        return _CLUB_COLORS[key]
+    return _generated_colors(name)
+
+
+@lru_cache(maxsize=256)
+def _team_identity_cached(name: str, kind: str) -> tuple[tuple[str, str], ...]:
+    key = canonical_team_key(name)
+    primary, secondary = _colors_for(name, kind)
     return (
         ("key", key),
         ("name", name),
@@ -248,6 +358,8 @@ def _team_identity_cached(name: str) -> tuple[tuple[str, str], ...]:
         ("secondary", secondary),
         ("chart", readable_on(primary)),
         ("accent", readable_on(secondary, minimum=3.2)),
+        ("kind", kind),
+        ("shape", badge_shape(kind)),
     )
 
 
@@ -257,7 +369,7 @@ def team_identity(name: str) -> dict[str, str]:
     Cached because the contrast search runs a loop and every renderer resolves
     the design once per frame.
     """
-    return dict(_team_identity_cached(str(name)))
+    return dict(_team_identity_cached(str(name), get_team_kind()))
 
 
 _ABBR_OVERRIDES = {
@@ -335,6 +447,8 @@ def match_design(home: str, away: str) -> dict[str, Any]:
     return {
         "home": home_id,
         "away": away_id,
+        "team_kind": get_team_kind(),
+        "badge_shape": badge_shape(),
         "ink": INK,
         "surface": SURFACE,
         "surface_hi": SURFACE_HI,

@@ -36,6 +36,7 @@ from .theme import (
     GOAL,
     HAIRLINE,
     INK,
+    LABEL_FONT,
     MONO_FONT,
     PITCH,
     PITCH_LINE,
@@ -318,7 +319,7 @@ def _extent_fractions(fig: plt.Figure, artist: Any) -> tuple[float, float]:
 
 # Mean glyph advance as a fraction of the point size, per font role. Used only
 # to pick a starting wrap width; the result is then verified by measurement.
-_ADVANCE = {DISPLAY_FONT: 0.40, MONO_FONT: 0.60}
+_ADVANCE = {DISPLAY_FONT: 0.52, LABEL_FONT: 0.52, MONO_FONT: 0.52}
 _DEFAULT_ADVANCE = 0.52
 _POINTS_TO_FIG_X = 1.0 / 72.0 / FIG_SIZE[0]
 
@@ -474,8 +475,9 @@ def legend_row(fig: plt.Figure, y: float, entries: Iterable[tuple[str, str, str]
                 )
         else:
             fig_rect(fig, swatch_x - 0.010, y - 0.004, 0.020, 0.008, colour, alpha, zorder=20)
-        fig.text(swatch_x + 0.017, y, label.upper(), color=TEXT_DIM, fontsize=fontsize,
-                 family=MONO_FONT, ha="left", va="center", alpha=alpha, zorder=20)
+        fig.text(swatch_x + 0.017, y, label.upper(), color=TEXT_DIM,
+                 fontsize=theme.label_size(fontsize), family=LABEL_FONT, fontweight="bold",
+                 ha="left", va="center", alpha=alpha, zorder=20)
 
 
 def number_text(value: float, *, decimals: int = 0, suffix: str = "") -> str:
@@ -598,12 +600,17 @@ def _flag_painter(key: str):
 def team_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, *,
                identity: dict[str, str] | None = None, alpha: float = 1.0,
                zorder: int = 12) -> None:
-    """A flag tile. Falls back to a legible two-tone crest with initials.
+    """National: rectangular flag tile. Club: circular crest with logo/initials.
 
-    ``width`` is the tile width in figure-x units; height follows the 3:2 flag
-    ratio in output pixels so tiles are never stretched.
+    ``width`` is the tile width in figure-x units. National height follows the
+    3:2 flag ratio; club badges are circular so height matches width in pixels.
     """
     identity = identity or theme.team_identity(team)
+    shape = identity.get("shape") or theme.badge_shape()
+    if shape == "circle":
+        _club_badge(fig, team, cx, cy, width, identity=identity, alpha=alpha, zorder=zorder)
+        return
+
     height = y_of(width * 2 / 3)
     x0, y0 = cx - width / 2, cy - height / 2
 
@@ -623,6 +630,86 @@ def team_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, *
         Rectangle((x0, y0), width, height, transform=fig.transFigure, facecolor="none",
                   edgecolor="#050706", linewidth=1.2, alpha=alpha, zorder=zorder + 5)
     )
+
+
+def _club_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, *,
+                identity: dict[str, str], alpha: float, zorder: int) -> None:
+    """Circular club crest: real logo when cached, otherwise a colour disc + abbr."""
+    height = y_of(width)
+    x0, y0 = cx - width / 2, cy - height / 2
+    radius = width / 2
+
+    # Soft ring behind the crest in the club's chart colour.
+    fig_ellipse(fig, cx, cy, radius + 0.007, facecolor="#0c100e",
+                edgecolor=identity["chart"], linewidth=2.0, alpha=0.95 * alpha,
+                zorder=zorder - 1)
+
+    logo_path = None
+    try:
+        from . import logos
+
+        logo_path = logos.resolve_logo(team)
+    except Exception:
+        logo_path = None
+
+    drawn = False
+    if logo_path:
+        drawn = _draw_logo_circle(fig, logo_path, x0, y0, width, height, alpha, zorder)
+
+    if not drawn:
+        fig_ellipse(fig, cx, cy, radius * 0.96, facecolor=identity["primary"],
+                    edgecolor="none", alpha=alpha, zorder=zorder)
+        # Secondary crescent for a bit of kit colour without muddying the abbr.
+        fig_ellipse(fig, cx, cy - height * 0.18, radius * 0.96,
+                    facecolor=identity["secondary"], edgecolor="none",
+                    alpha=0.55 * alpha, zorder=zorder + 1)
+        tile_h_px = height * theme.FRAME_H
+        fontsize = max(8.0, tile_h_px * 0.34)
+        fig.text(
+            cx, cy + height * 0.04, identity["abbr"],
+            color=theme.ink_on(identity["primary"]), fontsize=fontsize, fontweight="bold",
+            family=DISPLAY_FONT, ha="center", va="center", alpha=alpha, zorder=zorder + 2,
+        )
+
+    fig_ellipse(fig, cx, cy, radius, facecolor="none", edgecolor="#050706",
+                linewidth=1.4, alpha=alpha, zorder=zorder + 5)
+
+
+def _draw_logo_circle(fig: plt.Figure, path: str, x0: float, y0: float,
+                      width: float, height: float, alpha: float, zorder: int) -> bool:
+    """Paint a crest into a circular clip. Returns False if the image cannot load."""
+    try:
+        image = plt.imread(path)
+    except Exception:
+        return False
+    if image is None or getattr(image, "size", 0) == 0:
+        return False
+
+    # Slight inset so the ring border stays clean around the artwork.
+    inset = 0.04
+    ax = fig.add_axes(
+        [x0 + width * inset, y0 + height * inset, width * (1 - 2 * inset), height * (1 - 2 * inset)],
+        anchor="C",
+    )
+    ax.set_zorder(zorder + 1)
+    ax.set_facecolor("none")
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.patch.set_alpha(0.0)
+
+    # White disc behind transparent PNGs so crests stay readable on dark ink.
+    ax.add_patch(Circle((0.5, 0.5), 0.5, transform=ax.transAxes,
+                        facecolor="#ffffff", edgecolor="none", alpha=alpha, zorder=0))
+    artist = ax.imshow(image, extent=(0, 1, 0, 1), origin="upper",
+                       interpolation="bilinear", alpha=alpha, zorder=1, aspect="auto")
+    clip = Circle((0.5, 0.5), 0.5, transform=ax.transAxes)
+    artist.set_clip_path(clip)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_clip_path(clip)
+    return True
 
 
 def _band(fig: plt.Figure, x0: float, y0: float, w: float, h: float,
@@ -870,8 +957,9 @@ def comparison_bar(
     home_share = 0.5 if total <= 0 else home_value / total
     width = right - left
 
-    fig.text(0.5, y + height + 0.019, str(label).upper(), color=TEXT_DIM, fontsize=13,
-             family=MONO_FONT, ha="center", va="center", alpha=min(1.0, progress * 2.5),
+    fig.text(0.5, y + height + 0.019, str(label).upper(), color=TEXT_DIM,
+             fontsize=theme.label_size(13), family=LABEL_FONT, fontweight="bold",
+             ha="center", va="center", alpha=min(1.0, progress * 2.5),
              zorder=zorder)
 
     fig_rect(fig, left, y, width, height, "#171d19", 0.95 * min(1.0, progress * 3), zorder=zorder - 2)

@@ -26,7 +26,7 @@ from .audit import GOAL_Y_MAX, GOAL_Y_MIN, GOAL_Z_MAX, best_goal_chain, build_pa
 from .data import MatchBundle
 from .director import format_stat, stat_label
 from .draw import Layout, Timeline
-from .theme import DISPLAY_FONT, MONO_FONT, TEXT, TEXT_DIM, TEXT_FAINT
+from .theme import DISPLAY_FONT, LABEL_FONT, MONO_FONT, TEXT, TEXT_DIM, TEXT_FAINT
 
 Renderer = Callable[[MatchBundle, dict[str, Any], dict[str, Any], Path, float], None]
 
@@ -153,7 +153,8 @@ def _goal_list(fig, bundle: MatchBundle, audit: dict[str, Any], design: dict[str
                  fontweight="bold", family=DISPLAY_FONT, ha="center", va="center",
                  alpha=alpha, zorder=14)
         fig.text(0.5, (top + bottom) / 2 - 0.036, i18n.t("shots_none_counted", shots=total_shots),
-                 color=TEXT_FAINT, fontsize=12, family=MONO_FONT, ha="center", va="center",
+                 color=TEXT_FAINT, fontsize=theme.label_size(12), family=LABEL_FONT, fontweight="bold",
+                 ha="center", va="center",
                  alpha=alpha, zorder=14)
         return
 
@@ -162,8 +163,9 @@ def _goal_list(fig, bundle: MatchBundle, audit: dict[str, Any], design: dict[str
     row_h = min(0.058, available / max(1, len(timeline)))
     # Centre the rows in the band so a two-goal match does not leave a hole.
     list_top = band_top - (available - row_h * len(timeline)) / 2
-    fig.text(Layout.MARGIN, list_top + 0.020, i18n.t("goals"), color=TEXT_FAINT, fontsize=11,
-             family=MONO_FONT, ha="left", va="center",
+    fig.text(Layout.MARGIN, list_top + 0.020, i18n.t("goals"), color=TEXT_FAINT,
+             fontsize=theme.label_size(11), family=LABEL_FONT, fontweight="bold",
+             ha="left", va="center",
              alpha=tl.cue(start_cue - 0.04, 0.20), zorder=14)
 
     for index, goal in enumerate(timeline):
@@ -372,9 +374,11 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
         )
         fig.text(right, y + 0.008,
                  i18n.t("shots_on_target_line", shots=team_stats["shots"], on_target=team_stats["shots_on_target"]),
-                 color=TEXT_DIM, fontsize=11, family=MONO_FONT, ha="right", va="center",
+                 color=TEXT_DIM, fontsize=theme.label_size(11), family=LABEL_FONT, fontweight="bold",
+                 ha="right", va="center",
                  alpha=alpha, zorder=20)
-        fig.text(right, y - 0.010, arrow, color=TEXT_FAINT, fontsize=8.5, family=MONO_FONT,
+        fig.text(right, y - 0.010, arrow, color=TEXT_FAINT, fontsize=theme.label_size(8.5),
+                 family=LABEL_FONT, fontweight="bold",
                  ha="right", va="center", alpha=alpha * 0.85, zorder=20)
 
     shots = sorted(audit["shots"], key=lambda s: (s["minute"] or 0))
@@ -458,9 +462,10 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
         if key in present
     ]
     legend_alpha = tl.cue(0.52, 0.26)
-    draw.legend_row(fig, 0.198, entries, alpha=legend_alpha, fontsize=10)
-    fig.text(0.5, 0.176, i18n.t("markers_team_colour"), color=TEXT_FAINT, fontsize=8.5,
-             family=MONO_FONT, ha="center", va="center", alpha=legend_alpha * 0.9, zorder=20)
+    draw.legend_row(fig, 0.198, entries, alpha=legend_alpha, fontsize=theme.label_size(10))
+    fig.text(0.5, 0.176, i18n.t("markers_team_colour"), color=TEXT_FAINT,
+             fontsize=theme.label_size(8.5), family=LABEL_FONT, fontweight="bold",
+             ha="center", va="center", alpha=legend_alpha * 0.9, zorder=20)
     draw.save_figure(fig, path)
 
 
@@ -564,7 +569,8 @@ def render_momentum(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
                     path_effects=draw.outline(), alpha=goal_alpha, zorder=11)
 
     fig.text(Layout.MARGIN, chart_top + 0.014, i18n.t("attacking_pressure"),
-             color=TEXT_FAINT, fontsize=10, family=MONO_FONT, ha="left", va="center",
+             color=TEXT_FAINT, fontsize=theme.label_size(10), family=LABEL_FONT, fontweight="bold",
+             ha="left", va="center",
              alpha=tl.cue(0.14, 0.26), zorder=20)
 
     _pressure_summary(fig, audit, design, tl, top=chart_bottom - 0.030)
@@ -590,7 +596,8 @@ def _pressure_summary(fig, audit: dict[str, Any], design: dict[str, Any],
         draw.fig_panel(fig, x, y, width, height, color=design["surface"],
                        alpha=0.9 * alpha, edge=design["hairline"], radius=0.009, zorder=10)
         fig.text(x + width / 2, y + height * 0.72, i18n.period_label(phase["label"]).upper(), color=TEXT_FAINT,
-                 fontsize=9.5, family=MONO_FONT, ha="center", va="center", alpha=alpha, zorder=14)
+                 fontsize=theme.label_size(9.5), family=LABEL_FONT, fontweight="bold",
+                 ha="center", va="center", alpha=alpha, zorder=14)
         bar_y = y + height * 0.38
         bar_w = width * 0.84
         bar_x = x + width * 0.08
@@ -690,7 +697,7 @@ def render_zone_control(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
         fig, 0.196,
         [("bar", home_colour, f"{bundle.home[:12]} zones"),
          ("bar", away_colour, f"{bundle.away[:12]} zones")],
-        alpha=tl.cue(0.52, 0.26), fontsize=10,
+        alpha=tl.cue(0.52, 0.26), fontsize=theme.label_size(10),
     )
     draw.save_figure(fig, path)
 
@@ -832,8 +839,9 @@ def _chip_row(fig, chips: list[tuple[str, str]], *, y: float, alpha: float,
                        alpha=0.9 * alpha, edge=design["hairline"], radius=0.010, zorder=10)
         fig.text(x + width / 2, y + 0.014, value, color=accent, fontsize=30, fontweight="bold",
                  family=DISPLAY_FONT, ha="center", va="center", alpha=alpha, zorder=14)
-        fig.text(x + width / 2, y - 0.014, label, color=TEXT_FAINT, fontsize=9,
-                 family=MONO_FONT, ha="center", va="center", alpha=alpha, zorder=14)
+        fig.text(x + width / 2, y - 0.014, str(label).upper(), color=TEXT_FAINT,
+                 fontsize=theme.label_size(9), family=LABEL_FONT, fontweight="bold",
+                 ha="center", va="center", alpha=alpha, zorder=14)
 
 
 # ---------------------------------------------------------------------------
@@ -945,10 +953,12 @@ def render_goalmouth(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str
                    alpha=draw.opacity(local))
 
     fig.text(rect[0], rect[1] + rect[3] + 0.019, i18n.t("shots_reached_target"),
-             color=TEXT_FAINT, fontsize=10, family=MONO_FONT, ha="left", va="center",
+             color=TEXT_FAINT, fontsize=theme.label_size(10), family=LABEL_FONT, fontweight="bold",
+             ha="left", va="center",
              alpha=tl.cue(0.10, 0.24), zorder=20)
     fig.text(rect[0] + rect[2], rect[1] + rect[3] + 0.019, i18n.t("count_per_zones"),
-             color=TEXT_FAINT, fontsize=10, family=MONO_FONT, ha="right", va="center",
+             color=TEXT_FAINT, fontsize=theme.label_size(10), family=LABEL_FONT,
+             fontweight="bold", ha="right", va="center",
              alpha=tl.cue(0.10, 0.24), zorder=20)
 
     stats = audit["team_stats"]
@@ -1151,7 +1161,8 @@ def render_close(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, An
         alpha = min(1.0, local * 1.6)
         slide = (1.0 - local) * 0.03
         fig.text(Layout.MARGIN + 0.004 - slide, y, stat_label(key).upper(), color=TEXT_DIM,
-                 fontsize=14, family=MONO_FONT, ha="left", va="center", alpha=alpha, zorder=14)
+                 fontsize=theme.label_size(14), family=LABEL_FONT, fontweight="bold",
+                 ha="left", va="center", alpha=alpha, zorder=14)
         fig.text(1 - Layout.MARGIN - 0.004, y,
                  f"{format_stat(key, home.get(key, 0))}  /  {format_stat(key, away.get(key, 0))}",
                  color=TEXT, fontsize=30, fontweight="bold", family=DISPLAY_FONT,

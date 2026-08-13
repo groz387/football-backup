@@ -21,6 +21,7 @@ __all__ = [
     "director",
     "draw",
     "i18n",
+    "logos",
     "scenes",
     "theme",
     "timing",
