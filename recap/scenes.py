@@ -83,7 +83,7 @@ def _team_key_row(fig, design: dict[str, Any], bundle: MatchBundle, y: float, al
 
 def _scoreboard(fig, bundle: MatchBundle, design: dict[str, Any], tl: Timeline, *,
                 top: float, row_height: float = 0.104, gap: float = 0.013,
-                show_qualifier: bool = True) -> float:
+                show_qualifier: bool = True, instant: bool = False) -> float:
     """Two stacked rows: flag, team name, goals. Returns the y it ends at.
 
     Laying the score out as one row per team means the goal numerals get their
@@ -96,13 +96,20 @@ def _scoreboard(fig, bundle: MatchBundle, design: dict[str, Any], tl: Timeline, 
     )
     y = top
     for index, (name, identity, goals) in enumerate(rows):
-        local = tl.stagger(index, 2, start=0.10, span=0.16, duration=0.30, ease=draw.ease_out_back)
-        if local <= 0.001:
-            y -= row_height + gap
-            continue
-        slide = (1.0 - local) * 0.06
+        if instant:
+            local = 1.0
+            slide = 0.0
+            alpha = 1.0
+            goal_count = int(goals)
+        else:
+            local = tl.stagger(index, 2, start=0.10, span=0.16, duration=0.30, ease=draw.ease_out_back)
+            if local <= 0.001:
+                y -= row_height + gap
+                continue
+            slide = (1.0 - local) * 0.06
+            alpha = min(1.0, local * 1.6)
+            goal_count = int(round(tl.count_to(goals, start=0.18, duration=0.42)))
         row_y = y - row_height
-        alpha = min(1.0, local * 1.6)
 
         draw.fig_panel(fig, Layout.MARGIN - slide, row_y, Layout.CONTENT_W, row_height,
                        color=design["surface"], alpha=0.90 * alpha,
@@ -118,7 +125,6 @@ def _scoreboard(fig, bundle: MatchBundle, design: dict[str, Any], tl: Timeline, 
             max_width=0.50, max_lines=1, min_fontsize=17, ha="left", va="center",
             color=TEXT, family=DISPLAY_FONT, fontweight="bold", alpha=alpha, zorder=14,
         )
-        goal_count = int(round(tl.count_to(goals, start=0.18, duration=0.42)))
         fig.text(
             1 - Layout.MARGIN - 0.045 - slide, centre, str(goal_count), color=identity["chart"],
             fontsize=92, fontweight="bold", family=DISPLAY_FONT, ha="center", va="center",
@@ -127,7 +133,7 @@ def _scoreboard(fig, bundle: MatchBundle, design: dict[str, Any], tl: Timeline, 
         y -= row_height + gap
 
     if score.qualifier and show_qualifier:
-        chip_alpha = tl.cue(0.34, 0.24)
+        chip_alpha = 1.0 if instant else tl.cue(0.34, 0.24)
         if chip_alpha > 0.01:
             label = score.qualifier
             width = 0.028 + len(label) * 0.0125
@@ -142,13 +148,14 @@ def _scoreboard(fig, bundle: MatchBundle, design: dict[str, Any], tl: Timeline, 
 
 
 def _goal_list(fig, bundle: MatchBundle, audit: dict[str, Any], design: dict[str, Any],
-               tl: Timeline, *, top: float, bottom: float, start_cue: float = 0.40) -> None:
+               tl: Timeline, *, top: float, bottom: float, start_cue: float = 0.40,
+               instant: bool = False) -> None:
     """A compact list of goals filling the band between *top* and *bottom*."""
     timeline = audit["goal_timeline"]
     if not timeline:
         stats = audit["team_stats"]
         total_shots = sum(team.get("shots", 0) for team in stats.values())
-        alpha = tl.cue(start_cue, 0.30)
+        alpha = 1.0 if instant else tl.cue(start_cue, 0.30)
         fig.text(0.5, (top + bottom) / 2, i18n.t("no_goals"), color=TEXT_DIM, fontsize=40,
                  fontweight="bold", family=DISPLAY_FONT, ha="center", va="center",
                  alpha=alpha, zorder=14)
@@ -166,10 +173,10 @@ def _goal_list(fig, bundle: MatchBundle, audit: dict[str, Any], design: dict[str
     fig.text(Layout.MARGIN, list_top + 0.020, i18n.t("goals"), color=TEXT_FAINT,
              fontsize=theme.label_size(11), family=LABEL_FONT, fontweight="bold",
              ha="left", va="center",
-             alpha=tl.cue(start_cue - 0.04, 0.20), zorder=14)
+             alpha=1.0 if instant else tl.cue(start_cue - 0.04, 0.20), zorder=14)
 
     for index, goal in enumerate(timeline):
-        local = tl.stagger(index, len(timeline), start=start_cue, span=0.26, duration=0.22)
+        local = 1.0 if instant else tl.stagger(index, len(timeline), start=start_cue, span=0.26, duration=0.22)
         if local <= 0.01:
             continue
         alpha = min(1.0, local * 1.6)
@@ -199,19 +206,123 @@ def _stat_keys(scene: dict[str, Any], fallback: list[str]) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# title
+# viral hook
 # ---------------------------------------------------------------------------
+
+def _hook_lines(scene: dict[str, Any]) -> list[str]:
+    lines = scene.get("lines")
+    if isinstance(lines, list) and any(str(item).strip() for item in lines):
+        return [str(item).strip() for item in lines if str(item).strip()]
+    parts = [
+        str(scene.get("title") or "").strip(),
+        str(scene.get("subtitle") or "").strip(),
+        str(scene.get("insight") or "").strip(),
+    ]
+    return [part for part in parts if part]
+
+
+def _interrupt(progress: float, duration: float) -> tuple[bool, float, float]:
+    """Return (flash_bg, zoom, shake). Flash is a background slam, text stays on top."""
+    t = max(0.0, progress) * max(0.05, duration)
+    flash = t < 0.15
+    zoom = 1.0
+    if t < 0.28:
+        zoom = 1.0 + 0.18 * (1.0 - t / 0.28)
+    shake = 0.0
+    if t < 0.22:
+        decay = 1.0 - t / 0.22
+        shake = 0.010 * decay * math.sin(t * 95.0)
+    return flash, zoom, shake
+
+
+def _hook_badges(fig, bundle: MatchBundle, design: dict[str, Any], *,
+                 y: float = 0.30, shake: float = 0.0, size: float = 0.132) -> None:
+    """Home and away crests, centred under the slam text. No score."""
+    gap = 0.118
+    draw.team_badge(
+        fig, bundle.home, 0.5 - gap + shake, y, size,
+        identity=design["home"], alpha=1.0, zorder=22,
+    )
+    draw.team_badge(
+        fig, bundle.away, 0.5 + gap + shake, y, size,
+        identity=design["away"], alpha=1.0, zorder=22,
+    )
+
+
+def _hook_matchup(fig, bundle: MatchBundle, scene: dict[str, Any], *, alpha: float = 1.0) -> None:
+    if alpha <= 0.05:
+        return
+    label = str(scene.get("kicker") or f"{bundle.home} — {bundle.away}").upper()
+    fig.text(
+        0.5, 0.078, label, color=TEXT_FAINT, fontsize=theme.label_size(13),
+        fontweight="bold", family=LABEL_FONT, ha="center", va="center",
+        alpha=alpha, zorder=20,
+    )
+    draw.footer(fig, f"{bundle.home[:14]} v {bundle.away[:14]}")
+
+
+def render_hook_claim(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, Any],
+                      path: Path, progress: float = 1.0) -> None:
+    """Huge contradiction, no score. Crests sit under the type on the slam."""
+    design = theme.match_design(bundle.home, bundle.away)
+    fig = draw.new_figure(design)
+    duration = float(scene.get("seconds") or 0.85)
+    t = progress * duration
+    flash, zoom, shake = _interrupt(progress, duration)
+    ink = "#120e08" if flash else TEXT
+    if flash:
+        draw.fig_rect(fig, 0.0, 0.0, 1.0, 1.0, theme.WARNING, 1.0, zorder=5)
+    lines = _hook_lines(scene)
+    n = max(1, len(lines))
+    base = 62.0 if n <= 2 else 48.0
+    start_y = 0.66 + (n - 1) * 0.008
+    step = 0.13 if n <= 2 else 0.112
+
+    for index, line in enumerate(lines):
+        appear = index * 0.16
+        if t + 0.001 < appear:
+            continue
+        local = min(1.0, (t - appear) / 0.10) if appear else 1.0
+        size = base * (zoom if index == 0 else 1.0 + 0.10 * (1.0 - local))
+        y = start_y - index * step
+        draw.fit_text(
+            fig, 0.5 + shake, y, line.upper(),
+            fontsize=size, max_width=0.90, max_lines=2, min_fontsize=26.0,
+            ha="center", va="center", color=ink, family=DISPLAY_FONT, fontweight="bold",
+            linespacing=0.88, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
+        )
+
+    _hook_badges(fig, bundle, design, y=0.30, shake=shake)
+    _hook_matchup(fig, bundle, scene, alpha=0.0 if flash else 1.0)
+    draw.save_figure(fig, path)
+
+
+def render_hook_punch(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, Any],
+                      path: Path, progress: float = 1.0) -> None:
+    """Hard-cut payoff line. Still no score."""
+    design = theme.match_design(bundle.home, bundle.away)
+    fig = draw.new_figure(design)
+    duration = float(scene.get("seconds") or 0.70)
+    flash, zoom, shake = _interrupt(progress, duration)
+    line = (_hook_lines(scene) or [str(scene.get("title") or "")])[0]
+    if flash:
+        draw.fig_rect(fig, 0.0, 0.0, 1.0, 1.0, "#fff4d6", 1.0, zorder=5)
+    color = "#120e08" if flash else theme.WARNING
+    draw.fit_text(
+        fig, 0.5 + shake, 0.58, line.upper(),
+        fontsize=78.0 * zoom, max_width=0.92, max_lines=3, min_fontsize=32.0,
+        ha="center", va="center", color=color, family=DISPLAY_FONT, fontweight="bold",
+        linespacing=0.86, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
+    )
+    _hook_badges(fig, bundle, design, y=0.30, shake=shake)
+    _hook_matchup(fig, bundle, scene, alpha=0.0 if flash else 1.0)
+    draw.save_figure(fig, path)
+
 
 def render_title(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, Any],
                  path: Path, progress: float = 1.0) -> None:
-    design = theme.match_design(bundle.home, bundle.away)
-    fig = draw.new_figure(design)
-    tl = Timeline(progress)
-
-    content_top = _chrome(fig, bundle, scene, tl, headline_size=54.0)
-    end = _scoreboard(fig, bundle, design, tl, top=content_top)
-    _goal_list(fig, bundle, audit, design, tl, top=end - 0.010, bottom=0.196, start_cue=0.42)
-    draw.save_figure(fig, path)
+    """Kept for old plans. New opens use hook_claim / hook_punch."""
+    render_hook_claim(bundle, audit, scene, path, progress)
 
 
 # ---------------------------------------------------------------------------
@@ -1146,7 +1257,7 @@ def render_close(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, An
     qualifier = bundle.score.qualifier
     duplicate = bool(qualifier) and qualifier.lower() in kicker_text.lower()
     end = _scoreboard(fig, bundle, design, tl, top=0.876, row_height=0.116,
-                      show_qualifier=not duplicate)
+                      show_qualifier=not duplicate, instant=True)
 
     keys = _stat_keys(scene, ["shots", "shots_on_target", "big_chances", "corners"])
     keys = [key for key in keys if key in home and key in away][:4]
@@ -1178,6 +1289,9 @@ def render_close(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, An
 # ---------------------------------------------------------------------------
 
 RENDERERS: dict[str, Renderer] = {
+    "hook_claim": render_hook_claim,
+    "hook_punch": render_hook_punch,
+    "live_clip": render_hook_claim,
     "title": render_title,
     "standard_stats": render_standard_stats,
     "goal_timeline": render_goal_timeline,

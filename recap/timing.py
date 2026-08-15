@@ -23,6 +23,9 @@ TRANSITION = 0.45
 
 # Time each visualization needs to finish animating and still be readable.
 MINIMUM_ON_SCREEN = {
+    "hook_claim": 0.85,
+    "hook_punch": 0.70,
+    "live_clip": 0.40,
     "title": 3.2,
     "standard_stats": 4.5,
     "goal_timeline": 4.5,
@@ -60,68 +63,99 @@ def word_budget(target_seconds: float, scene_count: int) -> int:
     return max(14, int(speakable * WORDS_PER_SECOND / scene_count))
 
 
+def _hard_cut_after(scenes: list[dict[str, Any]], index: int) -> bool:
+    """True when the boundary after *index* is a cut, not a dissolve."""
+    if index >= len(scenes) - 1:
+        return True
+    return scenes[index + 1].get("cut") == "hard"
+
+
+def _with_clip_lengths(scenes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out = []
+    for index, scene in enumerate(scenes):
+        on_screen = float(scene["on_screen"])
+        extra = 0.0 if _hard_cut_after(scenes, index) else TRANSITION
+        out.append({**scene, "clip": round(on_screen + extra, 3)})
+    return out
+
+
 def plan_durations(scenes: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Give every scene an ``on_screen`` (visible) and ``clip`` (encoded) length.
 
-    ``clip`` is longer than ``on_screen`` by one transition, because adjacent
-    clips overlap by that much when the cross-dissolve is applied.
+    Analysis scenes are longer than ``on_screen`` by one transition, because
+    adjacent clips overlap when the cross-dissolve is applied. Hook scenes
+    hard-cut, so their clip length equals the time they occupy.
     """
     planned = []
     for scene in scenes:
-        needed = LEAD_IN + speech_seconds(scene.get("narration", "")) + TAIL
-        floor = MINIMUM_ON_SCREEN.get(scene.get("visualization", ""), DEFAULT_MINIMUM)
-        on_screen = round(min(MAXIMUM_ON_SCREEN, max(floor, needed)), 2)
-        planned.append({**scene, "on_screen": on_screen, "clip": round(on_screen + TRANSITION, 2)})
-    return planned
+        viz = scene.get("visualization", "")
+        if scene.get("hook"):
+            on_screen = float(scene.get("seconds") or MINIMUM_ON_SCREEN.get(viz, 0.7))
+        else:
+            needed = LEAD_IN + speech_seconds(scene.get("narration", "")) + TAIL
+            floor = MINIMUM_ON_SCREEN.get(viz, DEFAULT_MINIMUM)
+            on_screen = min(MAXIMUM_ON_SCREEN, max(floor, needed))
+        planned.append({**scene, "on_screen": round(on_screen, 3)})
+    return _with_clip_lengths(planned)
 
 
 def scale_to_audio(scenes: list[dict[str, Any]], audio_seconds: float | None) -> list[dict[str, Any]]:
-    """Stretch or squeeze scenes so the video ends when the narration does.
+    """Stretch or squeeze analysis scenes so the video ends when the narration does.
 
-    Scenes are scaled in proportion to how much narration they carry, and every
-    scene keeps its animation floor.
+    Hook beats stay at their slam lengths. Only the package after them flexes.
     """
     if not audio_seconds or audio_seconds <= 0 or not scenes:
         return scenes
 
-    target = max(1.0, audio_seconds - TRANSITION)
-    current = sum(scene["on_screen"] for scene in scenes)
-    if current <= 0:
+    rest = [scene for scene in scenes if not scene.get("hook")]
+    hook_time = sum(float(scene["on_screen"]) for scene in scenes if scene.get("hook"))
+    if not rest:
         return scenes
 
+    target = max(1.0, audio_seconds - hook_time)
+    current = sum(float(scene["on_screen"]) for scene in rest)
+    if current <= 0:
+        return scenes
     factor = target / current
     scaled = []
     for scene in scenes:
+        if scene.get("hook"):
+            scaled.append(scene)
+            continue
         floor = MINIMUM_ON_SCREEN.get(scene.get("visualization", ""), DEFAULT_MINIMUM)
-        on_screen = round(max(floor * 0.8, scene["on_screen"] * factor), 2)
-        scaled.append({**scene, "on_screen": on_screen, "clip": round(on_screen + TRANSITION, 2)})
-    return scaled
+        on_screen = round(max(floor * 0.8, float(scene["on_screen"]) * factor), 2)
+        scaled.append({**scene, "on_screen": on_screen})
+    return _with_clip_lengths(scaled)
 
 
 def timeline(scenes: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Absolute start/end times once the cross-dissolves are accounted for."""
+    """Absolute start/end times once cuts and dissolves are accounted for."""
     placed = []
     cursor = 0.0
-    for scene in scenes:
+    for index, scene in enumerate(scenes):
         start = cursor
+        clip = float(scene["clip"])
+        hard_in = index == 0 or scene.get("cut") == "hard"
+        hard_out = _hard_cut_after(scenes, index)
+        pad_in = 0.0 if hard_in else TRANSITION / 2
+        pad_out = 0.0 if hard_out else TRANSITION / 2
         placed.append(
             {
                 **scene,
                 "clip_start": round(start, 3),
-                "clip_end": round(start + scene["clip"], 3),
-                # The window in which this scene, and only this scene, is legible.
-                "visible_start": round(start + TRANSITION / 2, 3),
-                "visible_end": round(start + scene["clip"] - TRANSITION / 2, 3),
+                "clip_end": round(start + clip, 3),
+                "visible_start": round(start + pad_in, 3),
+                "visible_end": round(start + clip - pad_out, 3),
             }
         )
-        cursor += scene["clip"] - TRANSITION
+        cursor += clip if hard_out else clip - TRANSITION
     return placed
 
 
 def total_seconds(scenes: list[dict[str, Any]]) -> float:
     if not scenes:
         return 0.0
-    return round(sum(scene["clip"] for scene in scenes) - TRANSITION * (len(scenes) - 1), 3)
+    return round(float(timeline(scenes)[-1]["clip_end"]), 3)
 
 
 # ---------------------------------------------------------------------------

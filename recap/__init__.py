@@ -17,6 +17,7 @@ Nothing in a lower layer imports from a higher one.
 
 __all__ = [
     "audit",
+    "clips",
     "data",
     "director",
     "draw",

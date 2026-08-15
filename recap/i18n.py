@@ -210,6 +210,45 @@ UI: dict[str, dict[str, str]] = {
         "boundary_et": "ET",
         "peak": "PEAK {block}",
         "build_up": "BUILD-UP",
+        "sub_shot_map": "Every attempt, by outcome",
+        "sub_momentum": "{home} above the line, {away} below",
+        "sub_zone": "Touch volume across eighteen zones",
+        "sub_goalmouth": "Where on-target shots crossed the line",
+        "sub_pass_network": "Average positions and strongest links",
+        "sub_sterile": "Pass share against what it produced",
+        "hook_needed_minutes": "{team} NEEDED {n} MINUTES",
+        "hook_ran_riot": "{team} RAN RIOT",
+        "hook_found_a_way": "{team} FOUND A WAY",
+        "hook_extra_time": "{team} NEEDED EXTRA TIME",
+        "hook_shootout": "{team} SURVIVE THE SHOOTOUT",
+        "hook_goals_take_it": "{n} GOALS, {team} TAKE IT",
+        "hook_nobody_blinked": "NOBODY BLINKED",
+        "hook_honours_even": "HONOURS EVEN AT {score}",
+        "hook_stat_on_target": "{n} ON TARGET",
+        "hook_stat_big_chances": "{n} BIG CHANCES",
+        "hook_stat_shots": "{n} SHOTS",
+        "hook_stat_margin": "{n} GOALS CLEAR",
+        "hook_had_more_shots": "{team} HAD MORE SHOTS.",
+        "hook_had_more_corners": "{team} HAD MORE CORNERS.",
+        "hook_had_more_blocked": "{team} HAD MORE BLOCKED SHOTS.",
+        "hook_had_more_chances": "{team} HAD MORE BIG CHANCES.",
+        "hook_had_more_box": "{team} HAD MORE TOUCHES IN THE BOX.",
+        "hook_had_more_pressure": "{team} HAD MORE PRESSURE.",
+        "hook_more_shots": "MORE SHOTS.",
+        "hook_more_corners": "MORE CORNERS.",
+        "hook_more_blocked": "MORE BLOCKED SHOTS.",
+        "hook_more_chances": "MORE BIG CHANCES.",
+        "hook_more_box": "MORE TOUCHES IN THE BOX.",
+        "hook_more_pressure": "MORE PRESSURE.",
+        "hook_still_lost": "THEY STILL LOST.",
+        "hook_still_level": "IT STILL FINISHED LEVEL.",
+        "hook_nobody_scored": "AND NOBODY SCORED.",
+        "hook_one_moment": "ONE MOMENT DECIDED IT.",
+        "hook_then_it_was_over": "THEN IT WAS OVER.",
+        "hook_turned_late": "THE MATCH TURNED IN THE {n}TH MINUTE.",
+        "hook_had_the_ball": "{team} HAD THE BALL.",
+        "hook_not_the_chances": "NOT THE CHANCES.",
+        "hook_n_shots": "{n} SHOTS.",
     },
     "az": {
         "watermark": "HADİSƏ VERİLƏRİ",
@@ -261,6 +300,45 @@ UI: dict[str, dict[str, str]] = {
         "boundary_et": "ET",
         "peak": "PİK {block}",
         "build_up": "QURULUŞ",
+        "sub_shot_map": "Hər cəhd, nəticəsinə görə",
+        "sub_momentum": "{home} xəttin üstündə, {away} altında",
+        "sub_zone": "On səkkiz zona üzrə toxunuşlar",
+        "sub_goalmouth": "Çərçivəyə zərbələrin keçdiyi yer",
+        "sub_pass_network": "Orta mövqelər və ən güclü əlaqələr",
+        "sub_sterile": "Pas payı və onun nəticəsi",
+        "hook_needed_minutes": "{team} {n} DƏQİQƏYƏ BİTİRDİ",
+        "hook_ran_riot": "{team} DAĞITDI",
+        "hook_found_a_way": "{team} YOL TAPDI",
+        "hook_extra_time": "{team} ƏLAVƏ VAXT LAZIM OLDU",
+        "hook_shootout": "{team} PENALTİLƏRDƏ QALİB",
+        "hook_goals_take_it": "{n} QOL, {team} APARIR",
+        "hook_nobody_blinked": "HEÇ KİM GERİ ÇƏKİLMƏDİ",
+        "hook_honours_even": "HESAB BƏRABƏR: {score}",
+        "hook_stat_on_target": "{n} ÇƏRÇİVƏYƏ",
+        "hook_stat_big_chances": "{n} BÖYÜK ŞANS",
+        "hook_stat_shots": "{n} ZƏRBƏ",
+        "hook_stat_margin": "{n} QOL FƏRQİ",
+        "hook_had_more_shots": "{team} DAHA ÇOX ZƏRBƏ ENDİRDİ.",
+        "hook_had_more_corners": "{team} DAHA ÇOX KÜNC VURDU.",
+        "hook_had_more_blocked": "{team} DAHA ÇOX BLOKLANAN ZƏRBƏSİ VARDI.",
+        "hook_had_more_chances": "{team} DAHA ÇOX BÖYÜK ŞANSI VARDI.",
+        "hook_had_more_box": "{team} CƏRİMƏDƏ DAHA ÇOX TOXUNDU.",
+        "hook_had_more_pressure": "{team} DAHA ÇOX TƏZYİQ GÖSTƏRDİ.",
+        "hook_more_shots": "DAHA ÇOX ZƏRBƏ.",
+        "hook_more_corners": "DAHA ÇOX KÜNC.",
+        "hook_more_blocked": "DAHA ÇOX BLOKLANAN ZƏRBƏ.",
+        "hook_more_chances": "DAHA ÇOX BÖYÜK ŞANS.",
+        "hook_more_box": "CƏRİMƏDƏ DAHA ÇOX TOXUNUŞ.",
+        "hook_more_pressure": "DAHA ÇOX TƏZYİQ.",
+        "hook_still_lost": "YENƏ UDUZDULAR.",
+        "hook_still_level": "YENƏ HESAB BƏRABƏR QALDI.",
+        "hook_nobody_scored": "VƏ HEÇ KİM QOL VURMADI.",
+        "hook_one_moment": "BİR AN QƏRAR VERDİ.",
+        "hook_then_it_was_over": "SONRA HƏR ŞEY BİTDİ.",
+        "hook_turned_late": "OYUN {n}-Cİ DƏQİQƏDƏ DÖNDÜ.",
+        "hook_had_the_ball": "{team} TOPA SAHİB İDİ.",
+        "hook_not_the_chances": "ŞANSLARA YOX.",
+        "hook_n_shots": "{n} ZƏRBƏ.",
     },
     "es": {
         "watermark": "DATOS DE EVENTOS",
@@ -312,6 +390,45 @@ UI: dict[str, dict[str, str]] = {
         "boundary_et": "ET",
         "peak": "PICO {block}",
         "build_up": "JUGADA",
+        "sub_shot_map": "Cada intento, por resultado",
+        "sub_momentum": "{home} por encima, {away} por debajo",
+        "sub_zone": "Toques en dieciocho zonas",
+        "sub_goalmouth": "Dónde cruzaron la línea los tiros a puerta",
+        "sub_pass_network": "Posiciones medias y enlaces más fuertes",
+        "sub_sterile": "Cuota de pases frente a lo que produjo",
+        "hook_needed_minutes": "{team} LO CERRÓ EN {n} MINUTOS",
+        "hook_ran_riot": "{team} ARRASÓ",
+        "hook_found_a_way": "{team} ENCONTRÓ EL CAMINO",
+        "hook_extra_time": "{team} NECESITÓ LA PRÓRROGA",
+        "hook_shootout": "{team} SUPERÓ LOS PENALTIS",
+        "hook_goals_take_it": "{n} GOLES, {team} SE LO LLEVA",
+        "hook_nobody_blinked": "NADIE PARPADEÓ",
+        "hook_honours_even": "EMPATE A {score}",
+        "hook_stat_on_target": "{n} A PUERTA",
+        "hook_stat_big_chances": "{n} GRANDES OCASIONES",
+        "hook_stat_shots": "{n} TIROS",
+        "hook_stat_margin": "{n} GOLES DE MARGEN",
+        "hook_had_more_shots": "{team} TUVO MÁS TIROS.",
+        "hook_had_more_corners": "{team} TUVO MÁS CÓRNERS.",
+        "hook_had_more_blocked": "{team} TUVO MÁS TIROS BLOQUEADOS.",
+        "hook_had_more_chances": "{team} TUVO MÁS GRANDES OCASIONES.",
+        "hook_had_more_box": "{team} TOCÓ MÁS EN EL ÁREA.",
+        "hook_had_more_pressure": "{team} TUVO MÁS PRESIÓN.",
+        "hook_more_shots": "MÁS TIROS.",
+        "hook_more_corners": "MÁS CÓRNERS.",
+        "hook_more_blocked": "MÁS TIROS BLOQUEADOS.",
+        "hook_more_chances": "MÁS GRANDES OCASIONES.",
+        "hook_more_box": "MÁS TOQUES EN EL ÁREA.",
+        "hook_more_pressure": "MÁS PRESIÓN.",
+        "hook_still_lost": "AUN ASÍ PERDIERON.",
+        "hook_still_level": "AUN ASÍ TERMINÓ EN EMPATE.",
+        "hook_nobody_scored": "Y NADIE MARCÓ.",
+        "hook_one_moment": "UN MOMENTO LO DECIDIÓ.",
+        "hook_then_it_was_over": "Y SE ACABÓ.",
+        "hook_turned_late": "EL PARTIDO GIRÓ EN EL MINUTO {n}.",
+        "hook_had_the_ball": "{team} TUVO EL BALÓN.",
+        "hook_not_the_chances": "NO LAS OCASIONES.",
+        "hook_n_shots": "{n} TIROS.",
     },
     "ru": {
         "watermark": "СОБЫТИЙНЫЕ ДАННЫЕ",
@@ -363,6 +480,45 @@ UI: dict[str, dict[str, str]] = {
         "boundary_et": "ET",
         "peak": "ПИК {block}",
         "build_up": "РОЗЫГРЫШ",
+        "sub_shot_map": "Каждый удар — по исходу",
+        "sub_momentum": "{home} выше линии, {away} ниже",
+        "sub_zone": "Касания по восемнадцати зонам",
+        "sub_goalmouth": "Где удары в створ пересекли линию",
+        "sub_pass_network": "Средние позиции и сильные связи",
+        "sub_sterile": "Доля передач и что из этого вышло",
+        "hook_needed_minutes": "{team} РЕШИЛИ ЗА {n} МИНУТ",
+        "hook_ran_riot": "{team} УСТРОИЛИ РАЗГРОМ",
+        "hook_found_a_way": "{team} НАШЛИ СПОСОБ",
+        "hook_extra_time": "{team} ПОНАДОБИЛОСЬ ДОП. ВРЕМЯ",
+        "hook_shootout": "{team} ВЫСТОЯЛИ В ПЕНАЛЬТИ",
+        "hook_goals_take_it": "{n} ГОЛОВ, {team} ЗАБИРАЮТ",
+        "hook_nobody_blinked": "НИКТО НЕ МОРГНУЛ",
+        "hook_honours_even": "НИЧЬЯ {score}",
+        "hook_stat_on_target": "{n} В СТВОР",
+        "hook_stat_big_chances": "{n} ОСТРЫХ МОМЕНТОВ",
+        "hook_stat_shots": "{n} УДАРОВ",
+        "hook_stat_margin": "{n} ГОЛА РАЗНИЦЫ",
+        "hook_had_more_shots": "У {team} БОЛЬШЕ УДАРОВ.",
+        "hook_had_more_corners": "У {team} БОЛЬШЕ УГЛОВЫХ.",
+        "hook_had_more_blocked": "У {team} БОЛЬШЕ ЗАБЛОКИРОВАННЫХ УДАРОВ.",
+        "hook_had_more_chances": "У {team} БОЛЬШЕ ОСТРЫХ МОМЕНТОВ.",
+        "hook_had_more_box": "У {team} БОЛЬШЕ КАСАНИЙ В ШТРАФНОЙ.",
+        "hook_had_more_pressure": "У {team} БОЛЬШЕ ДАВЛЕНИЯ.",
+        "hook_more_shots": "БОЛЬШЕ УДАРОВ.",
+        "hook_more_corners": "БОЛЬШЕ УГЛОВЫХ.",
+        "hook_more_blocked": "БОЛЬШЕ БЛОКОВ.",
+        "hook_more_chances": "БОЛЬШЕ ОСТРЫХ МОМЕНТОВ.",
+        "hook_more_box": "БОЛЬШЕ КАСАНИЙ В ШТРАФНОЙ.",
+        "hook_more_pressure": "БОЛЬШЕ ДАВЛЕНИЯ.",
+        "hook_still_lost": "И ВСЁ РАВНО ПРОИГРАЛИ.",
+        "hook_still_level": "И ВСЁ РАВНО НИЧЬЯ.",
+        "hook_nobody_scored": "И НИКТО НЕ ЗАБИЛ.",
+        "hook_one_moment": "ОДИН МОМЕНТ ВСЁ РЕШИЛ.",
+        "hook_then_it_was_over": "И ВСЁ ЗАКОНЧИЛОСЬ.",
+        "hook_turned_late": "МАТЧ ПЕРЕЛОМИЛСЯ НА {n}-Й МИНУТЕ.",
+        "hook_had_the_ball": "МЯЧ БЫЛ У {team}.",
+        "hook_not_the_chances": "МОМЕНТОВ — НЕТ.",
+        "hook_n_shots": "{n} УДАРОВ.",
     },
 }
 
@@ -384,6 +540,7 @@ _OFFLINE_LINES: dict[str, dict[str, str]] = {
         "CONTROL VS THREAT": "NƏZARƏT VƏ TƏHLÜKƏ",
         "EVENT DATA": "HADİSƏ VERİLƏRİ",
         "MATCH RECAP": "MATÇ XÜLASƏSİ",
+        "MATCH RESULT": "OYUN NƏTİCƏSİ",
         "THE GOAL TIMELINE": "QOL XRONOLOGİYASI",
         "THE NUMBERS SPLIT DOWN THE MIDDLE": "RƏQƏMLƏR ORTADA BÖLÜNDÜ",
         "THE MOVE BEFORE THE GOAL": "QOLDAN ƏVVƏLKİ HƏRƏKƏT",
@@ -429,6 +586,7 @@ _OFFLINE_LINES: dict[str, dict[str, str]] = {
         "CONTROL VS THREAT": "CONTROL VS AMENAZA",
         "EVENT DATA": "DATOS DE EVENTOS",
         "MATCH RECAP": "RESUMEN DEL PARTIDO",
+        "MATCH RESULT": "RESULTADO",
         "THE GOAL TIMELINE": "CRONOLOGÍA DE GOLES",
         "THE NUMBERS SPLIT DOWN THE MIDDLE": "LOS NÚMEROS SE PARTEN A LA MITAD",
         "THE MOVE BEFORE THE GOAL": "LA JUGADA ANTES DEL GOL",
@@ -473,6 +631,7 @@ _OFFLINE_LINES: dict[str, dict[str, str]] = {
         "CONTROL VS THREAT": "КОНТРОЛЬ И УГРОЗА",
         "EVENT DATA": "СОБЫТИЙНЫЕ ДАННЫЕ",
         "MATCH RECAP": "ОБЗОР МАТЧА",
+        "MATCH RESULT": "РЕЗУЛЬТАТ МАТЧА",
         "THE GOAL TIMELINE": "ХРОНОЛОГИЯ ГОЛОВ",
         "THE NUMBERS SPLIT DOWN THE MIDDLE": "ЦИФРЫ РАЗДЕЛИЛИСЬ ПОРОВНУ",
         "THE MOVE BEFORE THE GOAL": "АТАКА ПЕРЕД ГОЛОМ",
@@ -637,6 +796,16 @@ def offline_line(text: str, *, lang: str | None = None) -> str:
             "es": "EMPATE A {name}",
             "ru": "НИЧЬЯ {name}",
         }),
+        (r"^(.+) above the line, (.+) below$", {
+            "az": "{name} xəttin üstündə, {other} altında",
+            "es": "{name} por encima, {other} por debajo",
+            "ru": "{name} выше линии, {other} ниже",
+        }),
+        (r"^(.+) NEEDED (\d+) MINUTES$", {
+            "az": "{name} {n} DƏQİQƏYƏ BİTİRDİ",
+            "es": "{name} LO CERRÓ EN {n} MINUTOS",
+            "ru": "{name} РЕШИЛИ ЗА {n} МИНУТ",
+        }),
     ]
     for pattern, by_lang in patterns:
         match = re.match(pattern, text, flags=re.IGNORECASE)
@@ -646,10 +815,61 @@ def offline_line(text: str, *, lang: str | None = None) -> str:
         if not template:
             return text
         groups = match.groups()
+        mapping = {"name": groups[0]}
+        if len(groups) >= 2:
+            mapping["other"] = groups[1]
+            mapping["n"] = groups[1]
         if "{n}" in template and len(groups) >= 2:
-            return template.format(n=groups[0], name=groups[1])
+            return template.format(**mapping)
+        if "{other}" in template and len(groups) >= 2:
+            return template.format(**mapping)
         return template.format(name=groups[0])
     return text
+
+
+_ENGLISH_LEFTOVER = re.compile(
+    r"\b(against|above the line|pass share|every attempt|touch volume|"
+    r"average positions|what it produced|on.target|eighteen zones|"
+    r"strongest links|the keeper|match result|match recap|full time|"
+    r"the baseline|every goal|shot map|where on-target)\b",
+    re.IGNORECASE,
+)
+
+
+def looks_english(text: str) -> bool:
+    """True when a public string still contains leftover English template copy."""
+    if not text:
+        return False
+    return bool(_ENGLISH_LEFTOVER.search(text))
+
+
+def scrub_english_leftovers(scenes: list[dict[str, Any]], language: str) -> list[dict[str, Any]]:
+    """Hide or translate English chrome that leaked under a localized headline.
+
+    Gemini often rewrites the title and leaves the English subtitle behind.
+    An untranslated line under an Azerbaijani headline reads like debug text.
+    """
+    code = normalize_language(language)
+    if code == "en":
+        return scenes
+    out = []
+    for scene in scenes:
+        updated = dict(scene)
+        hook = bool(updated.get("hook"))
+        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat"):
+            value = str(updated.get(field) or "")
+            if not value:
+                continue
+            translated = offline_line(value, lang=code)
+            if translated != value:
+                updated[field] = translated
+                continue
+            if looks_english(value) and not hook:
+                updated[field] = "" if field in ("subtitle", "kicker", "hook_stat") else value
+        if isinstance(updated.get("lines"), list):
+            updated["lines"] = [offline_line(str(item), lang=code) for item in updated["lines"]]
+        out.append(updated)
+    return out
 
 
 def localize_scenes_offline(scenes: list[dict[str, Any]], language: str) -> list[dict[str, Any]]:
@@ -659,11 +879,13 @@ def localize_scenes_offline(scenes: list[dict[str, Any]], language: str) -> list
     out = []
     for scene in scenes:
         updated = dict(scene)
-        for field in ("kicker", "title", "subtitle", "insight", "narration"):
+        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat"):
             value = str(updated.get(field) or "")
             if not value:
                 continue
             updated[field] = offline_line(value, lang=code)
+        if isinstance(updated.get("lines"), list):
+            updated["lines"] = [offline_line(str(item), lang=code) for item in updated["lines"]]
         # Closing / title kickers that are score qualifiers.
         if updated.get("kicker") in ("AFTER EXTRA TIME", "ON PENALTIES", "FULL TIME"):
             mapping = {
@@ -690,5 +912,5 @@ def localize_scenes(
         if translated:
             from .director import apply_script
 
-            return apply_script(scenes, translated), "gemini"
-    return localize_scenes_offline(scenes, code), "offline"
+            return scrub_english_leftovers(apply_script(scenes, translated), code), "gemini"
+    return scrub_english_leftovers(localize_scenes_offline(scenes, code), code), "offline"

@@ -147,6 +147,10 @@ def copy_problems(scenes: list[dict[str, Any]], audit: dict[str, Any]) -> list[s
                     continue
                 if re.search(pattern, text, flags=re.IGNORECASE):
                     problems.append(f"{scene.get('id', '?')}.{field} uses {reason}: {text[:70]!r}")
+            if scene.get("hook") and _SCORELINE.search(text):
+                problems.append(
+                    f"{scene.get('id', '?')}.{field} spoils the score in the hook: {text[:70]!r}"
+                )
     return problems
 
 
@@ -295,32 +299,201 @@ def _ordinal(minute: int) -> str:
     return f"{minute}{suffix}"
 
 
-def _headline_copy(bundle: MatchBundle, audit: dict[str, Any]) -> tuple[str, str]:
-    """Return (title, insight) for the opening card."""
+_SCORELINE = re.compile(r"\b\d+\s*[-–:/]\s*\d+\b")
+_ARTICLES = {"fc", "cf", "afc", "the", "de", "cd", "sc", "ac"}
+
+
+def hook_team_name(name: str) -> str:
+    """Short enough to scream in 72pt. 'Aston Villa' becomes VILLA."""
+    raw = (name or "").strip()
+    if len(raw) <= 10:
+        return raw.upper()
+    parts = [part for part in re.split(r"\s+", raw) if part.lower() not in _ARTICLES]
+    return (parts[-1] if parts else raw).upper()
+
+
+def _pressure_totals(audit: dict[str, Any]) -> tuple[float, float]:
+    rows = audit.get("momentum") or []
+    return (
+        sum(float(row.get("home_pressure") or 0) for row in rows),
+        sum(float(row.get("away_pressure") or 0) for row in rows),
+    )
+
+
+def build_hook(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, Any]:
+    """The opening contradiction, built only from audited counts.
+
+    Card one is the mismatch. Card two is the outcome without the score.
+    The score itself is reserved for the closing payoff.
+    """
+    context = result_context(bundle, audit)
+    stats = audit["team_stats"]
+    home_stats = stats.get(bundle.home, {})
+    away_stats = stats.get(bundle.away, {})
+    home_p, away_p = _pressure_totals(audit)
+    winner = context["winner"]
+    loser = context["loser"]
+    matchup = f"{bundle.home} — {bundle.away}"
+
+    def pack(lines: list[str], punch: str, narration: str, kind: str) -> dict[str, Any]:
+        clean_lines = [line for line in lines if line][:3]
+        if not clean_lines:
+            clean_lines = [matchup]
+        return {
+            "kind": kind,
+            "matchup": matchup,
+            "lines": clean_lines,
+            "punch": punch,
+            "narration_claim": " ".join(clean_lines),
+            "narration_punch": punch.rstrip("."),
+            "seconds_claim": 0.85,
+            "seconds_punch": 0.70,
+        }
+
+    volume = [
+        ("shots", "hook_had_more_shots", "hook_more_shots", int(home_stats.get("shots") or 0), int(away_stats.get("shots") or 0)),
+        ("corners", "hook_had_more_corners", "hook_more_corners", int(home_stats.get("corners") or 0), int(away_stats.get("corners") or 0)),
+        ("shots_blocked", "hook_had_more_blocked", "hook_more_blocked", int(home_stats.get("shots_blocked") or 0), int(away_stats.get("shots_blocked") or 0)),
+        ("big_chances", "hook_had_more_chances", "hook_more_chances", int(home_stats.get("big_chances") or 0), int(away_stats.get("big_chances") or 0)),
+        ("penalty_box_touches", "hook_had_more_box", "hook_more_box", int(home_stats.get("penalty_box_touches") or 0), int(away_stats.get("penalty_box_touches") or 0)),
+    ]
+    # Pressure is a derived index, not a public box-score row. Only say it when
+    # the loser clearly led the curve — never as a synonym for possession.
+    if loser == bundle.home:
+        pressure_lead = home_p > away_p * 1.05
+        lead_side = bundle.home
+    elif loser == bundle.away:
+        pressure_lead = away_p > home_p * 1.05
+        lead_side = bundle.away
+    else:
+        pressure_lead = False
+        lead_side = ""
+
+    if winner and loser:
+        loser_stats = context["loser_stats"]
+        winner_stats = context["winner_stats"]
+        short = hook_team_name(loser)
+        edges: list[str] = []
+        for key, first_key, more_key, _home_n, _away_n in volume:
+            loser_n = int(loser_stats.get(key) or 0)
+            winner_n = int(winner_stats.get(key) or 0)
+            if loser_n > winner_n:
+                if not edges:
+                    edges.append(i18n.t(first_key, team=short))
+                else:
+                    edges.append(i18n.t(more_key))
+        if pressure_lead and lead_side == loser:
+            if not edges:
+                edges.append(i18n.t("hook_had_more_pressure", team=short))
+            elif len(edges) < 3:
+                edges.append(i18n.t("hook_more_pressure"))
+        if len(edges) >= 2:
+            punch = i18n.t("hook_still_lost")
+            narration = f"{' '.join(edges)} {punch}"
+            return pack(edges, punch, narration, "volume_upset")
+
+        # Winner had the ball; loser had the chances — still an upset, just inverted.
+        loser_shots = int(loser_stats.get("shots") or 0)
+        winner_share = float(winner_stats.get("pass_share_pct") or 0)
+        loser_share = float(loser_stats.get("pass_share_pct") or 0)
+        if loser_shots > int(winner_stats.get("shots") or 0) and winner_share > loser_share + 4:
+            lines = [
+                i18n.t("hook_had_the_ball", team=hook_team_name(winner)),
+                i18n.t("hook_not_the_chances"),
+            ]
+            return pack(lines, i18n.t("hook_still_lost"), "", "sterile_upset")
+
+        timeline = audit.get("goal_timeline") or []
+        last = timeline[-1] if timeline else None
+        if last and last.get("team") == winner:
+            minute = int(last.get("minute") or 0)
+            lines = [i18n.t("hook_turned_late", n=minute)] if minute >= 55 else [i18n.t("hook_one_moment")]
+            return pack(lines, i18n.t("hook_then_it_was_over"), "", "late_turn")
+        return pack([i18n.t("hook_one_moment")], i18n.t("hook_then_it_was_over"), "", "one_moment")
+
+    total_shots = int(home_stats.get("shots") or 0) + int(away_stats.get("shots") or 0)
+    if context["total_goals"] == 0 and total_shots:
+        return pack(
+            [i18n.t("hook_n_shots", n=total_shots)],
+            i18n.t("hook_nobody_scored"),
+            "",
+            "stalemate",
+        )
+    return pack(
+        [matchup.upper()],
+        i18n.t("hook_still_level"),
+        "",
+        "level",
+    )
+
+
+def _hook_stat(bundle: MatchBundle, audit: dict[str, Any]) -> str:
+    """One number worth putting on frame one."""
+    context = result_context(bundle, audit)
+    stats = context["winner_stats"] or audit["team_stats"].get(bundle.home, {})
+    on_target = int(stats.get("shots_on_target") or 0)
+    big = int(stats.get("big_chances") or 0)
+    shots = int(stats.get("shots") or 0)
+    if context["margin"] >= 3:
+        return i18n.t("hook_stat_margin", n=context["margin"])
+    if big >= 3:
+        return i18n.t("hook_stat_big_chances", n=big)
+    if on_target >= 4:
+        return i18n.t("hook_stat_on_target", n=on_target)
+    if shots:
+        return i18n.t("hook_stat_shots", n=shots)
+    return ""
+
+
+def _headline_copy(bundle: MatchBundle, audit: dict[str, Any]) -> tuple[str, str, str]:
+    """Return (title, insight, hook_stat) for the opening card.
+
+    The kicker on this card is the score itself. The title has to land as a
+    claim in the first second, not a polite competition label.
+    """
     context = result_context(bundle, audit)
     score = bundle.score
     winner = context["winner"]
     stats = audit["team_stats"]
+    hook = _hook_stat(bundle, audit)
+    timeline = audit.get("goal_timeline") or []
+    first = timeline[0] if timeline else None
+    first_minute = int(first["minute"]) if first and first.get("minute") is not None else None
 
     if winner:
         winner_stats = context["winner_stats"]
         if score.after_shootout:
-            return f"{winner.upper()} SURVIVE THE SHOOTOUT", "Level after 120 minutes, settled from the spot."
+            return i18n.t("hook_shootout", team=winner.upper()), "Level after 120 minutes, settled from the spot.", hook
         if score.after_extra_time:
-            return f"{winner.upper()} NEEDED EXTRA TIME", "Ninety minutes could not separate them."
+            return i18n.t("hook_extra_time", team=winner.upper()), "Ninety minutes could not separate them.", hook
+        if first_minute is not None and first_minute <= 12 and first.get("team") == winner:
+            return (
+                i18n.t("hook_needed_minutes", team=winner.upper(), n=first_minute),
+                f"{winner} scored in the {_ordinal(first_minute)} minute and never looked back.",
+                hook,
+            )
         if score.margin >= 3:
-            return f"{winner.upper()} RAN RIOT", f"{score.margin} goals of daylight by the final whistle."
+            return (
+                i18n.t("hook_ran_riot", team=winner.upper()),
+                f"{score.margin} goals of daylight by the final whistle.",
+                hook,
+            )
         if score.total_goals >= 4:
-            return f"{score.total_goals} GOALS, {winner.upper()} TAKE IT", "A shootout of a match, decided in open play."
+            return (
+                i18n.t("hook_goals_take_it", n=score.total_goals, team=winner.upper()),
+                "A shootout of a match, decided in open play.",
+                hook,
+            )
         return (
-            f"{winner.upper()} FOUND A WAY",
+            i18n.t("hook_found_a_way", team=winner.upper()),
             f"{winner_stats.get('shots_on_target', 0)} shots on target turned into the win.",
+            hook,
         )
 
     if score.total_goals == 0:
         total_shots = sum(team.get("shots", 0) for team in stats.values())
-        return "NOBODY BLINKED", f"{total_shots} attempts and not one of them counted."
-    return f"HONOURS EVEN AT {score.display}", "Two teams, two answers, one point each."
+        return i18n.t("hook_nobody_blinked"), f"{total_shots} attempts and not one of them counted.", hook
+    return i18n.t("hook_honours_even", score=score.display), "Two teams, two answers, one point each.", hook
 
 
 def _stats_copy(bundle: MatchBundle, audit: dict[str, Any]) -> tuple[str, str]:
@@ -354,8 +527,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         if first and last and len(timeline) > 1:
             narration = (
                 f"{surname(first)} opened it in the {_ordinal(first['minute'])} minute. "
-                f"{len(timeline)} goals later it finished {last['score_after']}, "
-                f"{surname(last)} having the final say in the {_ordinal(last['minute'])}."
+                f"{len(timeline)} goals later, {surname(last)} had the last word "
+                f"in the {_ordinal(last['minute'])}."
             )
         elif first:
             narration = (
@@ -379,7 +552,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         return {
             "kicker": "SHOT MAP",
             "title": f"{leader.upper()} KEPT TESTING THE KEEPER",
-            "subtitle": "Every attempt, by outcome",
+            "subtitle": i18n.t("sub_shot_map"),
             "insight": (
                 f"{home['shots']} against {away['shots']} shots, "
                 f"{home['shots_on_target']} against {away['shots_on_target']} on target."
@@ -398,7 +571,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         return {
             "kicker": "PRESSURE",
             "title": _momentum_title(audit),
-            "subtitle": f"{bundle.home} above the line, {bundle.away} below",
+            "subtitle": i18n.t("sub_momentum", home=bundle.home, away=bundle.away),
             "insight": (
                 f"The heaviest spell fell to {leader} between minutes {peak['minute_block']}."
                 if peak else "Pressure stayed level throughout."
@@ -419,7 +592,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         return {
             "kicker": "TERRITORY",
             "title": _zone_title(bundle, audit),
-            "subtitle": "Touch volume across eighteen zones",
+            "subtitle": i18n.t("sub_zone"),
             "insight": f"{leader} touched the ball in more of the dangerous grid than anyone else.",
             "narration": (
                 f"Every touch, dropped into eighteen zones. The colour of each cell is whoever "
@@ -461,7 +634,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         return {
             "kicker": "THE FRAME",
             "title": f"{keeper_side.upper()} HAD WORK TO DO",
-            "subtitle": "Where on-target shots crossed the line",
+            "subtitle": i18n.t("sub_goalmouth"),
             "insight": f"{faced} shots at the frame, {keeper_stats['saves']} of them saved.",
             "narration": (
                 f"This is the goal frame, split into the six zones a keeper has to protect. "
@@ -476,7 +649,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         return {
             "kicker": "PASS NETWORK",
             "title": f"HOW {leader.upper()} MOVED THE BALL",
-            "subtitle": "Average positions and strongest links",
+            "subtitle": i18n.t("sub_pass_network"),
             "insight": f"{leader_stats['passes_completed']} completed passes at {leader_stats['pass_accuracy_pct']:.0f}% accuracy.",
             "narration": (
                 f"{leader} completed {leader_stats['passes_completed']} passes. Each circle sits at a "
@@ -492,7 +665,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         return {
             "kicker": "CONTROL VS THREAT",
             "title": f"{leader.upper()} HAD THE BALL",
-            "subtitle": "Pass share against what it produced",
+            "subtitle": i18n.t("sub_sterile"),
             "insight": (
                 f"{leader_stats['pass_share_pct']:.0f}% of the passing, "
                 f"{leader_stats['shots_on_target']} shots on target to show for it."
@@ -583,49 +756,88 @@ def build_storyboard(
     bundle: MatchBundle,
     audit: dict[str, Any],
     selected: list[dict[str, Any]],
+    clip_beats: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
-    """The deterministic script. Every string here comes from the audit."""
-    score = bundle.score
-    title, title_insight = _headline_copy(bundle, audit)
-    stats_title, stats_insight = _stats_copy(bundle, audit)
-    stat_keys = pick_stat_rows(bundle, audit)
+    """The deterministic script. Every string here comes from the audit.
 
-    scenes: list[dict[str, Any]] = [
-        {
-            "id": "title",
-            "visualization": "title",
-            "kicker": bundle.competition_line().upper() or i18n.t("match_recap"),
-            "title": title,
-            "subtitle": "",
-            "insight": title_insight,
-            "narration": (
-                f"{bundle.home} {score.home}, {bundle.away} {score.away}"
-                + (f", {score.qualifier.lower()}" if score.qualifier else "")
-                + f". {title_insight}"
-            ),
-        },
-        {
-            "id": "standard_stats",
-            "visualization": "standard_stats",
-            "kicker": i18n.t("the_baseline"),
-            "title": stats_title,
-            "subtitle": "",
-            "insight": stats_insight,
-            "stat_keys": stat_keys,
-            "narration": (
-                f"Start with the baseline. {stats_insight} "
-                f"Pass share was {audit['team_stats'][bundle.home]['pass_share_pct']:.0f} to "
-                f"{audit['team_stats'][bundle.away]['pass_share_pct']:.0f}."
-            ),
-        },
-    ]
+    The open is a contradiction, not the score. The score is the last card.
+    """
+    hook = build_hook(bundle, audit)
+    matchup = hook["matchup"]
+    scenes: list[dict[str, Any]] = []
 
-    for item in selected:
+    for index, beat in enumerate(clip_beats or [], 1):
+        scenes.append(
+            {
+                "id": f"live_clip_{index}",
+                "visualization": "live_clip",
+                "hook": True,
+                "cut": "hard",
+                "seconds": float(beat["duration"]),
+                "clip_path": beat["path"],
+                "clip_offset": float(beat["start"]),
+                "kicker": matchup,
+                "title": str(beat.get("label") or matchup),
+                "subtitle": "",
+                "insight": "",
+                "narration": "",
+                "lines": [],
+            }
+        )
+
+    claim_lines = list(hook["lines"])
+    scenes.append(
+        {
+            "id": "hook_claim",
+            "visualization": "hook_claim",
+            "hook": True,
+            "cut": "hard",
+            "seconds": hook["seconds_claim"],
+            "kicker": matchup,
+            "title": claim_lines[0],
+            "subtitle": claim_lines[1] if len(claim_lines) > 1 else "",
+            "insight": claim_lines[2] if len(claim_lines) > 2 else "",
+            "lines": claim_lines,
+            "narration": hook["narration_claim"],
+        }
+    )
+    scenes.append(
+        {
+            "id": "hook_punch",
+            "visualization": "hook_punch",
+            "hook": True,
+            "cut": "hard",
+            "seconds": hook["seconds_punch"],
+            "kicker": matchup,
+            "title": hook["punch"],
+            "subtitle": "",
+            "insight": "",
+            "lines": [hook["punch"]],
+            "narration": hook["narration_punch"],
+        }
+    )
+
+    for index, item in enumerate(selected):
         copy = _visual_copy(bundle, audit, item["id"])
-        scenes.append({"id": item["id"], "visualization": item["id"], **copy})
+        scenes.append(
+            {
+                "id": item["id"],
+                "visualization": item["id"],
+                "cut": "hard" if index == 0 else "fade",
+                **copy,
+            }
+        )
 
     closing = _closing_copy(bundle, audit)
-    scenes.append({"id": "close", "visualization": "close", "stat_keys": stat_keys[:4], **closing})
+    scenes.append(
+        {
+            "id": "close",
+            "visualization": "close",
+            "cut": "fade",
+            "stat_keys": pick_stat_rows(bundle, audit)[:4],
+            **closing,
+        }
+    )
     return scenes
 
 
@@ -736,12 +948,16 @@ class Gemini:
         lang = i18n.normalize_language(language)
         lang_name = i18n.language_name(lang)
         language_rule = (
-            "Write in plain English. No hashtags, no emoji, no 'in this video'."
+                "Write in plain English. No hashtags, no emoji, no 'in this video'. "
+                "The hook already ran. Do not repeat the score until the closing card."
             if lang == "en"
             else (
                 f"Write ALL kicker/title/subtitle/insight/narration fields in {lang_name} "
                 f"(language code `{lang}`). Keep team names, player surnames and digits unchanged. "
-                "Do not mix English into the copy except for those proper nouns and numbers."
+                "Do not mix English into the copy except for those proper nouns and numbers. "
+                "Never leave an English subtitle under a translated title — use an empty "
+                "subtitle rather than leftover English. Do not mention the score until the "
+                "closing card."
             )
         )
         payload = {
@@ -759,6 +975,8 @@ class Gemini:
                 "kicker is a tiny label above the title; under 22 characters.",
                 "insight is one short sentence shown at the bottom of the frame; under 70 characters.",
                 "Every scene needs a DIFFERENT insight. Do not repeat a line across scenes.",
+                "Do not open any analysis scene with the scoreline. The score is the closing payoff only.",
+                "Never write a score such as 2-1 on hook_claim, hook_punch or live_clip scenes.",
                 language_rule,
             ],
             "language": lang,
@@ -773,6 +991,7 @@ class Gemini:
                     "current_narration": scene.get("narration", ""),
                 }
                 for scene in scenes
+                if not scene.get("hook")
             ],
             "response_schema": {
                 "scenes": [
@@ -819,6 +1038,7 @@ class Gemini:
                 "Preserve team names and player names exactly as written.",
                 "Never invent statistics. Never say possession, xG or xGOT.",
                 "title under 34 characters; kicker under 22; insight under 70.",
+                "On the title scene, keep the kicker as the score and leave subtitle empty.",
                 "Keep the tone sharp and analytical, not marketing copy.",
                 "Return one object per input scene id.",
             ],
@@ -885,6 +1105,73 @@ def _extract_json(raw: str) -> str:
     return text
 
 
+_POLITE_TITLE = re.compile(
+    r"\b("
+    r"match result|match recap|full[- ]?time|oyun n[əe]tic[əe]si|mat[cç] x[üu]las|"
+    r"resultado( del partido)?|результат( матча)?"
+    r")\b",
+    re.IGNORECASE,
+)
+
+
+def _is_polite_title(text: str, bundle: MatchBundle) -> bool:
+    """True when a title is a competition/result label, not a claim."""
+    raw = (text or "").strip()
+    if not raw:
+        return True
+    if _POLITE_TITLE.search(raw):
+        return True
+    compact = re.sub(r"[^a-z0-9]+", "", raw.lower())
+    vs = re.sub(r"[^a-z0-9]+", "", f"{bundle.home}vs{bundle.away}".lower())
+    return bool(vs) and compact == vs
+
+
+def lock_hook_cards(
+    scenes: list[dict[str, Any]],
+    bundle: MatchBundle,
+    audit: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Keep the open on the contradiction. Gemini must not leak the score."""
+    hook = build_hook(bundle, audit)
+    locked = []
+    for scene in scenes:
+        updated = dict(scene)
+        viz = scene.get("visualization")
+        if viz == "hook_claim":
+            lines = list(hook["lines"])
+            updated["kicker"] = hook["matchup"]
+            updated["lines"] = lines
+            updated["title"] = lines[0] if lines else hook["matchup"]
+            updated["subtitle"] = lines[1] if len(lines) > 1 else ""
+            updated["insight"] = lines[2] if len(lines) > 2 else ""
+            if _SCORELINE.search(str(updated.get("narration") or "")):
+                updated["narration"] = hook["narration_claim"]
+        elif viz == "hook_punch":
+            updated["kicker"] = hook["matchup"]
+            updated["title"] = hook["punch"]
+            updated["subtitle"] = ""
+            updated["insight"] = ""
+            updated["lines"] = [hook["punch"]]
+            if _SCORELINE.search(str(updated.get("narration") or "")):
+                updated["narration"] = hook["narration_punch"]
+        elif viz == "live_clip":
+            updated["kicker"] = hook["matchup"]
+            if _SCORELINE.search(str(updated.get("title") or "")):
+                updated["title"] = hook["matchup"]
+            updated["subtitle"] = ""
+        locked.append(updated)
+    return locked
+
+
+def lock_title_card(
+    scenes: list[dict[str, Any]],
+    bundle: MatchBundle,
+    audit: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Back-compat alias. The opener is no longer a score title card."""
+    return lock_hook_cards(scenes, bundle, audit)
+
+
 def apply_script(
     scenes: list[dict[str, Any]],
     overrides: dict[str, dict[str, str]],
@@ -896,12 +1183,18 @@ def apply_script(
     """
     merged = []
     for scene in scenes:
+        if scene.get("hook"):
+            merged.append(dict(scene))
+            continue
         override = overrides.get(scene["id"], {})
         updated = dict(scene)
         for field in ("kicker", "title", "subtitle", "insight", "narration"):
             value = override.get(field, "").strip()
-            if value:
-                updated[field] = value
+            if not value:
+                continue
+            if field == "subtitle" and i18n.get_language() != "en" and i18n.looks_english(value):
+                continue
+            updated[field] = value
         merged.append(updated)
     return _dedupe_insights(merged)
 

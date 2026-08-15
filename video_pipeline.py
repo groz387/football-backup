@@ -34,7 +34,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
-from recap import director, i18n, logos, theme, timing, video, voice
+from recap import clips, director, i18n, logos, theme, timing, video, voice
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -181,6 +181,12 @@ def progress_reporter():
 def run(args: argparse.Namespace) -> Path:
     language = i18n.set_language(args.language)
     team_kind = theme.set_team_kind(args.team)
+    if args.colors:
+        try:
+            home_hex, away_hex = theme.set_team_colors(args.colors[0], args.colors[1])
+        except ValueError as exc:
+            raise SystemExit(f"  {exc}") from exc
+        say(f"  colors: home {home_hex} / away {away_hex}")
     match_dir = Path(args.match_dir) if args.match_dir else choose_match(
         Path(args.scrape_output_root), args.interactive
     )
@@ -204,6 +210,15 @@ def run(args: argparse.Namespace) -> Path:
         say(f"  - {fact}")
     if ask("Accept these numbers?", ("ok", "quit"), args.auto) == "quit":
         raise SystemExit("Stopped at the data audit.")
+
+    extra_clips = [Path(p) for p in (args.clip or [])]
+    sources = clips.discover_sources(match_dir, extra_clips)
+    if args.fetch_clip and not sources:
+        fetched = clips.fetch_highlight(bundle, match_dir / "clips")
+        if fetched:
+            sources = [fetched]
+    clip_beats = clips.plan_beats(bundle, audit, sources)
+    say(f"  opening clips: {clips.describe_beats(clip_beats)}")
 
     gemini = None
     if not args.no_gemini:
@@ -243,7 +258,8 @@ def run(args: argparse.Namespace) -> Path:
     already_localized = False
     while True:
         scene_list, already_localized = build_script(
-            bundle, audit, selected, gemini, instruction, args.target_seconds, language
+            bundle, audit, selected, gemini, instruction, args.target_seconds, language,
+            clip_beats=clip_beats,
         )
         say(script_preview(scene_list))
         action = ask("Use this script?", ("ok", "change", "redo", "quit"), args.auto)
@@ -256,20 +272,26 @@ def run(args: argparse.Namespace) -> Path:
         else:
             instruction = f"{instruction} Sharpen the hook and vary the sentence rhythm."
 
-    if language != "en" and not already_localized:
-        translator = gemini
-        if translator is None or not translator.enabled:
-            # Translation-only path: still use the API key if present, even when
-            # creative Gemini scripting was turned off with --no-gemini.
-            translator = director.Gemini(enabled=True, required=False)
-        scene_list, method = i18n.localize_scenes(scene_list, language, translator)
-        if method == "gemini":
-            say(f"  localized free-form copy via Gemini ({i18n.language_name(language)}).")
-        else:
-            say(
-                f"  localized UI + known lines offline ({i18n.language_name(language)}). "
-                "Set GEMINI_API_KEY for fuller narration translation."
-            )
+    if language != "en":
+        if not already_localized:
+            translator = gemini
+            if translator is None or not translator.enabled:
+                # Translation-only path: still use the API key if present, even when
+                # creative Gemini scripting was turned off with --no-gemini.
+                translator = director.Gemini(enabled=True, required=False)
+            scene_list, method = i18n.localize_scenes(scene_list, language, translator)
+            if method == "gemini":
+                say(f"  localized free-form copy via Gemini ({i18n.language_name(language)}).")
+            else:
+                say(
+                    f"  localized UI + known lines offline ({i18n.language_name(language)}). "
+                    "Set GEMINI_API_KEY for fuller narration translation."
+                )
+        # Always strip leftover English chrome. Gemini often rewrites the title
+        # and leaves the English subtitle sitting under it.
+        scene_list = i18n.scrub_english_leftovers(scene_list, language)
+        scene_list = director.lock_hook_cards(scene_list, bundle, audit)
+        scene_list = i18n.scrub_english_leftovers(scene_list, language)
         say(script_preview(scene_list))
 
     # -- 4. timing and narration ------------------------------------------
@@ -301,6 +323,10 @@ def run(args: argparse.Namespace) -> Path:
             "language_name": i18n.language_name(language),
             "team_kind": team_kind,
             "badge_shape": theme.badge_shape(team_kind),
+            "colors": {
+                "home": theme.get_team_colors()[0],
+                "away": theme.get_team_colors()[1],
+            },
             "gemini_used": bool(gemini and gemini.enabled),
             "gemini_model": gemini.model if gemini else None,
             "gemini_error": (gemini.last_error or None) if gemini else None,
@@ -361,12 +387,14 @@ def build_script(
     instruction: str,
     target_seconds: float,
     language: str = "en",
+    clip_beats: list[dict[str, Any]] | None = None,
 ) -> tuple[list[dict[str, Any]], bool]:
     """Return (scenes, already_localized_by_gemini)."""
-    scene_list = director.build_storyboard(bundle, audit, selected)
+    scene_list = director.build_storyboard(bundle, audit, selected, clip_beats=clip_beats)
     already_localized = False
     if gemini is not None and gemini.enabled:
-        budget = timing.word_budget(target_seconds, len(scene_list))
+        speakable = [scene for scene in scene_list if not scene.get("hook")]
+        budget = timing.word_budget(target_seconds, max(1, len(speakable)))
         say(f"  asking Gemini for roughly {budget} words per scene ({i18n.language_name(language)})")
         overrides = gemini.write_script(
             bundle, audit, scene_list, budget, instruction, language=language
@@ -380,13 +408,14 @@ def build_script(
         say("  [warn] copy check found unsupported claims; reverting those scenes to the audited script:")
         for problem in problems[:6]:
             say(f"    - {problem}")
-        safe = director.build_storyboard(bundle, audit, selected)
+        safe = director.build_storyboard(bundle, audit, selected, clip_beats=clip_beats)
         by_id = {scene["id"]: scene for scene in safe}
         flagged = {problem.split(".")[0] for problem in problems}
         scene_list = [by_id.get(scene["id"], scene) if scene["id"] in flagged else scene
                       for scene in scene_list]
         if flagged:
             already_localized = False
+    scene_list = director.lock_hook_cards(scene_list, bundle, audit)
     return scene_list, already_localized
 
 
@@ -409,7 +438,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--scrape-output-root", default="output", help="Where scraper exports live")
     parser.add_argument("--output-root", default="video_output", help="Where video packages are written")
     parser.add_argument("--visualizations", type=int, default=3,
-                        help="Tactical visualizations between the stats card and the close")
+                        help="Tactical visualizations between the hook and the closing score")
     parser.add_argument("--target-seconds", type=float, default=48.0,
                         help="Runtime the script is written to fill")
     parser.add_argument("--fps", type=int, default=video.DEFAULT_FPS, help="Output frame rate")
@@ -423,6 +452,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--team", default="national",
                         choices=list(theme.TEAM_KINDS),
                         help="Badge style: national flags (rect) or club crests (circle + logos)")
+    parser.add_argument(
+        "--colors", nargs=2, metavar=("HOME", "AWAY"),
+        help="Home and away hex colours, e.g. --colors \"#004170\" \"#95BFE5\" "
+             "(quote them in PowerShell; # without quotes is a comment)",
+    )
     parser.add_argument("--instruction", default="", help="Editorial note passed to Gemini")
     parser.add_argument("--model", default=None, help="Gemini model (defaults to GEMINI_MODEL)")
     parser.add_argument("--no-gemini", action="store_true", help="Use only the deterministic script")
@@ -431,6 +465,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--voiceover-file", default="", help="Recorded narration to attach")
     parser.add_argument("--sapi-tts", action="store_true", help="Synthesise narration for a rough cut (Windows)")
     parser.add_argument("--skip-audio", action="store_true", help="Render silent")
+
+    parser.add_argument("--clip", action="append", default=[],
+                        help="Path to a match clip or highlight (repeatable). Also reads match-dir/clips/")
+    parser.add_argument("--fetch-clip", action="store_true",
+                        help="Search YouTube via yt-dlp for a highlight if no local clip exists")
 
     parser.add_argument("--still", action="store_true", help="Render one image per scene instead of a video")
     parser.add_argument("--still-positions", type=float, nargs="+", default=[1.0],

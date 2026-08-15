@@ -83,6 +83,41 @@ def get_team_kind() -> str:
     return _team_kind
 
 
+_HEX_COLOR = re.compile(r"^[0-9A-Fa-f]{3}$|^[0-9A-Fa-f]{6}$")
+_override_home: str | None = None
+_override_away: str | None = None
+
+
+def parse_hex_color(value: str) -> str:
+    """Accept ``#004170``, ``004170`` or ``#07A``. Returns ``#rrggbb``."""
+    raw = str(value or "").strip()
+    if raw.lower().startswith("0x"):
+        raw = raw[2:]
+    raw = raw.lstrip("#").strip()
+    if not _HEX_COLOR.fullmatch(raw):
+        raise ValueError(
+            f"Invalid colour {value!r}. Use a 3- or 6-digit hex value, "
+            f"e.g. #004170 or 95BFE5 (quote it in PowerShell so # is not a comment)."
+        )
+    if len(raw) == 3:
+        raw = "".join(ch * 2 for ch in raw)
+    return f"#{raw.lower()}"
+
+
+def set_team_colors(home: str | None = None, away: str | None = None) -> tuple[str | None, str | None]:
+    """Override home / away chart colours for this run. ``None`` keeps the default."""
+    global _override_home, _override_away
+    _override_home = parse_hex_color(home) if home else None
+    _override_away = parse_hex_color(away) if away else None
+    _team_identity_cached.cache_clear()
+    _separated_charts.cache_clear()
+    return _override_home, _override_away
+
+
+def get_team_colors() -> tuple[str | None, str | None]:
+    return _override_home, _override_away
+
+
 def badge_shape(kind: str | None = None) -> str:
     """``rect`` for national flags, ``circle`` for club crests."""
     return "circle" if (kind or _team_kind) == "club" else "rect"
@@ -437,10 +472,19 @@ def _separated_charts(home_chart: str, away_chart: str) -> tuple[str, str]:
     return separate(home_chart, away_chart)
 
 
+def _apply_color_override(identity: dict[str, str], hex_color: str | None) -> dict[str, str]:
+    if not hex_color:
+        return identity
+    updated = dict(identity)
+    updated["primary"] = hex_color
+    updated["chart"] = readable_on(hex_color)
+    return updated
+
+
 def match_design(home: str, away: str) -> dict[str, Any]:
     """Resolve the full colour scheme for one fixture."""
-    home_id = team_identity(home)
-    away_id = team_identity(away)
+    home_id = _apply_color_override(team_identity(home), _override_home)
+    away_id = _apply_color_override(team_identity(away), _override_away)
     home_chart, away_chart = _separated_charts(home_id["chart"], away_id["chart"])
     home_id["chart"] = home_chart
     away_id["chart"] = away_chart
