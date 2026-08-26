@@ -32,12 +32,9 @@ from matplotlib.patches import Circle, Ellipse, FancyArrowPatch, FancyBboxPatch,
 from . import theme
 from .theme import (
     ASPECT,
-    DISPLAY_FONT,
     GOAL,
     HAIRLINE,
     INK,
-    LABEL_FONT,
-    MONO_FONT,
     PITCH,
     PITCH_LINE,
     SURFACE,
@@ -53,7 +50,7 @@ FIG_SIZE = (9.0, 16.0)
 FIG_DPI = 120
 
 # Animation finishes here and the frame holds, so the viewer can read it.
-HOLD_AT = 0.72
+HOLD_AT = 0.80
 
 
 # ---------------------------------------------------------------------------
@@ -147,11 +144,11 @@ class Layout:
     CONTENT_W = 1.0 - 2 * MARGIN
 
     KICKER_Y = 0.938
-    TITLE_TOP = 0.912
+    TITLE_TOP = 0.938
     SUBTITLE_GAP = 0.026
 
-    STAGE_TOP = 0.800
-    STAGE_BOTTOM = 0.182
+    STAGE_TOP = 0.830
+    STAGE_BOTTOM = 0.072
 
     INSIGHT_Y = 0.128
     FOOTER_Y = 0.052
@@ -286,6 +283,66 @@ def fig_ellipse(fig: plt.Figure, cx: float, cy: float, radius: float, **kwargs: 
     return patch
 
 
+def score_badge(
+    fig: plt.Figure,
+    cx: float,
+    cy: float,
+    label: str,
+    *,
+    edge: str,
+    alpha: float = 1.0,
+    max_height: float = 0.052,
+) -> None:
+    """Running score inside a true circle (or a pill if the score is wide).
+
+    The old fixed 0.052×0.052 panel was taller than it was wide on a 9:16
+    frame, so ``1-0`` overflowed the sides. Size is measured from the glyphs.
+    """
+    text = str(label or "")
+    if not text:
+        return
+    size = min(16.0, max(11.0, max_height * 72.0 * FIG_SIZE[1] * 0.42))
+    artist = fig.text(
+        cx, cy, text,
+        fontsize=size, fontweight="bold", family=theme.DISPLAY_FONT,
+        ha="center", va="center", color=TEXT, alpha=opacity(alpha), zorder=14,
+    )
+    pad = 0.016
+    width, height = _extent_fractions(fig, artist)
+    # Bold caps measure short of their ink; leave extra air inside the stroke.
+    width *= 1.08
+    height *= 1.22
+    need_w = width + 2 * pad
+    need_h = height + 2 * y_of(pad)
+    diameter = max(need_w, need_h / ASPECT, 0.046)
+    max_diameter = max(0.040, max_height / ASPECT)
+    if diameter > max_diameter + 1e-6:
+        scale = max_diameter / diameter
+        size = max(10.0, size * scale * 0.90)
+        artist.set_fontsize(size)
+        width, height = _extent_fractions(fig, artist)
+        width *= 1.08
+        height *= 1.22
+        need_w = width + 2 * pad
+        need_h = height + 2 * y_of(pad)
+        diameter = min(max_diameter, max(need_w, need_h / ASPECT, 0.038))
+
+    if need_w <= diameter * 1.04:
+        fig_ellipse(
+            fig, cx, cy, diameter / 2,
+            facecolor="#080b09", edgecolor=edge, linewidth=1.8,
+            alpha=alpha, zorder=12,
+        )
+        return
+    pill_w = max(need_w, diameter)
+    pill_h = min(max_height, max(need_h, y_of(diameter * 0.92)))
+    fig_panel(
+        fig, cx - pill_w / 2, cy - pill_h / 2, pill_w, pill_h,
+        color="#080b09", alpha=alpha, edge=edge, radius=pill_w,
+        zorder=12, lw=1.8,
+    )
+
+
 def outline() -> list[Any]:
     return [pe.withStroke(linewidth=3.0, foreground="#040605", alpha=0.85)]
 
@@ -317,16 +374,14 @@ def _extent_fractions(fig: plt.Figure, artist: Any) -> tuple[float, float]:
     )
 
 
-# Mean glyph advance as a fraction of the point size, per font role. Used only
-# to pick a starting wrap width; the result is then verified by measurement.
-_ADVANCE = {DISPLAY_FONT: 0.52, LABEL_FONT: 0.52, MONO_FONT: 0.52}
+# Mean glyph advance as a fraction of the point size. Used only to pick a
+# starting wrap width; the result is then verified by measurement.
 _DEFAULT_ADVANCE = 0.52
 _POINTS_TO_FIG_X = 1.0 / 72.0 / FIG_SIZE[0]
 
 
 def _chars_per_line(size: float, max_width: float, family: str) -> int:
-    advance = _ADVANCE.get(family, _DEFAULT_ADVANCE)
-    char_width = size * _POINTS_TO_FIG_X * advance
+    char_width = size * _POINTS_TO_FIG_X * _DEFAULT_ADVANCE
     return max(4, int(max_width / max(1e-6, char_width)))
 
 
@@ -342,7 +397,7 @@ def fit_text(
     min_fontsize: float = 9.0,
     ha: str = "left",
     va: str = "top",
-    family: str = theme.BODY_FONT,
+    family: str | None = None,
     **kwargs: Any,
 ) -> tuple[Any, int]:
     """Draw *text* so that it fits *max_width* in at most *max_lines* lines.
@@ -354,6 +409,8 @@ def fit_text(
     text = " ".join(str(text).split())
     if not text:
         return None, 0
+    if family is None:
+        family = theme.BODY_FONT
 
     size = float(fontsize)
     artist = None
@@ -383,7 +440,7 @@ def kicker(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT_
     fit_text(
         fig, Layout.MARGIN, Layout.KICKER_Y, str(text).upper(),
         fontsize=13.5, max_width=Layout.CONTENT_W, max_lines=1, min_fontsize=9.0,
-        va="center", color=color, family=MONO_FONT, alpha=alpha, zorder=20,
+        va="center", color=color, family=theme.MONO_FONT, alpha=alpha, zorder=20,
     )
 
 
@@ -399,7 +456,7 @@ def headline(fig: plt.Figure, text: str, subtitle: str = "", *, alpha: float = 1
         artist, _ = fit_text(
             fig, Layout.MARGIN, y, str(text).upper(),
             fontsize=fontsize, max_width=Layout.CONTENT_W, max_lines=2, min_fontsize=24.0,
-            va="top", color=color, family=DISPLAY_FONT, fontweight="bold",
+            va="top", color=color, family=theme.DISPLAY_FONT, fontweight="bold",
             linespacing=0.92, alpha=alpha, zorder=20, path_effects=soft_shadow(),
         )
         if artist is not None:
@@ -409,7 +466,7 @@ def headline(fig: plt.Figure, text: str, subtitle: str = "", *, alpha: float = 1
         artist, _ = fit_text(
             fig, Layout.MARGIN + 0.003, y, str(subtitle).upper(),
             fontsize=13.0, max_width=Layout.CONTENT_W, max_lines=1, min_fontsize=9.0,
-            va="top", color=TEXT_DIM, family=MONO_FONT, alpha=alpha, zorder=20,
+            va="top", color=TEXT_DIM, family=theme.MONO_FONT, alpha=alpha, zorder=20,
         )
         if artist is not None:
             _, height = _extent_fractions(fig, artist)
@@ -426,7 +483,7 @@ def insight(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT
     fit_text(
         fig, 0.5, Layout.INSIGHT_Y, str(text),
         fontsize=25.0, max_width=Layout.CONTENT_W - 0.02, max_lines=2, min_fontsize=15.0,
-        ha="center", va="center", color=color, family=DISPLAY_FONT, fontweight="bold",
+        ha="center", va="center", color=color, family=theme.DISPLAY_FONT, fontweight="bold",
         linespacing=1.05, alpha=alpha, zorder=20, path_effects=soft_shadow(),
     )
 
@@ -435,11 +492,11 @@ def footer(fig: plt.Figure, right_text: str = "", *, alpha: float = 1.0) -> None
     from . import i18n
 
     fig.text(Layout.MARGIN, Layout.FOOTER_Y, i18n.t("watermark"), color=TEXT_FAINT, fontsize=9.5,
-             family=MONO_FONT, ha="left", va="center", alpha=alpha, zorder=20)
+             family=theme.MONO_FONT, ha="left", va="center", alpha=alpha, zorder=20)
     fit_text(
         fig, 1 - Layout.MARGIN, Layout.FOOTER_Y, (right_text or theme.DATA_SOURCE).upper(),
         fontsize=9.0, max_width=0.52, max_lines=1, min_fontsize=6.5,
-        ha="right", va="center", color=TEXT_FAINT, family=MONO_FONT, alpha=alpha, zorder=20,
+        ha="right", va="center", color=TEXT_FAINT, family=theme.MONO_FONT, alpha=alpha, zorder=20,
     )
 
 
@@ -476,7 +533,7 @@ def legend_row(fig: plt.Figure, y: float, entries: Iterable[tuple[str, str, str]
         else:
             fig_rect(fig, swatch_x - 0.010, y - 0.004, 0.020, 0.008, colour, alpha, zorder=20)
         fig.text(swatch_x + 0.017, y, label.upper(), color=TEXT_DIM,
-                 fontsize=theme.label_size(fontsize), family=LABEL_FONT, fontweight="bold",
+                 fontsize=theme.label_size(fontsize), family=theme.LABEL_FONT, fontweight="bold",
                  ha="left", va="center", alpha=alpha, zorder=20)
 
 
@@ -668,7 +725,7 @@ def _club_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, 
         fig.text(
             cx, cy + height * 0.04, identity["abbr"],
             color=theme.ink_on(identity["primary"]), fontsize=fontsize, fontweight="bold",
-            family=DISPLAY_FONT, ha="center", va="center", alpha=alpha, zorder=zorder + 2,
+            family=theme.DISPLAY_FONT, ha="center", va="center", alpha=alpha, zorder=zorder + 2,
         )
 
     fig_ellipse(fig, cx, cy, radius, facecolor="none", edgecolor="#050706",
@@ -730,7 +787,7 @@ def _crest_fallback(fig: plt.Figure, identity: dict[str, str], x0: float, y0: fl
     fig.text(
         x0 + w / 2, y0 + h * 0.60, identity["abbr"],
         color=theme.ink_on(identity["primary"]), fontsize=fontsize, fontweight="bold",
-        family=DISPLAY_FONT, ha="center", va="center", alpha=alpha, zorder=zorder + 2,
+        family=theme.DISPLAY_FONT, ha="center", va="center", alpha=alpha, zorder=zorder + 2,
     )
 
 
@@ -958,7 +1015,7 @@ def comparison_bar(
     width = right - left
 
     fig.text(0.5, y + height + 0.019, str(label).upper(), color=TEXT_DIM,
-             fontsize=theme.label_size(13), family=LABEL_FONT, fontweight="bold",
+             fontsize=theme.label_size(13), family=theme.LABEL_FONT, fontweight="bold",
              ha="center", va="center", alpha=min(1.0, progress * 2.5),
              zorder=zorder)
 
@@ -971,11 +1028,11 @@ def comparison_bar(
     fig_rect(fig, split, y, grown_away, height, away_color, 0.95, zorder=zorder)
 
     fig.text(left - 0.022, y + height / 2, number_text(home_value * progress, decimals=decimals, suffix=suffix),
-             color=home_color, fontsize=38, fontweight="bold", family=DISPLAY_FONT,
+             color=home_color, fontsize=38, fontweight="bold", family=theme.DISPLAY_FONT,
              ha="right", va="center", alpha=min(1.0, progress * 2.5), zorder=zorder,
              path_effects=soft_shadow())
     fig.text(right + 0.022, y + height / 2, number_text(away_value * progress, decimals=decimals, suffix=suffix),
-             color=away_color, fontsize=38, fontweight="bold", family=DISPLAY_FONT,
+             color=away_color, fontsize=38, fontweight="bold", family=theme.DISPLAY_FONT,
              ha="left", va="center", alpha=min(1.0, progress * 2.5), zorder=zorder,
              path_effects=soft_shadow())
 

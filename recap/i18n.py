@@ -57,6 +57,8 @@ def normalize_language(value: str | None) -> str:
 def set_language(code: str) -> str:
     global _current
     _current = normalize_language(code)
+    from . import theme
+    theme.apply_language_fonts(_current)
     return _current
 
 
@@ -249,6 +251,19 @@ UI: dict[str, dict[str, str]] = {
         "hook_had_the_ball": "{team} HAD THE BALL.",
         "hook_not_the_chances": "NOT THE CHANCES.",
         "hook_n_shots": "{n} SHOTS.",
+        "bridge_owned_the_map": "{team} OWNED THE MAP.",
+        "bridge_had_the_ball": "{team} HAD THE BALL.",
+        "bridge_keeper_work": "{team} HAD WORK TO DO.",
+        "bridge_watch_the_board": "{n} GOALS. WATCH THE BOARD.",
+        "bridge_kept_shooting": "{team} KEPT SHOOTING.",
+        "bridge_pressure_uneven": "THE PRESSURE WAS NOT EVEN.",
+        "bridge_one_move": "ONE MOVE DID THE DAMAGE.",
+        "bridge_n_passes": "{n} PASSES. ONE FINISH.",
+        "bridge_how_they_moved": "THIS IS HOW {team} MOVED IT.",
+        "bridge_numbers_split": "THE NUMBERS DID NOT AGREE.",
+        "bridge_board_caught_up": "THEN THE BOARD CAUGHT UP.",
+        "bridge_look_at_this": "WAIT. LOOK AT THIS.",
+        "handoff_but": "{proof}. But {next}.",
     },
     "az": {
         "watermark": "HADİSƏ VERİLƏRİ",
@@ -339,6 +354,19 @@ UI: dict[str, dict[str, str]] = {
         "hook_had_the_ball": "{team} TOPA SAHİB İDİ.",
         "hook_not_the_chances": "ŞANSLARA YOX.",
         "hook_n_shots": "{n} ZƏRBƏ.",
+        "bridge_owned_the_map": "{team} XƏRİTƏYƏ SAHİB OLDU.",
+        "bridge_had_the_ball": "{team} TOPA SAHİB İDİ.",
+        "bridge_keeper_work": "{team} İŞİ VAR İDİ.",
+        "bridge_watch_the_board": "{n} QOL. HESABA BAX.",
+        "bridge_kept_shooting": "{team} ZƏRBƏ ENDİRMƏKDƏ DAVAM ETDİ.",
+        "bridge_pressure_uneven": "TƏZYİQ BƏRABƏR DEYİLDİ.",
+        "bridge_one_move": "BİR HƏRƏKƏT İŞİ BİTİRDİ.",
+        "bridge_n_passes": "{n} PAS. BİR BİTİRMƏ.",
+        "bridge_how_they_moved": "{team} TOPU BELƏ APARDI.",
+        "bridge_numbers_split": "RƏQƏMLƏR UYUŞMADI.",
+        "bridge_board_caught_up": "SONRA HESAB DANIŞDI.",
+        "bridge_look_at_this": "GÖZLƏ. BUNA BAX.",
+        "handoff_but": "{proof}. Amma {next}.",
     },
     "es": {
         "watermark": "DATOS DE EVENTOS",
@@ -429,6 +457,19 @@ UI: dict[str, dict[str, str]] = {
         "hook_had_the_ball": "{team} TUVO EL BALÓN.",
         "hook_not_the_chances": "NO LAS OCASIONES.",
         "hook_n_shots": "{n} TIROS.",
+        "bridge_owned_the_map": "{team} DOMINÓ EL MAPA.",
+        "bridge_had_the_ball": "{team} TUVO EL BALÓN.",
+        "bridge_keeper_work": "{team} TUVO TRABAJO.",
+        "bridge_watch_the_board": "{n} GOLES. MIRA EL MARCADOR.",
+        "bridge_kept_shooting": "{team} SIGUIÓ TIRANDO.",
+        "bridge_pressure_uneven": "LA PRESIÓN NO FUE PAREJA.",
+        "bridge_one_move": "UNA JUGADA HIZO EL DAÑO.",
+        "bridge_n_passes": "{n} PASES. UN REMATE.",
+        "bridge_how_they_moved": "ASÍ MOVIÓ EL BALÓN {team}.",
+        "bridge_numbers_split": "LOS NÚMEROS NO CUADRAN.",
+        "bridge_board_caught_up": "DESPUÉS HABLÓ EL MARCADOR.",
+        "bridge_look_at_this": "ESPERA. MIRA ESTO.",
+        "handoff_but": "{proof}. Pero {next}.",
     },
     "ru": {
         "watermark": "СОБЫТИЙНЫЕ ДАННЫЕ",
@@ -519,6 +560,19 @@ UI: dict[str, dict[str, str]] = {
         "hook_had_the_ball": "МЯЧ БЫЛ У {team}.",
         "hook_not_the_chances": "МОМЕНТОВ — НЕТ.",
         "hook_n_shots": "{n} УДАРОВ.",
+        "bridge_owned_the_map": "{team} ЗАБРАЛИ КАРТУ.",
+        "bridge_had_the_ball": "МЯЧ БЫЛ У {team}.",
+        "bridge_keeper_work": "{team} ПРИШЛОСЬ РАБОТАТЬ.",
+        "bridge_watch_the_board": "{n} ГОЛОВ. СМОТРИ СЧЁТ.",
+        "bridge_kept_shooting": "{team} ПРОДОЛЖАЛИ БИТЬ.",
+        "bridge_pressure_uneven": "ДАВЛЕНИЕ НЕ БЫЛО РАВНЫМ.",
+        "bridge_one_move": "ОДНА АТАКА ВСЁ РЕШИЛА.",
+        "bridge_n_passes": "{n} ПАСОВ. ОДИН УДАР.",
+        "bridge_how_they_moved": "ТАК {team} ДВИГАЛИ МЯЧ.",
+        "bridge_numbers_split": "ЦИФРЫ НЕ СОШЛИСЬ.",
+        "bridge_board_caught_up": "ПОТОМ ТАБЛО ДОГНАЛО.",
+        "bridge_look_at_this": "ПОДОЖДИ. СМОТРИ.",
+        "handoff_but": "{proof}. Но {next}.",
     },
 }
 

@@ -143,12 +143,21 @@ def _first_available(*preferences: str) -> str:
     return preferences[-1]
 
 
-# Headlines / big numerals: Bai Jamjuree, drawn in all caps.
-DISPLAY_FONT = _first_available("Bai Jamjuree", "BaiJamjuree", "Segoe UI", "DejaVu Sans")
-BODY_FONT = _first_available("Bai Jamjuree", "Inter", "Segoe UI", "DejaVu Sans")
-# Micro labels above bars / chips ("GOALS", "ON TARGET", phase names).
-LABEL_FONT = _first_available("Bai Jamjuree", "BaiJamjuree", "Segoe UI", "DejaVu Sans")
-MONO_FONT = _first_available("Bai Jamjuree", "JetBrains Mono", "Cascadia Mono", "Consolas", "DejaVu Sans Mono")
+# Latin languages use Bai Jamjuree (all caps). It has no Cyrillic, so Russian
+# recaps switch to Gilroy-Bold for headlines and Gilroy-Medium for labels.
+_LATIN_DISPLAY = _first_available("Bai Jamjuree", "BaiJamjuree", "Segoe UI", "DejaVu Sans")
+_LATIN_BODY = _first_available("Bai Jamjuree", "Inter", "Segoe UI", "DejaVu Sans")
+_LATIN_LABEL = _first_available("Bai Jamjuree", "BaiJamjuree", "Segoe UI", "DejaVu Sans")
+_LATIN_MONO = _first_available(
+    "Bai Jamjuree", "JetBrains Mono", "Cascadia Mono", "Consolas", "DejaVu Sans Mono"
+)
+_CYRILLIC_DISPLAY = _first_available("Gilroy-Bold", "Gilroy-Medium", "Segoe UI", "DejaVu Sans")
+_CYRILLIC_BODY = _first_available("Gilroy-Medium", "Gilroy-Bold", "Segoe UI", "DejaVu Sans")
+
+DISPLAY_FONT = _LATIN_DISPLAY
+BODY_FONT = _LATIN_BODY
+LABEL_FONT = _LATIN_LABEL
+MONO_FONT = _LATIN_MONO
 
 # Small chrome labels only — headlines and subtitles are untouched.
 LABEL_SCALE = 1.30
@@ -522,3 +531,24 @@ def configure_matplotlib() -> None:
             "agg.path.chunksize": 10000,
         }
     )
+
+
+def apply_language_fonts(language: str) -> None:
+    """Swap the type stack when Bai Jamjuree cannot cover the script.
+
+    Russian uses Gilroy (Medium / Bold) from ``Fonts/Gilroy``. Other languages
+    keep Bai Jamjuree. Callers must read ``theme.DISPLAY_FONT`` at draw time
+    rather than importing the name once.
+    """
+    global DISPLAY_FONT, BODY_FONT, LABEL_FONT, MONO_FONT
+    if (language or "").strip().lower() == "ru":
+        DISPLAY_FONT = _CYRILLIC_DISPLAY
+        BODY_FONT = _CYRILLIC_BODY
+        LABEL_FONT = _CYRILLIC_BODY
+        MONO_FONT = _CYRILLIC_BODY
+    else:
+        DISPLAY_FONT = _LATIN_DISPLAY
+        BODY_FONT = _LATIN_BODY
+        LABEL_FONT = _LATIN_LABEL
+        MONO_FONT = _LATIN_MONO
+    configure_matplotlib()

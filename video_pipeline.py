@@ -194,6 +194,7 @@ def run(args: argparse.Namespace) -> Path:
     out_dir = Path(args.output_root) / safe_name(match_dir.name)
     out_dir.mkdir(parents=True, exist_ok=True)
     say(f"  language: {i18n.language_name(language)} ({language})")
+    say(f"  typeface: {theme.DISPLAY_FONT} / {theme.LABEL_FONT}")
     say(f"  team mode: {team_kind} ({'circular crests + logos' if team_kind == 'club' else 'rectangular flags'})")
     if team_kind == "club":
         resolved = logos.warm_logos(
@@ -439,7 +440,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--output-root", default="video_output", help="Where video packages are written")
     parser.add_argument("--visualizations", type=int, default=3,
                         help="Tactical visualizations between the hook and the closing score")
-    parser.add_argument("--target-seconds", type=float, default=48.0,
+    parser.add_argument("--target-seconds", type=float, default=32.0,
                         help="Runtime the script is written to fill")
     parser.add_argument("--fps", type=int, default=video.DEFAULT_FPS, help="Output frame rate")
 

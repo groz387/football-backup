@@ -25,21 +25,23 @@ TRANSITION = 0.45
 MINIMUM_ON_SCREEN = {
     "hook_claim": 0.85,
     "hook_punch": 0.70,
+    "micro_hook": 0.70,
     "live_clip": 0.40,
     "title": 3.2,
-    "standard_stats": 4.5,
-    "goal_timeline": 4.5,
-    "shot_map": 4.2,
-    "momentum": 4.2,
-    "zone_control": 4.0,
-    "goal_chain": 5.0,
-    "goalmouth": 4.0,
-    "pass_network": 4.2,
-    "sterile_domination": 4.0,
-    "close": 3.4,
+    "standard_stats": 5.2,
+    "goal_timeline": 5.4,
+    "shot_map": 5.2,
+    "momentum": 5.2,
+    "zone_control": 5.0,
+    "goal_chain": 5.6,
+    "goalmouth": 5.0,
+    "pass_network": 5.2,
+    "sterile_domination": 5.0,
+    "close": 4.4,
 }
-DEFAULT_MINIMUM = 4.0
-MAXIMUM_ON_SCREEN = 13.0
+DEFAULT_MINIMUM = 5.0
+# Analysis cards die if they sit as a finished slide. Keep them inside one swipe.
+MAXIMUM_ON_SCREEN = 8.0
 
 # Subtitle readability limits.
 SUBTITLE_MAX_CHARS = 84
@@ -123,7 +125,10 @@ def scale_to_audio(scenes: list[dict[str, Any]], audio_seconds: float | None) ->
             scaled.append(scene)
             continue
         floor = MINIMUM_ON_SCREEN.get(scene.get("visualization", ""), DEFAULT_MINIMUM)
-        on_screen = round(max(floor * 0.8, float(scene["on_screen"]) * factor), 2)
+        on_screen = round(
+            min(MAXIMUM_ON_SCREEN, max(floor * 0.85, float(scene["on_screen"]) * factor)),
+            2,
+        )
         scaled.append({**scene, "on_screen": on_screen})
     return _with_clip_lengths(scaled)
 

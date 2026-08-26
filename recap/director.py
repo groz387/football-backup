@@ -301,6 +301,19 @@ def _ordinal(minute: int) -> str:
 
 _SCORELINE = re.compile(r"\b\d+\s*[-–:/]\s*\d+\b")
 _ARTICLES = {"fc", "cf", "afc", "the", "de", "cd", "sc", "ac"}
+BRIDGE_SECONDS = 0.70
+_PACKAGE = {
+    "standard_stats",
+    "goal_timeline",
+    "shot_map",
+    "momentum",
+    "zone_control",
+    "goal_chain",
+    "goalmouth",
+    "pass_network",
+    "sterile_domination",
+    "close",
+}
 
 
 def hook_team_name(name: str) -> str:
@@ -526,9 +539,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
 
         if first and last and len(timeline) > 1:
             narration = (
-                f"{surname(first)} opened it in the {_ordinal(first['minute'])} minute. "
-                f"{len(timeline)} goals later, {surname(last)} had the last word "
-                f"in the {_ordinal(last['minute'])}."
+                f"{surname(first)} opened it in the {_ordinal(first['minute'])} minute, "
+                f"and {surname(last)} had the last word."
             )
         elif first:
             narration = (
@@ -558,9 +570,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
                 f"{home['shots_on_target']} against {away['shots_on_target']} on target."
             ),
             "narration": (
-                f"{bundle.home} took {home['shots']} shots and put {home['shots_on_target']} on target. "
-                f"{bundle.away} took {away['shots']} and hit the target {away['shots_on_target']} times. "
-                f"Blocked efforts are marked separately, because a block is not a save."
+                f"{bundle.home} {home['shots']} shots to {away['shots']}, "
+                f"{home['shots_on_target']} on target against {away['shots_on_target']}."
             ),
         }
 
@@ -577,10 +588,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
                 if peak else "Pressure stayed level throughout."
             ),
             "narration": (
-                f"This is attacking pressure in five minute blocks, built from final-third passes, "
-                f"box entries, shots and goals. "
-                + (f"The biggest surge belongs to {leader} in the {peak['minute_block']} minute window."
-                   if peak else "")
+                f"The heaviest spell belonged to {leader} in the {peak['minute_block']} window."
+                if peak else "Pressure stayed level throughout."
             ),
         }
 
@@ -595,9 +604,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "subtitle": i18n.t("sub_zone"),
             "insight": f"{leader} touched the ball in more of the dangerous grid than anyone else.",
             "narration": (
-                f"Every touch, dropped into eighteen zones. The colour of each cell is whoever "
-                f"had more of the ball there. {leader} controlled the majority of the map, "
-                f"{home_touches} touches against {away_touches}."
+                f"{leader} owned the map, {home_touches} touches against {away_touches}."
             ),
         }
 
@@ -610,9 +617,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
                 "subtitle": f"{chain['team']} / {chain['scorer']}",
                 "insight": f"{chain['pass_distance_m']:.0f} metres of passing in {chain['duration_seconds']:.0f} seconds.",
                 "narration": (
-                    f"One goal, traced backwards. {chain['team']} strung {chain['passes']} passes together "
-                    f"across {chain['pass_distance_m']:.0f} metres before {chain['scorer']} finished it "
-                    f"in the {_ordinal(int(chain['minute'] or 0))} minute."
+                    f"{chain['team']} strung {chain['passes']} passes across "
+                    f"{chain['pass_distance_m']:.0f} metres before {chain['scorer']} finished it."
                 ),
             }
         return {
@@ -637,9 +643,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "subtitle": i18n.t("sub_goalmouth"),
             "insight": f"{faced} shots at the frame, {keeper_stats['saves']} of them saved.",
             "narration": (
-                f"This is the goal frame, split into the six zones a keeper has to protect. "
-                f"{keeper_side} faced {faced} shots on target and saved "
-                f"{keeper_stats['saves']} of them. The rest are marked as goals."
+                f"{keeper_side} faced {faced} shots on target and saved {keeper_stats['saves']} of them."
             ),
         }
 
@@ -652,16 +656,14 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "subtitle": i18n.t("sub_pass_network"),
             "insight": f"{leader_stats['passes_completed']} completed passes at {leader_stats['pass_accuracy_pct']:.0f}% accuracy.",
             "narration": (
-                f"{leader} completed {leader_stats['passes_completed']} passes. Each circle sits at a "
-                f"player's average position and grows with their involvement; the thick lines are the "
-                f"combinations they went back to most."
+                f"{leader} completed {leader_stats['passes_completed']} passes at "
+                f"{leader_stats['pass_accuracy_pct']:.0f} percent accuracy."
             ),
         }
 
     if viz_id == "sterile_domination":
         leader = dominant_team(bundle, audit, "pass_share_pct") or bundle.home
         leader_stats = stats[leader]
-        other = away if leader == bundle.home else home
         return {
             "kicker": "CONTROL VS THREAT",
             "title": f"{leader.upper()} HAD THE BALL",
@@ -671,10 +673,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
                 f"{leader_stats['shots_on_target']} shots on target to show for it."
             ),
             "narration": (
-                f"{leader} played {leader_stats['pass_share_pct']:.0f} percent of the passes in this match. "
-                f"The question is what it bought: {leader_stats['final_third_passes']} final-third passes, "
-                f"{leader_stats['penalty_box_touches']} touches in the box, and "
-                f"{leader_stats['shots_on_target']} shots on target against {other['shots_on_target']}."
+                f"{leader} played {leader_stats['pass_share_pct']:.0f} percent of the passes "
+                f"and still only put {leader_stats['shots_on_target']} on target."
             ),
         }
 
@@ -733,8 +733,8 @@ def _closing_copy(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, str]:
         narration = (
             f"{winner} win it {score.display}"
             + (f" {score.qualifier.lower()}" if score.qualifier else "")
-            + f". {winner_stats.get('shots_on_target', 0)} shots on target, "
-            f"{winner_stats.get('big_chances', 0)} big chances, and a result that matches the map."
+            + f". {winner_stats.get('shots_on_target', 0)} on target, "
+            f"{winner_stats.get('big_chances', 0)} big chances."
         )
         insight = f"{winner} took the result and the numbers."
     elif score.total_goals == 0:
@@ -752,6 +752,103 @@ def _closing_copy(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, str]:
     }
 
 
+def build_bridge(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dict[str, Any]:
+    """One screamable line that introduces the next card. Never a scoreline."""
+    stats = audit["team_stats"]
+    home, away = stats[bundle.home], stats[bundle.away]
+    context = result_context(bundle, audit)
+
+    if viz_id == "zone_control":
+        zones = audit.get("zone_control") or []
+        home_t = sum(int(z.get("home_touches") or 0) for z in zones)
+        away_t = sum(int(z.get("away_touches") or 0) for z in zones)
+        leader = bundle.home if home_t >= away_t else bundle.away
+        line = i18n.t("bridge_owned_the_map", team=hook_team_name(leader))
+    elif viz_id == "sterile_domination":
+        leader = dominant_team(bundle, audit, "pass_share_pct") or bundle.home
+        line = i18n.t("bridge_had_the_ball", team=hook_team_name(leader))
+    elif viz_id == "goalmouth":
+        keeper = bundle.home if away["shots_on_target"] >= home["shots_on_target"] else bundle.away
+        line = i18n.t("bridge_keeper_work", team=hook_team_name(keeper))
+    elif viz_id == "goal_timeline":
+        n = len(audit.get("goal_timeline") or [])
+        line = i18n.t("bridge_watch_the_board", n=n) if n else i18n.t("bridge_watch_the_board", n=0)
+    elif viz_id == "shot_map":
+        leader = dominant_team(bundle, audit, "shots") or bundle.home
+        line = i18n.t("bridge_kept_shooting", team=hook_team_name(leader))
+    elif viz_id == "momentum":
+        line = i18n.t("bridge_pressure_uneven")
+    elif viz_id == "goal_chain":
+        chain = best_goal_chain(audit)
+        n = int((chain or {}).get("passes") or 0)
+        line = i18n.t("bridge_n_passes", n=n) if n else i18n.t("bridge_one_move")
+    elif viz_id == "pass_network":
+        leader = dominant_team(bundle, audit, "pass_attempts") or bundle.home
+        line = i18n.t("bridge_how_they_moved", team=hook_team_name(leader))
+    elif viz_id == "standard_stats":
+        line = i18n.t("bridge_numbers_split")
+    elif viz_id == "close":
+        if context["winner"]:
+            line = i18n.t("bridge_board_caught_up")
+        elif context["total_goals"] == 0:
+            line = i18n.t("hook_nobody_scored")
+        else:
+            line = i18n.t("hook_still_level")
+    else:
+        line = i18n.t("bridge_look_at_this")
+
+    return {
+        "opens": viz_id,
+        "line": line,
+        "lines": [line],
+        "seconds": BRIDGE_SECONDS,
+    }
+
+
+def _micro_hook_scene(bundle: MatchBundle, audit: dict[str, Any], viz_id: str, index: int) -> dict[str, Any]:
+    bridge = build_bridge(bundle, audit, viz_id)
+    line = bridge["line"]
+    return {
+        "id": f"bridge_{viz_id}",
+        "visualization": "micro_hook",
+        "hook": True,
+        "cut": "hard",
+        "seconds": bridge["seconds"],
+        "opens": viz_id,
+        "flash": "orange" if index % 2 else "cream",
+        "kicker": f"{bundle.home} — {bundle.away}",
+        "title": line,
+        "subtitle": "",
+        "insight": "",
+        "lines": [line],
+        "narration": line.rstrip("."),
+    }
+
+
+def attach_handoffs(
+    scenes: list[dict[str, Any]],
+    bundle: MatchBundle,
+    audit: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """End each analysis card on a 'but' that the next slam will scream."""
+    bodies = [scene for scene in scenes if not scene.get("hook")]
+    for index, scene in enumerate(bodies[:-1]):
+        nxt = bodies[index + 1]
+        line = str(nxt.get("title") or "")
+        if nxt.get("visualization") in _PACKAGE:
+            line = build_bridge(bundle, audit, nxt["visualization"])["line"]
+        next_bit = line.strip().rstrip(". ")
+        proof = str(scene.get("narration") or "").strip()
+        if proof:
+            proof = re.split(r"(?<=[.!?])\s+", proof)[0].strip().rstrip(". ")
+        if not proof or not next_bit:
+            continue
+        if next_bit.lower() in proof.lower():
+            continue
+        scene["narration"] = i18n.t("handoff_but", proof=proof, next=next_bit)
+    return scenes
+
+
 def build_storyboard(
     bundle: MatchBundle,
     audit: dict[str, Any],
@@ -760,7 +857,8 @@ def build_storyboard(
 ) -> list[dict[str, Any]]:
     """The deterministic script. Every string here comes from the audit.
 
-    The open is a contradiction, not the score. The score is the last card.
+    Open on a contradiction, prove it on the first card, then slam a new
+    claim before every later section. The score stays on the last card.
     """
     hook = build_hook(bundle, audit)
     matchup = hook["matchup"]
@@ -818,27 +916,31 @@ def build_storyboard(
     )
 
     for index, item in enumerate(selected):
+        if index > 0:
+            scenes.append(_micro_hook_scene(bundle, audit, item["id"], index))
         copy = _visual_copy(bundle, audit, item["id"])
         scenes.append(
             {
                 "id": item["id"],
                 "visualization": item["id"],
-                "cut": "hard" if index == 0 else "fade",
+                "cut": "hard",
                 **copy,
             }
         )
 
+    if selected:
+        scenes.append(_micro_hook_scene(bundle, audit, "close", len(selected)))
     closing = _closing_copy(bundle, audit)
     scenes.append(
         {
             "id": "close",
             "visualization": "close",
-            "cut": "fade",
+            "cut": "hard",
             "stat_keys": pick_stat_rows(bundle, audit)[:4],
             **closing,
         }
     )
-    return scenes
+    return attach_handoffs(scenes, bundle, audit)
 
 
 # ---------------------------------------------------------------------------
@@ -970,13 +1072,14 @@ class Gemini:
                 "Never state a number that is not in match.stats, match.timeline or the scene's own data.",
                 "Never say 'possession'. The export measures pass share, and they are not the same thing.",
                 "Never mention expected goals, xG or xGOT. That data does not exist here.",
-                f"Narration for each scene must be {max(12, words_per_scene - 8)} to {words_per_scene + 8} words.",
+                f"Narration for each analysis scene must be {max(10, min(18, words_per_scene))} to "
+                f"{max(14, min(22, words_per_scene + 4))} words. One sentence of proof, then a 'but' "
+                "that teases the NEXT card without giving the score.",
                 "title is shown in heavy display type; keep it under 34 characters and do not end it with a full stop.",
-                "kicker is a tiny label above the title; under 22 characters.",
-                "insight is one short sentence shown at the bottom of the frame; under 70 characters.",
-                "Every scene needs a DIFFERENT insight. Do not repeat a line across scenes.",
+                "kicker and insight are not shown on screen. You may leave them empty.",
                 "Do not open any analysis scene with the scoreline. The score is the closing payoff only.",
-                "Never write a score such as 2-1 on hook_claim, hook_punch or live_clip scenes.",
+                "Never write a score such as 2-1 on hook_claim, hook_punch, micro_hook or live_clip scenes.",
+                "Do not rewrite hook or micro_hook scenes. Those slams are locked.",
                 language_rule,
             ],
             "language": lang,
@@ -991,7 +1094,7 @@ class Gemini:
                     "current_narration": scene.get("narration", ""),
                 }
                 for scene in scenes
-                if not scene.get("hook")
+                if not scene.get("hook") and scene.get("visualization") != "micro_hook"
             ],
             "response_schema": {
                 "scenes": [
@@ -1053,6 +1156,7 @@ class Gemini:
                     "narration": scene.get("narration", ""),
                 }
                 for scene in scenes
+                if not scene.get("hook")
             ],
             "response_schema": {
                 "scenes": [
@@ -1159,8 +1263,18 @@ def lock_hook_cards(
             if _SCORELINE.search(str(updated.get("title") or "")):
                 updated["title"] = hook["matchup"]
             updated["subtitle"] = ""
+        elif viz == "micro_hook":
+            opens = str(scene.get("opens") or "close")
+            bridge = build_bridge(bundle, audit, opens)
+            updated["opens"] = opens
+            updated["title"] = bridge["line"]
+            updated["lines"] = bridge["lines"]
+            updated["subtitle"] = ""
+            updated["insight"] = ""
+            if _SCORELINE.search(str(updated.get("narration") or "")):
+                updated["narration"] = bridge["line"].rstrip(".")
         locked.append(updated)
-    return locked
+    return attach_handoffs(locked, bundle, audit)
 
 
 def lock_title_card(
