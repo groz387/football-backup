@@ -32,7 +32,121 @@ STAT_LABELS = {'big_chances': 'Острые моменты',
  'xg': 'xG',
  'xgot': 'xGOT'}
 
-UI = {'accuracy': 'ТОЧНОСТЬ',
+UI = {
+ 'hook_source': 'WHO SCORED EVENTS',
+
+ 'hook_punch_spoiler_3': 'THE SCORE CAN WAIT.',
+
+ 'hook_punch_spoiler_2': 'NOT YET.',
+
+ 'hook_punch_spoiler_1': 'THE BOARD WAITED.',
+
+ 'hook_punch_spoiler_0': 'KEEP WATCHING.',
+
+ 'hook_open_star_0': 'ONE NAME. KEEP WATCHING.',
+
+ 'hook_open_offside_0': 'COUNT THE FLAGS.',
+
+ 'hook_open_lastkick_0': 'WAIT FOR THE LAST TOUCH.',
+
+ 'hook_open_generic_2': 'THE TAPE FIRST.',
+
+ 'hook_open_generic_1': 'DO NOT LOOK AT THE BOARD YET.',
+
+ 'hook_open_generic_0': 'WATCH THIS BEFORE THE SCORE.',
+
+ 'hook_label_woodwork': 'WOODWORK',
+
+ 'hook_label_sitters': 'SITTERS',
+
+ 'hook_label_setpiece': 'SET PIECES',
+
+ 'hook_label_saves': 'SAVES',
+
+ 'hook_label_offsides': 'OFFSIDES',
+
+ 'hook_label_minute': 'MINUTE',
+
+ 'hook_claim_xgover_1': 'THE BOARD BEAT THE MODEL.',
+
+ 'hook_claim_xgover_0': 'THEY OVERPERFORMED THE xG.',
+
+ 'hook_claim_woodwork_1': 'IRON. NOT NET.',
+
+ 'hook_claim_woodwork_0': 'THE WOODWORK SAID NO. {n} TIMES.',
+
+ 'hook_claim_var_1': 'THE MONITOR CHANGED THE NIGHT.',
+
+ 'hook_claim_var_0': 'VAR SWUNG IT.',
+
+ 'hook_claim_table_1': 'THIS WAS NOT JUST THREE POINTS.',
+
+ 'hook_claim_table_0': 'THE TABLE MOVED.',
+
+ 'hook_claim_sub_1': 'THEY CAME OFF THE BENCH AND SCORED.',
+
+ 'hook_claim_sub_0': 'A SUPER SUB.',
+
+ 'hook_claim_star_1': 'ONE NAME RAN THE NIGHT.',
+
+ 'hook_claim_star_0': '{player}. THE TAPE.',
+
+ 'hook_claim_sitter_1': 'THE NET WAS OPEN. THEY MISSED.',
+
+ 'hook_claim_sitter_0': '{n} SITTERS WASTED.',
+
+ 'hook_claim_siege_1': 'THEY SURVIVED THE BARRAGE.',
+
+ 'hook_claim_siege_0': 'A CLEAN SHEET UNDER SIEGE.',
+
+ 'hook_claim_setpiece_1': '{n} FROM DEAD BALLS.',
+
+ 'hook_claim_setpiece_0': 'SET PIECES DID THE DAMAGE.',
+
+ 'hook_claim_rival_1': 'OLD BLOOD. NEW NUMBERS.',
+
+ 'hook_claim_rival_0': 'RIVALS. THE TAPE.',
+
+ 'hook_claim_prison_1': 'POSSESSION PRISON.',
+
+ 'hook_claim_prison_0': 'THEY HAD THE BALL. NO KNIFE.',
+
+ 'hook_claim_offside_2': 'CAUGHT. AGAIN. {n} TIMES.',
+
+ 'hook_claim_offside_1': '{n} FLAGS. THE LINE DID THE WORK.',
+
+ 'hook_claim_offside_0': '{n} OFFSIDES. WHO GOT ROBBED?',
+
+ 'hook_claim_lastkick_2': 'THEY WAITED FOR 90+.',
+
+ 'hook_claim_lastkick_1': 'STOPPAGE. THE LAST TOUCH.',
+
+ 'hook_claim_lastkick_0': 'THE LAST KICK.',
+
+ 'hook_claim_howler_1': 'THE HOWLER. THEN THE NET.',
+
+ 'hook_claim_howler_0': 'A KEEPER ERROR DID THIS.',
+
+ 'hook_claim_derby_1': 'NEIGHBOURS. BLOOD.',
+
+ 'hook_claim_derby_0': 'A DERBY. NO HIDING.',
+
+ 'hook_claim_debut_2': 'THEY SCORED ON DEBUT.',
+
+ 'hook_claim_debut_1': 'FIRST GAME. FIRST KNIFE.',
+
+ 'hook_claim_debut_0': 'A DEBUT GOAL.',
+
+ 'hook_bait_robbery': 'WAS IT A ROBBERY?',
+
+ 'hook_bait_motm': 'WAS {player} MOTM?',
+
+ 'hook_bait_howler': 'WAS THAT A HOWLER?',
+
+ 'hook_bait_generic': 'WHO WAS MOTM?',
+
+ 'hook_bait_bottle': 'WHO BOTTLED IT?',
+'accuracy': 'ТОЧНОСТЬ',
  'aerials_won': 'Выигранные верховые',
  'after_extra_time': 'ПОСЛЕ ДОПОЛНИТЕЛЬНОГО ВРЕМЕНИ',
  'all_stopped': 'ВСЕ ОТРАЖЕНЫ',

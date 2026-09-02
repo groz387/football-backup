@@ -1,37 +1,22 @@
 #!/usr/bin/env python
-"""Turn a scraped WhoScored export into a narrated vertical match recap.
+"""Turn a scraped WhoScored export into a narrated match recap.
 
-    python video_pipeline.py --match-dir output/1999238_Argentina_vs_Switzerland --auto
-    python video_pipeline.py --interactive
-    python video_pipeline.py --match-dir output/... --auto --still   # fast preview
-    python video_pipeline.py --match-dir output/... --auto --no-fetch-clip
+One command covers the short-form farm cut, an optional YouTube long-form
+recap, and a language × platform batch. It never scrapes — point it at an
+existing ``output/<match>/`` export.
 
-`--auto` fetches a short public highlight of this fixture (yt-dlp) unless
-`--no-fetch-clip` is set or footage already sits in match-dir/clips/. Failures
-do not block the recap.
-
-Written to video_output/<match>/:
-
-    data_audit.json      every metric the video is allowed to use
-    video_plan.json      chosen visualizations, scene timings, final durations
-    SCRIPT.md            scene-by-scene script with word counts and timings
-    narration.txt        the narration as one block
-    voiceover_recording_script.txt
-    subtitles.srt        cues aligned to the rendered timeline
-    assets/              one frame sequence per scene
-    match_video.mp4
-    growth/              bilingual posting pack (titles, hashtags, thumbs)
-                         also written to output/<match>/growth/
-
-Gemini is optional. With GEMINI_API_KEY set it writes the on-screen copy and
-narration; without it the deterministic script is used. Either way the numbers
-come only from data_audit.json.
+    python video_pipeline.py --match-dir output/1953861_Scotland_vs_Morocco --auto
+    python video_pipeline.py --match-dir output/... --auto --format long
+    python video_pipeline.py --match-dir output/... --auto --format both \\
+        --batch-languages az,en,es,tr --platforms tiktok,reels,shorts \\
+        --write-growth --series-id barca-26-27
+    python video_pipeline.py --match-dir output/... --print-plan --format both \\
+        --batch-languages az,en,es,tr
 """
 
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -40,12 +25,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from recap import audit as audit_mod
-from recap import ab_hooks, audio, cast as cast_mod
-from recap import clips, director, growth, hooks, i18n, locale_meta, logos, theme, timing, video, voice, viral_audit
-from recap import export_pack as export_pack_mod
-from recap import platforms as platforms_mod
+from recap import ab_hooks, audit as audit_mod
+from recap import audio, batch, cast as cast_mod, clips, director, hooks, i18n, locale_meta, logos, longform, theme, timing, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
+
+
+class _Help(argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescriptionHelpFormatter):
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -126,61 +112,6 @@ def timing_table(scene_list: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
-def write_language_pack(
-    dest: Path,
-    bundle,
-    audit: dict[str, Any],
-    selected: list[dict[str, Any]],
-    clip_beats: list[dict[str, Any]] | None,
-    language: str,
-) -> None:
-    """Write SCRIPT.md + social_copy.json for one language (no extra mp4)."""
-    previous = i18n.get_language()
-    i18n.set_language(language)
-    try:
-        scenes = director.build_storyboard(bundle, audit, selected, clip_beats=clip_beats)
-        scenes = director.lock_hook_cards(scenes, bundle, audit)
-        if language != "en":
-            scenes = i18n.scrub_english_leftovers(
-                i18n.localize_scenes_offline(scenes, language), language
-            )
-        timed = timing.plan_durations(list(scenes))
-        dest.mkdir(parents=True, exist_ok=True)
-        write_script_files(dest, timed, audit)
-        write_json(
-            dest / "social_copy.json",
-            i18n.social_copy(
-                bundle.home,
-                bundle.away,
-                i18n.format_score(bundle.score.home, bundle.score.away),
-                bundle.league,
-                lang=language,
-            ),
-        )
-        write_json(
-            dest / "copy_plan.json",
-            {
-                "language": language,
-                "language_name": i18n.language_name(language),
-                "rtl": i18n.is_rtl(language),
-                "rtl_engine": i18n.rtl_engine() if i18n.is_rtl(language) else None,
-                "scenes": [
-                    {
-                        key: scene.get(key)
-                        for key in (
-                            "id", "visualization", "kicker", "title",
-                            "subtitle", "insight", "narration",
-                        )
-                    }
-                    for scene in timed
-                ],
-            },
-        )
-        say(f"  copy variant {language}: {dest}")
-    finally:
-        i18n.set_language(previous)
-
-
 def write_script_files(out_dir: Path, scene_list: list[dict[str, Any]], audit: dict[str, Any]) -> None:
     match = audit["match"]
     header = [
@@ -239,45 +170,38 @@ def progress_reporter():
     return report
 
 
-def _write_growth_seo(
-    args: argparse.Namespace,
-    match_dir: Path,
-    out_dir: Path,
-    bundle,
-    audit: dict[str, Any],
-    language: str,
-    scene_list: list[dict[str, Any]] | None = None,
-    duration: float | None = None,
-    mp4: Path | None = None,
-) -> None:
-    """Default-on posting pack. Unique dest: write_growth_seo / growth_pack_dir."""
-    if not getattr(args, "write_growth_seo", True):
-        return
-    override = str(getattr(args, "growth_pack_dir", "") or "").strip()
-    try:
-        pack = growth.write_growth_pack(
-            match_dir,
-            language=language,
-            package_dir=out_dir,
-            dest_dir=override or None,
-            audit=audit,
-            bundle=bundle,
-            scene_list=scene_list,
-            duration_seconds=duration,
-            mp4_path=mp4,
-        )
-        for path in pack.get("written") or []:
-            say(f"  growth: {path}")
-    except Exception as exc:
-        say(f"  [warn] growth pack failed: {exc}")
+def _job_format(args: argparse.Namespace) -> str:
+    job = getattr(args, "_job", None)
+    if job is not None:
+        return job.fmt
+    flag = getattr(args, "format", None) or longform.SHORT
+    if flag == "both":
+        return longform.SHORT
+    return flag
+
+
+def _package_out_dir(args: argparse.Namespace, match_dir: Path, fmt: str) -> Path:
+    job = getattr(args, "_job", None)
+    if job is not None:
+        return Path(job.out_dir)
+    batched = bool(getattr(args, "batch_languages", "") or "")
+    language = getattr(args, "language", None) or "en"
+    return batch.package_dir(
+        Path(args.output_root), match_dir.name, language, fmt, batched=batched,
+    )
 
 
 # ---------------------------------------------------------------------------
-# pipeline
+# pipeline (one language × one format)
 # ---------------------------------------------------------------------------
 
 def run(args: argparse.Namespace) -> Path:
-    language = i18n.set_language(args.language)
+    """Render a single package. ``run_batch`` loops this for farm jobs."""
+    batch.register_farm_languages()
+    job = getattr(args, "_job", None)
+    fmt = _job_format(args)
+    series_id = str((job.series_id if job else None) or getattr(args, "series_id", "") or "")
+    language = batch.activate_language(job.language if job else args.language)
     spoiler = hooks.resolve_spoiler(getattr(args, "spoiler", None))
     team_kind = theme.set_team_kind(args.team)
     if args.colors:
@@ -290,10 +214,14 @@ def run(args: argparse.Namespace) -> Path:
         Path(args.scrape_output_root), args.interactive
     )
     bundle = load_match(match_dir)
-    out_dir = Path(args.output_root) / safe_name(match_dir.name)
+    out_dir = _package_out_dir(args, match_dir, fmt)
     out_dir.mkdir(parents=True, exist_ok=True)
-    say(f"  language: {i18n.language_name(language)} ({language})")
+    say(f"  format: {fmt}")
+    say(f"  language: {batch.language_label(language)} ({language})")
     say(f"  spoiler: {spoiler}")
+    say(f"  output: {out_dir}")
+    if series_id:
+        say(f"  series-id: {series_id} (growth JSON only — not burned into frames)")
     say(f"  typeface: {theme.DISPLAY_FONT} / {theme.LABEL_FONT}")
     say(f"  team mode: {team_kind} ({'circular crests + logos' if team_kind == 'club' else 'rectangular flags'})")
     if team_kind == "club":
@@ -317,29 +245,21 @@ def run(args: argparse.Namespace) -> Path:
     for fact in audit["facts"]:
         say(f"  - {fact}")
     for line in cast_mod.describe_cast(audit.get("cast") or {}):
-        say(f"  star: {line}")
+        say(f"  {line}")
     if ask("Accept these numbers?", ("ok", "quit"), args.auto) == "quit":
         raise SystemExit("Stopped at the data audit.")
 
     extra_clips = [Path(p) for p in (args.clip or [])]
-    sources, clip_report = clips.acquire_sources(
-        bundle,
-        match_dir,
-        extra_clips,
+    sources, clip_report = batch.acquire_clip_sources(
+        bundle, match_dir, extra_clips,
         fetch=bool(getattr(args, "fetch_clip", True)),
         refetch=bool(getattr(args, "refetch_clip", False)),
         audit=audit,
         language=language,
     )
-    clips.log_report(clip_report)
+    batch.log_clip_report(clip_report, say)
     clip_beats = clips.plan_beats(bundle, audit, sources)
     say(f"  opening clips: {clips.describe_beats(clip_beats)}")
-    clip_report = {
-        "mode": "local" if clip_beats else "skipped",
-        "skipped": not bool(clip_beats),
-        "reason": "" if clip_beats else ("no-fetch" if not args.fetch_clip else "no-clip"),
-        "path": str(sources[0]) if sources else None,
-    }
 
     gemini = None
     if not args.no_gemini:
@@ -356,9 +276,14 @@ def run(args: argparse.Namespace) -> Path:
 
     # -- 2. visualizations -------------------------------------------------
     stage("2. Visualization plan")
+    candidates_all = director.visualization_candidates(bundle, audit)
+    available_n = sum(1 for item in candidates_all if item.get("available"))
+    viz_count = longform.viz_count_for(fmt, getattr(args, "visualizations", None), available_n)
+    target_seconds = longform.target_seconds_for(fmt, getattr(args, "target_seconds", None))
+    say(f"  picking {viz_count} distinct viz (available {available_n}); script target {target_seconds:.0f}s")
     selected, candidates = director.select_visualizations(
-        bundle, audit, args.visualizations, gemini, args.instruction,
-        target_seconds=args.target_seconds, language=language, spoiler=spoiler,
+        bundle, audit, viz_count, gemini, args.instruction,
+        target_seconds=target_seconds, language=language, spoiler=spoiler,
     )
     while True:
         for candidate in sorted(candidates, key=lambda c: c["score"], reverse=True):
@@ -372,30 +297,37 @@ def run(args: argparse.Namespace) -> Path:
         if action == "ok":
             break
         if action == "change":
-            selected = manual_selection(candidates, args.visualizations) or selected
+            selected = manual_selection(candidates, viz_count) or selected
             break
         selected, candidates = director.select_visualizations(
-            bundle, audit, args.visualizations, gemini,
+            bundle, audit, viz_count, gemini,
             f"{args.instruction} Choose a different angle to the previous attempt.",
-            target_seconds=args.target_seconds, language=language, spoiler=spoiler,
+            target_seconds=target_seconds, language=language, spoiler=spoiler,
         )
 
     # -- 3. script ---------------------------------------------------------
     stage("3. Script")
     instruction = args.instruction
+    if fmt == longform.LONG:
+        extra = (
+            "YouTube long-form recap. Slow the punch after a hook that lands in "
+            "the first three seconds. More distinct visualizations, chapter-sized "
+            "beats. Do not pad with filler or repeat a card."
+        )
+        instruction = f"{instruction} {extra}".strip()
     already_localized = False
     viral_report: dict[str, Any] = {}
     ab_report: dict[str, Any] = {"enabled": False}
     score_kwargs = dict(
         output_root=Path(args.output_root),
         language=language,
-        spoiler=str(getattr(args, "spoiler", "show") or "show"),
+        spoiler=str(spoiler or "show"),
         clip_report=clip_report,
-        series_id=str(getattr(args, "ab_series_id", "") or "") or None,
+        series_id=str(getattr(args, "ab_series_id", "") or series_id or "") or None,
     )
     while True:
         scene_list, already_localized = build_script(
-            bundle, audit, selected, gemini, instruction, args.target_seconds, language,
+            bundle, audit, selected, gemini, instruction, target_seconds, language,
             clip_beats=clip_beats, spoiler=spoiler,
         )
         if getattr(args, "ab_hooks", True):
@@ -404,24 +336,11 @@ def run(args: argparse.Namespace) -> Path:
                 count=int(getattr(args, "ab_hook_variants", 3) or 3),
                 **score_kwargs,
             )
-            viral_report = dict(ab_report.get("report") or {})
-            viral_report["ab"] = ab_report
-            say(
-                f"  ab-hooks: variant {ab_report.get('picked_variant')} "
-                f"({ab_report.get('picked_source')}) wins; "
-                f"{len(ab_report.get('losers') or [])} losers remembered"
-            )
-        else:
-            ab_report = {"enabled": False}
-            viral_report = viral_audit.score_plan(
-                scene_list, selected, bundle, audit, **score_kwargs,
-            )
-        say(
-            f"  viral score: {viral_report.get('score')}  "
-            f"tiktok {viral_report.get('tiktok_score')}  "
-            f"shorts {viral_report.get('shorts_score')}  "
-            f"youtube {viral_report.get('youtube_score')}"
+            say(f"  A/B hook: variant {ab_report.get('winner_variant')} score {ab_report.get('winner_score')}")
+        viral_report = viral_audit.score_plan(
+            scene_list, selected, bundle, audit, **score_kwargs,
         )
+        say(f"  viral score: {viral_report['score']}")
         for note in viral_report.get("warnings") or []:
             say(f"  [viral] {note}")
         say(script_preview(scene_list))
@@ -435,53 +354,61 @@ def run(args: argparse.Namespace) -> Path:
         else:
             instruction = viral_audit.redo_instruction(instruction, viral_report)
 
-    winner = (ab_report or {}).get("winner") or {
-        "punch": viral_report.get("punch"),
-        "claim": viral_report.get("claim"),
-        "kind": viral_report.get("hook_kind"),
-        "score": viral_report.get("score"),
-    }
-    viral_audit.remember_round(
+    viral_audit.remember_punch(
         Path(args.output_root),
-        winner=winner,
-        losers=list((ab_report or {}).get("losers") or []),
-        match_id=match_dir.name,
-        teams=[bundle.home, bundle.away],
-        series_id=str(getattr(args, "ab_series_id", "") or ""),
+        str(viral_report.get("punch") or ""),
+        match_dir.name,
+        str(viral_report.get("hook_kind") or ""),
     )
 
     if language != "en":
         if not already_localized:
             translator = gemini
             if translator is None or not translator.enabled:
-                # Translation-only path: still use the API key if present, even when
-                # creative Gemini scripting was turned off with --no-gemini.
                 translator = director.Gemini(enabled=True, required=False)
-            scene_list, method = i18n.localize_scenes(scene_list, language, translator)
+            try:
+                scene_list, method = i18n.localize_scenes(scene_list, language, translator)
+            except ValueError:
+                method = "en"
             if method == "gemini":
-                say(f"  localized free-form copy via Gemini ({i18n.language_name(language)}).")
-            else:
+                say(f"  localized free-form copy via Gemini ({batch.language_label(language)}).")
+            elif method != "en":
                 say(
-                    f"  localized UI + known lines offline ({i18n.language_name(language)}). "
+                    f"  localized UI + known lines offline ({batch.language_label(language)}). "
                     "Set GEMINI_API_KEY for fuller narration translation."
                 )
-        # Always strip leftover English chrome. Gemini often rewrites the title
-        # and leaves the English subtitle sitting under it.
-        scene_list = i18n.scrub_english_leftovers(scene_list, language)
+        try:
+            scene_list = i18n.scrub_english_leftovers(scene_list, language)
+        except ValueError:
+            pass
         winner_hook = (ab_report or {}).get("winner_hook")
         scene_list = director.lock_hook_cards(
             scene_list, bundle, audit,
             language=language, spoiler=spoiler, hook=winner_hook,
         )
-        scene_list = i18n.scrub_english_leftovers(scene_list, language)
+        try:
+            scene_list = i18n.scrub_english_leftovers(scene_list, language)
+        except ValueError:
+            pass
         say(script_preview(scene_list))
 
     # -- 4. timing and narration ------------------------------------------
     stage("4. Timing")
-    scene_list = platforms_mod.apply_hook_deadline(scene_list)
-    if getattr(args, "spoiler", "show") == "hide" and platforms_mod.opening_has_score(scene_list):
-        say("  [warn] --spoiler hide: a scoreline is still in the first 3s of copy")
-    scene_list = timing.plan_durations(scene_list)
+    try:
+        from recap import platforms as platforms_mod
+        scene_list = platforms_mod.apply_hook_deadline(scene_list)
+        if spoiler == "hide" and platforms_mod.opening_has_score(scene_list):
+            say("  [warn] --spoiler hide: a scoreline is still in the first 3s of copy")
+    except Exception as exc:
+        say(f"  [warn] platform hook deadline skipped: {exc}")
+    scene_list = longform.pace_scenes(scene_list, fmt)
+    if fmt == longform.LONG and not longform.hook_lands_in_window(scene_list):
+        say("  [warn] hook does not start inside the first 3 seconds")
+    note = longform.runtime_note(
+        timing.total_seconds(scene_list), [item["id"] for item in selected],
+    ) if fmt == longform.LONG else ""
+    if note:
+        say(f"  {note}")
     narration_text = "\n\n".join(scene["narration"] for scene in scene_list)
     write_script_files(out_dir, timing.timeline(scene_list), audit)
 
@@ -491,11 +418,16 @@ def run(args: argparse.Namespace) -> Path:
     audio_seconds = voice.duration(audio_path)
     if audio_seconds:
         say(f"  narration audio is {audio_seconds:.2f}s; fitting the scenes to it")
-        scene_list = timing.scale_to_audio(scene_list, audio_seconds)
+        if fmt == longform.LONG:
+            scene_list = longform.scale_to_audio(scene_list, audio_seconds)
+        else:
+            scene_list = timing.scale_to_audio(scene_list, audio_seconds)
 
+    scene_list = video.quantize_to_frames(scene_list, args.fps)
+    scene_list = timing.timeline(scene_list)
     skip_audio = bool(args.skip_audio)
+    sfx_on = bool(getattr(args, "sfx", True)) and not skip_audio
     loudnorm = "off" if skip_audio else audio.normalize_loudnorm(getattr(args, "loudnorm", "tiktok"))
-    sfx_on = False if skip_audio else bool(getattr(args, "sfx", True))
     music_path, bpm = audio.resolve_music_bed(
         getattr(args, "music_bed", "auto"),
         out_dir=out_dir,
@@ -503,31 +435,36 @@ def run(args: argparse.Namespace) -> Path:
         music_file=getattr(args, "music_file", "") or None,
         skip_audio=skip_audio,
     )
-    if music_path:
+    if music_path and not skip_audio:
         scene_list = audio.snap_wipes_to_beats(scene_list, bpm)
-        say(f"  music bed {music_path.name} @ {bpm:.0f} bpm; wipe cuts snapped to beats (≤120ms)")
-
-    scene_list = video.quantize_to_frames(scene_list, args.fps)
-    scene_list = timing.timeline(scene_list)
+        say(f"  music bed {music_path.name} @ {bpm:.0f} bpm")
     say(timing_table(scene_list))
+    chapters = longform.chapter_markers(scene_list) if fmt == longform.LONG else []
+    if chapters:
+        say("  chapters:")
+        for chapter in chapters:
+            say(f"    {longform.format_runtime(chapter['start'])}  {chapter['title']}")
 
     cues = timing.build_subtitles(scene_list)
     (out_dir / "subtitles.srt").write_text(timing.render_srt(cues), encoding="utf-8")
     write_script_files(out_dir, scene_list, audit)
+    if fmt == longform.LONG:
+        longform.write_youtube_sidecars(
+            out_dir, chapters, audit,
+            series_id=series_id,
+            total_seconds=timing.total_seconds(scene_list),
+        )
 
     write_json(out_dir / "video_plan.json", {
         "match": audit["match"],
         "generation": {
+            "format": fmt,
             "language": language,
-            "language_name": i18n.language_name(language),
-            "rtl": i18n.is_rtl(language),
-            "rtl_engine": i18n.rtl_engine() if i18n.is_rtl(language) else None,
-            "rtl_matplotlib_note": locale_meta.RTL_MATPLOTLIB_FALLBACK if i18n.is_rtl(language) else None,
-            "display_font": theme.DISPLAY_FONT,
-            "label_font": theme.LABEL_FONT,
-            "ass_font": locale_meta.for_language(language).ass_font,
+            "language_name": batch.language_label(language),
             "team_kind": team_kind,
             "badge_shape": theme.badge_shape(team_kind),
+            "series_id": series_id or None,
+            "series_burned_in_video": False,
             "colors": {
                 "home": theme.get_team_colors()[0],
                 "away": theme.get_team_colors()[1],
@@ -538,21 +475,10 @@ def run(args: argparse.Namespace) -> Path:
             "gemini_error": (gemini.last_error or None) if gemini else None,
             "fps": args.fps,
             "transition_seconds": timing.TRANSITION,
-            "target_seconds": args.target_seconds,
-            "spoiler": spoiler,
+            "target_seconds": target_seconds,
             "total_seconds": timing.total_seconds(scene_list),
-            "sfx": sfx_on,
-            "music_bed": None if skip_audio else (getattr(args, "music_bed", "auto") or "auto"),
-            "music_file": str(music_path) if music_path else None,
-            "bpm": bpm,
-            "loudnorm": loudnorm,
-            "skip_audio": skip_audio,
+            "sfx": bool(getattr(args, "sfx", True)),
             "burn_captions": bool(getattr(args, "burn_captions", True)),
-            "star": getattr(args, "star", "auto"),
-            "cast": cast_mod.compact_cast(audit.get("cast") or {}),
-            "platforms": getattr(args, "platforms", "tiktok,shorts"),
-            "aspect": getattr(args, "aspect", "all"),
-            "end_card": bool(getattr(args, "end_card", True)),
             "clips": {
                 "mode": clip_report.get("mode"),
                 "url": clip_report.get("url"),
@@ -566,30 +492,13 @@ def run(args: argparse.Namespace) -> Path:
                 ],
             },
         },
+        "chapters": chapters,
         "viral_audit": viral_report,
         "selected_visualizations": selected,
         "all_candidates": candidates,
         "scenes": scene_list,
         "subtitles": cues,
     })
-
-    write_json(
-        out_dir / "social_copy.json",
-        i18n.social_copy(
-            bundle.home,
-            bundle.away,
-            i18n.format_score(bundle.score.home, bundle.score.away),
-            bundle.league,
-            lang=language,
-        ),
-    )
-    batch_codes = list(getattr(args, "batch_language_codes", None) or [])
-    if batch_codes:
-        stage("4b. Language copy variants")
-        say("  sharing audit + visualization plan; copy only (no extra mp4)")
-        for code in batch_codes:
-            write_language_pack(out_dir / code, bundle, audit, selected, clip_beats, code)
-        i18n.set_language(language)
 
     # -- 5. render ---------------------------------------------------------
     if args.still:
@@ -598,11 +507,6 @@ def run(args: argparse.Namespace) -> Path:
                                       positions=tuple(args.still_positions))
         for path in written:
             say(f"  {path}")
-        _write_platform_pack(out_dir, None, args, audit, scene_list, viral_report, language)
-        _write_growth_seo(
-            args, match_dir, out_dir, bundle, audit, language,
-            scene_list, timing.total_seconds(scene_list),
-        )
         return out_dir
 
     stage("5. Render")
@@ -617,10 +521,6 @@ def run(args: argparse.Namespace) -> Path:
     stage("6. Assemble")
     if args.skip_video:
         say("  skipped (--skip-video)")
-        _write_growth_seo(
-            args, match_dir, out_dir, bundle, audit, language,
-            scene_list, timing.total_seconds(scene_list),
-        )
         return out_dir
 
     path = video.assemble(
@@ -635,11 +535,12 @@ def run(args: argparse.Namespace) -> Path:
     )
     if not path:
         say("  no mp4 was produced; the frames and script are still in place.")
-        _write_growth_seo(
-            args, match_dir, out_dir, bundle, audit, language,
-            scene_list, timing.total_seconds(scene_list),
-        )
         return out_dir
+
+    if fmt == longform.LONG and chapters:
+        muxed = longform.mux_chapters(path, chapters, timing.total_seconds(scene_list))
+        if muxed:
+            say("  muxed YouTube chapter markers into the mp4")
 
     actual = video.probe_duration(path)
     expected = timing.total_seconds(scene_list)
@@ -647,49 +548,7 @@ def run(args: argparse.Namespace) -> Path:
     say(f"  duration {actual:.2f}s (planned {expected:.2f}s)" if actual else f"  planned {expected:.2f}s")
     if actual and abs(actual - expected) > 0.35:
         say(f"  [warn] the encoded duration is {abs(actual - expected):.2f}s off the plan")
-    _write_platform_pack(out_dir, path, args, audit, scene_list, viral_report, language)
-    _write_growth_seo(
-        args, match_dir, out_dir, bundle, audit, language,
-        scene_list, actual or expected, path,
-    )
     return out_dir
-
-
-def _write_platform_pack(out_dir, master, args, audit, scene_list, viral_report, language) -> None:
-    """ffmpeg-export requested social formats from the portrait master."""
-    stage("7. Platform pack")
-    plan = {
-        "match": audit.get("match"),
-        "scenes": scene_list,
-        "viral_audit": viral_report,
-        "generation": {
-            "colors": {
-                "home": theme.get_team_colors()[0],
-                "away": theme.get_team_colors()[1],
-            }
-        },
-    }
-    try:
-        manifest = export_pack_mod.export_pack(
-            Path(out_dir),
-            Path(master) if master else None,
-            platforms_flag=getattr(args, "platforms", "tiktok,shorts"),
-            aspect=getattr(args, "aspect", "all"),
-            spoiler=getattr(args, "spoiler", "show"),
-            end_card=bool(getattr(args, "end_card", True)),
-            language=language,
-            audit=audit,
-            plan=plan,
-            srt_path=Path(out_dir) / "subtitles.srt",
-            fps=int(getattr(args, "fps", video.DEFAULT_FPS)),
-        )
-    except (ValueError, OSError) as exc:
-        say(f"  [warn] platform pack failed: {exc}")
-        return
-    say(f"  cover {manifest.get('cover', {}).get('path', '')}  ({manifest.get('cover', {}).get('number')} {manifest.get('cover', {}).get('label', '')})".rstrip())
-    for row in manifest.get("exports") or []:
-        status = row.get("mp4") if row.get("ok") else (row.get("error") or row.get("jpg") or "skipped")
-        say(f"  {row.get('id')}: {status}")
 
 
 def build_script(
@@ -704,22 +563,22 @@ def build_script(
     spoiler: str | None = None,
 ) -> tuple[list[dict[str, Any]], bool]:
     """Return (scenes, already_localized_by_gemini)."""
-    spoiler = hooks.resolve_spoiler(
-        spoiler,
-        audit.get("spoiler"),
-        (audit.get("generation") or {}).get("spoiler") if isinstance(audit.get("generation"), dict) else None,
-    )
     scene_list = director.build_storyboard(
         bundle, audit, selected, clip_beats=clip_beats, language=language, spoiler=spoiler,
     )
     already_localized = False
     angle = director.pick_angle(bundle, audit, language=language, spoiler=spoiler)
+    script_language = language
+    try:
+        i18n.normalize_language(language)
+    except ValueError:
+        script_language = "en"
     if gemini is not None and gemini.enabled:
-        editorial = gemini.choose_angle(bundle, audit, language)
+        editorial = gemini.choose_angle(bundle, audit, script_language)
         if editorial.get("angle"):
             angle = str(editorial["angle"])
-        hook = director.build_hook(bundle, audit, language=language, spoiler=spoiler)
-        rewrite = gemini.rephrase_hook(hook, language)
+        hook = director.build_hook(bundle, audit, language=script_language, spoiler=spoiler)
+        rewrite = gemini.rephrase_hook(hook, script_language)
         hook = hooks.apply_hook_rephrase(hook, rewrite)
         scene_list = director.apply_script(
             scene_list,
@@ -736,14 +595,14 @@ def build_script(
         )
         speakable = [scene for scene in scene_list if not scene.get("hook")]
         budget = timing.word_budget(target_seconds, max(1, len(speakable)))
-        say(f"  asking Gemini for roughly {budget} words per scene ({i18n.language_name(language)})")
+        say(f"  asking Gemini for roughly {budget} words per scene ({batch.language_label(language)})")
         overrides = gemini.write_script(
-            bundle, audit, scene_list, budget, instruction, language=language,
+            bundle, audit, scene_list, budget, instruction, language=script_language,
             angle=angle, audit_notes=[instruction] if instruction else [],
         )
         if overrides:
             scene_list = director.apply_script(scene_list, overrides)
-            already_localized = language != "en"
+            already_localized = language != "en" and script_language == language
 
     problems = director.copy_problems(scene_list, audit)
     if problems:
@@ -775,133 +634,246 @@ def manual_selection(candidates: list[dict[str, Any]], count: int) -> list[dict[
     return chosen[:count]
 
 
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
+
 def _language_arg(value: str) -> str:
     try:
-        return i18n.normalize_language(value)
+        return batch.normalize_lang(value)
     except ValueError as exc:
         raise argparse.ArgumentTypeError(str(exc)) from exc
 
 
+def _batch_languages_arg(value: str) -> str:
+    if not (value or "").strip():
+        return ""
+    codes = batch.parse_languages(value)
+    if not codes:
+        raise argparse.ArgumentTypeError("--batch-languages needs at least one code, e.g. az,en,es,tr")
+    return ",".join(codes)
+
+
+def _format_arg(value: str) -> str:
+    try:
+        longform.formats_from(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(str(exc)) from exc
+    return value.strip().lower()
+
+
+EPILOG = """
+This command does not scrape. Feed it a finished export under output/<match>/.
+Rerunning the same match-dir is idempotent: a matching run_stamp.json skips
+the render unless you pass --force.
+
+formats:
+  short   Vertical farm cut (default). Hook in the first 3s, ~40s, five cards.
+  long    YouTube recap, ~3–8 min. More distinct viz, chapter markers, slower
+          punch. If the match cannot fill 3 minutes without repeating a card,
+          the cut is shorter — never padded with silence.
+  both    Render short then long.
+
+languages:
+  --language CODE           One package (default en). Codes: en, az, es, ru, tr
+                            (tr is a farm code; full catalogs may come from the
+                            i18n module when it merges).
+  --batch-languages a,b,c   Copy variants in video_output/<lang>/<match>/.
+                            Implies --auto (no prompts).
+
+optional sibling modules (imported if present, skipped if not):
+  recap.platforms / recap.export_pack
+                    --platforms tiktok,reels,shorts,youtube
+  recap.growth      --write-growth  (always writes growth.json; enriches if
+                    the module exists). --series-id is stored there, never
+                    burned into frames.
+
+examples:
+  Short-form farm cut from an existing export:
+    python video_pipeline.py --match-dir output/1953861_Scotland_vs_Morocco --auto
+
+  Graphics-only (do not hit YouTube for a highlight):
+    python video_pipeline.py --match-dir output/... --auto --no-fetch-clip
+
+  YouTube long-form with chapters:
+    python video_pipeline.py --match-dir output/... --auto --format long --team club
+
+  Four-language farm + long-form, growth JSON, no babysitting:
+    python video_pipeline.py --match-dir output/... --auto --format both \\
+        --batch-languages az,en,es,tr --platforms tiktok,reels,shorts \\
+        --write-growth --series-id "barca-26-27"
+
+  Dry-run the editorial plan (hook / angle / viz / duration / langs / platforms):
+    python video_pipeline.py --match-dir output/... --print-plan --format both \\
+        --batch-languages az,en,es,tr --platforms tiktok,reels --series-id barca-26-27
+""".strip()
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    langs = ", ".join(i18n.SUPPORTED)
+    batch.register_farm_languages()
+    langs = ", ".join(batch.known_languages())
     parser = argparse.ArgumentParser(
-        description="Build a narrated vertical match recap from a WhoScored export.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        prog="video_pipeline.py",
+        description=(
+            "Build a narrated match recap from a WhoScored export. "
+            "Default is a short-form farm cut. Add --format long for a YouTube "
+            "recap with chapters, and --batch-languages to render copy variants "
+            "without sitting through prompts."
+        ),
+        epilog=EPILOG,
+        formatter_class=_Help,
     )
-    parser.add_argument("--match-dir", help="An export directory under output/")
-    parser.add_argument("--scrape-output-root", default="output", help="Where scraper exports live")
-    parser.add_argument("--output-root", default="video_output", help="Where video packages are written")
-    parser.add_argument("--visualizations", type=int, default=5,
-                        help="Tactical visualizations between the hook and the closing score")
-    parser.add_argument("--target-seconds", type=float, default=40.0,
-                        help="Runtime the script is written to fill")
-    parser.add_argument("--fps", type=int, default=video.DEFAULT_FPS, help="Output frame rate")
 
-    parser.add_argument("--interactive", action="store_true", help="Pick the match and approve each stage")
-    parser.add_argument("--auto", action="store_true", help="Approve every stage without prompting")
+    match = parser.add_argument_group("Match and output")
+    match.add_argument("--match-dir", help="Finished export directory under output/ (not a scrape)")
+    match.add_argument("--scrape-output-root", default="output",
+                       help="Where existing scraper exports live (this command does not scrape)")
+    match.add_argument("--output-root", default="video_output",
+                       help="Package root. Batch languages write video_output/<lang>/<match>/")
+    match.add_argument("--force", action="store_true",
+                       help="Rebuild even when run_stamp.json says this package is complete")
 
-    parser.add_argument(
+    editorial = parser.add_argument_group("Format, languages, farm batch")
+    editorial.add_argument(
+        "--format", type=_format_arg, default="short",
+        help="short (farm, default), long (YouTube 3–8 min + chapters), or both",
+    )
+    editorial.add_argument(
+        "--batch-languages", type=_batch_languages_arg, default="",
+        metavar="CODES",
+        help=f"Comma-separated copy variants into video_output/<lang>/. Codes: {langs}",
+    )
+    editorial.add_argument(
         "--language", type=_language_arg, default="en",
-        help=f"On-screen copy and narration language. Codes: {langs}",
+        help=f"Single-run copy language when --batch-languages is omitted. Codes: {langs}",
     )
-    parser.add_argument(
-        "--batch-languages", default="", metavar="CODES",
-        help="Comma-separated copy variants written to <match>/<lang>/ "
-             "(no extra mp4s). Example: az,tr,ar. Aliases like pt-br and ua work.",
+    editorial.add_argument(
+        "--platforms", default="", metavar="IDS",
+        help="Comma-separated platform ids passed to recap.platforms / recap.export_pack "
+             "if those modules exist (e.g. tiktok,reels,shorts,youtube). "
+             "Warns and continues if they do not.",
     )
-    dests = {action.dest for action in parser._actions}
-    if "spoiler" not in dests:
-        parser.add_argument(
-            "--spoiler", default="show", choices=["show", "hide"],
-            help="hide = first beat cannot leak final score or scorer; payoff on the close card",
-        )
-    parser.add_argument("--team", default="national",
-                        choices=list(theme.TEAM_KINDS),
-                        help="Badge style: national flags (rect) or club crests (circle + logos)")
-    parser.add_argument(
+    editorial.add_argument(
+        "--write-growth", dest="write_growth", action="store_true", default=True,
+        help="Write growth.json / posting pack next to the mp4 (default on)",
+    )
+    editorial.add_argument(
+        "--no-write-growth", dest="write_growth", action="store_false",
+        help="Skip the growth/SEO posting pack",
+    )
+    editorial.add_argument(
+        "--series-id", default="", metavar="ID",
+        help="Optional series key for growth JSON, e.g. barca-26-27 for a "
+             "'Barça 26/27 recap series'. Never burned into the video.",
+    )
+    editorial.add_argument(
+        "--spoiler", default="show", choices=["show", "hide"],
+        help="hide = first beat cannot leak final score or scorer; payoff on the close card",
+    )
+    editorial.add_argument(
+        "--star", default="auto", metavar="MODE",
+        help="Star-player packaging: auto (default), off, or a player name/alias from the export",
+    )
+    editorial.add_argument(
+        "--print-plan", action="store_true",
+        help="Dry-run: print hook, angle, viz, duration, languages, platforms, chapters. "
+             "No frames, no clip fetch, no Gemini.",
+    )
+    editorial.add_argument(
+        "--aspect", default="all",
+        help="9:16, 16:9, 1:1, or all for the platform export pack",
+    )
+    editorial.add_argument(
+        "--end-card", dest="end_card", action="store_true", default=True,
+        help="Append a 0.8s comment-bait end card on platform exports (default on)",
+    )
+    editorial.add_argument(
+        "--no-end-card", dest="end_card", action="store_false",
+        help="Skip the platform end card",
+    )
+
+    pace = parser.add_argument_group("Pacing")
+    pace.add_argument(
+        "--visualizations", type=int, default=None,
+        help="Tactical cards between hook and close. Default: 5 for short, "
+             "every distinct available card for long (never repeats)",
+    )
+    pace.add_argument(
+        "--target-seconds", type=float, default=None,
+        help="Word-budget the script is written to fill. Default: 40 short, ~240 long. "
+             "Long-form will still cut shorter than 3:00 rather than pad.",
+    )
+    pace.add_argument("--fps", type=int, default=video.DEFAULT_FPS, help="Output frame rate")
+
+    run_mode = parser.add_argument_group("Run mode")
+    run_mode.add_argument("--interactive", action="store_true",
+                          help="Pick the match and approve each stage")
+    run_mode.add_argument("--auto", action="store_true",
+                          help="Approve every stage without prompting")
+
+    look = parser.add_argument_group("Look")
+    look.add_argument("--team", default="national",
+                      choices=list(theme.TEAM_KINDS),
+                      help="Badge style: national flags (rect) or club crests (circle + logos)")
+    look.add_argument(
         "--colors", nargs=2, metavar=("HOME", "AWAY"),
         help="Home and away hex colours, e.g. --colors \"#004170\" \"#95BFE5\" "
              "(quote them in PowerShell; # without quotes is a comment)",
     )
-    parser.add_argument("--instruction", default="", help="Editorial note passed to Gemini")
-    parser.add_argument("--model", default=None, help="Gemini model for viz pick (defaults to GEMINI_MODEL)")
-    parser.add_argument("--script-model", default=None,
-                        help="Gemini model for copy (defaults to GEMINI_SCRIPT_MODEL or gemini-2.5-pro)")
-    parser.add_argument("--no-gemini", action="store_true", help="Use only the deterministic script")
-    parser.add_argument("--require-gemini", action="store_true", help="Fail rather than fall back")
 
-    parser.add_argument("--voiceover-file", default="", help="Recorded narration to attach")
-    parser.add_argument("--sapi-tts", action="store_true", help="Synthesise narration for a rough cut (Windows)")
-    parser.add_argument("--skip-audio", action="store_true",
-                        help="Fully silent mp4 (no VO/SFX/music/loudnorm). Valid when a visual-only master is wanted.")
-    parser.add_argument("--sfx", dest="sfx", action="store_true", default=True,
-                        help="Mix synthesized hits under the master (default on)")
-    parser.add_argument("--no-sfx", dest="sfx", action="store_false", help="Skip SFX hits")
-    parser.add_argument(
+    gem = parser.add_argument_group("Gemini (optional)")
+    gem.add_argument("--instruction", default="", help="Editorial note passed to Gemini")
+    gem.add_argument("--model", default=None, help="Gemini model for viz pick (defaults to GEMINI_MODEL)")
+    gem.add_argument("--script-model", default=None,
+                     help="Gemini model for copy (defaults to GEMINI_SCRIPT_MODEL or gemini-2.5-pro)")
+    gem.add_argument("--no-gemini", action="store_true", help="Use only the deterministic script")
+    gem.add_argument("--require-gemini", action="store_true", help="Fail rather than fall back")
+
+    audio = parser.add_argument_group("Audio")
+    audio.add_argument("--voiceover-file", default="", help="Recorded narration to attach")
+    audio.add_argument("--sapi-tts", action="store_true", help="Synthesise narration for a rough cut (Windows)")
+    audio.add_argument("--skip-audio", action="store_true", help="Render silent")
+    audio.add_argument("--sfx", dest="sfx", action="store_true", default=True,
+                       help="Mix synthesized hits under the master (default on)")
+    audio.add_argument("--no-sfx", dest="sfx", action="store_false", help="Skip SFX hits")
+    audio.add_argument(
         "--music-bed", default="auto", metavar="SPEC",
         help="Original bed: auto (ffmpeg lavfi loop), none, or a file path. Not a trending-song rip.",
     )
-    parser.add_argument(
-        "--music-file", default="",
-        help="Optional music path (alias for --music-bed PATH). Ducked under voice and SFX.",
-    )
-    parser.add_argument(
+    audio.add_argument("--music-file", default="", help="Optional music path (alias for --music-bed PATH)")
+    audio.add_argument(
         "--loudnorm", nargs="?", const="tiktok", default="tiktok",
         choices=("tiktok", "youtube", "off"),
-        help="EBU R128 when audio is mixed: tiktok -11 LUFS, youtube -14, off. Default on.",
+        help="EBU R128 when audio is mixed: tiktok -11 LUFS, youtube -14, off.",
     )
-    parser.add_argument(
+    audio.add_argument(
         "--no-loudnorm", dest="loudnorm", action="store_const", const="off",
         help="Skip loudnorm (limiter still runs on mixed audio).",
     )
-    parser.add_argument("--burn-captions", dest="burn_captions", action="store_true", default=True,
-                        help="Burn subtitles into the social master (default on)")
-    parser.add_argument("--no-burn-captions", dest="burn_captions", action="store_false",
-                        help="Keep captions as an external SRT only")
+    audio.add_argument("--burn-captions", dest="burn_captions", action="store_true", default=True,
+                       help="Burn subtitles into the social master (default on)")
+    audio.add_argument("--no-burn-captions", dest="burn_captions", action="store_false",
+                       help="Keep captions as an external SRT only")
 
-    parser.add_argument(
-        "--star",
-        default="auto",
-        metavar="MODE",
-        help="Star-player packaging: auto (default), off, or a player name/alias from the export",
+    footage = parser.add_argument_group("Clips")
+    footage.add_argument("--clip", action="append", default=[],
+                         help="Path to a match clip or highlight (repeatable). Also reads match-dir/clips/")
+    footage.add_argument(
+        "--fetch-clip", action=argparse.BooleanOptionalAction, default=True,
+        help="Search YouTube via yt-dlp for a short highlight when none is cached "
+             "(default on). --no-fetch-clip skips the network; graphics-only still runs.",
     )
-
-    parser.add_argument("--clip", action="append", default=[],
-                        help="Path to a match clip or highlight (repeatable). Also reads match-dir/clips/")
-    parser.add_argument(
-        "--fetch-clip", dest="fetch_clip", action="store_true", default=True,
-        help="Auto-search YouTube via yt-dlp for a short highlight of this fixture "
-             "when no local clip is cached (default on)",
-    )
-    parser.add_argument(
-        "--no-fetch-clip", dest="fetch_clip", action="store_false",
-        help="Skip automatic highlight fetch; graphics-only recap still runs",
-    )
-    parser.add_argument(
+    footage.add_argument(
         "--refetch-clip", action="store_true",
         help="Ignore the cached highlight under match-dir/clips/ and search again",
     )
 
-    parser.add_argument("--still", action="store_true", help="Render one image per scene instead of a video")
-    parser.add_argument("--still-positions", type=float, nargs="+", default=[1.0],
+    render = parser.add_argument_group("Render")
+    render.add_argument("--still", action="store_true", help="Render one image per scene instead of a video")
+    render.add_argument("--still-positions", type=float, nargs="+", default=[1.0],
                         help="Animation positions to capture with --still")
-    parser.add_argument("--no-crossfade", action="store_true", help="Hard cuts instead of dissolves")
-    parser.add_argument("--skip-video", action="store_true", help="Render frames but do not encode")
-    platforms_mod.add_cli_arguments(parser)
-
-    growth_cli = parser.add_argument_group("growth / SEO pack")
-    growth_cli.add_argument(
-        "--write-growth", dest="write_growth_seo", action="store_true", default=True,
-        help="Write bilingual titles/hashtags/thumbs next to the mp4 (default on)",
-    )
-    growth_cli.add_argument(
-        "--no-write-growth", dest="write_growth_seo", action="store_false",
-        help="Skip the growth/SEO posting pack",
-    )
-    growth_cli.add_argument(
-        "--growth-dir", dest="growth_pack_dir", default="",
-        help="Override growth pack directory (default: <match-dir>/growth and <output>/growth)",
-    )
+    render.add_argument("--no-crossfade", action="store_true", help="Hard cuts instead of dissolves")
+    render.add_argument("--skip-video", action="store_true", help="Render frames but do not encode")
 
     viral = parser.add_argument_group("Viral audit / hook A/B")
     viral.add_argument(
@@ -918,28 +890,38 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     viral.add_argument(
         "--ab-series-id", dest="ab_series_id", default="", metavar="ID",
-        help="Team-series key for hook memory, e.g. villa-26-27. Unique from --series-id.",
+        help="Team-series key for hook memory, e.g. villa-26-27",
     )
 
     args = parser.parse_args(argv)
-    if not args.auto and not args.interactive:
-        args.interactive = True
     if args.require_gemini and args.no_gemini:
         parser.error("--require-gemini and --no-gemini cannot be combined")
-    try:
-        args.batch_language_codes = i18n.parse_languages(args.batch_languages)
-    except ValueError as exc:
-        parser.error(str(exc))
-    if args.ab_hook_variants < 2:
+    if args.visualizations is not None and args.visualizations < 1:
+        parser.error("--visualizations must be >= 1")
+    if args.target_seconds is not None and args.target_seconds <= 0:
+        parser.error("--target-seconds must be positive")
+    batch_mode = bool(args.batch_languages) or bool(args.print_plan) or args.format == "both"
+    if batch_mode:
+        args.auto = True
+        args.interactive = False
+    elif not args.auto and not args.interactive:
+        args.interactive = True
+    if getattr(args, "ab_hook_variants", 3) < 2:
         parser.error("--ab-hook-variants must be >= 2")
-    if args.ab_hook_variants > 8:
+    if getattr(args, "ab_hook_variants", 3) > 8:
         parser.error("--ab-hook-variants must be <= 8")
     return args
 
 
+def main(argv: list[str] | None = None) -> list[batch.JobResult]:
+    args = parse_args(argv)
+    batch.theme_ready(args)
+    return batch.run_batch(args, render_one=run, choose_match=choose_match, say=say)
+
+
 if __name__ == "__main__":
     try:
-        run(parse_args())
+        main()
     except KeyboardInterrupt:
         say("\nInterrupted.")
         raise SystemExit(130)

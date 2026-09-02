@@ -19,13 +19,18 @@ Layers, from the bottom up:
     safe_zones  caption / hook placement for mute-first social chrome
     growth    bilingual posting pack (titles, hashtags, thumbs)
     thumbnails  huge overlay JPGs for that pack
+    longform  YouTube 3–8 min pacing, chapters, no silent padding
+    batch     language × format farm; optional recap.platforms / recap.growth
+    ab_hooks  A/B picker for fact-locked hook variants
 
 Nothing in a lower layer imports from a higher one.
 """
 
 __all__ = [
+    "ab_hooks",
     "audit",
     "audio",
+    "batch",
     "cast",
     "clips",
     "data",
@@ -34,11 +39,11 @@ __all__ = [
     "export_pack",
     "graphs",
     "growth",
-    "ab_hooks",
     "hooks",
     "i18n",
     "locale_meta",
     "logos",
+    "longform",
     "music_beds",
     "platforms",
     "retention",
