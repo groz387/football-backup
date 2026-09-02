@@ -23,6 +23,11 @@ _*.log
 # Generated video packages (regenerate with video_pipeline.py)
 video_output/
 
+# Runtime-generated recap audio (ffmpeg lavfi / numpy; keep git small)
+recap/sfx/*.wav
+recap/sfx/.pack_version
+recap/sfx/beds/
+
 # OS / editor
 .DS_Store
 Thumbs.db

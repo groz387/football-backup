@@ -34,7 +34,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
-from recap import clips, director, hooks, i18n, logos, theme, timing, video, voice, viral_audit
+from recap import audio, clips, director, hooks, i18n, logos, theme, timing, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -328,6 +328,20 @@ def run(args: argparse.Namespace) -> Path:
         say(f"  narration audio is {audio_seconds:.2f}s; fitting the scenes to it")
         scene_list = timing.scale_to_audio(scene_list, audio_seconds)
 
+    skip_audio = bool(args.skip_audio)
+    loudnorm = "off" if skip_audio else audio.normalize_loudnorm(getattr(args, "loudnorm", "tiktok"))
+    sfx_on = False if skip_audio else bool(getattr(args, "sfx", True))
+    music_path, bpm = audio.resolve_music_bed(
+        getattr(args, "music_bed", "auto"),
+        out_dir=out_dir,
+        scenes=scene_list,
+        music_file=getattr(args, "music_file", "") or None,
+        skip_audio=skip_audio,
+    )
+    if music_path:
+        scene_list = audio.snap_wipes_to_beats(scene_list, bpm)
+        say(f"  music bed {music_path.name} @ {bpm:.0f} bpm; wipe cuts snapped to beats (≤120ms)")
+
     scene_list = video.quantize_to_frames(scene_list, args.fps)
     scene_list = timing.timeline(scene_list)
     say(timing_table(scene_list))
@@ -355,7 +369,12 @@ def run(args: argparse.Namespace) -> Path:
             "transition_seconds": timing.TRANSITION,
             "target_seconds": args.target_seconds,
             "total_seconds": timing.total_seconds(scene_list),
-            "sfx": bool(getattr(args, "sfx", True)),
+            "sfx": sfx_on,
+            "music_bed": None if skip_audio else (getattr(args, "music_bed", "auto") or "auto"),
+            "music_file": str(music_path) if music_path else None,
+            "bpm": bpm,
+            "loudnorm": loudnorm,
+            "skip_audio": skip_audio,
             "burn_captions": bool(getattr(args, "burn_captions", True)),
         },
         "viral_audit": viral_report,
@@ -391,10 +410,12 @@ def run(args: argparse.Namespace) -> Path:
     path = video.assemble(
         out_dir, rendered, audio_path, fps=args.fps,
         crossfade=not args.no_crossfade,
-        sfx=bool(getattr(args, "sfx", True)),
+        sfx=sfx_on,
         burn_captions=bool(getattr(args, "burn_captions", True)),
-        music_file=getattr(args, "music_file", "") or None,
+        music_file=music_path,
         srt_path=out_dir / "subtitles.srt",
+        loudnorm=loudnorm,
+        skip_audio=skip_audio,
     )
     if not path:
         say("  no mp4 was produced; the frames and script are still in place.")
@@ -517,11 +538,28 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
     parser.add_argument("--voiceover-file", default="", help="Recorded narration to attach")
     parser.add_argument("--sapi-tts", action="store_true", help="Synthesise narration for a rough cut (Windows)")
-    parser.add_argument("--skip-audio", action="store_true", help="Render silent")
+    parser.add_argument("--skip-audio", action="store_true",
+                        help="Fully silent mp4 (no VO/SFX/music/loudnorm). Valid when a visual-only master is wanted.")
     parser.add_argument("--sfx", dest="sfx", action="store_true", default=True,
                         help="Mix synthesized hits under the master (default on)")
     parser.add_argument("--no-sfx", dest="sfx", action="store_false", help="Skip SFX hits")
-    parser.add_argument("--music-file", default="", help="Optional music bed (ducked under VO)")
+    parser.add_argument(
+        "--music-bed", default="auto", metavar="SPEC",
+        help="Original bed: auto (ffmpeg lavfi loop), none, or a file path. Not a trending-song rip.",
+    )
+    parser.add_argument(
+        "--music-file", default="",
+        help="Optional music path (alias for --music-bed PATH). Ducked under voice and SFX.",
+    )
+    parser.add_argument(
+        "--loudnorm", nargs="?", const="tiktok", default="tiktok",
+        choices=("tiktok", "youtube", "off"),
+        help="EBU R128 when audio is mixed: tiktok -11 LUFS, youtube -14, off. Default on.",
+    )
+    parser.add_argument(
+        "--no-loudnorm", dest="loudnorm", action="store_const", const="off",
+        help="Skip loudnorm (limiter still runs on mixed audio).",
+    )
     parser.add_argument("--burn-captions", dest="burn_captions", action="store_true", default=True,
                         help="Burn subtitles into the social master (default on)")
     parser.add_argument("--no-burn-captions", dest="burn_captions", action="store_false",
