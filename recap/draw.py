@@ -223,7 +223,7 @@ def _background_pixels(ink: str, home: str, away: str) -> np.ndarray:
     # figimage rows run bottom-to-top, so fraction 0 is the bottom of the frame.
     fraction = np.linspace(0.0, 1.0, theme.FRAME_H)[:, None]
     tint = bottom * (1.0 - fraction) + top * fraction
-    wash = 0.085 * (1.0 - np.abs(fraction - 0.5) * 0.6)
+    wash = 0.14 * (1.0 - np.abs(fraction - 0.5) * 0.55)
     colour = base * (1.0 - wash) + tint * wash
 
     # Vignette so the chrome bands always have a darker base to sit on.
@@ -491,8 +491,8 @@ def insight(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT
 def footer(fig: plt.Figure, right_text: str = "", *, alpha: float = 1.0) -> None:
     from . import i18n
 
-    fig.text(Layout.MARGIN, Layout.FOOTER_Y, i18n.t("watermark"), color=TEXT_FAINT, fontsize=9.5,
-             family=theme.MONO_FONT, ha="left", va="center", alpha=alpha, zorder=20)
+    fig.text(Layout.MARGIN, Layout.FOOTER_Y, i18n.t("watermark"), color=TEXT_FAINT, fontsize=8.0,
+             family=theme.MONO_FONT, ha="left", va="center", alpha=alpha * 0.45, zorder=20)
     fit_text(
         fig, 1 - Layout.MARGIN, Layout.FOOTER_Y, (right_text or theme.DATA_SOURCE).upper(),
         fontsize=9.0, max_width=0.52, max_lines=1, min_fontsize=6.5,
@@ -1117,6 +1117,141 @@ def scatter_batch(
         kwargs["facecolors"] = ["none"] * count
         kwargs["edgecolors"] = list(colors)
     ax.scatter(xs, ys, **kwargs)
+
+
+def hero_number(fig: plt.Figure, x: float, y: float, value: Any, *,
+                color: str = TEXT, alpha: float = 1.0, fontsize: float = 160.0,
+                ha: str = "center", va: str = "center") -> None:
+    """A phone-stopping numeral. Labels stay small; this does not."""
+    fig.text(
+        x, y, str(value), color=color, fontsize=fontsize, fontweight="bold",
+        family=theme.DISPLAY_FONT, ha=ha, va=va, alpha=opacity(alpha), zorder=22,
+        path_effects=soft_shadow(),
+    )
+
+
+def caption_bar(fig: plt.Figure, text: str, *, y: float | None = None, alpha: float = 1.0,
+                progress: float = 1.0) -> None:
+    """On-screen insight, stamped late so the graph can speak first."""
+    if not text or progress <= 0:
+        return
+    if y is None:
+        insight(fig, text, alpha=opacity(alpha * progress))
+        return
+    slide = (1.0 - ease_out_cubic(progress)) * 0.04
+    fit_text(
+        fig, 0.5, y + slide, str(text),
+        fontsize=22.0, max_width=Layout.CONTENT_W - 0.02, max_lines=2, min_fontsize=13.0,
+        ha="center", va="center", color=TEXT, family=theme.DISPLAY_FONT, fontweight="bold",
+        linespacing=1.02, alpha=opacity(alpha * progress), zorder=21, path_effects=soft_shadow(),
+    )
+
+
+def color_flash(fig: plt.Figure, color: str, *, alpha: float = 1.0, zorder: int = 5) -> None:
+    fig_rect(fig, 0.0, 0.0, 1.0, 1.0, color, opacity(alpha), zorder=zorder)
+
+
+def particle_burst(ax, x: float, y: float, color: str, progress: float,
+                   count: int = 8, radius: float = 4.0, zorder: int = 21) -> None:
+    """Cheap expanding dots around a goal / slam."""
+    if progress <= 0:
+        return
+    fade = opacity(1.0 - progress)
+    for index in range(count):
+        angle = (index / count) * math.tau
+        reach = radius * (0.35 + 0.65 * progress)
+        add_shape(
+            ax,
+            Circle((x + math.cos(angle) * reach, y + math.sin(angle) * reach),
+                   0.35 + 0.25 * (1.0 - progress), facecolor=color, edgecolor="none",
+                   alpha=fade * 0.85, zorder=zorder),
+        )
+
+
+def radar_polygon(ax, values: list[float], color: str, *, progress: float = 1.0,
+                  fill_alpha: float = 0.28, lw: float = 2.2, zorder: int = 8) -> None:
+    """Regular polygon radar. *values* are 0-1 scores, one per axis."""
+    count = len(values)
+    if count < 3:
+        return
+    grown = [max(0.02, min(1.0, float(value) * progress)) for value in values]
+    angles = [index * math.tau / count + math.pi / 2 for index in range(count)]
+    xs = [0.5 + math.cos(angle) * value * 0.48 for angle, value in zip(angles, grown)]
+    ys = [0.5 + math.sin(angle) * value * 0.48 for angle, value in zip(angles, grown)]
+    xs.append(xs[0])
+    ys.append(ys[0])
+    ax.fill(xs, ys, color=color, alpha=opacity(fill_alpha * progress), zorder=zorder, linewidth=0)
+    ax.plot(xs, ys, color=color, lw=lw, alpha=opacity(0.95 * progress), zorder=zorder + 1)
+
+
+def ring_gauge(ax, cx: float, cy: float, value: float, maximum: float, color: str, *,
+               progress: float = 1.0, radius: float = 0.32, width: float = 0.07,
+               zorder: int = 8) -> None:
+    """Arc gauge from 12 o'clock clockwise. *value* / *maximum* fills the ring."""
+    from matplotlib.patches import Wedge
+
+    frac = 0.0 if maximum <= 0 else min(1.0, max(0.0, value / maximum))
+    frac *= progress
+    add_shape(
+        ax,
+        Wedge((cx, cy), radius, 90, 90 - 359.9, width=width,
+              facecolor="#2a332f", edgecolor="none", alpha=0.95, zorder=zorder),
+    )
+    if frac > 0.002:
+        add_shape(
+            ax,
+            Wedge((cx, cy), radius, 90, 90 - 359.9 * frac, width=width,
+                  facecolor=color, edgecolor="none", alpha=0.95, zorder=zorder + 1),
+        )
+
+
+def heat_pitch(ax, grid: list[list[float]], color: str, *, progress: float = 1.0,
+               flip: bool = False, zorder: int = 6) -> None:
+    """Smooth heatmap on a 0-100 pitch."""
+    array = np.array(grid, dtype=float)
+    if array.size == 0:
+        return
+    if flip:
+        array = np.flipud(np.fliplr(array))
+    peak = float(array.max()) or 1.0
+    array = array / peak * progress
+    x_bins, y_bins = array.shape
+    rgba = np.zeros((x_bins, y_bins, 4))
+    r, g, b = theme.hex_to_rgb(color)
+    rgba[..., 0] = r
+    rgba[..., 1] = g
+    rgba[..., 2] = b
+    rgba[..., 3] = np.clip(array, 0, 1) * 0.85
+    ax.imshow(
+        rgba, origin="lower", extent=(0, 100, 0, 100), interpolation="bilinear",
+        aspect="auto", zorder=zorder,
+    )
+
+
+def funnel_stage(fig: plt.Figure, y: float, label: str, home_value: float, away_value: float,
+                 home_color: str, away_color: str, *, progress: float = 1.0,
+                 inset: float = 0.0, height: float = 0.055) -> None:
+    """A trapezoid row that narrows toward the goal. Not a comparison bar."""
+    left = 0.18 + inset
+    right = 0.82 - inset
+    width = right - left
+    total = home_value + away_value
+    home_share = 0.5 if total <= 0 else home_value / total
+    grown = clamp01(progress)
+    split = left + width * home_share
+    fig_rect(fig, left, y, (split - left) * grown, height, home_color, 0.92, zorder=12)
+    fig_rect(fig, split, y, (right - split) * grown, height, away_color, 0.92, zorder=12)
+    fig.text(0.5, y + height + 0.016, str(label).upper(), color=TEXT_DIM,
+             fontsize=theme.label_size(12), family=theme.LABEL_FONT, fontweight="bold",
+             ha="center", va="center", alpha=min(1.0, progress * 2.2), zorder=14)
+    fig.text(left - 0.018, y + height / 2, number_text(home_value * grown),
+             color=home_color, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
+             ha="right", va="center", alpha=min(1.0, progress * 2.2), zorder=14,
+             path_effects=soft_shadow())
+    fig.text(right + 0.018, y + height / 2, number_text(away_value * grown),
+             color=away_color, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
+             ha="left", va="center", alpha=min(1.0, progress * 2.2), zorder=14,
+             path_effects=soft_shadow())
 
 
 def save_figure(fig: plt.Figure, path: Path) -> None:

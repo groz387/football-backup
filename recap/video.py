@@ -17,6 +17,7 @@ from typing import Any
 from . import clips as clip_mod
 from . import scenes as scene_renderers
 from . import timing
+from . import audio as audio_mod
 from .data import MatchBundle, safe_name
 from .draw import HOLD_AT
 
@@ -175,7 +176,7 @@ def _assembly_filter(scene_list: list[dict[str, Any]], fps: int) -> tuple[str, s
         else:
             offset = max(0.0, elapsed - timing.TRANSITION)
             parts.append(
-                f"[{current}][v{index}]xfade=transition=fade"
+                f"[{current}][v{index}]xfade=transition=wiperight"
                 f":duration={timing.TRANSITION:.3f}:offset={offset:.3f}[{label}]"
             )
             elapsed += float(incoming["clip"]) - timing.TRANSITION
@@ -190,6 +191,10 @@ def assemble(
     *,
     fps: int = DEFAULT_FPS,
     crossfade: bool = True,
+    sfx: bool = True,
+    burn_captions: bool = True,
+    music_file: str | Path | None = None,
+    srt_path: Path | None = None,
 ) -> Path | None:
     """Encode the frame sequences into ``match_video.mp4``."""
     ffmpeg = _ffmpeg()
@@ -204,9 +209,18 @@ def assemble(
     for scene in scene_list:
         command += ["-framerate", str(fps), "-i", str(Path(scene["frame_dir"]).resolve() / FRAME_PATTERN)]
 
-    has_audio = bool(audio_path and Path(audio_path).exists())
+    duration = timing.total_seconds(scene_list)
+    mixed = None
+    if sfx or music_file:
+        mixed = audio_mod.mix(
+            Path(out_dir), scene_list, audio_path,
+            sfx=sfx, music_file=music_file, ffmpeg=ffmpeg, duration=duration,
+        )
+    audio_input = mixed or (Path(audio_path) if audio_path and Path(audio_path).exists() else None)
+    has_audio = bool(audio_input)
+
     if has_audio:
-        command += ["-i", str(Path(audio_path).resolve())]
+        command += ["-i", str(Path(audio_input).resolve())]
 
     if crossfade and len(scene_list) > 1:
         graph, label = _assembly_filter(scene_list, fps)
@@ -219,7 +233,19 @@ def assemble(
         graph += f"concat=n={len(scene_list)}:v=1:a=0[vout]"
         label = "vout"
 
-    command += ["-filter_complex", graph, "-map", f"[{label}]"]
+    mapped_video = f"[{label}]"
+    srt = Path(srt_path) if srt_path else Path(out_dir) / "subtitles.srt"
+    if burn_captions and srt.exists() and srt.stat().st_size > 0:
+        escaped = _escape_subtitles_path(srt)
+        graph += (
+            f";{mapped_video}subtitles={escaped}:force_style='"
+            "Fontname=Bai Jamjuree,Fontsize=15,PrimaryColour=&H00FFFFFF,"
+            "OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,"
+            "Alignment=2,MarginV=150,Bold=1'[vcapt]"
+        )
+        mapped_video = "[vcapt]"
+
+    command += ["-filter_complex", graph, "-map", mapped_video]
     if has_audio:
         command += ["-map", f"{len(scene_list)}:a:0", "-c:a", "aac", "-b:a", "192k", "-shortest"]
     else:
@@ -237,11 +263,25 @@ def assemble(
     result = subprocess.run(command, capture_output=True, text=True)
     if result.returncode != 0:
         print(f"  [video] ffmpeg failed: {result.stderr.strip()[:500]}")
+        if burn_captions:
+            print("  [video] retrying without burned captions")
+            return assemble(
+                out_dir, scene_list, audio_path, fps=fps, crossfade=crossfade,
+                sfx=sfx, burn_captions=False, music_file=music_file, srt_path=srt_path,
+            )
         if crossfade:
             print("  [video] retrying without cross-dissolves")
-            return assemble(out_dir, scene_list, audio_path, fps=fps, crossfade=False)
+            return assemble(
+                out_dir, scene_list, audio_path, fps=fps, crossfade=False,
+                sfx=sfx, burn_captions=False, music_file=music_file, srt_path=srt_path,
+            )
         return None
     return output if output.exists() else None
+
+
+def _escape_subtitles_path(path: Path) -> str:
+    raw = str(path.resolve()).replace("\\", "/").replace(":", "\\:").replace("'", r"\'")
+    return f"'{raw}'"
 
 
 def probe_duration(path: Path) -> float | None:

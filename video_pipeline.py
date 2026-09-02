@@ -34,7 +34,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
-from recap import clips, director, i18n, logos, theme, timing, video, voice
+from recap import clips, director, hooks, i18n, logos, theme, timing, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -223,9 +223,14 @@ def run(args: argparse.Namespace) -> Path:
 
     gemini = None
     if not args.no_gemini:
-        gemini = director.Gemini(enabled=True, required=args.require_gemini, model=args.model)
+        gemini = director.Gemini(
+            enabled=True,
+            required=args.require_gemini,
+            model=args.model,
+            script_model=getattr(args, "script_model", None),
+        )
         if gemini.enabled:
-            say(f"  Gemini enabled ({gemini.model}).")
+            say(f"  Gemini enabled ({gemini.model} / script {gemini.script_model}).")
         else:
             say("  Gemini disabled (GEMINI_API_KEY is not set); using the deterministic script.")
 
@@ -257,11 +262,18 @@ def run(args: argparse.Namespace) -> Path:
     stage("3. Script")
     instruction = args.instruction
     already_localized = False
+    viral_report: dict[str, Any] = {}
     while True:
         scene_list, already_localized = build_script(
             bundle, audit, selected, gemini, instruction, args.target_seconds, language,
             clip_beats=clip_beats,
         )
+        viral_report = viral_audit.score_plan(
+            scene_list, selected, bundle, audit, output_root=Path(args.output_root),
+        )
+        say(f"  viral score: {viral_report['score']}")
+        for note in viral_report.get("warnings") or []:
+            say(f"  [viral] {note}")
         say(script_preview(scene_list))
         action = ask("Use this script?", ("ok", "change", "redo", "quit"), args.auto)
         if action == "quit":
@@ -271,7 +283,14 @@ def run(args: argparse.Namespace) -> Path:
         if action == "change":
             instruction = input("  What should change? ").strip() or instruction
         else:
-            instruction = f"{instruction} Sharpen the hook and vary the sentence rhythm."
+            instruction = viral_audit.redo_instruction(instruction, viral_report)
+
+    viral_audit.remember_punch(
+        Path(args.output_root),
+        str(viral_report.get("punch") or ""),
+        match_dir.name,
+        str(viral_report.get("hook_kind") or ""),
+    )
 
     if language != "en":
         if not already_localized:
@@ -330,12 +349,16 @@ def run(args: argparse.Namespace) -> Path:
             },
             "gemini_used": bool(gemini and gemini.enabled),
             "gemini_model": gemini.model if gemini else None,
+            "gemini_script_model": gemini.script_model if gemini else None,
             "gemini_error": (gemini.last_error or None) if gemini else None,
             "fps": args.fps,
             "transition_seconds": timing.TRANSITION,
             "target_seconds": args.target_seconds,
             "total_seconds": timing.total_seconds(scene_list),
+            "sfx": bool(getattr(args, "sfx", True)),
+            "burn_captions": bool(getattr(args, "burn_captions", True)),
         },
+        "viral_audit": viral_report,
         "selected_visualizations": selected,
         "all_candidates": candidates,
         "scenes": scene_list,
@@ -365,8 +388,14 @@ def run(args: argparse.Namespace) -> Path:
         say("  skipped (--skip-video)")
         return out_dir
 
-    path = video.assemble(out_dir, rendered, audio_path, fps=args.fps,
-                          crossfade=not args.no_crossfade)
+    path = video.assemble(
+        out_dir, rendered, audio_path, fps=args.fps,
+        crossfade=not args.no_crossfade,
+        sfx=bool(getattr(args, "sfx", True)),
+        burn_captions=bool(getattr(args, "burn_captions", True)),
+        music_file=getattr(args, "music_file", "") or None,
+        srt_path=out_dir / "subtitles.srt",
+    )
     if not path:
         say("  no mp4 was produced; the frames and script are still in place.")
         return out_dir
@@ -393,12 +422,33 @@ def build_script(
     """Return (scenes, already_localized_by_gemini)."""
     scene_list = director.build_storyboard(bundle, audit, selected, clip_beats=clip_beats)
     already_localized = False
+    angle = director.pick_angle(bundle, audit)
     if gemini is not None and gemini.enabled:
+        editorial = gemini.choose_angle(bundle, audit, language)
+        if editorial.get("angle"):
+            angle = str(editorial["angle"])
+        hook = director.build_hook(bundle, audit)
+        rewrite = gemini.rephrase_hook(hook, language)
+        hook = hooks.apply_hook_rephrase(hook, rewrite)
+        scene_list = director.apply_script(
+            scene_list,
+            {
+                "hook_claim": {
+                    "title": (hook.get("lines") or [hook.get("punch")])[0],
+                    "narration": hook.get("narration_claim") or "",
+                },
+                "hook_punch": {
+                    "title": hook.get("punch") or "",
+                    "narration": hook.get("narration_punch") or "",
+                },
+            },
+        )
         speakable = [scene for scene in scene_list if not scene.get("hook")]
         budget = timing.word_budget(target_seconds, max(1, len(speakable)))
         say(f"  asking Gemini for roughly {budget} words per scene ({i18n.language_name(language)})")
         overrides = gemini.write_script(
-            bundle, audit, scene_list, budget, instruction, language=language
+            bundle, audit, scene_list, budget, instruction, language=language,
+            angle=angle, audit_notes=[instruction] if instruction else [],
         )
         if overrides:
             scene_list = director.apply_script(scene_list, overrides)
@@ -438,9 +488,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--match-dir", help="An export directory under output/")
     parser.add_argument("--scrape-output-root", default="output", help="Where scraper exports live")
     parser.add_argument("--output-root", default="video_output", help="Where video packages are written")
-    parser.add_argument("--visualizations", type=int, default=3,
+    parser.add_argument("--visualizations", type=int, default=5,
                         help="Tactical visualizations between the hook and the closing score")
-    parser.add_argument("--target-seconds", type=float, default=32.0,
+    parser.add_argument("--target-seconds", type=float, default=40.0,
                         help="Runtime the script is written to fill")
     parser.add_argument("--fps", type=int, default=video.DEFAULT_FPS, help="Output frame rate")
 
@@ -459,13 +509,23 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
              "(quote them in PowerShell; # without quotes is a comment)",
     )
     parser.add_argument("--instruction", default="", help="Editorial note passed to Gemini")
-    parser.add_argument("--model", default=None, help="Gemini model (defaults to GEMINI_MODEL)")
+    parser.add_argument("--model", default=None, help="Gemini model for viz pick (defaults to GEMINI_MODEL)")
+    parser.add_argument("--script-model", default=None,
+                        help="Gemini model for copy (defaults to GEMINI_SCRIPT_MODEL or gemini-2.5-pro)")
     parser.add_argument("--no-gemini", action="store_true", help="Use only the deterministic script")
     parser.add_argument("--require-gemini", action="store_true", help="Fail rather than fall back")
 
     parser.add_argument("--voiceover-file", default="", help="Recorded narration to attach")
     parser.add_argument("--sapi-tts", action="store_true", help="Synthesise narration for a rough cut (Windows)")
     parser.add_argument("--skip-audio", action="store_true", help="Render silent")
+    parser.add_argument("--sfx", dest="sfx", action="store_true", default=True,
+                        help="Mix synthesized hits under the master (default on)")
+    parser.add_argument("--no-sfx", dest="sfx", action="store_false", help="Skip SFX hits")
+    parser.add_argument("--music-file", default="", help="Optional music bed (ducked under VO)")
+    parser.add_argument("--burn-captions", dest="burn_captions", action="store_true", default=True,
+                        help="Burn subtitles into the social master (default on)")
+    parser.add_argument("--no-burn-captions", dest="burn_captions", action="store_false",
+                        help="Keep captions as an external SRT only")
 
     parser.add_argument("--clip", action="append", default=[],
                         help="Path to a match clip or highlight (repeatable). Also reads match-dir/clips/")
