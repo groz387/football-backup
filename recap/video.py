@@ -250,10 +250,14 @@ def assemble(
         escaped = _escape_subtitles_path(srt)
         lang = i18n.get_language()
         style_map: dict[str, str] = {}
-        for src in (locale_meta.ffmpeg_subtitle_style(lang), safe_zones.default_ass_style()):
-            for item in src.split(","):
-                if "=" in item:
-                    key, value = item.split("=", 1)
+        for item in safe_zones.default_ass_style().split(","):
+            if "=" in item:
+                key, value = item.split("=", 1)
+                style_map[key.strip()] = value.strip()
+        for item in locale_meta.ffmpeg_subtitle_style(lang).split(","):
+            if "=" in item:
+                key, value = item.split("=", 1)
+                if key.strip() in {"Fontname", "Fontsize"}:
                     style_map[key.strip()] = value.strip()
         style = ",".join(f"{key}={value}" for key, value in style_map.items()).replace("'", r"\'")
         extra = f"force_style='{style}'"

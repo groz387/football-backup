@@ -28,6 +28,9 @@ recap/sfx/*.wav
 recap/sfx/.pack_version
 recap/sfx/beds/
 
+# Generated growth/SEO posting packs (python -m recap.growth / --write-growth)
+output/**/growth/
+
 # OS / editor
 .DS_Store
 Thumbs.db

@@ -17,6 +17,8 @@ Layers, from the bottom up:
     platforms social export profiles (TikTok / Reels / Shorts / 16:9 / square)
     export_pack ffmpeg pack from one portrait master
     safe_zones  caption / hook placement for mute-first social chrome
+    growth    bilingual posting pack (titles, hashtags, thumbs)
+    thumbnails  huge overlay JPGs for that pack
 
 Nothing in a lower layer imports from a higher one.
 """
@@ -31,6 +33,7 @@ __all__ = [
     "draw",
     "export_pack",
     "graphs",
+    "growth",
     "hooks",
     "i18n",
     "locale_meta",
@@ -41,6 +44,7 @@ __all__ = [
     "safe_zones",
     "scenes",
     "theme",
+    "thumbnails",
     "timing",
     "video",
     "viral_audit",
