@@ -23,6 +23,14 @@ _*.log
 # Generated video packages (regenerate with video_pipeline.py)
 video_output/
 
+# Runtime-generated recap audio (ffmpeg lavfi / numpy; keep git small)
+recap/sfx/*.wav
+recap/sfx/.pack_version
+recap/sfx/beds/
+
+# Generated growth/SEO posting packs (python -m recap.growth / --write-growth)
+output/**/growth/
+
 # OS / editor
 .DS_Store
 Thumbs.db
@@ -31,3 +39,7 @@ Thumbs.db
 .cache/
 assets/logos/*
 !assets/logos/.gitkeep
+
+# Auto-fetched match highlights (regenerable; can be large)
+output/**/clips/
+output/**/highlights/

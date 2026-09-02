@@ -18,6 +18,7 @@ from . import clips as clip_mod
 from . import scenes as scene_renderers
 from . import timing
 from . import audio as audio_mod
+from . import safe_zones
 from .data import MatchBundle, safe_name
 from .draw import HOLD_AT
 
@@ -195,9 +196,11 @@ def assemble(
     fps: int = DEFAULT_FPS,
     crossfade: bool = True,
     sfx: bool = True,
-    burn_captions: bool = True,
+    burn_captions: bool = False,
     music_file: str | Path | None = None,
     srt_path: Path | None = None,
+    loudnorm: str = "tiktok",
+    skip_audio: bool = False,
 ) -> Path | None:
     """Encode the frame sequences into ``match_video.mp4``."""
     ffmpeg = _ffmpeg()
@@ -214,12 +217,15 @@ def assemble(
 
     duration = timing.total_seconds(scene_list)
     mixed = None
-    if sfx or music_file:
+    voice = Path(audio_path) if audio_path and Path(audio_path).exists() else None
+    # --skip-audio must produce a valid silent mp4. Never run loudnorm on it.
+    if not skip_audio and (sfx or music_file or voice):
         mixed = audio_mod.mix(
-            Path(out_dir), scene_list, audio_path,
+            Path(out_dir), scene_list, voice,
             sfx=sfx, music_file=music_file, ffmpeg=ffmpeg, duration=duration,
+            loudnorm=loudnorm, skip_audio=False,
         )
-    audio_input = mixed or (Path(audio_path) if audio_path and Path(audio_path).exists() else None)
+    audio_input = None if skip_audio else (mixed or voice)
     has_audio = bool(audio_input)
 
     if has_audio:
@@ -239,13 +245,27 @@ def assemble(
     mapped_video = f"[{label}]"
     srt = Path(srt_path) if srt_path else Path(out_dir) / "subtitles.srt"
     if burn_captions and srt.exists() and srt.stat().st_size > 0:
+        from . import i18n, locale_meta
+
         escaped = _escape_subtitles_path(srt)
-        graph += (
-            f";{mapped_video}subtitles={escaped}:force_style='"
-            "Fontname=Bai Jamjuree,Fontsize=15,PrimaryColour=&H00FFFFFF,"
-            "OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,"
-            "Alignment=2,MarginV=150,Bold=1'[vcapt]"
-        )
+        lang = i18n.get_language()
+        style_map: dict[str, str] = {}
+        for item in safe_zones.default_ass_style().split(","):
+            if "=" in item:
+                key, value = item.split("=", 1)
+                style_map[key.strip()] = value.strip()
+        for item in locale_meta.ffmpeg_subtitle_style(lang).split(","):
+            if "=" in item:
+                key, value = item.split("=", 1)
+                if key.strip() in {"Fontname", "Fontsize"}:
+                    style_map[key.strip()] = value.strip()
+        style = ",".join(f"{key}={value}" for key, value in style_map.items()).replace("'", r"\'")
+        extra = f"force_style='{style}'"
+        fontfile = locale_meta.find_fontfile(lang)
+        if fontfile:
+            fontdir = Path(fontfile).parent.as_posix().replace("\\", "/").replace(":", r"\:").replace("'", r"\'")
+            extra = f"fontsdir={fontdir}:{extra}"
+        graph += f";{mapped_video}subtitles={escaped}:{extra}[vcapt]"
         mapped_video = "[vcapt]"
 
     command += ["-filter_complex", graph, "-map", mapped_video]
@@ -272,17 +292,21 @@ def assemble(
     result = subprocess.run(command, capture_output=True, text=True)
     if result.returncode != 0:
         print(f"  [video] ffmpeg failed: {result.stderr.strip()[:500]}")
+        retry = dict(
+            fps=fps, sfx=sfx, music_file=music_file, srt_path=srt_path,
+            loudnorm=loudnorm, skip_audio=skip_audio,
+        )
         if burn_captions:
             print("  [video] retrying without burned captions")
             return assemble(
-                out_dir, scene_list, audio_path, fps=fps, crossfade=crossfade,
-                sfx=sfx, burn_captions=False, music_file=music_file, srt_path=srt_path,
+                out_dir, scene_list, audio_path, crossfade=crossfade,
+                burn_captions=False, **retry,
             )
         if crossfade:
             print("  [video] retrying without cross-dissolves")
             return assemble(
-                out_dir, scene_list, audio_path, fps=fps, crossfade=False,
-                sfx=sfx, burn_captions=False, music_file=music_file, srt_path=srt_path,
+                out_dir, scene_list, audio_path, crossfade=False,
+                burn_captions=False, **retry,
             )
         return None
     return output if output.exists() else None

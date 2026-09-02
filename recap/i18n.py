@@ -1,57 +1,112 @@
 """UI and script localization for match-recap videos.
 
-English remains the source of truth for deterministic copy. Non-English runs:
+English is the source of truth. ``t()`` falls back to English for any missing
+key. Locale packs live in ``recap.locales``; fonts/RTL live in ``locale_meta``.
 
-1. Swap every chrome / stat / legend label from the catalogs below.
-2. Rewrite free-form titles, insights and narration into the target language
-   (Gemini when available; otherwise a conservative offline pass that keeps
-   numbers and proper nouns intact and translates known template lines).
-
-Supported codes: ``en``, ``az``, ``es``, ``ru``.
+Scores are always ``2-1`` (Western digits, ASCII hyphen), in every language.
 """
 
 from __future__ import annotations
 
 import re
+from datetime import datetime
 from typing import Any
 
-SUPPORTED = ("en", "az", "es", "ru")
-ALIASES = {
-    "en": "en",
-    "eng": "en",
-    "english": "en",
-    "az": "az",
-    "aze": "az",
-    "azerbaijani": "az",
-    "azeri": "az",
-    "es": "es",
-    "spa": "es",
-    "spanish": "es",
-    "español": "es",
-    "espanol": "es",
-    "ru": "ru",
-    "rus": "ru",
-    "russian": "ru",
-}
+from . import locale_meta
+from .locales import LOCALE_MODULES, LocalePack, all_packs, available_codes, load_pack
+from .locales._extras import CHROME_SENTENCES, CHROME_TO_KEY, OFFLINE_PATTERNS
 
-LANGUAGE_NAMES = {
-    "en": "English",
-    "az": "Azerbaijani",
-    "es": "Spanish",
-    "ru": "Russian",
-}
+SUPPORTED = tuple(LOCALE_MODULES)
+
+ALIASES: dict[str, str] = {}
+LANGUAGE_NAMES: dict[str, str] = {}
+_PACKS: dict[str, LocalePack] = {}
 
 _current = "en"
+_RESHAPER = None
+_BIDI = None
+_RTL_ENGINE: str | None = None
+
+_STATIC_ALIASES = {
+    "en": "en", "eng": "en", "english": "en",
+    "az": "az", "aze": "az", "azerbaijani": "az", "azeri": "az",
+    "es": "es", "spa": "es", "spanish": "es", "español": "es", "espanol": "es",
+    "tr": "tr", "tur": "tr", "turkish": "tr", "türkçe": "tr", "turkce": "tr",
+    "pt": "pt-BR", "ptbr": "pt-BR", "pt-br": "pt-BR", "pt_br": "pt-BR",
+    "brazilian": "pt-BR", "por": "pt-BR",
+    "ptpt": "pt-PT", "pt-pt": "pt-PT", "pt_pt": "pt-PT",
+    "fr": "fr", "fra": "fr", "fre": "fr", "french": "fr", "français": "fr", "francais": "fr",
+    "de": "de", "ger": "de", "deu": "de", "german": "de", "deutsch": "de",
+    "it": "it", "ita": "it", "italian": "it", "italiano": "it",
+    "ar": "ar", "ara": "ar", "arabic": "ar",
+    "ru": "ru", "rus": "ru", "russian": "ru",
+    "uk": "uk", "ukr": "uk", "ua": "uk", "ukrainian": "uk",
+    "pl": "pl", "pol": "pl", "polish": "pl",
+    "nl": "nl", "dut": "nl", "nld": "nl", "dutch": "nl", "nederlands": "nl",
+    "ja": "ja", "jpn": "ja", "jp": "ja", "japanese": "ja",
+    "ko": "ko", "kor": "ko", "kr": "ko", "korean": "ko",
+    "hi": "hi", "hin": "hi", "hindi": "hi",
+}
+
+
+def _boot() -> None:
+    global ALIASES, LANGUAGE_NAMES, _PACKS
+    if _PACKS:
+        return
+    names = {code: meta.name for code, meta in locale_meta.META.items()}
+    aliases = dict(_STATIC_ALIASES)
+    for code in SUPPORTED:
+        aliases[code.lower()] = code
+        aliases[code] = code
+    try:
+        loaded = all_packs()
+    except Exception:
+        loaded = {}
+    for code, pack in loaded.items():
+        names[code] = pack.name
+        for alias in pack.aliases:
+            aliases[str(alias).strip().lower()] = code
+    _PACKS.update(loaded)
+    ALIASES = aliases
+    LANGUAGE_NAMES = names
+
+
+def _ensure() -> None:
+    if not ALIASES:
+        _boot()
+    if not _PACKS:
+        _boot()
 
 
 def normalize_language(value: str | None) -> str:
-    raw = (value or "en").strip().lower()
-    code = ALIASES.get(raw)
+    _ensure()
+    raw = (value or "en").strip()
+    if not raw:
+        return "en"
+    key = raw.lower().replace("_", "-")
+    code = ALIASES.get(key) or ALIASES.get(raw.lower())
     if code is None:
         raise ValueError(
             f"Unsupported language {value!r}. Choose one of: {', '.join(SUPPORTED)}"
         )
     return code
+
+
+def parse_languages(value: str | None) -> list[str]:
+    """Parse ``az,tr,ar`` / ``az tr ar`` into canonical codes, de-duplicated."""
+    if not value or not str(value).strip():
+        return []
+    parts = re.split(r"[,\s;]+", str(value).strip())
+    out: list[str] = []
+    seen: set[str] = set()
+    for part in parts:
+        if not part:
+            continue
+        code = normalize_language(part)
+        if code not in seen:
+            seen.add(code)
+            out.append(code)
+    return out
 
 
 def set_language(code: str) -> str:
@@ -67,1266 +122,152 @@ def get_language() -> str:
 
 
 def language_name(code: str | None = None) -> str:
+    _ensure()
     return LANGUAGE_NAMES.get(code or _current, "English")
 
 
-# ---------------------------------------------------------------------------
-# catalogs
-# ---------------------------------------------------------------------------
+def pack(code: str | None = None) -> LocalePack:
+    _ensure()
+    want = code or _current
+    if want not in _PACKS:
+        try:
+            _PACKS[want] = load_pack(want)
+        except Exception:
+            return _PACKS["en"]
+    return _PACKS.get(want) or _PACKS["en"]
 
-STAT_LABELS: dict[str, dict[str, str]] = {
-    "en": {
-        "goals": "Goals",
-        "shots": "Shots",
-        "shots_on_target": "On target",
-        "shots_blocked": "Blocked",
-        "big_chances": "Big chances",
-        "pass_share_pct": "Pass share",
-        "pass_accuracy_pct": "Pass accuracy",
-        "touch_share_pct": "Touch share",
-        "final_third_passes": "Final-third passes",
-        "box_entry_passes": "Passes into the box",
-        "penalty_box_touches": "Box touches",
-        "key_passes": "Chances created",
-        "corners": "Corners",
-        "fouls": "Fouls",
-        "saves": "Keeper saves",
-        "blocks": "Blocks",
-        "tackles_won": "Tackles won",
-        "interceptions": "Interceptions",
-        "offsides": "Offsides",
-    },
-    "az": {
-        "goals": "Qollar",
-        "shots": "Zərbələr",
-        "shots_on_target": "Çərçivəyə",
-        "shots_blocked": "Bloklanan",
-        "big_chances": "Böyük şanslar",
-        "pass_share_pct": "Pas payı",
-        "pass_accuracy_pct": "Pas dəqiqliyi",
-        "touch_share_pct": "Toxunuş payı",
-        "final_third_passes": "Hücum üçdə biri",
-        "box_entry_passes": "Cəriməyə paslar",
-        "penalty_box_touches": "Cərimə toxunuşları",
-        "key_passes": "Yaradılan şanslar",
-        "corners": "Künc zərbələri",
-        "fouls": "Follar",
-        "saves": "Qapıçı seyvləri",
-        "blocks": "Bloklar",
-        "tackles_won": "Qazanılan mübarizələr",
-        "interceptions": "Tutmalar",
-        "offsides": "Ofsaydlar",
-    },
-    "es": {
-        "goals": "Goles",
-        "shots": "Tiros",
-        "shots_on_target": "A puerta",
-        "shots_blocked": "Bloqueados",
-        "big_chances": "Grandes ocasiones",
-        "pass_share_pct": "Cuota de pases",
-        "pass_accuracy_pct": "Precisión de pase",
-        "touch_share_pct": "Cuota de toques",
-        "final_third_passes": "Pases en último tercio",
-        "box_entry_passes": "Pases al área",
-        "penalty_box_touches": "Toques en el área",
-        "key_passes": "Ocasiones creadas",
-        "corners": "Córners",
-        "fouls": "Faltas",
-        "saves": "Paradas",
-        "blocks": "Bloqueos",
-        "tackles_won": "Entradas ganadas",
-        "interceptions": "Intercepciones",
-        "offsides": "Fueras de juego",
-    },
-    "ru": {
-        "goals": "Голы",
-        "shots": "Удары",
-        "shots_on_target": "В створ",
-        "shots_blocked": "Заблокированные",
-        "big_chances": "Острые моменты",
-        "pass_share_pct": "Доля передач",
-        "pass_accuracy_pct": "Точность передач",
-        "touch_share_pct": "Доля касаний",
-        "final_third_passes": "Передачи в финальной трети",
-        "box_entry_passes": "Передачи в штрафную",
-        "penalty_box_touches": "Касания в штрафной",
-        "key_passes": "Созданные моменты",
-        "corners": "Угловые",
-        "fouls": "Фолы",
-        "saves": "Сейвы вратаря",
-        "blocks": "Блоки",
-        "tackles_won": "Отборы",
-        "interceptions": "Перехваты",
-        "offsides": "Офсайды",
-    },
-}
 
-UI: dict[str, dict[str, str]] = {
-    "en": {
-        "watermark": "",
-        "match_recap": "MATCH RECAP",
-        "the_baseline": "THE BASELINE",
-        "full_time": "FULL TIME",
-        "after_extra_time": "AFTER EXTRA TIME",
-        "on_penalties": "ON PENALTIES",
-        "goals": "GOALS",
-        "no_goals": "NO GOALS",
-        "no_goals_in_match": "NO GOALS IN THIS MATCH",
-        "shots_none_counted": "{shots} SHOTS, NONE OF THEM COUNTED",
-        "attacking_up": "ATTACKING UP",
-        "attacking_down": "ATTACKING DOWN",
-        "shots_on_target_line": "{shots} SHOTS / {on_target} ON TARGET",
-        "markers_team_colour": "MARKERS TAKE EACH TEAM'S COLOUR",
-        "pressure_curve_empty": "NOT ENOUGH EVENTS FOR A PRESSURE CURVE",
-        "attacking_pressure": "ATTACKING PRESSURE PER 5 MINUTES",
-        "no_touch_coords": "NO TOUCH COORDINATES IN THIS EXPORT",
-        "passes": "PASSES",
-        "metres": "METRES",
-        "goal": "GOAL",
-        "too_few_shots_frame": "TOO FEW SHOTS REACHED THE FRAME",
-        "scored_n": "{n} SCORED",
-        "all_stopped": "ALL STOPPED",
-        "shots_reached_target": "SHOTS THAT REACHED THE TARGET",
-        "count_per_zones": "COUNT PER SIX ZONES",
-        "not_enough_passes": "NOT ENOUGH PASSES FOR A NETWORK",
-        "completed": "COMPLETED",
-        "accuracy": "ACCURACY",
-        "final_third": "FINAL THIRD",
-        "into_the_box": "INTO THE BOX",
-        "attacking_up_with_team": "{team}  /  ATTACKING UP",
-        "pass_share": "Pass share",
-        "final_third_short": "Final third",
-        "into_box_short": "Into the box",
-        "outcome_goal": "Goal",
-        "outcome_saved": "Saved",
-        "outcome_off_target": "Off target",
-        "outcome_blocked": "Blocked",
-        "outcome_woodwork": "Woodwork",
-        "period_first_half": "First half",
-        "period_second_half": "Second half",
-        "period_extra_time": "Extra time",
-        "period_extra_time_1": "Extra time 1",
-        "period_extra_time_2": "Extra time 2",
-        "boundary_ht": "HT",
-        "boundary_ft": "FT",
-        "boundary_et": "ET",
-        "peak": "PEAK {block}",
-        "build_up": "BUILD-UP",
-        "sub_shot_map": "Every attempt, by outcome",
-        "sub_momentum": "{home} above the line, {away} below",
-        "sub_zone": "Touch volume across eighteen zones",
-        "sub_goalmouth": "Where on-target shots crossed the line",
-        "sub_pass_network": "Average positions and strongest links",
-        "sub_sterile": "Pass share against what it produced",
-        "hook_needed_minutes": "{team} NEEDED {n} MINUTES",
-        "hook_ran_riot": "{team} RAN RIOT",
-        "hook_found_a_way": "{team} FOUND A WAY",
-        "hook_extra_time": "{team} NEEDED EXTRA TIME",
-        "hook_shootout": "{team} SURVIVE THE SHOOTOUT",
-        "hook_goals_take_it": "{n} GOALS, {team} TAKE IT",
-        "hook_nobody_blinked": "NOBODY BLINKED",
-        "hook_honours_even": "HONOURS EVEN AT {score}",
-        "hook_stat_on_target": "{n} ON TARGET",
-        "hook_stat_big_chances": "{n} BIG CHANCES",
-        "hook_stat_shots": "{n} SHOTS",
-        "hook_stat_margin": "{n} GOALS CLEAR",
-        "hook_had_more_shots": "{team} HAD MORE SHOTS.",
-        "hook_had_more_corners": "{team} HAD MORE CORNERS.",
-        "hook_had_more_blocked": "{team} HAD MORE BLOCKED SHOTS.",
-        "hook_had_more_chances": "{team} HAD MORE BIG CHANCES.",
-        "hook_had_more_box": "{team} HAD MORE TOUCHES IN THE BOX.",
-        "hook_had_more_pressure": "{team} HAD MORE PRESSURE.",
-        "hook_more_shots": "MORE SHOTS.",
-        "hook_more_corners": "MORE CORNERS.",
-        "hook_more_blocked": "MORE BLOCKED SHOTS.",
-        "hook_more_chances": "MORE BIG CHANCES.",
-        "hook_more_box": "MORE TOUCHES IN THE BOX.",
-        "hook_more_pressure": "MORE PRESSURE.",
-        "hook_still_lost": "THEY STILL LOST.",
-        "hook_still_level": "IT STILL FINISHED LEVEL.",
-        "hook_nobody_scored": "AND NOBODY SCORED.",
-        "hook_one_moment": "ONE MOMENT DECIDED IT.",
-        "hook_then_it_was_over": "THEN IT WAS OVER.",
-        "hook_turned_late": "THE MATCH TURNED IN THE {n}TH MINUTE.",
-        "hook_had_the_ball": "{team} HAD THE BALL.",
-        "hook_not_the_chances": "NOT THE CHANCES.",
-        "hook_n_shots": "{n} SHOTS.",
-        "bridge_owned_the_map": "{team} OWNED THE MAP.",
-        "bridge_had_the_ball": "{team} HAD THE BALL.",
-        "bridge_keeper_work": "{team} HAD WORK TO DO.",
-        "bridge_watch_the_board": "{n} GOALS. WATCH THE BOARD.",
-        "bridge_kept_shooting": "{team} KEPT SHOOTING.",
-        "bridge_pressure_uneven": "THE PRESSURE WAS NOT EVEN.",
-        "bridge_one_move": "ONE MOVE DID THE DAMAGE.",
-        "bridge_n_passes": "{n} PASSES. ONE FINISH.",
-        "bridge_how_they_moved": "THIS IS HOW {team} MOVED IT.",
-        "bridge_numbers_split": "THE NUMBERS DID NOT AGREE.",
-        "bridge_board_caught_up": "THEN THE BOARD CAUGHT UP.",
-        "bridge_look_at_this": "WAIT. LOOK AT THIS.",
-        "handoff_but": "{proof}. But {next}.",
-        "hook_punch_lost_0": "THEY STILL LOST.",
-        "hook_punch_lost_1": "AND THEY STILL LOST.",
-        "hook_punch_lost_2": "NONE OF IT COUNTED.",
-        "hook_punch_lost_3": "THE BOARD DID NOT CARE.",
-        "hook_punch_lost_4": "THEY TOOK NOTHING HOME.",
-        "hook_punch_lost_5": "AND THE POINTS WENT THE OTHER WAY.",
-        "hook_punch_lost_6": "IT WAS NOT ENOUGH.",
-        "hook_punch_lost_7": "THE RESULT SAID NO.",
-        "hook_punch_over_0": "THEN IT WAS OVER.",
-        "hook_punch_over_1": "THAT WAS THE NIGHT.",
-        "hook_punch_over_2": "GAME. GONE.",
-        "hook_punch_over_3": "THE DOOR SLAMMED SHUT.",
-        "hook_punch_over_4": "NO WAY BACK.",
-        "hook_punch_over_5": "SETTLED. DONE.",
-        "hook_punch_level_0": "IT STILL FINISHED LEVEL.",
-        "hook_punch_level_1": "NOBODY BROKE THE DEADLOCK.",
-        "hook_punch_level_2": "A POINT EACH. THAT IS ALL.",
-        "hook_punch_level_3": "STUCK AT LEVEL.",
-        "hook_punch_level_4": "THEY COULD NOT BE SEPARATED.",
-        "hook_punch_blank_0": "AND NOBODY SCORED.",
-        "hook_punch_blank_1": "THE NET NEVER MOVED.",
-        "hook_punch_blank_2": "ZERO. ON THE BOARD.",
-        "hook_punch_blank_3": "A BLANK FOR BOTH.",
-        "hook_claim_shots_0": "{team} HAD {n} SHOTS.",
-        "hook_claim_shots_1": "{n} SHOTS FOR {team}.",
-        "hook_claim_shots_2": "{team} KEPT FINDING THE SHOT.",
-        "hook_claim_corners_0": "{team} HAD {n} CORNERS.",
-        "hook_claim_corners_1": "{n} CORNERS. ALL {team}.",
-        "hook_claim_blocked_0": "{team} HAD MORE BLOCKED SHOTS.",
-        "hook_claim_blocked_1": "{n} SHOTS DIED ON THE BLOCK.",
-        "hook_claim_chances_0": "{team} HAD {n} BIG CHANCES.",
-        "hook_claim_chances_1": "{n} BIG CHANCES. {team}.",
-        "hook_claim_chances_2": "{team} WAS HANDED THE CHANCES.",
-        "hook_claim_box_0": "{team} LIVED IN THE BOX.",
-        "hook_claim_box_1": "{n} TOUCHES IN THE BOX FOR {team}.",
-        "hook_claim_pressure_0": "{team} HAD MORE PRESSURE.",
-        "hook_claim_pressure_1": "THE PRESSURE BELONGED TO {team}.",
-        "hook_claim_ball_0": "{team} HAD THE BALL.",
-        "hook_claim_ball_1": "{n}% OF THE PASSES. {team}.",
-        "hook_claim_ball_2": "{team} HOARDED THE BALL.",
-        "hook_claim_not_chances_0": "NOT THE CHANCES.",
-        "hook_claim_not_chances_1": "THE CHANCES WENT THE OTHER WAY.",
-        "hook_claim_late_0": "THE MATCH TURNED IN THE {n}TH MINUTE.",
-        "hook_claim_late_1": "MINUTE {n}. THAT WAS THE CUT.",
-        "hook_claim_late_2": "{team} WAITED UNTIL THE {n}TH.",
-        "hook_claim_one_0": "ONE MOMENT DECIDED IT.",
-        "hook_claim_one_1": "ONE PUNCH. THAT WAS THE MATCH.",
-        "hook_claim_one_2": "{team} NEEDED ONLY ONE.",
-        "hook_claim_nshots_0": "{n} SHOTS.",
-        "hook_claim_nshots_1": "{n} ATTEMPTS. ZERO GOALS.",
-        "hook_claim_comeback_0": "{team} HAD TO COME FROM BEHIND.",
-        "hook_claim_comeback_1": "THEY TRAILED. THEN {team} FLIPPED IT.",
-        "hook_claim_comeback_2": "FROM BEHIND. BY THE {n}TH.",
-        "hook_claim_stoppage_0": "THE {n}TH MINUTE ENDED IT.",
-        "hook_claim_stoppage_1": "STOPPAGE. {team}. THE KNIFE.",
-        "hook_claim_stoppage_2": "THEY WAITED UNTIL THE {n}TH.",
-        "hook_claim_blowout_0": "{team} RAN THE HOUSE.",
-        "hook_claim_blowout_1": "{n} GOALS OF DAYLIGHT.",
-        "hook_claim_blowout_2": "THIS WAS NOT A CONTEST.",
-        "hook_claim_xg_0": "{team} WON THE xG.",
-        "hook_claim_xg_1": "{n} xG. AND IT DID NOT MATTER.",
-        "hook_claim_keeper_0": "{team} STOPPED EVERYTHING.",
-        "hook_claim_keeper_1": "{n} SAVES. A WALL.",
-        "hook_claim_keeper_2": "THE KEEPER STOLE THE NIGHT.",
-        "hook_claim_waste_0": "{team} HAD {n} SHOTS.",
-        "hook_claim_waste_1": "{n} SHOTS. ALMOST NOTHING BACK.",
-        "hook_claim_chain_0": "{n} PASSES. ONE FINISH.",
-        "hook_claim_chain_1": "{team} BUILT IT PASS BY PASS.",
-        "hook_claim_chain_2": "A {n}-PASS KNIFE THROUGH THE BLOCK.",
-        "hook_claim_pin_0": "{team} PINNED THEM IN.",
-        "hook_claim_pin_1": "{n}% TILT. NO ESCAPE.",
-        "hook_claim_red_0": "A RED CARD CHANGED THE MATH.",
-        "hook_claim_red_1": "{n} SENT OFF. THE GAME TILTED.",
-        "hook_claim_og_0": "AN OWN GOAL DID THE DAMAGE.",
-        "hook_claim_og_1": "THEY BEAT THEMSELVES IN THE {n}TH.",
-        "hook_claim_pen_0": "A PENALTY SETTLED IT.",
-        "hook_claim_pen_1": "FROM THE SPOT. THE {n}TH MINUTE.",
-        "hook_claim_level_0": "{home} AGAINST {away}.",
-        "hook_claim_level_1": "TWO TEAMS. NO WINNER.",
-        "bridge_zone_0": "{team} OWNED THE MAP.",
-        "bridge_zone_1": "LOOK AT THE TERRITORY.",
-        "bridge_zone_2": "{n} TOUCHES SAID ENOUGH.",
-        "bridge_zone_3": "THIS IS WHERE THEY LIVED.",
-        "bridge_heat_0": "THE HEAT MAP DOES NOT LIE.",
-        "bridge_heat_1": "{team} COOKED THIS HALF.",
-        "bridge_heat_2": "TOUCH BY TOUCH. THE PIN.",
-        "bridge_ball_0": "{team} HAD THE BALL.",
-        "bridge_ball_1": "{n}% OF THE PASSES.",
-        "bridge_ball_2": "CONTROL. THEN NOTHING.",
-        "bridge_funnel_0": "WATCH THE CHANCES DIE.",
-        "bridge_funnel_1": "THE FUNNEL NARROWS TO ZERO.",
-        "bridge_funnel_2": "THIS IS WHERE ATTACKS STARVED.",
-        "bridge_keeper_0": "{team} HAD WORK TO DO.",
-        "bridge_keeper_1": "{n} SAVES. LOOK.",
-        "bridge_keeper_2": "THE FRAME WAS UNDER SIEGE.",
-        "bridge_frame_0": "EVERY SHOT THAT REACHED THE NET.",
-        "bridge_frame_1": "THIS IS THE BRICK WALL.",
-        "bridge_frame_2": "PLACEMENT. THEN THE STOP.",
-        "bridge_board_0": "{n} GOALS. WATCH THE BOARD.",
-        "bridge_board_1": "EVERY FINISH, IN ORDER.",
-        "bridge_board_2": "THE SCORE MOVED LIKE THIS.",
-        "bridge_shots_0": "{team} KEPT SHOOTING.",
-        "bridge_shots_1": "{n} SHOTS. LOOK.",
-        "bridge_shots_2": "EVERY ATTEMPT, MAPPED.",
-        "bridge_shots_3": "THIS IS THE SHOOTING GALLERY.",
-        "bridge_pressure_0": "THE PRESSURE WAS NOT EVEN.",
-        "bridge_pressure_1": "WATCH THE SWING.",
-        "bridge_pressure_2": "THIS IS WHEN IT TILTED.",
-        "bridge_tilt_0": "FIELD TILT, MINUTE BY MINUTE.",
-        "bridge_tilt_1": "WHO OWNED THE DANGEROUS THIRD.",
-        "bridge_tilt_2": "THE WAVE NEVER CAME BACK.",
-        "bridge_chain_0": "{n} PASSES. ONE FINISH.",
-        "bridge_chain_1": "ONE MOVE DID THE DAMAGE.",
-        "bridge_chain_2": "TRACE THE KNIFE.",
-        "bridge_pass_0": "THIS IS HOW {team} MOVED IT.",
-        "bridge_pass_1": "FOLLOW THE LINKS.",
-        "bridge_pass_2": "THEIR SHAPE, IN PASSES.",
-        "bridge_radar_0": "THE SHAPE OF THE MATCH.",
-        "bridge_radar_1": "SIX AXES. ONE STORY.",
-        "bridge_radar_2": "THIS IS THE PROFILE.",
-        "bridge_slam_0": "ONE NUMBER. THE MATCH.",
-        "bridge_slam_1": "{n}. THAT IS THE HOOK.",
-        "bridge_slam_2": "READ THIS COUNT.",
-        "bridge_gauge_0": "CHANCES AGAINST GOALS.",
-        "bridge_gauge_1": "THE CONVERSION LIED.",
-        "bridge_gauge_2": "QUALITY. THEN THE FINISH.",
-        "bridge_race_0": "xG OVER TIME.",
-        "bridge_race_1": "THE RACE THE SCORE IGNORED.",
-        "bridge_halves_0": "IT WAS TWO DIFFERENT HALVES.",
-        "bridge_halves_1": "THIRTY MINUTES AT A TIME.",
-        "bridge_halves_2": "THE MAP CHANGED.",
-        "bridge_player_0": "ONE NAME CARRIED THIS.",
-        "bridge_player_1": "THIS IS THE SPIKE.",
-        "bridge_player_2": "FOLLOW THE PLAYER.",
-        "bridge_numbers_0": "THE NUMBERS DID NOT AGREE.",
-        "bridge_numbers_1": "READ THE SPLIT.",
-        "bridge_close_0": "THEN THE BOARD CAUGHT UP.",
-        "bridge_close_1": "HERE IS WHAT IT FINISHED.",
-        "bridge_close_2": "THE SCORE. FINALLY.",
-        "bridge_close_3": "THAT IS THE NIGHT.",
-        "bridge_look_0": "WAIT. LOOK AT THIS.",
-        "bridge_look_1": "NOW THE PICTURE.",
-        "bridge_look_2": "THIS CHANGES THE READ.",
-        "sub_radar": "Six match axes, both teams",
-        "sub_heatmap": "Touch density across the pitch",
-        "sub_tilt": "Final-third pass share by window",
-        "sub_funnel": "Control that never became a goal",
-        "sub_gauges": "Chance quality against the finish",
-        "sub_slam": "The number that defined the night",
-        "sub_race": "Cumulative xG against the goals",
-        "sub_zones_time": "Territory in three slices",
-        "sub_player": "The player who spiked the tape",
-        "sub_keeper_frame": "Every on-target shot on the frame",
-    },
-    "az": {
-        "watermark": "",
-        "match_recap": "MATÇ XÜLASƏSİ",
-        "the_baseline": "ƏSAS GÖSTƏRİCİLƏR",
-        "full_time": "OYUN SONU",
-        "after_extra_time": "ƏLAVƏ VAXTDAN SONRA",
-        "on_penalties": "PENALTİLƏRLƏ",
-        "goals": "QOLLAR",
-        "no_goals": "QOL YOXDUR",
-        "no_goals_in_match": "BU MATÇDA QOL OLMAYIB",
-        "shots_none_counted": "{shots} ZƏRBƏ, HEÇ BİRİ QOL OLMADI",
-        "attacking_up": "YUXARI HÜCUM",
-        "attacking_down": "AŞAĞI HÜCUM",
-        "shots_on_target_line": "{shots} ZƏRBƏ / {on_target} ÇƏRÇİVƏYƏ",
-        "markers_team_colour": "İŞARƏLƏR KOMANDA RƏNGİNDƏDİR",
-        "pressure_curve_empty": "TƏZYİQ ƏYRİSİ ÜÇÜN KİFAYƏT HADİSƏ YOXDUR",
-        "attacking_pressure": "5 DƏQİQƏLİK HÜCUM TƏZYİQİ",
-        "no_touch_coords": "BU EKSPORTDA TOXUNUŞ KOORDİNATI YOXDUR",
-        "passes": "PASLAR",
-        "metres": "METR",
-        "goal": "QOL",
-        "too_few_shots_frame": "ÇƏRÇİVƏYƏ AZ ZƏRBƏ ÇATIB",
-        "scored_n": "{n} QOL",
-        "all_stopped": "HAMISI DAYANDIRILDI",
-        "shots_reached_target": "HƏDƏFƏ ÇATAN ZƏRBƏLƏR",
-        "count_per_zones": "ALTİ ZONA ÜZRƏ SAY",
-        "not_enough_passes": "ŞƏBƏKƏ ÜÇÜN KİFAYƏT PAS YOXDUR",
-        "completed": "UĞURLU",
-        "accuracy": "DƏQİQLİK",
-        "final_third": "HÜCUM ÜÇDƏ BİRİ",
-        "into_the_box": "CƏRİMƏYƏ",
-        "attacking_up_with_team": "{team}  /  YUXARI HÜCUM",
-        "pass_share": "Pas payı",
-        "final_third_short": "Hücum üçdə biri",
-        "into_box_short": "Cəriməyə",
-        "outcome_goal": "Qol",
-        "outcome_saved": "Seyv",
-        "outcome_off_target": "Kənar",
-        "outcome_blocked": "Blok",
-        "outcome_woodwork": "Dirək",
-        "period_first_half": "Birinci hissə",
-        "period_second_half": "İkinci hissə",
-        "period_extra_time": "Əlavə vaxt",
-        "period_extra_time_1": "Əlavə vaxt 1",
-        "period_extra_time_2": "Əlavə vaxt 2",
-        "boundary_ht": "HT",
-        "boundary_ft": "FT",
-        "boundary_et": "ET",
-        "peak": "PİK {block}",
-        "build_up": "QURULUŞ",
-        "sub_shot_map": "Hər cəhd, nəticəsinə görə",
-        "sub_momentum": "{home} xəttin üstündə, {away} altında",
-        "sub_zone": "On səkkiz zona üzrə toxunuşlar",
-        "sub_goalmouth": "Çərçivəyə zərbələrin keçdiyi yer",
-        "sub_pass_network": "Orta mövqelər və ən güclü əlaqələr",
-        "sub_sterile": "Pas payı və onun nəticəsi",
-        "hook_needed_minutes": "{team} {n} DƏQİQƏYƏ BİTİRDİ",
-        "hook_ran_riot": "{team} DAĞITDI",
-        "hook_found_a_way": "{team} YOL TAPDI",
-        "hook_extra_time": "{team} ƏLAVƏ VAXT LAZIM OLDU",
-        "hook_shootout": "{team} PENALTİLƏRDƏ QALİB",
-        "hook_goals_take_it": "{n} QOL, {team} APARIR",
-        "hook_nobody_blinked": "HEÇ KİM GERİ ÇƏKİLMƏDİ",
-        "hook_honours_even": "HESAB BƏRABƏR: {score}",
-        "hook_stat_on_target": "{n} ÇƏRÇİVƏYƏ",
-        "hook_stat_big_chances": "{n} BÖYÜK ŞANS",
-        "hook_stat_shots": "{n} ZƏRBƏ",
-        "hook_stat_margin": "{n} QOL FƏRQİ",
-        "hook_had_more_shots": "{team} DAHA ÇOX ZƏRBƏ ENDİRDİ.",
-        "hook_had_more_corners": "{team} DAHA ÇOX KÜNC VURDU.",
-        "hook_had_more_blocked": "{team} DAHA ÇOX BLOKLANAN ZƏRBƏSİ VARDI.",
-        "hook_had_more_chances": "{team} DAHA ÇOX BÖYÜK ŞANSI VARDI.",
-        "hook_had_more_box": "{team} CƏRİMƏDƏ DAHA ÇOX TOXUNDU.",
-        "hook_had_more_pressure": "{team} DAHA ÇOX TƏZYİQ GÖSTƏRDİ.",
-        "hook_more_shots": "DAHA ÇOX ZƏRBƏ.",
-        "hook_more_corners": "DAHA ÇOX KÜNC.",
-        "hook_more_blocked": "DAHA ÇOX BLOKLANAN ZƏRBƏ.",
-        "hook_more_chances": "DAHA ÇOX BÖYÜK ŞANS.",
-        "hook_more_box": "CƏRİMƏDƏ DAHA ÇOX TOXUNUŞ.",
-        "hook_more_pressure": "DAHA ÇOX TƏZYİQ.",
-        "hook_still_lost": "YENƏ UDUZDULAR.",
-        "hook_still_level": "YENƏ HESAB BƏRABƏR QALDI.",
-        "hook_nobody_scored": "VƏ HEÇ KİM QOL VURMADI.",
-        "hook_one_moment": "BİR AN QƏRAR VERDİ.",
-        "hook_then_it_was_over": "SONRA HƏR ŞEY BİTDİ.",
-        "hook_turned_late": "OYUN {n}-Cİ DƏQİQƏDƏ DÖNDÜ.",
-        "hook_had_the_ball": "{team} TOPA SAHİB İDİ.",
-        "hook_not_the_chances": "ŞANSLARA YOX.",
-        "hook_n_shots": "{n} ZƏRBƏ.",
-        "bridge_owned_the_map": "{team} XƏRİTƏYƏ SAHİB OLDU.",
-        "bridge_had_the_ball": "{team} TOPA SAHİB İDİ.",
-        "bridge_keeper_work": "{team} İŞİ VAR İDİ.",
-        "bridge_watch_the_board": "{n} QOL. HESABA BAX.",
-        "bridge_kept_shooting": "{team} ZƏRBƏ ENDİRMƏKDƏ DAVAM ETDİ.",
-        "bridge_pressure_uneven": "TƏZYİQ BƏRABƏR DEYİLDİ.",
-        "bridge_one_move": "BİR HƏRƏKƏT İŞİ BİTİRDİ.",
-        "bridge_n_passes": "{n} PAS. BİR BİTİRMƏ.",
-        "bridge_how_they_moved": "{team} TOPU BELƏ APARDI.",
-        "bridge_numbers_split": "RƏQƏMLƏR UYUŞMADI.",
-        "bridge_board_caught_up": "SONRA HESAB DANIŞDI.",
-        "bridge_look_at_this": "GÖZLƏ. BUNA BAX.",
-        "handoff_but": "{proof}. Amma {next}.",
-        "hook_punch_lost_0": "YENƏ UDUDULAR.",
-        "hook_punch_lost_1": "VƏ YENƏ UDUDULAR.",
-        "hook_punch_lost_2": "HEÇ BİRİ SAYILMADI.",
-        "hook_punch_lost_3": "HESAB MARAQLANMADI.",
-        "hook_punch_lost_4": "EVƏ BOŞ GETDİLƏR.",
-        "hook_punch_lost_5": "XALLAR O BİRİNƏ GETDİ.",
-        "hook_punch_lost_6": "BU KİFAYƏT ETMƏDİ.",
-        "hook_punch_lost_7": "NƏTİCƏ YOX DEDİ.",
-        "hook_punch_over_0": "SONRA BİTDİ.",
-        "hook_punch_over_1": "GECƏ O İDİ.",
-        "hook_punch_over_2": "OYUN. QAPANDI.",
-        "hook_punch_over_3": "QAPI ÇIRPILDI.",
-        "hook_punch_over_4": "GERİ YOL YOXDUR.",
-        "hook_punch_over_5": "HƏLL OLUNDU. BİTDİ.",
-        "hook_punch_level_0": "YENƏ BƏRABƏR QALDI.",
-        "hook_punch_level_1": "HEÇ KİM AÇMADI.",
-        "hook_punch_level_2": "HƏR BİRİNƏ BİR XAL.",
-        "hook_punch_level_3": "HESAB YERİNDƏ QALDI.",
-        "hook_punch_level_4": "AYRILA BİLMƏDİLƏR.",
-        "hook_punch_blank_0": "VƏ HEÇ KİM VURMADI.",
-        "hook_punch_blank_1": "TORA TOXUNMADI.",
-        "hook_punch_blank_2": "SIFIR. HESABDA.",
-        "hook_punch_blank_3": "HƏR İKİSİ BOŞ.",
-        "hook_claim_shots_0": "{team} {n} ZƏRBƏ ENDİRDİ.",
-        "hook_claim_shots_1": "{team} ÜÇÜN {n} ZƏRBƏ.",
-        "hook_claim_shots_2": "{team} ZƏRBƏ TAPDI.",
-        "hook_claim_corners_0": "{team} {n} KÜNC VURDU.",
-        "hook_claim_corners_1": "{n} KÜNC. HAMISI {team}.",
-        "hook_claim_blocked_0": "{team} DAHA ÇOX BLOKLANAN ZƏRBƏSİ VARDI.",
-        "hook_claim_blocked_1": "{n} ZƏRBƏ BLOKDA ÖLDÜ.",
-        "hook_claim_chances_0": "{team} {n} BÖYÜK ŞANS TAPDI.",
-        "hook_claim_chances_1": "{n} BÖYÜK ŞANS. {team}.",
-        "hook_claim_chances_2": "ŞANSLAR {team} TƏRƏFİNƏ GETDİ.",
-        "hook_claim_box_0": "{team} CƏRİMƏDƏ YAŞADI.",
-        "hook_claim_box_1": "{team} CƏRİMƏDƏ {n} TOXUNUŞ.",
-        "hook_claim_pressure_0": "{team} DAHA ÇOX TƏZYİQ GÖSTƏRDİ.",
-        "hook_claim_pressure_1": "TƏZYİQ {team} TƏRƏFİNDƏ İDİ.",
-        "hook_claim_ball_0": "{team} TOPA SAHİB İDİ.",
-        "hook_claim_ball_1": "PASLARIN {n}%-İ. {team}.",
-        "hook_claim_ball_2": "{team} TOPU YIĞDI.",
-        "hook_claim_not_chances_0": "ŞANSLAR YOXDUR.",
-        "hook_claim_not_chances_1": "ŞANSLAR O BİRİNƏ GETDİ.",
-        "hook_claim_late_0": "OYUN {n}-Cİ DƏQİQƏDƏ DÖNDÜ.",
-        "hook_claim_late_1": "{n}-Cİ DƏQİQƏ. KƏSİK.",
-        "hook_claim_late_2": "{team} {n}-CİYƏ QƏDƏR GÖZLƏDİ.",
-        "hook_claim_one_0": "BİR AN HƏLL ETDİ.",
-        "hook_claim_one_1": "BİR ZƏRBƏ. OYUN O İDİ.",
-        "hook_claim_one_2": "{team} BİRİNƏ EHTİYAC DUYDU.",
-        "hook_claim_nshots_0": "{n} ZƏRBƏ.",
-        "hook_claim_nshots_1": "{n} CƏHD. SIFIR QOL.",
-        "hook_claim_comeback_0": "{team} GERİDƏN GƏLMƏLİ OLDU.",
-        "hook_claim_comeback_1": "GERİDƏ İDİLƏR. SONRA {team} DÖNDƏRDİ.",
-        "hook_claim_comeback_2": "GERİDƏN. {n}-Cİ DƏQİQƏDƏ.",
-        "hook_claim_stoppage_0": "{n}-Cİ DƏQİQƏ BİTİRDİ.",
-        "hook_claim_stoppage_1": "ƏLAVƏ. {team}. BİTİRDİ.",
-        "hook_claim_stoppage_2": "{n}-CİYƏ QƏDƏR GÖZLƏDİLƏR.",
-        "hook_claim_blowout_0": "{team} EVİ DAĞITDI.",
-        "hook_claim_blowout_1": "{n} QOL FƏRQİ.",
-        "hook_claim_blowout_2": "BU OYUN DEYİLDİ.",
-        "hook_claim_xg_0": "{team} xG-DƏ QALİB GƏLDİ.",
-        "hook_claim_xg_1": "{n} xG. FƏRQ ETMƏDİ.",
-        "hook_claim_keeper_0": "{team} HƏR ŞEYİ DAYANDIRDI.",
-        "hook_claim_keeper_1": "{n} SEYV. DİVAR.",
-        "hook_claim_keeper_2": "QAPICI GECƏNİ OĞURLADI.",
-        "hook_claim_waste_0": "{team} {n} ZƏRBƏ ENDİRDİ.",
-        "hook_claim_waste_1": "{n} ZƏRBƏ. GERİ DEMƏK OLAR HEÇ NƏ.",
-        "hook_claim_chain_0": "{n} PAS. BİR BİTİRMƏ.",
-        "hook_claim_chain_1": "{team} PAS-PAS QURDU.",
-        "hook_claim_chain_2": "{n} PASLI BIÇAĞ.",
-        "hook_claim_pin_0": "{team} ONLARI Sıxışdırdı.",
-        "hook_claim_pin_1": "{n}% TİLT. ÇIXIŞ YOXDUR.",
-        "hook_claim_red_0": "QIRMIZI VƏRƏQƏ RİYAZİYYATI DƏYİŞDİ.",
-        "hook_claim_red_1": "{n} QOVULDU. OYUN DÖNDÜ.",
-        "hook_claim_og_0": "ÖZ QAPISINA ZƏRƏR VERDİ.",
-        "hook_claim_og_1": "{n}-Cİ DƏQİQƏDƏ ÖZLƏRİNİ UDUZDULAR.",
-        "hook_claim_pen_0": "PENALTI HƏLL ETDİ.",
-        "hook_claim_pen_1": "NOQTƏDƏN. {n}-Cİ DƏQİQƏ.",
-        "hook_claim_level_0": "{home} {away} KARŞI.",
-        "hook_claim_level_1": "İKİ KOMANDA. QALİB YOX.",
-        "bridge_zone_0": "{team} XƏRİTƏYƏ SAHİB İDİ.",
-        "bridge_zone_1": "ƏRAZİYƏ BAX.",
-        "bridge_zone_2": "{n} TOXUNUŞ YETƏRDEDİ.",
-        "bridge_zone_3": "BURADA YAŞADILAR.",
-        "bridge_heat_0": "İSTİLİK XƏRİTƏSİ YALAN DEMİR.",
-        "bridge_heat_1": "{team} BU HİSSƏNİ BİŞİRDİ.",
-        "bridge_heat_2": "TOXUNUŞ-TOXUNUŞ. Sıxışdırma.",
-        "bridge_ball_0": "{team} TOPA SAHİB İDİ.",
-        "bridge_ball_1": "PASLARIN {n}%-İ.",
-        "bridge_ball_2": "NƏZARƏT. SONRA HEÇ NƏ.",
-        "bridge_funnel_0": "ŞANSLARIN ÖLMƏSİNƏ BAX.",
-        "bridge_funnel_1": "HUNİ SIFIRA DARALIR.",
-        "bridge_funnel_2": "HÜCUMLAR BURADA ACIQLANDI.",
-        "bridge_keeper_0": "{team} İŞİ VARDI.",
-        "bridge_keeper_1": "{n} SEYV. BAX.",
-        "bridge_keeper_2": "ÇƏRÇİVƏ MÜHASİRƏDƏ İDİ.",
-        "bridge_frame_0": "TORA ÇATAN HƏR ZƏRBƏ.",
-        "bridge_frame_1": "BUDUR KƏRPİC DİVAR.",
-        "bridge_frame_2": "YERLƏŞDİRMƏ. SONRA DAYANMA.",
-        "bridge_board_0": "{n} QOL. HESABA BAX.",
-        "bridge_board_1": "HƏR BİTİRMƏ, SIRA İLƏ.",
-        "bridge_board_2": "HESAB BELƏ HƏRƏKƏT ETDİ.",
-        "bridge_shots_0": "{team} ZƏRBƏ ÇƏKMƏKDƏ DAVAM ETDİ.",
-        "bridge_shots_1": "{n} ZƏRBƏ. BAX.",
-        "bridge_shots_2": "HƏR CƏHD, XƏRİTƏDƏ.",
-        "bridge_shots_3": "BUDUR ATIŞ QALEREYASI.",
-        "bridge_pressure_0": "TƏZYİQ BƏRABƏR DEYİLDİ.",
-        "bridge_pressure_1": "DÖNÜŞƏ BAX.",
-        "bridge_pressure_2": "ELƏ O VAXT DÖNDÜ.",
-        "bridge_tilt_0": "SAHƏ TİLTİ, DƏQİQƏ-DƏQİQƏ.",
-        "bridge_tilt_1": "TƏHLÜKƏLİ ÜÇDƏ BİR KİMİN İDİ.",
-        "bridge_tilt_2": "DALĞA GERİ GƏLMƏDİ.",
-        "bridge_chain_0": "{n} PAS. BİR BİTİRMƏ.",
-        "bridge_chain_1": "BİR HƏRƏKƏT İŞİ BİTİRDİ.",
-        "bridge_chain_2": "BIÇAĞI İZLƏ.",
-        "bridge_pass_0": "{team} TOPU BELƏ APARDI.",
-        "bridge_pass_1": "ƏLAQƏLƏRİ İZLƏ.",
-        "bridge_pass_2": "ONLARIN FORMASI, PASLARDA.",
-        "bridge_radar_0": "OYUNUN FORMASI.",
-        "bridge_radar_1": "ALTI OX. BİR HEKAYƏ.",
-        "bridge_radar_2": "BUDUR PROFİL.",
-        "bridge_slam_0": "BİR RƏQƏM. OYUN.",
-        "bridge_slam_1": "{n}. BUDUR QARMAQ.",
-        "bridge_slam_2": "BU SAYI OXU.",
-        "bridge_gauge_0": "ŞANSLAR QOLLARA QARŞI.",
-        "bridge_gauge_1": "ÇEVİRMƏ YALAN DANIŞDI.",
-        "bridge_gauge_2": "KEYFİYYƏT. SONRA BİTİRMƏ.",
-        "bridge_race_0": "ZAMAN ÜZRƏ xG.",
-        "bridge_race_1": "HESABIN SAYMADIĞI YARIŞ.",
-        "bridge_halves_0": "İKİ FƏRQLİ HİSSƏ İDİ.",
-        "bridge_halves_1": "OTUZ DƏQİQƏ-OTUZ DƏQİQƏ.",
-        "bridge_halves_2": "XƏRİTƏ DƏYİŞDİ.",
-        "bridge_player_0": "BİR AD BUNU DAŞIDI.",
-        "bridge_player_1": "BUDUR SİÇRAYIŞ.",
-        "bridge_player_2": "OYUNÇUNU İZLƏ.",
-        "bridge_numbers_0": "RƏQƏMLƏR UYUŞMADI.",
-        "bridge_numbers_1": "BÖLÜNMƏYİ OXU.",
-        "bridge_close_0": "SONRA HESAB DANIŞDI.",
-        "bridge_close_1": "NECƏ BİTDİ, BUDUR.",
-        "bridge_close_2": "HESAB. NƏHAYƏT.",
-        "bridge_close_3": "GECƏ O İDİ.",
-        "bridge_look_0": "GÖZLƏ. BUNA BAX.",
-        "bridge_look_1": "İNDİ ŞƏKİL.",
-        "bridge_look_2": "BU OXUNUŞU DƏYİŞİR.",
-        "sub_radar": "Alti ox, hər iki komanda",
-        "sub_heatmap": "Sahə üzrə toxunuş sıxlığı",
-        "sub_tilt": "Hücum üçdə biri pas payı",
-        "sub_funnel": "Qola çevrilməyən nəzarət",
-        "sub_gauges": "Şans keyfiyyəti və bitirmə",
-        "sub_slam": "Gecəni təyin edən rəqəm",
-        "sub_race": "Toplanan xG qollara qarşı",
-        "sub_zones_time": "Üç dilimdə ərazi",
-        "sub_player": "Lentdə sıçrayan oyunçu",
-        "sub_keeper_frame": "Çərçivəyə çatan hər zərbə",
-    },
-    "es": {
-        "watermark": "",
-        "match_recap": "RESUMEN DEL PARTIDO",
-        "the_baseline": "LA BASE",
-        "full_time": "FINAL",
-        "after_extra_time": "TRAS LA PRÓRROGA",
-        "on_penalties": "EN PENALTIS",
-        "goals": "GOLES",
-        "no_goals": "SIN GOLES",
-        "no_goals_in_match": "NO HUBO GOLES EN ESTE PARTIDO",
-        "shots_none_counted": "{shots} TIROS, NINGUNO ENTRÓ",
-        "attacking_up": "ATAQUE ARRIBA",
-        "attacking_down": "ATAQUE ABAJO",
-        "shots_on_target_line": "{shots} TIROS / {on_target} A PUERTA",
-        "markers_team_colour": "LOS MARCADORES USAN EL COLOR DEL EQUIPO",
-        "pressure_curve_empty": "NO HAY EVENTOS PARA LA CURVA DE PRESIÓN",
-        "attacking_pressure": "PRESIÓN OFENSIVA CADA 5 MINUTOS",
-        "no_touch_coords": "NO HAY COORDENADAS DE TOQUES EN ESTE EXPORT",
-        "passes": "PASES",
-        "metres": "METROS",
-        "goal": "GOL",
-        "too_few_shots_frame": "DEMASIADOS POCOS TIROS LLEGARON AL MARCO",
-        "scored_n": "{n} GOLES",
-        "all_stopped": "TODOS DETENIDOS",
-        "shots_reached_target": "TIROS QUE LLEGARON A PUERTA",
-        "count_per_zones": "CONTEO POR SEIS ZONAS",
-        "not_enough_passes": "NO HAY PASES SUFICIENTES PARA LA RED",
-        "completed": "COMPLETADOS",
-        "accuracy": "PRECISIÓN",
-        "final_third": "ÚLTIMO TERCIO",
-        "into_the_box": "AL ÁREA",
-        "attacking_up_with_team": "{team}  /  ATAQUE ARRIBA",
-        "pass_share": "Cuota de pases",
-        "final_third_short": "Último tercio",
-        "into_box_short": "Al área",
-        "outcome_goal": "Gol",
-        "outcome_saved": "Parada",
-        "outcome_off_target": "Fuera",
-        "outcome_blocked": "Bloqueado",
-        "outcome_woodwork": "Palo",
-        "period_first_half": "Primera parte",
-        "period_second_half": "Segunda parte",
-        "period_extra_time": "Prórroga",
-        "period_extra_time_1": "Prórroga 1",
-        "period_extra_time_2": "Prórroga 2",
-        "boundary_ht": "HT",
-        "boundary_ft": "FT",
-        "boundary_et": "ET",
-        "peak": "PICO {block}",
-        "build_up": "JUGADA",
-        "sub_shot_map": "Cada intento, por resultado",
-        "sub_momentum": "{home} por encima, {away} por debajo",
-        "sub_zone": "Toques en dieciocho zonas",
-        "sub_goalmouth": "Dónde cruzaron la línea los tiros a puerta",
-        "sub_pass_network": "Posiciones medias y enlaces más fuertes",
-        "sub_sterile": "Cuota de pases frente a lo que produjo",
-        "hook_needed_minutes": "{team} LO CERRÓ EN {n} MINUTOS",
-        "hook_ran_riot": "{team} ARRASÓ",
-        "hook_found_a_way": "{team} ENCONTRÓ EL CAMINO",
-        "hook_extra_time": "{team} NECESITÓ LA PRÓRROGA",
-        "hook_shootout": "{team} SUPERÓ LOS PENALTIS",
-        "hook_goals_take_it": "{n} GOLES, {team} SE LO LLEVA",
-        "hook_nobody_blinked": "NADIE PARPADEÓ",
-        "hook_honours_even": "EMPATE A {score}",
-        "hook_stat_on_target": "{n} A PUERTA",
-        "hook_stat_big_chances": "{n} GRANDES OCASIONES",
-        "hook_stat_shots": "{n} TIROS",
-        "hook_stat_margin": "{n} GOLES DE MARGEN",
-        "hook_had_more_shots": "{team} TUVO MÁS TIROS.",
-        "hook_had_more_corners": "{team} TUVO MÁS CÓRNERS.",
-        "hook_had_more_blocked": "{team} TUVO MÁS TIROS BLOQUEADOS.",
-        "hook_had_more_chances": "{team} TUVO MÁS GRANDES OCASIONES.",
-        "hook_had_more_box": "{team} TOCÓ MÁS EN EL ÁREA.",
-        "hook_had_more_pressure": "{team} TUVO MÁS PRESIÓN.",
-        "hook_more_shots": "MÁS TIROS.",
-        "hook_more_corners": "MÁS CÓRNERS.",
-        "hook_more_blocked": "MÁS TIROS BLOQUEADOS.",
-        "hook_more_chances": "MÁS GRANDES OCASIONES.",
-        "hook_more_box": "MÁS TOQUES EN EL ÁREA.",
-        "hook_more_pressure": "MÁS PRESIÓN.",
-        "hook_still_lost": "AUN ASÍ PERDIERON.",
-        "hook_still_level": "AUN ASÍ TERMINÓ EN EMPATE.",
-        "hook_nobody_scored": "Y NADIE MARCÓ.",
-        "hook_one_moment": "UN MOMENTO LO DECIDIÓ.",
-        "hook_then_it_was_over": "Y SE ACABÓ.",
-        "hook_turned_late": "EL PARTIDO GIRÓ EN EL MINUTO {n}.",
-        "hook_had_the_ball": "{team} TUVO EL BALÓN.",
-        "hook_not_the_chances": "NO LAS OCASIONES.",
-        "hook_n_shots": "{n} TIROS.",
-        "bridge_owned_the_map": "{team} DOMINÓ EL MAPA.",
-        "bridge_had_the_ball": "{team} TUVO EL BALÓN.",
-        "bridge_keeper_work": "{team} TUVO TRABAJO.",
-        "bridge_watch_the_board": "{n} GOLES. MIRA EL MARCADOR.",
-        "bridge_kept_shooting": "{team} SIGUIÓ TIRANDO.",
-        "bridge_pressure_uneven": "LA PRESIÓN NO FUE PAREJA.",
-        "bridge_one_move": "UNA JUGADA HIZO EL DAÑO.",
-        "bridge_n_passes": "{n} PASES. UN REMATE.",
-        "bridge_how_they_moved": "ASÍ MOVIÓ EL BALÓN {team}.",
-        "bridge_numbers_split": "LOS NÚMEROS NO CUADRAN.",
-        "bridge_board_caught_up": "DESPUÉS HABLÓ EL MARCADOR.",
-        "bridge_look_at_this": "ESPERA. MIRA ESTO.",
-        "handoff_but": "{proof}. Pero {next}.",
-        "hook_punch_lost_0": "AUN ASÍ PERDIERON.",
-        "hook_punch_lost_1": "Y AUN ASÍ PERDIERON.",
-        "hook_punch_lost_2": "NADA CONTÓ.",
-        "hook_punch_lost_3": "EL MARCADOR NO QUISO.",
-        "hook_punch_lost_4": "SE FUERON CON NADA.",
-        "hook_punch_lost_5": "LOS PUNTOS FUERON AL OTRO LADO.",
-        "hook_punch_lost_6": "NO BASTÓ.",
-        "hook_punch_lost_7": "EL RESULTADO DIJO NO.",
-        "hook_punch_over_0": "Y SE ACABÓ.",
-        "hook_punch_over_1": "ESA FUE LA NOCHE.",
-        "hook_punch_over_2": "PARTIDO. CERRADO.",
-        "hook_punch_over_3": "LA PUERTA SE CERRÓ.",
-        "hook_punch_over_4": "SIN VUELTA.",
-        "hook_punch_over_5": "RESUELTO. FIN.",
-        "hook_punch_level_0": "SIGUIÓ EMPATADO.",
-        "hook_punch_level_1": "NADIE ROMPIÓ EL EMPATE.",
-        "hook_punch_level_2": "UN PUNTO PARA CADA UNO.",
-        "hook_punch_level_3": "SEGUÍAN TABLAS.",
-        "hook_punch_level_4": "NO HUBO SEPARACIÓN.",
-        "hook_punch_blank_0": "Y NADIE MARCÓ.",
-        "hook_punch_blank_1": "LA RED NO SE MOVIÓ.",
-        "hook_punch_blank_2": "CERO. EN EL MARCADOR.",
-        "hook_punch_blank_3": "EN BLANCO LOS DOS.",
-        "hook_claim_shots_0": "{team} TUVO {n} TIROS.",
-        "hook_claim_shots_1": "{n} TIROS PARA {team}.",
-        "hook_claim_shots_2": "{team} SEGUÍA ENCONTRANDO EL TIRO.",
-        "hook_claim_corners_0": "{team} TUVO {n} CÓRNERS.",
-        "hook_claim_corners_1": "{n} CÓRNERS. TODO {team}.",
-        "hook_claim_blocked_0": "{team} TUVO MÁS TIROS BLOQUEADOS.",
-        "hook_claim_blocked_1": "{n} TIROS MURIERON EN EL BLOQUEO.",
-        "hook_claim_chances_0": "{team} TUVO {n} GRANDES OCASIONES.",
-        "hook_claim_chances_1": "{n} GRANDES OCASIONES. {team}.",
-        "hook_claim_chances_2": "LAS OCASIONES FUERON PARA {team}.",
-        "hook_claim_box_0": "{team} VIVIÓ EN EL ÁREA.",
-        "hook_claim_box_1": "{n} TOQUES EN EL ÁREA PARA {team}.",
-        "hook_claim_pressure_0": "{team} TUVO MÁS PRESIÓN.",
-        "hook_claim_pressure_1": "LA PRESIÓN FUE DE {team}.",
-        "hook_claim_ball_0": "{team} TUVO EL BALÓN.",
-        "hook_claim_ball_1": "{n}% DE LOS PASES. {team}.",
-        "hook_claim_ball_2": "{team} ACAPARÓ EL BALÓN.",
-        "hook_claim_not_chances_0": "NO LAS OCASIONES.",
-        "hook_claim_not_chances_1": "LAS OCASIONES FUERON AL OTRO LADO.",
-        "hook_claim_late_0": "EL PARTIDO GIRÓ EN EL {n}.",
-        "hook_claim_late_1": "MINUTO {n}. AHÍ SE CORTÓ.",
-        "hook_claim_late_2": "{team} ESPERÓ HASTA EL {n}.",
-        "hook_claim_one_0": "UN MOMENTO LO DECIDIÓ.",
-        "hook_claim_one_1": "UN GOLPE. ESE FUE EL PARTIDO.",
-        "hook_claim_one_2": "{team} SOLO NECESITÓ UNO.",
-        "hook_claim_nshots_0": "{n} TIROS.",
-        "hook_claim_nshots_1": "{n} INTENTOS. CERO GOLES.",
-        "hook_claim_comeback_0": "{team} TUVO QUE REMONTAR.",
-        "hook_claim_comeback_1": "IBAN PERDIENDO. LUEGO {team} LO DIO VUELTA.",
-        "hook_claim_comeback_2": "DESDE ATRÁS. EN EL {n}.",
-        "hook_claim_stoppage_0": "EL MINUTO {n} LO CERRÓ.",
-        "hook_claim_stoppage_1": "DESCUENTO. {team}. EL CIERRE.",
-        "hook_claim_stoppage_2": "ESPERARON HASTA EL {n}.",
-        "hook_claim_blowout_0": "{team} ARRASÓ LA CASA.",
-        "hook_claim_blowout_1": "{n} GOLES DE LUZ.",
-        "hook_claim_blowout_2": "ESTO NO FUE UN PARTIDO.",
-        "hook_claim_xg_0": "{team} GANÓ EL xG.",
-        "hook_claim_xg_1": "{n} xG. Y NO IMPORTÓ.",
-        "hook_claim_keeper_0": "{team} LO PARÓ TODO.",
-        "hook_claim_keeper_1": "{n} PARADAS. UN MURO.",
-        "hook_claim_keeper_2": "EL PORTERO ROBÓ LA NOCHE.",
-        "hook_claim_waste_0": "{team} TUVO {n} TIROS.",
-        "hook_claim_waste_1": "{n} TIROS. CASI NADA DE VUELTA.",
-        "hook_claim_chain_0": "{n} PASES. UN REMATE.",
-        "hook_claim_chain_1": "{team} LO ARMO PASE A PASE.",
-        "hook_claim_chain_2": "UN CUCHILLO DE {n} PASES.",
-        "hook_claim_pin_0": "{team} LOS CLAVÓ ATRÁS.",
-        "hook_claim_pin_1": "{n}% DE INCLINACIÓN. SIN SALIDA.",
-        "hook_claim_red_0": "UNA ROJA CAMBIÓ LAS CUENTAS.",
-        "hook_claim_red_1": "{n} EXPULSADO. EL PARTIDO GIRÓ.",
-        "hook_claim_og_0": "UN GOL EN PROPIA HIZO EL DAÑO.",
-        "hook_claim_og_1": "SE VENCIERON EN EL {n}.",
-        "hook_claim_pen_0": "UN PENALTI LO RESOLVIÓ.",
-        "hook_claim_pen_1": "DESDE EL PUNTO. EL {n}.",
-        "hook_claim_level_0": "{home} CONTRA {away}.",
-        "hook_claim_level_1": "DOS EQUIPOS. SIN GANADOR.",
-        "bridge_zone_0": "{team} DOMINÓ EL MAPA.",
-        "bridge_zone_1": "MIRA EL TERRITORIO.",
-        "bridge_zone_2": "{n} TOQUES BASTARON.",
-        "bridge_zone_3": "AHÍ VIVIERON.",
-        "bridge_heat_0": "EL MAPA DE CALOR NO MIENTE.",
-        "bridge_heat_1": "{team} COCINÓ ESA MITAD.",
-        "bridge_heat_2": "TOQUE A TOQUE. EL CLAVO.",
-        "bridge_ball_0": "{team} TUVO EL BALÓN.",
-        "bridge_ball_1": "{n}% DE LOS PASES.",
-        "bridge_ball_2": "CONTROL. LUEGO NADA.",
-        "bridge_funnel_0": "MIRA MORIR LAS OCASIONES.",
-        "bridge_funnel_1": "EL EMBUDO SE CIERRA A CERO.",
-        "bridge_funnel_2": "AHÍ SE AHOGARON LOS ATAQUES.",
-        "bridge_keeper_0": "{team} TUVO TRABAJO.",
-        "bridge_keeper_1": "{n} PARADAS. MIRA.",
-        "bridge_keeper_2": "EL MARCO ESTABA SITIADO.",
-        "bridge_frame_0": "CADA TIRO QUE LLEGÓ A PORTERÍA.",
-        "bridge_frame_1": "ESTE ES EL MURO.",
-        "bridge_frame_2": "COLOCACIÓN. LUEGO LA PARADA.",
-        "bridge_board_0": "{n} GOLES. MIRA EL MARCADOR.",
-        "bridge_board_1": "CADA REMATE, EN ORDEN.",
-        "bridge_board_2": "EL MARCADOR SE MOVIÓ ASÍ.",
-        "bridge_shots_0": "{team} SEGUÍA TIRANDO.",
-        "bridge_shots_1": "{n} TIROS. MIRA.",
-        "bridge_shots_2": "CADA INTENTO, EN EL MAPA.",
-        "bridge_shots_3": "ESTA ES LA GALERÍA.",
-        "bridge_pressure_0": "LA PRESIÓN NO FUE PAREJA.",
-        "bridge_pressure_1": "MIRA EL GIRO.",
-        "bridge_pressure_2": "AHÍ SE INCLINÓ.",
-        "bridge_tilt_0": "INCLINACIÓN, MINUTO A MINUTO.",
-        "bridge_tilt_1": "QUIÉN TUVO EL TERCIO PELIGROSO.",
-        "bridge_tilt_2": "LA OLA NO VOLVIÓ.",
-        "bridge_chain_0": "{n} PASES. UN REMATE.",
-        "bridge_chain_1": "UNA JUGADA HIZO EL DAÑO.",
-        "bridge_chain_2": "SIGUE EL CUCHILLO.",
-        "bridge_pass_0": "ASÍ MOVIÓ EL BALÓN {team}.",
-        "bridge_pass_1": "SIGUE LOS ENLACES.",
-        "bridge_pass_2": "SU FORMA, EN PASES.",
-        "bridge_radar_0": "LA FORMA DEL PARTIDO.",
-        "bridge_radar_1": "SEIS EJES. UNA HISTORIA.",
-        "bridge_radar_2": "ESTE ES EL PERFIL.",
-        "bridge_slam_0": "UN NÚMERO. EL PARTIDO.",
-        "bridge_slam_1": "{n}. ESE ES EL GANCHO.",
-        "bridge_slam_2": "LEE ESTA CIFRA.",
-        "bridge_gauge_0": "OCASIONES CONTRA GOLES.",
-        "bridge_gauge_1": "LA CONVERSIÓN MINTIÓ.",
-        "bridge_gauge_2": "CALIDAD. LUEGO EL REMATE.",
-        "bridge_race_0": "xG EN EL TIEMPO.",
-        "bridge_race_1": "LA CARRERA QUE EL MARCADOR IGNORÓ.",
-        "bridge_halves_0": "FUERON DOS MITADES DISTINTAS.",
-        "bridge_halves_1": "TREINTA MINUTOS A LA VEZ.",
-        "bridge_halves_2": "EL MAPA CAMBIÓ.",
-        "bridge_player_0": "UN NOMBRE CARGÓ CON ESTO.",
-        "bridge_player_1": "ESTE ES EL PICO.",
-        "bridge_player_2": "SIGUE AL JUGADOR.",
-        "bridge_numbers_0": "LOS NÚMEROS NO CUADRAN.",
-        "bridge_numbers_1": "LEE EL REPARTO.",
-        "bridge_close_0": "DESPUÉS HABLÓ EL MARCADOR.",
-        "bridge_close_1": "ASÍ TERMINÓ.",
-        "bridge_close_2": "EL MARCADOR. POR FIN.",
-        "bridge_close_3": "ESA FUE LA NOCHE.",
-        "bridge_look_0": "ESPERA. MIRA ESTO.",
-        "bridge_look_1": "AHORA LA IMAGEN.",
-        "bridge_look_2": "ESTO CAMBIA LA LECTURA.",
-        "sub_radar": "Seis ejes, ambos equipos",
-        "sub_heatmap": "Densidad de toques en el campo",
-        "sub_tilt": "Cuota de pases en el último tercio",
-        "sub_funnel": "Control que no acabó en gol",
-        "sub_gauges": "Calidad de ocasión contra el remate",
-        "sub_slam": "El número que definió la noche",
-        "sub_race": "xG acumulado contra los goles",
-        "sub_zones_time": "Territorio en tres cortes",
-        "sub_player": "El jugador que disparó la cinta",
-        "sub_keeper_frame": "Cada tiro a puerta en el marco",
-    },
-    "ru": {
-        "watermark": "",
-        "match_recap": "ОБЗОР МАТЧА",
-        "the_baseline": "БАЗОВЫЕ ПОКАЗАТЕЛИ",
-        "full_time": "ФИНАЛ",
-        "after_extra_time": "ПОСЛЕ ДОПОЛНИТЕЛЬНОГО ВРЕМЕНИ",
-        "on_penalties": "ПО ПЕНАЛЬТИ",
-        "goals": "ГОЛЫ",
-        "no_goals": "БЕЗ ГОЛОВ",
-        "no_goals_in_match": "В ЭТОМ МАТЧЕ НЕ БЫЛО ГОЛОВ",
-        "shots_none_counted": "{shots} УДАРОВ, НИ ОДИН НЕ ЗАСЧИТАН",
-        "attacking_up": "АТАКА ВВЕРХ",
-        "attacking_down": "АТАКА ВНИЗ",
-        "shots_on_target_line": "{shots} УДАРОВ / {on_target} В СТВОР",
-        "markers_team_colour": "МАРКЕРЫ В ЦВЕТАХ КОМАНД",
-        "pressure_curve_empty": "НЕДОСТАТОЧНО СОБЫТИЙ ДЛЯ КРИВОЙ ДАВЛЕНИЯ",
-        "attacking_pressure": "АТАКУЮЩЕЕ ДАВЛЕНИЕ ПО 5 МИНУТ",
-        "no_touch_coords": "В ЭКСПОРТЕ НЕТ КООРДИНАТ КАСАНИЙ",
-        "passes": "ПАСЫ",
-        "metres": "МЕТРЫ",
-        "goal": "ГОЛ",
-        "too_few_shots_frame": "СЛИШКОМ МАЛО УДАРОВ ДОШЛО ДО РАМКИ",
-        "scored_n": "{n} ГОЛОВ",
-        "all_stopped": "ВСЕ ОТРАЖЕНЫ",
-        "shots_reached_target": "УДАРЫ, ДОШЕДШИЕ ДО СТВОРА",
-        "count_per_zones": "СЧЁТ ПО ШЕСТИ ЗОНАМ",
-        "not_enough_passes": "НЕДОСТАТОЧНО ПАСОВ ДЛЯ СЕТИ",
-        "completed": "ТОЧНЫЕ",
-        "accuracy": "ТОЧНОСТЬ",
-        "final_third": "ФИНАЛЬНАЯ ТРЕТЬ",
-        "into_the_box": "В ШТРАФНУЮ",
-        "attacking_up_with_team": "{team}  /  АТАКА ВВЕРХ",
-        "pass_share": "Доля передач",
-        "final_third_short": "Финальная треть",
-        "into_box_short": "В штрафную",
-        "outcome_goal": "Гол",
-        "outcome_saved": "Сейв",
-        "outcome_off_target": "Мимо",
-        "outcome_blocked": "Блок",
-        "outcome_woodwork": "Штанга",
-        "period_first_half": "Первый тайм",
-        "period_second_half": "Второй тайм",
-        "period_extra_time": "Доп. время",
-        "period_extra_time_1": "Доп. время 1",
-        "period_extra_time_2": "Доп. время 2",
-        "boundary_ht": "HT",
-        "boundary_ft": "FT",
-        "boundary_et": "ET",
-        "peak": "ПИК {block}",
-        "build_up": "РОЗЫГРЫШ",
-        "sub_shot_map": "Каждый удар — по исходу",
-        "sub_momentum": "{home} выше линии, {away} ниже",
-        "sub_zone": "Касания по восемнадцати зонам",
-        "sub_goalmouth": "Где удары в створ пересекли линию",
-        "sub_pass_network": "Средние позиции и сильные связи",
-        "sub_sterile": "Доля передач и что из этого вышло",
-        "hook_needed_minutes": "{team} РЕШИЛИ ЗА {n} МИНУТ",
-        "hook_ran_riot": "{team} УСТРОИЛИ РАЗГРОМ",
-        "hook_found_a_way": "{team} НАШЛИ СПОСОБ",
-        "hook_extra_time": "{team} ПОНАДОБИЛОСЬ ДОП. ВРЕМЯ",
-        "hook_shootout": "{team} ВЫСТОЯЛИ В ПЕНАЛЬТИ",
-        "hook_goals_take_it": "{n} ГОЛОВ, {team} ЗАБИРАЮТ",
-        "hook_nobody_blinked": "НИКТО НЕ МОРГНУЛ",
-        "hook_honours_even": "НИЧЬЯ {score}",
-        "hook_stat_on_target": "{n} В СТВОР",
-        "hook_stat_big_chances": "{n} ОСТРЫХ МОМЕНТОВ",
-        "hook_stat_shots": "{n} УДАРОВ",
-        "hook_stat_margin": "{n} ГОЛА РАЗНИЦЫ",
-        "hook_had_more_shots": "У {team} БОЛЬШЕ УДАРОВ.",
-        "hook_had_more_corners": "У {team} БОЛЬШЕ УГЛОВЫХ.",
-        "hook_had_more_blocked": "У {team} БОЛЬШЕ ЗАБЛОКИРОВАННЫХ УДАРОВ.",
-        "hook_had_more_chances": "У {team} БОЛЬШЕ ОСТРЫХ МОМЕНТОВ.",
-        "hook_had_more_box": "У {team} БОЛЬШЕ КАСАНИЙ В ШТРАФНОЙ.",
-        "hook_had_more_pressure": "У {team} БОЛЬШЕ ДАВЛЕНИЯ.",
-        "hook_more_shots": "БОЛЬШЕ УДАРОВ.",
-        "hook_more_corners": "БОЛЬШЕ УГЛОВЫХ.",
-        "hook_more_blocked": "БОЛЬШЕ БЛОКОВ.",
-        "hook_more_chances": "БОЛЬШЕ ОСТРЫХ МОМЕНТОВ.",
-        "hook_more_box": "БОЛЬШЕ КАСАНИЙ В ШТРАФНОЙ.",
-        "hook_more_pressure": "БОЛЬШЕ ДАВЛЕНИЯ.",
-        "hook_still_lost": "И ВСЁ РАВНО ПРОИГРАЛИ.",
-        "hook_still_level": "И ВСЁ РАВНО НИЧЬЯ.",
-        "hook_nobody_scored": "И НИКТО НЕ ЗАБИЛ.",
-        "hook_one_moment": "ОДИН МОМЕНТ ВСЁ РЕШИЛ.",
-        "hook_then_it_was_over": "И ВСЁ ЗАКОНЧИЛОСЬ.",
-        "hook_turned_late": "МАТЧ ПЕРЕЛОМИЛСЯ НА {n}-Й МИНУТЕ.",
-        "hook_had_the_ball": "МЯЧ БЫЛ У {team}.",
-        "hook_not_the_chances": "МОМЕНТОВ — НЕТ.",
-        "hook_n_shots": "{n} УДАРОВ.",
-        "bridge_owned_the_map": "{team} ЗАБРАЛИ КАРТУ.",
-        "bridge_had_the_ball": "МЯЧ БЫЛ У {team}.",
-        "bridge_keeper_work": "{team} ПРИШЛОСЬ РАБОТАТЬ.",
-        "bridge_watch_the_board": "{n} ГОЛОВ. СМОТРИ СЧЁТ.",
-        "bridge_kept_shooting": "{team} ПРОДОЛЖАЛИ БИТЬ.",
-        "bridge_pressure_uneven": "ДАВЛЕНИЕ НЕ БЫЛО РАВНЫМ.",
-        "bridge_one_move": "ОДНА АТАКА ВСЁ РЕШИЛА.",
-        "bridge_n_passes": "{n} ПАСОВ. ОДИН УДАР.",
-        "bridge_how_they_moved": "ТАК {team} ДВИГАЛИ МЯЧ.",
-        "bridge_numbers_split": "ЦИФРЫ НЕ СОШЛИСЬ.",
-        "bridge_board_caught_up": "ПОТОМ ТАБЛО ДОГНАЛО.",
-        "bridge_look_at_this": "ПОДОЖДИ. СМОТРИ.",
-        "handoff_but": "{proof}. Но {next}.",
-        "hook_punch_lost_0": "И ВСЁ РАВНО ПРОИГРАЛИ.",
-        "hook_punch_lost_1": "И ВСЁ РАВНО ПРОИГРАЛИ.",
-        "hook_punch_lost_2": "НИЧЕГО НЕ ЗАСЧИТАЛОСЬ.",
-        "hook_punch_lost_3": "ТАБЛО БЫЛО БЕЗРАЗЛИЧНО.",
-        "hook_punch_lost_4": "УШЛИ НИ С ЧЕМ.",
-        "hook_punch_lost_5": "ОЧКИ УШЛИ ДРУГИМ.",
-        "hook_punch_lost_6": "ЭТОГО НЕ ХВАТИЛО.",
-        "hook_punch_lost_7": "РЕЗУЛЬТАТ СКАЗАЛ НЕТ.",
-        "hook_punch_over_0": "И ВСЁ.",
-        "hook_punch_over_1": "ВОТ И ВЕСЬ ВЕЧЕР.",
-        "hook_punch_over_2": "ИГРА. ЗАКРЫТА.",
-        "hook_punch_over_3": "ДВЕРЬ ЗАХЛОПНУЛАСЬ.",
-        "hook_punch_over_4": "ПУТИ НАЗАД НЕТ.",
-        "hook_punch_over_5": "РЕШЕНО. КОНЕЦ.",
-        "hook_punch_level_0": "ТАК И ОСТАЛИСЬ НИЧЬЕЙ.",
-        "hook_punch_level_1": "НИКТО НЕ СЛОМАЛ НИЧЬЮ.",
-        "hook_punch_level_2": "ПО ОЧКУ КАЖДЫМ.",
-        "hook_punch_level_3": "ЗАСТРЯЛИ ВНИЧЬЮ.",
-        "hook_punch_level_4": "ИХ НЕ РАЗВЕЛИ.",
-        "hook_punch_blank_0": "И НИКТО НЕ ЗАБИЛ.",
-        "hook_punch_blank_1": "СЕТКА НЕ ДРОГНУЛА.",
-        "hook_punch_blank_2": "НОЛЬ. НА ТАБЛО.",
-        "hook_punch_blank_3": "ПУСТО У ОБОИХ.",
-        "hook_claim_shots_0": "У {team} {n} УДАРОВ.",
-        "hook_claim_shots_1": "{n} УДАРОВ У {team}.",
-        "hook_claim_shots_2": "{team} НАХОДИЛИ УДАР.",
-        "hook_claim_corners_0": "У {team} {n} УГЛОВЫХ.",
-        "hook_claim_corners_1": "{n} УГЛОВЫХ. ВСЕ {team}.",
-        "hook_claim_blocked_0": "У {team} БОЛЬШЕ БЛОКИРОВАННЫХ.",
-        "hook_claim_blocked_1": "{n} УДАРОВ УМЕРЛИ В БЛОКЕ.",
-        "hook_claim_chances_0": "У {team} {n} ГОЛЕВЫХ МОМЕНТОВ.",
-        "hook_claim_chances_1": "{n} МОМЕНТОВ. {team}.",
-        "hook_claim_chances_2": "МОМЕНТЫ ДОСТАЛИСЬ {team}.",
-        "hook_claim_box_0": "{team} ЖИЛИ В ШТРАФНОЙ.",
-        "hook_claim_box_1": "{n} КАСАНИЙ В ШТРАФНОЙ У {team}.",
-        "hook_claim_pressure_0": "У {team} БЫЛО БОЛЬШЕ ДАВЛЕНИЯ.",
-        "hook_claim_pressure_1": "ДАВЛЕНИЕ БЫЛО ЗА {team}.",
-        "hook_claim_ball_0": "МЯЧ БЫЛ У {team}.",
-        "hook_claim_ball_1": "{n}% ПАСОВ. {team}.",
-        "hook_claim_ball_2": "{team} ЗАБРАЛИ МЯЧ.",
-        "hook_claim_not_chances_0": "НО НЕ МОМЕНТЫ.",
-        "hook_claim_not_chances_1": "МОМЕНТЫ УШЛИ ДРУГИМ.",
-        "hook_claim_late_0": "МАТЧ ПЕРЕЛОМИЛСЯ НА {n}-Й.",
-        "hook_claim_late_1": "МИНУТА {n}. РАЗРЕЗ.",
-        "hook_claim_late_2": "{team} ЖДАЛИ ДО {n}-Й.",
-        "hook_claim_one_0": "ОДИН МОМЕНТ ВСЁ РЕШИЛ.",
-        "hook_claim_one_1": "ОДИН УДАР. ВОТ И МАТЧ.",
-        "hook_claim_one_2": "{team} ХВАТИЛО ОДНОГО.",
-        "hook_claim_nshots_0": "{n} УДАРОВ.",
-        "hook_claim_nshots_1": "{n} ПОПЫТОК. НОЛЬ ГОЛОВ.",
-        "hook_claim_comeback_0": "{team} ПРИШЛОСЬ ОТЫГРЫВАТЬСЯ.",
-        "hook_claim_comeback_1": "ПРОИГРЫВАЛИ. ПОТОМ {team} ПЕРЕВЕРНУЛИ.",
-        "hook_claim_comeback_2": "СЗАДИ. К {n}-Й.",
-        "hook_claim_stoppage_0": "{n}-Я МИНУТА ВСЁ ЗАКРЫЛА.",
-        "hook_claim_stoppage_1": "КОМПЕНСАЦИЯ. {team}. НОЖ.",
-        "hook_claim_stoppage_2": "ЖДАЛИ ДО {n}-Й.",
-        "hook_claim_blowout_0": "{team} РАЗНЕСЛИ ДОМ.",
-        "hook_claim_blowout_1": "{n} ГОЛОВ РАЗРЫВА.",
-        "hook_claim_blowout_2": "ЭТО БЫЛ НЕ МАТЧ.",
-        "hook_claim_xg_0": "{team} ВЫИГРАЛИ xG.",
-        "hook_claim_xg_1": "{n} xG. И ЭТО НЕ СЧИТАЛОСЬ.",
-        "hook_claim_keeper_0": "{team} ВСЁ ОТРАЗИЛИ.",
-        "hook_claim_keeper_1": "{n} СЕЙВОВ. СТЕНА.",
-        "hook_claim_keeper_2": "ВРАТАРЬ УКРАЛ ВЕЧЕР.",
-        "hook_claim_waste_0": "У {team} {n} УДАРОВ.",
-        "hook_claim_waste_1": "{n} УДАРОВ. ПОЧТИ НИЧЕГО ВЗАМЕН.",
-        "hook_claim_chain_0": "{n} ПАСОВ. ОДИН УДАР.",
-        "hook_claim_chain_1": "{team} СОБРАЛИ ЭТО ПАС ЗА ПАСОМ.",
-        "hook_claim_chain_2": "НОЖ ИЗ {n} ПАСОВ.",
-        "hook_claim_pin_0": "{team} ПРИЖАЛИ ИХ.",
-        "hook_claim_pin_1": "{n}% НАКЛОНА. ВЫХОДА НЕТ.",
-        "hook_claim_red_0": "УДАЛЕНИЕ ПОМЕНЯЛО СЧЁТ.",
-        "hook_claim_red_1": "{n} УДАЛЁН. МАТЧ КРЕНУЛ.",
-        "hook_claim_og_0": "АВТОГОЛ СДЕЛАЛ ДЕЛО.",
-        "hook_claim_og_1": "ОНИ ОБЫГРАЛИ СЕБЯ НА {n}-Й.",
-        "hook_claim_pen_0": "ПЕНАЛЬТИ ВСЁ РЕШИЛ.",
-        "hook_claim_pen_1": "С ТОЧКИ. {n}-Я МИНУТА.",
-        "hook_claim_level_0": "{home} ПРОТИВ {away}.",
-        "hook_claim_level_1": "ДВЕ КОМАНДЫ. БЕЗ ПОБЕДИТЕЛЯ.",
-        "bridge_zone_0": "{team} ЗАБРАЛИ КАРТУ.",
-        "bridge_zone_1": "СМОТРИ ТЕРРИТОРИЮ.",
-        "bridge_zone_2": "{n} КАСАНИЙ ХВАТИЛО.",
-        "bridge_zone_3": "ОНИ ЖИЛИ ЗДЕСЬ.",
-        "bridge_heat_0": "ТЕПЛОВАЯ КАРТА НЕ ВРЁТ.",
-        "bridge_heat_1": "{team} ЗАЖАРИЛИ ЭТУ ПОЛОВИНУ.",
-        "bridge_heat_2": "КАСАНИЕ ЗА КАСАНИЕМ. ЗАЖИМ.",
-        "bridge_ball_0": "МЯЧ БЫЛ У {team}.",
-        "bridge_ball_1": "{n}% ПАСОВ.",
-        "bridge_ball_2": "КОНТРОЛЬ. ПОТОМ НИЧЕГО.",
-        "bridge_funnel_0": "СМОТРИ, КАК УМИРАЮТ МОМЕНТЫ.",
-        "bridge_funnel_1": "ВОРОНКА СЖИМАЕТСЯ В НОЛЬ.",
-        "bridge_funnel_2": "АТАКИ ЗДЕСЬ ЗАДОХНУЛИСЬ.",
-        "bridge_keeper_0": "У {team} БЫЛА РАБОТА.",
-        "bridge_keeper_1": "{n} СЕЙВОВ. СМОТРИ.",
-        "bridge_keeper_2": "РАМКА БЫЛА В ОСАДЕ.",
-        "bridge_frame_0": "КАЖДЫЙ УДАР В СТВОР.",
-        "bridge_frame_1": "ВОТ КИРПИЧНАЯ СТЕНА.",
-        "bridge_frame_2": "ТОЧКА. ПОТОМ СЕЙВ.",
-        "bridge_board_0": "{n} ГОЛОВ. СМОТРИ ТАБЛО.",
-        "bridge_board_1": "КАЖДЫЙ ГОЛ, ПО ПОРЯДКУ.",
-        "bridge_board_2": "СЧЁТ ШЁЛ ТАК.",
-        "bridge_shots_0": "{team} ПРОДОЛЖАЛИ БИТЬ.",
-        "bridge_shots_1": "{n} УДАРОВ. СМОТРИ.",
-        "bridge_shots_2": "КАЖДАЯ ПОПЫТКА НА КАРТЕ.",
-        "bridge_shots_3": "ВОТ ТИР.",
-        "bridge_pressure_0": "ДАВЛЕНИЕ НЕ БЫЛО РАВНЫМ.",
-        "bridge_pressure_1": "СМОТРИ ПЕРЕЛОМ.",
-        "bridge_pressure_2": "ВОТ КОГДА КРЕНУЛО.",
-        "bridge_tilt_0": "НАКЛОН ПОЛЯ, МИНУТА ЗА МИНУТОЙ.",
-        "bridge_tilt_1": "КТО ВЛАДЕЛ ОПАСНОЙ ТРЕТЬЮ.",
-        "bridge_tilt_2": "ВОЛНА НЕ ВЕРНУЛАСЬ.",
-        "bridge_chain_0": "{n} ПАСОВ. ОДИН УДАР.",
-        "bridge_chain_1": "ОДНА АТАКА ВСЁ РЕШИЛА.",
-        "bridge_chain_2": "СЛЕДИ ЗА НОЖОМ.",
-        "bridge_pass_0": "ТАК {team} ДВИГАЛИ МЯЧ.",
-        "bridge_pass_1": "СЛЕДИ ЗА СВЯЗКАМИ.",
-        "bridge_pass_2": "ИХ ФОРМА В ПАСАХ.",
-        "bridge_radar_0": "ФОРМА МАТЧА.",
-        "bridge_radar_1": "ШЕСТЬ ОСЕЙ. ОДНА ИСТОРИЯ.",
-        "bridge_radar_2": "ВОТ ПРОФИЛЬ.",
-        "bridge_slam_0": "ОДНО ЧИСЛО. МАТЧ.",
-        "bridge_slam_1": "{n}. ВОТ КРЮЧОК.",
-        "bridge_slam_2": "ПРОЧТИ ЭТОТ СЧЁТ.",
-        "bridge_gauge_0": "МОМЕНТЫ ПРОТИВ ГОЛОВ.",
-        "bridge_gauge_1": "РЕАЛИЗАЦИЯ СОЛГАЛА.",
-        "bridge_gauge_2": "КАЧЕСТВО. ПОТОМ УДАР.",
-        "bridge_race_0": "xG ПО ВРЕМЕНИ.",
-        "bridge_race_1": "ГОНКА, КОТОРУЮ ТАБЛО ИГНОРИРОВАЛО.",
-        "bridge_halves_0": "ЭТО БЫЛИ ДВЕ РАЗНЫЕ ПОЛОВИНЫ.",
-        "bridge_halves_1": "ПО ТРИДЦАТЬ МИНУТ.",
-        "bridge_halves_2": "КАРТА СМЕНИЛАСЬ.",
-        "bridge_player_0": "ОДНО ИМЯ ВЫТАЩИЛО ЭТО.",
-        "bridge_player_1": "ВОТ ВСПЛЕСК.",
-        "bridge_player_2": "СЛЕДИ ЗА ИГРОКОМ.",
-        "bridge_numbers_0": "ЦИФРЫ НЕ СОШЛИСЬ.",
-        "bridge_numbers_1": "ПРОЧТИ РАСКЛАД.",
-        "bridge_close_0": "ПОТОМ ТАБЛО ДОГНАЛО.",
-        "bridge_close_1": "ВОТ ЧЕМ ЭТО КОНЧИЛОСЬ.",
-        "bridge_close_2": "СЧЁТ. НАКОНЕЦ.",
-        "bridge_close_3": "ВОТ И ВЕСЬ ВЕЧЕР.",
-        "bridge_look_0": "ПОДОЖДИ. СМОТРИ.",
-        "bridge_look_1": "ТЕПЕРЬ КАРТИНКА.",
-        "bridge_look_2": "ЭТО МЕНЯЕТ ЧТЕНИЕ.",
-        "sub_radar": "Шесть осей, обе команды",
-        "sub_heatmap": "Плотность касаний по полю",
-        "sub_tilt": "Доля передач в финальной трети",
-        "sub_funnel": "Контроль, который не стал голом",
-        "sub_gauges": "Качество момента против удара",
-        "sub_slam": "Число, которое определило вечер",
-        "sub_race": "Накопленный xG против голов",
-        "sub_zones_time": "Территория в трёх срезах",
-        "sub_player": "Игрок, который взорвал ленту",
-        "sub_keeper_frame": "Каждый удар в створ на рамке",
-    },
-}
+def is_rtl(code: str | None = None) -> bool:
+    return locale_meta.is_rtl(code or _current)
 
-# English chrome / template lines → offline translations when Gemini is off.
-_OFFLINE_LINES: dict[str, dict[str, str]] = {
-    "az": {
-        "THE BASELINE": "ƏSAS GÖSTƏRİCİLƏR",
-        "FULL TIME": "OYUN SONU",
-        "AFTER EXTRA TIME": "ƏLAVƏ VAXTDAN SONRA",
-        "ON PENALTIES": "PENALTİLƏRLƏ",
-        "EVERY GOAL": "HƏR QOL",
-        "SHOT MAP": "ZƏRBƏ XƏRİTƏSİ",
-        "PRESSURE": "TƏZYİQ",
-        "TERRITORY": "ƏRAZİ",
-        "ONE GOAL, TRACED": "BİR QOL, İZİ İLƏ",
-        "BUILD-UP": "HÜCUM QURULUŞU",
-        "THE FRAME": "ÇƏRÇİVƏ",
-        "PASS NETWORK": "PAS ŞƏBƏKƏSİ",
-        "CONTROL VS THREAT": "NƏZARƏT VƏ TƏHLÜKƏ",
-        "EVENT DATA": "HADİSƏ VERİLƏRİ",
-        "MATCH RECAP": "MATÇ XÜLASƏSİ",
-        "MATCH RESULT": "OYUN NƏTİCƏSİ",
-        "THE GOAL TIMELINE": "QOL XRONOLOGİYASI",
-        "THE NUMBERS SPLIT DOWN THE MIDDLE": "RƏQƏMLƏR ORTADA BÖLÜNDÜ",
-        "THE MOVE BEFORE THE GOAL": "QOLDAN ƏVVƏLKİ HƏRƏKƏT",
-        "PRESSURE THROUGH THE MATCH": "MATÇ BOYU TƏZYİQ",
-        "EXTRA TIME BROKE THE DEADLOCK": "ƏLAVƏ VAXT DALANI AÇDI",
-        "THEY CAME OUT SWINGING": "SƏRT BAŞLADILAR",
-        "THE FIRST HALF SET THE TONE": "BİRİNCİ HİSSƏ TONU VERDİ",
-        "THE GAME TURNED AFTER THE BREAK": "FASILADAN SONRA OYUN DƏYİŞDİ",
-        "IT WAS DECIDED LATE": "GEC QƏRARLAŞDI",
-        "WHERE THE MATCH WAS PLAYED": "OYUN HARADA GEDİB",
-        "EVERY ZONE WAS CONTESTED": "HƏR ZONA MÜBARİZƏLİ İDİ",
-        "NOBODY BLINKED": "HEÇ KİM GERİ ÇƏKİLMƏDİ",
-        "Every attempt, by outcome": "Hər cəhd, nəticəsinə görə",
-        "Touch volume across eighteen zones": "On səkkiz zona üzrə toxunuşlar",
-        "Average positions and strongest links": "Orta mövqelər və ən güclü əlaqələr",
-        "Pass share against what it produced": "Pas payı və onun nəticəsi",
-        "Where on-target shots crossed the line": "Çərçivəyə zərbələrin keçdiyi yer",
-        "Neither side could claim the baseline counts.": "Heç bir tərəf əsas göstəricilərə tam sahib olmadı.",
-        "Ninety minutes could not separate them.": "Doxsan dəqiqə onları ayıra bilmədi.",
-        "A shootout of a match, decided in open play.": "Açıq oyunda həll olunan qol bolluğu.",
-        "Level after 120 minutes, settled from the spot.": "120 dəqiqədən sonra bərabər, penaltilərlə həll.",
-        "Two teams, two answers, one point each.": "İki komanda, iki cavab, hər birinə bir xal.",
-        "Every finish moved the board.": "Hər bitirmə hesabı dəyişdi.",
-        "Pressure stayed level throughout.": "Təzyiq bütün matç boyu bərabər qaldı.",
-        "Not one goal all match.": "Bütün matçda bir qol belə olmadı.",
-        "Built directly from the match event feed.": "Birbaşa matç hadisə axınından qurulub.",
-        "The build-up to the goal, taken straight from the event coordinates.": "Qola aparan quruluş hadisə koordinatlarından götürülüb.",
-        "Belgium took the result and the numbers.": "",  # placeholder avoided; proper-noun lines handled generically
-    },
-    "es": {
-        "THE BASELINE": "LA BASE",
-        "FULL TIME": "FINAL",
-        "AFTER EXTRA TIME": "TRAS LA PRÓRROGA",
-        "ON PENALTIES": "EN PENALTIS",
-        "EVERY GOAL": "CADA GOL",
-        "SHOT MAP": "MAPA DE TIROS",
-        "PRESSURE": "PRESIÓN",
-        "TERRITORY": "TERRITORIO",
-        "ONE GOAL, TRACED": "UN GOL, TRAZADO",
-        "BUILD-UP": "JUGADA PREVIA",
-        "THE FRAME": "EL MARCO",
-        "PASS NETWORK": "RED DE PASES",
-        "CONTROL VS THREAT": "CONTROL VS AMENAZA",
-        "EVENT DATA": "DATOS DE EVENTOS",
-        "MATCH RECAP": "RESUMEN DEL PARTIDO",
-        "MATCH RESULT": "RESULTADO",
-        "THE GOAL TIMELINE": "CRONOLOGÍA DE GOLES",
-        "THE NUMBERS SPLIT DOWN THE MIDDLE": "LOS NÚMEROS SE PARTEN A LA MITAD",
-        "THE MOVE BEFORE THE GOAL": "LA JUGADA ANTES DEL GOL",
-        "PRESSURE THROUGH THE MATCH": "PRESIÓN DURANTE EL PARTIDO",
-        "EXTRA TIME BROKE THE DEADLOCK": "LA PRÓRROGA ROMPIÓ EL EMPATE",
-        "THEY CAME OUT SWINGING": "SALIERON A PRESIONAR",
-        "THE FIRST HALF SET THE TONE": "LA PRIMERA PARTE MARCÓ EL TONO",
-        "THE GAME TURNED AFTER THE BREAK": "EL PARTIDO GIRÓ TRAS EL DESCANSO",
-        "IT WAS DECIDED LATE": "SE DECIDIÓ TARDE",
-        "WHERE THE MATCH WAS PLAYED": "DÓNDE SE JUGÓ EL PARTIDO",
-        "EVERY ZONE WAS CONTESTED": "CADA ZONA FUE DISPUTADA",
-        "NOBODY BLINKED": "NADIE PARPADEÓ",
-        "Every attempt, by outcome": "Cada intento, por resultado",
-        "Touch volume across eighteen zones": "Toques en dieciocho zonas",
-        "Average positions and strongest links": "Posiciones medias y enlaces más fuertes",
-        "Pass share against what it produced": "Cuota de pases frente a lo que produjo",
-        "Where on-target shots crossed the line": "Dónde cruzaron la línea los tiros a puerta",
-        "Neither side could claim the baseline counts.": "Ningún equipo dominó los datos base.",
-        "Ninety minutes could not separate them.": "Noventa minutos no pudieron separarlos.",
-        "A shootout of a match, decided in open play.": "Un partido de goles, decidido en juego abierto.",
-        "Level after 120 minutes, settled from the spot.": "Empate tras 120 minutos, resuelto desde el punto de penalti.",
-        "Two teams, two answers, one point each.": "Dos equipos, dos respuestas, un punto cada uno.",
-        "Every finish moved the board.": "Cada remate movió el marcador.",
-        "Pressure stayed level throughout.": "La presión se mantuvo pareja todo el partido.",
-        "Not one goal all match.": "Ni un solo gol en todo el partido.",
-        "Built directly from the match event feed.": "Construido directamente del feed de eventos.",
-        "The build-up to the goal, taken straight from the event coordinates.": "La jugada previa al gol, tomada de las coordenadas de eventos.",
-    },
-    "ru": {
-        "THE BASELINE": "БАЗОВЫЕ ПОКАЗАТЕЛИ",
-        "FULL TIME": "ФИНАЛ",
-        "AFTER EXTRA TIME": "ПОСЛЕ ДОП. ВРЕМЕНИ",
-        "ON PENALTIES": "ПО ПЕНАЛЬТИ",
-        "EVERY GOAL": "КАЖДЫЙ ГОЛ",
-        "SHOT MAP": "КАРТА УДАРОВ",
-        "PRESSURE": "ДАВЛЕНИЕ",
-        "TERRITORY": "ТЕРРИТОРИЯ",
-        "ONE GOAL, TRACED": "ОДИН ГОЛ, ПО ШАГАМ",
-        "BUILD-UP": "РОЗЫГРЫШ",
-        "THE FRAME": "РАМКА",
-        "PASS NETWORK": "ПАССОВАЯ СЕТЬ",
-        "CONTROL VS THREAT": "КОНТРОЛЬ И УГРОЗА",
-        "EVENT DATA": "СОБЫТИЙНЫЕ ДАННЫЕ",
-        "MATCH RECAP": "ОБЗОР МАТЧА",
-        "MATCH RESULT": "РЕЗУЛЬТАТ МАТЧА",
-        "THE GOAL TIMELINE": "ХРОНОЛОГИЯ ГОЛОВ",
-        "THE NUMBERS SPLIT DOWN THE MIDDLE": "ЦИФРЫ РАЗДЕЛИЛИСЬ ПОРОВНУ",
-        "THE MOVE BEFORE THE GOAL": "АТАКА ПЕРЕД ГОЛОМ",
-        "PRESSURE THROUGH THE MATCH": "ДАВЛЕНИЕ НА ПРОТЯЖЕНИИ МАТЧА",
-        "EXTRA TIME BROKE THE DEADLOCK": "ДОП. ВРЕМЯ СЛОМАЛО НИЧЬЮ",
-        "THEY CAME OUT SWINGING": "НАЧАЛИ АГРЕССИВНО",
-        "THE FIRST HALF SET THE TONE": "ПЕРВЫЙ ТАЙМ ЗАДАЛ ТОН",
-        "THE GAME TURNED AFTER THE BREAK": "ИГРА ПЕРЕЛОМИЛАСЬ ПОСЛЕ ПЕРЕРЫВА",
-        "IT WAS DECIDED LATE": "РЕШИЛОСЬ ПОЗДНО",
-        "WHERE THE MATCH WAS PLAYED": "ГДЕ ШЁЛ МАТЧ",
-        "EVERY ZONE WAS CONTESTED": "КАЖДАЯ ЗОНА БЫЛА СПОРНОЙ",
-        "NOBODY BLINKED": "НИКТО НЕ МОРГНУЛ",
-        "Every attempt, by outcome": "Каждый удар — по исходу",
-        "Touch volume across eighteen zones": "Касания по восемнадцати зонам",
-        "Average positions and strongest links": "Средние позиции и сильные связи",
-        "Pass share against what it produced": "Доля передач и что из этого вышло",
-        "Where on-target shots crossed the line": "Где удары в створ пересекли линию",
-        "Neither side could claim the baseline counts.": "Ни одна сторона не забрала базовые показатели.",
-        "Ninety minutes could not separate them.": "Девяносто минут не смогли их развести.",
-        "A shootout of a match, decided in open play.": "Голевой матч, решённый в открытой игре.",
-        "Level after 120 minutes, settled from the spot.": "Ничья после 120 минут, решено с точки.",
-        "Two teams, two answers, one point each.": "Две команды, два ответа, по очку каждой.",
-        "Every finish moved the board.": "Каждый удар менял счёт.",
-        "Pressure stayed level throughout.": "Давление оставалось равным всю игру.",
-        "Not one goal all match.": "За весь матч — ни одного гола.",
-        "Built directly from the match event feed.": "Собрано напрямую из ленты событий матча.",
-        "The build-up to the goal, taken straight from the event coordinates.": "Розыгрыш перед голом — из координат событий.",
-    },
-}
+
+def meta(code: str | None = None):
+    return locale_meta.for_language(code or _current)
+
+
+def t(key: str, *, lang: str | None = None, **kwargs: Any) -> str:
+    """Look up *key*. Missing translations fall back to English, then the key."""
+    _ensure()
+    code = lang or _current
+    if code not in _PACKS:
+        try:
+            code = normalize_language(code)
+        except ValueError:
+            code = "en"
+    catalog = pack(code).ui
+    template = catalog.get(key)
+    if template is None:
+        template = pack("en").ui.get(key) or key
+    if kwargs:
+        try:
+            return template.format(**kwargs)
+        except (KeyError, ValueError, IndexError):
+            return template
+    return template
+
+
+def stat_label(key: str, *, lang: str | None = None) -> str:
+    _ensure()
+    code = lang or _current
+    if code not in _PACKS:
+        try:
+            code = normalize_language(code)
+        except ValueError:
+            code = "en"
+    labels = pack(code).stat_labels
+    return (
+        labels.get(key)
+        or pack("en").stat_labels.get(key)
+        or key.replace("_", " ").capitalize()
+    )
+
+
+def format_score(home: Any, away: Any) -> str:
+    """Universal scoreline: ``2-1``. Never locale digits, never a dash variant."""
+    return f"{int(home)}-{int(away)}"
+
+
+def format_number(value: Any, *, lang: str | None = None, decimals: int | None = None) -> str:
+    """Locale grouping/decimal. Scores must go through ``format_score`` instead."""
+    info = meta(lang)
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+    if decimals is None:
+        decimals = 0 if float(number).is_integer() else 2
+    if decimals == 0:
+        raw = f"{int(round(number))}"
+    else:
+        raw = f"{number:.{decimals}f}"
+    if "." in raw:
+        whole, frac = raw.split(".", 1)
+    else:
+        whole, frac = raw, ""
+    if len(whole.lstrip("-")) > 3 and info.group:
+        sign = ""
+        if whole.startswith("-"):
+            sign, whole = "-", whole[1:]
+        grouped = []
+        while whole:
+            grouped.append(whole[-3:])
+            whole = whole[:-3]
+        whole = sign + info.group.join(reversed(grouped))
+    if frac:
+        return f"{whole}{info.decimal}{frac}"
+    return whole
+
+
+def format_percent(value: Any, *, lang: str | None = None) -> str:
+    return f"{format_number(value, lang=lang, decimals=0)}%"
+
+
+def format_date(value: str | None, *, lang: str | None = None) -> str:
+    """Format a YYYY-MM-DD (or longer ISO) kickoff stamp."""
+    raw = (value or "").strip()
+    if not raw:
+        return ""
+    stamp = raw[:10]
+    try:
+        dt = datetime.strptime(stamp, "%Y-%m-%d")
+    except ValueError:
+        return raw
+    info = meta(lang)
+    y, m, d = dt.year, dt.month, dt.day
+    if info.date_order == "mdy":
+        return f"{m:02d}/{d:02d}/{y}"
+    if info.date_order == "ymd":
+        return f"{y}/{m:02d}/{d:02d}"
+    return f"{d:02d}.{m:02d}.{y}"
+
+
+def ordinal(n: int, *, lang: str | None = None) -> str:
+    """Minute ordinals. English 81st; most football languages just say the number."""
+    code = lang or _current
+    number = int(n)
+    if code == "en":
+        if 10 <= number % 100 <= 20:
+            suffix = "th"
+        else:
+            suffix = {1: "st", 2: "nd", 3: "rd"}.get(number % 10, "th")
+        return f"{number}{suffix}"
+    if code in {"fr"}:
+        return "1er" if number == 1 else f"{number}e"
+    if code in {"es", "pt-BR", "pt-PT", "it"}:
+        return f"{number}º"
+    if code in {"de", "tr", "az", "pl", "nl", "ru", "uk"}:
+        return f"{number}."
+    return str(number)
+
+
+def score_qualifier(after_extra_time: bool = False, after_shootout: bool = False,
+                    *, lang: str | None = None) -> str:
+    if after_shootout:
+        return t("on_penalties", lang=lang)
+    if after_extra_time:
+        return t("after_extra_time", lang=lang)
+    return ""
+
 
 _PERIOD_KEYS = {
     "First half": "period_first_half",
@@ -1340,33 +281,6 @@ _PERIOD_KEYS = {
 }
 
 
-def t(key: str, *, lang: str | None = None, **kwargs: Any) -> str:
-    code = lang or _current
-    catalog = UI.get(code) or UI["en"]
-    template = catalog.get(key) or UI["en"].get(key) or key
-    if kwargs:
-        try:
-            return template.format(**kwargs)
-        except (KeyError, ValueError):
-            return template
-    return template
-
-
-def stat_label(key: str, *, lang: str | None = None) -> str:
-    code = lang or _current
-    labels = STAT_LABELS.get(code) or STAT_LABELS["en"]
-    return labels.get(key) or STAT_LABELS["en"].get(key) or key.replace("_", " ").capitalize()
-
-
-def score_qualifier(after_extra_time: bool = False, after_shootout: bool = False,
-                    *, lang: str | None = None) -> str:
-    if after_shootout:
-        return t("on_penalties", lang=lang)
-    if after_extra_time:
-        return t("after_extra_time", lang=lang)
-    return ""
-
-
 def period_label(english: str, *, lang: str | None = None) -> str:
     key = _PERIOD_KEYS.get(english)
     if key:
@@ -1378,118 +292,154 @@ def outcome_label(outcome: str, *, lang: str | None = None) -> str:
     return t(f"outcome_{outcome}", lang=lang)
 
 
+def _load_rtl_engine() -> str:
+    global _RESHAPER, _BIDI, _RTL_ENGINE
+    if _RTL_ENGINE is not None:
+        return _RTL_ENGINE
+    try:
+        import arabic_reshaper
+        from bidi.algorithm import get_display
+
+        _RESHAPER = arabic_reshaper.ArabicReshaper(configuration={
+            "delete_harakat": True,
+            "support_ligatures": True,
+        })
+        _BIDI = get_display
+        _RTL_ENGINE = "reshaper+bidi"
+    except Exception:
+        _RTL_ENGINE = "fallback-ltr"
+    return _RTL_ENGINE
+
+
+def rtl_engine() -> str:
+    return _load_rtl_engine()
+
+
+_ARABIC_RE = re.compile(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]")
+
+
+def shape_text(text: str, *, lang: str | None = None) -> str:
+    """Reshape Arabic for matplotlib's LTR canvas. No-op for other scripts."""
+    if not text or not _ARABIC_RE.search(text):
+        return text
+    engine = _load_rtl_engine()
+    if engine != "reshaper+bidi" or _RESHAPER is None or _BIDI is None:
+        return text
+    try:
+        return _BIDI(_RESHAPER.reshape(text))
+    except Exception:
+        return text
+
+
+def prepare_display(text: str, *, upper: bool = False, lang: str | None = None) -> str:
+    """Case + RTL shaping for on-screen chrome."""
+    raw = str(text or "")
+    if not raw:
+        return ""
+    info = meta(lang)
+    if upper and info.uppercase_chrome:
+        raw = raw.upper()
+    return shape_text(raw, lang=lang or _current)
+
+
+def headline_anchor(x: float, ha: str, *, lang: str | None = None) -> tuple[float, str]:
+    """Mirror left/right figure anchors when the active language is RTL."""
+    if not is_rtl(lang):
+        return x, ha
+    if ha == "left":
+        return 1.0 - x, "right"
+    if ha == "right":
+        return 1.0 - x, "left"
+    return x, ha
+
+
+def social_copy(
+    home: str,
+    away: str,
+    score: str,
+    league: str = "",
+    *,
+    lang: str | None = None,
+) -> dict[str, Any]:
+    """Captions, CTAs, comment bait and end cards for one language."""
+    kwargs = {"home": home, "away": away, "score": score, "league": league or home}
+    return {
+        "language": lang or _current,
+        "language_name": language_name(lang),
+        "rtl": is_rtl(lang),
+        "captions": {
+            "hook": t("caption_hook", lang=lang, **kwargs),
+            "result": t("caption_result", lang=lang, **kwargs),
+            "cta": t("caption_cta", lang=lang),
+        },
+        "ctas": [
+            t("cta_follow", lang=lang),
+            t("cta_like", lang=lang),
+            t("cta_share", lang=lang),
+            t("cta_save", lang=lang),
+            t("cta_watch_full", lang=lang),
+        ],
+        "comment_bait": [
+            t("comment_bait_motm", lang=lang),
+            t("comment_bait_robbery", lang=lang),
+            t("comment_bait_score", lang=lang),
+            t("comment_bait_keeper", lang=lang),
+            t("comment_bait_xg", lang=lang),
+        ],
+        "endcard": {
+            "title": t("endcard_title", lang=lang),
+            "follow": t("endcard_follow", lang=lang),
+            "watch": t("endcard_watch", lang=lang),
+            "score": t("endcard_score", lang=lang, **kwargs),
+        },
+    }
+
+
+def _english_catalog_index() -> dict[str, str]:
+    """Uppercased English UI value → catalog key, for leftover reverse lookup."""
+    _ensure()
+    index: dict[str, str] = {}
+    for key, value in pack("en").ui.items():
+        raw = str(value or "").strip()
+        if not raw or "{" in raw:
+            continue
+        index.setdefault(raw.upper(), key)
+    return index
+
+
 def offline_line(text: str, *, lang: str | None = None) -> str:
     """Translate a known English chrome/template line; leave unknowns alone."""
     code = lang or _current
     if code == "en" or not text:
         return text
-    table = _OFFLINE_LINES.get(code) or {}
+    _ensure()
+    table = pack(code).offline_lines
     if text in table and table[text]:
         return table[text]
     upper = text.upper()
     for source, target in table.items():
         if source.upper() == upper and target:
             return target
-    # Patterned titles that embed a team name.
-    patterns = [
-        (r"^(.+) NEEDED EXTRA TIME$", {
-            "az": "{name} ƏLAVƏ VAXT LAZIM OLDU",
-            "es": "{name} NECESITÓ LA PRÓRROGA",
-            "ru": "{name} ПОНАДОБИЛОСЬ ДОП. ВРЕМЯ",
-        }),
-        (r"^(.+) RAN RIOT$", {
-            "az": "{name} DOMİNANTO OLDU",
-            "es": "{name} ARRASÓ",
-            "ru": "{name} УСТРОИЛИ РАЗГРОМ",
-        }),
-        (r"^(.+) FOUND A WAY$", {
-            "az": "{name} YOL TAPDI",
-            "es": "{name} ENCONTRÓ EL CAMINO",
-            "ru": "{name} НАШЛИ СПОСОБ",
-        }),
-        (r"^(.+) SURVIVE THE SHOOTOUT$", {
-            "az": "{name} PENALTİLƏRDƏ QALİB GƏLDİ",
-            "es": "{name} SUPERÓ LOS PENALTIS",
-            "ru": "{name} ВЫСТОЯЛИ В СЕРИИ ПЕНАЛЬТИ",
-        }),
-        (r"^(.+) LED ALMOST EVERYTHING$", {
-            "az": "{name} DEMƏK OLAR HƏR ŞEYDƏ ÖNDƏ",
-            "es": "{name} LIDERÓ CASI TODO",
-            "ru": "{name} ВЕЛИ ПОЧТИ ВО ВСЁМ",
-        }),
-        (r"^(.+) KEPT TESTING THE KEEPER$", {
-            "az": "{name} QAPINI SİNAYIRDI",
-            "es": "{name} SIGUIÓ PROBANDO AL PORTERO",
-            "ru": "{name} ПРОДОЛЖАЛИ ПРОВЕРЯТЬ ВРАТАРЯ",
-        }),
-        (r"^(.+) OWNED THE MAP$", {
-            "az": "{name} XƏRİTƏYƏ SAHİB OLDU",
-            "es": "{name} DOMINÓ EL MAPA",
-            "ru": "{name} ЗАБРАЛИ КАРТУ",
-        }),
-        (r"^(.+) HAD WORK TO DO$", {
-            "az": "{name} İŞİ VAR İDİ",
-            "es": "{name} TUVO TRABAJO",
-            "ru": "{name} ПРИШЛОСЬ РАБОТАТЬ",
-        }),
-        (r"^(.+) HAD THE BALL$", {
-            "az": "{name} TOPA SAHİB İDİ",
-            "es": "{name} TUVO EL BALÓN",
-            "ru": "{name} ВЛАДЕЛИ МЯЧОМ",
-        }),
-        (r"^HOW (.+) MOVED THE BALL$", {
-            "az": "{name} TOPU NECƏ HƏRƏKƏT ETDİRDİ",
-            "es": "CÓMO {name} MOVIÓ EL BALÓN",
-            "ru": "КАК {name} ДВИГАЛИ МЯЧ",
-        }),
-        (r"^(\d+) GOALS, ONE RUNNING SCORE$", {
-            "az": "{name} QOL, BİR CANLI HESAB",
-            "es": "{name} GOLES, UN MARCADOR CORRIENTE",
-            "ru": "{name} ГОЛОВ, ОДИН ТЕКУЩИЙ СЧЁТ",
-        }),
-        (r"^(\d+) PASSES TO THE FINISH$", {
-            "az": "FİNİŞƏ {name} PAS",
-            "es": "{name} PASES HASTA EL REMATE",
-            "ru": "{name} ПАСОВ ДО УДАРА",
-        }),
-        (r"^(\d+) GOALS, (.+) TAKE IT$", {
-            "az": "{n} QOL, {name} QALİB GƏLİR",
-            "es": "{n} GOLES, {name} SE LO LLEVA",
-            "ru": "{n} ГОЛОВ, {name} ЗАБИРАЮТ",
-        }),
-        (r"^HONOURS EVEN AT (.+)$", {
-            "az": "HESAB BƏRABƏR: {name}",
-            "es": "EMPATE A {name}",
-            "ru": "НИЧЬЯ {name}",
-        }),
-        (r"^(.+) above the line, (.+) below$", {
-            "az": "{name} xəttin üstündə, {other} altında",
-            "es": "{name} por encima, {other} por debajo",
-            "ru": "{name} выше линии, {other} ниже",
-        }),
-        (r"^(.+) NEEDED (\d+) MINUTES$", {
-            "az": "{name} {n} DƏQİQƏYƏ BİTİRDİ",
-            "es": "{name} LO CERRÓ EN {n} MINUTOS",
-            "ru": "{name} РЕШИЛИ ЗА {n} МИНУТ",
-        }),
-    ]
-    for pattern, by_lang in patterns:
+    key = CHROME_TO_KEY.get(upper) or CHROME_TO_KEY.get(text)
+    if key:
+        return t(key, lang=code)
+    key = CHROME_SENTENCES.get(text)
+    if key:
+        return t(key, lang=code)
+    catalog_key = _english_catalog_index().get(upper)
+    if catalog_key:
+        translated = t(catalog_key, lang=code)
+        if translated and translated != catalog_key:
+            return translated
+    for pattern, key, groups in OFFLINE_PATTERNS:
         match = re.match(pattern, text, flags=re.IGNORECASE)
         if not match:
             continue
-        template = by_lang.get(code)
-        if not template:
+        kwargs = {name: match.group(index) for name, index in groups.items() if index}
+        try:
+            return t(key, lang=code, **kwargs)
+        except Exception:
             return text
-        groups = match.groups()
-        mapping = {"name": groups[0]}
-        if len(groups) >= 2:
-            mapping["other"] = groups[1]
-            mapping["n"] = groups[1]
-        if "{n}" in template and len(groups) >= 2:
-            return template.format(**mapping)
-        if "{other}" in template and len(groups) >= 2:
-            return template.format(**mapping)
-        return template.format(name=groups[0])
     return text
 
 
@@ -1497,32 +447,36 @@ _ENGLISH_LEFTOVER = re.compile(
     r"\b(against|above the line|pass share|every attempt|touch volume|"
     r"average positions|what it produced|on.target|eighteen zones|"
     r"strongest links|the keeper|match result|match recap|full time|"
-    r"the baseline|every goal|shot map|where on-target)\b",
+    r"the baseline|every goal|shot map|where on-target|follow for|"
+    r"drop your motm|keep watching|the tape|the board|game gone|"
+    r"bottled it|sitters wasted|changes on the tape|owned the air|"
+    r"shots on the clock|watch the turn|who bottled|"
+    r"was \S+ motm|who was motm|man of the match|"
+    r"\d+ then \d+)\b",
     re.IGNORECASE,
 )
 
 
 def looks_english(text: str) -> bool:
-    """True when a public string still contains leftover English template copy."""
     if not text:
+        return False
+    if is_rtl() and _ARABIC_RE.search(text):
         return False
     return bool(_ENGLISH_LEFTOVER.search(text))
 
 
 def scrub_english_leftovers(scenes: list[dict[str, Any]], language: str) -> list[dict[str, Any]]:
-    """Hide or translate English chrome that leaked under a localized headline.
-
-    Gemini often rewrites the title and leaves the English subtitle behind.
-    An untranslated line under an Azerbaijani headline reads like debug text.
-    """
     code = normalize_language(language)
     if code == "en":
         return scenes
     out = []
     for scene in scenes:
         updated = dict(scene)
-        hook = bool(updated.get("hook"))
-        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat"):
+        locked = bool(updated.get("user_locked"))
+        skip_fields = {"title", "insight", "narration", "comment_bait"} if locked else set()
+        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat", "comment_bait"):
+            if field in skip_fields:
+                continue
             value = str(updated.get(field) or "")
             if not value:
                 continue
@@ -1530,9 +484,10 @@ def scrub_english_leftovers(scenes: list[dict[str, Any]], language: str) -> list
             if translated != value:
                 updated[field] = translated
                 continue
-            if looks_english(value) and not hook:
-                updated[field] = "" if field in ("subtitle", "kicker", "hook_stat") else value
-        if isinstance(updated.get("lines"), list):
+            if looks_english(value):
+                if field in ("subtitle", "kicker", "hook_stat"):
+                    updated[field] = ""
+        if isinstance(updated.get("lines"), list) and "title" not in skip_fields:
             updated["lines"] = [offline_line(str(item), lang=code) for item in updated["lines"]]
         out.append(updated)
     return out
@@ -1545,14 +500,13 @@ def localize_scenes_offline(scenes: list[dict[str, Any]], language: str) -> list
     out = []
     for scene in scenes:
         updated = dict(scene)
-        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat"):
+        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat", "comment_bait"):
             value = str(updated.get(field) or "")
             if not value:
                 continue
             updated[field] = offline_line(value, lang=code)
         if isinstance(updated.get("lines"), list):
             updated["lines"] = [offline_line(str(item), lang=code) for item in updated["lines"]]
-        # Closing / title kickers that are score qualifiers.
         if updated.get("kicker") in ("AFTER EXTRA TIME", "ON PENALTIES", "FULL TIME"):
             mapping = {
                 "AFTER EXTRA TIME": t("after_extra_time", lang=code),
@@ -1569,7 +523,6 @@ def localize_scenes(
     language: str,
     gemini: Any | None = None,
 ) -> tuple[list[dict[str, Any]], str]:
-    """Return (scenes, method) where method is en|gemini|offline."""
     code = normalize_language(language)
     if code == "en":
         return scenes, "en"
@@ -1580,3 +533,37 @@ def localize_scenes(
 
             return scrub_english_leftovers(apply_script(scenes, translated), code), "gemini"
     return scrub_english_leftovers(localize_scenes_offline(scenes, code), code), "offline"
+
+
+def missing_keys(code: str) -> dict[str, list[str]]:
+    _ensure()
+    en = pack("en")
+    other = pack(normalize_language(code))
+    ui = sorted(set(en.ui) - other.ui_key_set())
+    stat = sorted(set(en.stat_labels) - other.stat_key_set())
+    return {"ui": ui, "stat": stat}
+
+
+def coverage_report() -> dict[str, Any]:
+    _ensure()
+    rows = []
+    en_ui = len(pack("en").ui)
+    en_stat = len(pack("en").stat_labels)
+    for code in available_codes():
+        miss = missing_keys(code) if code != "en" else {"ui": [], "stat": []}
+        p = pack(code)
+        rows.append({
+            "code": code,
+            "name": p.name,
+            "native_name": p.native_name,
+            "rtl": is_rtl(code),
+            "ui_keys": len(p.ui),
+            "stat_keys": len(p.stat_labels),
+            "en_ui": en_ui,
+            "en_stat": en_stat,
+            "missing_ui": miss["ui"],
+            "missing_stat": miss["stat"],
+            "explicit_fallbacks": sorted(p.explicit_fallbacks),
+            "complete": not miss["ui"] and not miss["stat"],
+        })
+    return {"languages": rows, "supported": list(SUPPORTED)}

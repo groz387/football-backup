@@ -14,6 +14,7 @@ Two rules shape the definitions below:
 from __future__ import annotations
 
 import math
+import re
 from typing import Any
 
 import numpy as np
@@ -112,6 +113,170 @@ def outfield_blocks(df: pd.DataFrame) -> pd.Series:
     return text_col(df, "type").eq("Save") & flag(df, "outfielderBlock")
 
 
+_SET_PIECE_SITUATIONS = {
+    "FromCorner", "SetPiece", "DirectFreekick", "IndirectFreekick",
+    "FromThrowIn", "Penalty", "FreeKick",
+}
+
+
+def _set_piece_shot_mask(events: pd.DataFrame) -> pd.Series:
+    situation = text_col(events, "situation")
+    return (
+        situation.isin(_SET_PIECE_SITUATIONS)
+        | flag(events, "shotSetPiece")
+        | flag(events, "fromCorner")
+        | flag(events, "passFreekick")
+        | flag(events, "directFreeKick")
+    )
+
+
+def _var_event_mask(events: pd.DataFrame) -> pd.Series:
+    if events.empty:
+        return pd.Series(False, index=events.index, dtype=bool)
+    types = text_col(events, "type").fillna("").astype(str)
+    mask = types.str.contains(r"\bvar\b", case=False, regex=True)
+    for col in events.columns:
+        if not re.search(r"var", str(col), flags=re.IGNORECASE):
+            continue
+        lowered = str(col).lower()
+        if lowered in {"variance", "variable", "avatar"}:
+            continue
+        series = events[col]
+        if series.dtype == bool or str(series.dtype) == "boolean":
+            mask = mask | series.fillna(False).astype(bool)
+        else:
+            as_text = series.fillna("").astype(str)
+            mask = mask | as_text.str.contains(r"\bvar\b", case=False, regex=True, na=False)
+            mask = mask | as_text.str.strip().str.lower().isin({"true", "1", "yes"})
+    if "qualifiers" in events.columns:
+        blob = events["qualifiers"].fillna("").astype(str)
+        mask = mask | blob.str.contains(r"\bVAR\b", case=False, regex=True, na=False)
+    return mask.fillna(False)
+
+
+def table_payload(summary: dict[str, Any]) -> dict[str, Any]:
+    """League table numbers only when the export actually has them. Never invent."""
+    if not isinstance(summary, dict):
+        return {}
+
+    def _side_block(raw: Any) -> dict[str, Any]:
+        if not isinstance(raw, dict):
+            return {}
+        position = raw.get("tablePosition", raw.get("leaguePosition", raw.get("standing", raw.get("rank"))))
+        points = raw.get("points", raw.get("pts"))
+        if position is None and points is None:
+            return {}
+        block: dict[str, Any] = {}
+        try:
+            if position is not None:
+                block["position"] = int(position)
+        except (TypeError, ValueError):
+            return {}
+        try:
+            if points is not None:
+                block["points"] = int(points)
+        except (TypeError, ValueError):
+            pass
+        return block
+
+    explicit = summary.get("table") or summary.get("leagueTable") or summary.get("standings") or summary.get("table_implications")
+    if isinstance(explicit, dict) and explicit:
+        home = _side_block(explicit.get("home") or explicit.get("h") or {})
+        away = _side_block(explicit.get("away") or explicit.get("a") or {})
+        if home or away:
+            return {"home": home, "away": away}
+        return {}
+
+    home = _side_block(summary.get("home") or {})
+    away = _side_block(summary.get("away") or {})
+    if home and away:
+        return {"home": home, "away": away}
+    return {}
+
+
+_DERBY_TOKENS = (
+    "derby", "derbi", "clásico", "clasico", "el clasico", "old firm",
+    "merseyside", "north london", "manchester derby", "milan derby",
+    "superclasico", "süperderbi", "super derbi",
+)
+
+
+def derby_flag(summary: dict[str, Any]) -> bool:
+    if not isinstance(summary, dict):
+        return False
+    for key in ("derby", "isDerby", "is_derby"):
+        value = summary.get(key)
+        if value is True or str(value).strip().lower() in {"true", "1", "yes"}:
+            return True
+    blob = " ".join(
+        str(summary.get(key) or "")
+        for key in ("league", "competitionStage", "competition", "stage", "name", "description")
+    ).lower()
+    return any(token in blob for token in _DERBY_TOKENS)
+
+
+def rival_flag(summary: dict[str, Any]) -> bool:
+    if not isinstance(summary, dict):
+        return False
+    for key in ("rival", "rivalry", "isRival", "is_rival"):
+        value = summary.get(key)
+        if value is True or str(value).strip().lower() in {"true", "1", "yes"}:
+            return True
+    blob = " ".join(str(summary.get(key) or "") for key in ("league", "competitionStage", "competition")).lower()
+    return "rival" in blob
+
+
+def substitute_names(bundle: MatchBundle) -> set[str]:
+    events = bundle.events
+    if events.empty:
+        return set()
+    types = text_col(events, "type").fillna("").astype(str)
+    names = text_col(events, "playerName")
+    mask = types.str.contains(r"SubstitutionOn|^Substitution$", case=False, regex=True, na=False)
+    mask = mask | flag(events, "substituteOn") | flag(events, "subOn")
+    return {str(name).strip() for name in names[mask].tolist() if str(name).strip()}
+
+
+def debut_names(bundle: MatchBundle) -> set[str]:
+    names: set[str] = set()
+    summary = bundle.summary if isinstance(bundle.summary, dict) else {}
+    for key in ("debuts", "debut_players", "first_appearances"):
+        raw = summary.get(key)
+        if isinstance(raw, list):
+            for item in raw:
+                if isinstance(item, str) and item.strip():
+                    names.add(item.strip())
+                elif isinstance(item, dict):
+                    label = item.get("playerName") or item.get("name") or item.get("player")
+                    if label:
+                        names.add(str(label).strip())
+    players = bundle.players
+    if players is None or getattr(players, "empty", True):
+        return names
+    name_col = next(
+        (col for col in players.columns if col.lower() in {"playername", "name", "player", "player_name"}),
+        None,
+    )
+    if not name_col:
+        return names
+    debut_cols = [
+        col for col in players.columns
+        if re.search(r"debut|firstmatch|first_match|firstappearance|first_appearance", str(col), re.I)
+    ]
+    if not debut_cols:
+        return names
+    for col in debut_cols:
+        series = players[col]
+        if series.dtype == bool:
+            mask = series.fillna(False)
+        else:
+            mask = series.fillna(False).astype(str).str.strip().str.lower().isin({"true", "1", "yes", "y"})
+        for player in players.loc[mask, name_col].tolist():
+            if str(player).strip():
+                names.add(str(player).strip())
+    return names
+
+
 def build_team_stats(bundle: MatchBundle) -> dict[str, dict[str, Any]]:
     events = bundle.events
     if events.empty:
@@ -159,7 +324,12 @@ def build_team_stats(bundle: MatchBundle) -> dict[str, dict[str, Any]]:
             "shots_off_target": int(off_target.sum()),
             "woodwork": int(woodwork.sum()),
             "big_chances": int((side & (flag(events, "bigChanceScored") | flag(events, "bigChanceMissed"))).sum()),
+            "big_chances_missed": int((side & flag(events, "bigChanceMissed")).sum()),
             "big_chances_created": int((side & flag(events, "bigChanceCreated")).sum()),
+            "error_leads_to_goal": int((side & (
+                flag(events, "errorLeadToGoal") | flag(events, "goalkeeperError") | flag(events, "keeperError")
+            )).sum()),
+            "set_piece_shots": int((team_shots & _set_piece_shot_mask(events)).sum()),
             "pass_attempts": int(team_passes.sum()),
             "passes_completed": int((team_passes & successful).sum()),
             "pass_accuracy_pct": _pct(int((team_passes & successful).sum()), int(team_passes.sum())),
@@ -231,6 +401,8 @@ def _merge_official_stats(
         "big_chances",
         "big_chances_missed",
         "big_chances_created",
+        "error_leads_to_goal",
+        "set_piece_shots",
     )
     for h_a, payload in mapping.items():
         if not payload:
@@ -637,6 +809,8 @@ def build_goal_chains(bundle: MatchBundle) -> list[dict[str, Any]]:
 
     goal_rows = events[flag(events, "isGoal")]
     chains: list[dict[str, Any]] = []
+    subs = substitute_names(bundle)
+    debuts = debut_names(bundle)
 
     for goal_index, goal in goal_rows.iterrows():
         h_a = clean_text(goal.get("h_a"))
@@ -697,6 +871,8 @@ def build_goal_chains(bundle: MatchBundle) -> list[dict[str, Any]]:
                 "own_goal": own_goal,
                 "penalty": str(goal.get("penaltyScored")).lower() == "true",
                 "situation": clean_text(goal.get("situation"), "OpenPlay"),
+                "substitute": clean_text(goal.get("playerName")) in subs,
+                "debut": clean_text(goal.get("playerName")) in debuts,
                 "passes": len(pass_rows),
                 "events": [_compact_event(row) for row in chain_rows],
                 "pass_distance_m": round(distance, 1),
@@ -731,6 +907,10 @@ def goal_timeline(audit: dict[str, Any]) -> list[dict[str, Any]]:
                 "scorer": goal.get("scorer", ""),
                 "own_goal": bool(goal.get("own_goal")),
                 "penalty": bool(goal.get("penalty")),
+                "situation": clean_text(goal.get("situation"), "OpenPlay"),
+                "substitute": bool(goal.get("substitute")),
+                "debut": bool(goal.get("debut")),
+                "assist_player": clean_text(goal.get("assist_player")),
                 "score_after": f"{home_goals}-{away_goals}",
                 "passes": int(goal.get("passes") or 0),
                 "duration_seconds": float(goal.get("duration_seconds") or 0),
@@ -850,39 +1030,52 @@ def build_player_leaders(bundle: MatchBundle) -> dict[str, Any]:
     tackles = flag(events, "tackleWon")
     take_ons = types.eq("TakeOn") & successful
 
-    def top_for(mask: pd.Series, action: str) -> dict[str, Any] | None:
+    def top_for(mask: pd.Series, action: str, min_count: int = 2) -> dict[str, Any] | None:
         subset = names[mask & names.ne("")]
         if subset.empty:
             return None
         counts = subset.value_counts()
         player = str(counts.index[0])
         count = int(counts.iloc[0])
-        if count < 2:
+        if count < min_count:
             return None
         h_a = str(side[names.eq(player)].mode().iat[0]) if (names.eq(player)).any() else "h"
-        coords = events.loc[mask & names.eq(player), ["x", "y"]].dropna()
+        coords = events.loc[mask & names.eq(player), ["x", "y"]].dropna() if {"x", "y"}.issubset(events.columns) else pd.DataFrame()
         points = [
             {"x": round(float(row.x), 2), "y": round(float(row.y), 2)}
             for row in coords.itertuples(index=False)
-        ]
+        ] if not coords.empty else []
+        team_total = int((mask & side.eq(h_a)).sum())
+        rest = max(0, team_total - count)
         return {
             "player": player,
             "surname": player.split()[-1] if player else "",
+            "shirt": _shirt_no(bundle, player),
             "team": bundle.team(h_a),
             "h_a": h_a,
             "action": action,
             "count": count,
+            "team_total": team_total,
+            "rest": rest,
             "points": points[:40],
         }
 
-    candidates = [
-        top_for(shots, "shots"),
-        top_for(tackles, "tackles"),
-        top_for(take_ons, "dribbles"),
-    ]
-    ranked = sorted((item for item in candidates if item), key=lambda item: item["count"], reverse=True)
+    scored = flag(events, "isGoal") & ~flag(events, "goalOwn")
+    assists = flag(events, "intentionalAssist") | flag(events, "assist") | flag(events, "passKey")
+    saves = keeper_saves(events)
+    key_passes = flag(events, "passKey")
+    candidates = {
+        "shots": top_for(shots, "shots"),
+        "tackles": top_for(tackles, "tackles"),
+        "dribbles": top_for(take_ons, "dribbles"),
+        "goals": top_for(scored, "goals", min_count=1),
+        "assists": top_for(assists, "assists", min_count=1),
+        "saves": top_for(saves, "saves", min_count=4),
+        "key_passes": top_for(key_passes, "key_passes"),
+    }
+    ranked = sorted((item for item in candidates.values() if item), key=lambda item: item["count"], reverse=True)
     spike = ranked[0] if ranked else None
-    return {"spike": spike, "shots": candidates[0], "tackles": candidates[1], "dribbles": candidates[2]}
+    return {"spike": spike, **candidates}
 
 
 def build_time_zones(bundle: MatchBundle) -> list[dict[str, Any]]:
@@ -954,12 +1147,306 @@ def build_touch_heatmap(bundle: MatchBundle, x_bins: int = 24, y_bins: int = 16)
     return {"x_bins": x_bins, "y_bins": y_bins, "home": grids["home"], "away": grids["away"]}
 
 
+PRESS_ACTION_TYPES = frozenset({"Tackle", "Interception", "Foul", "Challenge", "BlockedPass"})
+PRESS_MIN_ACTIONS = 5
+
+
+def _shirt_no(bundle: MatchBundle, player: str) -> int | None:
+    """Jersey number from player_stats.csv when the name matches."""
+    players = bundle.players
+    if players is None or getattr(players, "empty", True) or "playerName" not in getattr(players, "columns", []):
+        return None
+    if "shirtNo" not in players.columns:
+        return None
+    names = players["playerName"].astype(str)
+    hit = players.loc[names.eq(player)]
+    if hit.empty:
+        surname = player.split()[-1] if player else ""
+        if surname:
+            hit = players.loc[names.str.endswith(surname, na=False)]
+    if hit.empty:
+        return None
+    try:
+        return int(hit.iloc[0]["shirtNo"])
+    except (TypeError, ValueError):
+        return None
+
+
+def build_press_trap(bundle: MatchBundle) -> dict[str, Any]:
+    """PPDA-style press intensity. Reported only when a side has enough actions.
+
+    Opponent passes with team-perspective ``x < 40`` over this team's
+    Tackle / Interception / Foul / Challenge / BlockedPass with ``x > 60``.
+    A side is ``audited`` only with at least ``PRESS_MIN_ACTIONS`` press events.
+    Never invent a number from a 50.0 fallback.
+    """
+    blank = {"ppda": None, "press_actions": 0, "opp_passes": 0, "audited": False}
+    empty = {
+        "home": dict(blank),
+        "away": dict(blank),
+        "audited": False,
+        "leader": "",
+        "leader_ppda": None,
+    }
+    events = bundle.events
+    if events.empty:
+        return empty
+    types = text_col(events, "type")
+    side = text_col(events, "h_a")
+    x = num(events, "x")
+    is_pass = types.eq("Pass")
+    is_press = types.isin(list(PRESS_ACTION_TYPES))
+    sides: dict[str, dict[str, Any]] = {}
+    for h_a, opp in (("h", "a"), ("a", "h")):
+        actions = int((is_press & side.eq(h_a) & x.gt(60)).sum())
+        opp_passes = int((is_pass & side.eq(opp) & x.lt(40)).sum())
+        audited = actions >= PRESS_MIN_ACTIONS
+        ppda = round(opp_passes / actions, 2) if audited and actions else None
+        sides[h_a] = {
+            "ppda": ppda,
+            "press_actions": actions,
+            "opp_passes": opp_passes,
+            "audited": audited,
+        }
+    home, away = sides["h"], sides["a"]
+    audited = bool(home["audited"] or away["audited"])
+    leader = ""
+    leader_ppda = None
+    if home["audited"] and away["audited"]:
+        if (home["ppda"] or 99) <= (away["ppda"] or 99):
+            leader, leader_ppda = bundle.home, home["ppda"]
+        else:
+            leader, leader_ppda = bundle.away, away["ppda"]
+    elif home["audited"]:
+        leader, leader_ppda = bundle.home, home["ppda"]
+    elif away["audited"]:
+        leader, leader_ppda = bundle.away, away["ppda"]
+    return {
+        "home": home,
+        "away": away,
+        "audited": audited,
+        "leader": leader,
+        "leader_ppda": leader_ppda,
+    }
+
+
+def build_duels(bundle: MatchBundle) -> dict[str, Any]:
+    """Tackles won, aerials won, take-ons won — the duel tower."""
+    events = bundle.events
+    empty_side = {"tackles": 0, "aerials": 0, "take_ons": 0, "total": 0}
+    empty = {"home": dict(empty_side), "away": dict(empty_side), "total": 0}
+    if events.empty:
+        return empty
+    types = text_col(events, "type")
+    side = text_col(events, "h_a")
+    successful = text_col(events, "outcomeType").eq("Successful")
+    tackles = flag(events, "tackleWon")
+    aerials = flag(events, "duelAerialWon") | (types.eq("Aerial") & successful)
+    take_ons = types.eq("TakeOn") & successful
+    sides: dict[str, dict[str, int]] = {}
+    for token, key in (("h", "home"), ("a", "away")):
+        tck = int((tackles & side.eq(token)).sum())
+        aer = int((aerials & side.eq(token)).sum())
+        take = int((take_ons & side.eq(token)).sum())
+        sides[key] = {"tackles": tck, "aerials": aer, "take_ons": take, "total": tck + aer + take}
+    return {"home": sides["home"], "away": sides["away"], "total": sides["home"]["total"] + sides["away"]["total"]}
+
+
+def build_aerials(bundle: MatchBundle) -> dict[str, Any]:
+    """Header events for the aerial-war chevrons."""
+    events = bundle.events
+    empty = {"events": [], "home_won": 0, "away_won": 0, "total": 0}
+    if events.empty:
+        return empty
+    types = text_col(events, "type")
+    mask = types.eq("Aerial")
+    if not mask.any():
+        return empty
+    side = text_col(events, "h_a")
+    won_flag = flag(events, "duelAerialWon") | (types.eq("Aerial") & text_col(events, "outcomeType").eq("Successful"))
+    records: list[dict[str, Any]] = []
+    home_won = away_won = 0
+    for _, row in events.loc[mask].iterrows():
+        h_a = clean_text(row.get("h_a"))
+        won = bool(won_flag.loc[row.name]) if row.name in won_flag.index else False
+        if won:
+            if h_a == "h":
+                home_won += 1
+            elif h_a == "a":
+                away_won += 1
+        minute = int(row["minute"]) if pd.notna(row.get("minute")) else None
+        x, y = row.get("x"), row.get("y")
+        records.append(
+            {
+                "h_a": h_a,
+                "team": bundle.team(h_a) if h_a in {"h", "a"} else "",
+                "player": clean_text(row.get("playerName"), "Unknown"),
+                "minute": minute,
+                "won": won,
+                "x": round(float(x), 2) if pd.notna(x) else None,
+                "y": round(float(y), 2) if pd.notna(y) else None,
+            }
+        )
+    return {
+        "events": records[:80],
+        "home_won": home_won,
+        "away_won": away_won,
+        "total": len(records),
+    }
+
+
+def build_bench_impact(bundle: MatchBundle) -> dict[str, Any]:
+    """Substitution-on timeline. Skip the card when nobody came off the bench."""
+    events = bundle.events
+    empty = {"subs": [], "home_count": 0, "away_count": 0}
+    if events.empty:
+        return empty
+    types = text_col(events, "type")
+    mask = types.eq("SubstitutionOn") | flag(events, "subOn")
+    if not mask.any():
+        return empty
+    shots = flag(events, "isShot")
+    side = text_col(events, "h_a")
+    minutes = num(events, "minute")
+    subs: list[dict[str, Any]] = []
+    for _, row in events.loc[mask].iterrows():
+        h_a = clean_text(row.get("h_a"))
+        if h_a not in {"h", "a"}:
+            continue
+        minute = int(row["minute"]) if pd.notna(row.get("minute")) else None
+        player = clean_text(row.get("playerName"), "Unknown")
+        after = 0
+        if minute is not None:
+            after = int((shots & side.eq(h_a) & minutes.gt(minute)).sum())
+        subs.append(
+            {
+                "h_a": h_a,
+                "team": bundle.team(h_a),
+                "player": player,
+                "surname": player.split()[-1] if player else "",
+                "shirt": _shirt_no(bundle, player),
+                "minute": minute,
+                "shots_after": after,
+            }
+        )
+    subs.sort(key=lambda item: (item.get("minute") is None, item.get("minute") or 0))
+    return {
+        "subs": subs,
+        "home_count": sum(1 for item in subs if item["h_a"] == "h"),
+        "away_count": sum(1 for item in subs if item["h_a"] == "a"),
+    }
+
+
+def build_halftime_split(bundle: MatchBundle) -> dict[str, Any]:
+    """First half vs second half stamp. Extra time is ignored on this card."""
+    events = bundle.events
+    blank = {
+        "home_shots": 0, "away_shots": 0, "home_goals": 0, "away_goals": 0,
+        "home_pressure": 0.0, "away_pressure": 0.0,
+    }
+    empty = {"first": dict(blank), "second": dict(blank), "ready": False}
+    if events.empty:
+        return empty
+    period = text_col(events, "period")
+    side = text_col(events, "h_a")
+    shots = flag(events, "isShot")
+    scored = flag(events, "isGoal") & ~flag(events, "goalOwn")
+    pressure = _event_pressure(events)
+
+    def slice_period(name: str) -> dict[str, Any]:
+        mask = period.eq(name)
+        return {
+            "home_shots": int((mask & shots & side.eq("h")).sum()),
+            "away_shots": int((mask & shots & side.eq("a")).sum()),
+            "home_goals": int((mask & scored & side.eq("h")).sum()),
+            "away_goals": int((mask & scored & side.eq("a")).sum()),
+            "home_pressure": round(float(pressure[mask & side.eq("h")].sum()), 2),
+            "away_pressure": round(float(pressure[mask & side.eq("a")].sum()), 2),
+        }
+
+    first = slice_period("FirstHalf")
+    second = slice_period("SecondHalf")
+    ready = any(first[key] or second[key] for key in ("home_shots", "away_shots", "home_goals", "away_goals"))
+    return {"first": first, "second": second, "ready": ready}
+
+
+def _xy_pairs(frame: pd.DataFrame) -> list[tuple[float, float]]:
+    if frame is None or getattr(frame, "empty", True):
+        return []
+    if "x" not in frame.columns or "y" not in frame.columns:
+        return []
+    xs = pd.to_numeric(frame["x"], errors="coerce")
+    ys = pd.to_numeric(frame["y"], errors="coerce")
+    pairs: list[tuple[float, float]] = []
+    for x, y in zip(xs, ys):
+        if pd.isna(x) or pd.isna(y):
+            continue
+        pairs.append((float(x), float(y)))
+    return pairs
+
+
+def _centroidish(value: float) -> bool:
+    """True when *value* sits on a .0 / .5 Opta-zone centroid rather than a tracking point."""
+    rounded = round(float(value), 1)
+    return abs(rounded * 2 - round(rounded * 2)) < 0.05
+
+
+def classify_coordinates(pairs: list[tuple[float, float]]) -> dict[str, Any]:
+    """Detect WhoScored tracking coords vs reconstructed Opta zone centroids.
+
+    Unique (x, y) rounded to 1 decimal < 8 for 20+ shots is reconstructed.
+    Discrete clusters like 72/88/50 with .0/.5 tenths are also reconstructed.
+    """
+    n = len(pairs)
+    unique = {(round(x, 1), round(y, 1)) for x, y in pairs}
+    unique_n = len(unique)
+    unique_x = len({round(x, 1) for x, _ in pairs})
+    unique_y = len({round(y, 1) for _, y in pairs})
+    centroidish = sum(1 for x, y in pairs if _centroidish(x) and _centroidish(y))
+    reconstructed = False
+    if n >= 20 and unique_n < 8:
+        reconstructed = True
+    elif n >= 8 and unique_n < 8 and centroidish >= 0.85 * n:
+        reconstructed = True
+    elif n >= 12 and unique_x <= 6 and unique_y <= 6 and centroidish >= 0.75 * n:
+        reconstructed = True
+    precise = (
+        n >= 6
+        and not reconstructed
+        and unique_n >= min(8, max(6, int(0.5 * n)))
+        and centroidish < 0.5 * n
+    )
+    if reconstructed:
+        source = "reconstructed"
+    elif precise:
+        source = "whoscored"
+    else:
+        source = "unknown"
+    return {
+        "has_precise_coordinates": bool(precise),
+        "coordinate_source": source,
+        "unique_xy": unique_n,
+        "unique_x": unique_x,
+        "unique_y": unique_y,
+        "sample_n": n,
+        "centroidish_n": centroidish,
+    }
+
+
 def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
     events = bundle.events
     columns = {col.lower() for col in events.columns}
     has_xg = bool(columns & {"xg", "expectedgoals", "expected_goals"})
     has_xgot = bool(columns & {"xgot", "expectedgoalsontarget", "expected_goals_on_target"})
     goal_mouth = int(num(events, "goalMouthY").notna().sum())
+    var_mask = _var_event_mask(events)
+    table = table_payload(bundle.summary)
+    shot_frame = bundle.shots if bundle.shots is not None and not bundle.shots.empty else events.loc[flag(events, "isShot")] if not events.empty else events
+    quality = classify_coordinates(_xy_pairs(shot_frame))
+    if quality["sample_n"] < 6:
+        touch_quality = classify_coordinates(_xy_pairs(bundle.touches if bundle.touches is not None else events))
+        if touch_quality["sample_n"] > quality["sample_n"]:
+            quality = touch_quality
     return {
         "event_rows": int(len(events)),
         "pass_rows": int(text_col(events, "type").eq("Pass").sum()),
@@ -971,6 +1458,12 @@ def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
         "has_goal_mouth_coordinates": goal_mouth > 0,
         "has_vendor_xg": has_xg,
         "has_vendor_xgot": has_xgot,
+        "has_var": bool(int(var_mask.sum()) > 0),
+        "has_table": bool(table),
+        "has_precise_coordinates": quality["has_precise_coordinates"],
+        "coordinate_source": quality["coordinate_source"],
+        "coordinate_unique_xy": quality["unique_xy"],
+        "coordinate_sample_n": quality["sample_n"],
         "blocked_claims": [name for name, present in (("xG", has_xg), ("xGOT", has_xgot)) if not present],
     }
 
@@ -990,6 +1483,9 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
             "stage": bundle.stage,
             "venue": bundle.venue,
             "last_minute": bundle.last_minute,
+            "table": table_payload(bundle.summary),
+            "derby": derby_flag(bundle.summary),
+            "rival": rival_flag(bundle.summary),
         },
         "data_health": detect_data_health(bundle),
         "team_stats": stats,
@@ -1001,8 +1497,15 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
         "shots": build_shots(bundle),
         "goal_chains": build_goal_chains(bundle),
         "player_leaders": build_player_leaders(bundle),
+        "substitute_scorers": sorted(substitute_names(bundle)),
+        "debut_scorers": sorted(debut_names(bundle)),
         "time_zones": build_time_zones(bundle),
         "touch_heatmap": build_touch_heatmap(bundle),
+        "press_trap": build_press_trap(bundle),
+        "duels": build_duels(bundle),
+        "aerials": build_aerials(bundle),
+        "bench_impact": build_bench_impact(bundle),
+        "halftime_split": build_halftime_split(bundle),
         "definitions": {
             "pass_share_pct": "Share of all pass attempts in the export. A proxy for territory of the ball, not broadcast possession.",
             "shots_on_target": "WhoScored shotOnTarget flag. Shots blocked by an outfield player are counted separately and are not on target.",
@@ -1013,6 +1516,11 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
                            "restarts each period, so stoppage time overlaps the next period.",
             "field_tilt": "Share of successful final-third passes in each ten-minute window.",
             "goal_chain": "Uninterrupted possession immediately before a goal, capped at 75 seconds and 18 events.",
+            "ppda": (
+                "Opponent pass attempts with team-perspective x < 40, divided by this team's "
+                "Tackle/Interception/Foul/Challenge/BlockedPass with x > 60. Reported only when "
+                "that side has at least five such press actions. Not a broadcast PPDA feed."
+            ),
         },
     }
     audit["goal_timeline"] = goal_timeline(audit)
@@ -1060,6 +1568,20 @@ def _describe(bundle: MatchBundle, audit: dict[str, Any]) -> list[str]:
     blocked = audit["data_health"]["blocked_claims"]
     if blocked:
         facts.append(f"Not in this export, so never claimed: {', '.join(blocked)}.")
+    health = audit.get("data_health") or {}
+    source = str(health.get("coordinate_source") or "")
+    unique_xy = health.get("coordinate_unique_xy")
+    sample_n = health.get("coordinate_sample_n")
+    if source == "reconstructed":
+        facts.append(
+            f"Coordinates: reconstructed Opta zone centroids "
+            f"({unique_xy} unique (x,y) across {sample_n} shots) — not a tracking shot map."
+        )
+    elif source == "whoscored" or health.get("has_precise_coordinates"):
+        facts.append(
+            f"Coordinates: WhoScored event locations "
+            f"({unique_xy} unique (x,y) across {sample_n} shots)."
+        )
     return facts
 
 

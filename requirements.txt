@@ -11,3 +11,6 @@ nodriver
 moviepy
 google-genai
 python-dotenv
+arabic-reshaper
+python-bidi
+yt-dlp
