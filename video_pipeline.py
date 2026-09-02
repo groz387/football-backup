@@ -34,7 +34,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
-from recap import clips, director, hooks, i18n, logos, theme, timing, video, voice, viral_audit
+from recap import clips, director, hooks, i18n, locale_meta, logos, theme, timing, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -114,6 +114,61 @@ def timing_table(scene_list: list[dict[str, Any]]) -> str:
         )
     lines.append(f"  {'TOTAL':<20} {'':>5} {timing.total_seconds(scene_list):>9.2f}s")
     return "\n".join(lines)
+
+
+def write_language_pack(
+    dest: Path,
+    bundle,
+    audit: dict[str, Any],
+    selected: list[dict[str, Any]],
+    clip_beats: list[dict[str, Any]] | None,
+    language: str,
+) -> None:
+    """Write SCRIPT.md + social_copy.json for one language (no extra mp4)."""
+    previous = i18n.get_language()
+    i18n.set_language(language)
+    try:
+        scenes = director.build_storyboard(bundle, audit, selected, clip_beats=clip_beats)
+        scenes = director.lock_hook_cards(scenes, bundle, audit)
+        if language != "en":
+            scenes = i18n.scrub_english_leftovers(
+                i18n.localize_scenes_offline(scenes, language), language
+            )
+        timed = timing.plan_durations(list(scenes))
+        dest.mkdir(parents=True, exist_ok=True)
+        write_script_files(dest, timed, audit)
+        write_json(
+            dest / "social_copy.json",
+            i18n.social_copy(
+                bundle.home,
+                bundle.away,
+                i18n.format_score(bundle.score.home, bundle.score.away),
+                bundle.league,
+                lang=language,
+            ),
+        )
+        write_json(
+            dest / "copy_plan.json",
+            {
+                "language": language,
+                "language_name": i18n.language_name(language),
+                "rtl": i18n.is_rtl(language),
+                "rtl_engine": i18n.rtl_engine() if i18n.is_rtl(language) else None,
+                "scenes": [
+                    {
+                        key: scene.get(key)
+                        for key in (
+                            "id", "visualization", "kicker", "title",
+                            "subtitle", "insight", "narration",
+                        )
+                    }
+                    for scene in timed
+                ],
+            },
+        )
+        say(f"  copy variant {language}: {dest}")
+    finally:
+        i18n.set_language(previous)
 
 
 def write_script_files(out_dir: Path, scene_list: list[dict[str, Any]], audit: dict[str, Any]) -> None:
@@ -341,6 +396,12 @@ def run(args: argparse.Namespace) -> Path:
         "generation": {
             "language": language,
             "language_name": i18n.language_name(language),
+            "rtl": i18n.is_rtl(language),
+            "rtl_engine": i18n.rtl_engine() if i18n.is_rtl(language) else None,
+            "rtl_matplotlib_note": locale_meta.RTL_MATPLOTLIB_FALLBACK if i18n.is_rtl(language) else None,
+            "display_font": theme.DISPLAY_FONT,
+            "label_font": theme.LABEL_FONT,
+            "ass_font": locale_meta.for_language(language).ass_font,
             "team_kind": team_kind,
             "badge_shape": theme.badge_shape(team_kind),
             "colors": {
@@ -364,6 +425,24 @@ def run(args: argparse.Namespace) -> Path:
         "scenes": scene_list,
         "subtitles": cues,
     })
+
+    write_json(
+        out_dir / "social_copy.json",
+        i18n.social_copy(
+            bundle.home,
+            bundle.away,
+            i18n.format_score(bundle.score.home, bundle.score.away),
+            bundle.league,
+            lang=language,
+        ),
+    )
+    batch_codes = list(getattr(args, "batch_language_codes", None) or [])
+    if batch_codes:
+        stage("4b. Language copy variants")
+        say("  sharing audit + visualization plan; copy only (no extra mp4)")
+        for code in batch_codes:
+            write_language_pack(out_dir / code, bundle, audit, selected, clip_beats, code)
+        i18n.set_language(language)
 
     # -- 5. render ---------------------------------------------------------
     if args.still:
@@ -480,7 +559,15 @@ def manual_selection(candidates: list[dict[str, Any]], count: int) -> list[dict[
     return chosen[:count]
 
 
+def _language_arg(value: str) -> str:
+    try:
+        return i18n.normalize_language(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(str(exc)) from exc
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    langs = ", ".join(i18n.SUPPORTED)
     parser = argparse.ArgumentParser(
         description="Build a narrated vertical match recap from a WhoScored export.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -497,9 +584,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--interactive", action="store_true", help="Pick the match and approve each stage")
     parser.add_argument("--auto", action="store_true", help="Approve every stage without prompting")
 
-    parser.add_argument("--language", default="en",
-                        choices=list(i18n.SUPPORTED),
-                        help="On-screen copy and narration language (en/az/es/ru)")
+    parser.add_argument(
+        "--language", type=_language_arg, default="en",
+        help=f"On-screen copy and narration language. Codes: {langs}",
+    )
+    parser.add_argument(
+        "--batch-languages", default="", metavar="CODES",
+        help="Comma-separated copy variants written to <match>/<lang>/ "
+             "(no extra mp4s). Example: az,tr,ar. Aliases like pt-br and ua work.",
+    )
     parser.add_argument("--team", default="national",
                         choices=list(theme.TEAM_KINDS),
                         help="Badge style: national flags (rect) or club crests (circle + logos)")
@@ -543,6 +636,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         args.interactive = True
     if args.require_gemini and args.no_gemini:
         parser.error("--require-gemini and --no-gemini cannot be combined")
+    try:
+        args.batch_language_codes = i18n.parse_languages(args.batch_languages)
+    except ValueError as exc:
+        parser.error(str(exc))
     return args
 
 

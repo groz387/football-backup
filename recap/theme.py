@@ -133,6 +133,22 @@ def _register_bundled_fonts() -> None:
 
 
 _register_bundled_fonts()
+_locale_fonts_registered = False
+
+
+def _register_locale_fonts() -> None:
+    """Register Noto CJK/Arabic/Devanagari so matplotlib can name them."""
+    global _locale_fonts_registered
+    if _locale_fonts_registered:
+        return
+    from . import locale_meta
+
+    for path in locale_meta.iter_font_files():
+        try:
+            font_manager.fontManager.addfont(str(path))
+        except Exception:
+            continue
+    _locale_fonts_registered = True
 
 
 def _first_available(*preferences: str) -> str:
@@ -539,21 +555,20 @@ def configure_matplotlib() -> None:
 
 
 def apply_language_fonts(language: str) -> None:
-    """Swap the type stack when Bai Jamjuree cannot cover the script.
+    """Pick a type stack that actually has glyphs for *language*.
 
-    Russian uses Gilroy (Medium / Bold) from ``Fonts/Gilroy``. Other languages
-    keep Bai Jamjuree. Callers must read ``theme.DISPLAY_FONT`` at draw time
-    rather than importing the name once.
+    Latin recaps keep Bai Jamjuree. Cyrillic prefers Gilroy, then Noto Sans.
+    Arabic / CJK / Devanagari use the Noto faces listed in ``locale_meta``.
+    Callers must read ``theme.DISPLAY_FONT`` at draw time rather than importing
+    the name once.
     """
     global DISPLAY_FONT, BODY_FONT, LABEL_FONT, MONO_FONT
-    if (language or "").strip().lower() == "ru":
-        DISPLAY_FONT = _CYRILLIC_DISPLAY
-        BODY_FONT = _CYRILLIC_BODY
-        LABEL_FONT = _CYRILLIC_BODY
-        MONO_FONT = _CYRILLIC_BODY
-    else:
-        DISPLAY_FONT = _LATIN_DISPLAY
-        BODY_FONT = _LATIN_BODY
-        LABEL_FONT = _LATIN_LABEL
-        MONO_FONT = _LATIN_MONO
+    _register_locale_fonts()
+    from . import locale_meta
+
+    meta = locale_meta.for_language(language)
+    DISPLAY_FONT = _first_available(*meta.display_fonts)
+    BODY_FONT = _first_available(*meta.label_fonts)
+    LABEL_FONT = BODY_FONT
+    MONO_FONT = _first_available(*meta.label_fonts)
     configure_matplotlib()

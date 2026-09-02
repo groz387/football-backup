@@ -25,6 +25,7 @@ __all__ = [
     "graphs",
     "hooks",
     "i18n",
+    "locale_meta",
     "logos",
     "scenes",
     "theme",

@@ -239,13 +239,17 @@ def assemble(
     mapped_video = f"[{label}]"
     srt = Path(srt_path) if srt_path else Path(out_dir) / "subtitles.srt"
     if burn_captions and srt.exists() and srt.stat().st_size > 0:
+        from . import i18n, locale_meta
+
         escaped = _escape_subtitles_path(srt)
-        graph += (
-            f";{mapped_video}subtitles={escaped}:force_style='"
-            "Fontname=Bai Jamjuree,Fontsize=15,PrimaryColour=&H00FFFFFF,"
-            "OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,"
-            "Alignment=2,MarginV=150,Bold=1'[vcapt]"
-        )
+        lang = i18n.get_language()
+        style = locale_meta.ffmpeg_subtitle_style(lang).replace("'", r"\'")
+        extra = f"force_style='{style}'"
+        fontfile = locale_meta.find_fontfile(lang)
+        if fontfile:
+            fontdir = Path(fontfile).parent.as_posix().replace("\\", "/").replace(":", r"\:").replace("'", r"\'")
+            extra = f"fontsdir={fontdir}:{extra}"
+        graph += f";{mapped_video}subtitles={escaped}:{extra}[vcapt]"
         mapped_video = "[vcapt]"
 
     command += ["-filter_complex", graph, "-map", mapped_video]

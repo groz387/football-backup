@@ -589,37 +589,37 @@ def _headline_copy(bundle: MatchBundle, audit: dict[str, Any]) -> tuple[str, str
     if winner:
         winner_stats = context["winner_stats"]
         if score.after_shootout:
-            return i18n.t("hook_shootout", team=winner.upper()), "Level after 120 minutes, settled from the spot.", hook
+            return i18n.t("hook_shootout", team=winner.upper()), i18n.t("insight_level_spot"), hook
         if score.after_extra_time:
-            return i18n.t("hook_extra_time", team=winner.upper()), "Ninety minutes could not separate them.", hook
+            return i18n.t("hook_extra_time", team=winner.upper()), i18n.t("insight_ninety"), hook
         if first_minute is not None and first_minute <= 12 and first.get("team") == winner:
             return (
                 i18n.t("hook_needed_minutes", team=winner.upper(), n=first_minute),
-                f"{winner} scored in the {_ordinal(first_minute)} minute and never looked back.",
+                i18n.t("insight_scored_early", team=winner, n=first_minute),
                 hook,
             )
         if score.margin >= 3:
             return (
                 i18n.t("hook_ran_riot", team=winner.upper()),
-                f"{score.margin} goals of daylight by the final whistle.",
+                i18n.t("insight_daylight", n=score.margin),
                 hook,
             )
         if score.total_goals >= 4:
             return (
                 i18n.t("hook_goals_take_it", n=score.total_goals, team=winner.upper()),
-                "A shootout of a match, decided in open play.",
+                i18n.t("insight_shootout_open"),
                 hook,
             )
         return (
             i18n.t("hook_found_a_way", team=winner.upper()),
-            f"{winner_stats.get('shots_on_target', 0)} shots on target turned into the win.",
+            i18n.t("insight_on_target_win", n=winner_stats.get("shots_on_target", 0)),
             hook,
         )
 
     if score.total_goals == 0:
         total_shots = sum(team.get("shots", 0) for team in stats.values())
-        return i18n.t("hook_nobody_blinked"), f"{total_shots} attempts and not one of them counted.", hook
-    return i18n.t("hook_honours_even", score=score.display), "Two teams, two answers, one point each.", hook
+        return i18n.t("hook_nobody_blinked"), i18n.t("insight_attempts_blank", n=total_shots), hook
+    return i18n.t("hook_honours_even", score=score.display), i18n.t("insight_two_answers"), hook
 
 
 def _stats_copy(bundle: MatchBundle, audit: dict[str, Any]) -> tuple[str, str]:
@@ -631,10 +631,16 @@ def _stats_copy(bundle: MatchBundle, audit: dict[str, Any]) -> tuple[str, str]:
     ]
     home_edges = sum(edges)
     if home_edges >= 4:
-        return f"{bundle.home.upper()} LED ALMOST EVERYTHING", f"{bundle.home} won four of the five baseline counts."
+        return (
+            i18n.t("graph_led_everything", team=bundle.home.upper()),
+            i18n.t("insight_won_baseline", team=bundle.home),
+        )
     if home_edges <= 1:
-        return f"{bundle.away.upper()} LED ALMOST EVERYTHING", f"{bundle.away} won four of the five baseline counts."
-    return "THE NUMBERS SPLIT DOWN THE MIDDLE", "Neither side could claim the baseline counts."
+        return (
+            i18n.t("graph_led_everything", team=bundle.away.upper()),
+            i18n.t("insight_won_baseline", team=bundle.away),
+        )
+    return i18n.t("graph_numbers_split"), i18n.t("insight_neither_baseline")
 
 
 def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dict[str, str]:
@@ -651,23 +657,24 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             return name.split()[-1] if name else str(goal.get("team") or "")
 
         if first and last and len(timeline) > 1:
-            narration = (
-                f"{surname(first)} opened it in the {_ordinal(first['minute'])} minute, "
-                f"and {surname(last)} had the last word."
+            narration = i18n.t(
+                "narr_opened_last",
+                first=surname(first), last=surname(last), n=first["minute"],
             )
         elif first:
-            narration = (
-                f"One goal settled it: {surname(first)} in the {_ordinal(first['minute'])} minute."
-            )
+            narration = i18n.t("narr_one_goal", player=surname(first), n=first["minute"])
         else:
-            narration = "Not one goal all match."
+            narration = i18n.t("narr_not_one_goal")
         return {
-            "kicker": "EVERY GOAL",
-            "title": f"{len(timeline)} GOALS, ONE RUNNING SCORE" if timeline else "THE GOAL TIMELINE",
+            "kicker": i18n.t("graph_every_goal"),
+            "title": (
+                i18n.t("graph_goals_running", n=len(timeline))
+                if timeline else i18n.t("graph_goal_timeline")
+            ),
             "subtitle": "",
             "insight": (
-                f"{last['team']} had the last word in the {_ordinal(last['minute'])} minute."
-                if last else "Every finish moved the board."
+                i18n.t("insight_last_word", team=last["team"], n=last["minute"])
+                if last else i18n.t("insight_every_finish")
             ),
             "narration": narration,
         }
@@ -675,16 +682,18 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
     if viz_id == "shot_map":
         leader = dominant_team(bundle, audit, "shots_on_target") or bundle.home
         return {
-            "kicker": "SHOT MAP",
-            "title": f"{home['shots']}-{away['shots']} ON THE MAP",
+            "kicker": i18n.t("graph_shot_map"),
+            "title": i18n.t("graph_shots_on_map", home=home["shots"], away=away["shots"]),
             "subtitle": i18n.t("sub_shot_map"),
-            "insight": (
-                f"{home['shots']} against {away['shots']} shots, "
-                f"{home['shots_on_target']} against {away['shots_on_target']} on target."
+            "insight": i18n.t(
+                "insight_shots_split",
+                home_n=home["shots"], away_n=away["shots"],
+                home_on=home["shots_on_target"], away_on=away["shots_on_target"],
             ),
-            "narration": (
-                f"{bundle.home} {home['shots']} shots to {away['shots']}, "
-                f"{home['shots_on_target']} on target against {away['shots_on_target']}."
+            "narration": i18n.t(
+                "narr_shots_line",
+                home=bundle.home, home_n=home["shots"], away_n=away["shots"],
+                home_on=home["shots_on_target"], away_on=away["shots_on_target"],
             ),
         }
 
@@ -693,16 +702,16 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         peak = max(momentum, key=lambda row: abs(row["swing"])) if momentum else None
         leader = bundle.home if peak and peak["swing"] > 0 else bundle.away
         return {
-            "kicker": "PRESSURE",
+            "kicker": i18n.t("graph_pressure"),
             "title": _momentum_title(audit),
             "subtitle": i18n.t("sub_momentum", home=bundle.home, away=bundle.away),
             "insight": (
-                f"The heaviest spell fell to {leader} between minutes {peak['minute_block']}."
-                if peak else "Pressure stayed level throughout."
+                i18n.t("insight_heaviest", team=leader, window=peak["minute_block"])
+                if peak else i18n.t("insight_pressure_level")
             ),
             "narration": (
-                f"The heaviest spell belonged to {leader} in the {peak['minute_block']} window."
-                if peak else "Pressure stayed level throughout."
+                i18n.t("narr_heaviest", team=leader, window=peak["minute_block"])
+                if peak else i18n.t("insight_pressure_level")
             ),
         }
 
@@ -712,12 +721,12 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         away_touches = sum(z["away_touches"] for z in zones)
         leader = bundle.home if home_touches >= away_touches else bundle.away
         return {
-            "kicker": "TERRITORY",
+            "kicker": i18n.t("graph_territory"),
             "title": _zone_title(bundle, audit),
             "subtitle": i18n.t("sub_zone"),
-            "insight": f"{leader} touched the ball in more of the dangerous grid than anyone else.",
-            "narration": (
-                f"{leader} owned the map, {home_touches} touches against {away_touches}."
+            "insight": i18n.t("insight_dangerous_grid", team=leader),
+            "narration": i18n.t(
+                "narr_owned_map", team=leader, home_n=home_touches, away_n=away_touches
             ),
         }
 
@@ -725,21 +734,27 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         chain = best_goal_chain(audit)
         if chain:
             return {
-                "kicker": "ONE GOAL, TRACED",
-                "title": f"{chain['passes']} PASSES TO THE FINISH",
+                "kicker": i18n.t("graph_one_goal_traced"),
+                "title": i18n.t("graph_passes_finish", n=chain["passes"]),
                 "subtitle": f"{chain['team']} / {chain['scorer']}",
-                "insight": f"{chain['pass_distance_m']:.0f} metres of passing in {chain['duration_seconds']:.0f} seconds.",
-                "narration": (
-                    f"{chain['team']} strung {chain['passes']} passes across "
-                    f"{chain['pass_distance_m']:.0f} metres before {chain['scorer']} finished it."
+                "insight": i18n.t(
+                    "insight_metres",
+                    metres=f"{chain['pass_distance_m']:.0f}",
+                    seconds=f"{chain['duration_seconds']:.0f}",
+                ),
+                "narration": i18n.t(
+                    "narr_chain",
+                    team=chain["team"], n=chain["passes"],
+                    metres=f"{chain['pass_distance_m']:.0f}",
+                    player=chain["scorer"],
                 ),
             }
         return {
-            "kicker": "BUILD-UP",
-            "title": "THE MOVE BEFORE THE GOAL",
+            "kicker": i18n.t("graph_build_up"),
+            "title": i18n.t("graph_move_before"),
             "subtitle": "",
             "insight": "",
-            "narration": "The build-up to the goal, taken straight from the event coordinates.",
+            "narration": i18n.t("narr_buildup"),
         }
 
     if viz_id == "goalmouth":
@@ -751,12 +766,12 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             keeper_side, faced = bundle.away, home["shots_on_target"]
         keeper_stats = stats[keeper_side]
         return {
-            "kicker": "THE FRAME",
-            "title": f"{keeper_side.upper()} HAD WORK TO DO",
+            "kicker": i18n.t("graph_the_frame"),
+            "title": i18n.t("graph_had_work", team=keeper_side.upper()),
             "subtitle": i18n.t("sub_goalmouth"),
-            "insight": f"{faced} shots at the frame, {keeper_stats['saves']} of them saved.",
-            "narration": (
-                f"{keeper_side} faced {faced} shots on target and saved {keeper_stats['saves']} of them."
+            "insight": i18n.t("insight_frame_saves", faced=faced, saves=keeper_stats["saves"]),
+            "narration": i18n.t(
+                "narr_keeper_faced", team=keeper_side, faced=faced, saves=keeper_stats["saves"]
             ),
         }
 
@@ -764,13 +779,19 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         leader = dominant_team(bundle, audit, "pass_attempts") or bundle.home
         leader_stats = stats[leader]
         return {
-            "kicker": "PASS NETWORK",
-            "title": f"HOW {leader.upper()} MOVED THE BALL",
+            "kicker": i18n.t("graph_pass_network"),
+            "title": i18n.t("graph_how_moved", team=leader.upper()),
             "subtitle": i18n.t("sub_pass_network"),
-            "insight": f"{leader_stats['passes_completed']} completed passes at {leader_stats['pass_accuracy_pct']:.0f}% accuracy.",
-            "narration": (
-                f"{leader} completed {leader_stats['passes_completed']} passes at "
-                f"{leader_stats['pass_accuracy_pct']:.0f} percent accuracy."
+            "insight": i18n.t(
+                "insight_pass_acc",
+                passes=leader_stats["passes_completed"],
+                pct=f"{leader_stats['pass_accuracy_pct']:.0f}",
+            ),
+            "narration": i18n.t(
+                "narr_pass_acc",
+                team=leader,
+                passes=leader_stats["passes_completed"],
+                pct=f"{leader_stats['pass_accuracy_pct']:.0f}",
             ),
         }
 
@@ -778,16 +799,19 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         leader = dominant_team(bundle, audit, "pass_share_pct") or bundle.home
         leader_stats = stats[leader]
         return {
-            "kicker": "CONTROL VS THREAT",
-            "title": f"{leader.upper()} HAD THE BALL",
+            "kicker": i18n.t("graph_control_vs_threat"),
+            "title": i18n.t("graph_had_the_ball", team=leader.upper()),
             "subtitle": i18n.t("sub_sterile"),
-            "insight": (
-                f"{leader_stats['pass_share_pct']:.0f}% of the passing, "
-                f"{leader_stats['shots_on_target']} shots on target to show for it."
+            "insight": i18n.t(
+                "insight_share_target",
+                pct=f"{leader_stats['pass_share_pct']:.0f}",
+                on=leader_stats["shots_on_target"],
             ),
-            "narration": (
-                f"{leader} played {leader_stats['pass_share_pct']:.0f} percent of the passes "
-                f"and still only put {leader_stats['shots_on_target']} on target."
+            "narration": i18n.t(
+                "narr_sterile",
+                team=leader,
+                pct=f"{leader_stats['pass_share_pct']:.0f}",
+                on=leader_stats["shots_on_target"],
             ),
         }
 
@@ -800,14 +824,16 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "kicker": stat_label(key).upper(),
             "title": f"{n} {stat_label(key).upper()}",
             "subtitle": i18n.t("sub_slam"),
-            "insight": (
-                f"{leader} led {stat_label(key).lower()} "
-                f"{format_stat(key, stats[leader].get(key))} to "
-                f"{format_stat(key, stats[other].get(key))}."
+            "insight": i18n.t(
+                "insight_led_stat",
+                team=leader, stat=stat_label(key).lower(),
+                a=format_stat(key, stats[leader].get(key)),
+                b=format_stat(key, stats[other].get(key)),
             ),
-            "narration": (
-                f"{leader} put {format_stat(key, stats[leader].get(key))} {stat_label(key).lower()} "
-                f"on the tape, the number that defined the night."
+            "narration": i18n.t(
+                "narr_slam",
+                team=leader, n=format_stat(key, stats[leader].get(key)),
+                stat=stat_label(key).lower(),
             ),
             "stat_keys": [key],
             "hero_number": n,
@@ -817,13 +843,19 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
 
     if viz_id == "match_radar":
         return {
-            "kicker": "PROFILE",
-            "title": "THE SHAPE OF THE MATCH",
+            "kicker": i18n.t("graph_profile"),
+            "title": i18n.t("graph_shape_match"),
             "subtitle": i18n.t("sub_radar"),
-            "insight": f"{bundle.home} {home['shots']} shots, {bundle.away} {away['shots']}. The radar is the rest.",
-            "narration": (
-                f"Six axes, two teams. {bundle.home} {home['shots']} shots to {away['shots']}, "
-                f"{home['pass_share_pct']:.0f} percent of the passes against {away['pass_share_pct']:.0f}."
+            "insight": i18n.t(
+                "insight_radar",
+                home=bundle.home, home_n=home["shots"],
+                away=bundle.away, away_n=away["shots"],
+            ),
+            "narration": i18n.t(
+                "narr_radar",
+                home=bundle.home, home_n=home["shots"], away_n=away["shots"],
+                home_pct=f"{home['pass_share_pct']:.0f}",
+                away_pct=f"{away['pass_share_pct']:.0f}",
             ),
         }
 
@@ -833,11 +865,11 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         away_t = sum(int(z.get("away_touches") or 0) for z in zones)
         leader = bundle.home if home_t >= away_t else bundle.away
         return {
-            "kicker": "HEAT",
-            "title": f"{max(home_t, away_t)} TOUCHES. THE PIN.",
+            "kicker": i18n.t("graph_heat"),
+            "title": i18n.t("graph_touches_pin", n=max(home_t, away_t)),
             "subtitle": i18n.t("sub_heatmap"),
-            "insight": f"{home_t} touches against {away_t}. The colour is the pin.",
-            "narration": f"{leader} left the hotter footprint, {home_t} touches against {away_t}.",
+            "insight": i18n.t("insight_pin_colour", home_n=home_t, away_n=away_t),
+            "narration": i18n.t("narr_heatmap", team=leader, home_n=home_t, away_n=away_t),
         }
 
     if viz_id == "field_tilt_wave":
@@ -850,22 +882,37 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         else:
             leader, pct = bundle.home, 50
         return {
-            "kicker": "TILT",
-            "title": f"{int(pct)}% TILT IN THE {peak['minute_block'] if peak else 'MATCH'}",
+            "kicker": i18n.t("graph_tilt"),
+            "title": i18n.t(
+                "graph_tilt_window",
+                n=int(pct),
+                window=peak["minute_block"] if peak else "90",
+            ),
             "subtitle": i18n.t("sub_tilt"),
-            "insight": f"{leader} owned the dangerous third in that window.",
-            "narration": f"{leader} hit {int(pct)} percent field tilt in the {peak['minute_block'] if peak else 'match'} window.",
+            "insight": i18n.t("insight_owned_third", team=leader),
+            "narration": i18n.t(
+                "narr_tilt",
+                team=leader, n=int(pct),
+                window=peak["minute_block"] if peak else "90",
+            ),
         }
 
     if viz_id == "conversion_gauges":
         return {
-            "kicker": "CONVERSION",
-            "title": f"{home['shots_on_target']}-{away['shots_on_target']} ON TARGET",
+            "kicker": i18n.t("graph_conversion"),
+            "title": i18n.t(
+                "graph_on_target_split",
+                home=home["shots_on_target"], away=away["shots_on_target"],
+            ),
             "subtitle": i18n.t("sub_gauges"),
-            "insight": f"{home['shots_on_target']} on target against {away['shots_on_target']}. Conversion did the rest.",
-            "narration": (
-                f"{bundle.home} {home['shots_on_target']} on target to {away['shots_on_target']}. "
-                f"The finishing was not the same."
+            "insight": i18n.t(
+                "insight_conversion",
+                home_n=home["shots_on_target"], away_n=away["shots_on_target"],
+            ),
+            "narration": i18n.t(
+                "narr_gauges",
+                home=bundle.home,
+                home_n=home["shots_on_target"], away_n=away["shots_on_target"],
             ),
         }
 
@@ -873,13 +920,15 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         leader = dominant_team(bundle, audit, "pass_share_pct") or bundle.home
         leader_stats = stats[leader]
         return {
-            "kicker": "FUNNEL",
-            "title": f"{int(leader_stats['pass_share_pct'])}% THEN THE DROP",
+            "kicker": i18n.t("graph_funnel"),
+            "title": i18n.t("graph_then_drop", n=int(leader_stats["pass_share_pct"])),
             "subtitle": i18n.t("sub_funnel"),
-            "insight": f"{leader} had the ball. The funnel shows where it died.",
-            "narration": (
-                f"{leader} played {leader_stats['pass_share_pct']:.0f} percent of the passes "
-                f"and put {leader_stats['shots_on_target']} on target."
+            "insight": i18n.t("insight_funnel", team=leader),
+            "narration": i18n.t(
+                "narr_funnel",
+                team=leader,
+                pct=f"{leader_stats['pass_share_pct']:.0f}",
+                on=leader_stats["shots_on_target"],
             ),
         }
 
@@ -889,32 +938,37 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         else:
             keeper_side, faced = bundle.away, home["shots_on_target"]
         return {
-            "kicker": "THE WALL",
-            "title": f"{stats[keeper_side]['saves']} SAVES FOR {keeper_side.upper()}",
+            "kicker": i18n.t("graph_the_wall"),
+            "title": i18n.t("graph_saves_for", n=stats[keeper_side]["saves"], team=keeper_side.upper()),
             "subtitle": i18n.t("sub_keeper_frame"),
-            "insight": f"{faced} shots at the frame. {stats[keeper_side]['saves']} of them stopped.",
-            "narration": f"{keeper_side} faced {faced} on target and saved {stats[keeper_side]['saves']}.",
+            "insight": i18n.t(
+                "insight_stopped", faced=faced, saves=stats[keeper_side]["saves"]
+            ),
+            "narration": i18n.t(
+                "narr_wall", team=keeper_side, faced=faced, saves=stats[keeper_side]["saves"]
+            ),
         }
 
     if viz_id == "xg_race":
         return {
-            "kicker": "xG RACE",
-            "title": "THE RACE THE SCORE IGNORED",
+            "kicker": i18n.t("graph_xg_race"),
+            "title": i18n.t("graph_race_ignored"),
             "subtitle": i18n.t("sub_race"),
-            "insight": f"xG {home.get('xg', 0)} against {away.get('xg', 0)}. The board ignored the race.",
-            "narration": (
-                f"Expected goals ran {home.get('xg', 0)} to {away.get('xg', 0)}. "
-                f"The scoreline did not follow the race."
+            "insight": i18n.t(
+                "insight_xg_board", home_xg=home.get("xg", 0), away_xg=away.get("xg", 0)
+            ),
+            "narration": i18n.t(
+                "narr_xg", home_xg=home.get("xg", 0), away_xg=away.get("xg", 0)
             ),
         }
 
     if viz_id == "time_zones":
         return {
-            "kicker": "THREE SLICES",
-            "title": "THE MAP CHANGED",
+            "kicker": i18n.t("graph_three_slices"),
+            "title": i18n.t("graph_map_changed"),
             "subtitle": i18n.t("sub_zones_time"),
-            "insight": "Three windows. The colour says who owned each one.",
-            "narration": "Territory in three slices: the first half hour, the middle, and the close.",
+            "insight": i18n.t("insight_three_windows"),
+            "narration": i18n.t("narr_slices"),
         }
 
     if viz_id == "player_spike":
@@ -923,19 +977,23 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         count = int(spike.get("count") or 0)
         action = spike.get("action") or "actions"
         return {
-            "kicker": "THE SPIKE",
-            "title": f"{str(surname).upper()} HAD {count}",
+            "kicker": i18n.t("graph_the_spike"),
+            "title": i18n.t("graph_player_had", player=str(surname).upper(), n=count),
             "subtitle": i18n.t("sub_player"),
-            "insight": f"{spike.get('player') or surname} led {action} with {count}.",
-            "narration": f"{spike.get('player') or surname} put {count} {action} on the tape, the spike of the night.",
+            "insight": i18n.t(
+                "insight_spike", player=spike.get("player") or surname, action=action, n=count
+            ),
+            "narration": i18n.t(
+                "narr_spike", player=spike.get("player") or surname, n=count, action=action
+            ),
         }
 
     return {
-        "kicker": "EVENT DATA",
+        "kicker": i18n.t("graph_event_data"),
         "title": viz_id.replace("_", " ").upper(),
         "subtitle": "",
-        "insight": "Built directly from the match event feed.",
-        "narration": "Built directly from the match event feed.",
+        "insight": i18n.t("insight_event_feed"),
+        "narration": i18n.t("insight_event_feed"),
     }
 
 
@@ -948,32 +1006,32 @@ def _block_minute(row: dict[str, Any]) -> int:
 def _momentum_title(audit: dict[str, Any]) -> str:
     momentum = audit.get("momentum") or []
     if not momentum:
-        return "PRESSURE THROUGH THE MATCH"
+        return i18n.t("graph_pressure_through")
     peak = max(momentum, key=lambda row: abs(row["swing"]))
     period = str(peak.get("period", ""))
     if period.endswith("PeriodOfExtraTime"):
-        return "EXTRA TIME BROKE THE DEADLOCK"
+        return i18n.t("graph_et_deadlock")
     minute = _block_minute(peak)
     if minute <= 20:
-        return f"MINUTE {minute} SET THE TONE"
+        return i18n.t("graph_minute_tone", n=minute)
     if minute <= 45:
-        return f"THE {minute}TH MINUTE SET THE TONE"
+        return i18n.t("graph_nth_tone", n=minute)
     if minute <= 70:
-        return f"IT TURNED AFTER {minute}"
-    return f"SETTLED IN THE {minute}TH"
+        return i18n.t("graph_turned_after", n=minute)
+    return i18n.t("graph_settled_nth", n=minute)
 
 
 def _zone_title(bundle: MatchBundle, audit: dict[str, Any]) -> str:
     zones = audit.get("zone_control") or []
     if not zones:
-        return "WHERE THE MATCH WAS PLAYED"
+        return i18n.t("graph_where_played")
     home_touches = sum(z["home_touches"] for z in zones)
     away_touches = sum(z["away_touches"] for z in zones)
     if home_touches > away_touches * 1.15:
-        return f"{bundle.home.upper()} OWNED THE MAP"
+        return i18n.t("graph_owned_map", team=bundle.home.upper())
     if away_touches > home_touches * 1.15:
-        return f"{bundle.away.upper()} OWNED THE MAP"
-    return "EVERY ZONE WAS CONTESTED"
+        return i18n.t("graph_owned_map", team=bundle.away.upper())
+    return i18n.t("graph_every_zone")
 
 
 def _closing_copy(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, str]:
@@ -984,30 +1042,37 @@ def _closing_copy(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, str]:
     hook = build_hook(bundle, audit)
     if winner and loser:
         loser_shots = int(context["loser_stats"].get("shots") or 0)
-        narration = f"{hook_team_name(loser)} had the shots. {winner} had the night."
+        narration = i18n.t(
+            "narr_close_shots_night",
+            loser=hook_team_name(loser), winner=winner,
+        )
         if hook["kind"] in {"volume_upset", "waste", "sterile_upset"}:
-            narration = (
-                f"{loser} had {loser_shots} shots. {winner} take it {score.display}."
+            narration = i18n.t(
+                "narr_close_shots_take",
+                loser=loser, n=loser_shots, winner=winner, score=score.display,
             )
         elif hook["kind"] == "blowout":
-            narration = f"{winner} win it {score.display}. The map was never a contest."
+            narration = i18n.t("narr_close_blowout", winner=winner, score=score.display)
         elif hook["kind"] in {"comeback", "stoppage", "late_turn"}:
             last = (audit.get("goal_timeline") or [None])[-1]
             minute = int((last or {}).get("minute") or 0)
-            narration = f"{winner} win it {score.display}, settled in the {minute}th."
-        else:
-            narration = (
-                f"{winner} win it {score.display}. "
-                f"{int(context['winner_stats'].get('shots_on_target') or 0)} on target."
+            narration = i18n.t(
+                "narr_close_late", winner=winner, score=score.display, n=minute
             )
-        insight = f"{winner} took the result. The numbers tell you how."
+        else:
+            narration = i18n.t(
+                "narr_close_on",
+                winner=winner, score=score.display,
+                n=int(context["winner_stats"].get("shots_on_target") or 0),
+            )
+        insight = i18n.t("insight_took_result", team=winner)
     elif score.total_goals == 0:
         total = sum(int(team.get("shots") or 0) for team in audit["team_stats"].values())
-        narration = f"Goalless. {total} shots, and the net never moved."
-        insight = "Nothing on the board. Plenty on the tape."
+        narration = i18n.t("narr_close_blank", n=total)
+        insight = i18n.t("insight_nothing_board")
     else:
-        narration = f"It finishes {score.display}. A point each."
-        insight = "Level on the board. Split on the map."
+        narration = i18n.t("narr_close_level", score=score.display)
+        insight = i18n.t("insight_level_split")
     return {
         "kicker": i18n.t("full_time") if not score.qualifier else score.qualifier,
         "title": f"{bundle.home.upper()} {score.display} {bundle.away.upper()}",

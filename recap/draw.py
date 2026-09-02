@@ -53,6 +53,18 @@ FIG_DPI = 120
 HOLD_AT = 0.80
 
 
+def _chrome(text: str, *, upper: bool = True) -> str:
+    from . import i18n
+
+    return i18n.prepare_display(text, upper=upper)
+
+
+def _anchor(x: float, ha: str = "left") -> tuple[float, str]:
+    from . import i18n
+
+    return i18n.headline_anchor(x, ha)
+
+
 # ---------------------------------------------------------------------------
 # easing and cues
 # ---------------------------------------------------------------------------
@@ -437,10 +449,11 @@ def fit_text(
 def kicker(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT_DIM) -> None:
     if not text:
         return
+    x, ha = _anchor(Layout.MARGIN, "left")
     fit_text(
-        fig, Layout.MARGIN, Layout.KICKER_Y, str(text).upper(),
+        fig, x, Layout.KICKER_Y, _chrome(text, upper=True),
         fontsize=13.5, max_width=Layout.CONTENT_W, max_lines=1, min_fontsize=9.0,
-        va="center", color=color, family=theme.MONO_FONT, alpha=alpha, zorder=20,
+        ha=ha, va="center", color=color, family=theme.MONO_FONT, alpha=alpha, zorder=20,
     )
 
 
@@ -453,20 +466,22 @@ def headline(fig: plt.Figure, text: str, subtitle: str = "", *, alpha: float = 1
     """
     y = Layout.TITLE_TOP
     if text:
+        x, ha = _anchor(Layout.MARGIN, "left")
         artist, _ = fit_text(
-            fig, Layout.MARGIN, y, str(text).upper(),
+            fig, x, y, _chrome(text, upper=True),
             fontsize=fontsize, max_width=Layout.CONTENT_W, max_lines=2, min_fontsize=24.0,
-            va="top", color=color, family=theme.DISPLAY_FONT, fontweight="bold",
+            ha=ha, va="top", color=color, family=theme.DISPLAY_FONT, fontweight="bold",
             linespacing=0.92, alpha=alpha, zorder=20, path_effects=soft_shadow(),
         )
         if artist is not None:
             _, height = _extent_fractions(fig, artist)
             y -= height + 0.014
     if subtitle:
+        x, ha = _anchor(Layout.MARGIN + 0.003, "left")
         artist, _ = fit_text(
-            fig, Layout.MARGIN + 0.003, y, str(subtitle).upper(),
+            fig, x, y, _chrome(subtitle, upper=True),
             fontsize=13.0, max_width=Layout.CONTENT_W, max_lines=1, min_fontsize=9.0,
-            va="top", color=TEXT_DIM, family=theme.MONO_FONT, alpha=alpha, zorder=20,
+            ha=ha, va="top", color=TEXT_DIM, family=theme.MONO_FONT, alpha=alpha, zorder=20,
         )
         if artist is not None:
             _, height = _extent_fractions(fig, artist)
@@ -481,7 +496,7 @@ def insight(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT
     fig_rect(fig, 0.0, Layout.FOOTER_Y + 0.030, 1.0, Layout.INSIGHT_Y - Layout.FOOTER_Y + 0.010,
              "#040605", 0.30 * alpha, zorder=17)
     fit_text(
-        fig, 0.5, Layout.INSIGHT_Y, str(text),
+        fig, 0.5, Layout.INSIGHT_Y, _chrome(text, upper=False),
         fontsize=25.0, max_width=Layout.CONTENT_W - 0.02, max_lines=2, min_fontsize=15.0,
         ha="center", va="center", color=color, family=theme.DISPLAY_FONT, fontweight="bold",
         linespacing=1.05, alpha=alpha, zorder=20, path_effects=soft_shadow(),
@@ -491,12 +506,15 @@ def insight(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT
 def footer(fig: plt.Figure, right_text: str = "", *, alpha: float = 1.0) -> None:
     from . import i18n
 
-    fig.text(Layout.MARGIN, Layout.FOOTER_Y, i18n.t("watermark"), color=TEXT_FAINT, fontsize=8.0,
-             family=theme.MONO_FONT, ha="left", va="center", alpha=alpha * 0.45, zorder=20)
+    left_x, left_ha = i18n.headline_anchor(Layout.MARGIN, "left")
+    right_x, right_ha = i18n.headline_anchor(1 - Layout.MARGIN, "right")
+    fig.text(left_x, Layout.FOOTER_Y, _chrome(i18n.t("watermark"), upper=False),
+             color=TEXT_FAINT, fontsize=8.0,
+             family=theme.MONO_FONT, ha=left_ha, va="center", alpha=alpha * 0.45, zorder=20)
     fit_text(
-        fig, 1 - Layout.MARGIN, Layout.FOOTER_Y, (right_text or theme.DATA_SOURCE).upper(),
+        fig, right_x, Layout.FOOTER_Y, _chrome(right_text or theme.DATA_SOURCE, upper=True),
         fontsize=9.0, max_width=0.52, max_lines=1, min_fontsize=6.5,
-        ha="right", va="center", color=TEXT_FAINT, family=theme.MONO_FONT, alpha=alpha, zorder=20,
+        ha=right_ha, va="center", color=TEXT_FAINT, family=theme.MONO_FONT, alpha=alpha, zorder=20,
     )
 
 
@@ -532,15 +550,15 @@ def legend_row(fig: plt.Figure, y: float, entries: Iterable[tuple[str, str, str]
                 )
         else:
             fig_rect(fig, swatch_x - 0.010, y - 0.004, 0.020, 0.008, colour, alpha, zorder=20)
-        fig.text(swatch_x + 0.017, y, label.upper(), color=TEXT_DIM,
+        fig.text(swatch_x + 0.017, y, _chrome(label, upper=True), color=TEXT_DIM,
                  fontsize=theme.label_size(fontsize), family=theme.LABEL_FONT, fontweight="bold",
                  ha="left", va="center", alpha=alpha, zorder=20)
 
 
 def number_text(value: float, *, decimals: int = 0, suffix: str = "") -> str:
-    if decimals <= 0:
-        return f"{int(round(value))}{suffix}"
-    return f"{value:.{decimals}f}{suffix}"
+    from . import i18n
+
+    return f"{i18n.format_number(value, decimals=decimals if decimals > 0 else 0)}{suffix}"
 
 
 # ---------------------------------------------------------------------------
@@ -1014,7 +1032,7 @@ def comparison_bar(
     home_share = 0.5 if total <= 0 else home_value / total
     width = right - left
 
-    fig.text(0.5, y + height + 0.019, str(label).upper(), color=TEXT_DIM,
+    fig.text(0.5, y + height + 0.019, _chrome(label, upper=True), color=TEXT_DIM,
              fontsize=theme.label_size(13), family=theme.LABEL_FONT, fontweight="bold",
              ha="center", va="center", alpha=min(1.0, progress * 2.5),
              zorder=zorder)
@@ -1241,7 +1259,7 @@ def funnel_stage(fig: plt.Figure, y: float, label: str, home_value: float, away_
     split = left + width * home_share
     fig_rect(fig, left, y, (split - left) * grown, height, home_color, 0.92, zorder=12)
     fig_rect(fig, split, y, (right - split) * grown, height, away_color, 0.92, zorder=12)
-    fig.text(0.5, y + height + 0.016, str(label).upper(), color=TEXT_DIM,
+    fig.text(0.5, y + height + 0.016, _chrome(label, upper=True), color=TEXT_DIM,
              fontsize=theme.label_size(12), family=theme.LABEL_FONT, fontweight="bold",
              ha="center", va="center", alpha=min(1.0, progress * 2.2), zorder=14)
     fig.text(left - 0.018, y + height / 2, number_text(home_value * grown),
