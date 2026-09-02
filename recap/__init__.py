@@ -11,6 +11,9 @@ Layers, from the bottom up:
     scenes    one renderer per visualization
     video     frame rendering and mp4 assembly
     voice     narration audio
+    platforms social export profiles (TikTok / Reels / Shorts / 16:9 / square)
+    export_pack ffmpeg pack from one portrait master
+    safe_zones  caption / hook placement for mute-first social chrome
 
 Nothing in a lower layer imports from a higher one.
 """
@@ -22,10 +25,13 @@ __all__ = [
     "data",
     "director",
     "draw",
+    "export_pack",
     "graphs",
     "hooks",
     "i18n",
     "logos",
+    "platforms",
+    "safe_zones",
     "scenes",
     "theme",
     "timing",
