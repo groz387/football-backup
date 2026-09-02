@@ -195,6 +195,8 @@ def assemble(
     burn_captions: bool = True,
     music_file: str | Path | None = None,
     srt_path: Path | None = None,
+    loudnorm: str = "tiktok",
+    skip_audio: bool = False,
 ) -> Path | None:
     """Encode the frame sequences into ``match_video.mp4``."""
     ffmpeg = _ffmpeg()
@@ -211,12 +213,15 @@ def assemble(
 
     duration = timing.total_seconds(scene_list)
     mixed = None
-    if sfx or music_file:
+    voice = Path(audio_path) if audio_path and Path(audio_path).exists() else None
+    # --skip-audio must produce a valid silent mp4. Never run loudnorm on it.
+    if not skip_audio and (sfx or music_file or voice):
         mixed = audio_mod.mix(
-            Path(out_dir), scene_list, audio_path,
+            Path(out_dir), scene_list, voice,
             sfx=sfx, music_file=music_file, ffmpeg=ffmpeg, duration=duration,
+            loudnorm=loudnorm, skip_audio=False,
         )
-    audio_input = mixed or (Path(audio_path) if audio_path and Path(audio_path).exists() else None)
+    audio_input = None if skip_audio else (mixed or voice)
     has_audio = bool(audio_input)
 
     if has_audio:
@@ -263,17 +268,21 @@ def assemble(
     result = subprocess.run(command, capture_output=True, text=True)
     if result.returncode != 0:
         print(f"  [video] ffmpeg failed: {result.stderr.strip()[:500]}")
+        retry = dict(
+            fps=fps, sfx=sfx, music_file=music_file, srt_path=srt_path,
+            loudnorm=loudnorm, skip_audio=skip_audio,
+        )
         if burn_captions:
             print("  [video] retrying without burned captions")
             return assemble(
-                out_dir, scene_list, audio_path, fps=fps, crossfade=crossfade,
-                sfx=sfx, burn_captions=False, music_file=music_file, srt_path=srt_path,
+                out_dir, scene_list, audio_path, crossfade=crossfade,
+                burn_captions=False, **retry,
             )
         if crossfade:
             print("  [video] retrying without cross-dissolves")
             return assemble(
-                out_dir, scene_list, audio_path, fps=fps, crossfade=False,
-                sfx=sfx, burn_captions=False, music_file=music_file, srt_path=srt_path,
+                out_dir, scene_list, audio_path, crossfade=False,
+                burn_captions=False, **retry,
             )
         return None
     return output if output.exists() else None
