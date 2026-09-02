@@ -68,6 +68,7 @@ def _audit_for(bundle: MatchBundle, health: dict | None = None) -> dict:
             "blocked_claims": ["xG"],
             "pass_rows": 400,
             "shot_rows": 30,
+            "has_goal_mouth_coordinates": False,
         },
         "facts": [],
         "bench_impact": {"subs": []},
@@ -119,7 +120,8 @@ class PolishCopyTests(unittest.TestCase):
         }
         copy = director._visual_copy(bundle, audit_doc, "halftime_split")
         self.assertNotIn("THEN", copy["title"].upper())
-        self.assertIn(str(20), copy["title"])
+        self.assertIn("24", copy["title"])
+        self.assertIn("23", copy["title"])
         bench = director._visual_copy(bundle, audit_doc, "bench_impact")
         self.assertNotRegex(bench["title"], r"CHANGES ON THE TAPE")
 
@@ -221,6 +223,7 @@ class CoordinateQualityTests(unittest.TestCase):
             "blocked_claims": ["xG"],
             "pass_rows": 400,
             "shot_rows": 30,
+            "has_goal_mouth_coordinates": False,
         })
         cands = {c["id"]: c for c in director.visualization_candidates(bundle, audit_doc)}
         self.assertFalse(cands["shot_map"]["available"])
@@ -241,6 +244,7 @@ class CoordinateQualityTests(unittest.TestCase):
             "blocked_claims": ["xG"],
             "pass_rows": 400,
             "shot_rows": 18,
+            "has_goal_mouth_coordinates": True,
         })
         audit_doc["team_stats"] = {
             bundle.home: _stats(shots=12, shots_on_target=4, pass_attempts=300),
