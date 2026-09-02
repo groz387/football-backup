@@ -180,6 +180,7 @@ def progress_reporter():
 
 def run(args: argparse.Namespace) -> Path:
     language = i18n.set_language(args.language)
+    spoiler = hooks.resolve_spoiler(getattr(args, "spoiler", None))
     team_kind = theme.set_team_kind(args.team)
     if args.colors:
         try:
@@ -194,6 +195,7 @@ def run(args: argparse.Namespace) -> Path:
     out_dir = Path(args.output_root) / safe_name(match_dir.name)
     out_dir.mkdir(parents=True, exist_ok=True)
     say(f"  language: {i18n.language_name(language)} ({language})")
+    say(f"  spoiler: {spoiler}")
     say(f"  typeface: {theme.DISPLAY_FONT} / {theme.LABEL_FONT}")
     say(f"  team mode: {team_kind} ({'circular crests + logos' if team_kind == 'club' else 'rectangular flags'})")
     if team_kind == "club":
@@ -206,6 +208,12 @@ def run(args: argparse.Namespace) -> Path:
     # -- 1. audit ----------------------------------------------------------
     stage("1. Data audit")
     audit = audit_mod.build_audit(bundle)
+    spoiler = hooks.resolve_spoiler(spoiler, audit.get("spoiler"))
+    audit["spoiler"] = spoiler
+    generation = audit.setdefault("generation", {})
+    if isinstance(generation, dict):
+        generation["spoiler"] = spoiler
+        generation["language"] = language
     write_json(out_dir / "data_audit.json", audit)
     for fact in audit["facts"]:
         say(f"  - {fact}")
@@ -237,7 +245,8 @@ def run(args: argparse.Namespace) -> Path:
     # -- 2. visualizations -------------------------------------------------
     stage("2. Visualization plan")
     selected, candidates = director.select_visualizations(
-        bundle, audit, args.visualizations, gemini, args.instruction
+        bundle, audit, args.visualizations, gemini, args.instruction,
+        target_seconds=args.target_seconds, language=language, spoiler=spoiler,
     )
     while True:
         for candidate in sorted(candidates, key=lambda c: c["score"], reverse=True):
@@ -256,6 +265,7 @@ def run(args: argparse.Namespace) -> Path:
         selected, candidates = director.select_visualizations(
             bundle, audit, args.visualizations, gemini,
             f"{args.instruction} Choose a different angle to the previous attempt.",
+            target_seconds=args.target_seconds, language=language, spoiler=spoiler,
         )
 
     # -- 3. script ---------------------------------------------------------
@@ -266,7 +276,7 @@ def run(args: argparse.Namespace) -> Path:
     while True:
         scene_list, already_localized = build_script(
             bundle, audit, selected, gemini, instruction, args.target_seconds, language,
-            clip_beats=clip_beats,
+            clip_beats=clip_beats, spoiler=spoiler,
         )
         viral_report = viral_audit.score_plan(
             scene_list, selected, bundle, audit, output_root=Path(args.output_root),
@@ -310,7 +320,9 @@ def run(args: argparse.Namespace) -> Path:
         # Always strip leftover English chrome. Gemini often rewrites the title
         # and leaves the English subtitle sitting under it.
         scene_list = i18n.scrub_english_leftovers(scene_list, language)
-        scene_list = director.lock_hook_cards(scene_list, bundle, audit)
+        scene_list = director.lock_hook_cards(
+            scene_list, bundle, audit, language=language, spoiler=spoiler,
+        )
         scene_list = i18n.scrub_english_leftovers(scene_list, language)
         say(script_preview(scene_list))
 
@@ -354,6 +366,7 @@ def run(args: argparse.Namespace) -> Path:
             "fps": args.fps,
             "transition_seconds": timing.TRANSITION,
             "target_seconds": args.target_seconds,
+            "spoiler": spoiler,
             "total_seconds": timing.total_seconds(scene_list),
             "sfx": bool(getattr(args, "sfx", True)),
             "burn_captions": bool(getattr(args, "burn_captions", True)),
@@ -418,16 +431,24 @@ def build_script(
     target_seconds: float,
     language: str = "en",
     clip_beats: list[dict[str, Any]] | None = None,
+    spoiler: str | None = None,
 ) -> tuple[list[dict[str, Any]], bool]:
     """Return (scenes, already_localized_by_gemini)."""
-    scene_list = director.build_storyboard(bundle, audit, selected, clip_beats=clip_beats)
+    spoiler = hooks.resolve_spoiler(
+        spoiler,
+        audit.get("spoiler"),
+        (audit.get("generation") or {}).get("spoiler") if isinstance(audit.get("generation"), dict) else None,
+    )
+    scene_list = director.build_storyboard(
+        bundle, audit, selected, clip_beats=clip_beats, language=language, spoiler=spoiler,
+    )
     already_localized = False
-    angle = director.pick_angle(bundle, audit)
+    angle = director.pick_angle(bundle, audit, language=language, spoiler=spoiler)
     if gemini is not None and gemini.enabled:
         editorial = gemini.choose_angle(bundle, audit, language)
         if editorial.get("angle"):
             angle = str(editorial["angle"])
-        hook = director.build_hook(bundle, audit)
+        hook = director.build_hook(bundle, audit, language=language, spoiler=spoiler)
         rewrite = gemini.rephrase_hook(hook, language)
         hook = hooks.apply_hook_rephrase(hook, rewrite)
         scene_list = director.apply_script(
@@ -459,14 +480,18 @@ def build_script(
         say("  [warn] copy check found unsupported claims; reverting those scenes to the audited script:")
         for problem in problems[:6]:
             say(f"    - {problem}")
-        safe = director.build_storyboard(bundle, audit, selected, clip_beats=clip_beats)
+        safe = director.build_storyboard(
+            bundle, audit, selected, clip_beats=clip_beats, language=language, spoiler=spoiler,
+        )
         by_id = {scene["id"]: scene for scene in safe}
         flagged = {problem.split(".")[0] for problem in problems}
         scene_list = [by_id.get(scene["id"], scene) if scene["id"] in flagged else scene
                       for scene in scene_list]
         if flagged:
             already_localized = False
-    scene_list = director.lock_hook_cards(scene_list, bundle, audit)
+    scene_list = director.lock_hook_cards(
+        scene_list, bundle, audit, language=language, spoiler=spoiler,
+    )
     return scene_list, already_localized
 
 
@@ -500,6 +525,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--language", default="en",
                         choices=list(i18n.SUPPORTED),
                         help="On-screen copy and narration language (en/az/es/ru)")
+    dests = {action.dest for action in parser._actions}
+    if "spoiler" not in dests:
+        parser.add_argument(
+            "--spoiler", default="show", choices=["show", "hide"],
+            help="hide = first beat cannot leak final score or scorer; payoff on the close card",
+        )
     parser.add_argument("--team", default="national",
                         choices=list(theme.TEAM_KINDS),
                         help="Badge style: national flags (rect) or club crests (circle + logos)")

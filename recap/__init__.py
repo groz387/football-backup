@@ -26,6 +26,7 @@ __all__ = [
     "hooks",
     "i18n",
     "logos",
+    "retention",
     "scenes",
     "theme",
     "timing",
