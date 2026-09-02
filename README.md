@@ -22,6 +22,20 @@ Quick visual-master render from an existing export:
 python video_pipeline.py --match-dir output/1953861_Scotland_vs_Morocco --auto
 ```
 
+`--auto` (and interactive mode) tries to fetch a **short public highlight of
+that fixture** via yt-dlp and caches it under `output/<match>/clips/` so reruns
+do not hit the network. Queries are built from the audit (teams, score,
+competition, date, scorer minutes). Titles are ranked so press conferences,
+full-match dumps, and the wrong fixture are skipped. A ~0.5s live-clip smash
+sits between the hook claim and punch when a file lands; if search or download
+fails the recap continues graphics-only.
+
+```bash
+python video_pipeline.py --match-dir output/1953861_Scotland_vs_Morocco --auto --no-fetch-clip
+python video_pipeline.py --match-dir output/1953861_Scotland_vs_Morocco --auto --clip path/to/highlight.mp4
+python video_pipeline.py --match-dir output/1953861_Scotland_vs_Morocco --auto --refetch-clip
+```
+
 By default this produces a silent, TikTok-style visual master and a short
 human voiceover recording script. Attach a recorded human narration file with:
 
