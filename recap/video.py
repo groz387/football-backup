@@ -158,8 +158,9 @@ def _ffmpeg() -> str | None:
 
 def _assembly_filter(scene_list: list[dict[str, Any]], fps: int) -> tuple[str, str]:
     """Hard-cuts on hook beats, xfade on the analysis package."""
+    tb = f"1/{fps}"
     parts = [
-        f"[{index}:v]settb=AVTB,fps={fps},format=yuv420p[v{index}]"
+        f"[{index}:v]fps={fps},settb={tb},setpts=N/{fps}/TB,format=yuv420p[v{index}]"
         for index in range(len(scene_list))
     ]
     if len(scene_list) == 1:
@@ -168,18 +169,20 @@ def _assembly_filter(scene_list: list[dict[str, Any]], fps: int) -> tuple[str, s
     current = "v0"
     elapsed = float(scene_list[0]["clip"])
     for index in range(1, len(scene_list)):
+        raw = f"r{index}"
         label = f"x{index}"
         incoming = scene_list[index]
         if incoming.get("cut") == "hard":
-            parts.append(f"[{current}][v{index}]concat=n=2:v=1:a=0[{label}]")
+            parts.append(f"[{current}][v{index}]concat=n=2:v=1:a=0[{raw}]")
             elapsed += float(incoming["clip"])
         else:
             offset = max(0.0, elapsed - timing.TRANSITION)
             parts.append(
                 f"[{current}][v{index}]xfade=transition=wiperight"
-                f":duration={timing.TRANSITION:.3f}:offset={offset:.3f}[{label}]"
+                f":duration={timing.TRANSITION:.3f}:offset={offset:.3f}[{raw}]"
             )
             elapsed += float(incoming["clip"]) - timing.TRANSITION
+        parts.append(f"[{raw}]fps={fps},settb={tb},setpts=N/{fps}/TB[{label}]")
         current = label
     return ";".join(parts), current
 
@@ -226,7 +229,7 @@ def assemble(
         graph, label = _assembly_filter(scene_list, fps)
     else:
         graph = ";".join(
-            f"[{index}:v]settb=AVTB,fps={fps},format=yuv420p[v{index}]"
+            f"[{index}:v]fps={fps},settb=1/{fps},setpts=N/{fps}/TB,format=yuv420p[v{index}]"
             for index in range(len(scene_list))
         )
         graph += ";" + "".join(f"[v{i}]" for i in range(len(scene_list)))
@@ -247,7 +250,13 @@ def assemble(
 
     command += ["-filter_complex", graph, "-map", mapped_video]
     if has_audio:
-        command += ["-map", f"{len(scene_list)}:a:0", "-c:a", "aac", "-b:a", "192k", "-shortest"]
+        # apad + shortest extends a short SFX bed to the picture instead of
+        # chopping the video when the mix was written to on-screen time.
+        command += [
+            "-map", f"{len(scene_list)}:a:0",
+            "-c:a", "aac", "-b:a", "192k",
+            "-af", "apad", "-shortest",
+        ]
     else:
         command += ["-an"]
     command += [
