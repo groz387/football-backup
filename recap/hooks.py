@@ -366,8 +366,12 @@ def _volume_edges(bundle: MatchBundle, context: dict[str, Any], audit: dict[str,
     return edges
 
 
-def build_hook(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, Any]:
-    """Contradiction open: claim card, punch card, fact pack, visual language."""
+def build_hook(bundle: MatchBundle, audit: dict[str, Any], *, variant: int = 0) -> dict[str, Any]:
+    """Contradiction open: claim card, punch card, fact pack, visual language.
+
+    ``variant`` 0 is the hashed default. 1 and 2 (and further salts) walk the
+    phrase pools so the A/B picker can score alternates without a new match.
+    """
     context = result_context(bundle, audit)
     stats = audit["team_stats"]
     home_stats = stats.get(bundle.home, {})
@@ -375,6 +379,9 @@ def build_hook(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, Any]:
     qualified = qualifying_kinds(bundle, audit)
     kind = qualified[0]
     seed = match_seed(bundle)
+    variant = int(variant or 0)
+    if variant:
+        seed = f"{seed}:ab{variant}"
     winner = context["winner"]
     loser = context["loser"]
     matchup = f"{bundle.home} — {bundle.away}"
@@ -397,12 +404,6 @@ def build_hook(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, Any]:
         clean_lines = [line for line in lines if line][:3]
         if not clean_lines:
             clean_lines = [matchup]
-        variants = []
-        for extra in range(3):
-            variants.append({
-                "lines": clean_lines,
-                "punch": punch,
-            })
         return {
             "kind": kind,
             "qualified": qualified,
@@ -420,7 +421,7 @@ def build_hook(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, Any]:
             "team": team,
             "numbers": collect_numbers(*numbers, hero_number),
             "never_say": never_say,
-            "variants": variants,
+            "variant": variant,
             "seed": seed,
         }
 

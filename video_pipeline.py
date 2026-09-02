@@ -34,7 +34,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
-from recap import clips, director, hooks, i18n, logos, theme, timing, video, voice, viral_audit
+from recap import ab_hooks, clips, director, hooks, i18n, logos, theme, timing, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -220,6 +220,12 @@ def run(args: argparse.Namespace) -> Path:
             sources = [fetched]
     clip_beats = clips.plan_beats(bundle, audit, sources)
     say(f"  opening clips: {clips.describe_beats(clip_beats)}")
+    clip_report = {
+        "mode": "local" if clip_beats else "skipped",
+        "skipped": not bool(clip_beats),
+        "reason": "" if clip_beats else ("no-fetch" if not args.fetch_clip else "no-clip"),
+        "path": str(sources[0]) if sources else None,
+    }
 
     gemini = None
     if not args.no_gemini:
@@ -263,15 +269,43 @@ def run(args: argparse.Namespace) -> Path:
     instruction = args.instruction
     already_localized = False
     viral_report: dict[str, Any] = {}
+    ab_report: dict[str, Any] = {"enabled": False}
+    score_kwargs = dict(
+        output_root=Path(args.output_root),
+        language=language,
+        spoiler=str(getattr(args, "spoiler", "show") or "show"),
+        clip_report=clip_report,
+        series_id=str(getattr(args, "ab_series_id", "") or "") or None,
+    )
     while True:
         scene_list, already_localized = build_script(
             bundle, audit, selected, gemini, instruction, args.target_seconds, language,
             clip_beats=clip_beats,
         )
-        viral_report = viral_audit.score_plan(
-            scene_list, selected, bundle, audit, output_root=Path(args.output_root),
+        if getattr(args, "ab_hooks", True):
+            scene_list, ab_report = ab_hooks.pick_winner(
+                scene_list, selected, bundle, audit,
+                count=int(getattr(args, "ab_hook_variants", 3) or 3),
+                **score_kwargs,
+            )
+            viral_report = dict(ab_report.get("report") or {})
+            viral_report["ab"] = ab_report
+            say(
+                f"  ab-hooks: variant {ab_report.get('picked_variant')} "
+                f"({ab_report.get('picked_source')}) wins; "
+                f"{len(ab_report.get('losers') or [])} losers remembered"
+            )
+        else:
+            ab_report = {"enabled": False}
+            viral_report = viral_audit.score_plan(
+                scene_list, selected, bundle, audit, **score_kwargs,
+            )
+        say(
+            f"  viral score: {viral_report.get('score')}  "
+            f"tiktok {viral_report.get('tiktok_score')}  "
+            f"shorts {viral_report.get('shorts_score')}  "
+            f"youtube {viral_report.get('youtube_score')}"
         )
-        say(f"  viral score: {viral_report['score']}")
         for note in viral_report.get("warnings") or []:
             say(f"  [viral] {note}")
         say(script_preview(scene_list))
@@ -285,11 +319,19 @@ def run(args: argparse.Namespace) -> Path:
         else:
             instruction = viral_audit.redo_instruction(instruction, viral_report)
 
-    viral_audit.remember_punch(
+    winner = (ab_report or {}).get("winner") or {
+        "punch": viral_report.get("punch"),
+        "claim": viral_report.get("claim"),
+        "kind": viral_report.get("hook_kind"),
+        "score": viral_report.get("score"),
+    }
+    viral_audit.remember_round(
         Path(args.output_root),
-        str(viral_report.get("punch") or ""),
-        match_dir.name,
-        str(viral_report.get("hook_kind") or ""),
+        winner=winner,
+        losers=list((ab_report or {}).get("losers") or []),
+        match_id=match_dir.name,
+        teams=[bundle.home, bundle.away],
+        series_id=str(getattr(args, "ab_series_id", "") or ""),
     )
 
     if language != "en":
@@ -310,7 +352,8 @@ def run(args: argparse.Namespace) -> Path:
         # Always strip leftover English chrome. Gemini often rewrites the title
         # and leaves the English subtitle sitting under it.
         scene_list = i18n.scrub_english_leftovers(scene_list, language)
-        scene_list = director.lock_hook_cards(scene_list, bundle, audit)
+        winner_hook = (ab_report or {}).get("winner_hook")
+        scene_list = director.lock_hook_cards(scene_list, bundle, audit, hook=winner_hook)
         scene_list = i18n.scrub_english_leftovers(scene_list, language)
         say(script_preview(scene_list))
 
@@ -538,11 +581,33 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--no-crossfade", action="store_true", help="Hard cuts instead of dissolves")
     parser.add_argument("--skip-video", action="store_true", help="Render frames but do not encode")
 
+    viral = parser.add_argument_group("Viral audit / hook A/B")
+    viral.add_argument(
+        "--ab-hooks", dest="ab_hooks", action="store_true", default=True,
+        help="Score three hook variants and ship the winner (default on)",
+    )
+    viral.add_argument(
+        "--no-ab-hooks", dest="ab_hooks", action="store_false",
+        help="Skip hook A/B and use the hashed default open",
+    )
+    viral.add_argument(
+        "--ab-hook-variants", dest="ab_hook_variants", type=int, default=3, metavar="N",
+        help="How many hook variants to score (hash + alternates)",
+    )
+    viral.add_argument(
+        "--ab-series-id", dest="ab_series_id", default="", metavar="ID",
+        help="Team-series key for hook memory, e.g. villa-26-27. Unique from --series-id.",
+    )
+
     args = parser.parse_args(argv)
     if not args.auto and not args.interactive:
         args.interactive = True
     if args.require_gemini and args.no_gemini:
         parser.error("--require-gemini and --no-gemini cannot be combined")
+    if args.ab_hook_variants < 2:
+        parser.error("--ab-hook-variants must be >= 2")
+    if args.ab_hook_variants > 8:
+        parser.error("--ab-hook-variants must be <= 8")
     return args
 
 
