@@ -186,9 +186,62 @@ def build_team_stats(bundle: MatchBundle) -> dict[str, dict[str, Any]]:
             "blocks": int((side & outfield_blocks(events)).sum()),
             "tackles_won": int((side & flag(events, "tackleWon")).sum()),
             "interceptions": int((side & flag(events, "interceptionWon")).sum()),
+            "dribbles_won": int((side & text_col(events, "type").eq("TakeOn") & successful).sum()),
+            "dispossessed": int((side & text_col(events, "type").eq("Dispossessed")).sum()),
             "yellow_cards": int((side & text_col(events, "cardType").isin(["Yellow", "SecondYellow"])).sum()),
             "red_cards": int((side & text_col(events, "cardType").eq("Red")).sum()),
         }
+        xg_col = next((col for col in events.columns if col.lower() in {"xg", "expectedgoals", "expected_goals"}), "")
+        if xg_col:
+            stats[bundle.team(h_a)]["xg"] = round(float(num(events, xg_col)[team_shots].fillna(0).sum()), 2)
+        xgot_col = next((col for col in events.columns if col.lower() in {"xgot", "expectedgoalsontarget", "expected_goals_on_target"}), "")
+        if xgot_col:
+            stats[bundle.team(h_a)]["xgot"] = round(float(num(events, xgot_col)[team_shots].fillna(0).sum()), 2)
+    return _merge_official_stats(bundle, stats)
+
+
+def _merge_official_stats(
+    bundle: MatchBundle, stats: dict[str, dict[str, Any]]
+) -> dict[str, dict[str, Any]]:
+    """Overlay Opta team aggregates when the event file has no full pass map.
+
+    Shot/goal counts stay event-derived so they match the plotted shot map.
+    Pass, touch, corner, foul, save, and duel totals may come from an official
+    provider stored on ``match_summary.json`` as ``official_stats``.
+    """
+    official = bundle.summary.get("official_stats") or {}
+    if not isinstance(official, dict) or not official:
+        return stats
+    mapping = {"h": official.get("home") or {}, "a": official.get("away") or {}}
+    overlay_keys = (
+        "pass_attempts",
+        "passes_completed",
+        "pass_accuracy_pct",
+        "pass_share_pct",
+        "touches",
+        "touch_share_pct",
+        "final_third_passes",
+        "corners",
+        "fouls",
+        "saves",
+        "tackles_won",
+        "interceptions",
+        "dribbles_won",
+        "dispossessed",
+        "big_chances",
+        "big_chances_missed",
+        "big_chances_created",
+    )
+    for h_a, payload in mapping.items():
+        if not payload:
+            continue
+        name = bundle.team(h_a)
+        if name not in stats:
+            continue
+        for key in overlay_keys:
+            if payload.get(key) is None:
+                continue
+            stats[name][key] = payload[key]
     return stats
 
 
@@ -509,9 +562,26 @@ def build_shots(bundle: MatchBundle) -> list[dict[str, Any]]:
                 "situation": clean_text(row.get("situation"), "OpenPlay"),
                 "goal_mouth_y": round(float(goal_y), 2) if pd.notna(goal_y) else None,
                 "goal_mouth_z": round(float(goal_z), 2) if pd.notna(goal_z) else None,
+                "xg": _shot_xg(row, "xg"),
+                "xgot": _shot_xg(row, "xgot"),
             }
         )
     return records
+
+
+def _shot_xg(row: pd.Series, kind: str) -> float | None:
+    aliases = {
+        "xg": ("xg", "expectedGoals", "expected_goals", "xG"),
+        "xgot": ("xgot", "expectedGoalsOnTarget", "expected_goals_on_target", "xGOT"),
+    }
+    for name in aliases.get(kind, ()):
+        value = row.get(name)
+        if value is not None and pd.notna(value):
+            try:
+                return round(float(value), 3)
+            except (TypeError, ValueError):
+                continue
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -767,6 +837,123 @@ def build_pass_network(bundle: MatchBundle, h_a: str, max_edges: int = 16) -> di
 # data health and assembly
 # ---------------------------------------------------------------------------
 
+def build_player_leaders(bundle: MatchBundle) -> dict[str, Any]:
+    """Top named actors for the player-spike card."""
+    events = bundle.events
+    if events.empty or "playerName" not in events.columns:
+        return {}
+    names = text_col(events, "playerName")
+    side = text_col(events, "h_a")
+    types = text_col(events, "type")
+    successful = text_col(events, "outcomeType").eq("Successful")
+    shots = flag(events, "isShot")
+    tackles = flag(events, "tackleWon")
+    take_ons = types.eq("TakeOn") & successful
+
+    def top_for(mask: pd.Series, action: str) -> dict[str, Any] | None:
+        subset = names[mask & names.ne("")]
+        if subset.empty:
+            return None
+        counts = subset.value_counts()
+        player = str(counts.index[0])
+        count = int(counts.iloc[0])
+        if count < 2:
+            return None
+        h_a = str(side[names.eq(player)].mode().iat[0]) if (names.eq(player)).any() else "h"
+        coords = events.loc[mask & names.eq(player), ["x", "y"]].dropna()
+        points = [
+            {"x": round(float(row.x), 2), "y": round(float(row.y), 2)}
+            for row in coords.itertuples(index=False)
+        ]
+        return {
+            "player": player,
+            "surname": player.split()[-1] if player else "",
+            "team": bundle.team(h_a),
+            "h_a": h_a,
+            "action": action,
+            "count": count,
+            "points": points[:40],
+        }
+
+    candidates = [
+        top_for(shots, "shots"),
+        top_for(tackles, "tackles"),
+        top_for(take_ons, "dribbles"),
+    ]
+    ranked = sorted((item for item in candidates if item), key=lambda item: item["count"], reverse=True)
+    spike = ranked[0] if ranked else None
+    return {"spike": spike, "shots": candidates[0], "tackles": candidates[1], "dribbles": candidates[2]}
+
+
+def build_time_zones(bundle: MatchBundle) -> list[dict[str, Any]]:
+    """Territory in three 30-minute slices of the continuous clock."""
+    events = bundle.events
+    if events.empty:
+        return []
+    positions = clock(events)
+    playing = text_col(events, "period").isin(PLAYING_PERIODS)
+    touches = flag(events, "isTouch")
+    x = num(events, "x")
+    y = num(events, "y")
+    side = text_col(events, "h_a")
+    windows = ((0, 30, "0-30"), (30, 60, "30-60"), (60, 200, "60-90"))
+    x_bins, y_bins = 6, 3
+    slices: list[dict[str, Any]] = []
+    for start, stop, label in windows:
+        mask = playing & touches & x.notna() & y.notna() & positions.ge(start) & positions.lt(stop)
+        if not mask.any():
+            slices.append({"label": label, "start": start, "end": stop, "zones": [], "home_touches": 0, "away_touches": 0})
+            continue
+        x_bin = np.clip((x[mask] / (100 / x_bins)).astype(int), 0, x_bins - 1)
+        y_bin = np.clip((y[mask] / (100 / y_bins)).astype(int), 0, y_bins - 1)
+        frame = pd.DataFrame({"xbin": x_bin, "ybin": y_bin, "side": side[mask]})
+        grouped = frame.groupby(["xbin", "ybin", "side"]).size().unstack(fill_value=0)
+        zones = []
+        home_total = away_total = 0
+        for xi in range(x_bins):
+            for yi in range(y_bins):
+                home_n = int(grouped.get("h", pd.Series(dtype=int)).get((xi, yi), 0))
+                away_n = int(grouped.get("a", pd.Series(dtype=int)).get((xi, yi), 0))
+                total = home_n + away_n
+                home_total += home_n
+                away_total += away_n
+                zones.append({
+                    "xbin": xi, "ybin": yi,
+                    "home_touches": home_n, "away_touches": away_n,
+                    "total_touches": total,
+                    "home_share_pct": _pct(home_n, total) if total else 50.0,
+                })
+        slices.append({
+            "label": label, "start": start, "end": stop,
+            "zones": zones, "home_touches": home_total, "away_touches": away_total,
+        })
+    return slices
+
+
+def build_touch_heatmap(bundle: MatchBundle, x_bins: int = 24, y_bins: int = 16) -> dict[str, Any]:
+    """Dense touch grid for a true pitch heatmap."""
+    touches = bundle.touches if not bundle.touches.empty else bundle.events[flag(bundle.events, "isTouch")]
+    if touches.empty:
+        return {"x_bins": x_bins, "y_bins": y_bins, "home": [], "away": []}
+    x = num(touches, "x")
+    y = num(touches, "y")
+    valid = x.notna() & y.notna()
+    side = text_col(touches, "h_a")
+    grids: dict[str, list[list[float]]] = {}
+    for token, key in (("h", "home"), ("a", "away")):
+        mask = valid & side.eq(token)
+        if not mask.any():
+            grids[key] = [[0.0] * y_bins for _ in range(x_bins)]
+            continue
+        x_bin = np.clip((x[mask] / (100 / x_bins)).astype(int), 0, x_bins - 1)
+        y_bin = np.clip((y[mask] / (100 / y_bins)).astype(int), 0, y_bins - 1)
+        grid = np.zeros((x_bins, y_bins), dtype=float)
+        for xi, yi in zip(x_bin.tolist(), y_bin.tolist()):
+            grid[int(xi), int(yi)] += 1.0
+        grids[key] = grid.tolist()
+    return {"x_bins": x_bins, "y_bins": y_bins, "home": grids["home"], "away": grids["away"]}
+
+
 def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
     events = bundle.events
     columns = {col.lower() for col in events.columns}
@@ -813,6 +1000,9 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
         "zone_control": build_zone_control(bundle),
         "shots": build_shots(bundle),
         "goal_chains": build_goal_chains(bundle),
+        "player_leaders": build_player_leaders(bundle),
+        "time_zones": build_time_zones(bundle),
+        "touch_heatmap": build_touch_heatmap(bundle),
         "definitions": {
             "pass_share_pct": "Share of all pass attempts in the export. A proxy for territory of the ball, not broadcast possession.",
             "shots_on_target": "WhoScored shotOnTarget flag. Shots blocked by an outfield player are counted separately and are not on target.",

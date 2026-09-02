@@ -1,0 +1,1211 @@
+{
+  "source": "laliga_official",
+  "pageProps": {
+    "match": {
+      "id": 102272,
+      "name": "Temporada 2026/2027 - LALIGA EA SPORTS - FC Barcelona - Rayo Vallecano - 3",
+      "slug": "temporada-2026-2027-laliga-ea-sports-fc-barcelona-rayo-vallecano-3",
+      "date": "2026-08-31T19:30:00+00:00",
+      "time": "2026-08-31T19:30:00+00:00",
+      "match_time": 95,
+      "hashtag": "BarçaRayo",
+      "competition": {
+        "id": 1,
+        "name": "LALIGA EA SPORTS",
+        "slug": "primera-division",
+        "opta_id": "23"
+      },
+      "home_score": 5,
+      "away_score": 2,
+      "status": "FullTime",
+      "attempt": 57768,
+      "attempt_official": false,
+      "home_team": {
+        "id": 4,
+        "slug": "fc-barcelona",
+        "name": "Fútbol Club Barcelona",
+        "nickname": "FC Barcelona",
+        "boundname": "FC Barcelona",
+        "shortname": "BAR",
+        "color": "#0f39b8",
+        "color_secondary": "#bc161c",
+        "sprite_status": "created",
+        "shield": {
+          "id": 127,
+          "url": "https://assets.laliga.com/assets/2019/06/07/medium/barcelona.png"
+        },
+        "competitions": [],
+        "opta_id": "t178"
+      },
+      "away_team": {
+        "id": 14,
+        "slug": "rayo-vallecano",
+        "name": "Rayo Vallecano de Madrid SAD",
+        "nickname": "Rayo Vallecano",
+        "boundname": "Rayo Vallecano",
+        "shortname": "RAY",
+        "color": "#f21e27",
+        "color_secondary": "#ffffff",
+        "sprite_status": "created",
+        "shield": {
+          "id": 691708,
+          "url": "https://assets.laliga.com/assets/2023/04/27/medium/57d9950a8745ead226c04d37235c0786.png"
+        },
+        "competitions": [],
+        "opta_id": "t184"
+      },
+      "home_formation": "4231",
+      "away_formation": "4231",
+      "gameweek": {
+        "week": 3,
+        "name": "Matchday 3",
+        "shortname": "M3"
+      },
+      "venue": {
+        "name": "Spotify Camp Nou"
+      },
+      "persons_role": [
+        {
+          "person": {
+            "name": "Francisco José Hernández Maeso",
+            "nickname": "Francisco José Hernández Maeso",
+            "firstname": "Francisco José",
+            "lastname": "Hernández Maeso"
+          },
+          "role": {
+            "id": 5
+          }
+        },
+        {
+          "person": {
+            "name": "Álvaro Cánovas García Villarrubia",
+            "nickname": "Álvaro Cánovas García Villarrubia",
+            "firstname": "Álvaro",
+            "lastname": "Cánovas García Villarrubia"
+          },
+          "role": {
+            "id": 8
+          }
+        },
+        {
+          "person": {
+            "name": "Raúl Martín González Francés",
+            "nickname": "Raúl Martín González Francés",
+            "firstname": "Raúl Martín",
+            "lastname": "González Francés"
+          },
+          "role": {
+            "id": 9
+          }
+        },
+        {
+          "person": {
+            "name": "Alejandro Muñiz Ruiz",
+            "nickname": "Alejandro Muñiz Ruiz",
+            "firstname": "Alejandro",
+            "lastname": "Muñiz Ruiz"
+          },
+          "role": {
+            "id": 10
+          }
+        },
+        {
+          "person": {
+            "name": "Iván Massó Granado",
+            "nickname": "Iván Massó Granado",
+            "firstname": "Iván",
+            "lastname": "Massó Granado"
+          },
+          "role": {
+            "id": 6
+          }
+        },
+        {
+          "person": {
+            "name": "Abraham Pérez Dapía",
+            "nickname": "Pérez Dapía",
+            "firstname": "Abraham",
+            "lastname": "Pérez Dapía"
+          },
+          "role": {
+            "id": 7
+          }
+        }
+      ],
+      "season": {
+        "id": 102,
+        "name": "Season 2026/2027",
+        "opta_id": "2026"
+      },
+      "subscription": {
+        "id": 395,
+        "slug": "laliga-easports-2026",
+        "teams": [],
+        "rounds": []
+      },
+      "is_brand_day": false,
+      "period_started": {
+        "FirstHalf": {
+          "stop": "2026-08-31T20:21:42+00:00",
+          "start": "2026-08-31T19:32:41+00:00"
+        },
+        "SecondHalf": {
+          "stop": "2026-08-31T21:29:56+00:00",
+          "start": "2026-08-31T20:40:00+00:00"
+        }
+      },
+      "opta_id": "g2650785"
+    },
+    "events": [
+      {
+        "id": 470308,
+        "match_event_kind": {
+          "id": 1,
+          "name": "Goal",
+          "collection": "goal"
+        },
+        "lineup": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Sergio Camello",
+            "nickname": "Camello",
+            "firstname": "Sergio",
+            "lastname": "Camello"
+          }
+        },
+        "assist": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Álvaro García",
+            "nickname": "Álvaro",
+            "firstname": "Álvaro",
+            "lastname": "García"
+          }
+        },
+        "time": 12,
+        "minute": 11,
+        "second": 42,
+        "clock": "12",
+        "period": "FirstHalf",
+        "date_source": "2026-08-31T20:44:25+00:00"
+      },
+      {
+        "id": 470309,
+        "match_event_kind": {
+          "id": 1,
+          "name": "Goal",
+          "collection": "goal"
+        },
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Raphael Dias Belloli",
+            "nickname": "Raphinha",
+            "firstname": "Raphael",
+            "lastname": "Dias Belloli"
+          }
+        },
+        "assist": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Xavi Espart",
+            "nickname": "Xavi Espart",
+            "firstname": "Xavi",
+            "lastname": "Espart"
+          }
+        },
+        "time": 19,
+        "minute": 18,
+        "second": 39,
+        "clock": "19",
+        "period": "FirstHalf",
+        "date_source": "2026-08-31T20:51:20+00:00"
+      },
+      {
+        "id": 470310,
+        "match_event_kind": {
+          "id": 1,
+          "name": "Goal",
+          "collection": "goal"
+        },
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Lamine Yamal Nasraoui Ebana",
+            "nickname": "Lamine Yamal",
+            "firstname": "Lamine Yamal",
+            "lastname": "Nasraoui Ebana"
+          }
+        },
+        "assist": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Marc Bernal",
+            "nickname": "Bernal",
+            "firstname": "Marc",
+            "lastname": "Bernal"
+          }
+        },
+        "time": 21,
+        "minute": 20,
+        "second": 19,
+        "clock": "21",
+        "period": "FirstHalf",
+        "date_source": "2026-08-31T20:53:01+00:00"
+      },
+      {
+        "id": 470317,
+        "match_event_kind": {
+          "id": 13,
+          "name": "Injury",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Adrià Pedrosa",
+            "nickname": "Pedrosa",
+            "firstname": "Adrià",
+            "lastname": "Pedrosa"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Jozhua Vertrouwd",
+            "nickname": "Jozhua V.",
+            "firstname": "Jozhua",
+            "lastname": "Vertrouwd"
+          }
+        },
+        "time": 33,
+        "minute": 32,
+        "second": 5,
+        "clock": "33",
+        "period": "FirstHalf",
+        "date_source": "2026-08-31T21:04:46+00:00"
+      },
+      {
+        "id": 470326,
+        "match_event_kind": {
+          "id": 15,
+          "name": "Goal awarded",
+          "collection": "var"
+        },
+        "decision": "cancelled",
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Jules Koundé",
+            "nickname": "Kounde",
+            "firstname": "Jules",
+            "lastname": "Koundé"
+          }
+        },
+        "time": 46,
+        "minute": 46,
+        "second": 5,
+        "clock": "45+1",
+        "period": "FirstHalf",
+        "date_source": "2026-08-31T21:19:09+00:00"
+      },
+      {
+        "id": 470349,
+        "match_event_kind": {
+          "id": 3,
+          "name": "Own",
+          "collection": "goal"
+        },
+        "lineup": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Florian Lejeune",
+            "nickname": "Lejeune",
+            "firstname": "Florian",
+            "lastname": "Lejeune"
+          }
+        },
+        "time": 51,
+        "minute": 50,
+        "second": 50,
+        "clock": "51",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T21:45:51+00:00"
+      },
+      {
+        "id": 470355,
+        "match_event_kind": {
+          "id": 14,
+          "name": "Tactical",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Pedro Díaz",
+            "nickname": "Pedro Díaz",
+            "firstname": "Pedro",
+            "lastname": "Díaz"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Gnangoro Bouare Samake",
+            "nickname": "G. Bouaré",
+            "firstname": "Gnangoro",
+            "lastname": "Bouare Samake"
+          }
+        },
+        "time": 57,
+        "minute": 56,
+        "second": 59,
+        "clock": "57",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T21:52:00+00:00"
+      },
+      {
+        "id": 470359,
+        "match_event_kind": {
+          "id": 14,
+          "name": "Tactical",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Fran Pérez",
+            "nickname": "Fran Pérez",
+            "firstname": "Fran",
+            "lastname": "Pérez"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Jorge de Frutos",
+            "nickname": "De Frutos",
+            "firstname": "Jorge",
+            "lastname": "de Frutos"
+          }
+        },
+        "time": 58,
+        "minute": 57,
+        "second": 2,
+        "clock": "58",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T21:52:03+00:00"
+      },
+      {
+        "id": 470364,
+        "match_event_kind": {
+          "id": 1,
+          "name": "Goal",
+          "collection": "goal"
+        },
+        "lineup": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Sergio Camello",
+            "nickname": "Camello",
+            "firstname": "Sergio",
+            "lastname": "Camello"
+          }
+        },
+        "assist": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Unai López",
+            "nickname": "Unai Lopez",
+            "firstname": "Unai",
+            "lastname": "López"
+          }
+        },
+        "time": 59,
+        "minute": 58,
+        "second": 26,
+        "clock": "59",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T21:53:28+00:00"
+      },
+      {
+        "id": 470368,
+        "match_event_kind": {
+          "id": 14,
+          "name": "Tactical",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Fermín López",
+            "nickname": "Fermin",
+            "firstname": "Fermín",
+            "lastname": "López"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Dani Olmo",
+            "nickname": "Olmo",
+            "firstname": "Dani",
+            "lastname": "Olmo"
+          }
+        },
+        "time": 64,
+        "minute": 63,
+        "second": 12,
+        "clock": "64",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T21:58:12+00:00"
+      },
+      {
+        "id": 470369,
+        "match_event_kind": {
+          "id": 14,
+          "name": "Tactical",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Rodrigo Hernández Cascante",
+            "nickname": "Rodrigo",
+            "firstname": "Rodrigo",
+            "lastname": "Hernández Cascante"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Marc Bernal",
+            "nickname": "Bernal",
+            "firstname": "Marc",
+            "lastname": "Bernal"
+          }
+        },
+        "time": 64,
+        "minute": 63,
+        "second": 17,
+        "clock": "64",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T21:58:18+00:00"
+      },
+      {
+        "id": 470371,
+        "match_event_kind": {
+          "id": 1,
+          "name": "Goal",
+          "collection": "goal"
+        },
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Raphael Dias Belloli",
+            "nickname": "Raphinha",
+            "firstname": "Raphael",
+            "lastname": "Dias Belloli"
+          }
+        },
+        "assist": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Anthony Gordon",
+            "nickname": "Anthony Gordon",
+            "firstname": "Anthony",
+            "lastname": "Gordon"
+          }
+        },
+        "time": 71,
+        "minute": 70,
+        "second": 33,
+        "clock": "71",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T22:05:35+00:00"
+      },
+      {
+        "id": 470376,
+        "match_event_kind": {
+          "id": 14,
+          "name": "Tactical",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Alexandre Zurawski",
+            "nickname": "Alemâo",
+            "firstname": "Alexandre",
+            "lastname": "Zurawski"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Sergio Camello",
+            "nickname": "Camello",
+            "firstname": "Sergio",
+            "lastname": "Camello"
+          }
+        },
+        "time": 75,
+        "minute": 74,
+        "second": 12,
+        "clock": "75",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T22:09:13+00:00"
+      },
+      {
+        "id": 470377,
+        "match_event_kind": {
+          "id": 14,
+          "name": "Tactical",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Randy Nteka",
+            "nickname": "Nteka",
+            "firstname": "Randy",
+            "lastname": "Nteka"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Unai López",
+            "nickname": "Unai Lopez",
+            "firstname": "Unai",
+            "lastname": "López"
+          }
+        },
+        "time": 75,
+        "minute": 74,
+        "second": 19,
+        "clock": "75",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T22:09:20+00:00"
+      },
+      {
+        "id": 470379,
+        "match_event_kind": {
+          "id": 14,
+          "name": "Tactical",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Karim Adeyemi",
+            "nickname": "Adeyemi",
+            "firstname": "Karim",
+            "lastname": "Adeyemi"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Anthony Gordon",
+            "nickname": "Anthony Gordon",
+            "firstname": "Anthony",
+            "lastname": "Gordon"
+          }
+        },
+        "time": 77,
+        "minute": 76,
+        "second": 50,
+        "clock": "77",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T22:11:50+00:00"
+      },
+      {
+        "id": 470378,
+        "match_event_kind": {
+          "id": 14,
+          "name": "Tactical",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "João Pedro Cavaco Cancelo",
+            "nickname": "Joao Cancelo",
+            "firstname": "João Pedro",
+            "lastname": "Cavaco Cancelo"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Pedro González López",
+            "nickname": "Pedri",
+            "firstname": "Pedro",
+            "lastname": "González López"
+          }
+        },
+        "time": 78,
+        "minute": 77,
+        "second": 1,
+        "clock": "78",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T22:12:01+00:00"
+      },
+      {
+        "id": 470382,
+        "match_event_kind": {
+          "id": 14,
+          "name": "Tactical",
+          "collection": "substitution"
+        },
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Hamza Mohamed Abdelkarim Elsayed Selim",
+            "nickname": "Hamza Abdelkarim",
+            "firstname": "Hamza Mohamed Abdelkarim Elsayed",
+            "lastname": "Selim"
+          }
+        },
+        "lineup_off": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Raphael Dias Belloli",
+            "nickname": "Raphinha",
+            "firstname": "Raphael",
+            "lastname": "Dias Belloli"
+          }
+        },
+        "time": 86,
+        "minute": 85,
+        "second": 3,
+        "clock": "86",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T22:20:04+00:00"
+      },
+      {
+        "id": 470383,
+        "match_event_kind": {
+          "id": 10,
+          "name": "Yellow",
+          "collection": "booking"
+        },
+        "lineup": {
+          "team": {
+            "id": 14,
+            "competitions": []
+          },
+          "person": {
+            "name": "Adrià Pedrosa",
+            "nickname": "Pedrosa",
+            "firstname": "Adrià",
+            "lastname": "Pedrosa"
+          }
+        },
+        "time": 90,
+        "minute": 89,
+        "second": 7,
+        "clock": "90",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T22:24:08+00:00"
+      },
+      {
+        "id": 470384,
+        "match_event_kind": {
+          "id": 1,
+          "name": "Goal",
+          "collection": "goal"
+        },
+        "lineup": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Lamine Yamal Nasraoui Ebana",
+            "nickname": "Lamine Yamal",
+            "firstname": "Lamine Yamal",
+            "lastname": "Nasraoui Ebana"
+          }
+        },
+        "assist": {
+          "team": {
+            "id": 4,
+            "competitions": []
+          },
+          "person": {
+            "name": "Karim Adeyemi",
+            "nickname": "Adeyemi",
+            "firstname": "Karim",
+            "lastname": "Adeyemi"
+          }
+        },
+        "time": 90,
+        "minute": 89,
+        "second": 49,
+        "clock": "90",
+        "period": "SecondHalf",
+        "date_source": "2026-08-31T22:24:52+00:00"
+      }
+    ],
+    "stats": {
+      "home": {
+        "accurate_back_zone_pass": 277,
+        "accurate_chipped_pass": 19,
+        "accurate_corners_intobox": 1,
+        "accurate_cross": 4,
+        "accurate_cross_nocorner": 3,
+        "accurate_flick_on": 1,
+        "accurate_fwd_zone_pass": 312,
+        "accurate_goal_kicks": 4,
+        "accurate_keeper_throws": 9,
+        "accurate_launches": 1,
+        "accurate_layoffs": 16,
+        "accurate_long_balls": 14,
+        "accurate_pass": 585,
+        "accurate_pull_back": 4,
+        "accurate_through_ball": 1,
+        "accurate_throws": 16,
+        "aerial_lost": 9,
+        "aerial_won": 9,
+        "att_assist_openplay": 16,
+        "att_assist_setplay": 2,
+        "att_bx_centre": 8,
+        "att_bx_left": 2,
+        "att_bx_right": 4,
+        "att_cmiss_high_right": 1,
+        "att_cmiss_left": 2,
+        "att_cmiss_right": 1,
+        "att_corner": 3,
+        "att_fastbreak": 2,
+        "att_freekick_total": 1,
+        "att_goal_high_right": 1,
+        "att_goal_low_left": 1,
+        "att_goal_low_right": 2,
+        "att_hd_miss": 3,
+        "att_hd_total": 3,
+        "att_ibox_blocked": 4,
+        "att_ibox_goal": 3,
+        "att_ibox_miss": 6,
+        "att_ibox_target": 4,
+        "att_lf_goal": 4,
+        "att_lf_target": 2,
+        "att_lf_total": 13,
+        "att_miss_high": 2,
+        "att_miss_high_left": 1,
+        "att_miss_high_right": 1,
+        "att_miss_left": 4,
+        "att_miss_right": 2,
+        "att_obox_blocked": 3,
+        "att_obox_goal": 1,
+        "att_obox_miss": 4,
+        "att_obox_target": 1,
+        "att_obx_centre": 9,
+        "att_openplay": 21,
+        "att_rf_target": 3,
+        "att_rf_total": 10,
+        "att_setpiece": 1,
+        "att_sv_high_centre": 1,
+        "att_sv_low_centre": 3,
+        "att_sv_low_right": 1,
+        "attempted_tackle_foul": 3,
+        "attempts_conceded_ibox": 7,
+        "attempts_conceded_obox": 4,
+        "attempts_ibox": 17,
+        "attempts_obox": 9,
+        "backward_pass": 108,
+        "ball_recovery": 58,
+        "big_chance_created": 7,
+        "big_chance_missed": 5,
+        "big_chance_saves": 2,
+        "big_chance_scored": 2,
+        "blocked_pass": 14,
+        "blocked_scoring_att": 7,
+        "carries": 185,
+        "challenge_lost": 12,
+        "contentious_decision": 1,
+        "corner_taken": 9,
+        "crosses_18yard": 7,
+        "crosses_18yardplus": 5,
+        "defensive_actions": 32,
+        "dispossessed": 10,
+        "diving_save": 2,
+        "duel_lost": 48,
+        "duel_won": 61,
+        "effective_clearance": 18,
+        "effective_head_clearance": 6,
+        "error_lead_to_shot": 2,
+        "final_third_entries": 66,
+        "final_third_entries_open_play": 65,
+        "first_half_goals": 2,
+        "fk_foul_lost": 4,
+        "fk_foul_won": 11,
+        "forward_goals": 2,
+        "fouled_final_third": 3,
+        "fwd_pass": 174,
+        "goal_assist": 4,
+        "goal_assist_intentional": 3,
+        "goal_assist_openplay": 4,
+        "goal_fastbreak": 1,
+        "goal_kicks": 4,
+        "goals": 5,
+        "goals_conceded": 2,
+        "goals_conceded_ibox": 2,
+        "goals_ibox": 4,
+        "goals_obox": 1,
+        "goals_openplay": 4,
+        "head_clearance": 6,
+        "interception": 8,
+        "interception_won": 8,
+        "keeper_throws": 9,
+        "leftside_pass": 171,
+        "long_pass_own_to_opp": 55,
+        "long_pass_own_to_opp_success": 40,
+        "lost_corners": 5,
+        "midfielder_goals": 2,
+        "offtarget_att_assist": 7,
+        "ontarget_att_assist": 15,
+        "ontarget_scoring_att": 9,
+        "open_play_pass": 622,
+        "ppda": 8,
+        "opposition_passes": 257,
+        "outfielder_block": 2,
+        "overrun": 2,
+        "own_goal_accrued": 1,
+        "passes_left": 70,
+        "passes_right": 65,
+        "pen_area_entries": 33,
+        "pen_area_entries_open_play": 28,
+        "poss_lost_all": 116,
+        "poss_lost_ctrl": 116,
+        "poss_won_att_3rd": 7,
+        "poss_won_def_3rd": 14,
+        "poss_won_mid_3rd": 27,
+        "possession_percentage": 68.5,
+        "progressive_carries": 100,
+        "pts_gained_losing_pos": 3,
+        "put_through": 23,
+        "rightside_pass": 195,
+        "saved_ibox": 2,
+        "saved_obox": 1,
+        "saves": 3,
+        "shot_created": 22,
+        "shot_fastbreak": 2,
+        "shot_off_target": 10,
+        "six_yard_block": 2,
+        "subs_made": 5,
+        "successful_final_third_entries": 53,
+        "successful_final_third_entries_open_play": 52,
+        "successful_final_third_passes": 168,
+        "successful_open_play_pass": 559,
+        "successful_pen_area_entries": 19,
+        "successful_pen_area_entries_open_play": 17,
+        "successful_put_through": 14,
+        "total_att_assist": 22,
+        "total_back_zone_pass": 289,
+        "total_chipped_pass": 33,
+        "total_clearance": 18,
+        "total_contest": 39,
+        "total_corners_intobox": 4,
+        "total_cross": 16,
+        "total_cross_nocorner": 12,
+        "total_fastbreak": 3,
+        "total_final_third_passes": 200,
+        "total_flick_on": 3,
+        "total_fwd_zone_pass": 375,
+        "total_launches": 6,
+        "total_layoffs": 16,
+        "total_long_balls": 29,
+        "total_offside": 3,
+        "total_pass": 648,
+        "total_pull_back": 6,
+        "total_scoring_att": 26,
+        "total_tackle": 15,
+        "total_through_ball": 11,
+        "total_throws": 16,
+        "touches": 879,
+        "touches_in_final_third": 260,
+        "touches_in_opp_box": 58,
+        "unsuccessful_touch": 13,
+        "won_contest": 26,
+        "won_corners": 9,
+        "won_tackle": 7,
+        "formation_used": 4231
+      },
+      "away": {
+        "accurate_back_zone_pass": 152,
+        "accurate_chipped_pass": 17,
+        "accurate_corners_intobox": 4,
+        "accurate_cross": 6,
+        "accurate_cross_nocorner": 2,
+        "accurate_flick_on": 1,
+        "accurate_fwd_zone_pass": 66,
+        "accurate_goal_kicks": 6,
+        "accurate_keeper_throws": 9,
+        "accurate_launches": 3,
+        "accurate_layoffs": 3,
+        "accurate_long_balls": 19,
+        "accurate_pass": 212,
+        "accurate_pull_back": 3,
+        "accurate_throws": 17,
+        "aerial_lost": 9,
+        "aerial_won": 9,
+        "att_assist_openplay": 5,
+        "att_assist_setplay": 1,
+        "att_bx_centre": 4,
+        "att_bx_left": 1,
+        "att_bx_right": 1,
+        "att_corner": 2,
+        "att_goal_high_left": 1,
+        "att_goal_low_left": 1,
+        "att_hd_goal": 1,
+        "att_hd_miss": 1,
+        "att_hd_total": 2,
+        "att_ibox_blocked": 1,
+        "att_ibox_goal": 2,
+        "att_ibox_miss": 2,
+        "att_ibox_own_goal": 1,
+        "att_ibox_target": 2,
+        "att_lf_goal": 1,
+        "att_lf_target": 2,
+        "att_lf_total": 3,
+        "att_miss_left": 4,
+        "att_obox_blocked": 1,
+        "att_obox_miss": 2,
+        "att_obox_target": 1,
+        "att_obx_centre": 4,
+        "att_openplay": 7,
+        "att_rf_target": 1,
+        "att_rf_total": 6,
+        "att_sv_low_centre": 1,
+        "att_sv_low_left": 1,
+        "att_sv_low_right": 1,
+        "attempted_tackle_foul": 4,
+        "attempts_conceded_ibox": 18,
+        "attempts_conceded_obox": 9,
+        "attempts_ibox": 7,
+        "attempts_obox": 4,
+        "backward_pass": 53,
+        "ball_recovery": 44,
+        "big_chance_created": 3,
+        "big_chance_missed": 2,
+        "big_chance_saves": 3,
+        "big_chance_scored": 2,
+        "blocked_cross": 1,
+        "blocked_pass": 9,
+        "blocked_scoring_att": 2,
+        "carries": 79,
+        "challenge_lost": 26,
+        "corner_taken": 5,
+        "crosses_18yard": 5,
+        "crosses_18yardplus": 4,
+        "defensive_actions": 36,
+        "dispossessed": 11,
+        "diving_save": 3,
+        "duel_lost": 61,
+        "duel_won": 48,
+        "effective_blocked_cross": 1,
+        "effective_clearance": 24,
+        "effective_head_clearance": 15,
+        "final_third_entries": 28,
+        "final_third_entries_open_play": 22,
+        "first_half_goals": 1,
+        "fk_foul_lost": 11,
+        "fk_foul_won": 4,
+        "forward_goals": 2,
+        "foul_throw_in": 1,
+        "fouled_final_third": 1,
+        "freekick_cross": 1,
+        "fwd_pass": 106,
+        "goal_assist": 2,
+        "goal_assist_deadball": 1,
+        "goal_assist_intentional": 2,
+        "goal_assist_openplay": 1,
+        "goal_assist_setplay": 1,
+        "goal_kicks": 11,
+        "goals": 2,
+        "goals_conceded": 5,
+        "goals_conceded_ibox": 4,
+        "goals_conceded_obox": 1,
+        "goals_ibox": 2,
+        "goals_openplay": 1,
+        "good_high_claim": 1,
+        "head_clearance": 15,
+        "interception": 9,
+        "interception_won": 9,
+        "keeper_throws": 9,
+        "leftside_pass": 64,
+        "long_pass_own_to_opp": 52,
+        "long_pass_own_to_opp_success": 26,
+        "lost_corners": 9,
+        "offtarget_att_assist": 3,
+        "ontarget_att_assist": 5,
+        "ontarget_scoring_att": 5,
+        "open_play_pass": 262,
+        "ppda": 12,
+        "opposition_passes": 433,
+        "outfielder_block": 7,
+        "overrun": 1,
+        "own_goals": 1,
+        "passes_left": 30,
+        "passes_right": 28,
+        "pen_area_entries": 17,
+        "pen_area_entries_open_play": 9,
+        "poss_lost_all": 119,
+        "poss_lost_ctrl": 119,
+        "poss_won_att_3rd": 6,
+        "poss_won_def_3rd": 16,
+        "poss_won_mid_3rd": 11,
+        "possession_percentage": 31.5,
+        "progressive_carries": 35,
+        "pts_dropped_winning_pos": 3,
+        "punches": 1,
+        "put_through": 22,
+        "rightside_pass": 63,
+        "saved_ibox": 4,
+        "saved_obox": 1,
+        "saves": 5,
+        "shield_ball_oop": 1,
+        "shot_created": 8,
+        "shot_off_target": 4,
+        "six_yard_block": 1,
+        "subs_made": 5,
+        "successful_final_third_entries": 15,
+        "successful_final_third_entries_open_play": 11,
+        "successful_final_third_passes": 29,
+        "successful_open_play_pass": 195,
+        "successful_pen_area_entries": 4,
+        "successful_pen_area_entries_open_play": 1,
+        "successful_put_through": 9,
+        "total_att_assist": 8,
+        "total_back_zone_pass": 177,
+        "total_chipped_pass": 27,
+        "total_clearance": 24,
+        "total_contest": 16,
+        "total_corners_intobox": 5,
+        "total_cross": 15,
+        "total_cross_nocorner": 10,
+        "total_final_third_passes": 54,
+        "total_flick_on": 3,
+        "total_fwd_zone_pass": 124,
+        "total_high_claim": 1,
+        "total_launches": 21,
+        "total_layoffs": 3,
+        "total_long_balls": 50,
+        "total_offside": 4,
+        "total_pass": 286,
+        "total_pull_back": 3,
+        "total_scoring_att": 11,
+        "total_tackle": 23,
+        "total_through_ball": 1,
+        "total_throws": 21,
+        "total_yel_card": 1,
+        "touches": 492,
+        "touches_in_final_third": 96,
+        "touches_in_opp_box": 19,
+        "unsuccessful_touch": 11,
+        "won_contest": 12,
+        "won_corners": 5,
+        "won_tackle": 10,
+        "formation_used": 4231
+      }
+    }
+  }
+}

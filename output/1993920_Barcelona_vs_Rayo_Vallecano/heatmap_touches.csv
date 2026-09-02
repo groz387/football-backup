@@ -1,0 +1,66 @@
+playerName,teamId,h_a,x,y,minute,type
+,64,a,99.5,0.5,1,Pass
+Pedri,65,h,72.0,50.0,4,MissedShots
+,65,h,99.5,0.5,5,Pass
+Raphinha,65,h,72.0,50.0,7,MissedShots
+,65,h,99.5,0.5,7,Pass
+Pau Cubarsí,65,h,88.0,50.0,7,MissedShots
+,65,h,99.5,0.5,7,Pass
+Lamine Yamal,65,h,88.0,22.0,10,MissedShots
+Álvaro García.,64,a,76.0,50.0,12,Pass
+Sergio Camello,64,a,88.0,50.0,12,Goal
+Raphinha,65,h,88.0,50.0,14,SavedShot
+Dani Cárdenas,64,a,1.5,50.0,14,Save
+,65,h,99.5,0.5,14,Pass
+Andreas Christensen,65,h,96.5,50.0,15,MissedShots
+,65,h,99.5,0.5,15,Pass
+,65,h,99.5,0.5,15,Pass
+Dani Olmo,65,h,72.0,50.0,15,MissedShots
+Lamine Yamal,65,h,94.0,38.0,16,MissedShots
+Dani Olmo,65,h,90.0,88.0,16,MissedShots
+Marc Bernal,65,h,72.0,50.0,17,MissedShots
+Xavi Espart.,65,h,76.0,50.0,19,Pass
+Raphinha,65,h,88.0,50.0,19,Goal
+Marc Bernal.,65,h,76.0,22.0,21,Pass
+Lamine Yamal,65,h,88.0,22.0,21,Goal
+Pedri,65,h,88.0,22.0,28,MissedShots
+Florian Lejeune,64,a,72.0,50.0,35,MissedShots
+Anthony Gordon,65,h,88.0,78.0,36,SavedShot
+Dani Cárdenas,64,a,1.5,50.0,36,Save
+Gnangoro,64,a,72.0,50.0,37,SavedShot
+Joan García,65,h,1.5,50.0,37,Save
+Marc Bernal,65,h,72.0,50.0,40,SavedShot
+Dani Cárdenas,64,a,1.5,50.0,40,Save
+,65,h,99.5,0.5,40,Pass
+,65,h,99.5,0.5,41,Pass
+Anthony Gordon,65,h,72.0,50.0,43,MissedShots
+,65,h,99.5,0.5,43,Pass
+Anthony Gordon,65,h,88.0,50.0,45,SavedShot
+Dani Cárdenas,64,a,1.5,50.0,45,Save
+Lamine Yamal,65,h,72.0,50.0,48,MissedShots
+,64,a,99.5,0.5,58,Pass
+Unai López,64,a,76.0,50.0,59,Pass
+Sergio Camello,64,a,88.0,50.0,59,Goal
+Fran Pérez,64,a,88.0,22.0,61,MissedShots
+Sergio Camello,64,a,88.0,50.0,61,MissedShots
+Sergio Camello,64,a,72.0,50.0,62,MissedShots
+Lamine Yamal,65,h,88.0,22.0,65,MissedShots
+Xavi Espart,65,h,88.0,50.0,65,MissedShots
+,64,a,99.5,0.5,67,Pass
+Fermín López,65,h,88.0,50.0,69,MissedShots
+Anthony Gordon,65,h,88.0,50.0,69,MissedShots
+Anthony Gordon,65,h,76.0,78.0,71,Pass
+Raphinha,65,h,88.0,78.0,71,Goal
+Karim Adeyemi,65,h,88.0,50.0,79,SavedShot
+Dani Cárdenas,64,a,1.5,50.0,79,Save
+Florian Lejeune,64,a,72.0,50.0,81,MissedShots
+Randy Nteka,64,a,88.0,50.0,82,SavedShot
+Joan García,65,h,1.5,50.0,82,Save
+João Cancelo,65,h,72.0,50.0,85,MissedShots
+,64,a,99.5,0.5,89,Pass
+Karim Adeyemi.,65,h,60.0,50.0,90,Pass
+Lamine Yamal,65,h,72.0,50.0,90,Goal
+Alemão,64,a,88.0,78.0,90,SavedShot
+Joan García,65,h,1.5,50.0,90,Save
+,64,a,99.5,0.5,90,Pass
+Florian Lejeune,64,a,88.0,50.0,90,MissedShots
