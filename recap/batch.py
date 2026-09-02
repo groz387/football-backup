@@ -382,7 +382,7 @@ def render_plan_text(plans: list[dict[str, Any]]) -> str:
 def optional_module(name: str) -> Any | None:
     try:
         return importlib.import_module(name)
-    except ImportError:
+    except Exception:
         return None
 
 

@@ -585,6 +585,8 @@ def _language_arg(value: str) -> str:
 
 
 def _batch_languages_arg(value: str) -> str:
+    if not (value or "").strip():
+        return ""
     codes = batch.parse_languages(value)
     if not codes:
         raise argparse.ArgumentTypeError("--batch-languages needs at least one code, e.g. az,en,es,tr")
