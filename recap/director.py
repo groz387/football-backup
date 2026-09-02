@@ -1675,9 +1675,10 @@ def lock_hook_cards(
     scenes: list[dict[str, Any]],
     bundle: MatchBundle,
     audit: dict[str, Any],
+    hook: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Keep the open on the contradiction. Gemini may rephrase; numbers stay locked."""
-    hook = build_hook(bundle, audit)
+    hook = hook or build_hook(bundle, audit)
     locked = []
     for scene in scenes:
         updated = dict(scene)
