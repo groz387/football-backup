@@ -11,6 +11,8 @@ Layers, from the bottom up:
     scenes    one renderer per visualization
     video     frame rendering and mp4 assembly
     voice     narration audio
+    growth    bilingual posting pack (titles, hashtags, thumbs)
+    thumbnails  huge overlay JPGs for that pack
 
 Nothing in a lower layer imports from a higher one.
 """
@@ -23,11 +25,13 @@ __all__ = [
     "director",
     "draw",
     "graphs",
+    "growth",
     "hooks",
     "i18n",
     "logos",
     "scenes",
     "theme",
+    "thumbnails",
     "timing",
     "video",
     "viral_audit",

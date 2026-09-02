@@ -23,6 +23,9 @@ _*.log
 # Generated video packages (regenerate with video_pipeline.py)
 video_output/
 
+# Generated growth/SEO posting packs (python -m recap.growth / --write-growth)
+output/**/growth/
+
 # OS / editor
 .DS_Store
 Thumbs.db

@@ -15,6 +15,8 @@ Written to video_output/<match>/:
     subtitles.srt        cues aligned to the rendered timeline
     assets/              one frame sequence per scene
     match_video.mp4
+    growth/              bilingual posting pack (titles, hashtags, thumbs)
+                         also written to output/<match>/growth/
 
 Gemini is optional. With GEMINI_API_KEY set it writes the on-screen copy and
 narration; without it the deterministic script is used. Either way the numbers
@@ -34,7 +36,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
-from recap import clips, director, hooks, i18n, logos, theme, timing, video, voice, viral_audit
+from recap import clips, director, growth, hooks, i18n, logos, theme, timing, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -172,6 +174,39 @@ def progress_reporter():
         )
 
     return report
+
+
+def _write_growth_seo(
+    args: argparse.Namespace,
+    match_dir: Path,
+    out_dir: Path,
+    bundle,
+    audit: dict[str, Any],
+    language: str,
+    scene_list: list[dict[str, Any]] | None = None,
+    duration: float | None = None,
+    mp4: Path | None = None,
+) -> None:
+    """Default-on posting pack. Unique dest: write_growth_seo / growth_pack_dir."""
+    if not getattr(args, "write_growth_seo", True):
+        return
+    override = str(getattr(args, "growth_pack_dir", "") or "").strip()
+    try:
+        pack = growth.write_growth_pack(
+            match_dir,
+            language=language,
+            package_dir=out_dir,
+            dest_dir=override or None,
+            audit=audit,
+            bundle=bundle,
+            scene_list=scene_list,
+            duration_seconds=duration,
+            mp4_path=mp4,
+        )
+        for path in pack.get("written") or []:
+            say(f"  growth: {path}")
+    except Exception as exc:
+        say(f"  [warn] growth pack failed: {exc}")
 
 
 # ---------------------------------------------------------------------------
@@ -372,6 +407,10 @@ def run(args: argparse.Namespace) -> Path:
                                       positions=tuple(args.still_positions))
         for path in written:
             say(f"  {path}")
+        _write_growth_seo(
+            args, match_dir, out_dir, bundle, audit, language,
+            scene_list, timing.total_seconds(scene_list),
+        )
         return out_dir
 
     stage("5. Render")
@@ -386,6 +425,10 @@ def run(args: argparse.Namespace) -> Path:
     stage("6. Assemble")
     if args.skip_video:
         say("  skipped (--skip-video)")
+        _write_growth_seo(
+            args, match_dir, out_dir, bundle, audit, language,
+            scene_list, timing.total_seconds(scene_list),
+        )
         return out_dir
 
     path = video.assemble(
@@ -398,6 +441,10 @@ def run(args: argparse.Namespace) -> Path:
     )
     if not path:
         say("  no mp4 was produced; the frames and script are still in place.")
+        _write_growth_seo(
+            args, match_dir, out_dir, bundle, audit, language,
+            scene_list, timing.total_seconds(scene_list),
+        )
         return out_dir
 
     actual = video.probe_duration(path)
@@ -406,6 +453,10 @@ def run(args: argparse.Namespace) -> Path:
     say(f"  duration {actual:.2f}s (planned {expected:.2f}s)" if actual else f"  planned {expected:.2f}s")
     if actual and abs(actual - expected) > 0.35:
         say(f"  [warn] the encoded duration is {abs(actual - expected):.2f}s off the plan")
+    _write_growth_seo(
+        args, match_dir, out_dir, bundle, audit, language,
+        scene_list, actual or expected, path,
+    )
     return out_dir
 
 
@@ -537,6 +588,20 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="Animation positions to capture with --still")
     parser.add_argument("--no-crossfade", action="store_true", help="Hard cuts instead of dissolves")
     parser.add_argument("--skip-video", action="store_true", help="Render frames but do not encode")
+
+    growth_cli = parser.add_argument_group("growth / SEO pack")
+    growth_cli.add_argument(
+        "--write-growth", dest="write_growth_seo", action="store_true", default=True,
+        help="Write bilingual titles/hashtags/thumbs next to the mp4 (default on)",
+    )
+    growth_cli.add_argument(
+        "--no-write-growth", dest="write_growth_seo", action="store_false",
+        help="Skip the growth/SEO posting pack",
+    )
+    growth_cli.add_argument(
+        "--growth-dir", dest="growth_pack_dir", default="",
+        help="Override growth pack directory (default: <match-dir>/growth and <output>/growth)",
+    )
 
     args = parser.parse_args(argv)
     if not args.auto and not args.interactive:
