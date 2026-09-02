@@ -605,7 +605,7 @@ def download_video(
     url = str(candidate.get("url") or "")
     if not url:
         return None
-    args = [
+    base = [
         "--no-playlist",
         "--no-warnings",
         "--socket-timeout", "20",
@@ -617,21 +617,43 @@ def download_video(
         "--max-filesize", MAX_FILESIZE,
         "-o", str(output),
         *_section_flags(candidate, audit),
-        url,
+    ]
+    # Datacenter IPs often trip YouTube's web client. Public player clients
+    # are still unsigned; we never pass cookies or logins.
+    client_attempts: list[list[str]] = [
+        [],
+        ["--extractor-args", "youtube:player_client=android"],
+        ["--extractor-args", "youtube:player_client=ios"],
     ]
     print(f"  [clips] downloading {candidate.get('title', '')!r}")
     print(f"  [clips] url: {url}")
-    try:
-        result = _run_ytdlp(args, timeout=timeout, ytdlp=ytdlp)
-    except subprocess.TimeoutExpired:
-        print(f"  [clips] download timed out after {timeout:.0f}s")
+    last_err = ""
+    result = None
+    for extra in client_attempts:
+        args = base + extra + [url]
+        try:
+            result = _run_ytdlp(args, timeout=timeout, ytdlp=ytdlp)
+        except subprocess.TimeoutExpired:
+            print(f"  [clips] download timed out after {timeout:.0f}s")
+            return None
+        except (OSError, FileNotFoundError) as exc:
+            print(f"  [clips] download failed: {exc}")
+            return None
+        if result.returncode in (0, 101):
+            break
+        last_err = (result.stderr or result.stdout or "").strip()[:400]
+        if extra:
+            print(f"  [clips] retry client failed: {last_err}")
+        elif "sign in" in last_err.lower() or "not a bot" in last_err.lower():
+            print("  [clips] web client blocked; retrying a public player client")
+        else:
+            print(f"  [clips] download failed: {last_err}")
+            return None
+    else:
+        print(f"  [clips] download failed: {last_err}")
         return None
-    except (OSError, FileNotFoundError) as exc:
-        print(f"  [clips] download failed: {exc}")
-        return None
-    if result.returncode not in (0, 101):
-        err = (result.stderr or result.stdout or "").strip()[:400]
-        print(f"  [clips] download failed: {err}")
+    if result is None or result.returncode not in (0, 101):
+        print(f"  [clips] download failed: {last_err}")
         return None
     matches = sorted(
         dest_dir.glob(f"{stem}.*"),
