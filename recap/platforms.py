@@ -215,10 +215,10 @@ ROBBERY_KINDS = {
 
 def bait_text(key: str, *, language: str | None = None, **kwargs: Any) -> str:
     code = i18n.normalize_language(language or i18n.get_language())
-    catalog = i18n.UI.get(code) or {}
-    template = catalog.get(key)
-    if not template:
-        template = (_BAIT.get(code) or _BAIT["en"]).get(key) or _BAIT["en"].get(key) or key
+    got = i18n.t(key, lang=code)
+    if got == key:
+        got = (_BAIT.get(code) or _BAIT["en"]).get(key) or _BAIT["en"].get(key) or key
+    template = got
     if kwargs:
         try:
             return template.format(**kwargs)
