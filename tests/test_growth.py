@@ -188,6 +188,12 @@ class ScotlandPackTests(unittest.TestCase):
         self.assertIn("scotland", names)
         self.assertIn("morocco", names)
 
+    def test_derby_title_does_not_repeat_world_cup(self):
+        for lang in ("en", "es"):
+            for platform, block in self.pack["packs"][lang]["platforms"].items():
+                title = block["titles"]["derby_language"].lower()
+                self.assertNotIn("world cup world cup", title, title)
+
 
 @unittest.skipUnless(MEXICO.exists() and SCOTLAND.exists(), "need two match exports")
 class CrossMatchTests(unittest.TestCase):

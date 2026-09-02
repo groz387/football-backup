@@ -233,6 +233,19 @@ def _trim(text: str, limit: int) -> str:
     return cut or text[:limit]
 
 
+def competition_line(ctx: FactContext, lang: str) -> str:
+    """League + stage without repeating 'World Cup World Cup Grp. C'."""
+    league = ctx.loc_league(lang)
+    stage = (ctx.stage or "").strip()
+    if not stage:
+        return league
+    if league and league.lower() in stage.lower():
+        return stage
+    if stage.lower() in league.lower():
+        return league
+    return f"{league} {stage}".strip()
+
+
 def _ordinal(minute: int, lang: str) -> str:
     if lang == "es":
         return f"min {minute}"
@@ -245,6 +258,12 @@ def _ordinal(minute: int, lang: str) -> str:
     else:
         suffix = {1: "st", 2: "nd", 3: "rd"}.get(minute % 10, "th")
     return f"{minute}{suffix}"
+
+
+def _minute_stamp(minute: int, lang: str) -> str:
+    if lang == "es":
+        return f"min {minute}"
+    return f"{minute}'"
 
 
 def _fmt_ts(seconds: float) -> str:
@@ -463,7 +482,7 @@ def _curiosity_templates(ctx: FactContext, lang: str) -> list[str]:
 
 def _spoiler_templates(ctx: FactContext, lang: str) -> list[str]:
     scorer = ctx.primary_scorer
-    minute = _ordinal(int(scorer["minute"]), lang) if scorer else ""
+    minute = _minute_stamp(int(scorer["minute"]), lang) if scorer else ""
     who = scorer["surname"] if scorer else ""
     fixture = f"{ctx.loc_home(lang)} {ctx.score} {ctx.loc_away(lang)}"
     league = ctx.loc_league(lang)
@@ -503,7 +522,7 @@ def _player_seo_templates(ctx: FactContext, lang: str) -> list[str]:
         opponent = ctx.away if ctx.primary_scorer["team"] == ctx.home else ctx.home
         opponent_l = localize_team(opponent, lang)
         league = ctx.loc_league(lang)
-        minute = _ordinal(int(ctx.primary_scorer["minute"]), lang)
+        minute = _minute_stamp(int(ctx.primary_scorer["minute"]), lang)
         if lang == "es":
             return [
                 f"{player} vs {opponent_l} | gol {minute} | {league} {ctx.year}".strip(),
@@ -520,7 +539,7 @@ def _player_seo_templates(ctx: FactContext, lang: str) -> list[str]:
                 f"Гол {surname(player)} в ворота {opponent_l} | {league}",
             ]
         return [
-            f"{player} vs {opponent_l} | {minute} minute goal | {league} {ctx.year}".strip(),
+            f"{player} vs {opponent_l} | {minute} goal | {league} {ctx.year}".strip(),
             f"{surname(player)} goal vs {opponent_l} | {league} recap",
         ]
     if ctx.spike and player:
@@ -542,7 +561,7 @@ def _derby_templates(ctx: FactContext, lang: str) -> list[str]:
     derby = ctx.derby(lang)
     fixture = ctx.fixture(lang)
     league = ctx.loc_league(lang)
-    stage = ctx.stage or ""
+    comp = competition_line(ctx, lang)
     if derby:
         if lang == "es":
             return [f"{derby} | {fixture}", f"{derby} — recap {league}"]
@@ -553,22 +572,21 @@ def _derby_templates(ctx: FactContext, lang: str) -> list[str]:
         return [f"{derby} | {fixture} recap", f"{derby} — {league} {ctx.year}".strip()]
     if lang == "es":
         return [
-            f"{fixture} | {league} {stage}".strip(),
+            f"{fixture} | {comp}",
             f"Recap en español: {fixture} ({league})",
         ]
     if lang == "az":
         return [
-            f"{fixture} | {league} {stage}".strip(),
+            f"{fixture} | {comp}",
             f"Azərbaycanca recap: {fixture} ({league})",
         ]
     if lang == "ru":
         return [
-            f"{fixture} | {league} {stage}".strip(),
+            f"{fixture} | {comp}",
             f"Обзор на русском: {fixture} ({league})",
         ]
-    # English market still gets a language/competition-shaped title, not a fake derby.
     return [
-        f"{ctx.home} vs {ctx.away} | {league} {stage}".strip(),
+        f"{ctx.home} vs {ctx.away} | {comp}",
         f"{league} {ctx.year}: {ctx.home} vs {ctx.away}".strip(),
     ]
 
@@ -717,7 +735,7 @@ def build_description(ctx: FactContext, lang: str, platform: str, *, chapters: l
     if platform in {"tiktok", "reels", "shorts"}:
         body = f"{hook}\n\n{facts}\n\n{disclaimer}\n{cta}"
     else:
-        header = f"{ctx.fixture(lang)} | {ctx.score} | {ctx.loc_league(lang)} {ctx.stage} | {ctx.kickoff} | {ctx.venue}".strip(" |")
+        header = f"{ctx.fixture(lang)} | {ctx.score} | {competition_line(ctx, lang)} | {ctx.kickoff} | {ctx.venue}".strip(" |")
         body = (
             f"{hook}\n\n{header}\n\n{facts}\n\nKeywords: {keywords}\n\n{disclaimer}\n{cta}"
         )
@@ -972,7 +990,7 @@ def _posting_txt(lang: str, language_name: str, ctx: FactContext, platforms: dic
         f"GROWTH PACK — {ctx.home} vs {ctx.away} — {ctx.score}",
         f"Language: {language_name} ({lang})",
         f"Hook kind: {ctx.hook_kind}  (read from hooks.build_hook, not rewritten)",
-        f"Competition: {ctx.league} {ctx.stage}  |  {ctx.kickoff}  |  {ctx.venue}",
+        f"Competition: {competition_line(ctx, 'en')}  |  {ctx.kickoff}  |  {ctx.venue}",
         f"Blocked claims: {', '.join(ctx.blocked_claims) or 'none'}",
         "",
         DISCLAIMERS.get(lang) or DISCLAIMERS["en"],
@@ -1187,6 +1205,7 @@ def write_growth_pack(
         "mp4": str(mp4_path) if mp4_path else None,
         "hook_still": str(still) if still else None,
         "packs": packs,
+        "written": [str(path) for path in dests],
     }
     write_json(primary / "pack.json", payload)
     index = [
@@ -1208,7 +1227,6 @@ def write_growth_pack(
         copied_text = json.dumps(copied, ensure_ascii=False).replace(str(primary), str(extra))
         (extra / "pack.json").write_text(json.dumps(json.loads(copied_text), indent=2, ensure_ascii=False), encoding="utf-8")
 
-    payload["written"] = [str(path) for path in dests]
     return payload
 
 
