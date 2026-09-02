@@ -254,6 +254,11 @@ class CoordinateQualityTests(unittest.TestCase):
         self.assertTrue(cands["shot_map"]["available"])
         self.assertIn("WhoScored", cands["shot_map"]["reason"])
         self.assertGreater(cands["shot_map"]["score"], 40)
+        selected, _ = director.select_visualizations(
+            bundle, audit_doc, 3, None, "", target_seconds=40,
+        )
+        ids = [item["id"] for item in selected]
+        self.assertIn("shot_map", ids)
 
 
 class ThemeAndCliTests(unittest.TestCase):

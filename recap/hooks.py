@@ -1314,11 +1314,18 @@ def apply_bait_text(scenes: list[dict[str, Any]], text: str | None) -> list[dict
     for scene in scenes:
         updated = dict(scene)
         if scene.get("visualization") == "close" or scene.get("id") == "close":
+            previous = str(updated.get("comment_bait") or "")
             updated["comment_bait"] = bait
             updated["insight"] = bait
             narration = str(updated.get("narration") or "").strip()
-            if bait not in narration:
-                updated["narration"] = f"{narration.rstrip('. ')}. {bait}".strip() if narration else bait
+            if previous and previous in narration:
+                narration = narration.replace(previous, "").strip(" .")
+            if bait.lower() not in narration.lower():
+                updated["narration"] = (
+                    f"{narration.rstrip('. ')}. {bait}".strip() if narration else bait
+                )
+            else:
+                updated["narration"] = narration
             updated["user_locked"] = True
         out.append(updated)
     return out

@@ -672,6 +672,15 @@ def select_visualizations(
     available = {c["id"]: c for c in candidates if c["available"]}
     angle = pick_angle(bundle, audit, language=language, spoiler=spoiler)
     preferred = [vid for vid in ANGLE_VIZ.get(angle, []) if vid in available]
+    if bool((audit.get("data_health") or {}).get("has_precise_coordinates")):
+        maps = [
+            vid for vid in (
+                "shot_map", "touch_heatmap", "goal_chain",
+                "pass_network", "pass_lanes", "zone_control",
+            )
+            if vid in available
+        ]
+        preferred = maps + [vid for vid in preferred if vid not in maps]
 
     chosen_ids: list[str] = []
     if gemini is not None and gemini.enabled:
