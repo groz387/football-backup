@@ -14,6 +14,9 @@ Layers, from the bottom up:
     voice     narration audio
     audio     original music beds, SFX, ducking, loudnorm
     music_beds ffmpeg-lavfi loops (no catalog rips)
+    platforms social export profiles (TikTok / Reels / Shorts / 16:9 / square)
+    export_pack ffmpeg pack from one portrait master
+    safe_zones  caption / hook placement for mute-first social chrome
 
 Nothing in a lower layer imports from a higher one.
 """
@@ -26,13 +29,16 @@ __all__ = [
     "data",
     "director",
     "draw",
+    "export_pack",
     "graphs",
     "hooks",
     "i18n",
     "locale_meta",
     "logos",
     "music_beds",
+    "platforms",
     "retention",
+    "safe_zones",
     "scenes",
     "theme",
     "timing",

@@ -18,6 +18,7 @@ from . import clips as clip_mod
 from . import scenes as scene_renderers
 from . import timing
 from . import audio as audio_mod
+from . import safe_zones
 from .data import MatchBundle, safe_name
 from .draw import HOLD_AT
 
@@ -248,7 +249,13 @@ def assemble(
 
         escaped = _escape_subtitles_path(srt)
         lang = i18n.get_language()
-        style = locale_meta.ffmpeg_subtitle_style(lang).replace("'", r"\'")
+        style_map: dict[str, str] = {}
+        for src in (locale_meta.ffmpeg_subtitle_style(lang), safe_zones.default_ass_style()):
+            for item in src.split(","):
+                if "=" in item:
+                    key, value = item.split("=", 1)
+                    style_map[key.strip()] = value.strip()
+        style = ",".join(f"{key}={value}" for key, value in style_map.items()).replace("'", r"\'")
         extra = f"force_style='{style}'"
         fontfile = locale_meta.find_fontfile(lang)
         if fontfile:
