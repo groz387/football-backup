@@ -1111,7 +1111,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "kicker": "TWO HALVES",
             "title": f"{first_shots} THEN {second_shots}",
             "subtitle": i18n.t("sub_split"),
-            "insight": i18n.t("halftime_stamp"),
+            "insight": f"{first_shots} shots before the break, {second_shots} after.",
             "narration": f"{first_shots} shots before the break, {second_shots} after. Two different halves.",
         }
 

@@ -154,6 +154,22 @@ class UniquenessTests(unittest.TestCase):
                 f"{angle} collides: {director.pack_shape_families(ids)}",
             )
 
+    def test_graphs_module_does_not_import_scenes(self) -> None:
+        import ast
+        from pathlib import Path
+
+        tree = ast.parse(Path(graphs.__file__).read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    self.assertNotIn("scenes", alias.name.split("."))
+            if isinstance(node, ast.ImportFrom) and node.module:
+                self.assertNotIn("scenes", node.module.split("."))
+
+    def test_colliding_shape_ids_flags_shared_family(self) -> None:
+        hits = director.colliding_shape_ids(["shot_map", "keeper_frame", "momentum"])
+        self.assertEqual(hits, [("shot_map", "keeper_frame")])
+
     def test_hold_count_stays_on_an_integer(self) -> None:
         # ~8 frames at 24fps over a 1.5s count → each glyph holds a window.
         seen = []

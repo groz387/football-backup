@@ -564,11 +564,18 @@ def render_player_spike(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
     shirt = spike.get("shirt")
     shirt_label = str(int(shirt)) if shirt not in (None, "") else ""
     if shirt_label:
+        # Poster background: huge jersey, readable on a phone but behind the hero count.
         fig.text(
-            0.5, 0.52, shirt_label,
-            color=identity["chart"], fontsize=268, fontweight="bold",
+            0.5, 0.54, shirt_label,
+            color=identity["chart"], fontsize=292, fontweight="bold",
             family=theme.DISPLAY_FONT, ha="center", va="center",
-            alpha=0.10 * tl.cue(0.06, 0.28), zorder=6,
+            alpha=0.22 * tl.cue(0.06, 0.28), zorder=6,
+        )
+        fig.text(
+            0.5, 0.445, f"#{shirt_label}",
+            color=identity["chart"], fontsize=22, fontweight="bold",
+            family=theme.MONO_FONT, ha="center", va="center",
+            alpha=0.85 * tl.cue(0.18, 0.24), zorder=20,
         )
 
     count = int(spike.get("count") or 0)
@@ -845,8 +852,8 @@ def render_pass_lanes(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
                              alpha=tl.cue(0.06, 0.26))
     strongest = max(int(e.get("count") or 0) for e in edges)
     shown = int(round(tl.count_to(strongest, start=0.10, duration=0.36)))
-    fig.text(rect[0], rect[1] + rect[3] + 0.016, f"{shown}  ·  {focus.upper()}",
-             color=identity["chart"], fontsize=18, family=theme.DISPLAY_FONT, fontweight="bold",
+    fig.text(rect[0], rect[1] + rect[3] + 0.016, f"{shown} LANES  ·  {focus.upper()}",
+             color=identity["chart"], fontsize=16, family=theme.DISPLAY_FONT, fontweight="bold",
              ha="left", va="center", alpha=tl.cue(0.12, 0.22), zorder=20)
 
     visible = tl.reveal_count(len(edges), start=0.12, span=0.48)
@@ -925,6 +932,7 @@ def render_bench_impact(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
             family=theme.MONO_FONT, fontweight="bold", ha="left", va="center")
 
     visible = tl.reveal_count(len(subs), start=0.16, span=0.50)
+    last_label_at: dict[str, float] = {"h": -99.0, "a": -99.0}
     for index, sub in enumerate(subs):
         if index >= visible:
             break
@@ -937,9 +945,15 @@ def render_bench_impact(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
                 color=colour, lw=2.2, alpha=local, zorder=8, solid_capstyle="round")
         shirt = sub.get("shirt")
         label = str(int(shirt)) if shirt not in (None, "") else (sub.get("surname") or "")[:8]
-        ax.text(minute, y + (0.58 if up else -0.58), label, color=colour, fontsize=11,
+        side_key = "h" if up else "a"
+        crowded = abs(minute - last_label_at[side_key]) < 7
+        label_x = minute + (2.8 if crowded else 0.0)
+        extra = 0.16 if (index % 2) else 0.0
+        label_y = y + ((0.58 + extra) if up else -(0.58 + extra))
+        ax.text(label_x, label_y, label, color=colour, fontsize=11,
                 family=theme.DISPLAY_FONT, fontweight="bold", ha="center",
                 va="bottom" if up else "top", alpha=local, zorder=10)
+        last_label_at[side_key] = minute
         after = int(sub.get("shots_after") or 0)
         if after and local > 0.6:
             ax.text(minute, y + (0.22 if up else -0.22), f"+{after}", color=TEXT,
