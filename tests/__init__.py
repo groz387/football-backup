@@ -1,1 +1,1 @@
-# Test package for the recap hook engine.
+# Recap unit tests.

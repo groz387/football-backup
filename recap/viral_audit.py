@@ -108,6 +108,11 @@ def score_plan(
     for item in selected:
         families.append(item.get("shape") or SHAPE_FAMILY.get(item.get("id", ""), "other"))
     unique = {family for family in families if family}
+    from collections import Counter
+    family_counts = Counter(family for family in families if family)
+    dupes = [family for family, n in family_counts.items() if n > 1]
+    if dupes:
+        warn(f"two selected viz share shape family {dupes[0]}", fail=True, penalty=18)
     if len(unique) < 3:
         warn(f"pack geometry diversity is {len(unique)} families (need 3+)", fail=True, penalty=16)
     if unique == {"bars"} or (families and all(family == "bars" for family in families)):

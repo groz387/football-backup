@@ -662,6 +662,8 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
     # Two goals from nearly the same spot would otherwise print their scorers
     # on top of each other; the second label is dropped instead.
     scorer_labels: list[tuple[float, float]] = []
+    badges: list[tuple[float, float, int, str, float, bool]] = []
+    last_visible = visible - 1
     for index, shot in enumerate(shots):
         if index >= visible:
             break
@@ -699,7 +701,8 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
 
         if shot["outcome"] == "goal":
             draw.impact_burst(ax, px, py, design["goal"], fade, base_radius=3.2, zorder=15)
-            draw.particle_burst(ax, px, py, design["goal"], min(1.0, fade), count=8, radius=3.8, zorder=16)
+            if fade > 0.7:
+                draw.particle_burst(ax, px, py, design["goal"], min(1.0, fade), count=5, radius=3.2, zorder=16)
             surname = (shot["player"] or "").split()[-1][:12]
             offset = 4.8 if not flip else -4.8
             label_at = (px, py + offset)
@@ -713,6 +716,7 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
                         fontsize=8.5, family=theme.MONO_FONT, ha="center",
                         va="bottom" if not flip else "top", path_effects=draw.outline(),
                         alpha=draw.opacity((local - 0.5) * 2), zorder=16)
+        badges.append((px, py, index + 1, colour, fade, index == last_visible))
 
     draw.scatter_batch(ax, batches["big_chance"]["x"], batches["big_chance"]["y"],
                        sizes=batches["big_chance"]["s"], colors=batches["big_chance"]["c"],
@@ -727,6 +731,10 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
     draw.scatter_batch(ax, batches["dot"]["x"], batches["dot"]["y"],
                        sizes=batches["dot"]["s"], colors=batches["dot"]["c"],
                        alphas=batches["dot"]["a"], linewidth=1.0, zorder=12)
+    for px, py, number, colour, fade, latest in badges:
+        if fade <= 0.35:
+            continue
+        draw.freeze_frame_badge(ax, px, py, number, colour, alpha=min(1.0, fade), latest=latest)
 
     present = {shot["outcome"] for shot in shots}
     entries = [
@@ -1451,7 +1459,7 @@ RENDERERS: dict[str, Renderer] = {
     "standard_stats": render_standard_stats,
     "goal_timeline": render_goal_timeline,
     "shot_map": render_shot_map,
-    "momentum": render_momentum,
+    "momentum": graphs.render_momentum_wave,
     "zone_control": render_zone_control,
     "goal_chain": render_goal_chain,
     "goalmouth": render_goalmouth,
@@ -1467,6 +1475,13 @@ RENDERERS: dict[str, Renderer] = {
     "xg_race": graphs.render_xg_race,
     "time_zones": graphs.render_time_zones,
     "player_spike": graphs.render_player_spike,
+    "shot_clock_spiral": graphs.render_shot_clock_spiral,
+    "press_trap": graphs.render_press_trap,
+    "pass_lanes": graphs.render_pass_lanes,
+    "bench_impact": graphs.render_bench_impact,
+    "duel_tower": graphs.render_duel_tower,
+    "aerial_war": graphs.render_aerial_war,
+    "halftime_split": graphs.render_halftime_split,
     "close": render_close,
 }
 
