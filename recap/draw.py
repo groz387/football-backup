@@ -31,7 +31,6 @@ from matplotlib.patches import Circle, Ellipse, FancyArrowPatch, FancyBboxPatch,
 
 from . import theme
 from .theme import (
-    ASPECT,
     GOAL,
     HAIRLINE,
     INK,
@@ -46,11 +45,16 @@ from .theme import (
 
 theme.configure_matplotlib()
 
-FIG_SIZE = (9.0, 16.0)
 FIG_DPI = 120
+# Default portrait box; ``figure_size()`` follows ``theme.FRAME_W/H``.
+FIG_SIZE = (9.0, 16.0)
 
 # Animation finishes here and the frame holds, so the viewer can read it.
 HOLD_AT = 0.80
+# Hero numerals stay on one integer for this many frames at 24fps.
+HOLD_FRAMES = 8
+COUNT_FPS = 24
+COUNT_ANIM_SECONDS = 1.5
 
 
 # ---------------------------------------------------------------------------
@@ -125,8 +129,30 @@ class Timeline:
         return max(0, min(count, int(math.ceil(ease_out_cubic(local) * count))))
 
     def count_to(self, value: float, start: float = 0.06, duration: float = 0.45) -> float:
-        """A number ticking up to *value*."""
-        return value * self.cue(start, duration, ease_out_quint)
+        """A number ticking up to *value*, holding each glyph ~HOLD_FRAMES."""
+        return hold_count(value, self.cue(start, duration, ease_out_quint))
+
+
+def hold_count(
+    value: float,
+    progress: float,
+    *,
+    hold_frames: int = HOLD_FRAMES,
+    fps: int = COUNT_FPS,
+) -> float:
+    """Quantize a ticking number so each integer stays readable (~8 frames)."""
+    progress = clamp01(progress)
+    target = float(value)
+    mag = abs(target)
+    if mag < 0.5:
+        return target * progress
+    if progress >= 0.995:
+        return target
+    anim_frames = max(hold_frames, int(COUNT_ANIM_SECONDS * fps))
+    n_steps = max(1, min(int(math.ceil(mag)), anim_frames // max(1, hold_frames)))
+    step_index = min(n_steps, int(math.floor(progress * n_steps + 1e-9)))
+    shown = mag * step_index / n_steps
+    return math.copysign(round(shown), target)
 
 
 # ---------------------------------------------------------------------------
@@ -192,8 +218,20 @@ class Layout:
 # figure and background
 # ---------------------------------------------------------------------------
 
-def new_figure(design: dict[str, Any]) -> plt.Figure:
-    fig = plt.figure(figsize=FIG_SIZE, dpi=FIG_DPI, facecolor=design["ink"])
+def figure_size(dpi: float | None = None) -> tuple[float, float]:
+    """Matplotlib figsize (inches) that matches the active frame size."""
+    dpi = float(dpi or FIG_DPI)
+    return (theme.FRAME_W / dpi, theme.FRAME_H / dpi)
+
+
+def new_figure(
+    design: dict[str, Any],
+    figsize: tuple[float, float] | None = None,
+    dpi: float | None = None,
+) -> plt.Figure:
+    dpi = float(dpi or FIG_DPI)
+    figsize = figsize or figure_size(dpi)
+    fig = plt.figure(figsize=figsize, dpi=dpi, facecolor=design["ink"])
     _paint_background(fig, design)
     return fig
 
@@ -201,15 +239,13 @@ def new_figure(design: dict[str, Any]) -> plt.Figure:
 def y_of(x_length: float) -> float:
     """Figure-y length that occupies the same number of pixels as *x_length*.
 
-    The frame is 1080x1920, so a vertical span has to be multiplied by
-    1080/1920 to look the same size as a horizontal one. Getting this the wrong
-    way round is what previously turned flag tiles into portrait slabs.
+    Uses the live frame aspect so landscape 1920x1080 stays round, not oval.
     """
-    return x_length * ASPECT
+    return x_length * theme.ASPECT
 
 
 @lru_cache(maxsize=8)
-def _background_pixels(ink: str, home: str, away: str) -> np.ndarray:
+def _background_pixels(ink: str, home: str, away: str, width: int, height: int) -> np.ndarray:
     """The full-frame background as raw pixels.
 
     Drawn straight into the canvas buffer with ``figimage``, which skips both
@@ -221,7 +257,7 @@ def _background_pixels(ink: str, home: str, away: str) -> np.ndarray:
     bottom = np.array(theme.hex_to_rgb(away))
 
     # figimage rows run bottom-to-top, so fraction 0 is the bottom of the frame.
-    fraction = np.linspace(0.0, 1.0, theme.FRAME_H)[:, None]
+    fraction = np.linspace(0.0, 1.0, height)[:, None]
     tint = bottom * (1.0 - fraction) + top * fraction
     wash = 0.14 * (1.0 - np.abs(fraction - 0.5) * 0.55)
     colour = base * (1.0 - wash) + tint * wash
@@ -233,12 +269,18 @@ def _background_pixels(ink: str, home: str, away: str) -> np.ndarray:
     colour = colour * (1.0 - darken)
 
     column = np.clip(colour * 255.0, 0, 255).astype(np.uint8)
-    return np.repeat(column[:, None, :], theme.FRAME_W, axis=1)
+    return np.repeat(column[:, None, :], width, axis=1)
 
 
 def _paint_background(fig: plt.Figure, design: dict[str, Any]) -> None:
     fig.figimage(
-        _background_pixels(design["ink"], design["home"]["primary"], design["away"]["primary"]),
+        _background_pixels(
+            design["ink"],
+            design["home"]["primary"],
+            design["away"]["primary"],
+            int(theme.FRAME_W),
+            int(theme.FRAME_H),
+        ),
         xo=0, yo=0, zorder=0,
     )
 
@@ -269,7 +311,7 @@ def fig_panel(fig: plt.Figure, x: float, y: float, w: float, h: float, *,
             boxstyle=f"round,pad={pad_x},rounding_size={pad_x}",
             transform=fig.transFigure, facecolor=color,
             edgecolor=edge or "none", linewidth=lw if edge else 0.0,
-            alpha=opacity(alpha), zorder=zorder, mutation_aspect=ASPECT,
+            alpha=opacity(alpha), zorder=zorder, mutation_aspect=theme.ASPECT,
         )
     )
 
@@ -301,7 +343,7 @@ def score_badge(
     text = str(label or "")
     if not text:
         return
-    size = min(16.0, max(11.0, max_height * 72.0 * FIG_SIZE[1] * 0.42))
+    size = min(16.0, max(11.0, max_height * 72.0 * (theme.FRAME_H / FIG_DPI) * 0.42))
     artist = fig.text(
         cx, cy, text,
         fontsize=size, fontweight="bold", family=theme.DISPLAY_FONT,
@@ -314,8 +356,8 @@ def score_badge(
     height *= 1.22
     need_w = width + 2 * pad
     need_h = height + 2 * y_of(pad)
-    diameter = max(need_w, need_h / ASPECT, 0.046)
-    max_diameter = max(0.040, max_height / ASPECT)
+    diameter = max(need_w, need_h / theme.ASPECT, 0.046)
+    max_diameter = max(0.040, max_height / theme.ASPECT)
     if diameter > max_diameter + 1e-6:
         scale = max_diameter / diameter
         size = max(10.0, size * scale * 0.90)
@@ -325,7 +367,7 @@ def score_badge(
         height *= 1.22
         need_w = width + 2 * pad
         need_h = height + 2 * y_of(pad)
-        diameter = min(max_diameter, max(need_w, need_h / ASPECT, 0.038))
+        diameter = min(max_diameter, max(need_w, need_h / theme.ASPECT, 0.038))
 
     if need_w <= diameter * 1.04:
         fig_ellipse(
@@ -377,11 +419,12 @@ def _extent_fractions(fig: plt.Figure, artist: Any) -> tuple[float, float]:
 # Mean glyph advance as a fraction of the point size. Used only to pick a
 # starting wrap width; the result is then verified by measurement.
 _DEFAULT_ADVANCE = 0.52
-_POINTS_TO_FIG_X = 1.0 / 72.0 / FIG_SIZE[0]
+def _points_to_fig_x() -> float:
+    return 1.0 / 72.0 / max(1e-6, theme.FRAME_W / FIG_DPI)
 
 
 def _chars_per_line(size: float, max_width: float, family: str) -> int:
-    char_width = size * _POINTS_TO_FIG_X * _DEFAULT_ADVANCE
+    char_width = size * _points_to_fig_x() * _DEFAULT_ADVANCE
     return max(4, int(max_width / max(1e-6, char_width)))
 
 
@@ -1254,10 +1297,64 @@ def funnel_stage(fig: plt.Figure, y: float, label: str, home_value: float, away_
              path_effects=soft_shadow())
 
 
+def glow_ring(
+    ax: plt.Axes,
+    x: float,
+    y: float,
+    color: str,
+    *,
+    radius: float = 3.0,
+    alpha: float = 0.28,
+    zorder: int = 7,
+) -> None:
+    """One restrained halo. Not a particle storm."""
+    if alpha <= 0:
+        return
+    add_shape(
+        ax,
+        Circle((x, y), radius, fill=False, ec=color, lw=2.0,
+               alpha=opacity(alpha), zorder=zorder),
+    )
+
+
+def freeze_frame_badge(
+    ax: plt.Axes,
+    x: float,
+    y: float,
+    n: int,
+    color: str,
+    *,
+    alpha: float = 1.0,
+    radius: float = 2.15,
+    zorder: int = 18,
+    latest: bool = False,
+) -> None:
+    """Numbered freeze-frame disc. Default radius is pitch 0-100 units.
+
+    Polar / 0-1 axes should pass ``radius=0.022``.
+    """
+    if alpha <= 0:
+        return
+    r = radius * (1.18 if latest else 1.0)
+    add_shape(
+        ax,
+        Circle(
+            (x, y), r, facecolor=color, edgecolor=TEXT, linewidth=1.3,
+            alpha=opacity(alpha), zorder=zorder,
+        ),
+    )
+    ax.text(
+        x, y, str(n),
+        color=theme.ink_on(color), fontsize=12.0 if latest else 10.5,
+        fontweight="bold", family=theme.DISPLAY_FONT,
+        ha="center", va="center", alpha=opacity(alpha), zorder=zorder + 1,
+    )
+
+
 def save_figure(fig: plt.Figure, path: Path) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     # Intermediate frames are read once by ffmpeg, so trade file size for speed.
-    fig.savefig(path, facecolor=fig.get_facecolor(), dpi=FIG_DPI, pad_inches=0,
+    fig.savefig(path, facecolor=fig.get_facecolor(), dpi=fig.dpi, pad_inches=0,
                 pil_kwargs={"compress_level": 1})
     plt.close(fig)

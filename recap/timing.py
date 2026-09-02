@@ -47,6 +47,13 @@ MINIMUM_ON_SCREEN = {
     "xg_race": 5.2,
     "time_zones": 5.4,
     "player_spike": 5.0,
+    "shot_clock_spiral": 5.2,
+    "press_trap": 4.8,
+    "pass_lanes": 5.2,
+    "bench_impact": 5.0,
+    "duel_tower": 5.0,
+    "aerial_war": 4.8,
+    "halftime_split": 4.6,
     "close": 4.4,
 }
 DEFAULT_MINIMUM = 5.0

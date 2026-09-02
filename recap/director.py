@@ -221,21 +221,49 @@ SHAPE_FAMILY = {
     "match_radar": "hero",
     "stat_slam": "hero",
     "conversion_gauges": "hero",
-    "player_spike": "pitch",
+    "player_spike": "poster",
     "standard_stats": "bars",
     "box_score": "bars",
+    "shot_clock_spiral": "spiral",
+    "press_trap": "trap",
+    "pass_lanes": "lanes",
+    "bench_impact": "bench",
+    "duel_tower": "tower",
+    "aerial_war": "aerial",
+    "halftime_split": "split",
 }
 
 ANGLE_VIZ = {
-    "upset": ["stat_slam", "shot_map", "chance_funnel", "match_radar", "touch_heatmap"],
-    "robbery": ["conversion_gauges", "xg_race", "shot_map", "keeper_frame", "stat_slam"],
-    "siege": ["field_tilt_wave", "touch_heatmap", "zone_control", "momentum", "goalmouth"],
-    "blowout": ["goal_timeline", "stat_slam", "shot_map", "match_radar", "goal_chain"],
-    "comeback": ["momentum", "goal_timeline", "field_tilt_wave", "shot_map", "stat_slam"],
-    "stalemate": ["shot_map", "chance_funnel", "match_radar", "zone_control", "keeper_frame"],
-    "two_halves": ["time_zones", "field_tilt_wave", "momentum", "shot_map", "match_radar"],
-    "keeper": ["keeper_frame", "goalmouth", "conversion_gauges", "shot_map", "stat_slam"],
+    "upset": ["stat_slam", "shot_clock_spiral", "touch_heatmap", "duel_tower", "player_spike"],
+    "robbery": ["conversion_gauges", "xg_race", "shot_clock_spiral", "player_spike", "keeper_frame"],
+    "siege": ["press_trap", "touch_heatmap", "aerial_war", "momentum", "pass_lanes"],
+    "blowout": ["goal_timeline", "stat_slam", "shot_clock_spiral", "duel_tower", "pass_lanes"],
+    "comeback": ["momentum", "halftime_split", "bench_impact", "shot_map", "stat_slam"],
+    "stalemate": ["shot_map", "chance_funnel", "aerial_war", "zone_control", "duel_tower"],
+    "two_halves": ["halftime_split", "field_tilt_wave", "time_zones", "shot_clock_spiral", "match_radar"],
+    "keeper": ["keeper_frame", "conversion_gauges", "shot_clock_spiral", "xg_race", "player_spike"],
 }
+
+
+def pack_shape_families(ids: list[str]) -> list[str]:
+    return [SHAPE_FAMILY.get(vid, "other") for vid in ids]
+
+
+def unique_shape_pack(ids: list[str]) -> bool:
+    families = pack_shape_families(ids)
+    return len(families) == len(set(families))
+
+
+def colliding_shape_ids(ids: list[str]) -> list[tuple[str, str]]:
+    seen: dict[str, str] = {}
+    collisions: list[tuple[str, str]] = []
+    for vid in ids:
+        shape = SHAPE_FAMILY.get(vid, "other")
+        if shape in seen:
+            collisions.append((seen[shape], vid))
+        else:
+            seen[shape] = vid
+    return collisions
 
 
 def pick_angle(bundle: MatchBundle, audit: dict[str, Any]) -> str:
@@ -451,6 +479,83 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
             "best_for": "A human face on the numbers.",
             "avoid_when": "No player clearly led an action.",
         },
+        {
+            "id": "shot_clock_spiral",
+            "title": "Shot Clock",
+            "available": total_shots >= 4,
+            "score": 74 + min(12, shot_gap + on_target_gap),
+            "reason": "Every shot on a match clock, numbered in order.",
+            "best_for": "Volume stories and games with a shooting gallery.",
+            "avoid_when": "Too few shots to fill the spiral.",
+        },
+        {
+            "id": "press_trap",
+            "title": "The Trap",
+            "available": bool((audit.get("press_trap") or {}).get("audited")),
+            "score": 76 if (audit.get("press_trap") or {}).get("audited") else 0,
+            "reason": "Audited PPDA as closing jaws. Never a guessed 50.0.",
+            "best_for": "A side that really pressed.",
+            "avoid_when": "Fewer than five press actions high up the pitch.",
+        },
+        {
+            "id": "pass_lanes",
+            "title": "Pass Lanes",
+            "available": (
+                max(home.get("pass_attempts", 0), away.get("pass_attempts", 0)) >= 80
+                and int(health.get("pass_rows") or 0) >= 80
+            ),
+            "score": 58 + pass_gap * 0.4,
+            "reason": "Only the thickest passing lanes, revealed in sequence.",
+            "best_for": "Build-up identity without a full hairball network.",
+            "avoid_when": "Pass volume is too thin for strong edges.",
+        },
+        {
+            "id": "bench_impact",
+            "title": "The Bench",
+            "available": len((audit.get("bench_impact") or {}).get("subs") or []) >= 2,
+            "score": 54 + min(12, len((audit.get("bench_impact") or {}).get("subs") or [])),
+            "reason": "Who came on, and the shots that followed.",
+            "best_for": "Games that turned after the changes.",
+            "avoid_when": "No substitutions on the tape.",
+        },
+        {
+            "id": "duel_tower",
+            "title": "Duel Tower",
+            "available": int((audit.get("duels") or {}).get("total") or 0) >= 8,
+            "score": 61 + min(14, abs(
+                int(((audit.get("duels") or {}).get("home") or {}).get("total") or 0)
+                - int(((audit.get("duels") or {}).get("away") or {}).get("total") or 0)
+            )),
+            "reason": "Tackles, aerials and take-ons stacked as towers.",
+            "best_for": "Physical mismatches.",
+            "avoid_when": "Duels were even and scarce.",
+        },
+        {
+            "id": "aerial_war",
+            "title": "Aerial War",
+            "available": int((audit.get("aerials") or {}).get("total") or 0) >= 6,
+            "score": 59 + min(16, abs(
+                int((audit.get("aerials") or {}).get("home_won") or 0)
+                - int((audit.get("aerials") or {}).get("away_won") or 0)
+            )),
+            "reason": "Headers won as rising chevrons.",
+            "best_for": "A side that owned the air.",
+            "avoid_when": "Too few aerials.",
+        },
+        {
+            "id": "halftime_split",
+            "title": "Two Halves",
+            "available": bool((audit.get("halftime_split") or {}).get("ready")),
+            "score": 63 + min(12, abs(
+                int(((audit.get("halftime_split") or {}).get("first") or {}).get("home_shots") or 0)
+                + int(((audit.get("halftime_split") or {}).get("first") or {}).get("away_shots") or 0)
+                - int(((audit.get("halftime_split") or {}).get("second") or {}).get("home_shots") or 0)
+                - int(((audit.get("halftime_split") or {}).get("second") or {}).get("away_shots") or 0)
+            )),
+            "reason": "First half against the second, stamped.",
+            "best_for": "Games that changed character at the break.",
+            "avoid_when": "Both halves look the same.",
+        },
     ]
     for candidate in candidates:
         candidate["shape"] = SHAPE_FAMILY.get(candidate["id"], "other")
@@ -459,19 +564,19 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
 
 
 def _diverse_pick(available: dict[str, dict[str, Any]], count: int, preferred: list[str]) -> list[str]:
-    """Greedy: preferred order, then score, skipping duplicate shapes when possible."""
+    """Greedy: preferred order, then score. Never collide on shape if a substitute exists."""
     picked: list[str] = []
     used_shapes: set[str] = set()
 
-    def try_add(vid: str) -> None:
+    def try_add(vid: str, *, allow_collision: bool = False) -> bool:
         if vid not in available or vid in picked:
-            return
+            return False
         shape = SHAPE_FAMILY.get(vid, "other")
-        if shape in used_shapes and len(picked) < count - 1:
-            # Keep a slot; we'll fill leftover shapes later.
-            return
+        if shape in used_shapes and not allow_collision:
+            return False
         picked.append(vid)
         used_shapes.add(shape)
+        return True
 
     for vid in preferred:
         if len(picked) >= count:
@@ -483,12 +588,11 @@ def _diverse_pick(available: dict[str, dict[str, Any]], count: int, preferred: l
         if len(picked) >= count:
             break
         try_add(candidate["id"])
-    # Fill remaining even if shapes collide.
+    # Last resort: collide on shape only when the pack cannot be filled otherwise.
     for candidate in ranked:
         if len(picked) >= count:
             break
-        if candidate["id"] not in picked:
-            picked.append(candidate["id"])
+        try_add(candidate["id"], allow_collision=True)
     return picked[:count]
 
 
@@ -930,6 +1034,90 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "narration": f"{spike.get('player') or surname} put {count} {action} on the tape, the spike of the night.",
         }
 
+    if viz_id == "shot_clock_spiral":
+        total = home.get("shots", 0) + away.get("shots", 0)
+        return {
+            "kicker": "SHOT CLOCK",
+            "title": f"{total} SHOTS ON THE CLOCK",
+            "subtitle": i18n.t("sub_spiral"),
+            "insight": f"{home.get('shots', 0)} against {away.get('shots', 0)}. Watch them land in order.",
+            "narration": f"{total} shots on the clock. {bundle.home} {home.get('shots', 0)} to {away.get('shots', 0)}.",
+        }
+
+    if viz_id == "press_trap":
+        trap = audit.get("press_trap") or {}
+        leader = trap.get("leader") or bundle.home
+        ppda = trap.get("leader_ppda")
+        label = f"{ppda:.1f}" if isinstance(ppda, (int, float)) else "—"
+        return {
+            "kicker": "THE TRAP",
+            "title": f"{str(leader).upper()} AT {label} PPDA",
+            "subtitle": i18n.t("sub_trap"),
+            "insight": f"{leader} pressed at {label} passes per defensive action.",
+            "narration": f"{leader} set the trap at {label} PPDA. That is an audited number.",
+        }
+
+    if viz_id == "pass_lanes":
+        leader = dominant_team(bundle, audit, "pass_attempts") or bundle.home
+        return {
+            "kicker": "LANES",
+            "title": f"HOW {leader.upper()} MOVED IT",
+            "subtitle": i18n.t("sub_lanes"),
+            "insight": f"{leader} — only the thickest passing lanes.",
+            "narration": f"{leader} moved it down a few thick lanes. The rest is noise.",
+        }
+
+    if viz_id == "bench_impact":
+        bench = audit.get("bench_impact") or {}
+        n = len(bench.get("subs") or [])
+        return {
+            "kicker": "THE BENCH",
+            "title": f"{n} CAME OFF THE BENCH",
+            "subtitle": i18n.t("sub_bench"),
+            "insight": f"{n} substitutions. Watch what followed each arrival.",
+            "narration": f"{n} players came off the bench. The tape shows what happened next.",
+        }
+
+    if viz_id == "duel_tower":
+        duels = audit.get("duels") or {}
+        home_d = int((duels.get("home") or {}).get("total") or 0)
+        away_d = int((duels.get("away") or {}).get("total") or 0)
+        leader = bundle.home if home_d >= away_d else bundle.away
+        return {
+            "kicker": "DUELS",
+            "title": f"{max(home_d, away_d)} DUELS FOR {leader.upper()}",
+            "subtitle": i18n.t("sub_duel"),
+            "insight": f"{home_d} against {away_d}. Tackles, headers, take-ons stacked.",
+            "narration": f"{leader} won the duel tower, {home_d} against {away_d}.",
+        }
+
+    if viz_id == "aerial_war":
+        aerials = audit.get("aerials") or {}
+        home_a = int(aerials.get("home_won") or 0)
+        away_a = int(aerials.get("away_won") or 0)
+        leader = bundle.home if home_a >= away_a else bundle.away
+        return {
+            "kicker": "THE AIR",
+            "title": f"{leader.upper()} OWNED THE AIR",
+            "subtitle": i18n.t("sub_aerial"),
+            "insight": f"{home_a} headers won against {away_a}.",
+            "narration": f"{leader} won the aerial war, {home_a} against {away_a}.",
+        }
+
+    if viz_id == "halftime_split":
+        split = audit.get("halftime_split") or {}
+        first = split.get("first") or {}
+        second = split.get("second") or {}
+        first_shots = int(first.get("home_shots") or 0) + int(first.get("away_shots") or 0)
+        second_shots = int(second.get("home_shots") or 0) + int(second.get("away_shots") or 0)
+        return {
+            "kicker": "TWO HALVES",
+            "title": f"{first_shots} THEN {second_shots}",
+            "subtitle": i18n.t("sub_split"),
+            "insight": f"{first_shots} shots before the break, {second_shots} after.",
+            "narration": f"{first_shots} shots before the break, {second_shots} after. Two different halves.",
+        }
+
     return {
         "kicker": "EVENT DATA",
         "title": viz_id.replace("_", " ").upper(),
@@ -1239,8 +1427,49 @@ def scene_fact_pack(bundle: MatchBundle, audit: dict[str, Any], viz_id: str, cop
     elif viz_id == "player_spike":
         spike = (audit.get("player_leaders") or {}).get("spike") or {}
         numbers.append(spike.get("count"))
+        numbers.append(spike.get("rest"))
+        numbers.append(spike.get("shirt"))
         if spike.get("surname"):
             surnames.append(str(spike["surname"]))
+    elif viz_id == "shot_clock_spiral":
+        add_stat("shots", "shots_on_target")
+        numbers.append(len(audit.get("shots") or []))
+    elif viz_id == "press_trap":
+        trap = audit.get("press_trap") or {}
+        numbers.extend([
+            (trap.get("home") or {}).get("ppda"),
+            (trap.get("away") or {}).get("ppda"),
+            (trap.get("home") or {}).get("press_actions"),
+            (trap.get("away") or {}).get("press_actions"),
+            trap.get("leader_ppda"),
+        ])
+    elif viz_id == "pass_lanes":
+        add_stat("pass_attempts", "passes_completed", "pass_accuracy_pct")
+    elif viz_id == "bench_impact":
+        bench = audit.get("bench_impact") or {}
+        numbers.append(len(bench.get("subs") or []))
+        for sub in bench.get("subs") or []:
+            numbers.append(sub.get("minute"))
+            numbers.append(sub.get("shots_after"))
+            numbers.append(sub.get("shirt"))
+    elif viz_id == "duel_tower":
+        duels = audit.get("duels") or {}
+        numbers.extend([
+            (duels.get("home") or {}).get("total"),
+            (duels.get("away") or {}).get("total"),
+            (duels.get("home") or {}).get("tackles"),
+            (duels.get("away") or {}).get("tackles"),
+        ])
+    elif viz_id == "aerial_war":
+        aerials = audit.get("aerials") or {}
+        numbers.extend([aerials.get("home_won"), aerials.get("away_won"), aerials.get("total")])
+    elif viz_id == "halftime_split":
+        split = audit.get("halftime_split") or {}
+        first, second = split.get("first") or {}, split.get("second") or {}
+        numbers.extend([
+            first.get("home_shots"), first.get("away_shots"),
+            second.get("home_shots"), second.get("away_shots"),
+        ])
     elif viz_id == "xg_race":
         add_stat("xg", "xgot", "goals", "shots")
     elif viz_id == "conversion_gauges":
@@ -1379,8 +1608,7 @@ class Gemini:
                 "Only choose candidates where available is true.",
                 "A candidate can be available and still be a bad fit; use best_for and avoid_when.",
                 "Prefer a set that tells one coherent story rather than three versions of the same point.",
-                "Do not pick more than two scenes from the same family "
-                "(pitch, bars, time, territory, hero).",
+                "Do not pick two scenes from the same shape family.",
                 f"Return exactly {count} ids.",
             ],
             "editor_note": instruction,
