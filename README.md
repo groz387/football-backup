@@ -20,7 +20,15 @@ Quick visual-master render from an existing export:
 
 ```bash
 python video_pipeline.py --match-dir output/1953861_Scotland_vs_Morocco --auto
+python video_pipeline.py --match-dir output/1953861_Scotland_vs_Morocco --auto --star yamal
+python video_pipeline.py --match-dir output/1953861_Scotland_vs_Morocco --auto --star off
 ```
+
+`--star auto` (default) packages 1–2 players from the export (scorer, assist
+leader, shot/dribble spike, keeper, MOTM-like score) with a locked three-number
+fact pack and a lowercase poster title. `--star <name>` matches aliases derived
+from names already in the data. `--star off` skips packaging. Names that are
+not in the export are never invented.
 
 By default this produces a silent, TikTok-style visual master and a short
 human voiceover recording script. Attach a recorded human narration file with:
