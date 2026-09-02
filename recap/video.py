@@ -18,6 +18,7 @@ from . import clips as clip_mod
 from . import scenes as scene_renderers
 from . import timing
 from . import audio as audio_mod
+from . import safe_zones
 from .data import MatchBundle, safe_name
 from .draw import HOLD_AT
 
@@ -237,12 +238,8 @@ def assemble(
     srt = Path(srt_path) if srt_path else Path(out_dir) / "subtitles.srt"
     if burn_captions and srt.exists() and srt.stat().st_size > 0:
         escaped = _escape_subtitles_path(srt)
-        graph += (
-            f";{mapped_video}subtitles={escaped}:force_style='"
-            "Fontname=Bai Jamjuree,Fontsize=15,PrimaryColour=&H00FFFFFF,"
-            "OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,"
-            "Alignment=2,MarginV=150,Bold=1'[vcapt]"
-        )
+        style = safe_zones.default_ass_style().replace("'", r"\'")
+        graph += f";{mapped_video}subtitles={escaped}:force_style='{style}'[vcapt]"
         mapped_video = "[vcapt]"
 
     command += ["-filter_complex", graph, "-map", mapped_video]

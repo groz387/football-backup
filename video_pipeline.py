@@ -35,6 +35,8 @@ load_dotenv()
 
 from recap import audit as audit_mod
 from recap import clips, director, hooks, i18n, logos, theme, timing, video, voice, viral_audit
+from recap import export_pack as export_pack_mod
+from recap import platforms as platforms_mod
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -316,6 +318,9 @@ def run(args: argparse.Namespace) -> Path:
 
     # -- 4. timing and narration ------------------------------------------
     stage("4. Timing")
+    scene_list = platforms_mod.apply_hook_deadline(scene_list)
+    if getattr(args, "spoiler", "show") == "hide" and platforms_mod.opening_has_score(scene_list):
+        say("  [warn] --spoiler hide: a scoreline is still in the first 3s of copy")
     scene_list = timing.plan_durations(scene_list)
     narration_text = "\n\n".join(scene["narration"] for scene in scene_list)
     write_script_files(out_dir, timing.timeline(scene_list), audit)
@@ -357,6 +362,10 @@ def run(args: argparse.Namespace) -> Path:
             "total_seconds": timing.total_seconds(scene_list),
             "sfx": bool(getattr(args, "sfx", True)),
             "burn_captions": bool(getattr(args, "burn_captions", True)),
+            "platforms": getattr(args, "platforms", "tiktok,shorts"),
+            "aspect": getattr(args, "aspect", "all"),
+            "spoiler": getattr(args, "spoiler", "show"),
+            "end_card": bool(getattr(args, "end_card", True)),
         },
         "viral_audit": viral_report,
         "selected_visualizations": selected,
@@ -372,6 +381,7 @@ def run(args: argparse.Namespace) -> Path:
                                       positions=tuple(args.still_positions))
         for path in written:
             say(f"  {path}")
+        _write_platform_pack(out_dir, None, args, audit, scene_list, viral_report, language)
         return out_dir
 
     stage("5. Render")
@@ -406,7 +416,45 @@ def run(args: argparse.Namespace) -> Path:
     say(f"  duration {actual:.2f}s (planned {expected:.2f}s)" if actual else f"  planned {expected:.2f}s")
     if actual and abs(actual - expected) > 0.35:
         say(f"  [warn] the encoded duration is {abs(actual - expected):.2f}s off the plan")
+    _write_platform_pack(out_dir, path, args, audit, scene_list, viral_report, language)
     return out_dir
+
+
+def _write_platform_pack(out_dir, master, args, audit, scene_list, viral_report, language) -> None:
+    """ffmpeg-export requested social formats from the portrait master."""
+    stage("7. Platform pack")
+    plan = {
+        "match": audit.get("match"),
+        "scenes": scene_list,
+        "viral_audit": viral_report,
+        "generation": {
+            "colors": {
+                "home": theme.get_team_colors()[0],
+                "away": theme.get_team_colors()[1],
+            }
+        },
+    }
+    try:
+        manifest = export_pack_mod.export_pack(
+            Path(out_dir),
+            Path(master) if master else None,
+            platforms_flag=getattr(args, "platforms", "tiktok,shorts"),
+            aspect=getattr(args, "aspect", "all"),
+            spoiler=getattr(args, "spoiler", "show"),
+            end_card=bool(getattr(args, "end_card", True)),
+            language=language,
+            audit=audit,
+            plan=plan,
+            srt_path=Path(out_dir) / "subtitles.srt",
+            fps=int(getattr(args, "fps", video.DEFAULT_FPS)),
+        )
+    except (ValueError, OSError) as exc:
+        say(f"  [warn] platform pack failed: {exc}")
+        return
+    say(f"  cover {manifest.get('cover', {}).get('path', '')}  ({manifest.get('cover', {}).get('number')} {manifest.get('cover', {}).get('label', '')})".rstrip())
+    for row in manifest.get("exports") or []:
+        status = row.get("mp4") if row.get("ok") else (row.get("error") or row.get("jpg") or "skipped")
+        say(f"  {row.get('id')}: {status}")
 
 
 def build_script(
@@ -537,6 +585,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="Animation positions to capture with --still")
     parser.add_argument("--no-crossfade", action="store_true", help="Hard cuts instead of dissolves")
     parser.add_argument("--skip-video", action="store_true", help="Render frames but do not encode")
+    platforms_mod.add_cli_arguments(parser)
 
     args = parser.parse_args(argv)
     if not args.auto and not args.interactive:
