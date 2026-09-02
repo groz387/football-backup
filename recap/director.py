@@ -1095,7 +1095,11 @@ def build_storyboard(
     matchup = hook["matchup"]
     scenes: list[dict[str, Any]] = []
     beats = list(clip_beats or [])
-    pre_beats, mid_beats = beats[:1], beats[1:2]
+    # A single smash sits BETWEEN claim and punch. A second beat can cold-open.
+    if len(beats) <= 1:
+        pre_beats, mid_beats = [], beats[:1]
+    else:
+        pre_beats, mid_beats = beats[:1], beats[1:2]
 
     def clip_scene(index: int, beat: dict[str, Any]) -> dict[str, Any]:
         return {

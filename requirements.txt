@@ -11,3 +11,4 @@ nodriver
 moviepy
 google-genai
 python-dotenv
+yt-dlp
