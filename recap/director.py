@@ -342,7 +342,10 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         {
             "id": "pass_network",
             "title": "Pass Network",
-            "available": max(home.get("pass_attempts", 0), away.get("pass_attempts", 0)) >= 150,
+            "available": (
+                max(home.get("pass_attempts", 0), away.get("pass_attempts", 0)) >= 150
+                and int(health.get("pass_rows") or 0) >= 150
+            ),
             "score": 44 + pass_gap,
             "reason": "Average positions and the strongest passing links.",
             "best_for": "Build-up identity and control stories.",

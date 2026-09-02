@@ -1,0 +1,408 @@
+{
+  "matchId": 1993920,
+  "startDate": "2026-08-31T00:00:00",
+  "startTime": "2026-08-31T19:30:00+00:00",
+  "score": "5 : 2",
+  "ftScore": "5 : 2",
+  "htScore": "2 : 1",
+  "etScore": "",
+  "venueName": "Spotify Camp Nou",
+  "attendance": 57768,
+  "referee": {
+    "name": "Francisco José Hernández Maeso",
+    "firstName": "Francisco José",
+    "lastName": "Hernández Maeso"
+  },
+  "maxMinute": 95,
+  "home": {
+    "teamId": 65,
+    "name": "Barcelona",
+    "countryName": "Spain",
+    "formations": [
+      {
+        "formationName": "4-2-3-1",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 1264150,
+        "name": "Joan Garcia",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264151,
+        "name": "Christensen",
+        "shirtNo": 15,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264152,
+        "name": "Kounde",
+        "shirtNo": 23,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264153,
+        "name": "Xavi Espart",
+        "shirtNo": 12,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264154,
+        "name": "Cubarsí",
+        "shirtNo": 5,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264155,
+        "name": "Olmo",
+        "shirtNo": 20,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264156,
+        "name": "Anthony Gordon",
+        "shirtNo": 17,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264157,
+        "name": "Bernal",
+        "shirtNo": 22,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264158,
+        "name": "Pedri",
+        "shirtNo": 8,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264159,
+        "name": "Lamine Yamal",
+        "shirtNo": 10,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264160,
+        "name": "Raphinha",
+        "shirtNo": 11,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264161,
+        "name": "Hamza Abdelkarim",
+        "shirtNo": 29,
+        "position": "FW",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264162,
+        "name": "Szczesny",
+        "shirtNo": 13,
+        "position": "13",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264163,
+        "name": "Eder Aller",
+        "shirtNo": 31,
+        "position": "14",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264164,
+        "name": "Fermin",
+        "shirtNo": 7,
+        "position": "15",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264165,
+        "name": "Gerard Martín",
+        "shirtNo": 18,
+        "position": "16",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264166,
+        "name": "Brian",
+        "shirtNo": 28,
+        "position": "17",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264167,
+        "name": "Balde",
+        "shirtNo": 3,
+        "position": "18",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264168,
+        "name": "Adeyemi",
+        "shirtNo": 14,
+        "position": "19",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264169,
+        "name": "Eric",
+        "shirtNo": 24,
+        "position": "20",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264170,
+        "name": "Rodrigo",
+        "shirtNo": 16,
+        "position": "21",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264171,
+        "name": "Joao Cancelo",
+        "shirtNo": 2,
+        "position": "22",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 64,
+    "name": "Rayo Vallecano",
+    "countryName": "Spain",
+    "formations": [
+      {
+        "formationName": "4-2-3-1",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 1264173,
+        "name": "Cárdenas",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264174,
+        "name": "Balliu",
+        "shirtNo": 20,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264175,
+        "name": "Lejeune",
+        "shirtNo": 24,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264176,
+        "name": "Jozhua V.",
+        "shirtNo": 33,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264177,
+        "name": "Pathé I. Ciss",
+        "shirtNo": 6,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264178,
+        "name": "G. Bouaré",
+        "shirtNo": 36,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264179,
+        "name": "Óscar V.",
+        "shirtNo": 23,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264182,
+        "name": "De Frutos",
+        "shirtNo": 19,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264180,
+        "name": "Unai Lopez",
+        "shirtNo": 8,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264183,
+        "name": "Álvaro",
+        "shirtNo": 18,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264181,
+        "name": "Camello",
+        "shirtNo": 10,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 1264184,
+        "name": "Pedro Díaz",
+        "shirtNo": 4,
+        "position": "FW",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264185,
+        "name": "Pedrosa",
+        "shirtNo": 17,
+        "position": "13",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264186,
+        "name": "Nteka",
+        "shirtNo": 11,
+        "position": "14",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264187,
+        "name": "G.tsitaishvili",
+        "shirtNo": 14,
+        "position": "15",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264188,
+        "name": "Fran Pérez",
+        "shirtNo": 21,
+        "position": "16",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264189,
+        "name": "Andrei",
+        "shirtNo": 2,
+        "position": "17",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264190,
+        "name": "Alemâo",
+        "shirtNo": 9,
+        "position": "18",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264191,
+        "name": "Pelayo",
+        "shirtNo": 22,
+        "position": "19",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264192,
+        "name": "De Las Sias",
+        "shirtNo": 26,
+        "position": "20",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264193,
+        "name": "Adrián Molina",
+        "shirtNo": 30,
+        "position": "21",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 1264194,
+        "name": "M. Román",
+        "shirtNo": 31,
+        "position": "22",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "Spain",
+  "league": "LaLiga",
+  "season": "2026/2027",
+  "competitionType": "League",
+  "competitionStage": "Matchday 3",
+  "data_source": "laliga_official",
+  "data_source_note": "WhoScored match 1993920 was Cloudflare-blocked from this environment. Events are official La Liga Opta play-by-play; team pass/touch totals are official Opta aggregates. Shot coordinates are Opta zone centroids.",
+  "official_stats": {
+    "home": {
+      "pass_attempts": 648,
+      "passes_completed": 585,
+      "touches": 879,
+      "final_third_passes": 168,
+      "corners": 9,
+      "fouls": 4,
+      "saves": 3,
+      "tackles_won": 7,
+      "interceptions": 8,
+      "dribbles_won": 26,
+      "dispossessed": 10,
+      "possession_percentage": 68.5,
+      "shots_official": 26,
+      "shots_on_target_official": 9,
+      "big_chances": 7,
+      "big_chances_missed": 5,
+      "big_chances_created": 7,
+      "pass_share_pct": 69.4,
+      "pass_accuracy_pct": 90.3,
+      "touch_share_pct": 64.1
+    },
+    "away": {
+      "pass_attempts": 286,
+      "passes_completed": 212,
+      "touches": 492,
+      "final_third_passes": 29,
+      "corners": 5,
+      "fouls": 11,
+      "saves": 5,
+      "tackles_won": 10,
+      "interceptions": 9,
+      "dribbles_won": 12,
+      "dispossessed": 11,
+      "possession_percentage": 31.5,
+      "shots_official": 11,
+      "shots_on_target_official": 5,
+      "big_chances": 4,
+      "big_chances_missed": 2,
+      "big_chances_created": 3,
+      "pass_share_pct": 30.6,
+      "pass_accuracy_pct": 74.1,
+      "touch_share_pct": 35.9
+    }
+  },
+  "laliga_match_id": 102272,
+  "opta_id": "g2650785"
+}

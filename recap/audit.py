@@ -197,6 +197,51 @@ def build_team_stats(bundle: MatchBundle) -> dict[str, dict[str, Any]]:
         xgot_col = next((col for col in events.columns if col.lower() in {"xgot", "expectedgoalsontarget", "expected_goals_on_target"}), "")
         if xgot_col:
             stats[bundle.team(h_a)]["xgot"] = round(float(num(events, xgot_col)[team_shots].fillna(0).sum()), 2)
+    return _merge_official_stats(bundle, stats)
+
+
+def _merge_official_stats(
+    bundle: MatchBundle, stats: dict[str, dict[str, Any]]
+) -> dict[str, dict[str, Any]]:
+    """Overlay Opta team aggregates when the event file has no full pass map.
+
+    Shot/goal counts stay event-derived so they match the plotted shot map.
+    Pass, touch, corner, foul, save, and duel totals may come from an official
+    provider stored on ``match_summary.json`` as ``official_stats``.
+    """
+    official = bundle.summary.get("official_stats") or {}
+    if not isinstance(official, dict) or not official:
+        return stats
+    mapping = {"h": official.get("home") or {}, "a": official.get("away") or {}}
+    overlay_keys = (
+        "pass_attempts",
+        "passes_completed",
+        "pass_accuracy_pct",
+        "pass_share_pct",
+        "touches",
+        "touch_share_pct",
+        "final_third_passes",
+        "corners",
+        "fouls",
+        "saves",
+        "tackles_won",
+        "interceptions",
+        "dribbles_won",
+        "dispossessed",
+        "big_chances",
+        "big_chances_missed",
+        "big_chances_created",
+    )
+    for h_a, payload in mapping.items():
+        if not payload:
+            continue
+        name = bundle.team(h_a)
+        if name not in stats:
+            continue
+        for key in overlay_keys:
+            if payload.get(key) is None:
+                continue
+            stats[name][key] = payload[key]
     return stats
 
 
