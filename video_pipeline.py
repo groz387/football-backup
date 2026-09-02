@@ -34,6 +34,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
+from recap import cast as cast_mod
 from recap import clips, director, hooks, i18n, locale_meta, logos, theme, timing, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
@@ -269,9 +270,12 @@ def run(args: argparse.Namespace) -> Path:
     if isinstance(generation, dict):
         generation["spoiler"] = spoiler
         generation["language"] = language
+    audit = cast_mod.apply_cast(bundle, audit, star=getattr(args, "star", "auto"))
     write_json(out_dir / "data_audit.json", audit)
     for fact in audit["facts"]:
         say(f"  - {fact}")
+    for line in cast_mod.describe_cast(audit.get("cast") or {}):
+        say(f"  star: {line}")
     if ask("Accept these numbers?", ("ok", "quit"), args.auto) == "quit":
         raise SystemExit("Stopped at the data audit.")
 
@@ -431,6 +435,8 @@ def run(args: argparse.Namespace) -> Path:
             "total_seconds": timing.total_seconds(scene_list),
             "sfx": bool(getattr(args, "sfx", True)),
             "burn_captions": bool(getattr(args, "burn_captions", True)),
+            "star": getattr(args, "star", "auto"),
+            "cast": cast_mod.compact_cast(audit.get("cast") or {}),
         },
         "viral_audit": viral_report,
         "selected_visualizations": selected,
@@ -650,6 +656,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="Burn subtitles into the social master (default on)")
     parser.add_argument("--no-burn-captions", dest="burn_captions", action="store_false",
                         help="Keep captions as an external SRT only")
+
+    parser.add_argument(
+        "--star",
+        default="auto",
+        metavar="MODE",
+        help="Star-player packaging: auto (default), off, or a player name/alias from the export",
+    )
 
     parser.add_argument("--clip", action="append", default=[],
                         help="Path to a match clip or highlight (repeatable). Also reads match-dir/clips/")

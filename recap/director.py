@@ -1649,6 +1649,11 @@ def scene_fact_pack(bundle: MatchBundle, audit: dict[str, Any], viz_id: str, cop
         numbers.append(spike.get("shirt"))
         if spike.get("surname"):
             surnames.append(str(spike["surname"]))
+        for star in (audit.get("cast") or {}).get("players") or []:
+            if star.get("name"):
+                surnames.append(str(star["name"]).split()[-1])
+            for item in star.get("numbers") or []:
+                numbers.append(item.get("value"))
     elif viz_id == "shot_clock_spiral":
         add_stat("shots", "shots_on_target")
         numbers.append(len(audit.get("shots") or []))
@@ -2086,6 +2091,16 @@ def _brief(bundle: MatchBundle, audit: dict[str, Any], angle: str = "") -> dict[
         } if chain else None,
         "field_tilt_peak": peak_tilt,
         "player_leaders": spike,
+        "cast": [
+            {
+                "name": player.get("name"),
+                "team": player.get("team"),
+                "title": player.get("title"),
+                "role": player.get("role"),
+                "numbers": player.get("numbers") or [],
+            }
+            for player in (audit.get("cast") or {}).get("players") or []
+        ],
         "unavailable_metrics": audit["data_health"]["blocked_claims"],
         "data_health": {
             "has_vendor_xg": bool((audit.get("data_health") or {}).get("has_vendor_xg")),
