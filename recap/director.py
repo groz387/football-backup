@@ -1507,7 +1507,7 @@ def build_storyboard(
     if len(beats) <= 1:
         pre_beats, mid_beats = [], beats[:1]
     else:
-        pre_beats, mid_beats = [], beats[:2]  # clips never open the recap
+        pre_beats, mid_beats = beats[:1], beats[1:2]
 
     def clip_scene(index: int, beat: dict[str, Any]) -> dict[str, Any]:
         return {

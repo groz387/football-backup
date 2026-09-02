@@ -4,6 +4,11 @@
     python video_pipeline.py --match-dir output/1999238_Argentina_vs_Switzerland --auto
     python video_pipeline.py --interactive
     python video_pipeline.py --match-dir output/... --auto --still   # fast preview
+    python video_pipeline.py --match-dir output/... --auto --no-fetch-clip
+
+`--auto` fetches a short public highlight of this fixture (yt-dlp) unless
+`--no-fetch-clip` is set or footage already sits in match-dir/clips/. Failures
+do not block the recap.
 
 Written to video_output/<match>/:
 
@@ -317,11 +322,16 @@ def run(args: argparse.Namespace) -> Path:
         raise SystemExit("Stopped at the data audit.")
 
     extra_clips = [Path(p) for p in (args.clip or [])]
-    sources = clips.discover_sources(match_dir, extra_clips)
-    if args.fetch_clip and not sources:
-        fetched = clips.fetch_highlight(bundle, match_dir / "clips")
-        if fetched:
-            sources = [fetched]
+    sources, clip_report = clips.acquire_sources(
+        bundle,
+        match_dir,
+        extra_clips,
+        fetch=bool(getattr(args, "fetch_clip", True)),
+        refetch=bool(getattr(args, "refetch_clip", False)),
+        audit=audit,
+        language=language,
+    )
+    clips.log_report(clip_report)
     clip_beats = clips.plan_beats(bundle, audit, sources)
     say(f"  opening clips: {clips.describe_beats(clip_beats)}")
 
@@ -499,6 +509,18 @@ def run(args: argparse.Namespace) -> Path:
             "platforms": getattr(args, "platforms", "tiktok,shorts"),
             "aspect": getattr(args, "aspect", "all"),
             "end_card": bool(getattr(args, "end_card", True)),
+            "clips": {
+                "mode": clip_report.get("mode"),
+                "url": clip_report.get("url"),
+                "title": clip_report.get("title"),
+                "path": clip_report.get("path"),
+                "query": clip_report.get("query"),
+                "id": clip_report.get("id"),
+                "beats": [
+                    {k: beat.get(k) for k in ("path", "start", "duration", "label")}
+                    for beat in clip_beats
+                ],
+            },
         },
         "viral_audit": viral_report,
         "selected_visualizations": selected,
@@ -802,8 +824,19 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
     parser.add_argument("--clip", action="append", default=[],
                         help="Path to a match clip or highlight (repeatable). Also reads match-dir/clips/")
-    parser.add_argument("--fetch-clip", action="store_true",
-                        help="Search YouTube via yt-dlp for a highlight if no local clip exists")
+    parser.add_argument(
+        "--fetch-clip", dest="fetch_clip", action="store_true", default=True,
+        help="Auto-search YouTube via yt-dlp for a short highlight of this fixture "
+             "when no local clip is cached (default on)",
+    )
+    parser.add_argument(
+        "--no-fetch-clip", dest="fetch_clip", action="store_false",
+        help="Skip automatic highlight fetch; graphics-only recap still runs",
+    )
+    parser.add_argument(
+        "--refetch-clip", action="store_true",
+        help="Ignore the cached highlight under match-dir/clips/ and search again",
+    )
 
     parser.add_argument("--still", action="store_true", help="Render one image per scene instead of a video")
     parser.add_argument("--still-positions", type=float, nargs="+", default=[1.0],

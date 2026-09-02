@@ -39,3 +39,7 @@ Thumbs.db
 .cache/
 assets/logos/*
 !assets/logos/.gitkeep
+
+# Auto-fetched match highlights (regenerable; can be large)
+output/**/clips/
+output/**/highlights/
