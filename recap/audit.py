@@ -820,24 +820,46 @@ def build_player_leaders(bundle: MatchBundle) -> dict[str, Any]:
             {"x": round(float(row.x), 2), "y": round(float(row.y), 2)}
             for row in coords.itertuples(index=False)
         ]
+        team_total = int((mask & side.eq(h_a)).sum())
+        rest = max(0, team_total - count)
         return {
             "player": player,
             "surname": player.split()[-1] if player else "",
+            "shirt": _shirt_no(bundle, player),
             "team": bundle.team(h_a),
             "h_a": h_a,
             "action": action,
             "count": count,
+            "team_total": team_total,
+            "rest": rest,
             "points": points[:40],
         }
 
+    goals_mask = flag(events, "isGoal") & ~flag(events, "goalOwn")
+    assists = flag(events, "assist") | flag(events, "intentionalAssist")
+    saves = keeper_saves(events)
+    key_passes = flag(events, "passKey")
     candidates = [
         top_for(shots, "shots"),
         top_for(tackles, "tackles"),
         top_for(take_ons, "dribbles"),
+        top_for(goals_mask, "goals"),
+        top_for(assists, "assists"),
+        top_for(saves, "saves"),
+        top_for(key_passes, "key_passes"),
     ]
     ranked = sorted((item for item in candidates if item), key=lambda item: item["count"], reverse=True)
     spike = ranked[0] if ranked else None
-    return {"spike": spike, "shots": candidates[0], "tackles": candidates[1], "dribbles": candidates[2]}
+    return {
+        "spike": spike,
+        "shots": candidates[0],
+        "tackles": candidates[1],
+        "dribbles": candidates[2],
+        "goals": candidates[3],
+        "assists": candidates[4],
+        "saves": candidates[5],
+        "key_passes": candidates[6],
+    }
 
 
 def build_time_zones(bundle: MatchBundle) -> list[dict[str, Any]]:
@@ -909,6 +931,229 @@ def build_touch_heatmap(bundle: MatchBundle, x_bins: int = 24, y_bins: int = 16)
     return {"x_bins": x_bins, "y_bins": y_bins, "home": grids["home"], "away": grids["away"]}
 
 
+PRESS_ACTION_TYPES = frozenset({"Tackle", "Interception", "Foul", "Challenge", "BlockedPass"})
+PRESS_MIN_ACTIONS = 5
+
+
+def _shirt_no(bundle: MatchBundle, player: str) -> int | None:
+    """Jersey number from player_stats.csv when the name matches."""
+    players = bundle.players
+    if players is None or getattr(players, "empty", True) or "playerName" not in getattr(players, "columns", []):
+        return None
+    if "shirtNo" not in players.columns:
+        return None
+    names = players["playerName"].astype(str)
+    hit = players.loc[names.eq(player)]
+    if hit.empty:
+        surname = player.split()[-1] if player else ""
+        if surname:
+            hit = players.loc[names.str.endswith(surname, na=False)]
+    if hit.empty:
+        return None
+    try:
+        return int(hit.iloc[0]["shirtNo"])
+    except (TypeError, ValueError):
+        return None
+
+
+def build_press_trap(bundle: MatchBundle) -> dict[str, Any]:
+    """PPDA-style press intensity. Reported only when a side has enough actions.
+
+    Opponent passes with team-perspective ``x < 40`` over this team's
+    Tackle / Interception / Foul / Challenge / BlockedPass with ``x > 60``.
+    A side is ``audited`` only with at least ``PRESS_MIN_ACTIONS`` press events.
+    Never invent a number from a 50.0 fallback.
+    """
+    blank = {"ppda": None, "press_actions": 0, "opp_passes": 0, "audited": False}
+    empty = {
+        "home": dict(blank),
+        "away": dict(blank),
+        "audited": False,
+        "leader": "",
+        "leader_ppda": None,
+    }
+    events = bundle.events
+    if events.empty:
+        return empty
+    types = text_col(events, "type")
+    side = text_col(events, "h_a")
+    x = num(events, "x")
+    is_pass = types.eq("Pass")
+    is_press = types.isin(list(PRESS_ACTION_TYPES))
+    sides: dict[str, dict[str, Any]] = {}
+    for h_a, opp in (("h", "a"), ("a", "h")):
+        actions = int((is_press & side.eq(h_a) & x.gt(60)).sum())
+        opp_passes = int((is_pass & side.eq(opp) & x.lt(40)).sum())
+        audited = actions >= PRESS_MIN_ACTIONS
+        ppda = round(opp_passes / actions, 2) if audited and actions else None
+        sides[h_a] = {
+            "ppda": ppda,
+            "press_actions": actions,
+            "opp_passes": opp_passes,
+            "audited": audited,
+        }
+    home, away = sides["h"], sides["a"]
+    audited = bool(home["audited"] or away["audited"])
+    leader = ""
+    leader_ppda = None
+    if home["audited"] and away["audited"]:
+        if (home["ppda"] or 99) <= (away["ppda"] or 99):
+            leader, leader_ppda = bundle.home, home["ppda"]
+        else:
+            leader, leader_ppda = bundle.away, away["ppda"]
+    elif home["audited"]:
+        leader, leader_ppda = bundle.home, home["ppda"]
+    elif away["audited"]:
+        leader, leader_ppda = bundle.away, away["ppda"]
+    return {
+        "home": home,
+        "away": away,
+        "audited": audited,
+        "leader": leader,
+        "leader_ppda": leader_ppda,
+    }
+
+
+def build_duels(bundle: MatchBundle) -> dict[str, Any]:
+    """Tackles won, aerials won, take-ons won — the duel tower."""
+    events = bundle.events
+    empty_side = {"tackles": 0, "aerials": 0, "take_ons": 0, "total": 0}
+    empty = {"home": dict(empty_side), "away": dict(empty_side), "total": 0}
+    if events.empty:
+        return empty
+    types = text_col(events, "type")
+    side = text_col(events, "h_a")
+    successful = text_col(events, "outcomeType").eq("Successful")
+    tackles = flag(events, "tackleWon")
+    aerials = flag(events, "duelAerialWon") | (types.eq("Aerial") & successful)
+    take_ons = types.eq("TakeOn") & successful
+    sides: dict[str, dict[str, int]] = {}
+    for token, key in (("h", "home"), ("a", "away")):
+        tck = int((tackles & side.eq(token)).sum())
+        aer = int((aerials & side.eq(token)).sum())
+        take = int((take_ons & side.eq(token)).sum())
+        sides[key] = {"tackles": tck, "aerials": aer, "take_ons": take, "total": tck + aer + take}
+    return {"home": sides["home"], "away": sides["away"], "total": sides["home"]["total"] + sides["away"]["total"]}
+
+
+def build_aerials(bundle: MatchBundle) -> dict[str, Any]:
+    """Header events for the aerial-war chevrons."""
+    events = bundle.events
+    empty = {"events": [], "home_won": 0, "away_won": 0, "total": 0}
+    if events.empty:
+        return empty
+    types = text_col(events, "type")
+    mask = types.eq("Aerial")
+    if not mask.any():
+        return empty
+    side = text_col(events, "h_a")
+    won_flag = flag(events, "duelAerialWon") | (types.eq("Aerial") & text_col(events, "outcomeType").eq("Successful"))
+    records: list[dict[str, Any]] = []
+    home_won = away_won = 0
+    for _, row in events.loc[mask].iterrows():
+        h_a = clean_text(row.get("h_a"))
+        won = bool(won_flag.loc[row.name]) if row.name in won_flag.index else False
+        if won:
+            if h_a == "h":
+                home_won += 1
+            elif h_a == "a":
+                away_won += 1
+        minute = int(row["minute"]) if pd.notna(row.get("minute")) else None
+        x, y = row.get("x"), row.get("y")
+        records.append(
+            {
+                "h_a": h_a,
+                "team": bundle.team(h_a) if h_a in {"h", "a"} else "",
+                "player": clean_text(row.get("playerName"), "Unknown"),
+                "minute": minute,
+                "won": won,
+                "x": round(float(x), 2) if pd.notna(x) else None,
+                "y": round(float(y), 2) if pd.notna(y) else None,
+            }
+        )
+    return {
+        "events": records[:80],
+        "home_won": home_won,
+        "away_won": away_won,
+        "total": len(records),
+    }
+
+
+def build_bench_impact(bundle: MatchBundle) -> dict[str, Any]:
+    """Substitution-on timeline. Skip the card when nobody came off the bench."""
+    events = bundle.events
+    empty = {"subs": [], "home_count": 0, "away_count": 0}
+    if events.empty:
+        return empty
+    types = text_col(events, "type")
+    mask = types.eq("SubstitutionOn") | flag(events, "subOn")
+    if not mask.any():
+        return empty
+    shots = flag(events, "isShot")
+    side = text_col(events, "h_a")
+    minutes = num(events, "minute")
+    subs: list[dict[str, Any]] = []
+    for _, row in events.loc[mask].iterrows():
+        h_a = clean_text(row.get("h_a"))
+        if h_a not in {"h", "a"}:
+            continue
+        minute = int(row["minute"]) if pd.notna(row.get("minute")) else None
+        player = clean_text(row.get("playerName"), "Unknown")
+        after = 0
+        if minute is not None:
+            after = int((shots & side.eq(h_a) & minutes.gt(minute)).sum())
+        subs.append(
+            {
+                "h_a": h_a,
+                "team": bundle.team(h_a),
+                "player": player,
+                "surname": player.split()[-1] if player else "",
+                "shirt": _shirt_no(bundle, player),
+                "minute": minute,
+                "shots_after": after,
+            }
+        )
+    subs.sort(key=lambda item: (item.get("minute") is None, item.get("minute") or 0))
+    return {
+        "subs": subs,
+        "home_count": sum(1 for item in subs if item["h_a"] == "h"),
+        "away_count": sum(1 for item in subs if item["h_a"] == "a"),
+    }
+
+
+def build_halftime_split(bundle: MatchBundle) -> dict[str, Any]:
+    """First half vs second half stamp. Extra time is ignored on this card."""
+    events = bundle.events
+    blank = {
+        "home_shots": 0, "away_shots": 0, "home_goals": 0, "away_goals": 0,
+        "home_pressure": 0.0, "away_pressure": 0.0,
+    }
+    empty = {"first": dict(blank), "second": dict(blank), "ready": False}
+    if events.empty:
+        return empty
+    period = text_col(events, "period")
+    side = text_col(events, "h_a")
+    shots = flag(events, "isShot")
+    scored = flag(events, "isGoal") & ~flag(events, "goalOwn")
+    pressure = _event_pressure(events)
+
+    def slice_period(name: str) -> dict[str, Any]:
+        mask = period.eq(name)
+        return {
+            "home_shots": int((mask & shots & side.eq("h")).sum()),
+            "away_shots": int((mask & shots & side.eq("a")).sum()),
+            "home_goals": int((mask & scored & side.eq("h")).sum()),
+            "away_goals": int((mask & scored & side.eq("a")).sum()),
+            "home_pressure": round(float(pressure[mask & side.eq("h")].sum()), 2),
+            "away_pressure": round(float(pressure[mask & side.eq("a")].sum()), 2),
+        }
+
+    first = slice_period("FirstHalf")
+    second = slice_period("SecondHalf")
+    ready = any(first[key] or second[key] for key in ("home_shots", "away_shots", "home_goals", "away_goals"))
+    return {"first": first, "second": second, "ready": ready}
+
+
 def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
     events = bundle.events
     columns = {col.lower() for col in events.columns}
@@ -958,6 +1203,11 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
         "player_leaders": build_player_leaders(bundle),
         "time_zones": build_time_zones(bundle),
         "touch_heatmap": build_touch_heatmap(bundle),
+        "press_trap": build_press_trap(bundle),
+        "duels": build_duels(bundle),
+        "aerials": build_aerials(bundle),
+        "bench_impact": build_bench_impact(bundle),
+        "halftime_split": build_halftime_split(bundle),
         "definitions": {
             "pass_share_pct": "Share of all pass attempts in the export. A proxy for territory of the ball, not broadcast possession.",
             "shots_on_target": "WhoScored shotOnTarget flag. Shots blocked by an outfield player are counted separately and are not on target.",
@@ -968,6 +1218,11 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
                            "restarts each period, so stoppage time overlaps the next period.",
             "field_tilt": "Share of successful final-third passes in each ten-minute window.",
             "goal_chain": "Uninterrupted possession immediately before a goal, capped at 75 seconds and 18 events.",
+            "ppda": (
+                "Opponent pass attempts with team-perspective x < 40, divided by this team's "
+                "Tackle/Interception/Foul/Challenge/BlockedPass with x > 60. Reported only when "
+                "that side has at least five such press actions. Not a broadcast PPDA feed."
+            ),
         },
     }
     audit["goal_timeline"] = goal_timeline(audit)
