@@ -17,7 +17,7 @@ import matplotlib
 from matplotlib import font_manager
 
 # --- surfaces ---------------------------------------------------------------
-INK = "#0b1014"          # page background — lifted off pure black so team tint can read
+INK = "#000000"          # page background is always pitch black; no team-color wash
 SURFACE = "#0e1211"      # cards and panels
 SURFACE_HI = "#161b19"   # raised rows
 PITCH = "#0a0f0b"
@@ -528,16 +528,12 @@ def match_design(home: str, away: str) -> dict[str, Any]:
     away_id["chart"] = away_chart
     home_id["glow"] = mix(home_chart, "#ffffff", 0.18)
     away_id["glow"] = mix(away_chart, "#ffffff", 0.18)
-    fill = home_id.get("fill") or home_id["primary"]
-    tinted_ink = mix(INK, fill, 0.08)
-    if contrast_ratio(TEXT, tinted_ink) < 7.0:
-        tinted_ink = mix(INK, fill, 0.05)
     return {
         "home": home_id,
         "away": away_id,
         "team_kind": get_team_kind(),
         "badge_shape": badge_shape(),
-        "ink": tinted_ink,
+        "ink": "#000000",
         "surface": SURFACE,
         "surface_hi": SURFACE_HI,
         "pitch": PITCH,

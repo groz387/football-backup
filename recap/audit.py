@@ -1370,6 +1370,69 @@ def build_halftime_split(bundle: MatchBundle) -> dict[str, Any]:
     return {"first": first, "second": second, "ready": ready}
 
 
+def _xy_pairs(frame: pd.DataFrame) -> list[tuple[float, float]]:
+    if frame is None or getattr(frame, "empty", True):
+        return []
+    if "x" not in frame.columns or "y" not in frame.columns:
+        return []
+    xs = pd.to_numeric(frame["x"], errors="coerce")
+    ys = pd.to_numeric(frame["y"], errors="coerce")
+    pairs: list[tuple[float, float]] = []
+    for x, y in zip(xs, ys):
+        if pd.isna(x) or pd.isna(y):
+            continue
+        pairs.append((float(x), float(y)))
+    return pairs
+
+
+def _centroidish(value: float) -> bool:
+    """True when *value* sits on a .0 / .5 Opta-zone centroid rather than a tracking point."""
+    rounded = round(float(value), 1)
+    return abs(rounded * 2 - round(rounded * 2)) < 0.05
+
+
+def classify_coordinates(pairs: list[tuple[float, float]]) -> dict[str, Any]:
+    """Detect WhoScored tracking coords vs reconstructed Opta zone centroids.
+
+    Unique (x, y) rounded to 1 decimal < 8 for 20+ shots is reconstructed.
+    Discrete clusters like 72/88/50 with .0/.5 tenths are also reconstructed.
+    """
+    n = len(pairs)
+    unique = {(round(x, 1), round(y, 1)) for x, y in pairs}
+    unique_n = len(unique)
+    unique_x = len({round(x, 1) for x, _ in pairs})
+    unique_y = len({round(y, 1) for _, y in pairs})
+    centroidish = sum(1 for x, y in pairs if _centroidish(x) and _centroidish(y))
+    reconstructed = False
+    if n >= 20 and unique_n < 8:
+        reconstructed = True
+    elif n >= 8 and unique_n < 8 and centroidish >= 0.85 * n:
+        reconstructed = True
+    elif n >= 12 and unique_x <= 6 and unique_y <= 6 and centroidish >= 0.75 * n:
+        reconstructed = True
+    precise = (
+        n >= 6
+        and not reconstructed
+        and unique_n >= min(8, max(6, int(0.5 * n)))
+        and centroidish < 0.5 * n
+    )
+    if reconstructed:
+        source = "reconstructed"
+    elif precise:
+        source = "whoscored"
+    else:
+        source = "unknown"
+    return {
+        "has_precise_coordinates": bool(precise),
+        "coordinate_source": source,
+        "unique_xy": unique_n,
+        "unique_x": unique_x,
+        "unique_y": unique_y,
+        "sample_n": n,
+        "centroidish_n": centroidish,
+    }
+
+
 def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
     events = bundle.events
     columns = {col.lower() for col in events.columns}
@@ -1378,6 +1441,12 @@ def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
     goal_mouth = int(num(events, "goalMouthY").notna().sum())
     var_mask = _var_event_mask(events)
     table = table_payload(bundle.summary)
+    shot_frame = bundle.shots if bundle.shots is not None and not bundle.shots.empty else events.loc[flag(events, "isShot")] if not events.empty else events
+    quality = classify_coordinates(_xy_pairs(shot_frame))
+    if quality["sample_n"] < 6:
+        touch_quality = classify_coordinates(_xy_pairs(bundle.touches if bundle.touches is not None else events))
+        if touch_quality["sample_n"] > quality["sample_n"]:
+            quality = touch_quality
     return {
         "event_rows": int(len(events)),
         "pass_rows": int(text_col(events, "type").eq("Pass").sum()),
@@ -1391,6 +1460,10 @@ def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
         "has_vendor_xgot": has_xgot,
         "has_var": bool(int(var_mask.sum()) > 0),
         "has_table": bool(table),
+        "has_precise_coordinates": quality["has_precise_coordinates"],
+        "coordinate_source": quality["coordinate_source"],
+        "coordinate_unique_xy": quality["unique_xy"],
+        "coordinate_sample_n": quality["sample_n"],
         "blocked_claims": [name for name, present in (("xG", has_xg), ("xGOT", has_xgot)) if not present],
     }
 
@@ -1495,6 +1568,20 @@ def _describe(bundle: MatchBundle, audit: dict[str, Any]) -> list[str]:
     blocked = audit["data_health"]["blocked_claims"]
     if blocked:
         facts.append(f"Not in this export, so never claimed: {', '.join(blocked)}.")
+    health = audit.get("data_health") or {}
+    source = str(health.get("coordinate_source") or "")
+    unique_xy = health.get("coordinate_unique_xy")
+    sample_n = health.get("coordinate_sample_n")
+    if source == "reconstructed":
+        facts.append(
+            f"Coordinates: reconstructed Opta zone centroids "
+            f"({unique_xy} unique (x,y) across {sample_n} shots) — not a tracking shot map."
+        )
+    elif source == "whoscored" or health.get("has_precise_coordinates"):
+        facts.append(
+            f"Coordinates: WhoScored event locations "
+            f"({unique_xy} unique (x,y) across {sample_n} shots)."
+        )
     return facts
 
 

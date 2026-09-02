@@ -144,6 +144,10 @@ class Timeline:
         """A number ticking up to *value*, holding each glyph ~HOLD_FRAMES."""
         return hold_count(value, self.cue(start, duration, ease_out_quint))
 
+    def wipe(self, start: float = 0.10, duration: float = 0.55) -> float:
+        """0-1 ease-in-out reveal used by waves, tapes and split stamps."""
+        return ease_in_out(clamp01((self.t - start) / max(1e-6, duration)))
+
 
 def hold_count(
     value: float,
@@ -258,30 +262,10 @@ def y_of(x_length: float) -> float:
 
 @lru_cache(maxsize=8)
 def _background_pixels(ink: str, home: str, away: str, width: int, height: int) -> np.ndarray:
-    """The full-frame background as raw pixels.
-
-    Drawn straight into the canvas buffer with ``figimage``, which skips both
-    resampling and an extra axes. Stacking rectangles or resampling a small
-    gradient both cost more per frame than the rest of a scene combined.
-    """
-    base = np.array(theme.hex_to_rgb(ink))
-    top = np.array(theme.hex_to_rgb(home))
-    bottom = np.array(theme.hex_to_rgb(away))
-
-    # figimage rows run bottom-to-top, so fraction 0 is the bottom of the frame.
-    fraction = np.linspace(0.0, 1.0, height)[:, None]
-    tint = bottom * (1.0 - fraction) + top * fraction
-    wash = 0.14 * (1.0 - np.abs(fraction - 0.5) * 0.55)
-    colour = base * (1.0 - wash) + tint * wash
-
-    # Vignette so the chrome bands always have a darker base to sit on.
-    from_top = 1.0 - fraction
-    darken = np.where(from_top < 0.17, 0.26 * (1.0 - from_top / 0.17), 0.0)
-    darken = np.where(from_top > 0.76, 0.32 * ((from_top - 0.76) / 0.24), darken)
-    colour = colour * (1.0 - darken)
-
-    column = np.clip(colour * 255.0, 0, 255).astype(np.uint8)
-    return np.repeat(column[:, None, :], width, axis=1)
+    """Solid pitch-black frame. Team colours stay on the graphs, never the wash."""
+    del home, away
+    rgb = tuple(int(round(channel * 255)) for channel in theme.hex_to_rgb(ink or "#000000"))
+    return np.full((height, width, 3), rgb, dtype=np.uint8)
 
 
 def _paint_background(fig: plt.Figure, design: dict[str, Any]) -> None:

@@ -79,7 +79,7 @@ class PlatformProfile:
     duration_max: float = SHORT_DURATION[1]
     loop_tail_seconds: float = LOOP_TAIL_SECONDS
     loop_mode: str = "freeze"  # freeze | snapback
-    burn_captions: bool = True
+    burn_captions: bool = False
     caption_contrast: str = "high"
     chapters: bool = False
     pacing_hooks: tuple[float, float] | None = None

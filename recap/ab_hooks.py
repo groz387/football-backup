@@ -24,6 +24,8 @@ def generate_hooks(
     *,
     count: int = DEFAULT_VARIANTS,
     storyboard_hook: dict[str, Any] | None = None,
+    language: str | None = None,
+    spoiler: str | None = None,
 ) -> list[dict[str, Any]]:
     """Deterministic hash (variant 0) plus ``count-1`` alternate pool picks."""
     want = max(1, int(count or DEFAULT_VARIANTS))
@@ -46,7 +48,9 @@ def generate_hooks(
         take(storyboard_hook, "storyboard", 0)
     salt = 0
     while len(out) < want and salt < want + 16:
-        hook = hooks.build_hook(bundle, audit, variant=salt)
+        hook = hooks.build_hook(
+            bundle, audit, language=language, spoiler=spoiler, variant=salt,
+        )
         source = "hash" if salt == 0 else "alternate"
         # If the storyboard already filled slot 0, skip the raw hash duplicate.
         if salt == 0 and storyboard_hook:
@@ -55,7 +59,10 @@ def generate_hooks(
         take(hook, source, salt)
         salt += 1
     if not out:
-        take(hooks.build_hook(bundle, audit, variant=0), "hash", 0)
+        take(
+            hooks.build_hook(bundle, audit, language=language, spoiler=spoiler, variant=0),
+            "hash", 0,
+        )
     return out[:want]
 
 
@@ -188,10 +195,11 @@ def pick_winner(
     series_id: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Score ``count`` hook variants and return (winning scenes, A/B report)."""
-    fallback = hooks.build_hook(bundle, audit, variant=0)
+    fallback = hooks.build_hook(bundle, audit, language=language, spoiler=spoiler, variant=0)
     current = hook_from_scenes(scenes, fallback)
     variants = generate_hooks(
         bundle, audit, count=count, storyboard_hook=current,
+        language=language, spoiler=spoiler,
     )
     memory_rows = viral_audit.load_memory(viral_audit.memory_path(output_root)) if output_root else []
     used = viral_audit.series_used_fingerprints(
@@ -204,7 +212,9 @@ def pick_winner(
     for hook in variants:
         applied = apply_hook(scenes, hook)
         try:
-            applied = lock_hook_cards(applied, bundle, audit, hook=hook)
+            applied = lock_hook_cards(
+                applied, bundle, audit, hook=hook, language=language, spoiler=spoiler,
+            )
         except TypeError:
             applied = lock_hook_cards(applied, bundle, audit)
         report = viral_audit.score_plan(

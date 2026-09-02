@@ -621,6 +621,42 @@ def comment_bait(bundle: MatchBundle, audit: dict[str, Any], hook: dict[str, Any
     return i18n.t("hook_bait_generic")
 
 
+def localize_hook(
+    hook: dict[str, Any] | None,
+    bundle: MatchBundle,
+    audit: dict[str, Any],
+    language: str | None = None,
+    spoiler: str | None = None,
+) -> dict[str, Any]:
+    """Keep A/B kind/variant, but never stamp English copy onto a non-English pack."""
+    lang = i18n.normalize_language(language or i18n.get_language())
+    if not hook:
+        return build_hook(bundle, audit, language=lang, spoiler=spoiler)
+    if lang == "en":
+        return dict(hook)
+    updated = dict(hook)
+    for field in ("punch", "narration_claim", "narration_punch", "comment_bait", "hero_label"):
+        value = updated.get(field)
+        if value:
+            updated[field] = i18n.offline_line(str(value), lang=lang)
+    if isinstance(updated.get("lines"), list):
+        updated["lines"] = [i18n.offline_line(str(item), lang=lang) for item in updated["lines"]]
+    leaking = i18n.looks_english(str(updated.get("punch") or "")) or any(
+        i18n.looks_english(str(item)) for item in (updated.get("lines") or [])
+    )
+    if leaking:
+        native = build_hook(
+            bundle, audit, language=lang, spoiler=spoiler,
+            variant=int(hook.get("variant") or 0),
+        )
+        native["variant"] = hook.get("variant", native.get("variant"))
+        native["fingerprint"] = hook.get("fingerprint") or native.get("fingerprint")
+        native["source"] = hook.get("source") or native.get("source")
+        return native
+    updated["language"] = lang
+    return updated
+
+
 def apply_spoiler_hide(
     hook: dict[str, Any],
     bundle: MatchBundle,
@@ -1163,3 +1199,184 @@ def apply_hook_rephrase(hook: dict[str, Any], rewrite: dict[str, Any] | None) ->
         updated["narration_punch"] = punch.rstrip(".")
         updated["hook_source"] = "gemini"
     return updated
+
+
+SHOCK_POOL_KEYS = ("hook_shock_90", "hook_shock_game_over", "hook_shock_watch_turn")
+
+
+def shock_pool_lines(language: str | None = None) -> list[dict[str, str]]:
+    """Fixed first-second shock options such as '90 Minute' / 'Oyun Qapandi'."""
+    lang = i18n.normalize_language(language or i18n.get_language())
+    out = []
+    for key in SHOCK_POOL_KEYS:
+        text = i18n.t(key, lang=lang)
+        out.append({"key": key, "kind": "pool", "text": text, "label": text})
+    return out
+
+
+def comment_bait_options(
+    bundle: MatchBundle,
+    audit: dict[str, Any],
+    hook: dict[str, Any] | None = None,
+    language: str | None = None,
+) -> list[dict[str, str]]:
+    """MOTM / robbery / bottle / generic bait lines for the close card."""
+    lang = i18n.normalize_language(language or i18n.get_language())
+    star = star_from_data(bundle, audit) or {}
+    player = str(star.get("surname") or star.get("player") or "").strip() or "MOTM"
+    options = [
+        {"kind": "motm", "key": "hook_bait_motm", "text": i18n.t("hook_bait_motm", lang=lang, player=player)},
+        {"kind": "robbery", "key": "hook_bait_robbery", "text": i18n.t("hook_bait_robbery", lang=lang)},
+        {"kind": "bottle", "key": "hook_bait_bottle", "text": i18n.t("hook_bait_bottle", lang=lang)},
+        {"kind": "generic", "key": "hook_bait_generic", "text": i18n.t("hook_bait_generic", lang=lang)},
+        {"kind": "howler", "key": "hook_bait_howler", "text": i18n.t("hook_bait_howler", lang=lang)},
+    ]
+    current = ""
+    if hook:
+        current = str(hook.get("comment_bait") or "")
+    if current and all(current != item["text"] for item in options):
+        options.insert(0, {"kind": "current", "key": "current", "text": current})
+    return options
+
+
+def apply_shock_text(
+    scenes: list[dict[str, Any]],
+    texts: list[str] | str | None,
+    *,
+    slot: str = "auto",
+) -> list[dict[str, Any]]:
+    """Write chosen first-second shock copy onto claim / punch / micro_hook cards.
+
+    One string applies to claim (and punch if slot is ``all``). A list maps
+    ``[claim, punch, ...micro_hooks]``.
+    """
+    if not texts:
+        return scenes
+    if isinstance(texts, str):
+        chunks = [texts.strip()] if texts.strip() else []
+    else:
+        chunks = [str(item).strip() for item in texts if str(item).strip()]
+    if not chunks:
+        return scenes
+    claim = punch = None
+    micros: list[str] = []
+    if slot == "punch":
+        punch = chunks[0]
+    elif slot == "micro":
+        micros = chunks
+    elif slot == "all":
+        claim = chunks[0]
+        punch = chunks[0]
+        micros = chunks
+    elif len(chunks) == 1:
+        claim = chunks[0]
+    else:
+        claim = chunks[0]
+        punch = chunks[1] if len(chunks) > 1 else None
+        micros = chunks[2:]
+    out = []
+    micro_i = 0
+    for scene in scenes:
+        updated = dict(scene)
+        viz = scene.get("visualization")
+        if claim and viz == "hook_claim":
+            updated["title"] = claim
+            lines = list(updated.get("lines") or [])
+            if lines:
+                lines[0] = claim
+            else:
+                lines = [claim]
+            updated["lines"] = lines
+            updated["narration"] = claim.rstrip(".")
+            updated["user_locked"] = True
+        elif punch and viz == "hook_punch":
+            updated["title"] = punch
+            updated["lines"] = [punch]
+            updated["narration"] = punch.rstrip(".")
+            updated["user_locked"] = True
+        elif viz == "micro_hook" and micros:
+            line = micros[micro_i] if micro_i < len(micros) else micros[-1]
+            micro_i += 1
+            updated["title"] = line
+            updated["lines"] = [line]
+            updated["narration"] = line.rstrip(".")
+            updated["user_locked"] = True
+        out.append(updated)
+    return out
+
+
+def apply_bait_text(scenes: list[dict[str, Any]], text: str | None) -> list[dict[str, Any]]:
+    """Write the final comment-bait question onto the close card."""
+    bait = clean_text(text)
+    if not bait:
+        return scenes
+    out = []
+    for scene in scenes:
+        updated = dict(scene)
+        if scene.get("visualization") == "close" or scene.get("id") == "close":
+            updated["comment_bait"] = bait
+            updated["insight"] = bait
+            narration = str(updated.get("narration") or "").strip()
+            if bait not in narration:
+                updated["narration"] = f"{narration.rstrip('. ')}. {bait}".strip() if narration else bait
+            updated["user_locked"] = True
+        out.append(updated)
+    return out
+
+
+def apply_cli_copy(
+    scenes: list[dict[str, Any]],
+    *,
+    hook_texts: list[str] | None = None,
+    bait_text: str | None = None,
+) -> list[dict[str, Any]]:
+    """Apply ``--hook-text`` / ``--bait-text`` without stdin."""
+    updated = apply_shock_text(scenes, hook_texts or [])
+    return apply_bait_text(updated, bait_text)
+
+
+def shock_menu_options(
+    scenes: list[dict[str, Any]],
+    ab_report: dict[str, Any] | None = None,
+    language: str | None = None,
+) -> list[dict[str, Any]]:
+    """Numbered first-second shock choices: A/B variants, pool lines, current."""
+    lang = i18n.normalize_language(language or i18n.get_language())
+    options: list[dict[str, Any]] = []
+    claim = next((s for s in scenes if s.get("visualization") == "hook_claim"), {})
+    punch = next((s for s in scenes if s.get("visualization") == "hook_punch"), {})
+    current_claim = str(claim.get("title") or "")
+    current_punch = str(punch.get("title") or "")
+    if current_claim:
+        options.append({
+            "kind": "current",
+            "label": current_claim,
+            "claim": current_claim,
+            "punch": current_punch,
+        })
+    for row in (ab_report or {}).get("variants") or []:
+        hook = row.get("hook") or row
+        lines = hook.get("lines") or []
+        line = lines[0] if lines else str(hook.get("punch") or "")
+        if not line:
+            continue
+        if any(item.get("claim") == line for item in options):
+            continue
+        options.append({
+            "kind": "ab",
+            "label": line,
+            "claim": line,
+            "punch": str(hook.get("punch") or current_punch),
+        })
+    for item in shock_pool_lines(lang):
+        if any(opt.get("claim") == item["text"] for opt in options):
+            continue
+        options.append({
+            "kind": "pool",
+            "label": item["text"],
+            "claim": item["text"],
+            "punch": item["text"],
+            "key": item["key"],
+        })
+    options.append({"kind": "custom", "label": "CUSTOM", "claim": "", "punch": ""})
+    return options

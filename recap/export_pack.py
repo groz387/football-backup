@@ -30,7 +30,7 @@ from . import platforms, safe_zones, theme
 from .data import write_json
 
 MASTER_W, MASTER_H = 1080, 1920
-INK = "#0b1014"
+INK = "#000000"
 
 
 def _ffmpeg() -> str | None:

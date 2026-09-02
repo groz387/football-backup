@@ -6,6 +6,8 @@ from dataclasses import dataclass, field
 from importlib import import_module
 from typing import Any
 
+from . import _extras
+
 # Canonical codes in attention-market order.
 LOCALE_MODULES = {
     "en": "recap.locales.en",
@@ -46,6 +48,14 @@ class LocalePack:
         return set(self.stat_labels) | set(self.explicit_fallbacks)
 
 
+def _merged_ui(mod: Any) -> dict[str, str]:
+    ui = dict(getattr(_extras, "EXTRA_UI", {}) or {})
+    ui.update(getattr(_extras, "EXTRA_MORE", {}) or {})
+    ui.update(getattr(_extras, "POLISH_UI", {}) or {})
+    ui.update(dict(mod.UI))
+    return ui
+
+
 def _from_module(mod: Any) -> LocalePack:
     return LocalePack(
         code=str(mod.CODE),
@@ -53,7 +63,7 @@ def _from_module(mod: Any) -> LocalePack:
         native_name=str(getattr(mod, "NATIVE_NAME", mod.NAME)),
         aliases=tuple(mod.ALIASES),
         stat_labels=dict(mod.STAT_LABELS),
-        ui=dict(mod.UI),
+        ui=_merged_ui(mod),
         offline_lines=dict(getattr(mod, "OFFLINE_LINES", {}) or {}),
         explicit_fallbacks=frozenset(getattr(mod, "EXPLICIT_FALLBACKS", ()) or ()),
     )

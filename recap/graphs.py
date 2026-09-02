@@ -206,7 +206,7 @@ def render_field_tilt_wave(bundle: MatchBundle, audit: dict[str, Any], scene: di
     chart_top = content_top - 0.08
     rect = [Layout.MARGIN, 0.18, Layout.CONTENT_W, chart_top - 0.18]
     ax = fig.add_axes(rect, zorder=4)
-    ax.set_facecolor("#0b0f0d")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
     starts = np.array([row["start"] for row in rows], dtype=float)
@@ -365,7 +365,7 @@ def render_keeper_frame(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
     ax.set_ylim(0, view_z_max)
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.set_facecolor("#070a09")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
 
@@ -454,7 +454,7 @@ def render_xg_race(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, 
 
     rect = [Layout.MARGIN, 0.20, Layout.CONTENT_W, content_top - 0.34]
     ax = fig.add_axes(rect, zorder=4)
-    ax.set_facecolor("#0b0f0d")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
     peak = max(home_y[-1], away_y[-1], 0.6) * 1.18
@@ -816,7 +816,7 @@ def render_press_trap(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
         identity = design["home"] if trap.get("leader") == bundle.home else design["away"]
         draw.hero_number(fig, 0.5, 0.50, f"{shown:.1f}", color=identity["chart"],
                          fontsize=96.0, alpha=tl.cue(0.16, 0.32))
-        fig.text(0.5, 0.40, "PPDA", color=TEXT_DIM, fontsize=22, family=theme.MONO_FONT,
+        fig.text(0.5, 0.40, i18n.t("vis_ppda_label"), color=TEXT_DIM, fontsize=22, family=theme.MONO_FONT,
                  fontweight="bold", ha="center", va="center", alpha=tl.cue(0.28, 0.22), zorder=22)
     draw.save_figure(fig, path)
 
@@ -852,7 +852,7 @@ def render_pass_lanes(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
                              alpha=tl.cue(0.06, 0.26))
     strongest = max(int(e.get("count") or 0) for e in edges)
     shown = int(round(tl.count_to(strongest, start=0.10, duration=0.36)))
-    fig.text(rect[0], rect[1] + rect[3] + 0.016, f"{shown} LANES  ·  {focus.upper()}",
+    fig.text(rect[0], rect[1] + rect[3] + 0.016, i18n.t("vis_lanes_count", n=shown, team=focus.upper()),
              color=identity["chart"], fontsize=16, family=theme.DISPLAY_FONT, fontweight="bold",
              ha="left", va="center", alpha=tl.cue(0.12, 0.22), zorder=20)
 
@@ -913,19 +913,24 @@ def render_bench_impact(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
 
     last = max(90.0, max(float(sub.get("minute") or 0) for sub in subs))
     shown = int(round(tl.count_to(len(subs), start=0.10, duration=0.36)))
+    wipe = tl.wipe(0.08, 0.52)
     draw.hero_number(fig, 0.5, content_top - 0.10, shown, color=TEXT, fontsize=72.0,
-                     alpha=tl.cue(0.10, 0.28))
+                     alpha=tl.cue(0.10, 0.28, ease=draw.ease_in_out))
     fig.text(0.5, content_top - 0.155, i18n.t("bench_axis", n=int(last)), color=TEXT_DIM,
              fontsize=14, family=theme.MONO_FONT, fontweight="bold",
-             ha="center", va="center", alpha=tl.cue(0.24, 0.22), zorder=20)
+             ha="center", va="center", alpha=tl.cue(0.24, 0.22, ease=draw.ease_in_out), zorder=20)
 
     rect = [Layout.MARGIN, 0.22, Layout.CONTENT_W, 0.36]
     ax = fig.add_axes(rect, zorder=6)
     ax.set_xlim(0, last)
     ax.set_ylim(-1.35, 1.35)
     ax.set_axis_off()
-    ax.axhline(0.55, color=design["home"]["chart"], lw=2.0, alpha=0.55, zorder=4)
-    ax.axhline(-0.55, color=design["away"]["chart"], lw=2.0, alpha=0.55, zorder=4)
+    ax.set_facecolor("#000000")
+    tape_end = last * max(0.08, wipe)
+    ax.axhline(0.55, xmin=0, xmax=max(0.02, tape_end / last), color=design["home"]["chart"],
+               lw=2.0, alpha=0.55 * wipe, zorder=4)
+    ax.axhline(-0.55, xmin=0, xmax=max(0.02, tape_end / last), color=design["away"]["chart"],
+               lw=2.0, alpha=0.55 * wipe, zorder=4)
     ax.text(0, 1.15, bundle.home.upper(), color=design["home"]["chart"], fontsize=11,
             family=theme.MONO_FONT, fontweight="bold", ha="left", va="center")
     ax.text(0, -1.15, bundle.away.upper(), color=design["away"]["chart"], fontsize=11,
@@ -984,9 +989,9 @@ def render_duel_tower(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
         return
 
     layers = (
-        ("tackles", "TACKLES"),
-        ("aerials", "AERIALS"),
-        ("take_ons", "TAKE-ONS"),
+        ("tackles", i18n.t("vis_layer_tackles")),
+        ("aerials", i18n.t("vis_layer_aerials")),
+        ("take_ons", i18n.t("vis_layer_takeons")),
     )
     peak = max(
         1,
@@ -1117,7 +1122,7 @@ def render_momentum_wave(bundle: MatchBundle, audit: dict[str, Any], scene: dict
 
     rect = [Layout.MARGIN, 0.20, Layout.CONTENT_W, content_top - 0.28]
     ax = fig.add_axes(rect, zorder=4)
-    ax.set_facecolor("#0b0f0d")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
     axis = audit.get("clock_axis") or {}
@@ -1184,8 +1189,8 @@ def render_halftime_split(bundle: MatchBundle, audit: dict[str, Any], scene: dic
         return
 
     first, second = split.get("first") or {}, split.get("second") or {}
-    grown = tl.cue(0.10, 0.36)
-    # Diagonal slash through the frame.
+    grown = tl.wipe(0.08, 0.42)
+    # Diagonal slash through the frame, eased in like the momentum wave.
     fig.patches.append(
         Polygon(
             [(0.02, 0.18), (0.12, 0.18), (0.98, 0.78), (0.88, 0.78)],
@@ -1199,14 +1204,21 @@ def render_halftime_split(bundle: MatchBundle, audit: dict[str, Any], scene: dic
         shown = int(round(tl.count_to(shots, start=start, duration=0.40)))
         fig.text(x, 0.52, str(shown), color=TEXT, fontsize=120, fontweight="bold",
                  family=theme.DISPLAY_FONT, ha="center", va="center",
-                 alpha=tl.cue(start, 0.28), zorder=16, path_effects=draw.soft_shadow())
+                 alpha=tl.cue(start, 0.28, ease=draw.ease_in_out), zorder=16,
+                 path_effects=draw.soft_shadow())
         fig.text(x, 0.36, label, color=TEXT_DIM, fontsize=22, family=theme.MONO_FONT,
-                 fontweight="bold", ha="center", va="center", alpha=tl.cue(start + 0.08, 0.22), zorder=16)
+                 fontweight="bold", ha="center", va="center",
+                 alpha=tl.cue(start + 0.08, 0.22, ease=draw.ease_in_out), zorder=16)
         fig.text(
             x, 0.28,
-            f"{int(payload.get('home_shots') or 0)}–{int(payload.get('away_shots') or 0)}  SHOTS",
+            i18n.t(
+                "vis_half_shots",
+                home=int(payload.get("home_shots") or 0),
+                away=int(payload.get("away_shots") or 0),
+            ),
             color=TEXT_FAINT, fontsize=13, family=theme.MONO_FONT, fontweight="bold",
-            ha="center", va="center", alpha=tl.cue(start + 0.12, 0.22), zorder=16,
+            ha="center", va="center",
+            alpha=tl.cue(start + 0.12, 0.22, ease=draw.ease_in_out), zorder=16,
         )
 
     stamp(0.28, first, "1H", 0.12)

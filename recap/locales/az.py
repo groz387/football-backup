@@ -33,119 +33,109 @@ STAT_LABELS = {'big_chances': 'Böyük şanslar',
  'xgot': 'xGOT'}
 
 UI = {
- 'hook_source': 'WHO SCORED EVENTS',
-
- 'hook_punch_spoiler_3': 'THE SCORE CAN WAIT.',
-
- 'hook_punch_spoiler_2': 'NOT YET.',
-
- 'hook_punch_spoiler_1': 'THE BOARD WAITED.',
-
- 'hook_punch_spoiler_0': 'KEEP WATCHING.',
-
- 'hook_open_star_0': 'ONE NAME. KEEP WATCHING.',
-
- 'hook_open_offside_0': 'COUNT THE FLAGS.',
-
- 'hook_open_lastkick_0': 'WAIT FOR THE LAST TOUCH.',
-
- 'hook_open_generic_2': 'THE TAPE FIRST.',
-
- 'hook_open_generic_1': 'DO NOT LOOK AT THE BOARD YET.',
-
- 'hook_open_generic_0': 'WATCH THIS BEFORE THE SCORE.',
-
- 'hook_label_woodwork': 'WOODWORK',
-
- 'hook_label_sitters': 'SITTERS',
-
- 'hook_label_setpiece': 'SET PIECES',
-
- 'hook_label_saves': 'SAVES',
-
- 'hook_label_offsides': 'OFFSIDES',
-
- 'hook_label_minute': 'MINUTE',
-
- 'hook_claim_xgover_1': 'THE BOARD BEAT THE MODEL.',
-
- 'hook_claim_xgover_0': 'THEY OVERPERFORMED THE xG.',
-
- 'hook_claim_woodwork_1': 'IRON. NOT NET.',
-
- 'hook_claim_woodwork_0': 'THE WOODWORK SAID NO. {n} TIMES.',
-
- 'hook_claim_var_1': 'THE MONITOR CHANGED THE NIGHT.',
-
- 'hook_claim_var_0': 'VAR SWUNG IT.',
-
- 'hook_claim_table_1': 'THIS WAS NOT JUST THREE POINTS.',
-
- 'hook_claim_table_0': 'THE TABLE MOVED.',
-
- 'hook_claim_sub_1': 'THEY CAME OFF THE BENCH AND SCORED.',
-
- 'hook_claim_sub_0': 'A SUPER SUB.',
-
- 'hook_claim_star_1': 'ONE NAME RAN THE NIGHT.',
-
- 'hook_claim_star_0': '{player}. THE TAPE.',
-
- 'hook_claim_sitter_1': 'THE NET WAS OPEN. THEY MISSED.',
-
- 'hook_claim_sitter_0': '{n} SITTERS WASTED.',
-
- 'hook_claim_siege_1': 'THEY SURVIVED THE BARRAGE.',
-
- 'hook_claim_siege_0': 'A CLEAN SHEET UNDER SIEGE.',
-
- 'hook_claim_setpiece_1': '{n} FROM DEAD BALLS.',
-
- 'hook_claim_setpiece_0': 'SET PIECES DID THE DAMAGE.',
-
- 'hook_claim_rival_1': 'OLD BLOOD. NEW NUMBERS.',
-
- 'hook_claim_rival_0': 'RIVALS. THE TAPE.',
-
- 'hook_claim_prison_1': 'POSSESSION PRISON.',
-
- 'hook_claim_prison_0': 'THEY HAD THE BALL. NO KNIFE.',
-
- 'hook_claim_offside_2': 'CAUGHT. AGAIN. {n} TIMES.',
-
- 'hook_claim_offside_1': '{n} FLAGS. THE LINE DID THE WORK.',
-
- 'hook_claim_offside_0': '{n} OFFSIDES. WHO GOT ROBBED?',
-
- 'hook_claim_lastkick_2': 'THEY WAITED FOR 90+.',
-
- 'hook_claim_lastkick_1': 'STOPPAGE. THE LAST TOUCH.',
-
- 'hook_claim_lastkick_0': 'THE LAST KICK.',
-
- 'hook_claim_howler_1': 'THE HOWLER. THEN THE NET.',
-
- 'hook_claim_howler_0': 'A KEEPER ERROR DID THIS.',
-
- 'hook_claim_derby_1': 'NEIGHBOURS. BLOOD.',
-
- 'hook_claim_derby_0': 'A DERBY. NO HIDING.',
-
- 'hook_claim_debut_2': 'THEY SCORED ON DEBUT.',
-
- 'hook_claim_debut_1': 'FIRST GAME. FIRST KNIFE.',
-
- 'hook_claim_debut_0': 'A DEBUT GOAL.',
-
- 'hook_bait_robbery': 'WAS IT A ROBBERY?',
-
- 'hook_bait_motm': 'WAS {player} MOTM?',
-
- 'hook_bait_howler': 'WAS THAT A HOWLER?',
-
- 'hook_bait_generic': 'WHO WAS MOTM?',
-
- 'hook_bait_bottle': 'WHO BOTTLED IT?',
+ 'hook_source': 'WHOSCORED OLAYLARI',
+ 'hook_punch_spoiler_3': 'HESAB GÖZLƏYƏ BİLƏR.',
+ 'hook_punch_spoiler_2': 'HƏLƏ YOX.',
+ 'hook_punch_spoiler_1': 'HESAB GÖZLƏDİ.',
+ 'hook_punch_spoiler_0': 'BAXMAĞA DAVAM ET.',
+ 'hook_open_star_0': 'BİR AD. BAXMAĞA DAVAM ET.',
+ 'hook_open_offside_0': 'BAYRAQLARI SAY.',
+ 'hook_open_lastkick_0': 'SON TOXUNUŞU GÖZLƏ.',
+ 'hook_open_generic_2': 'ƏVVƏL LENT.',
+ 'hook_open_generic_1': 'HƏLƏ HESABA BAXMA.',
+ 'hook_open_generic_0': 'HESABDAN ƏVVƏL BUNA BAX.',
+ 'hook_label_woodwork': 'DİRƏK',
+ 'hook_label_sitters': 'AÇIQ QOLLAR',
+ 'hook_label_setpiece': 'STANDARTLAR',
+ 'hook_label_saves': 'SEYVLƏR',
+ 'hook_label_offsides': 'OFSAYDLAR',
+ 'hook_label_minute': 'DƏQİQƏ',
+ 'hook_claim_xgover_1': 'HESAB MODELİ KEÇDİ.',
+ 'hook_claim_xgover_0': 'xG-DƏN YUXARI OYNADILAR.',
+ 'hook_claim_woodwork_1': 'DƏMİR. TOR YOX.',
+ 'hook_claim_woodwork_0': 'DİRƏK XEYR DEDİ. {n} DƏFƏ.',
+ 'hook_claim_var_1': 'MONITOR GECƏNİ DƏYİŞDİ.',
+ 'hook_claim_var_0': 'VAR DÖNDƏRDİ.',
+ 'hook_claim_table_1': 'BU TƏK ÜÇ XAL DEYİLDİ.',
+ 'hook_claim_table_0': 'CƏDVƏL TƏPƏRƏNDİ.',
+ 'hook_claim_sub_1': 'EHTYATDAN ÇIXIB VURDULAR.',
+ 'hook_claim_sub_0': 'SUPER ƏVƏZETMƏ.',
+ 'hook_claim_star_1': 'BİR AD GECƏNİ APARDI.',
+ 'hook_claim_star_0': '{player}. LENT.',
+ 'hook_claim_sitter_1': 'TOR AÇIQ İDİ. QAÇIRDILAR.',
+ 'hook_claim_sitter_0': '{n} AÇIQ QOL İTİRİLDİ.',
+ 'hook_claim_siege_1': 'MÜHASİRƏDƏN ÇIXDILAR.',
+ 'hook_claim_siege_0': 'MÜHASİRƏDƏ TƏMİZ HESAB.',
+ 'hook_claim_setpiece_1': '{n} STANDARTDAN.',
+ 'hook_claim_setpiece_0': 'STANDARTLAR İŞİ BİTİRDİ.',
+ 'hook_claim_rival_1': 'KÖHNƏ QAN. YENİ RƏQƏM.',
+ 'hook_claim_rival_0': 'RƏQİB. LENT.',
+ 'hook_claim_prison_1': 'TOP HƏBSXANASI.',
+ 'hook_claim_prison_0': 'TOP ONLARDA İDİ. BIÇAĞ YOX.',
+ 'hook_claim_offside_2': 'TUTULDULAR. YENƏ. {n} DƏFƏ.',
+ 'hook_claim_offside_1': '{n} BAYRAQ. XƏTT İŞLƏDİ.',
+ 'hook_claim_offside_0': '{n} OFSAYD. KİMİ SOYDULAR?',
+ 'hook_claim_lastkick_2': '90+ GÖZLƏDİLƏR.',
+ 'hook_claim_lastkick_1': 'ƏLAVƏ. SON TOXUNUŞ.',
+ 'hook_claim_lastkick_0': 'SON ZƏRBƏ.',
+ 'hook_claim_howler_1': 'SƏHV. SONRA TOR.',
+ 'hook_claim_howler_0': 'QAPÇI SƏHVİ BUNU ETDİ.',
+ 'hook_claim_derby_1': 'QONŞULAR. QAN.',
+ 'hook_claim_derby_0': 'DERBİ. GİZLƏNMƏK YOX.',
+ 'hook_claim_debut_2': 'DEBÜTDƏ VURDULAR.',
+ 'hook_claim_debut_1': 'İLK OYUN. İLK BIÇAĞ.',
+ 'hook_claim_debut_0': 'DEBÜT QOLU.',
+ 'hook_bait_robbery': 'SOYĞUN İDİ?',
+ 'hook_bait_motm': '{player} MOTM İDİ?',
+ 'hook_bait_howler': 'BU QAPÇI SƏHVİ İDİ?',
+ 'hook_bait_generic': 'MOTM KİM OLDU?',
+ 'hook_bait_bottle': 'KİM ƏLDƏN BURAXDI?',
+ 'vis_clock_kicker': 'SAAT',
+ 'vis_clock_title': 'SAATDA {n} ZƏRBƏ',
+ 'vis_clock_insight': '{n} cəhd, ayaqdan çıxdığı sırada.',
+ 'vis_clock_narr': 'Saatda {n} zərbə. Sıra ilə düşməsinə bax.',
+ 'vis_trap_kicker': 'TƏLƏ',
+ 'vis_trap_title': '{team} {n} PPDA',
+ 'vis_trap_ppda': 'PPDA {n}',
+ 'vis_ppda_label': 'PPDA',
+ 'vis_trap_insight': '{team} topu ovladı. Aşağı PPDA daha sıx tələdir.',
+ 'vis_trap_narr': '{team} hər müdafiə hərəkətinə {n} pasla press etdi.',
+ 'vis_lanes_kicker': 'DƏHLİZLƏR',
+ 'vis_lanes_title': '{team} DƏHLİZLƏRİ',
+ 'vis_lanes_moved': '{team} TOPU BELƏ APARDI',
+ 'vis_lanes_insight': '{n} tamamlandı. Yalnız qalın xətlər qalır.',
+ 'vis_lanes_narr': 'Ən qalın pas dəhlizləri {team} tərəfdə idi.',
+ 'vis_bench_kicker': 'EHTYAT',
+ 'vis_bench_title': 'LENTDƏ {n} DƏYİŞİKLİK',
+ 'vis_bench_came': '{n} NƏFƏR EHTYATDAN ÇIXDI',
+ 'vis_bench_insight': 'Kim gəldi, sonra hansı zərbələr düşdü.',
+ 'vis_bench_narr': '{n} əvəzetmə. Lent göstərir, sonra nə oldu.',
+ 'vis_duel_kicker': 'DUELLƏR',
+ 'vis_duel_title': 'DUELDƏ {home_n}-{away_n}',
+ 'vis_duel_for': '{team} ÜÇÜN {n} DUEL',
+ 'vis_duel_insight': '{team} hündür qülləni yığdı.',
+ 'vis_duel_narr': 'Mübarizə, hava, driblinq: {home} {home_n} – {away_n}.',
+ 'vis_air_kicker': 'HAVA',
+ 'vis_air_title': 'HAVADA {home_n}-{away_n}',
+ 'vis_air_owned': 'HAVANI {team} GÖTÜRDÜ',
+ 'vis_air_insight': 'Kəllələri {team} qazandı.',
+ 'vis_air_narr': 'Qazanılan hava topları: {home} {home_n}, {away} {away_n}.',
+ 'vis_split_kicker': 'İKİ HİSSƏ',
+ 'vis_split_title': '{first} SONRA {second}',
+ 'vis_split_insight': 'Fasilədən əvvəl {first} zərbə, sonra {second}.',
+ 'vis_split_narr': 'Birinci hissə {first} zərbə. İkinci {second}. İki fərqli oyun.',
+ 'vis_layer_tackles': 'MÜBARİZƏ',
+ 'vis_layer_aerials': 'HAVA',
+ 'vis_layer_takeons': 'DRİBLİNQ',
+ 'vis_half_shots': '{home}–{away}  ZƏRBƏ',
+ 'vis_lanes_count': '{n} DƏHLİZ  ·  {team}',
+ 'hook_shock_90': '90 DƏQİQƏ',
+ 'hook_shock_game_over': 'OYUN QAPANDI',
+ 'hook_shock_watch_turn': 'DÖNÜŞƏ BAX',
+ 'coord_whoscored': 'WHOSCORED XY',
+ 'coord_reconstructed': 'ZONA MƏRKƏZLƏRİ',
+ 'sub_reconstructed': 'Opta zona mərkəzləri, izləmə xəritəsi deyil',
+ 'graph_zone_centroids': 'ZONA XƏRİTƏSİ',
 'accuracy': 'DƏQİQLİK',
  'aerials_won': 'Qazanılan hava topları',
  'after_extra_time': 'ƏLAVƏ VAXTDAN SONRA',

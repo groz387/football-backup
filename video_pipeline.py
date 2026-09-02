@@ -244,6 +244,12 @@ def run(args: argparse.Namespace) -> Path:
     write_json(out_dir / "data_audit.json", audit)
     for fact in audit["facts"]:
         say(f"  - {fact}")
+    health = audit.get("data_health") or {}
+    if health.get("coordinate_source"):
+        say(
+            f"  coordinates: {health.get('coordinate_source')} "
+            f"(unique xy={health.get('coordinate_unique_xy')} / n={health.get('coordinate_sample_n')})"
+        )
     for line in cast_mod.describe_cast(audit.get("cast") or {}):
         say(f"  {line}")
     if ask("Accept these numbers?", ("ok", "quit"), args.auto) == "quit":
@@ -381,7 +387,10 @@ def run(args: argparse.Namespace) -> Path:
             scene_list = i18n.scrub_english_leftovers(scene_list, language)
         except ValueError:
             pass
-        winner_hook = (ab_report or {}).get("winner_hook")
+        winner_hook = hooks.localize_hook(
+            (ab_report or {}).get("winner_hook"),
+            bundle, audit, language=language, spoiler=spoiler,
+        )
         scene_list = director.lock_hook_cards(
             scene_list, bundle, audit,
             language=language, spoiler=spoiler, hook=winner_hook,
@@ -391,6 +400,16 @@ def run(args: argparse.Namespace) -> Path:
         except ValueError:
             pass
         say(script_preview(scene_list))
+
+    scene_list = hooks.apply_cli_copy(
+        scene_list,
+        hook_texts=list(getattr(args, "hook_text", None) or []),
+        bait_text=str(getattr(args, "bait_text", "") or ""),
+    )
+    if args.interactive and not args.auto:
+        scene_list = interactive_copy_picker(
+            scene_list, bundle, audit, ab_report, language,
+        )
 
     # -- 4. timing and narration ------------------------------------------
     stage("4. Timing")
@@ -478,7 +497,9 @@ def run(args: argparse.Namespace) -> Path:
             "target_seconds": target_seconds,
             "total_seconds": timing.total_seconds(scene_list),
             "sfx": bool(getattr(args, "sfx", True)),
-            "burn_captions": bool(getattr(args, "burn_captions", True)),
+            "burn_captions": bool(getattr(args, "burn_captions", False)),
+            "coordinate_source": (audit.get("data_health") or {}).get("coordinate_source"),
+            "has_precise_coordinates": bool((audit.get("data_health") or {}).get("has_precise_coordinates")),
             "clips": {
                 "mode": clip_report.get("mode"),
                 "url": clip_report.get("url"),
@@ -527,7 +548,7 @@ def run(args: argparse.Namespace) -> Path:
         out_dir, rendered, audio_path, fps=args.fps,
         crossfade=not args.no_crossfade,
         sfx=sfx_on,
-        burn_captions=bool(getattr(args, "burn_captions", True)),
+        burn_captions=bool(getattr(args, "burn_captions", False)),
         music_file=music_path,
         srt_path=out_dir / "subtitles.srt",
         loudnorm=loudnorm,
@@ -622,6 +643,67 @@ def build_script(
         scene_list, bundle, audit, language=language, spoiler=spoiler,
     )
     return scene_list, already_localized
+
+
+def interactive_copy_picker(
+    scene_list: list[dict[str, Any]],
+    bundle,
+    audit: dict[str, Any],
+    ab_report: dict[str, Any] | None,
+    language: str,
+) -> list[dict[str, Any]]:
+    """Numbered first-second shock + final comment-bait picker."""
+    stage("3b. First-second shock")
+    options = hooks.shock_menu_options(scene_list, ab_report, language)
+    say("  FIRST SECOND SHOCK — what lands on hook_claim / hook_punch / micro_hook:")
+    for index, item in enumerate(options, 1):
+        mark = item.get("kind", "")
+        say(f"  {index:2d}. [{mark}] {item.get('label') or item.get('claim')}")
+    while True:
+        answer = input("  Shock number (or Enter to keep current): ").strip()
+        if answer == "":
+            break
+        if answer.isdigit() and 1 <= int(answer) <= len(options):
+            chosen = options[int(answer) - 1]
+            if chosen.get("kind") == "custom":
+                custom = input("  Type the shock line: ").strip()
+                if custom:
+                    scene_list = hooks.apply_shock_text(scene_list, [custom], slot="all")
+                    say(f"  shock -> {custom}")
+                break
+            texts = [chosen.get("claim") or chosen.get("label")]
+            punch = chosen.get("punch")
+            if punch and punch != texts[0]:
+                texts.append(punch)
+            scene_list = hooks.apply_shock_text(scene_list, texts, slot="all")
+            say(f"  shock -> {texts[0]}")
+            break
+        say("  Please enter a number from the list.")
+
+    stage("3c. Final question")
+    baits = hooks.comment_bait_options(bundle, audit, language=language)
+    say("  FINAL QUESTION / comment bait on the close card:")
+    for index, item in enumerate(baits, 1):
+        say(f"  {index:2d}. [{item['kind']}] {item['text']}")
+    say(f"  {len(baits) + 1:2d}. [custom] type your own")
+    while True:
+        answer = input("  Bait number (or Enter to keep current): ").strip()
+        if answer == "":
+            break
+        if answer.isdigit() and 1 <= int(answer) <= len(baits) + 1:
+            n = int(answer)
+            if n == len(baits) + 1:
+                custom = input("  Type the final question: ").strip()
+                if custom:
+                    scene_list = hooks.apply_bait_text(scene_list, custom)
+                    say(f"  bait -> {custom}")
+                break
+            chosen = baits[n - 1]
+            scene_list = hooks.apply_bait_text(scene_list, chosen["text"])
+            say(f"  bait -> {chosen['text']}")
+            break
+        say("  Please enter a number from the list.")
+    return scene_list
 
 
 def manual_selection(candidates: list[dict[str, Any]], count: int) -> list[dict[str, Any]]:
@@ -850,10 +932,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--no-loudnorm", dest="loudnorm", action="store_const", const="off",
         help="Skip loudnorm (limiter still runs on mixed audio).",
     )
-    audio.add_argument("--burn-captions", dest="burn_captions", action="store_true", default=True,
-                       help="Burn subtitles into the social master (default on)")
+    audio.add_argument("--burn-captions", dest="burn_captions", action="store_true", default=False,
+                       help="Burn centre-stroke subtitles into the master (off by default)")
     audio.add_argument("--no-burn-captions", dest="burn_captions", action="store_false",
-                       help="Keep captions as an external SRT only")
+                       help="Keep captions as an external SRT only (default)")
 
     footage = parser.add_argument_group("Clips")
     footage.add_argument("--clip", action="append", default=[],
@@ -891,6 +973,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     viral.add_argument(
         "--ab-series-id", dest="ab_series_id", default="", metavar="ID",
         help="Team-series key for hook memory, e.g. villa-26-27",
+    )
+    viral.add_argument(
+        "--hook-text", action="append", default=[], metavar="TEXT",
+        help="Override first-second shock copy. Repeatable: claim, punch, then micro-hooks. "
+             "Same apply path as --interactive.",
+    )
+    viral.add_argument(
+        "--bait-text", default="", metavar="TEXT",
+        help="Override the close comment-bait question, e.g. 'was yamal motm?'",
     )
 
     args = parser.parse_args(argv)

@@ -395,6 +395,18 @@ def social_copy(
     }
 
 
+def _english_catalog_index() -> dict[str, str]:
+    """Uppercased English UI value → catalog key, for leftover reverse lookup."""
+    _ensure()
+    index: dict[str, str] = {}
+    for key, value in pack("en").ui.items():
+        raw = str(value or "").strip()
+        if not raw or "{" in raw:
+            continue
+        index.setdefault(raw.upper(), key)
+    return index
+
+
 def offline_line(text: str, *, lang: str | None = None) -> str:
     """Translate a known English chrome/template line; leave unknowns alone."""
     code = lang or _current
@@ -414,6 +426,11 @@ def offline_line(text: str, *, lang: str | None = None) -> str:
     key = CHROME_SENTENCES.get(text)
     if key:
         return t(key, lang=code)
+    catalog_key = _english_catalog_index().get(upper)
+    if catalog_key:
+        translated = t(catalog_key, lang=code)
+        if translated and translated != catalog_key:
+            return translated
     for pattern, key, groups in OFFLINE_PATTERNS:
         match = re.match(pattern, text, flags=re.IGNORECASE)
         if not match:
@@ -431,7 +448,11 @@ _ENGLISH_LEFTOVER = re.compile(
     r"average positions|what it produced|on.target|eighteen zones|"
     r"strongest links|the keeper|match result|match recap|full time|"
     r"the baseline|every goal|shot map|where on-target|follow for|"
-    r"drop your motm)\b",
+    r"drop your motm|keep watching|the tape|the board|game gone|"
+    r"bottled it|sitters wasted|changes on the tape|owned the air|"
+    r"shots on the clock|watch the turn|who bottled|"
+    r"was \S+ motm|who was motm|man of the match|"
+    r"\d+ then \d+)\b",
     re.IGNORECASE,
 )
 
@@ -451,8 +472,11 @@ def scrub_english_leftovers(scenes: list[dict[str, Any]], language: str) -> list
     out = []
     for scene in scenes:
         updated = dict(scene)
-        hook = bool(updated.get("hook"))
-        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat"):
+        locked = bool(updated.get("user_locked"))
+        skip_fields = {"title", "insight", "narration", "comment_bait"} if locked else set()
+        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat", "comment_bait"):
+            if field in skip_fields:
+                continue
             value = str(updated.get(field) or "")
             if not value:
                 continue
@@ -460,9 +484,10 @@ def scrub_english_leftovers(scenes: list[dict[str, Any]], language: str) -> list
             if translated != value:
                 updated[field] = translated
                 continue
-            if looks_english(value) and not hook:
-                updated[field] = "" if field in ("subtitle", "kicker", "hook_stat") else value
-        if isinstance(updated.get("lines"), list):
+            if looks_english(value):
+                if field in ("subtitle", "kicker", "hook_stat"):
+                    updated[field] = ""
+        if isinstance(updated.get("lines"), list) and "title" not in skip_fields:
             updated["lines"] = [offline_line(str(item), lang=code) for item in updated["lines"]]
         out.append(updated)
     return out
@@ -475,7 +500,7 @@ def localize_scenes_offline(scenes: list[dict[str, Any]], language: str) -> list
     out = []
     for scene in scenes:
         updated = dict(scene)
-        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat"):
+        for field in ("kicker", "title", "subtitle", "insight", "narration", "hook_stat", "comment_bait"):
             value = str(updated.get(field) or "")
             if not value:
                 continue
