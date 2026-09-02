@@ -57,45 +57,56 @@ PUNCH_POOLS = {
         "hook_punch_lost_0", "hook_punch_lost_1", "hook_punch_lost_2",
         "hook_punch_lost_3", "hook_punch_lost_4", "hook_punch_lost_5",
         "hook_punch_lost_6", "hook_punch_lost_7",
+        "hook_punch_lost_8", "hook_punch_lost_9", "hook_punch_lost_10",
     ],
     "over": [
         "hook_punch_over_0", "hook_punch_over_1", "hook_punch_over_2",
         "hook_punch_over_3", "hook_punch_over_4", "hook_punch_over_5",
+        "hook_punch_over_6", "hook_punch_over_7", "hook_punch_over_8",
     ],
     "level": [
         "hook_punch_level_0", "hook_punch_level_1", "hook_punch_level_2",
         "hook_punch_level_3", "hook_punch_level_4",
+        "hook_punch_level_5", "hook_punch_level_6",
     ],
     "blank": [
         "hook_punch_blank_0", "hook_punch_blank_1", "hook_punch_blank_2",
         "hook_punch_blank_3",
+        "hook_punch_blank_4", "hook_punch_blank_5",
     ],
 }
 
 CLAIM_POOLS = {
-    "shots": ["hook_claim_shots_0", "hook_claim_shots_1", "hook_claim_shots_2"],
-    "corners": ["hook_claim_corners_0", "hook_claim_corners_1"],
-    "blocked": ["hook_claim_blocked_0", "hook_claim_blocked_1"],
-    "chances": ["hook_claim_chances_0", "hook_claim_chances_1", "hook_claim_chances_2"],
-    "box": ["hook_claim_box_0", "hook_claim_box_1"],
-    "pressure": ["hook_claim_pressure_0", "hook_claim_pressure_1"],
-    "ball": ["hook_claim_ball_0", "hook_claim_ball_1", "hook_claim_ball_2"],
-    "not_chances": ["hook_claim_not_chances_0", "hook_claim_not_chances_1"],
-    "late": ["hook_claim_late_0", "hook_claim_late_1", "hook_claim_late_2"],
-    "one": ["hook_claim_one_0", "hook_claim_one_1", "hook_claim_one_2"],
-    "shots_total": ["hook_claim_nshots_0", "hook_claim_nshots_1"],
-    "comeback": ["hook_claim_comeback_0", "hook_claim_comeback_1", "hook_claim_comeback_2"],
-    "stoppage": ["hook_claim_stoppage_0", "hook_claim_stoppage_1", "hook_claim_stoppage_2"],
-    "blowout": ["hook_claim_blowout_0", "hook_claim_blowout_1", "hook_claim_blowout_2"],
-    "xg": ["hook_claim_xg_0", "hook_claim_xg_1"],
-    "keeper": ["hook_claim_keeper_0", "hook_claim_keeper_1", "hook_claim_keeper_2"],
-    "waste": ["hook_claim_waste_0", "hook_claim_waste_1"],
-    "chain": ["hook_claim_chain_0", "hook_claim_chain_1", "hook_claim_chain_2"],
-    "pin": ["hook_claim_pin_0", "hook_claim_pin_1"],
-    "red": ["hook_claim_red_0", "hook_claim_red_1"],
-    "own_goal": ["hook_claim_og_0", "hook_claim_og_1"],
-    "penalty": ["hook_claim_pen_0", "hook_claim_pen_1"],
-    "level": ["hook_claim_level_0", "hook_claim_level_1"],
+    "shots": ["hook_claim_shots_0", "hook_claim_shots_1", "hook_claim_shots_2",
+              "hook_claim_shots_3", "hook_claim_shots_4"],
+    "corners": ["hook_claim_corners_0", "hook_claim_corners_1", "hook_claim_corners_2"],
+    "blocked": ["hook_claim_blocked_0", "hook_claim_blocked_1", "hook_claim_blocked_2"],
+    "chances": ["hook_claim_chances_0", "hook_claim_chances_1", "hook_claim_chances_2",
+                "hook_claim_chances_3"],
+    "box": ["hook_claim_box_0", "hook_claim_box_1", "hook_claim_box_2"],
+    "pressure": ["hook_claim_pressure_0", "hook_claim_pressure_1", "hook_claim_pressure_2"],
+    "ball": ["hook_claim_ball_0", "hook_claim_ball_1", "hook_claim_ball_2", "hook_claim_ball_3"],
+    "not_chances": ["hook_claim_not_chances_0", "hook_claim_not_chances_1", "hook_claim_not_chances_2"],
+    "late": ["hook_claim_late_0", "hook_claim_late_1", "hook_claim_late_2", "hook_claim_late_3"],
+    "one": ["hook_claim_one_0", "hook_claim_one_1", "hook_claim_one_2", "hook_claim_one_3"],
+    "shots_total": ["hook_claim_nshots_0", "hook_claim_nshots_1", "hook_claim_nshots_2"],
+    "comeback": ["hook_claim_comeback_0", "hook_claim_comeback_1", "hook_claim_comeback_2",
+                 "hook_claim_comeback_3"],
+    "stoppage": ["hook_claim_stoppage_0", "hook_claim_stoppage_1", "hook_claim_stoppage_2",
+                 "hook_claim_stoppage_3"],
+    "blowout": ["hook_claim_blowout_0", "hook_claim_blowout_1", "hook_claim_blowout_2",
+                "hook_claim_blowout_3"],
+    "xg": ["hook_claim_xg_0", "hook_claim_xg_1", "hook_claim_xg_2", "hook_claim_xg_3"],
+    "keeper": ["hook_claim_keeper_0", "hook_claim_keeper_1", "hook_claim_keeper_2",
+               "hook_claim_keeper_3"],
+    "waste": ["hook_claim_waste_0", "hook_claim_waste_1", "hook_claim_waste_2"],
+    "chain": ["hook_claim_chain_0", "hook_claim_chain_1", "hook_claim_chain_2",
+              "hook_claim_chain_3"],
+    "pin": ["hook_claim_pin_0", "hook_claim_pin_1", "hook_claim_pin_2"],
+    "red": ["hook_claim_red_0", "hook_claim_red_1", "hook_claim_red_2"],
+    "own_goal": ["hook_claim_og_0", "hook_claim_og_1", "hook_claim_og_2"],
+    "penalty": ["hook_claim_pen_0", "hook_claim_pen_1", "hook_claim_pen_2"],
+    "level": ["hook_claim_level_0", "hook_claim_level_1", "hook_claim_level_2"],
 }
 
 BRIDGE_POOLS = {
@@ -117,6 +128,13 @@ BRIDGE_POOLS = {
     "xg_race": ["bridge_race_0", "bridge_race_1"],
     "time_zones": ["bridge_halves_0", "bridge_halves_1", "bridge_halves_2"],
     "player_spike": ["bridge_player_0", "bridge_player_1", "bridge_player_2"],
+    "shot_clock_spiral": ["bridge_spiral_0", "bridge_spiral_1"],
+    "press_trap": ["bridge_trap_0", "bridge_trap_1"],
+    "pass_lanes": ["bridge_lanes_0", "bridge_lanes_1"],
+    "bench_impact": ["bridge_bench_0", "bridge_bench_1"],
+    "duel_tower": ["bridge_duel_0", "bridge_duel_1"],
+    "aerial_war": ["bridge_aerial_0", "bridge_aerial_1"],
+    "halftime_split": ["bridge_split_0", "bridge_split_1"],
     "standard_stats": ["bridge_numbers_0", "bridge_numbers_1"],
     "close": ["bridge_close_0", "bridge_close_1", "bridge_close_2", "bridge_close_3"],
 }
@@ -604,6 +622,29 @@ def build_bridge(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
     elif viz_id == "player_spike":
         spike = (audit.get("player_leaders") or {}).get("spike") or {}
         kwargs = {"team": hook_team_name(str(spike.get("team") or bundle.home)), "n": int(spike.get("count") or 0)}
+    elif viz_id == "press_trap":
+        trap = audit.get("press_trap") or {}
+        kwargs = {
+            "team": hook_team_name(str(trap.get("leader") or bundle.home)),
+            "n": trap.get("leader_ppda") or 0,
+        }
+    elif viz_id == "bench_impact":
+        n = len((audit.get("bench_impact") or {}).get("subs") or [])
+        kwargs = {"n": n, "team": hook_team_name(bundle.home)}
+    elif viz_id == "duel_tower":
+        duels = audit.get("duels") or {}
+        home_d = int((duels.get("home") or {}).get("total") or 0)
+        away_d = int((duels.get("away") or {}).get("total") or 0)
+        leader = bundle.home if home_d >= away_d else bundle.away
+        kwargs = {"team": hook_team_name(leader), "n": max(home_d, away_d)}
+    elif viz_id == "aerial_war":
+        aerials = audit.get("aerials") or {}
+        home_a = int(aerials.get("home_won") or 0)
+        away_a = int(aerials.get("away_won") or 0)
+        leader = bundle.home if home_a >= away_a else bundle.away
+        kwargs = {"team": hook_team_name(leader), "n": max(home_a, away_a)}
+    elif viz_id == "halftime_split":
+        kwargs = {"team": hook_team_name(bundle.home), "n": 2}
     elif viz_id == "close":
         if context["winner"]:
             kwargs = {"team": hook_team_name(context["winner"])}

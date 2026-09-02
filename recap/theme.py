@@ -25,9 +25,9 @@ PITCH_LINE = "#4c5c51"
 HAIRLINE = "#232b27"
 
 # --- type -------------------------------------------------------------------
-TEXT = "#f5f8f3"
-TEXT_DIM = "#9aa8a1"
-TEXT_FAINT = "#5e6b65"
+TEXT = "#f7faf6"
+TEXT_DIM = "#c5d0c8"
+TEXT_FAINT = "#8d9a93"
 
 # --- accents ----------------------------------------------------------------
 GOAL = "#ff3b5c"         # goals / decisive moments
@@ -46,12 +46,20 @@ DATA_SOURCE = "WhoScored / Opta event feed"
 TEAM_KINDS = ("national", "club")
 _team_kind = "national"
 
-# 1080x1920 output. Social overlays eat roughly the top 10% and bottom 16%,
-# so all primary content is kept inside the safe band.
+# Default 1080x1920. Callers may switch to landscape via set_frame_size.
 FRAME_W, FRAME_H = 1080, 1920
 ASPECT = FRAME_W / FRAME_H
 SAFE_TOP = 0.945
 SAFE_BOTTOM = 0.055
+
+
+def set_frame_size(width: int, height: int) -> tuple[int, int]:
+    """Point every renderer at a new output size. Portrait and landscape both work."""
+    global FRAME_W, FRAME_H, ASPECT
+    FRAME_W = max(1, int(width))
+    FRAME_H = max(1, int(height))
+    ASPECT = FRAME_W / FRAME_H
+    return FRAME_W, FRAME_H
 
 
 def normalize_team_kind(value: str | None) -> str:
@@ -205,7 +213,7 @@ def contrast_ratio(color_a: str, color_b: str) -> float:
     return (lighter + 0.05) / (darker + 0.05)
 
 
-def readable_on(color: str, background: str = INK, minimum: float = 4.5) -> str:
+def readable_on(color: str, background: str = INK, minimum: float = 5.5) -> str:
     """Lighten *color* until it is legible on *background*."""
     if contrast_ratio(color, background) >= minimum:
         return color
@@ -394,15 +402,16 @@ def _colors_for(name: str, kind: str) -> tuple[str, str]:
 def _team_identity_cached(name: str, kind: str) -> tuple[tuple[str, str], ...]:
     key = canonical_team_key(name)
     primary, secondary = _colors_for(name, kind)
+    chart = readable_on(primary)
     return (
         ("key", key),
         ("name", name),
         ("abbr", team_abbreviation(name)),
         ("primary", primary),
-        ("secondary", secondary),
         ("fill", primary),
-        ("chart", readable_on(primary)),
-        ("glow", primary),
+        ("secondary", secondary),
+        ("chart", chart),
+        ("glow", mix(chart, "#ffffff", 0.18)),
         ("accent", readable_on(secondary, minimum=3.2)),
         ("kind", kind),
         ("shape", badge_shape(kind)),
@@ -464,7 +473,7 @@ def highlight_against(color: str) -> str:
     )
 
 
-def separate(color_a: str, color_b: str, minimum: float = 1.8) -> tuple[str, str]:
+def separate(color_a: str, color_b: str, minimum: float = 2.2) -> tuple[str, str]:
     """Keep two team colours visually distinct from each other."""
     if contrast_ratio(color_a, color_b) >= minimum:
         return color_a, color_b
@@ -489,8 +498,8 @@ def _apply_color_override(identity: dict[str, str], hex_color: str | None) -> di
     updated = dict(identity)
     updated["primary"] = hex_color
     updated["fill"] = hex_color
-    updated["glow"] = hex_color
     updated["chart"] = readable_on(hex_color)
+    updated["glow"] = mix(updated["chart"], "#ffffff", 0.18)
     return updated
 
 
@@ -501,7 +510,12 @@ def match_design(home: str, away: str) -> dict[str, Any]:
     home_chart, away_chart = _separated_charts(home_id["chart"], away_id["chart"])
     home_id["chart"] = home_chart
     away_id["chart"] = away_chart
-    tinted_ink = mix(INK, home_id.get("fill") or home_id["primary"], 0.10)
+    home_id["glow"] = mix(home_chart, "#ffffff", 0.18)
+    away_id["glow"] = mix(away_chart, "#ffffff", 0.18)
+    fill = home_id.get("fill") or home_id["primary"]
+    tinted_ink = mix(INK, fill, 0.08)
+    if contrast_ratio(TEXT, tinted_ink) < 7.0:
+        tinted_ink = mix(INK, fill, 0.05)
     return {
         "home": home_id,
         "away": away_id,
