@@ -12,6 +12,8 @@ Layers, from the bottom up:
     scenes    one renderer per visualization
     video     frame rendering and mp4 assembly
     voice     narration audio
+    audio     original music beds, SFX, ducking, loudnorm
+    music_beds ffmpeg-lavfi loops (no catalog rips)
 
 Nothing in a lower layer imports from a higher one.
 """
@@ -29,6 +31,7 @@ __all__ = [
     "i18n",
     "locale_meta",
     "logos",
+    "music_beds",
     "retention",
     "scenes",
     "theme",
