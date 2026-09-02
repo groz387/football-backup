@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from . import hooks
+from . import hooks, retention
 from .data import MatchBundle, write_json
 from .director import SHAPE_FAMILY, _SCORELINE, _is_polite_title
 
@@ -72,6 +72,31 @@ def score_plan(
             punch = str(scene.get("title") or "")
             hook_kind = str(scene.get("hook_kind") or "")
             break
+
+    if not retention.first_frame_ok(scenes):
+        warn("first frame is a clip/logo, not a number or stamp", fail=True, penalty=22)
+
+    spoiler = hooks.resolve_spoiler(
+        audit.get("spoiler"),
+        (audit.get("generation") or {}).get("spoiler") if isinstance(audit.get("generation"), dict) else None,
+        next((scene.get("spoiler") for scene in scenes if scene.get("spoiler")), None),
+    )
+    if spoiler == "hide":
+        first = next(
+            (scene for scene in scenes if scene.get("visualization") == "hook_claim" or scene.get("hook")),
+            None,
+        )
+        if first:
+            blob = " ".join(
+                str(first.get(field) or "")
+                for field in ("title", "subtitle", "insight", "narration", "kicker")
+            )
+            if _SCORELINE.search(blob):
+                warn("spoiler-hide first beat leaks the score", fail=True, penalty=22)
+            for name in hooks.scorer_names(audit):
+                if hooks._name_in_text(name, blob):
+                    warn("spoiler-hide first beat names a scorer", fail=True, penalty=22)
+                    break
 
     if output_root is not None and punch:
         for row in load_memory(memory_path(output_root)):

@@ -14,6 +14,7 @@ Two rules shape the definitions below:
 from __future__ import annotations
 
 import math
+import re
 from typing import Any
 
 import numpy as np
@@ -112,6 +113,170 @@ def outfield_blocks(df: pd.DataFrame) -> pd.Series:
     return text_col(df, "type").eq("Save") & flag(df, "outfielderBlock")
 
 
+_SET_PIECE_SITUATIONS = {
+    "FromCorner", "SetPiece", "DirectFreekick", "IndirectFreekick",
+    "FromThrowIn", "Penalty", "FreeKick",
+}
+
+
+def _set_piece_shot_mask(events: pd.DataFrame) -> pd.Series:
+    situation = text_col(events, "situation")
+    return (
+        situation.isin(_SET_PIECE_SITUATIONS)
+        | flag(events, "shotSetPiece")
+        | flag(events, "fromCorner")
+        | flag(events, "passFreekick")
+        | flag(events, "directFreeKick")
+    )
+
+
+def _var_event_mask(events: pd.DataFrame) -> pd.Series:
+    if events.empty:
+        return pd.Series(False, index=events.index, dtype=bool)
+    types = text_col(events, "type").fillna("").astype(str)
+    mask = types.str.contains(r"\bvar\b", case=False, regex=True)
+    for col in events.columns:
+        if not re.search(r"var", str(col), flags=re.IGNORECASE):
+            continue
+        lowered = str(col).lower()
+        if lowered in {"variance", "variable", "avatar"}:
+            continue
+        series = events[col]
+        if series.dtype == bool or str(series.dtype) == "boolean":
+            mask = mask | series.fillna(False).astype(bool)
+        else:
+            as_text = series.fillna("").astype(str)
+            mask = mask | as_text.str.contains(r"\bvar\b", case=False, regex=True, na=False)
+            mask = mask | as_text.str.strip().str.lower().isin({"true", "1", "yes"})
+    if "qualifiers" in events.columns:
+        blob = events["qualifiers"].fillna("").astype(str)
+        mask = mask | blob.str.contains(r"\bVAR\b", case=False, regex=True, na=False)
+    return mask.fillna(False)
+
+
+def table_payload(summary: dict[str, Any]) -> dict[str, Any]:
+    """League table numbers only when the export actually has them. Never invent."""
+    if not isinstance(summary, dict):
+        return {}
+
+    def _side_block(raw: Any) -> dict[str, Any]:
+        if not isinstance(raw, dict):
+            return {}
+        position = raw.get("tablePosition", raw.get("leaguePosition", raw.get("standing", raw.get("rank"))))
+        points = raw.get("points", raw.get("pts"))
+        if position is None and points is None:
+            return {}
+        block: dict[str, Any] = {}
+        try:
+            if position is not None:
+                block["position"] = int(position)
+        except (TypeError, ValueError):
+            return {}
+        try:
+            if points is not None:
+                block["points"] = int(points)
+        except (TypeError, ValueError):
+            pass
+        return block
+
+    explicit = summary.get("table") or summary.get("leagueTable") or summary.get("standings") or summary.get("table_implications")
+    if isinstance(explicit, dict) and explicit:
+        home = _side_block(explicit.get("home") or explicit.get("h") or {})
+        away = _side_block(explicit.get("away") or explicit.get("a") or {})
+        if home or away:
+            return {"home": home, "away": away}
+        return {}
+
+    home = _side_block(summary.get("home") or {})
+    away = _side_block(summary.get("away") or {})
+    if home and away:
+        return {"home": home, "away": away}
+    return {}
+
+
+_DERBY_TOKENS = (
+    "derby", "derbi", "clásico", "clasico", "el clasico", "old firm",
+    "merseyside", "north london", "manchester derby", "milan derby",
+    "superclasico", "süperderbi", "super derbi",
+)
+
+
+def derby_flag(summary: dict[str, Any]) -> bool:
+    if not isinstance(summary, dict):
+        return False
+    for key in ("derby", "isDerby", "is_derby"):
+        value = summary.get(key)
+        if value is True or str(value).strip().lower() in {"true", "1", "yes"}:
+            return True
+    blob = " ".join(
+        str(summary.get(key) or "")
+        for key in ("league", "competitionStage", "competition", "stage", "name", "description")
+    ).lower()
+    return any(token in blob for token in _DERBY_TOKENS)
+
+
+def rival_flag(summary: dict[str, Any]) -> bool:
+    if not isinstance(summary, dict):
+        return False
+    for key in ("rival", "rivalry", "isRival", "is_rival"):
+        value = summary.get(key)
+        if value is True or str(value).strip().lower() in {"true", "1", "yes"}:
+            return True
+    blob = " ".join(str(summary.get(key) or "") for key in ("league", "competitionStage", "competition")).lower()
+    return "rival" in blob
+
+
+def substitute_names(bundle: MatchBundle) -> set[str]:
+    events = bundle.events
+    if events.empty:
+        return set()
+    types = text_col(events, "type").fillna("").astype(str)
+    names = text_col(events, "playerName")
+    mask = types.str.contains(r"SubstitutionOn|^Substitution$", case=False, regex=True, na=False)
+    mask = mask | flag(events, "substituteOn") | flag(events, "subOn")
+    return {str(name).strip() for name in names[mask].tolist() if str(name).strip()}
+
+
+def debut_names(bundle: MatchBundle) -> set[str]:
+    names: set[str] = set()
+    summary = bundle.summary if isinstance(bundle.summary, dict) else {}
+    for key in ("debuts", "debut_players", "first_appearances"):
+        raw = summary.get(key)
+        if isinstance(raw, list):
+            for item in raw:
+                if isinstance(item, str) and item.strip():
+                    names.add(item.strip())
+                elif isinstance(item, dict):
+                    label = item.get("playerName") or item.get("name") or item.get("player")
+                    if label:
+                        names.add(str(label).strip())
+    players = bundle.players
+    if players is None or getattr(players, "empty", True):
+        return names
+    name_col = next(
+        (col for col in players.columns if col.lower() in {"playername", "name", "player", "player_name"}),
+        None,
+    )
+    if not name_col:
+        return names
+    debut_cols = [
+        col for col in players.columns
+        if re.search(r"debut|firstmatch|first_match|firstappearance|first_appearance", str(col), re.I)
+    ]
+    if not debut_cols:
+        return names
+    for col in debut_cols:
+        series = players[col]
+        if series.dtype == bool:
+            mask = series.fillna(False)
+        else:
+            mask = series.fillna(False).astype(str).str.strip().str.lower().isin({"true", "1", "yes", "y"})
+        for player in players.loc[mask, name_col].tolist():
+            if str(player).strip():
+                names.add(str(player).strip())
+    return names
+
+
 def build_team_stats(bundle: MatchBundle) -> dict[str, dict[str, Any]]:
     events = bundle.events
     if events.empty:
@@ -159,7 +324,12 @@ def build_team_stats(bundle: MatchBundle) -> dict[str, dict[str, Any]]:
             "shots_off_target": int(off_target.sum()),
             "woodwork": int(woodwork.sum()),
             "big_chances": int((side & (flag(events, "bigChanceScored") | flag(events, "bigChanceMissed"))).sum()),
+            "big_chances_missed": int((side & flag(events, "bigChanceMissed")).sum()),
             "big_chances_created": int((side & flag(events, "bigChanceCreated")).sum()),
+            "error_leads_to_goal": int((side & (
+                flag(events, "errorLeadToGoal") | flag(events, "goalkeeperError") | flag(events, "keeperError")
+            )).sum()),
+            "set_piece_shots": int((team_shots & _set_piece_shot_mask(events)).sum()),
             "pass_attempts": int(team_passes.sum()),
             "passes_completed": int((team_passes & successful).sum()),
             "pass_accuracy_pct": _pct(int((team_passes & successful).sum()), int(team_passes.sum())),
@@ -231,6 +401,8 @@ def _merge_official_stats(
         "big_chances",
         "big_chances_missed",
         "big_chances_created",
+        "error_leads_to_goal",
+        "set_piece_shots",
     )
     for h_a, payload in mapping.items():
         if not payload:
@@ -637,6 +809,8 @@ def build_goal_chains(bundle: MatchBundle) -> list[dict[str, Any]]:
 
     goal_rows = events[flag(events, "isGoal")]
     chains: list[dict[str, Any]] = []
+    subs = substitute_names(bundle)
+    debuts = debut_names(bundle)
 
     for goal_index, goal in goal_rows.iterrows():
         h_a = clean_text(goal.get("h_a"))
@@ -697,6 +871,8 @@ def build_goal_chains(bundle: MatchBundle) -> list[dict[str, Any]]:
                 "own_goal": own_goal,
                 "penalty": str(goal.get("penaltyScored")).lower() == "true",
                 "situation": clean_text(goal.get("situation"), "OpenPlay"),
+                "substitute": clean_text(goal.get("playerName")) in subs,
+                "debut": clean_text(goal.get("playerName")) in debuts,
                 "passes": len(pass_rows),
                 "events": [_compact_event(row) for row in chain_rows],
                 "pass_distance_m": round(distance, 1),
@@ -731,6 +907,10 @@ def goal_timeline(audit: dict[str, Any]) -> list[dict[str, Any]]:
                 "scorer": goal.get("scorer", ""),
                 "own_goal": bool(goal.get("own_goal")),
                 "penalty": bool(goal.get("penalty")),
+                "situation": clean_text(goal.get("situation"), "OpenPlay"),
+                "substitute": bool(goal.get("substitute")),
+                "debut": bool(goal.get("debut")),
+                "assist_player": clean_text(goal.get("assist_player")),
                 "score_after": f"{home_goals}-{away_goals}",
                 "passes": int(goal.get("passes") or 0),
                 "duration_seconds": float(goal.get("duration_seconds") or 0),
@@ -850,21 +1030,21 @@ def build_player_leaders(bundle: MatchBundle) -> dict[str, Any]:
     tackles = flag(events, "tackleWon")
     take_ons = types.eq("TakeOn") & successful
 
-    def top_for(mask: pd.Series, action: str) -> dict[str, Any] | None:
+    def top_for(mask: pd.Series, action: str, min_count: int = 2) -> dict[str, Any] | None:
         subset = names[mask & names.ne("")]
         if subset.empty:
             return None
         counts = subset.value_counts()
         player = str(counts.index[0])
         count = int(counts.iloc[0])
-        if count < 2:
+        if count < min_count:
             return None
         h_a = str(side[names.eq(player)].mode().iat[0]) if (names.eq(player)).any() else "h"
-        coords = events.loc[mask & names.eq(player), ["x", "y"]].dropna()
+        coords = events.loc[mask & names.eq(player), ["x", "y"]].dropna() if {"x", "y"}.issubset(events.columns) else pd.DataFrame()
         points = [
             {"x": round(float(row.x), 2), "y": round(float(row.y), 2)}
             for row in coords.itertuples(index=False)
-        ]
+        ] if not coords.empty else []
         return {
             "player": player,
             "surname": player.split()[-1] if player else "",
@@ -875,14 +1055,22 @@ def build_player_leaders(bundle: MatchBundle) -> dict[str, Any]:
             "points": points[:40],
         }
 
-    candidates = [
-        top_for(shots, "shots"),
-        top_for(tackles, "tackles"),
-        top_for(take_ons, "dribbles"),
-    ]
-    ranked = sorted((item for item in candidates if item), key=lambda item: item["count"], reverse=True)
+    scored = flag(events, "isGoal") & ~flag(events, "goalOwn")
+    assists = flag(events, "intentionalAssist") | flag(events, "assist") | flag(events, "passKey")
+    saves = keeper_saves(events)
+    key_passes = flag(events, "passKey")
+    candidates = {
+        "shots": top_for(shots, "shots"),
+        "tackles": top_for(tackles, "tackles"),
+        "dribbles": top_for(take_ons, "dribbles"),
+        "goals": top_for(scored, "goals", min_count=1),
+        "assists": top_for(assists, "assists", min_count=1),
+        "saves": top_for(saves, "saves", min_count=4),
+        "key_passes": top_for(key_passes, "key_passes"),
+    }
+    ranked = sorted((item for item in candidates.values() if item), key=lambda item: item["count"], reverse=True)
     spike = ranked[0] if ranked else None
-    return {"spike": spike, "shots": candidates[0], "tackles": candidates[1], "dribbles": candidates[2]}
+    return {"spike": spike, **candidates}
 
 
 def build_time_zones(bundle: MatchBundle) -> list[dict[str, Any]]:
@@ -960,6 +1148,8 @@ def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
     has_xg = bool(columns & {"xg", "expectedgoals", "expected_goals"})
     has_xgot = bool(columns & {"xgot", "expectedgoalsontarget", "expected_goals_on_target"})
     goal_mouth = int(num(events, "goalMouthY").notna().sum())
+    var_mask = _var_event_mask(events)
+    table = table_payload(bundle.summary)
     return {
         "event_rows": int(len(events)),
         "pass_rows": int(text_col(events, "type").eq("Pass").sum()),
@@ -971,6 +1161,8 @@ def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
         "has_goal_mouth_coordinates": goal_mouth > 0,
         "has_vendor_xg": has_xg,
         "has_vendor_xgot": has_xgot,
+        "has_var": bool(int(var_mask.sum()) > 0),
+        "has_table": bool(table),
         "blocked_claims": [name for name, present in (("xG", has_xg), ("xGOT", has_xgot)) if not present],
     }
 
@@ -990,6 +1182,9 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
             "stage": bundle.stage,
             "venue": bundle.venue,
             "last_minute": bundle.last_minute,
+            "table": table_payload(bundle.summary),
+            "derby": derby_flag(bundle.summary),
+            "rival": rival_flag(bundle.summary),
         },
         "data_health": detect_data_health(bundle),
         "team_stats": stats,
@@ -1001,6 +1196,8 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
         "shots": build_shots(bundle),
         "goal_chains": build_goal_chains(bundle),
         "player_leaders": build_player_leaders(bundle),
+        "substitute_scorers": sorted(substitute_names(bundle)),
+        "debut_scorers": sorted(debut_names(bundle)),
         "time_zones": build_time_zones(bundle),
         "touch_heatmap": build_touch_heatmap(bundle),
         "definitions": {

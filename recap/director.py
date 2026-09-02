@@ -17,29 +17,45 @@ from typing import Any
 
 from .audit import best_goal_chain, credible_goal_chains, dominant_team, result_context
 from .data import MatchBundle, clean_text
-from . import hooks, i18n
+from . import hooks, i18n, retention
 
 DEFAULT_MODEL = "gemini-2.5-flash"
 DEFAULT_SCRIPT_MODEL = "gemini-2.5-pro"
 GEMINI_ATTEMPTS = 4
 
 SYSTEM_PROMPT = (
-    "You write short-form football voiceover. Specific names and minutes. "
-    "Titles are claims, not labels. No hashtags, no emoji, no 'in this video'. "
-    "Never invent a number. The score stays off every card except close. "
+    "You write SHORTS, not broadcast recaps. One idea per scene. "
+    "Specific names and minutes. Titles are claims, not labels. "
+    "No hashtags, no emoji, no 'in this video'. Never invent a number. "
+    "The hook already ran — do not repeat the opening claim on later cards. "
+    "The score stays off every card except close. "
     "Vary sentence openings. Do not start every line with a team name. "
     "Do not tease the next card unless it earns it. Do not use the word 'but' "
-    "more than once across the whole script."
+    "more than once across the whole script. Kill waffle. "
+    "Write in the requested language. Do not stuff English idiom "
+    "(game gone, bottled it, smash-and-grab) into az/es/ru."
 )
 
 SCRIPT_FEW_SHOTS = [
     {
-        "good": "Saka had the last word in the 81st. The first hour was all City.",
-        "why": "A surname, a minute, a claim.",
+        "good": "Saibari. First minute. The rest was a siege.",
+        "why": "One idea. A name and a minute. Not a match report.",
+    },
+    {
+        "good": "Nine offsides. The trap ate the night.",
+        "why": "One number, one claim. No recap of every half.",
     },
     {
         "good": "Villa put 15 shots on the tape. The box was a graveyard.",
         "why": "A real count and an interpretation of the picture.",
+    },
+    {
+        "bad": "It was an end-to-end affair as both sides looked to impose themselves before the breakthrough finally arrived.",
+        "why": "BBC waffle. No number. Repeats the hook energy in prose.",
+    },
+    {
+        "bad": "They had 15 shots. They had 15 shots and still lost. 15 shots.",
+        "why": "Repeats the hook in every sentence.",
     },
     {
         "bad": "They came out swinging. But look at the shot map.",
@@ -238,8 +254,8 @@ ANGLE_VIZ = {
 }
 
 
-def pick_angle(bundle: MatchBundle, audit: dict[str, Any]) -> str:
-    hook = hooks.build_hook(bundle, audit)
+def pick_angle(bundle: MatchBundle, audit: dict[str, Any], *, language: str | None = None, spoiler: str | None = None) -> str:
+    hook = hooks.build_hook(bundle, audit, language=language, spoiler=spoiler)
     kind = hook["kind"]
     mapping = {
         "volume_upset": "upset",
@@ -259,6 +275,22 @@ def pick_angle(bundle: MatchBundle, audit: dict[str, Any]) -> str:
         "own_goal": "upset",
         "penalty": "keeper",
         "one_moment": "upset",
+        "offside_theft": "siege",
+        "last_kick": "comeback",
+        "debut_goal": "upset",
+        "super_sub": "comeback",
+        "goalkeeper_howler": "keeper",
+        "var_swing": "two_halves",
+        "missed_sitter": "robbery",
+        "woodwork_curse": "robbery",
+        "set_piece_clinic": "blowout",
+        "star_player": "keeper",
+        "derby": "two_halves",
+        "rival_energy": "two_halves",
+        "table_implications": "stalemate",
+        "possession_prison": "siege",
+        "xg_overperform": "robbery",
+        "clean_sheet_siege": "siege",
     }
     return mapping.get(kind, "upset")
 
@@ -498,11 +530,15 @@ def select_visualizations(
     count: int,
     gemini: "Gemini | None" = None,
     instruction: str = "",
+    target_seconds: float | None = None,
+    language: str | None = None,
+    spoiler: str | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Return (selected, all_candidates). Angle first, then shape-diverse pack."""
-    candidates = visualization_candidates(bundle, audit)
+    count = retention.recommended_viz(target_seconds, count)
+    candidates = retention.apply_timeline_cap(visualization_candidates(bundle, audit), audit)
     available = {c["id"]: c for c in candidates if c["available"]}
-    angle = pick_angle(bundle, audit)
+    angle = pick_angle(bundle, audit, language=language, spoiler=spoiler)
     preferred = [vid for vid in ANGLE_VIZ.get(angle, []) if vid in available]
 
     chosen_ids: list[str] = []
@@ -518,6 +554,7 @@ def select_visualizations(
 
     if not chosen_ids:
         chosen_ids = _diverse_pick(available, count, preferred)
+    chosen_ids = retention.prevent_timeline_lead(chosen_ids, audit)
 
     seen: set[str] = set()
     selected = []
@@ -975,10 +1012,13 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         spike = (audit.get("player_leaders") or {}).get("spike") or {}
         surname = spike.get("surname") or spike.get("player") or "A player"
         count = int(spike.get("count") or 0)
+        rest = int(spike.get("rest") or 0)
         action = spike.get("action") or "actions"
+        shirt = str(spike.get("shirt") or "").strip()
+        title = f"#{shirt}  {str(surname).upper()}" if shirt else f"{str(surname).upper()} HAD {count}"
         return {
             "kicker": i18n.t("graph_the_spike"),
-            "title": i18n.t("graph_player_had", player=str(surname).upper(), n=count),
+            "title": title or i18n.t("graph_player_had", player=str(surname).upper(), n=count),
             "subtitle": i18n.t("sub_player"),
             "insight": i18n.t(
                 "insight_spike", player=spike.get("player") or surname, action=action, n=count
@@ -986,6 +1026,98 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "narration": i18n.t(
                 "narr_spike", player=spike.get("player") or surname, n=count, action=action
             ),
+        }
+
+    if viz_id == "shot_clock_spiral":
+        n = len(audit.get("shots") or [])
+        return {
+            "kicker": "THE CLOCK",
+            "title": f"{n} SHOTS ON THE CLOCK",
+            "subtitle": i18n.t("sub_spiral"),
+            "insight": f"{n} attempts, numbered in the order they left the boot.",
+            "narration": f"{n} shots around the clock. Watch them land in order.",
+        }
+
+    if viz_id == "press_trap":
+        trap = audit.get("press_trap") or {}
+        home_p, away_p = trap.get("home_ppda"), trap.get("away_ppda")
+        if home_p is not None and (away_p is None or home_p <= away_p):
+            leader, value = bundle.home, home_p
+        elif away_p is not None:
+            leader, value = bundle.away, away_p
+        else:
+            leader, value = bundle.home, home_p
+        shown = value if value is not None else "—"
+        return {
+            "kicker": "THE TRAP",
+            "title": f"PPDA {shown}",
+            "subtitle": i18n.t("sub_trap"),
+            "insight": f"{leader} hunted the ball. Lower PPDA is the tighter trap.",
+            "narration": (
+                f"{leader} pressed at {value} passes per defensive action."
+                if value is not None else f"{leader} set the press."
+            ),
+        }
+
+    if viz_id == "pass_lanes":
+        leader = dominant_team(bundle, audit, "pass_attempts") or bundle.home
+        leader_stats = stats.get(leader) or {}
+        return {
+            "kicker": "LANES",
+            "title": f"{leader.upper()} LANES",
+            "subtitle": i18n.t("sub_lanes"),
+            "insight": f"{leader_stats.get('passes_completed', 0)} completed. Only the thick lines stay.",
+            "narration": f"The strongest passing lanes belonged to {leader}.",
+        }
+
+    if viz_id == "bench_impact":
+        n = len((audit.get("bench") or {}).get("subs") or [])
+        return {
+            "kicker": "THE BENCH",
+            "title": f"{n} CHANGES ON THE TAPE",
+            "subtitle": i18n.t("sub_bench"),
+            "insight": "Who came on, and the shots that followed. Coincidence, not a causal claim.",
+            "narration": f"{n} substitutions. The tape shows what the team produced after they came on.",
+        }
+
+    if viz_id == "duel_tower":
+        duels = audit.get("duels") or {}
+        home_n = int((duels.get("home") or {}).get("total") or 0)
+        away_n = int((duels.get("away") or {}).get("total") or 0)
+        leader = bundle.home if home_n >= away_n else bundle.away
+        return {
+            "kicker": "DUELS",
+            "title": f"{home_n}-{away_n} IN THE DUELS",
+            "subtitle": i18n.t("sub_duel"),
+            "insight": f"{leader} stacked the higher tower.",
+            "narration": f"Tackles, headers, take-ons: {bundle.home} {home_n} to {away_n}.",
+        }
+
+    if viz_id == "aerial_war":
+        aerials = audit.get("aerials") or {}
+        home_n = int(aerials.get("home_won") or 0)
+        away_n = int(aerials.get("away_won") or 0)
+        leader = bundle.home if home_n >= away_n else bundle.away
+        return {
+            "kicker": "THE AIR",
+            "title": f"{home_n}-{away_n} IN THE AIR",
+            "subtitle": i18n.t("sub_aerial"),
+            "insight": f"{leader} won the headers.",
+            "narration": f"Aerials won: {bundle.home} {home_n}, {bundle.away} {away_n}.",
+        }
+
+    if viz_id == "halftime_split":
+        split = audit.get("halftime_split") or {}
+        first = split.get("first") or {}
+        second = split.get("second") or {}
+        first_n = int(first.get("home_shots") or 0) + int(first.get("away_shots") or 0)
+        second_n = int(second.get("home_shots") or 0) + int(second.get("away_shots") or 0)
+        return {
+            "kicker": "TWO HALVES",
+            "title": f"{first_n} THEN {second_n}",
+            "subtitle": i18n.t("sub_split"),
+            "insight": f"{first_n} shots before the break, {second_n} after.",
+            "narration": f"First half {first_n} shots. Second half {second_n}. Two different matches.",
         }
 
     return {
@@ -1034,12 +1166,13 @@ def _zone_title(bundle: MatchBundle, audit: dict[str, Any]) -> str:
     return i18n.t("graph_every_zone")
 
 
-def _closing_copy(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, str]:
+def _closing_copy(bundle: MatchBundle, audit: dict[str, Any], hook: dict[str, Any] | None = None) -> dict[str, str]:
     context = result_context(bundle, audit)
     score = bundle.score
     winner = context["winner"]
     loser = context["loser"]
-    hook = build_hook(bundle, audit)
+    hook = hook or build_hook(bundle, audit)
+    bait = hook.get("comment_bait") or hooks.comment_bait(bundle, audit, hook)
     if winner and loser:
         loser_shots = int(context["loser_stats"].get("shots") or 0)
         narration = i18n.t(
@@ -1065,20 +1198,23 @@ def _closing_copy(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, str]:
                 winner=winner, score=score.display,
                 n=int(context["winner_stats"].get("shots_on_target") or 0),
             )
-        insight = i18n.t("insight_took_result", team=winner)
+        insight = bait or i18n.t("insight_took_result", team=winner)
     elif score.total_goals == 0:
         total = sum(int(team.get("shots") or 0) for team in audit["team_stats"].values())
         narration = i18n.t("narr_close_blank", n=total)
-        insight = i18n.t("insight_nothing_board")
+        insight = bait or i18n.t("insight_nothing_board")
     else:
         narration = i18n.t("narr_close_level", score=score.display)
-        insight = i18n.t("insight_level_split")
+        insight = bait or i18n.t("insight_level_split")
+    if bait and bait not in narration:
+        narration = f"{narration.rstrip('. ')}. {bait}".strip()
     return {
         "kicker": i18n.t("full_time") if not score.qualifier else score.qualifier,
         "title": f"{bundle.home.upper()} {score.display} {bundle.away.upper()}",
         "subtitle": "",
         "insight": insight,
         "narration": narration,
+        "comment_bait": bait,
     }
 
 
@@ -1110,9 +1246,12 @@ def attach_handoffs(
     bundle: MatchBundle,
     audit: dict[str, Any],
 ) -> list[dict[str, Any]]:
-    """At most one analysis card ends on a 'but'. The rest keep their own rhythm."""
+    """At most one analysis card ends on a 'but'. Never mandatory."""
     bodies = [scene for scene in scenes if not scene.get("hook")]
     if len(bodies) < 2:
+        return scenes
+    seed = hooks.match_seed(bundle)
+    if hooks.pick_index(f"{seed}:handoff", 3) != 0:
         return scenes
     scene = bodies[0]
     nxt = bodies[1]
@@ -1142,9 +1281,15 @@ def _hook_fields(hook: dict[str, Any]) -> dict[str, Any]:
             "kind": hook.get("kind"),
             "numbers": hook.get("numbers") or [],
             "never_say": hook.get("never_say") or [],
+            "never_say_names": hook.get("never_say_names") or [],
             "qualified": hook.get("qualified") or [],
+            "spoiler": hook.get("spoiler") or "show",
         },
         "allowed_numbers": hook.get("numbers") or [],
+        "style": hook.get("style"),
+        "language": hook.get("language"),
+        "spoiler": hook.get("spoiler") or "show",
+        "comment_bait": hook.get("comment_bait") or "",
     }
 
 
@@ -1153,17 +1298,28 @@ def build_storyboard(
     audit: dict[str, Any],
     selected: list[dict[str, Any]],
     clip_beats: list[dict[str, Any]] | None = None,
+    language: str | None = None,
+    spoiler: str | None = None,
 ) -> list[dict[str, Any]]:
     """The deterministic script. Every string here comes from the audit.
 
     Open on a contradiction, prove it, then at most two mid-pack slams.
-    The score stays on the last card.
+    The score stays on the last card. First frame is a number or stamp, never a clip.
     """
-    hook = build_hook(bundle, audit)
+    spoiler = hooks.resolve_spoiler(
+        spoiler,
+        audit.get("spoiler"),
+        (audit.get("generation") or {}).get("spoiler") if isinstance(audit.get("generation"), dict) else None,
+    )
+    hook = build_hook(bundle, audit, language=language, spoiler=spoiler)
     matchup = hook["matchup"]
     scenes: list[dict[str, Any]] = []
     beats = list(clip_beats or [])
-    pre_beats, mid_beats = beats[:1], beats[1:2]
+    # A single smash sits BETWEEN claim and punch. A second beat can cold-open.
+    if len(beats) <= 1:
+        pre_beats, mid_beats = [], beats[:1]
+    else:
+        pre_beats, mid_beats = [], beats[:2]  # clips never open the recap
 
     def clip_scene(index: int, beat: dict[str, Any]) -> dict[str, Any]:
         return {
@@ -1221,16 +1377,13 @@ def build_storyboard(
         }
     )
 
-    # Cap micro-hooks at two mid-pack interrupts. Skip the first viz and the close.
-    micro_slots = set()
-    if len(selected) >= 3:
-        micro_slots = {1, 2}
-    elif len(selected) == 2:
-        micro_slots = {1}
+    micro_slots = set(retention.micro_hook_indices(len(selected)))
 
     for index, item in enumerate(selected):
         if index in micro_slots:
-            scenes.append(_micro_hook_scene(bundle, audit, item["id"], index))
+            scene = _micro_hook_scene(bundle, audit, item["id"], index)
+            scene["seconds"] = retention.MICRO_HOOK_SECONDS
+            scenes.append(scene)
         copy = _visual_copy(bundle, audit, item["id"])
         fact = scene_fact_pack(bundle, audit, item["id"], copy)
         scenes.append(
@@ -1244,7 +1397,7 @@ def build_storyboard(
             }
         )
 
-    closing = _closing_copy(bundle, audit)
+    closing = _closing_copy(bundle, audit, hook=hook)
     close_fact = scene_fact_pack(bundle, audit, "close", closing)
     scenes.append(
         {
@@ -1471,14 +1624,16 @@ class Gemini:
         language: str = "en",
         hook: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        hook = hook or build_hook(bundle, audit)
+        hook = hook or build_hook(bundle, audit, language=language)
         payload = {
-            "task": "Pick ONE recap angle for this football match.",
+            "task": "Pick ONE recap angle for this football match. Shorts, not a BBC report.",
             "language": i18n.normalize_language(language),
-            "hook": {"kind": hook.get("kind"), "punch": hook.get("punch"), "lines": hook.get("lines")},
+            "language_name": i18n.language_name(language),
+            "spoiler": hook.get("spoiler") or "show",
+            "hook": {"kind": hook.get("kind"), "punch": hook.get("punch"), "lines": hook.get("lines"), "style": hook.get("style"), "qualified": hook.get("qualified")},
             "match": _brief(bundle, audit),
             "response_schema": {
-                "angle": "keeper_masterclass|xg_robbery|press_pin|waste|comeback|chain_shock|blowout|stoppage|one_moment|upset|siege|stalemate|two_halves|keeper",
+                "angle": "keeper_masterclass|xg_robbery|press_pin|waste|comeback|chain_shock|blowout|stoppage|one_moment|upset|siege|stalemate|two_halves|keeper|star_player|last_kick|offside_theft|derby",
                 "why": "one sentence",
             },
         }
@@ -1538,10 +1693,17 @@ class Gemini:
                 "Do not open any analysis scene with the scoreline. The score is the closing payoff only.",
                 "Never write a score such as 2-1 on hook_claim, hook_punch, micro_hook or live_clip scenes.",
                 "You MAY rephrase hook_claim and hook_punch using only numbers in their fact packs. "
-                "Do not invent a new hook kind.",
+                "Do not invent a new hook kind. Do not repeat the hook claim in analysis scenes.",
+                "SHORTS: one idea per scene. No BBC report. No waffle.",
+                "If spoiler is hide, the first beat must not name the scorer or the final score.",
                 language_rule,
             ],
             "language": lang,
+            "spoiler": hooks.resolve_spoiler(
+                next((scene.get("spoiler") for scene in scenes if scene.get("spoiler")), None),
+                audit.get("spoiler"),
+                (audit.get("generation") or {}).get("spoiler") if isinstance(audit.get("generation"), dict) else None,
+            ),
             "editor_note": instruction,
             "audit_notes": audit_notes or [],
             "match": _brief(bundle, audit, angle=angle),
@@ -1588,6 +1750,8 @@ class Gemini:
         payload = {
             "task": "Rewrite the hook punch and claim lines. Keep every number from the pack.",
             "language": i18n.normalize_language(language),
+            "style": hook.get("style") or "slam",
+            "spoiler": hook.get("spoiler") or "show",
             "kind": hook.get("kind"),
             "numbers": hook.get("numbers") or [],
             "never_say": hook.get("never_say") or [],
@@ -1740,9 +1904,18 @@ def lock_hook_cards(
     scenes: list[dict[str, Any]],
     bundle: MatchBundle,
     audit: dict[str, Any],
+    language: str | None = None,
+    spoiler: str | None = None,
 ) -> list[dict[str, Any]]:
     """Keep the open on the contradiction. Gemini may rephrase; numbers stay locked."""
-    hook = build_hook(bundle, audit)
+    language = i18n.normalize_language(language or i18n.get_language())
+    spoiler = hooks.resolve_spoiler(
+        spoiler,
+        next((s.get("spoiler") for s in scenes if s.get("spoiler")), None),
+        audit.get("spoiler"),
+        (audit.get("generation") or {}).get("spoiler") if isinstance(audit.get("generation"), dict) else None,
+    )
+    hook = build_hook(bundle, audit, language=language, spoiler=spoiler)
     locked = []
     for scene in scenes:
         updated = dict(scene)
@@ -1750,10 +1923,12 @@ def lock_hook_cards(
         pack = {
             "numbers": hook.get("numbers") or [],
             "never_say": hook.get("never_say") or [],
+            "never_say_names": hook.get("never_say_names") or [],
+            "spoiler": hook.get("spoiler") or "show",
         }
         if viz == "hook_claim":
             lines = list(updated.get("lines") or hook["lines"])
-            if not lines or not all(hooks.hook_passes_lock(line, pack) for line in lines):
+            if not lines or not all(hooks.hook_passes_lock(line, pack, beat="claim") for line in lines):
                 lines = list(hook["lines"])
             updated["kicker"] = hook["matchup"]
             updated["lines"] = lines
@@ -1764,7 +1939,7 @@ def lock_hook_cards(
                 updated["narration"] = hook["narration_claim"]
         elif viz == "hook_punch":
             punch = str(updated.get("title") or "")
-            if not hooks.hook_passes_lock(punch, pack):
+            if not hooks.hook_passes_lock(punch, pack, beat="punch"):
                 punch = hook["punch"]
             updated["kicker"] = hook["matchup"]
             updated["title"] = punch
@@ -1791,6 +1966,8 @@ def lock_hook_cards(
             updated["insight"] = ""
             if _SCORELINE.search(str(updated.get("narration") or "")):
                 updated["narration"] = current.rstrip(".")
+        updated["language"] = language
+        updated["spoiler"] = spoiler
         locked.append(updated)
     return attach_handoffs(locked, bundle, audit)
 
@@ -1835,7 +2012,16 @@ def apply_script(
                 continue
             if allowed and hooks.extra_numbers(value, allowed):
                 continue
-            if hookish and not hooks.hook_passes_lock(value, pack or {"numbers": scene.get("allowed_numbers") or [], "never_say": never_say}):
+            if hookish and not hooks.hook_passes_lock(
+                value,
+                pack or {
+                    "numbers": scene.get("allowed_numbers") or [],
+                    "never_say": never_say,
+                    "never_say_names": pack.get("never_say_names") or [],
+                    "spoiler": scene.get("spoiler") or pack.get("spoiler") or "show",
+                },
+                beat="close" if close else ("punch" if scene.get("visualization") == "hook_punch" else "claim"),
+            ):
                 continue
             updated[field] = value
             if hookish and field == "title":

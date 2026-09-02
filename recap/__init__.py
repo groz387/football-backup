@@ -27,6 +27,7 @@ __all__ = [
     "i18n",
     "locale_meta",
     "logos",
+    "retention",
     "scenes",
     "theme",
     "timing",
