@@ -17,7 +17,7 @@ import matplotlib
 from matplotlib import font_manager
 
 # --- surfaces ---------------------------------------------------------------
-INK = "#07090a"          # page background
+INK = "#0b1014"          # page background — lifted off pure black so team tint can read
 SURFACE = "#0e1211"      # cards and panels
 SURFACE_HI = "#161b19"   # raised rows
 PITCH = "#0a0f0b"
@@ -38,7 +38,7 @@ WARNING = "#fbbf24"
 NEUTRAL_HOME = "#f0a132"
 NEUTRAL_AWAY = "#4fd1a5"
 
-WATERMARK = "EVENT DATA RECAP"
+WATERMARK = ""
 DATA_SOURCE = "WhoScored / Opta event feed"
 
 # Badge presentation. ``national`` draws rectangular flags; ``club`` draws
@@ -400,7 +400,9 @@ def _team_identity_cached(name: str, kind: str) -> tuple[tuple[str, str], ...]:
         ("abbr", team_abbreviation(name)),
         ("primary", primary),
         ("secondary", secondary),
+        ("fill", primary),
         ("chart", readable_on(primary)),
+        ("glow", primary),
         ("accent", readable_on(secondary, minimum=3.2)),
         ("kind", kind),
         ("shape", badge_shape(kind)),
@@ -486,6 +488,8 @@ def _apply_color_override(identity: dict[str, str], hex_color: str | None) -> di
         return identity
     updated = dict(identity)
     updated["primary"] = hex_color
+    updated["fill"] = hex_color
+    updated["glow"] = hex_color
     updated["chart"] = readable_on(hex_color)
     return updated
 
@@ -497,12 +501,13 @@ def match_design(home: str, away: str) -> dict[str, Any]:
     home_chart, away_chart = _separated_charts(home_id["chart"], away_id["chart"])
     home_id["chart"] = home_chart
     away_id["chart"] = away_chart
+    tinted_ink = mix(INK, home_id.get("fill") or home_id["primary"], 0.10)
     return {
         "home": home_id,
         "away": away_id,
         "team_kind": get_team_kind(),
         "badge_shape": badge_shape(),
-        "ink": INK,
+        "ink": tinted_ink,
         "surface": SURFACE,
         "surface_hi": SURFACE_HI,
         "pitch": PITCH,

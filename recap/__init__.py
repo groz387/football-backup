@@ -17,15 +17,19 @@ Nothing in a lower layer imports from a higher one.
 
 __all__ = [
     "audit",
+    "audio",
     "clips",
     "data",
     "director",
     "draw",
+    "graphs",
+    "hooks",
     "i18n",
     "logos",
     "scenes",
     "theme",
     "timing",
     "video",
+    "viral_audit",
     "voice",
 ]

@@ -18,14 +18,14 @@ WORDS_PER_SECOND = 2.55
 LEAD_IN = 0.45
 TAIL = 0.65
 
-# Cross-dissolve between consecutive scenes.
-TRANSITION = 0.45
+# Cross-dissolve between consecutive scenes. 12 frames at 24fps is a wipe, not a dissolve.
+TRANSITION = 0.50
 
 # Time each visualization needs to finish animating and still be readable.
 MINIMUM_ON_SCREEN = {
     "hook_claim": 0.85,
     "hook_punch": 0.70,
-    "micro_hook": 0.70,
+    "micro_hook": 0.45,
     "live_clip": 0.40,
     "title": 3.2,
     "standard_stats": 5.2,
@@ -37,6 +37,16 @@ MINIMUM_ON_SCREEN = {
     "goalmouth": 5.0,
     "pass_network": 5.2,
     "sterile_domination": 5.0,
+    "stat_slam": 4.4,
+    "match_radar": 5.0,
+    "touch_heatmap": 5.0,
+    "field_tilt_wave": 5.2,
+    "conversion_gauges": 5.0,
+    "chance_funnel": 5.2,
+    "keeper_frame": 5.0,
+    "xg_race": 5.2,
+    "time_zones": 5.4,
+    "player_spike": 5.0,
     "close": 4.4,
 }
 DEFAULT_MINIMUM = 5.0
@@ -212,6 +222,10 @@ def build_subtitles(scenes: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Cues that sit inside each scene's own visible window."""
     cues: list[dict[str, Any]] = []
     for scene in scenes:
+        if scene.get("hook") or scene.get("visualization") in {
+            "hook_claim", "hook_punch", "micro_hook", "live_clip",
+        }:
+            continue
         narration = str(scene.get("narration", "")).strip()
         if not narration:
             continue
