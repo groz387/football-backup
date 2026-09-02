@@ -700,8 +700,14 @@ def build_hook(
     audit: dict[str, Any],
     language: str | None = None,
     spoiler: str | None = None,
+    *,
+    variant: int = 0,
 ) -> dict[str, Any]:
-    """Contradiction open: claim card, punch card, fact pack, visual language."""
+    """Contradiction open: claim card, punch card, fact pack, visual language.
+
+    ``variant`` 0 is the hashed default. 1 and 2 (and further salts) walk the
+    phrase pools so the A/B picker can score alternates without a new match.
+    """
     lang = i18n.normalize_language(language or i18n.get_language())
     spoiler = resolve_spoiler(
         spoiler,
@@ -715,6 +721,9 @@ def build_hook(
     qualified = qualifying_kinds(bundle, audit)
     kind = qualified[0]
     seed = match_seed(bundle)
+    variant = int(variant or 0)
+    if variant:
+        seed = f"{seed}:ab{variant}"
     style = hook_style(seed, lang)
     winner = context["winner"]
     loser = context["loser"]
@@ -761,6 +770,7 @@ def build_hook(
             "numbers": collect_numbers(*numbers, hero_number),
             "never_say": never_say,
             "never_say_names": [],
+            "variant": variant,
             "seed": seed,
             "style": style,
             "language": lang,

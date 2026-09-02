@@ -2149,6 +2149,7 @@ def lock_hook_cards(
     audit: dict[str, Any],
     language: str | None = None,
     spoiler: str | None = None,
+    hook: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Keep the open on the contradiction. Gemini may rephrase; numbers stay locked."""
     language = i18n.normalize_language(language or i18n.get_language())
@@ -2157,8 +2158,9 @@ def lock_hook_cards(
         next((s.get("spoiler") for s in scenes if s.get("spoiler")), None),
         audit.get("spoiler"),
         (audit.get("generation") or {}).get("spoiler") if isinstance(audit.get("generation"), dict) else None,
+        (hook or {}).get("spoiler"),
     )
-    hook = build_hook(bundle, audit, language=language, spoiler=spoiler)
+    hook = hook or build_hook(bundle, audit, language=language, spoiler=spoiler)
     locked = []
     for scene in scenes:
         updated = dict(scene)

@@ -34,6 +34,7 @@ __all__ = [
     "export_pack",
     "graphs",
     "growth",
+    "ab_hooks",
     "hooks",
     "i18n",
     "locale_meta",
