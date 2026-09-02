@@ -1345,7 +1345,7 @@ def freeze_frame_badge(
     )
     ax.text(
         x, y, str(n),
-        color=theme.ink_on(color), fontsize=9.5 if latest else 8.0,
+        color=theme.ink_on(color), fontsize=12.0 if latest else 10.5,
         fontweight="bold", family=theme.DISPLAY_FONT,
         ha="center", va="center", alpha=opacity(alpha), zorder=zorder + 1,
     )
