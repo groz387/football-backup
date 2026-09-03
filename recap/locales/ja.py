@@ -607,3 +607,20 @@ UI = {
  'watermark': ''}
 
 OFFLINE_LINES = {}
+
+# Terrace trash-talk bookends. Voiceover first + last sentence only; body stays clean.
+CURSE_HOOKS = [
+    '{winner}が{loser}を叩き潰した',
+    '{winner}が{loser}を沈めた',
+    '{winner}が{loser}を一蹴した',
+]
+CURSE_HOOKS_DRAW = [
+    '九十分、誰も男じゃなかった',
+]
+CURSE_HOOKS_HIDE = [
+    '袋叩きは後で。まずはテープ。',
+]
+CURSE_OUTROS = [
+    '一番ダメだったのは誰？',
+    '乗客は誰だった？下に書け。',
+]

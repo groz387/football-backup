@@ -21,12 +21,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from dotenv import load_dotenv
-
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass
 
 from recap import ab_hooks, audit as audit_mod
-from recap import audio, batch, cast as cast_mod, clips, director, hooks, i18n, locale_meta, logos, longform, theme, timing, video, voice, viral_audit
+from recap import approvals, audio, batch, cast as cast_mod, clips, culture, director, farm, hooks, i18n, locale_meta, logos, longform, script_culture, theme, timing, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -49,25 +51,15 @@ def _console_safe(text: str) -> str:
 
 
 def say(text: str = "") -> None:
-    print(_console_safe(text))
+    approvals.say(_console_safe(text))
 
 
 def stage(name: str) -> None:
     say(f"\n{'=' * 66}\n{name}\n{'=' * 66}")
 
 
-def ask(prompt: str, options: tuple[str, ...], auto: bool) -> str:
-    if auto:
-        say(f"  {prompt} -> ok (auto)")
-        return "ok"
-    joined = "/".join(options)
-    while True:
-        answer = input(f"  {prompt} [{joined}]: ").strip().lower()
-        if answer in options:
-            return answer
-        if answer == "" and "ok" in options:
-            return "ok"
-        say(f"  Please answer one of: {joined}")
+def ask(prompt: str, options: tuple[str, ...], auto: bool, payload: dict | None = None) -> str:
+    return approvals.ask(prompt, options, auto, payload)
 
 
 def choose_match(output_root: Path, interactive: bool) -> Path:
@@ -184,10 +176,11 @@ def _package_out_dir(args: argparse.Namespace, match_dir: Path, fmt: str) -> Pat
     job = getattr(args, "_job", None)
     if job is not None:
         return Path(job.out_dir)
-    batched = bool(getattr(args, "batch_languages", "") or "")
+    batched = bool(getattr(args, "batch_languages", "") or getattr(args, "languages", "") or "")
     language = getattr(args, "language", None) or "en"
     return batch.package_dir(
-        Path(args.output_root), match_dir.name, language, fmt, batched=batched,
+        Path(args.output_root), match_dir.name, language, fmt,
+        batched=batched, layout=farm.farm_layout(args),
     )
 
 
@@ -210,6 +203,7 @@ def run(args: argparse.Namespace) -> Path:
         except ValueError as exc:
             raise SystemExit(f"  {exc}") from exc
         say(f"  colors: home {home_hex} / away {away_hex}")
+    apply_livescore_url(args)
     match_dir = Path(args.match_dir) if args.match_dir else choose_match(
         Path(args.scrape_output_root), args.interactive
     )
@@ -410,6 +404,36 @@ def run(args: argparse.Namespace) -> Path:
         scene_list = interactive_copy_picker(
             scene_list, bundle, audit, ab_report, language,
         )
+    kids = bool(getattr(args, "kids", False))
+    scene_list = culture.lock_bookends(
+        scene_list, bundle, audit, language,
+        spoiler=str(spoiler or "show"),
+        kids=kids,
+        hook_text=(list(getattr(args, "hook_text", None) or []) or [None])[0],
+        bait_text=str(getattr(args, "bait_text", "") or "") or None,
+    )
+    scene_list = director.drop_empty_visualizations(scene_list, bundle, audit)
+    review = culture.script_review(scene_list, language)
+    script_action = approvals.review_script(
+        review,
+        auto=bool(args.auto),
+        approve_script=bool(getattr(args, "approve_script", False)),
+    )
+    if script_action == "quit":
+        raise SystemExit("Stopped at the script approval gate.")
+    if script_action == "edit" and not args.auto:
+        instruction = input("  What should change? ").strip() or instruction
+        scene_list, already_localized = build_script(
+            bundle, audit, selected, gemini, instruction, target_seconds, language,
+            clip_beats=clip_beats, spoiler=spoiler,
+        )
+        scene_list = culture.lock_bookends(
+            scene_list, bundle, audit, language,
+            spoiler=str(spoiler or "show"), kids=kids,
+        )
+        review = culture.script_review(scene_list, language)
+        if approvals.review_script(review, auto=args.auto, approve_script=getattr(args, "approve_script", False)) == "quit":
+            raise SystemExit("Stopped at the script approval gate.")
 
     # -- 4. timing and narration ------------------------------------------
     stage("4. Timing")
@@ -428,13 +452,53 @@ def run(args: argparse.Namespace) -> Path:
     ) if fmt == longform.LONG else ""
     if note:
         say(f"  {note}")
-    narration_text = "\n\n".join(scene["narration"] for scene in scene_list)
+    narration_text = script_culture.build_voiceover_text(scene_list, language)
+    if not (narration_text or "").strip():
+        narration_text = "\n\n".join(scene.get("narration") or "" for scene in scene_list)
+    script_culture.write_voiceover_files(scene_list, out_dir, language)
     write_script_files(out_dir, timing.timeline(scene_list), audit)
 
     audio_path = voice.prepare(out_dir, narration_text, voice.VoiceConfig(
-        voiceover_file=args.voiceover_file, use_sapi=args.sapi_tts, skip_audio=args.skip_audio
+        voiceover_file=args.voiceover_file,
+        use_sapi=args.sapi_tts,
+        skip_audio=args.skip_audio,
+        language=language,
+        eleven_style=str(getattr(args, "eleven_style", "robust") or "robust"),
+        eleven_voice=str(getattr(args, "eleven_voice", "") or ""),
+        eleven_model=str(getattr(args, "eleven_model", "") or ""),
+        regenerate=bool(getattr(args, "regenerate_voice", False)),
+        no_elevenlabs=bool(getattr(args, "no_elevenlabs", False)),
     ))
     audio_seconds = voice.duration(audio_path)
+    if audio_path and not args.skip_audio:
+        voice_action = approvals.review_voice(
+            language=language,
+            path=str(audio_path),
+            seconds=audio_seconds,
+            auto=bool(args.auto),
+            approve_voice=bool(getattr(args, "approve_voice", False)),
+        )
+        while voice_action == "regen" and not args.skip_audio:
+            audio_path = voice.prepare(out_dir, narration_text, voice.VoiceConfig(
+                skip_audio=False,
+                language=language,
+                eleven_style=str(getattr(args, "eleven_style", "robust") or "robust"),
+                eleven_voice=str(getattr(args, "eleven_voice", "") or ""),
+                eleven_model=str(getattr(args, "eleven_model", "") or ""),
+                regenerate=True,
+                no_elevenlabs=bool(getattr(args, "no_elevenlabs", False)),
+            ))
+            audio_seconds = voice.duration(audio_path)
+            voice_action = approvals.review_voice(
+                language=language,
+                path=str(audio_path or ""),
+                seconds=audio_seconds,
+                auto=bool(args.auto),
+                approve_voice=bool(getattr(args, "approve_voice", False)),
+            )
+        if voice_action == "quit":
+            say("  voice not approved — frames and script stay, no dubbed master.")
+            args.skip_video = True
     if audio_seconds:
         say(f"  narration audio is {audio_seconds:.2f}s; fitting the scenes to it")
         if fmt == longform.LONG:
@@ -745,7 +809,9 @@ def _format_arg(value: str) -> str:
 
 
 EPILOG = """
-This command does not scrape. Feed it a finished export under output/<match>/.
+This command does not scrape. Feed it a finished export under output/<match>/,
+or pass --livescore-url to parse teams/date/comp and health-check a local
+WhoScored export (never invents coordinates).
 Rerunning the same match-dir is idempotent: a matching run_stamp.json skips
 the render unless you pass --force.
 
@@ -760,8 +826,12 @@ languages:
   --language CODE           One package (default en). Codes: en, az, es, ru, tr
                             (tr is a farm code; full catalogs may come from the
                             i18n module when it merges).
+  --languages a,b,c         Full on-screen + VO packages in video_output/<match>/<lang>/.
+                            Keeps script/VO approval gates unless --auto.
+  --dub-languages a,b       Extra dubbed packages after --language.
   --batch-languages a,b,c   Copy variants in video_output/<lang>/<match>/.
                             Implies --auto (no prompts).
+  --eleven-style robust|normal   ElevenLabs v3 stability (Liam Callahan, eleven_v3).
 
 optional sibling modules (imported if present, skipped if not):
   recap.platforms / recap.export_pack
@@ -808,6 +878,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
     match = parser.add_argument_group("Match and output")
     match.add_argument("--match-dir", help="Finished export directory under output/ (not a scrape)")
+    match.add_argument(
+        "--livescore-url", default="", metavar="URL",
+        help="Livescore.com match URL. Parses teams/date/comp, health-checks a local "
+             "WhoScored export (full events + precise x/y), then Sofascore/FotMob/"
+             "Understat-or-official adapters. Never invents coordinates. "
+             "Ignored when --match-dir is set.",
+    )
     match.add_argument("--scrape-output-root", default="output",
                        help="Where existing scraper exports live (this command does not scrape)")
     match.add_argument("--output-root", default="video_output",
@@ -827,7 +904,21 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     editorial.add_argument(
         "--language", type=_language_arg, default="en",
-        help=f"Single-run copy language when --batch-languages is omitted. Codes: {langs}",
+        help=f"Single-run copy language when --batch-languages / --languages is omitted. Codes: {langs}",
+    )
+    editorial.add_argument(
+        "--languages", default="", metavar="CODES",
+        help="Full on-screen + VO packages, comma-separated. Writes video_output/<match>/<lang>/. "
+             "Keeps approval gates unless --auto / --approve-script / --approve-voice.",
+    )
+    editorial.add_argument(
+        "--skip-language", default="", metavar="CODES",
+        help="Subtract from --languages / --batch-languages, e.g. --skip-language ru",
+    )
+    editorial.add_argument(
+        "--dub-languages", default="", metavar="CODES",
+        help="After the primary --language, render additional dubbed packages. "
+             "Example: --language az --dub-languages en,es",
     )
     editorial.add_argument(
         "--platforms", default="", metavar="IDS",
@@ -892,6 +983,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                           help="Pick the match and approve each stage")
     run_mode.add_argument("--auto", action="store_true",
                           help="Approve every stage without prompting")
+    run_mode.add_argument(
+        "--approve-script", action="store_true",
+        help="Skip the post-script OK gate (hook / body / bait still printed)",
+    )
+    run_mode.add_argument(
+        "--approve-voice", action="store_true",
+        help="Skip the post-ElevenLabs VO OK gate and assemble immediately",
+    )
+    run_mode.add_argument(
+        "--kids", action="store_true",
+        help="Kids-safe copy: no curse bookends. Off by default on this farm.",
+    )
 
     look = parser.add_argument_group("Look")
     look.add_argument("--team", default="national",
@@ -915,6 +1018,26 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     audio.add_argument("--voiceover-file", default="", help="Recorded narration to attach")
     audio.add_argument("--sapi-tts", action="store_true", help="Synthesise narration for a rough cut (Windows)")
     audio.add_argument("--skip-audio", action="store_true", help="Render silent")
+    audio.add_argument(
+        "--eleven-style", default="robust", choices=("robust", "normal"),
+        help="ElevenLabs v3 stability: robust (consistent) or normal (more tag-reactive)",
+    )
+    audio.add_argument(
+        "--eleven-voice", default="", metavar="ID_OR_NAME",
+        help="ElevenLabs voice id, or a name search (default: Liam Callahan - Witty Media Person)",
+    )
+    audio.add_argument(
+        "--eleven-model", default="", metavar="ID",
+        help="ElevenLabs model id (default eleven_v3 from ELEVENLABS_MODEL)",
+    )
+    audio.add_argument(
+        "--no-elevenlabs", action="store_true",
+        help="Do not call ElevenLabs even if ELEVENLABS_API_KEY is set",
+    )
+    audio.add_argument(
+        "--regenerate-voice", action="store_true",
+        help="Overwrite an existing voiceover.mp3",
+    )
     audio.add_argument("--sfx", dest="sfx", action="store_true", default=True,
                        help="Mix synthesized hits under the master (default on)")
     audio.add_argument("--no-sfx", dest="sfx", action="store_false", help="Skip SFX hits")
@@ -991,8 +1114,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         parser.error("--visualizations must be >= 1")
     if args.target_seconds is not None and args.target_seconds <= 0:
         parser.error("--target-seconds must be positive")
-    batch_mode = bool(args.batch_languages) or bool(args.print_plan) or args.format == "both"
-    if batch_mode:
+    batch_mode = (
+        bool(args.batch_languages)
+        or bool(getattr(args, "languages", "") or "")
+        or bool(getattr(args, "dub_languages", "") or "")
+        or bool(args.print_plan)
+        or args.format == "both"
+    )
+    if batch_mode and not args.languages and not args.dub_languages:
         args.auto = True
         args.interactive = False
     elif not args.auto and not args.interactive:
@@ -1004,8 +1133,44 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return args
 
 
+def apply_livescore_url(args: argparse.Namespace) -> argparse.Namespace:
+    """Resolve --livescore-url into --match-dir. Does not override an explicit dir."""
+    url = str(getattr(args, "livescore_url", "") or "").strip()
+    if not url or getattr(args, "match_dir", None):
+        return args
+    from recap.ingest import resolve as ingest_resolve
+
+    resolved = ingest_resolve(
+        livescore_url=url,
+        output_root=getattr(args, "scrape_output_root", "output") or "output",
+    )
+    if not resolved.get("ok") or not resolved.get("match_dir"):
+        fixture = resolved.get("fixture") or {}
+        hint = resolved.get("drop_hint") or ""
+        raise SystemExit(
+            f"Livescore fixture {fixture.get('home')} vs {fixture.get('away')} "
+            f"has no local export.\n  {hint}"
+        )
+    args.match_dir = resolved["match_dir"]
+    args._ingest = resolved
+    health = resolved.get("health") or {}
+    say(
+        f"  livescore: {fixture_label(resolved)} → {resolved['match_dir']} "
+        f"({health.get('coordinate_source') or 'unknown'} coords)"
+    )
+    return args
+
+
+def fixture_label(resolved: dict[str, Any]) -> str:
+    fixture = resolved.get("fixture") or {}
+    home = fixture.get("home") or "?"
+    away = fixture.get("away") or "?"
+    return f"{home} vs {away}"
+
+
 def main(argv: list[str] | None = None) -> list[batch.JobResult]:
     args = parse_args(argv)
+    apply_livescore_url(args)
     batch.theme_ready(args)
     return batch.run_batch(args, render_one=run, choose_match=choose_match, say=say)
 

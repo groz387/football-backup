@@ -19,6 +19,12 @@ class VoiceConfig:
     voiceover_file: str = ""
     use_sapi: bool = False
     skip_audio: bool = False
+    language: str = "en"
+    eleven_style: str = "robust"
+    eleven_voice: str = ""
+    eleven_model: str = ""
+    regenerate: bool = False
+    no_elevenlabs: bool = False
 
 
 def prepare(out_dir: Path, narration: str, config: VoiceConfig) -> Path | None:
@@ -27,12 +33,44 @@ def prepare(out_dir: Path, narration: str, config: VoiceConfig) -> Path | None:
         return None
     if config.voiceover_file:
         return _attach(out_dir, Path(config.voiceover_file))
+    if not config.no_elevenlabs:
+        eleven = _synthesize_eleven(out_dir, narration, config)
+        if eleven is not None:
+            return eleven
     if config.use_sapi:
         return _synthesize_sapi(out_dir, narration)
     print(
         "  [audio] no narration attached. Record the lines in "
-        "voiceover_recording_script.txt and rerun with --voiceover-file PATH."
+        "voiceover_recording_script.txt and rerun with --voiceover-file PATH, "
+        "or set ELEVENLABS_API_KEY for v3 TTS."
     )
+    return None
+
+
+def _synthesize_eleven(out_dir: Path, narration: str, config: VoiceConfig) -> Path | None:
+    try:
+        from . import elevenlabs_tts
+    except Exception:
+        return None
+    if not elevenlabs_tts.configured():
+        return None
+    dest = out_dir / "voiceover.mp3"
+    try:
+        path = elevenlabs_tts.synthesize(
+            narration,
+            dest,
+            language=config.language,
+            style=config.eleven_style,
+            regenerate=config.regenerate,
+            voice_id=config.eleven_voice or None,
+            model=config.eleven_model or None,
+        )
+    except elevenlabs_tts.ElevenLabsError as exc:
+        print(f"  [audio] ElevenLabs failed ({exc}); falling back.")
+        return None
+    if path and path.exists():
+        print(f"  [audio] ElevenLabs v3 voiceover: {path.name}")
+        return path
     return None
 
 

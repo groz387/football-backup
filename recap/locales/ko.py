@@ -607,3 +607,20 @@ UI = {
  'watermark': ''}
 
 OFFLINE_LINES = {}
+
+# Terrace trash-talk bookends. Voiceover first + last sentence only; body stays clean.
+CURSE_HOOKS = [
+    '{winner}가 {loser}를 박살냈다',
+    '{winner}가 {loser}를 망신줬다',
+    '{winner}가 {loser}를 밀어버렸다',
+]
+CURSE_HOOKS_DRAW = [
+    '90분 동안 둘 다 민망했다',
+]
+CURSE_HOOKS_HIDE = [
+    '망신은 나중에. 먼저 테이프.',
+]
+CURSE_OUTROS = [
+    '오늘 제일 못한 선수는?',
+    '승객이 누구였는지 아래에 써.',
+]

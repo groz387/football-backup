@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from . import audit as audit_mod
-from . import clips, director, i18n, longform, theme, timing
+from . import clips, director, farm, i18n, longform, theme, timing
 from .data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 FARM_LANGUAGE_NAMES = {
@@ -152,6 +152,8 @@ class Job:
     viz_count: int | None = None
     target_seconds: float | None = None
     batched: bool = False
+    force_auto: bool = False
+    layout: str = "lang_match"
 
 
 @dataclass
@@ -173,25 +175,23 @@ def package_dir(
     fmt: str,
     *,
     batched: bool,
+    layout: str | None = None,
 ) -> Path:
-    """Language-first layout when batching: video_output/<lang>/<match>[/long]."""
-    root = Path(output_root)
-    match = safe_name(match_name)
-    if batched:
-        base = root / language / match
-    else:
-        base = root / match
-    if fmt == longform.LONG:
-        return base / "long"
-    return base
+    """Language-first or match-first package path."""
+    return farm.package_dir(
+        output_root, match_name, language, fmt,
+        layout=layout or (farm.LAYOUT_LANG_MATCH if batched else farm.LAYOUT_LANG_MATCH),
+        batched=batched,
+    )
 
 
 def expand_jobs(args: argparse.Namespace, match_dir: Path) -> list[Job]:
-    batched = bool(getattr(args, "batch_languages", "") or "")
-    if batched:
-        languages = parse_languages(args.batch_languages)
-    else:
-        languages = [normalize_lang(getattr(args, "language", None) or "en")]
+    languages = farm.resolve_languages(args)
+    if not languages:
+        raise SystemExit("No languages left after --skip-language.")
+    layout = farm.farm_layout(args)
+    batched = len(languages) > 1 or bool(getattr(args, "batch_languages", "") or "")
+    force_auto = bool(getattr(args, "batch_languages", "") or "") and not getattr(args, "languages", None)
     formats = longform.formats_from(getattr(args, "format", None) or longform.SHORT)
     platforms = parse_csv(getattr(args, "platforms", "") or "")
     series_id = str(getattr(args, "series_id", "") or "")
@@ -205,7 +205,8 @@ def expand_jobs(args: argparse.Namespace, match_dir: Path) -> list[Job]:
                 language=language,
                 fmt=fmt,
                 out_dir=package_dir(
-                    output_root, match_dir.name, language, fmt, batched=batched,
+                    output_root, match_dir.name, language, fmt,
+                    batched=batched, layout=layout,
                 ),
                 platforms=platforms,
                 series_id=series_id,
@@ -213,6 +214,8 @@ def expand_jobs(args: argparse.Namespace, match_dir: Path) -> list[Job]:
                 viz_count=getattr(args, "visualizations", None),
                 target_seconds=getattr(args, "target_seconds", None),
                 batched=batched,
+                force_auto=force_auto,
+                layout=layout,
             ))
     return jobs
 
@@ -691,6 +694,24 @@ def posting_checklist(results: list[JobResult]) -> str:
 
 
 def resolve_match_dir(args: argparse.Namespace, choose_match: Callable[[Path, bool], Path]) -> Path:
+    livescore = str(getattr(args, "livescore_url", "") or "").strip()
+    if livescore:
+        from . import ingest
+        resolved = ingest.resolve(
+            livescore_url=livescore,
+            match_dir=getattr(args, "match_dir", None),
+            output_root=getattr(args, "scrape_output_root", "output") or "output",
+        )
+        if not resolved.get("ok") or not resolved.get("match_dir"):
+            fixture = resolved.get("fixture") or {}
+            hint = resolved.get("drop_hint") or ingest.DROP_HINT
+            raise SystemExit(
+                f"Livescore fixture {fixture.get('home')} vs {fixture.get('away')} "
+                f"has no local export.\n  {hint}"
+            )
+        args.match_dir = resolved["match_dir"]
+        args._ingest = resolved
+        return Path(resolved["match_dir"])
     if getattr(args, "match_dir", None):
         path = Path(args.match_dir)
         if not path.exists():
@@ -702,8 +723,8 @@ def resolve_match_dir(args: argparse.Namespace, choose_match: Callable[[Path, bo
 def args_for_job(args: argparse.Namespace, job: Job) -> argparse.Namespace:
     ns = argparse.Namespace(**vars(args))
     ns.language = job.language
-    ns.auto = True
-    ns.interactive = False
+    ns.auto = bool(getattr(args, "auto", False) or job.force_auto)
+    ns.interactive = bool(getattr(args, "interactive", False) and not ns.auto)
     ns.match_dir = str(job.match_dir)
     ns.format = job.fmt
     ns._job = job

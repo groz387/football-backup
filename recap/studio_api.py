@@ -31,7 +31,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from recap import audit as audit_mod
-from recap import batch, cast as cast_mod, director, hooks, i18n, locale_meta, longform, theme
+from recap import batch, cast as cast_mod, culture, director, hooks, i18n, locale_meta, longform, script_culture, theme
 from recap.data import describe_match_dir, list_match_dirs, load_match, read_json, write_json
 
 import video_pipeline
@@ -46,7 +46,7 @@ JOBS_DIR = STUDIO_DIR / "jobs"
 DEFAULT_SETTINGS: dict[str, Any] = {
     "url": "",
     "match_dir": "",
-    "languages": ["az", "en"],
+    "languages": ["az", "en", "es"],
     "hook_claim": "",
     "hook_punch": "",
     "bait_text": "",
@@ -59,6 +59,10 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "series_id": "",
     "instruction": "",
     "use_gemini": False,
+    "eleven_style": "robust",
+    "voice_name": "Liam Callahan - Witty Media Person",
+    "voice_id": "",
+    "kids": False,
 }
 
 _WHO_SCORED_ID = re.compile(r"/matches?/(\d{5,10})", re.I)
@@ -68,8 +72,8 @@ _PRODUCE_THREADS: dict[str, threading.Thread] = {}
 
 # Expected sibling callables (first match wins). CLI workers fill the modules.
 _TTS_FUNCS = ("synthesize", "synthesize_voiceover", "generate", "tts", "speak")
-_SCRAPE_MODS = ("recap.livescore", "recap.scrape", "recap.whoscored")
-_SCRAPE_FUNCS = ("resolve_url", "import_url", "scrape_url", "fetch_match")
+_SCRAPE_MODS = ("recap.livescore", "recap.ingest", "recap.resolve_match", "recap.scrape", "recap.whoscored")
+_SCRAPE_FUNCS = ("resolve_url", "resolve", "import_url", "scrape_url", "fetch_match")
 
 
 # ---------------------------------------------------------------------------
@@ -545,16 +549,15 @@ def _hook_texts(settings: dict[str, Any]) -> list[str]:
 
 def _cli_args(settings: dict[str, Any], match_dir: str, languages: list[str], extra: list[str] | None = None):
     """Build the same argparse Namespace the CLI uses — no second flag parser."""
-    argv = ["--match-dir", match_dir, "--auto", "--no-gemini"]
+    argv = ["--match-dir", match_dir, "--auto", "--approve-script", "--approve-voice"]
     fmt = settings.get("format") or "short"
     argv += ["--format", fmt]
     argv += ["--team", settings.get("team") or "club"]
     argv += ["--spoiler", settings.get("spoiler") or "show"]
     argv += ["--star", settings.get("star") or "auto"]
-    if len(languages) == 1:
-        argv += ["--language", languages[0]]
-    else:
-        argv += ["--batch-languages", ",".join(languages)]
+    argv += ["--eleven-style", str(settings.get("eleven_style") or "robust")]
+    if languages:
+        argv += ["--languages", ",".join(languages)]
     colors = [c for c in (settings.get("colors") or []) if c]
     if len(colors) >= 2:
         argv += ["--colors", colors[0], colors[1]]
@@ -568,6 +571,8 @@ def _cli_args(settings: dict[str, Any], match_dir: str, languages: list[str], ex
         argv += ["--platforms", str(settings["platforms"])]
     if settings.get("series_id"):
         argv += ["--series-id", str(settings["series_id"])]
+    if settings.get("kids"):
+        argv.append("--kids")
     if extra:
         argv.extend(extra)
     if not settings.get("use_gemini"):
@@ -622,6 +627,13 @@ def _draft_language(
         hook_texts=_hook_texts(settings),
         bait_text=str(settings.get("bait_text") or ""),
     )
+    scene_list = culture.lock_bookends(
+        scene_list, bundle, audit, language,
+        spoiler=spoiler,
+        kids=bool(settings.get("kids")),
+        hook_text=(_hook_texts(settings) or [None])[0],
+        bait_text=str(settings.get("bait_text") or "") or None,
+    )
     views = [_scene_view(scene) for scene in scene_list]
     claim = next((s for s in views if s["visualization"] == "hook_claim"), {})
     punch = next((s for s in views if s["visualization"] == "hook_punch"), {})
@@ -629,7 +641,9 @@ def _draft_language(
     shocks = [
         {"kind": item.get("kind"), "label": item.get("label") or item.get("claim"),
          "claim": item.get("claim"), "punch": item.get("punch")}
-        for item in hooks.shock_menu_options(scene_list, None, language)[:12]
+        for item in hooks.shock_menu_options(
+            scene_list, None, language, bundle=bundle, audit=audit,
+        )[:12]
     ]
     baits = hooks.comment_bait_options(bundle, audit, language=language)
     return {
@@ -812,7 +826,11 @@ def synthesize_voiceover(
 
 
 def _narration_text(pack: dict[str, Any]) -> str:
-    parts = [str(scene.get("narration") or "").strip() for scene in pack.get("scenes") or []]
+    scenes = list(pack.get("scenes") or [])
+    tagged = script_culture.build_voiceover_text(scenes, pack.get("language") or "en")
+    if tagged.strip():
+        return tagged
+    parts = [str(scene.get("narration") or "").strip() for scene in scenes]
     return "\n\n".join(part for part in parts if part)
 
 
@@ -1029,3 +1047,76 @@ def bootstrap() -> dict[str, Any]:
             "video": "video_output",
         },
     }
+
+
+def cli_argv_for(
+    *,
+    match_dir: str,
+    languages: list[str],
+    hook_text: str = "",
+    bait_text: str = "",
+    eleven_style: str = "robust",
+    eleven_voice: str = "",
+    eleven_model: str = "",
+    team: str = "club",
+    skip_audio: bool = False,
+    auto: bool = False,
+    approve_script: bool = False,
+    approve_voice: bool = False,
+    still: bool = False,
+    skip_video: bool = False,
+    write_growth: bool = True,
+    no_gemini: bool = False,
+    no_elevenlabs: bool = False,
+    kids: bool = False,
+) -> list[str]:
+    """Argv the studio (and tests) pass to ``video_pipeline.parse_args``."""
+    argv = ["--match-dir", match_dir, "--team", team, "--eleven-style", eleven_style]
+    if languages:
+        argv += ["--languages", ",".join(languages)]
+    if hook_text:
+        argv += ["--hook-text", hook_text]
+    if bait_text:
+        argv += ["--bait-text", bait_text]
+    if eleven_voice:
+        argv += ["--eleven-voice", eleven_voice]
+    if eleven_model:
+        argv += ["--eleven-model", eleven_model]
+    if skip_audio:
+        argv.append("--skip-audio")
+    if auto:
+        argv.append("--auto")
+    if approve_script:
+        argv.append("--approve-script")
+    if approve_voice:
+        argv.append("--approve-voice")
+    if still:
+        argv.append("--still")
+    if skip_video:
+        argv.append("--skip-video")
+    if write_growth:
+        argv.append("--write-growth")
+    else:
+        argv.append("--no-write-growth")
+    if no_gemini:
+        argv.append("--no-gemini")
+    if no_elevenlabs:
+        argv.append("--no-elevenlabs")
+    if kids:
+        argv.append("--kids")
+    if not auto:
+        argv.append("--interactive")
+    return argv
+
+
+language_catalog = list_languages
+
+
+def env_public() -> dict[str, Any]:
+    """Studio health snapshot. Never includes API keys."""
+    from recap import config as cfg
+    snap = cfg.public_env()
+    caps = capabilities()
+    snap["capabilities"] = caps
+    snap["gemini"] = caps.get("gemini_key")
+    return snap

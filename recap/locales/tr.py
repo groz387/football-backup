@@ -608,3 +608,20 @@ UI = {
  'watermark': ''}
 
 OFFLINE_LINES = {}
+
+# Terrace trash-talk bookends. Voiceover first + last sentence only; body stays clean.
+CURSE_HOOKS = [
+    "{winner} {loser}'i sahadan sildi",
+    "{winner} {loser}'i rezil etti",
+    "{winner} {loser}'e gözdağı verdi",
+]
+CURSE_HOOKS_DRAW = [
+    'Doksan dakika, sıfır erkek',
+]
+CURSE_HOOKS_HIDE = [
+    'Rezillik geliyor. Skor sonra.',
+]
+CURSE_OUTROS = [
+    'Sizce bu maçın en zayıf halli kimdi?',
+    'Yorumlara yaz: bu gecenin rezili kim?',
+]

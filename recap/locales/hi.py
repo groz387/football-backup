@@ -608,3 +608,20 @@ UI = {
  'watermark': ''}
 
 OFFLINE_LINES = {}
+
+# Terrace trash-talk bookends. Voiceover first + last sentence only; body stays clean.
+CURSE_HOOKS = [
+    '{winner} ने {loser} को धूल चटा दी',
+    '{winner} ने {loser} की वाट लगा दी',
+    '{winner} ने {loser} को घर भेज दिया',
+]
+CURSE_HOOKS_DRAW = [
+    'नब्बे मिनट की साझा शर्म',
+]
+CURSE_HOOKS_HIDE = [
+    'धुल तो उड़ेगी। स्कोर बाद में।',
+]
+CURSE_OUTROS = [
+    'आज सबसे फ्लॉप कौन था?',
+    'यात्री कौन था? नीचे लिखो।',
+]

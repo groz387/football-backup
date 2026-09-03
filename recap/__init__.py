@@ -22,6 +22,10 @@ Layers, from the bottom up:
     longform  YouTube 3–8 min pacing, chapters, no silent padding
     batch     language × format farm; optional recap.platforms / recap.growth
     ab_hooks  A/B picker for fact-locked hook variants
+    culture   curse bookends (first + last sentence only) and Gemini register
+    script_culture  tagged ElevenLabs v3 voiceover text + Gemini culture brief
+    elevenlabs_tts  Liam Callahan / eleven_v3 TTS (approve / regenerate)
+    ingest    Livescore URL parse + WhoScored health + stub fallbacks
     studio_api  thin HTTP helpers for the local studio console (no second brain)
 
 Nothing in a lower layer imports from a higher one.
@@ -29,19 +33,25 @@ Nothing in a lower layer imports from a higher one.
 
 __all__ = [
     "ab_hooks",
+    "approvals",
     "audit",
     "audio",
     "batch",
     "cast",
     "clips",
+    "config",
+    "culture",
     "data",
     "director",
+    "elevenlabs_tts",
     "draw",
     "export_pack",
+    "farm",
     "graphs",
     "growth",
     "hooks",
     "i18n",
+    "ingest",
     "locale_meta",
     "logos",
     "longform",
@@ -50,6 +60,7 @@ __all__ = [
     "retention",
     "safe_zones",
     "scenes",
+    "script_culture",
     "studio_api",
     "theme",
     "thumbnails",

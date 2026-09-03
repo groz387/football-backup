@@ -31,10 +31,35 @@ class ParseArgsTests(unittest.TestCase):
             "--format", "--batch-languages", "--print-plan", "--platforms",
             "--write-growth", "--series-id", "--no-fetch-clip", "--auto",
             "--fps", "--team", "--clip", "--language", "--colors", "--skip-audio",
+            "--languages", "--dub-languages", "--skip-language",
+            "--eleven-style", "--eleven-voice", "--eleven-model",
+            "--approve-script", "--approve-voice", "--no-elevenlabs", "--kids",
         ):
             self.assertIn(needle, text)
-        self.assertIn("does not scrape", text.lower())
+        self.assertIn("livescore", text.lower())
         self.assertIn("video_output/<lang>", text)
+
+    def test_languages_and_eleven_flags_parse(self):
+        args = parse_args([
+            "--match-dir", "output/x", "--auto",
+            "--languages", "az,en,es",
+            "--dub-languages", "ru",
+            "--skip-language", "es",
+            "--eleven-style", "normal",
+            "--eleven-voice", "TX3LPaxmHKxFdv7VOQHJ",
+            "--eleven-model", "eleven_v3",
+            "--approve-script", "--approve-voice",
+        ])
+        self.assertEqual(args.languages, "az,en,es")
+        self.assertEqual(args.dub_languages, "ru")
+        self.assertEqual(args.skip_language, "es")
+        self.assertEqual(args.eleven_style, "normal")
+        self.assertEqual(args.eleven_voice, "TX3LPaxmHKxFdv7VOQHJ")
+        self.assertEqual(args.eleven_model, "eleven_v3")
+        self.assertTrue(args.approve_script)
+        self.assertTrue(args.approve_voice)
+        from recap.farm import resolve_languages
+        self.assertEqual(resolve_languages(args), ["az", "en"])
 
     def test_defaults_are_short_auto_fetch_on(self):
         args = parse_args(["--auto", "--match-dir", "output/x"])
@@ -43,7 +68,7 @@ class ParseArgsTests(unittest.TestCase):
         self.assertFalse(args.refetch_clip)
         self.assertEqual(args.language, "en")
         self.assertEqual(args.batch_languages, "")
-        self.assertFalse(args.write_growth)
+        self.assertTrue(args.write_growth)
         self.assertEqual(args.series_id, "")
         self.assertTrue(args.auto)
         self.assertEqual(args.fps, 24)
@@ -267,7 +292,7 @@ class OptionalSiblingTests(unittest.TestCase):
         self.assertIn("--print-plan", EPILOG)
         self.assertIn("--batch-languages", EPILOG)
         self.assertIn("--format long", EPILOG)
-        self.assertIn("does not scrape", EPILOG.lower().replace("'", ""))
+        self.assertIn("livescore", EPILOG.lower())
 
 
 class HelpSmokeTests(unittest.TestCase):

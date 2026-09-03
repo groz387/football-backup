@@ -608,3 +608,20 @@ UI = {
  'watermark': ''}
 
 OFFLINE_LINES = {}
+
+# Terrace trash-talk bookends. Voiceover first + last sentence only; body stays clean.
+CURSE_HOOKS = [
+    '{winner} розкатав {loser}',
+    '{winner} витер ноги об {loser}',
+    '{winner} залишив {loser} без штанів',
+]
+CURSE_HOOKS_DRAW = [
+    "Дев'яносто хвилин спільного сорому",
+]
+CURSE_HOOKS_HIDE = [
+    'Рознос буде. Рахунок потім.',
+]
+CURSE_OUTROS = [
+    'Хто тут найбільший пасажир?',
+    'Хто сьогодні осоромився найбільше?',
+]

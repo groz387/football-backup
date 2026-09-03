@@ -608,3 +608,20 @@ UI = {
  'watermark': ''}
 
 OFFLINE_LINES = {}
+
+# Terrace trash-talk bookends. Voiceover first + last sentence only; body stays clean.
+CURSE_HOOKS = [
+    '{winner} veegde {loser} van het veld',
+    '{winner} maakte {loser} belachelijk',
+    '{winner} zette {loser} klem',
+]
+CURSE_HOOKS_DRAW = [
+    'Negentig minuten gedeelde schaamte',
+]
+CURSE_HOOKS_HIDE = [
+    'Er komt een pak slaag. Stand later.',
+]
+CURSE_OUTROS = [
+    'Wie was de grootste afgang?',
+    'Wie was de passagier vanavond?',
+]
