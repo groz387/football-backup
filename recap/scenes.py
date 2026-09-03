@@ -48,18 +48,8 @@ OUTCOME_STYLE = {
 def _chrome(fig, bundle: MatchBundle, scene: dict[str, Any], tl: Timeline, *,
             headline_size: float = 50.0) -> float:
     """Draw the headline and stamp the insight late so the graph speaks first."""
-    header_bottom = draw.headline(
-        fig,
-        scene.get("title", ""),
-        "",
-        alpha=tl.cue(0.04, 0.26),
-        fontsize=headline_size,
-    )
-    insight = str(scene.get("insight") or "").strip()
-    if insight and tl.raw >= 0.72:
-        stamp = draw.ease_out_cubic(min(1.0, (tl.raw - 0.72) / 0.14))
-        draw.caption_bar(fig, insight, y=Layout.STAGE_BOTTOM + 0.024, progress=stamp)
-    return header_bottom - 0.016
+    del bundle
+    return draw.scene_chrome(fig, scene, tl, headline_size=headline_size)
 
 
 KEY_ROW_HEIGHT = 0.062
@@ -130,7 +120,7 @@ def _scoreboard(fig, bundle: MatchBundle, design: dict[str, Any], tl: Timeline, 
         fig.text(
             1 - Layout.MARGIN - 0.045 - slide, centre, str(goal_count), color=identity["chart"],
             fontsize=92, fontweight="bold", family=theme.DISPLAY_FONT, ha="center", va="center",
-            alpha=alpha, zorder=14, path_effects=draw.soft_shadow(),
+            alpha=alpha, zorder=14, path_effects=draw.soft_shadow(alpha),
         )
         y -= row_height + gap
 
@@ -320,7 +310,7 @@ def render_micro_hook(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
         fig, 0.5 + shake, 0.58, line.upper(),
         fontsize=size * zoom, max_width=0.90, max_lines=3, min_fontsize=26.0,
         ha="center", va="center", color=ink, family=theme.DISPLAY_FONT, fontweight="bold",
-        linespacing=0.86, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
+        linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
     )
     if scene.get("show_badges", True):
         _hook_badges(fig, bundle, design, y=0.28, shake=shake)
@@ -345,7 +335,7 @@ def _render_stamp_hook(bundle: MatchBundle, design: dict[str, Any], scene: dict[
             fig, 0.5 + shake, 0.58, line.upper(),
             fontsize=78.0 * zoom, max_width=0.92, max_lines=3, min_fontsize=32.0,
             ha="center", va="center", color=ink, family=theme.DISPLAY_FONT, fontweight="bold",
-            linespacing=0.86, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
+            linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
         )
     else:
         lines = _hook_lines(scene)
@@ -365,7 +355,7 @@ def _render_stamp_hook(bundle: MatchBundle, design: dict[str, Any], scene: dict[
                 fig, 0.5 + shake, y, line.upper(),
                 fontsize=size, max_width=0.90, max_lines=2, min_fontsize=26.0,
                 ha="center", va="center", color=ink, family=theme.DISPLAY_FONT, fontweight="bold",
-                linespacing=0.88, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
+                linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
             )
     _hook_badges(fig, bundle, design, y=0.28, shake=shake)
     draw.save_figure(fig, path)
@@ -391,7 +381,7 @@ def _render_number_slam(bundle: MatchBundle, design: dict[str, Any], scene: dict
             fontsize=78.0 * zoom, max_width=0.92, max_lines=3, min_fontsize=32.0,
             ha="center", va="center", color=ink if not flash else "#120e08",
             family=theme.DISPLAY_FONT, fontweight="bold",
-            linespacing=0.86, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
+            linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
         )
     else:
         hero = scene.get("hero_number")
@@ -437,7 +427,7 @@ def _render_split_smash(bundle: MatchBundle, design: dict[str, Any], scene: dict
             fig, 0.5 + shake, 0.58, line.upper(),
             fontsize=78.0 * zoom, max_width=0.92, max_lines=3, min_fontsize=32.0,
             ha="center", va="center", color="#120e08", family=theme.DISPLAY_FONT, fontweight="bold",
-            linespacing=0.86, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
+            linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
         )
         _hook_badges(fig, bundle, design, y=0.24, shake=shake)
         draw.save_figure(fig, path)
@@ -450,7 +440,7 @@ def _render_split_smash(bundle: MatchBundle, design: dict[str, Any], scene: dict
             fontsize=78.0 * zoom, max_width=0.92, max_lines=3, min_fontsize=32.0,
             ha="center", va="center", color="#120e08" if flash else theme.WARNING,
             family=theme.DISPLAY_FONT, fontweight="bold",
-            linespacing=0.86, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
+            linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
         )
         _hook_badges(fig, bundle, design, y=0.24, shake=shake)
         draw.save_figure(fig, path)
@@ -513,7 +503,8 @@ def render_standard_stats(bundle: MatchBundle, audit: dict[str, Any], scene: dic
     bottom = STAGE_FLOOR + 0.036
     step = (top - bottom) / len(keys)
     for index, key in enumerate(keys):
-        local = tl.stagger(index, len(keys), start=0.14, span=0.44, duration=0.34)
+        local = tl.stagger(index, len(keys), start=0.14, span=0.44, duration=0.34,
+                           ease=draw.ease_in_out)
         if local <= 0.005:
             continue
         y = top - step * (index + 1) + step * 0.34
@@ -542,8 +533,7 @@ def render_goal_timeline(bundle: MatchBundle, audit: dict[str, Any], scene: dict
     _team_key_row(fig, design, bundle, key_row_y, tl.cue(0.08, 0.24))
 
     if not timeline:
-        fig.text(0.5, 0.5, i18n.t("no_goals_in_match"), color=TEXT_DIM, fontsize=30,
-                 family=theme.DISPLAY_FONT, fontweight="bold", ha="center", va="center", zorder=14)
+        draw.empty_stage(fig, i18n.t("no_goals_in_match"), tl)
         draw.save_figure(fig, path)
         return
 
@@ -556,7 +546,7 @@ def render_goal_timeline(bundle: MatchBundle, audit: dict[str, Any], scene: dict
 
     spine_x = 0.500
     spine_alpha = tl.cue(0.10, 0.28)
-    grown = block_height * draw.ease_out_cubic(draw.clamp01((tl.t - 0.10) / 0.55))
+    grown = block_height * tl.wipe(0.02, 0.55)
     draw.fig_rect(fig, spine_x - 0.0013, block_top - grown, 0.0026, grown,
                   design["hairline"], 0.95 * spine_alpha, zorder=6)
 
@@ -714,7 +704,7 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
                 scorer_labels.append(label_at)
                 ax.text(label_at[0], label_at[1], surname.upper(), color=TEXT,
                         fontsize=8.5, family=theme.MONO_FONT, ha="center",
-                        va="bottom" if not flip else "top", path_effects=draw.outline(),
+                        va="bottom" if not flip else "top", path_effects=draw.outline(draw.opacity((local - 0.5) * 2)),
                         alpha=draw.opacity((local - 0.5) * 2), zorder=16)
         badges.append((px, py, index + 1, colour, fade, index == last_visible))
 
@@ -767,8 +757,7 @@ def render_momentum(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
     _team_key_row(fig, design, bundle, key_row_y, tl.cue(0.08, 0.24))
 
     if len(rows) < 2:
-        fig.text(0.5, 0.5, i18n.t("pressure_curve_empty"), color=TEXT_DIM,
-                 fontsize=22, family=theme.DISPLAY_FONT, ha="center", va="center", zorder=14)
+        draw.empty_stage(fig, i18n.t("pressure_curve_empty"), tl)
         draw.save_figure(fig, path)
         return
 
@@ -776,7 +765,7 @@ def render_momentum(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
     chart_bottom = 0.240
     rect = [Layout.MARGIN, chart_bottom, Layout.CONTENT_W, chart_top - chart_bottom]
     ax = fig.add_axes(rect, zorder=4)
-    ax.set_facecolor("#0b0f0d")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
 
@@ -794,7 +783,7 @@ def render_momentum(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
                        fontsize=10, family=theme.MONO_FONT)
     ax.tick_params(axis="x", length=0, pad=6)
 
-    reveal = draw.ease_in_out(draw.clamp01((tl.t - 0.12) / 0.55))
+    reveal = tl.wipe(0.02, 0.58)
     cutoff = span * reveal
     keep = starts <= max(starts[0], cutoff)
     x = np.append(starts[keep], cutoff) if keep.any() else np.array([0.0])
@@ -846,7 +835,7 @@ def render_momentum(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
             i18n.t("peak", block=f"{peak['minute_block']}'"), color=colour, fontsize=11,
             family=theme.MONO_FONT, fontweight="bold", ha="center",
             va="top" if up else "bottom",
-            path_effects=draw.outline(), alpha=peak_alpha, zorder=12,
+            path_effects=draw.outline(peak_alpha), alpha=peak_alpha, zorder=12,
         )
 
     # Goal markers. A home goal is labelled above the line and an away goal
@@ -864,7 +853,7 @@ def render_momentum(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
             offset = limit * (0.62 if goal["h_a"] == "h" else -0.62)
             ax.text(at, offset, f"{goal['minute']}'", color=colour, fontsize=11,
                     family=theme.MONO_FONT, fontweight="bold", ha="center", va="center",
-                    path_effects=draw.outline(), alpha=goal_alpha, zorder=11)
+                    path_effects=draw.outline(goal_alpha), alpha=goal_alpha, zorder=11)
 
     fig.text(Layout.MARGIN, chart_top + 0.014, i18n.t("attacking_pressure"),
              color=TEXT_FAINT, fontsize=theme.label_size(10), family=theme.LABEL_FONT, fontweight="bold",
@@ -928,8 +917,7 @@ def render_zone_control(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
     ax = draw.vertical_pitch(fig, rect, face=design["pitch"], line=design["pitch_line"],
                              alpha=0.0)
     if not zones:
-        fig.text(0.5, 0.5, i18n.t("no_touch_coords"), color=TEXT_DIM,
-                 fontsize=20, family=theme.DISPLAY_FONT, ha="center", va="center", zorder=14)
+        draw.empty_stage(fig, i18n.t("no_touch_coords"), tl)
         draw.save_figure(fig, path)
         return
 
@@ -939,7 +927,7 @@ def render_zone_control(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
     away_colour = design["away"]["chart"]
     busiest = max((z["total_touches"] for z in zones), default=1) or 1
     grid = np.zeros((x_bins, y_bins, 4))
-    grown = tl.cue(0.10, 0.50)
+    grown = tl.cue(0.06, 0.52, ease=draw.ease_in_out)
     for zone in zones:
         share = zone["home_share_pct"] / 100.0
         home_leads = share >= 0.5
@@ -970,11 +958,11 @@ def render_zone_control(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
             base = home_colour if home_leads else away_colour
             ax.text(cx, cy + cell_h * 0.08, str(zone["total_touches"]), color=TEXT,
                     fontsize=18, fontweight="bold", family=theme.DISPLAY_FONT, ha="center",
-                    va="center", path_effects=draw.outline(), alpha=label_alpha, zorder=14)
+                    va="center", path_effects=draw.outline(label_alpha), alpha=label_alpha, zorder=14)
             leader_share = share if home_leads else 1 - share
             ax.text(cx, cy - cell_h * 0.20, f"{leader_share * 100:.0f}%",
                     color=base, fontsize=11, fontweight="bold", family=theme.MONO_FONT,
-                    ha="center", va="center", path_effects=draw.outline(),
+                    ha="center", va="center", path_effects=draw.outline(label_alpha),
                     alpha=label_alpha, zorder=14)
 
     # One uniform grid on top, so cell edges do not vary with each cell's alpha.
@@ -1042,8 +1030,7 @@ def render_goal_chain(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
     content_top = _chrome(fig, bundle, scene, tl)
 
     if not chain:
-        fig.text(0.5, 0.5, "NO BUILD-UP RECORDED", color=TEXT_DIM, fontsize=26,
-                 family=theme.DISPLAY_FONT, ha="center", va="center", zorder=14)
+        draw.empty_stage(fig, i18n.t("graph_build_up"), tl)
         draw.save_figure(fig, path)
         return
 
@@ -1099,7 +1086,7 @@ def render_goal_chain(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
             if name:
                 ax.text(start[0], start[1] - 3.2, name.upper(), color=TEXT, fontsize=8.5,
                         family=theme.MONO_FONT, ha="center", va="top",
-                        path_effects=draw.outline(), alpha=draw.opacity(local), zorder=13)
+                        path_effects=draw.outline(local), alpha=draw.opacity(local), zorder=13)
 
     draw.scatter_batch(ax, dot_x, dot_y, sizes=[26] * len(dot_x), colors=[TEXT] * len(dot_x),
                        alphas=dot_a, linewidth=0.8, zorder=11)
@@ -1114,7 +1101,7 @@ def render_goal_chain(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
         if burst > 0.3:
             ax.text(point[0], point[1] + 6.0, chain["scorer"].upper()[:18], color=design["goal"],
                     fontsize=12, fontweight="bold", family=theme.DISPLAY_FONT, ha="center", va="bottom",
-                    path_effects=draw.outline(), alpha=(burst - 0.3) / 0.7, zorder=18)
+                    path_effects=draw.outline((burst - 0.3) / 0.7), alpha=(burst - 0.3) / 0.7, zorder=18)
 
     chips = [
         (f"{int(round(tl.count_to(chain['passes'], start=0.16, duration=0.42)))}", i18n.t("passes")),
@@ -1161,8 +1148,7 @@ def render_goalmouth(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str
         and shot["goal_mouth_z"] is not None
     ]
     if len(on_target) < 2:
-        fig.text(0.5, 0.5, i18n.t("too_few_shots_frame"), color=TEXT_DIM, fontsize=22,
-                 family=theme.DISPLAY_FONT, ha="center", va="center", zorder=14)
+        draw.empty_stage(fig, i18n.t("too_few_shots_frame"), tl)
         draw.save_figure(fig, path)
         return
 
@@ -1181,7 +1167,7 @@ def render_goalmouth(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str
     ax.set_ylim(0, view_z_max)
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.set_facecolor("#0a0d0c")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
 
@@ -1222,12 +1208,12 @@ def render_goalmouth(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str
             )
             ax.text(y0 + third / 2, z0 + half * 0.60, str(len(inside)), color=TEXT,
                     fontsize=26, fontweight="bold", family=theme.DISPLAY_FONT, ha="center",
-                    va="center", path_effects=draw.outline(), alpha=local, zorder=12)
+                    va="center", path_effects=draw.outline(local), alpha=local, zorder=12)
             ax.text(y0 + third / 2, z0 + half * 0.26,
                     i18n.t("scored_n", n=goals_here) if goals_here else i18n.t("all_stopped"),
                     color=design["goal"] if goals_here else TEXT_DIM, fontsize=9.5,
                     family=theme.MONO_FONT, fontweight="bold", ha="center", va="center",
-                    path_effects=draw.outline(), alpha=local, zorder=12)
+                    path_effects=draw.outline(local), alpha=local, zorder=12)
 
     # Net over the fills, then posts and bar on top of everything.
     for step in range(1, 6):
@@ -1267,7 +1253,8 @@ def render_goalmouth(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str
     top = rect[1] - 0.048
     step = (top - (STAGE_FLOOR + 0.036)) / len(keys)
     for index, key in enumerate(keys):
-        local = tl.stagger(index, len(keys), start=0.34, span=0.34, duration=0.30)
+        local = tl.stagger(index, len(keys), start=0.12, span=0.40, duration=0.30,
+                           ease=draw.ease_in_out)
         if local <= 0.01:
             continue
         y = top - step * (index + 1) + step * 0.32
@@ -1303,8 +1290,7 @@ def render_pass_network(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
     nodes = network["nodes"]
 
     if not nodes:
-        fig.text(0.5, 0.5, i18n.t("not_enough_passes"), color=TEXT_DIM, fontsize=22,
-                 family=theme.DISPLAY_FONT, ha="center", va="center", zorder=14)
+        draw.empty_stage(fig, i18n.t("not_enough_passes"), tl)
         draw.save_figure(fig, path)
         return
 
@@ -1356,7 +1342,7 @@ def render_pass_network(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
         placed.append((point[0], label_y))
         ax.text(point[0], label_y, (player.split()[-1])[:10].upper(), color=TEXT,
                 fontsize=9.0, fontweight="bold", family=theme.MONO_FONT, ha="center", va="top",
-                path_effects=draw.outline(), alpha=draw.opacity((local - 0.6) * 2.5), zorder=12)
+                path_effects=draw.outline(draw.opacity((local - 0.6) * 2.5)), alpha=draw.opacity((local - 0.6) * 2.5), zorder=12)
 
     draw.scatter_batch(ax, node_x, node_y, sizes=node_s, colors=[colour] * len(node_x),
                        alphas=node_a, linewidth=1.4, zorder=10)
@@ -1399,50 +1385,53 @@ def render_close(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, An
     stats = audit["team_stats"]
     home, away = stats[bundle.home], stats[bundle.away]
     score = bundle.score
-    winner = bundle.home if score.home > score.away else (bundle.away if score.away > score.home else "")
-    slam_id = design["home"] if winner == bundle.home else design["away"] if winner == bundle.away else design["home"]
-    if tl.raw < 0.08:
-        draw.color_flash(fig, slam_id.get("fill") or slam_id["primary"], alpha=1.0, zorder=6)
 
-    draw.fig_rect(fig, 0.0, 0.962, 0.5, 0.004, design["home"]["chart"], tl.cue(0.02, 0.22), zorder=18)
-    draw.fig_rect(fig, 0.5, 0.962, 0.5, 0.004, design["away"]["chart"], tl.cue(0.02, 0.22), zorder=18)
+    draw.fig_rect(fig, 0.0, 0.962, 0.5, 0.004, design["home"]["chart"], tl.cue(0.0, 0.22), zorder=18)
+    draw.fig_rect(fig, 0.5, 0.962, 0.5, 0.004, design["away"]["chart"], tl.cue(0.0, 0.22), zorder=18)
 
-    home_goals = int(round(tl.count_to(score.home, start=0.10, duration=0.36)))
-    away_goals = int(round(tl.count_to(score.away, start=0.14, duration=0.36)))
-    draw.team_badge(fig, bundle.home, 0.22, 0.82, 0.16, identity=design["home"], alpha=tl.cue(0.08, 0.24), zorder=16)
-    draw.team_badge(fig, bundle.away, 0.78, 0.82, 0.16, identity=design["away"], alpha=tl.cue(0.08, 0.24), zorder=16)
-    draw.hero_number(fig, 0.38, 0.78, home_goals, color=design["home"]["chart"], fontsize=120.0)
+    home_alpha = tl.cue(0.02, 0.28)
+    away_alpha = tl.cue(0.06, 0.28)
+    home_goals = int(round(tl.count_to(score.home, start=0.02, duration=0.36)))
+    away_goals = int(round(tl.count_to(score.away, start=0.06, duration=0.36)))
+    draw.team_badge(fig, bundle.home, 0.22, 0.82, 0.16, identity=design["home"], alpha=home_alpha, zorder=16)
+    draw.team_badge(fig, bundle.away, 0.78, 0.82, 0.16, identity=design["away"], alpha=away_alpha, zorder=16)
+    draw.hero_number(fig, 0.38, 0.78, home_goals, color=design["home"]["chart"],
+                     fontsize=120.0, alpha=home_alpha)
+    dash_alpha = tl.cue(0.04, 0.22)
     fig.text(0.5, 0.78, "–", color=TEXT, fontsize=72, fontweight="bold",
-             family=theme.DISPLAY_FONT, ha="center", va="center", zorder=16)
-    draw.hero_number(fig, 0.62, 0.78, away_goals, color=design["away"]["chart"], fontsize=120.0)
+             family=theme.DISPLAY_FONT, ha="center", va="center", alpha=dash_alpha, zorder=16)
+    draw.hero_number(fig, 0.62, 0.78, away_goals, color=design["away"]["chart"],
+                     fontsize=120.0, alpha=away_alpha)
     if score.qualifier:
         fig.text(0.5, 0.68, score.qualifier, color=theme.WARNING, fontsize=16,
                  family=theme.MONO_FONT, fontweight="bold", ha="center", va="center",
-                 alpha=tl.cue(0.30, 0.22), zorder=16)
+                 alpha=tl.cue(0.22, 0.22), zorder=16)
 
     keys = _stat_keys(scene, ["shots", "shots_on_target", "big_chances"])[:3]
     keys = [key for key in keys if key in home and key in away and key != "goals"]
     for index, key in enumerate(keys):
-        local = tl.stagger(index, max(1, len(keys)), start=0.34, span=0.28, duration=0.26)
+        local = tl.stagger(index, max(1, len(keys)), start=0.12, span=0.36, duration=0.28,
+                           ease=draw.ease_in_out)
         if local <= 0.02:
             continue
         y = 0.54 - index * 0.14
         draw.fig_panel(fig, Layout.MARGIN, y - 0.05, Layout.CONTENT_W, 0.12,
                        color=design["surface"], alpha=0.88 * local, edge=design["hairline"],
                        radius=0.012, zorder=10)
-        fig.text(Layout.MARGIN + 0.08, y, format_stat(key, home.get(key, 0)),
+        home_shown = tl.count_to(float(home.get(key) or 0), start=0.14 + index * 0.08, duration=0.36)
+        away_shown = tl.count_to(float(away.get(key) or 0), start=0.16 + index * 0.08, duration=0.36)
+        fig.text(Layout.MARGIN + 0.08, y, format_stat(key, home_shown),
                  color=design["home"]["chart"], fontsize=48, fontweight="bold",
-                 family=theme.DISPLAY_FONT, ha="left", va="center", alpha=local, zorder=14)
+                 family=theme.DISPLAY_FONT, ha="left", va="center", alpha=local, zorder=14,
+                 path_effects=draw.soft_shadow(local))
         fig.text(0.5, y + 0.018, stat_label(key).upper(), color=TEXT_DIM,
                  fontsize=theme.label_size(13), family=theme.LABEL_FONT, fontweight="bold",
                  ha="center", va="center", alpha=local, zorder=14)
-        fig.text(1 - Layout.MARGIN - 0.08, y, format_stat(key, away.get(key, 0)),
+        fig.text(1 - Layout.MARGIN - 0.08, y, format_stat(key, away_shown),
                  color=design["away"]["chart"], fontsize=48, fontweight="bold",
-                 family=theme.DISPLAY_FONT, ha="right", va="center", alpha=local, zorder=14)
-    insight = str(scene.get("insight") or "").strip()
-    if insight and tl.raw >= 0.72:
-        stamp = draw.ease_out_cubic(min(1.0, (tl.raw - 0.72) / 0.14))
-        draw.caption_bar(fig, insight, y=Layout.STAGE_BOTTOM + 0.028, progress=stamp)
+                 family=theme.DISPLAY_FONT, ha="right", va="center", alpha=local, zorder=14,
+                 path_effects=draw.soft_shadow(local))
+    draw.stamp_insight(fig, scene, tl)
     draw.save_figure(fig, path)
 
 

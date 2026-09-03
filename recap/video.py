@@ -23,6 +23,22 @@ from .draw import HOLD_AT
 
 DEFAULT_FPS = 24
 FRAME_PATTERN = "frame_%05d.png"
+# Analysis cards start a few percent in so a fade is not a blank black card.
+ANALYSIS_SEED = 0.05
+
+
+def frame_progress(number: int, frames: int, *, full_motion: bool = False) -> float:
+    """Linear 0-1 position through a scene's encoded frames.
+
+    Hook beats run 0→1 so the slam is on the first frame. Analysis cards are
+    seeded so chrome is already on when the previous scene fades into them.
+    """
+    if frames <= 1:
+        return 1.0
+    raw = number / (frames - 1)
+    if full_motion:
+        return max(0.0, min(1.0, raw))
+    return max(0.0, min(1.0, ANALYSIS_SEED + raw * (1.0 - ANALYSIS_SEED)))
 
 
 def quantize_to_frames(scene_list: list[dict[str, Any]], fps: int) -> list[dict[str, Any]]:
@@ -93,7 +109,7 @@ def render_frames(
         hold_frame: Path | None = None
         full_motion = bool(scene.get("hook"))
         for number in range(frames):
-            position = number / max(1, frames - 1)
+            position = frame_progress(number, frames, full_motion=full_motion)
             target = scene_dir / (FRAME_PATTERN % (number + 1))
             if hold_frame is not None and not full_motion and position >= HOLD_AT:
                 shutil.copyfile(hold_frame, target)
@@ -157,7 +173,11 @@ def _ffmpeg() -> str | None:
 
 
 def _assembly_filter(scene_list: list[dict[str, Any]], fps: int) -> tuple[str, str]:
-    """Hard-cuts on hook beats, xfade on the analysis package."""
+    """Hard-cuts on hook beats, fade on the analysis package.
+
+    ``wiperight`` sliced through type and left a torn-card artifact. A fade
+    keeps the pitch-black field and does not clip glyphs mid-wipe.
+    """
     parts = [
         f"[{index}:v]settb=AVTB,fps={fps},format=yuv420p[v{index}]"
         for index in range(len(scene_list))
@@ -176,7 +196,7 @@ def _assembly_filter(scene_list: list[dict[str, Any]], fps: int) -> tuple[str, s
         else:
             offset = max(0.0, elapsed - timing.TRANSITION)
             parts.append(
-                f"[{current}][v{index}]xfade=transition=wiperight"
+                f"[{current}][v{index}]xfade=transition=fade"
                 f":duration={timing.TRANSITION:.3f}:offset={offset:.3f}[{label}]"
             )
             elapsed += float(incoming["clip"]) - timing.TRANSITION
