@@ -205,7 +205,8 @@ class ScorePlanTests(unittest.TestCase):
     def test_perfect_short_is_100(self) -> None:
         report = score()
         self.assertEqual(report["score"], 100, report["warnings"])
-        self.assertEqual(report["skipped_pillars"], ["safe_zones"])
+        self.assertEqual(report["skipped_pillars"], [])
+        self.assertTrue(report["safe_zones_scored"])
         self.assertFalse(report["failures"], report["failures"])
         self.assertEqual(report["hook_kind"], "volume_upset")
         self.assertIn("THEY STILL LOST", report["punch"])
@@ -227,7 +228,7 @@ class ScorePlanTests(unittest.TestCase):
         self.assertEqual(report["pillars"]["viz_mix"]["ratio"], BAR_CLONE_RATIO)
         ratios = {key: 1.0 for key in PILLAR_WEIGHTS}
         ratios["viz_mix"] = BAR_CLONE_RATIO
-        self.assertEqual(report["score"], combine_score(ratios, skip={"safe_zones"}))
+        self.assertEqual(report["score"], combine_score(ratios, skip=set(report["skipped_pillars"])))
         self.assertTrue(any("bar clone" in note for note in report["failures"]))
 
     def test_late_hook_hurts_tiktok_more_than_youtube(self) -> None:
@@ -289,7 +290,8 @@ class ScorePlanTests(unittest.TestCase):
         self.assertGreater(report["runtime_seconds"], 33.0)
 
     def test_safe_zones_skipped_without_platforms(self) -> None:
-        report = score()
+        with mock.patch("recap.viral_audit._platforms", return_value=None):
+            report = score()
         self.assertIn("safe_zones", report["skipped_pillars"])
         self.assertFalse(report["safe_zones_scored"])
 
