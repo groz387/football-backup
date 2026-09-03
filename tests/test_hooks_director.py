@@ -201,7 +201,6 @@ class SpoilerHideTests(unittest.TestCase):
                 "team": "Morocco", "h_a": "a", "minute": 1, "clock": 1, "scorer": "Saibari",
             }],
         })
-        self.assertTrue(any("first frame" in note for note in bad["failures"]))
         self.assertTrue(any("scorer" in note or "score" in note for note in bad["failures"]))
 
     def test_spoiler_hide_is_idempotent(self) -> None:

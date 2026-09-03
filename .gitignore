@@ -1,6 +1,7 @@
 ﻿# Secrets
 .env
 .env.*
+!.env.example
 
 # Python
 __pycache__/
@@ -43,3 +44,8 @@ assets/logos/*
 # Auto-fetched match highlights (regenerable; can be large)
 output/**/clips/
 output/**/highlights/
+
+# Local operator console
+studio/settings.json
+studio/jobs/*
+!studio/jobs/.gitkeep

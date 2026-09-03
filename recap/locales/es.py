@@ -655,3 +655,33 @@ OFFLINE_LINES = {'A shootout of a match, decided in open play.': 'Un partido de 
  'Two teams, two answers, one point each.': 'Dos equipos, dos respuestas, un punto cada uno.',
  'WHERE THE MATCH WAS PLAYED': 'DÓNDE SE JUGÓ EL PARTIDO',
  'Where on-target shots crossed the line': 'Dónde cruzaron la línea los tiros a puerta'}
+
+# Culture smash bookends — curse ONLY the first and last spoken sentence.
+# Body copy stays in the clean football register.
+CURSE_HOOKS = [
+    '{winner} dejó a {loser} para el arrastre',
+    '{winner} se merendó a {loser}',
+    '{winner} mandó a {loser} a casa llorando',
+    '{winner} hizo trizas a {loser}',
+    '{winner} le dio un palizón a {loser}',
+    '{winner} bordó a {loser} y ni se despeinó',
+    '{winner} jodió a {loser} sin piedad',
+    '{winner} dejó a {loser} hecho una mierda',
+]
+CURSE_HOOKS_DRAW = [
+    'Noventa minutos de mierda compartida',
+    'Nadie se puso los pantalones, joder',
+    'Empate de los que duelen',
+]
+CURSE_HOOKS_HIDE = [
+    'Hay paliza. El marcador espera.',
+    'Alguien se va llorando. Todavía no.',
+    'Primero la cinta. El arrastre después.',
+]
+CURSE_OUTROS = [
+    '¿Quién fue el más payaso del partido?',
+    'Dilo: ¿quién se hizo el ridículo?',
+    '¿Quién mereció el bidón esta noche?',
+    '¿Quién fue el pasajero? Suéltalo abajo.',
+    '¿A quién hay que esconder tras esto?',
+]

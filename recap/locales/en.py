@@ -610,3 +610,34 @@ UI = {
  'watermark': ''}
 
 OFFLINE_LINES = {}
+
+# Culture smash bookends — curse ONLY the first and last spoken sentence.
+# Body copy stays in the clean football register.
+CURSE_HOOKS = [
+    '{winner} sent {loser} home in a bin bag',
+    '{winner} took {loser} behind the woodshed',
+    '{winner} ran {loser} off the park',
+    '{winner} had {loser} on toast',
+    '{winner} put {loser} through the blender',
+    '{winner} left {loser} with nothing but the bus fare',
+    '{winner} stuffed {loser} in the boot and drove off',
+    '{winner} fucking ran {loser} off the park',
+    '{winner} pissed all over {loser}',
+]
+CURSE_HOOKS_DRAW = [
+    'Ninety minutes of fucking nobody showing up',
+    'Both lots bottled this shit',
+    'A stalemate that deserved a hiding, frankly bollocks',
+]
+CURSE_HOOKS_HIDE = [
+    "Someone's getting dragged. Not yet.",
+    'A hiding is coming. Watch the tape.',
+    'The bin bag is packed. Score later.',
+]
+CURSE_OUTROS = [
+    'So who the fuck bottled it then, you lot?',
+    'Drop it — who bottled this one?',
+    'Be honest, who was a passenger out there?',
+    'Who needs a hiding after that?',
+    "Name the passenger. Don't be shy.",
+]

@@ -16,6 +16,8 @@ from typing import Any
 import matplotlib
 from matplotlib import font_manager
 
+from . import colors as colors_mod
+
 # --- surfaces ---------------------------------------------------------------
 INK = "#000000"          # page background is always pitch black; no team-color wash
 SURFACE = "#0e1211"      # cards and panels
@@ -343,13 +345,19 @@ _TEAM_ALIASES = {
     "bayern": "bayern munich",
     "dortmund": "borussia dortmund",
     "bvb": "borussia dortmund",
+    "barca": "barcelona",
+    "barça": "barcelona",
+    "fc barcelona": "barcelona",
+    "rayo": "rayo vallecano",
+    "qarabag agdam": "qarabag",
+    "qarabağ ağdam": "qarabag",
 }
 
 _CLUB_COLORS: dict[str, tuple[str, str]] = {
     "arsenal": ("#ef0107", "#ffffff"),
     "aston villa": ("#670e36", "#95bfe5"),
     "atletico madrid": ("#c8102e", "#ffffff"),
-    "barcelona": ("#a50044", "#004d98"),
+    "barcelona": ("#9e0041", "#ffd100"),  # burgundy + gold/yellow; blue stays on the crest
     "bayern munich": ("#dc052d", "#ffffff"),
     "benfica": ("#e32636", "#ffffff"),
     "borussia dortmund": ("#fde100", "#000000"),
@@ -374,21 +382,22 @@ _CLUB_COLORS: dict[str, tuple[str, str]] = {
     "monaco": ("#e30613", "#ffffff"),
     "leverkusen": ("#e32221", "#000000"),
     "rb leipzig": ("#dd0741", "#ffffff"),
+    "rayo vallecano": ("#e53027", "#ffffff"),
+    "elche": ("#046a38", "#ffffff"),
+    "girona": ("#cd2534", "#ffd200"),
+    "real sociedad": ("#0067b1", "#ffffff"),
+    "athletic bilbao": ("#ee2523", "#ffffff"),
+    "villarreal": ("#ffe667", "#005187"),
+    "real betis": ("#0bb363", "#ffffff"),
+    "valencia": ("#ee3524", "#ffffff"),
+    "atletico": ("#c8102e", "#ffffff"),
+    "qarabag": ("#000000", "#ffffff"),
+    "qarabağ": ("#000000", "#ffffff"),
 }
 
 
 def canonical_team_key(name: str) -> str:
-    key = normalize_team_key(name)
-    if key in _TEAM_ALIASES:
-        key = _TEAM_ALIASES[key]
-    for table in (_CLUB_COLORS, _TEAM_COLORS):
-        if key in table:
-            return key
-        compact = key.replace(" ", "")
-        for candidate in table:
-            if candidate.replace(" ", "") == compact:
-                return candidate
-    return key
+    return colors_mod.canonical_key(name)
 
 
 def _generated_colors(name: str) -> tuple[str, str]:
@@ -401,17 +410,8 @@ def _generated_colors(name: str) -> tuple[str, str]:
 
 
 def _colors_for(name: str, kind: str) -> tuple[str, str]:
-    key = canonical_team_key(name)
-    if kind == "club":
-        if key in _CLUB_COLORS:
-            return _CLUB_COLORS[key]
-        if key not in _TEAM_COLORS:
-            return _generated_colors(name)
-    if key in _TEAM_COLORS:
-        return _TEAM_COLORS[key]
-    if key in _CLUB_COLORS:
-        return _CLUB_COLORS[key]
-    return _generated_colors(name)
+    kit = colors_mod.kit_for(name, kind)
+    return kit.primary, kit.secondary
 
 
 @lru_cache(maxsize=256)
@@ -503,6 +503,52 @@ def separate(color_a: str, color_b: str, minimum: float = 2.2) -> tuple[str, str
     return color_a, readable_on(mix(color_b, TEXT, 0.4))
 
 
+def hue_distance(color_a: str, color_b: str) -> float:
+    ha, _, _ = colorsys.rgb_to_hls(*hex_to_rgb(color_a))
+    hb, _, _ = colorsys.rgb_to_hls(*hex_to_rgb(color_b))
+    delta = abs(ha - hb)
+    return min(delta, 1.0 - delta)
+
+
+def kits_clash(color_a: str, color_b: str, *, min_contrast: float = 2.35, min_hue: float = 0.10) -> bool:
+    """True when two shirt colours would collide on a dark 9:16 card."""
+    if min_contrast == colors_mod.MIN_PAIR_CONTRAST and min_hue == colors_mod.MAX_HUE_DELTA:
+        return colors_mod.too_similar(color_a, color_b)
+    return contrast_ratio(color_a, color_b) < min_contrast or hue_distance(color_a, color_b) < min_hue
+
+
+def pick_kit_colors(home: str, away: str, kind: str | None = None) -> dict[str, Any]:
+    """Auto home/away chart colours. Clash loser (away, then home) uses secondary.
+
+    Primaries come from ``recap.colors``. We never invent a third kit —
+    secondary is the only swap, then ``separate()`` as a last-contrast pass.
+    ``--colors`` still wins via ``set_team_colors`` / ``farm.apply_auto_colors``.
+    """
+    previous = get_team_kind()
+    if kind:
+        set_team_kind(kind)
+    try:
+        pair = colors_mod.resolve_pair(home, away, kind=get_team_kind())
+    finally:
+        if kind:
+            set_team_kind(previous)
+    home_hex, away_hex = separate(pair.home.fill, pair.away.fill)
+    return {
+        "home_key": pair.home.key,
+        "away_key": pair.away.key,
+        "home_primary": pair.home.primary,
+        "home_secondary": pair.home.secondary,
+        "away_primary": pair.away.primary,
+        "away_secondary": pair.away.secondary,
+        "clash": pair.conflict,
+        "away_used_secondary": pair.away.used_secondary,
+        "home_used_secondary": pair.home.used_secondary,
+        "home": home_hex,
+        "away": away_hex,
+        "reason": pair.reason,
+    }
+
+
 @lru_cache(maxsize=64)
 def _separated_charts(home_chart: str, away_chart: str) -> tuple[str, str]:
     return separate(home_chart, away_chart)
@@ -521,8 +567,16 @@ def _apply_color_override(identity: dict[str, str], hex_color: str | None) -> di
 
 def match_design(home: str, away: str) -> dict[str, Any]:
     """Resolve the full colour scheme for one fixture."""
-    home_id = _apply_color_override(team_identity(home), _override_home)
-    away_id = _apply_color_override(team_identity(away), _override_away)
+    pair = colors_mod.resolve_pair(
+        home, away, kind=get_team_kind(),
+        override_home=_override_home, override_away=_override_away,
+    )
+    home_id = _apply_color_override(team_identity(home), pair.home.fill)
+    away_id = _apply_color_override(team_identity(away), pair.away.fill)
+    home_id["secondary"] = pair.home.secondary
+    away_id["secondary"] = pair.away.secondary
+    home_id["kit_primary"] = pair.home.primary
+    away_id["kit_primary"] = pair.away.primary
     home_chart, away_chart = _separated_charts(home_id["chart"], away_id["chart"])
     home_id["chart"] = home_chart
     away_id["chart"] = away_chart

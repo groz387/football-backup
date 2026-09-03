@@ -654,3 +654,33 @@ OFFLINE_LINES = {'A shootout of a match, decided in open play.': 'Голевой
  'Two teams, two answers, one point each.': 'Две команды, два ответа, по очку каждой.',
  'WHERE THE MATCH WAS PLAYED': 'ГДЕ ШЁЛ МАТЧ',
  'Where on-target shots crossed the line': 'Где удары в створ пересекли линию'}
+
+# Culture smash bookends — curse ONLY the first and last spoken sentence.
+# Body copy stays in the clean football register.
+CURSE_HOOKS = [
+    '{winner} устроил {loser} разнос',
+    '{winner} укатал {loser} в асфальт',
+    '{winner} вытер ноги об {loser}',
+    '{winner} оставил {loser} без штанов',
+    '{winner} закатал {loser} в бетон',
+    '{winner} сделал с {loser} что хотел',
+    '{winner} устроил {loser} пиздец',
+    '{winner} вытер хуй об {loser}',
+]
+CURSE_HOOKS_DRAW = [
+    'Девяносто минут взаимного пиздеца',
+    'Никто не вышел играть, блять',
+    'Ничья, за которую стыдно',
+]
+CURSE_HOOKS_HIDE = [
+    'Кого размазали — скажем после счёта.',
+    'Разнос будет. Пока лента.',
+    'Кто без штанов, ещё не говорим.',
+]
+CURSE_OUTROS = [
+    'Ну и кто тут самый беспомощный?',
+    'Пишите — кто сегодня полный пассажир?',
+    'Кто опозорился сильнее всех?',
+    'Кто сегодня был лишним на поле?',
+    'Назовите главного неудачника. Не стесняйтесь.',
+]

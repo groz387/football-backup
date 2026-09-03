@@ -646,3 +646,33 @@ OFFLINE_LINES = {'A shootout of a match, decided in open play.': 'Açıq oyunda 
  'Two teams, two answers, one point each.': 'İki komanda, iki cavab, hər birinə bir xal.',
  'WHERE THE MATCH WAS PLAYED': 'OYUN HARADA GEDİB',
  'Where on-target shots crossed the line': 'Çərçivəyə zərbələrin keçdiyi yer'}
+
+# Culture smash bookends — curse ONLY the first and last spoken sentence.
+# Body copy stays in the clean football register.
+CURSE_HOOKS = [
+    '{winner} {loser_gen} götünə ağac soxdu',
+    '{winner} {loser_acc} belə soydu ki, stadion susdu',
+    '{winner} {loser_gen} kürəyinə mindi',
+    '{loser} bu gecə gijdıllax oldu, {winner} işini bitirdi',
+    '{winner} {loser_acc} hamamda qoydu',
+    '{winner} {loser_gen} ağzına qapadı',
+    '{winner} {loser_acc} elə əzdi ki, analar ağladı',
+    '{winner} {loser_gen} götünü başı etdi',
+]
+CURSE_HOOKS_DRAW = [
+    'Bu oyunda hamı gijdıllax çıxdı',
+    'Heç kim oğlan olmadığını sübut etmədi',
+    'Doxsan dəqiqə, sıfır kişi',
+]
+CURSE_HOOKS_HIDE = [
+    'Gecənin gijdıllaxını hələ demirik',
+    'Kimə ağac soxuldu, hesabdan sonra',
+    'Əvvəl lent, sonra göt',
+]
+CURSE_OUTROS = [
+    'Bəs sizcə, kim bu oyunda ən gijdıllaxiydi?',
+    'Yorumda yaz, bu matçın ən gijdıllaxı kim oldu?',
+    'Kim daha çox utandı, de görək?',
+    'Bu oyunun kralı kim idi, yoxsa hamısı gijdıllax?',
+    'Gijdıllaxı aşağıya yaz, utanmasın',
+]

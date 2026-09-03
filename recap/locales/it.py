@@ -610,3 +610,20 @@ UI = {
  'watermark': ''}
 
 OFFLINE_LINES = {}
+
+# Terrace trash-talk bookends. Voiceover first + last sentence only; body stays clean.
+CURSE_HOOKS = [
+    '{winner} ha massacrato {loser}',
+    '{winner} ha umiliato {loser}',
+    '{winner} ha spazzato {loser}',
+]
+CURSE_HOOKS_DRAW = [
+    'Novanta minuti di vergogna a metà',
+]
+CURSE_HOOKS_HIDE = [
+    "C'è una batosta. Il risultato aspetta.",
+]
+CURSE_OUTROS = [
+    'Chi è stato il più ridicolo stasera?',
+    'Chi è stato il passeggero? Dillo sotto.',
+]

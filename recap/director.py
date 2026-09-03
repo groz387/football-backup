@@ -17,7 +17,7 @@ from typing import Any
 
 from .audit import best_goal_chain, credible_goal_chains, dominant_team, result_context
 from .data import MatchBundle, clean_text
-from . import hooks, i18n, retention
+from . import culture, hooks, i18n, retention, script_culture
 
 DEFAULT_MODEL = "gemini-2.5-flash"
 DEFAULT_SCRIPT_MODEL = "gemini-2.5-pro"
@@ -36,7 +36,14 @@ SYSTEM_PROMPT = (
     "Do not tease the next card unless it earns it. Do not use the word 'but' "
     "more than once across the whole script. Kill waffle. "
     "Do not stuff English idiom (game gone, bottled it, smash-and-grab) into az/es/ru. "
-    "Use the native football register of the target language."
+    "Use the native football register of the target language. "
+    "CURSES ONLY in the first spoken sentence (hook_claim) and the last spoken "
+    "sentence (close comment-bait). Body/stats stay clean football analysis. "
+    "az = old football uncle, creative unique swear combos, pleasant to the ear, "
+    "not robotic spam. en/es/ru = local pub / barra / двор trash-talk, NOT a "
+    "literal translation of Azerbaijani curses. "
+    "ElevenLabs v3: short spoken lines, optional [excited] [whispers] [sarcastic] "
+    "tags sparingly on hook or close only. No markdown. Speak numbers naturally."
 )
 
 SCRIPT_FEW_SHOTS = [
@@ -706,6 +713,33 @@ def select_visualizations(
             item["angle"] = angle
             selected.append(item)
     return selected[:count], candidates
+
+
+_KEEP_ALWAYS = frozenset({
+    "hook_claim", "hook_punch", "micro_hook", "live_clip", "close", "title",
+})
+
+
+def drop_empty_visualizations(
+    scenes: list[dict[str, Any]],
+    bundle: MatchBundle,
+    audit: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Skip empty viz rather than rendering a leftover English placeholder card."""
+    available = {
+        c["id"] for c in visualization_candidates(bundle, audit) if c.get("available")
+    }
+    kept: list[dict[str, Any]] = []
+    for scene in scenes:
+        viz = str(scene.get("visualization") or "")
+        if viz in _KEEP_ALWAYS or viz.startswith("bridge") or scene.get("hook"):
+            kept.append(scene)
+            continue
+        if viz in available:
+            kept.append(scene)
+    if not kept:
+        return scenes
+    return kept
 
 
 # ---------------------------------------------------------------------------
@@ -1891,10 +1925,16 @@ class Gemini:
                 "Do not invent a new hook kind. Do not repeat the hook claim in analysis scenes.",
                 "Rewrite hook_claim, hook_punch, micro_hook, bridges and the close comment_bait "
                 "in the requested language. Number lock stays.",
+                culture.gemini_system_addendum(lang),
                 "SHORTS: one idea per scene. No BBC report. No waffle.",
                 "If spoiler is hide, the first beat must not name the scorer or the final score.",
                 language_rule,
+                *script_culture.gemini_rules(lang),
             ],
+            "culture": script_culture.gemini_brief(bundle, audit, language=lang, spoiler=hooks.resolve_spoiler(
+                next((scene.get("spoiler") for scene in scenes if scene.get("spoiler")), None),
+                audit.get("spoiler"),
+            )),
             "language": lang,
             "spoiler": hooks.resolve_spoiler(
                 next((scene.get("spoiler") for scene in scenes if scene.get("spoiler")), None),
@@ -1972,6 +2012,9 @@ class Gemini:
             "rules": [
                 "Write in the target language. No English leftovers except names and digits.",
                 "Preserve every digit. Do not invent a score.",
+                "Trash-talk is allowed on the punch OR the first claim line, never in extra body copy.",
+                "Non-AZ languages: local football slang, never a literal Azerbaijani curse.",
+                "You may wrap the punch in one ElevenLabs v3 tag such as [excited] or [mischievously].",
             ],
             "response_schema": {"lines": ["claim line"], "punch": "punch line"},
         }
@@ -2010,6 +2053,7 @@ class Gemini:
                 "Keep the tone sharp and analytical, football register, not marketing copy.",
                 "Return one object per input scene id.",
                 f"Write every field in {lang_name}. No English leftovers except names and digits.",
+                *script_culture.gemini_rules(lang),
             ],
             "language": lang,
             "scenes": [
@@ -2055,6 +2099,42 @@ class Gemini:
                     for key in ("kicker", "title", "subtitle", "insight", "narration", "comment_bait")
                 }
         return result
+
+    def translate_operator_line(
+        self,
+        text: str,
+        source_language: str,
+        target_language: str,
+        *,
+        kind: str = "hook",
+        protected: list[str] | None = None,
+    ) -> str:
+        """Culture-translate user copy without weakening its terrace register."""
+        target = i18n.normalize_language(target_language)
+        payload = {
+            "task": (
+                f"Rewrite this operator-written football {kind} from language "
+                f"`{source_language}` into `{target}`."
+            ),
+            "text": text,
+            "protected_terms": list(protected or []),
+            "rules": [
+                "Return local football terrace speech, not a literal calque.",
+                "Keep the same intensity, joke and profanity level.",
+                "This is a bookend: profanity is allowed here.",
+                "One short sentence only; no markdown, explanation or alternatives.",
+                "Preserve every protected term byte-for-byte.",
+                "Preserve every digit, scoreline, minute and percentage byte-for-byte.",
+                "Never add a match fact, name, number or claim.",
+                *script_culture.gemini_rules(target),
+            ],
+            "response_schema": {"text": "translated line"},
+        }
+        parsed = self._generate(
+            payload, model=self.script_model, temperature=0.65,
+            system=SYSTEM_PROMPT,
+        )
+        return sanitize((parsed or {}).get("text"), "") if parsed else ""
 
 
 def _brief(bundle: MatchBundle, audit: dict[str, Any], angle: str = "") -> dict[str, Any]:
@@ -2163,12 +2243,26 @@ def lock_hook_cards(
     locked = []
     for scene in scenes:
         updated = dict(scene)
-        if updated.get("user_locked"):
+        if updated.get("user_locked") or updated.get("bookend"):
             updated["language"] = language
             updated["spoiler"] = spoiler
             locked.append(updated)
             continue
         viz = scene.get("visualization")
+        if viz in culture.BOOKEND_HOOK_VIZ and culture.contains_curse(
+            str(updated.get("narration") or updated.get("title") or ""), language
+        ):
+            updated["bookend"] = "hook"
+            updated["language"] = language
+            locked.append(updated)
+            continue
+        if viz in culture.BOOKEND_BAIT_VIZ and culture.contains_curse(
+            str(updated.get("comment_bait") or updated.get("insight") or ""), language
+        ):
+            updated["bookend"] = "bait"
+            updated["language"] = language
+            locked.append(updated)
+            continue
         pack = {
             "numbers": hook.get("numbers") or [],
             "never_say": hook.get("never_say") or [],

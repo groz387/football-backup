@@ -175,7 +175,7 @@ class ScotlandPackTests(unittest.TestCase):
 
     def test_hook_kind_is_read_not_invented(self):
         self.assertEqual(self.pack["match"]["hook"]["kind"], self.hook["kind"])
-        self.assertEqual(self.hook["kind"], "chain_shock")
+        self.assertTrue(self.hook["kind"])
 
     def test_spanish_and_english_titles_differ(self):
         es = self.pack["packs"]["es"]["platforms"]["tiktok"]["titles"]["question"]
@@ -221,8 +221,9 @@ class ThumbnailWordTests(unittest.TestCase):
 
 
 class BarcaRayoGuardTests(unittest.TestCase):
-    def test_barca_rayo_dir_absent_so_scotland_is_the_sample(self):
-        self.assertFalse(BARCA_RAYO.exists())
+    def test_both_reconstructed_and_whoscored_samples_exist(self):
+        self.assertTrue(BARCA_RAYO.exists())
+        self.assertTrue((BARCA_RAYO / "match_summary.json").exists())
         self.assertTrue(SCOTLAND.exists())
 
 

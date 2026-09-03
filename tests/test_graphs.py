@@ -9,6 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 from recap import director, draw, graphs, theme
+from recap.draw import Timeline
 from recap.data import MatchBundle, Score
 from recap.director import ANGLE_VIZ, SHAPE_FAMILY, unique_shape_pack
 
@@ -125,6 +126,25 @@ class GraphEmptyAuditTests(unittest.TestCase):
         self.assertGreater(fig.get_figwidth(), fig.get_figheight())
         draw.save_figure(fig, Path(tempfile.mkdtemp()) / "land.png")
 
+    def test_opening_frame_stays_pitch_black(self) -> None:
+        import matplotlib.pyplot as plt
+
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            for name, renderer in (
+                ("slam", graphs.render_stat_slam),
+                ("split", graphs.render_halftime_split),
+                ("bench", graphs.render_bench_impact),
+            ):
+                path = folder / f"{name}.png"
+                renderer(self.bundle, self.audit, self.scene, path, 0.0)
+                pixels = plt.imread(path)
+                self.assertLess(
+                    float(pixels[..., :3].mean()),
+                    0.05,
+                    f"{name} opening frame is not pitch black",
+                )
+
 
 class UniquenessTests(unittest.TestCase):
     def test_new_viz_have_distinct_shape_families(self) -> None:
@@ -177,6 +197,62 @@ class UniquenessTests(unittest.TestCase):
                 run = 1
         self.assertGreaterEqual(longest, 3)
         self.assertEqual(draw.hold_count(12, 1.0), 12)
+
+    def test_hold_count_decimals_hold_on_tenths(self) -> None:
+        seen = [draw.hold_count(1.8, frame / 24.0) for frame in range(24)]
+        self.assertEqual(draw.hold_count(1.8, 1.0), 1.8)
+        self.assertTrue(all(abs(value * 10 - round(value * 10)) < 1e-6 or value == 1.8 for value in seen))
+
+    def test_insight_stamp_finishes_by_hold(self) -> None:
+        tl = Timeline(draw.HOLD_AT)
+        self.assertGreaterEqual(tl.stamp(), 0.99)
+        self.assertGreaterEqual(tl.wipe(0.02, 0.58), 0.99)
+
+    def test_ghost_stroke_vanishes_at_low_alpha(self) -> None:
+        self.assertEqual(draw.soft_shadow(0.05), [])
+        self.assertEqual(draw.outline(0.10), [])
+        self.assertTrue(draw.soft_shadow(1.0))
+
+    def test_ring_gauge_is_silent_until_ink_is_visible(self) -> None:
+        import matplotlib.pyplot as plt
+
+        fig, ax = plt.subplots()
+        before = len(ax.patches)
+        draw.ring_gauge(ax, 0.5, 0.5, 8, 10, "#ffffff", progress=0.0)
+        self.assertEqual(len(ax.patches), before)
+        draw.ring_gauge(ax, 0.5, 0.5, 8, 10, "#ffffff", progress=1.0)
+        self.assertGreater(len(ax.patches), before)
+        plt.close(fig)
+
+    def test_radar_polygon_is_silent_until_ink_is_visible(self) -> None:
+        import matplotlib.pyplot as plt
+
+        fig, ax = plt.subplots()
+        before = len(ax.patches) + len(ax.lines)
+        draw.radar_polygon(ax, [0.8, 0.6, 0.4, 0.7, 0.5, 0.9], "#ffffff", progress=0.0)
+        self.assertEqual(len(ax.patches) + len(ax.lines), before)
+        draw.radar_polygon(ax, [0.8, 0.6, 0.4, 0.7, 0.5, 0.9], "#ffffff", progress=1.0)
+        self.assertGreater(len(ax.patches) + len(ax.lines), before)
+        plt.close(fig)
+
+    def test_assembly_fades_instead_of_wiping_type(self) -> None:
+        from recap import video
+
+        scenes = [
+            {"clip": 2.0, "cut": "hard", "visualization": "hook_claim"},
+            {"clip": 5.0, "cut": "wipe", "visualization": "momentum"},
+            {"clip": 5.0, "cut": "wipe", "visualization": "close"},
+        ]
+        graph, _ = video._assembly_filter(scenes, 24)
+        self.assertNotIn("wiperight", graph)
+        self.assertIn("xfade=transition=fade", graph)
+
+    def test_analysis_frames_are_seeded(self) -> None:
+        from recap import video
+
+        self.assertEqual(video.frame_progress(0, 100, full_motion=True), 0.0)
+        self.assertGreater(video.frame_progress(0, 100, full_motion=False), 0.04)
+        self.assertEqual(video.frame_progress(99, 100, full_motion=False), 1.0)
 
 
 if __name__ == "__main__":
