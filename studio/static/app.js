@@ -1,0 +1,329 @@
+const $ = (id) => document.getElementById(id);
+
+const state = {
+  settings: {},
+  languages: [],
+  matches: [],
+  capabilities: {},
+  job: null,
+  lang: null,
+  poll: null,
+};
+
+async function api(path, opts) {
+  const res = await fetch(path, {
+    headers: { "Content-Type": "application/json" },
+    ...opts,
+    body: opts && opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const detail = data.detail || data.message || res.statusText;
+    throw new Error(typeof detail === "string" ? detail : JSON.stringify(detail));
+  }
+  return data;
+}
+
+function selectedLangs() {
+  return [...document.querySelectorAll(".lang input:checked")].map((el) => el.value);
+}
+
+function formSettings() {
+  const colors = [$("colorHome").value.trim(), $("colorAway").value.trim()].filter(Boolean);
+  return {
+    url: $("url").value.trim(),
+    match_dir: $("matchDir").value,
+    languages: selectedLangs(),
+    hook_claim: $("hookClaim").value.trim(),
+    hook_punch: $("hookPunch").value.trim(),
+    bait_text: $("bait").value.trim(),
+    team: $("team").value,
+    colors,
+    format: $("format").value,
+    spoiler: $("spoiler").value,
+  };
+}
+
+function paintCaps(caps) {
+  const bits = [
+    ["pipeline", true],
+    ["elevenlabs", caps.elevenlabs_configured || (caps.elevenlabs && !caps.stubbed?.elevenlabs_tts)],
+    ["scrape", caps.scrape],
+    ["gemini", caps.gemini_key],
+  ];
+  $("caps").innerHTML = bits.map(([name, live]) =>
+    `<span class="cap ${live ? "live" : "stub"}">${name} ${live ? "live" : "stub"}</span>`
+  ).join("");
+}
+
+function paintMatches(matches, selected) {
+  const sel = $("matchDir");
+  const opts = ['<option value="">— pick an export —</option>']
+    .concat(matches.map((m) =>
+      `<option value="${m.match_dir}" ${m.match_dir === selected ? "selected" : ""}>${m.label} · ${m.name}</option>`
+    ));
+  sel.innerHTML = opts.join("");
+}
+
+function paintLangs(languages, chosen) {
+  const set = new Set(chosen || []);
+  $("langs").innerHTML = languages.map((lang) => `
+    <label class="lang ${set.has(lang.code) ? "on" : ""}">
+      <input type="checkbox" value="${lang.code}" ${set.has(lang.code) ? "checked" : ""} />
+      <span>${lang.native}</span>
+      <small>${lang.code}</small>
+    </label>
+  `).join("");
+  $("langs").querySelectorAll("input").forEach((input) => {
+    input.addEventListener("change", () => {
+      input.closest(".lang").classList.toggle("on", input.checked);
+      persist();
+    });
+  });
+}
+
+function applyColors(preview) {
+  if (!preview) return;
+  const home = preview.home || {};
+  const away = preview.away || {};
+  document.documentElement.style.setProperty("--home", home.primary || home.fill || "#a50044");
+  document.documentElement.style.setProperty("--away", away.primary || away.fill || "#004d98");
+  $("homeName").textContent = home.name || "Home";
+  $("awayName").textContent = away.name || "Away";
+  $("homeAbbr").textContent = home.abbr || "HOM";
+  $("awayAbbr").textContent = away.abbr || "AWY";
+  $("homeHex").textContent = home.primary || "auto";
+  $("awayHex").textContent = away.primary || "auto";
+  $("sideHome").style.background = home.primary || home.fill;
+  $("sideAway").style.background = away.primary || away.fill;
+}
+
+function applyMatch(match) {
+  if (!match) return;
+  $("matchLabel").textContent = match.label || match.name;
+  $("matchDir").value = match.match_dir;
+}
+
+async function persist() {
+  const payload = formSettings();
+  state.settings = await api("/api/settings", { method: "POST", body: payload });
+}
+
+function collectScenes() {
+  return [...document.querySelectorAll(".scene")].map((node) => ({
+    id: node.dataset.id,
+    title: node.querySelector(".title").value,
+    narration: node.querySelector(".narration").value,
+    insight: node.querySelector(".insight").value,
+  }));
+}
+
+function paintReview() {
+  const job = state.job;
+  if (!job) {
+    $("reviewEmpty").hidden = false;
+    $("reviewBody").hidden = true;
+    return;
+  }
+  $("reviewEmpty").hidden = true;
+  $("reviewBody").hidden = false;
+  const langs = job.languages || Object.keys(job.packs || {});
+  if (!state.lang || !langs.includes(state.lang)) state.lang = langs[0];
+  $("langTabs").innerHTML = langs.map((code) =>
+    `<button type="button" class="tab ${code === state.lang ? "on" : ""}" data-lang="${code}">${code}</button>`
+  ).join("");
+  $("langTabs").querySelectorAll(".tab").forEach((btn) => {
+    btn.addEventListener("click", () => { state.lang = btn.dataset.lang; paintReview(); });
+  });
+  const pack = job.packs[state.lang];
+  $("scriptPill").textContent = `script ${pack.script_status}`;
+  $("scriptPill").className = `pill ${pack.script_status === "approved" ? "ok" : ""}`;
+  $("voicePill").textContent = `voice ${pack.voice_status}${pack.voice_stub ? " (stub)" : ""}`;
+  $("voicePill").className = `pill ${pack.voice_status === "approved" ? "ok" : pack.voice_stub ? "warn" : ""}`;
+  $("scenes").innerHTML = (pack.scenes || []).map((scene) => `
+    <article class="scene" data-id="${scene.id}">
+      <header><span>${scene.visualization}</span><span>${scene.hook ? "hook" : ""}</span></header>
+      <input class="title" value="${escapeAttr(scene.title || "")}" />
+      <textarea class="narration">${escapeHtml(scene.narration || "")}</textarea>
+      <input class="insight" value="${escapeAttr(scene.insight || scene.comment_bait || "")}" placeholder="insight / bait" />
+    </article>
+  `).join("");
+  const player = $("player");
+  if (pack.voice_path) {
+    player.src = `/api/jobs/${job.id}/audio/${state.lang}?t=${Date.now()}`;
+  } else {
+    player.removeAttribute("src");
+  }
+  $("voiceNote").textContent = pack.voice_note || (pack.voice_stub ? "Silent stub — ElevenLabs module not present." : "");
+  paintProduce(job);
+}
+
+function paintProduce(job) {
+  const prod = (job && job.production) || { status: "idle", percent: 0, log: [], stage: "idle" };
+  $("barFill").style.width = `${prod.percent || 0}%`;
+  $("prodStage").textContent = `${prod.status || "idle"} · ${prod.stage || ""} ${prod.error ? "· " + prod.error : ""}`;
+  $("prodLog").textContent = (prod.log || []).slice(-40).join("\n");
+  $("prodResults").innerHTML = (prod.results || []).map((row) =>
+    `<p class="hint">${row.language}/${row.format} · ${row.status} · ${row.out_dir}${row.video ? " · " + row.video : ""}</p>`
+  ).join("");
+  if (prod.status === "running" && !state.poll) {
+    state.poll = setInterval(async () => {
+      state.job = await api(`/api/jobs/${job.id}`);
+      paintReview();
+      if (state.job.production.status !== "running") {
+        clearInterval(state.poll);
+        state.poll = null;
+      }
+    }, 1200);
+  }
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (ch) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[ch]));
+}
+function escapeAttr(value) { return escapeHtml(value); }
+
+async function loadMatch() {
+  $("resolveHint").textContent = "Resolving…";
+  try {
+    const data = await api("/api/resolve", { method: "POST", body: formSettings() });
+    if (!data.ok) {
+      $("resolveHint").textContent = data.stub || "Could not resolve that source.";
+      return;
+    }
+    applyMatch(data.match);
+    applyColors(data.colors);
+    $("resolveHint").textContent = data.match.label;
+    await persist();
+  } catch (err) {
+    $("resolveHint").textContent = err.message;
+  }
+}
+
+async function previewColors() {
+  const s = formSettings();
+  if (!s.match_dir) return;
+  try {
+    const preview = await api("/api/preview-colors", {
+      method: "POST",
+      body: { match_dir: s.match_dir, team: s.team, colors: s.colors },
+    });
+    applyColors(preview);
+  } catch (err) {
+    $("resolveHint").textContent = err.message;
+  }
+}
+
+async function draft() {
+  $("resolveHint").textContent = "Drafting scripts…";
+  try {
+    await persist();
+    state.job = await api("/api/draft", { method: "POST", body: formSettings() });
+    state.lang = (state.job.languages || [])[0];
+    applyColors(state.job.colors);
+    applyMatch(state.job.match);
+    paintReview();
+    $("resolveHint").textContent = `Drafted ${state.job.languages.join(", ")}`;
+  } catch (err) {
+    $("resolveHint").textContent = err.message;
+  }
+}
+
+async function saveEdits() {
+  if (!state.job) return;
+  state.job = await api(`/api/jobs/${state.job.id}/scripts/${state.lang}`, {
+    method: "POST",
+    body: { action: "edit", scenes: collectScenes() },
+  });
+  paintReview();
+}
+
+async function approveScript() {
+  if (!state.job) return;
+  state.job = await api(`/api/jobs/${state.job.id}/scripts/${state.lang}`, {
+    method: "POST",
+    body: { action: "approve", scenes: collectScenes() },
+  });
+  paintReview();
+}
+
+async function regenVoice() {
+  if (!state.job) return;
+  $("voiceNote").textContent = "Generating…";
+  state.job = await api(`/api/jobs/${state.job.id}/voice/${state.lang}`, {
+    method: "POST",
+    body: { action: "regenerate" },
+  });
+  paintReview();
+}
+
+async function approveVoice() {
+  if (!state.job) return;
+  state.job = await api(`/api/jobs/${state.job.id}/voice/${state.lang}`, {
+    method: "POST",
+    body: { action: "approve" },
+  });
+  paintReview();
+}
+
+async function produce(mode) {
+  if (!state.job) {
+    $("prodStage").textContent = "Draft scripts first.";
+    return;
+  }
+  state.job = await api(`/api/jobs/${state.job.id}/produce`, {
+    method: "POST",
+    body: { mode },
+  });
+  paintProduce(state.job);
+}
+
+async function boot() {
+  const data = await api("/api/bootstrap");
+  state.settings = data.settings || {};
+  state.languages = data.languages || [];
+  state.matches = data.matches || [];
+  state.capabilities = data.capabilities || {};
+  paintCaps(state.capabilities);
+  paintMatches(state.matches, state.settings.match_dir);
+  paintLangs(state.languages, state.settings.languages);
+  $("url").value = state.settings.url || "";
+  $("hookClaim").value = state.settings.hook_claim || "";
+  $("hookPunch").value = state.settings.hook_punch || "";
+  $("bait").value = state.settings.bait_text || "";
+  $("team").value = state.settings.team || "club";
+  $("format").value = state.settings.format || "short";
+  $("spoiler").value = state.settings.spoiler || "show";
+  const colors = state.settings.colors || [];
+  $("colorHome").value = colors[0] || "";
+  $("colorAway").value = colors[1] || "";
+  if (state.settings.match_dir) {
+    try {
+      const resolved = await api("/api/resolve", {
+        method: "POST",
+        body: { match_dir: state.settings.match_dir, url: state.settings.url || "" },
+      });
+      if (resolved.ok) {
+        applyMatch(resolved.match);
+        applyColors(resolved.colors);
+      }
+    } catch (_) { /* first load without a match is fine */ }
+  }
+}
+
+$("btnResolve").addEventListener("click", loadMatch);
+$("btnColors").addEventListener("click", previewColors);
+$("btnDraft").addEventListener("click", draft);
+$("btnEdit").addEventListener("click", saveEdits);
+$("btnApproveScript").addEventListener("click", approveScript);
+$("btnRegen").addEventListener("click", regenVoice);
+$("btnApproveVoice").addEventListener("click", approveVoice);
+$("btnPlan").addEventListener("click", () => produce("plan"));
+$("btnProduce").addEventListener("click", () => produce("full"));
+["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway"]
+  .forEach((id) => $(id).addEventListener("change", persist));
+$("matchDir").addEventListener("change", loadMatch);
+
+boot().catch((err) => { $("resolveHint").textContent = err.message; });

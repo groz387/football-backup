@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recap Studio</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="top">
+    <div class="brand">
+      <span class="mark">RS</span>
+      <div>
+        <p class="kicker">Local operator console</p>
+        <h1>Recap Studio</h1>
+      </div>
+    </div>
+    <div class="caps" id="caps"></div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="split" id="split">
+      <div class="side home" id="sideHome">
+        <span class="abbr" id="homeAbbr">HOM</span>
+        <strong id="homeName">Home</strong>
+        <em id="homeHex">auto</em>
+      </div>
+      <div class="side away" id="sideAway">
+        <span class="abbr" id="awayAbbr">AWY</span>
+        <strong id="awayName">Away</strong>
+        <em id="awayHex">auto</em>
+      </div>
+    </div>
+    <p class="match-label" id="matchLabel">Paste a Livescore / WhoScored URL or pick an export.</p>
+  </section>
+
+  <main class="grid">
+    <section class="card">
+      <h2>1. Match</h2>
+      <label>Livescore / WhoScored URL
+        <input id="url" type="url" placeholder="https://www.whoscored.com/matches/1993920/live/…" />
+      </label>
+      <label>Match export
+        <select id="matchDir"></select>
+      </label>
+      <div class="row">
+        <button type="button" class="primary" id="btnResolve">Load match</button>
+        <label class="inline">Team
+          <select id="team">
+            <option value="club">club</option>
+            <option value="national">national</option>
+          </select>
+        </label>
+        <label class="inline">Format
+          <select id="format">
+            <option value="short">short</option>
+            <option value="long">long</option>
+            <option value="both">both</option>
+          </select>
+        </label>
+      </div>
+      <p class="hint" id="resolveHint"></p>
+    </section>
+
+    <section class="card">
+      <h2>2. Languages to dub</h2>
+      <div class="langs" id="langs"></div>
+    </section>
+
+    <section class="card wide">
+      <h2>3. Hook / bait overrides</h2>
+      <div class="row3">
+        <label>Hook claim (first-second shock)
+          <input id="hookClaim" placeholder="Leave blank for director default" />
+        </label>
+        <label>Hook punch
+          <input id="hookPunch" placeholder="Optional second line" />
+        </label>
+        <label>Comment bait
+          <input id="bait" placeholder="was yamal motm?" />
+        </label>
+      </div>
+      <div class="row">
+        <label class="grow">Home colour
+          <input id="colorHome" placeholder="#a50044 or auto" />
+        </label>
+        <label class="grow">Away colour
+          <input id="colorAway" placeholder="#004d98 or auto" />
+        </label>
+        <label class="inline">Spoiler
+          <select id="spoiler">
+            <option value="show">show</option>
+            <option value="hide">hide</option>
+          </select>
+        </label>
+        <button type="button" class="ghost" id="btnColors">Preview colours</button>
+        <button type="button" class="primary" id="btnDraft">Draft scripts</button>
+      </div>
+    </section>
+
+    <section class="card wide" id="reviewCard">
+      <div class="card-head">
+        <h2>4. Script + voice</h2>
+        <div class="tabs" id="langTabs"></div>
+      </div>
+      <p class="empty" id="reviewEmpty">Draft scripts to review copy per language.</p>
+      <div id="reviewBody" hidden>
+        <div class="status-row">
+          <span class="pill" id="scriptPill">script pending</span>
+          <span class="pill" id="voicePill">voice none</span>
+        </div>
+        <div class="scenes" id="scenes"></div>
+        <div class="row">
+          <button type="button" class="ghost" id="btnEdit">Save edits</button>
+          <button type="button" class="primary" id="btnApproveScript">Approve script</button>
+        </div>
+        <div class="voice">
+          <audio id="player" controls></audio>
+          <button type="button" class="ghost" id="btnRegen">Regenerate VO</button>
+          <button type="button" class="primary" id="btnApproveVoice">Approve VO</button>
+          <p class="hint" id="voiceNote"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>5. Produce</h2>
+      <div class="row">
+        <button type="button" class="ghost" id="btnPlan">Dry-run plan</button>
+        <button type="button" class="primary" id="btnProduce">Produce</button>
+      </div>
+      <div class="progress">
+        <div class="bar"><i id="barFill"></i></div>
+        <p id="prodStage">idle</p>
+      </div>
+      <pre id="prodLog" class="log"></pre>
+      <div id="prodResults"></div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

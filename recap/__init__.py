@@ -22,6 +22,7 @@ Layers, from the bottom up:
     longform  YouTube 3–8 min pacing, chapters, no silent padding
     batch     language × format farm; optional recap.platforms / recap.growth
     ab_hooks  A/B picker for fact-locked hook variants
+    studio_api  thin HTTP helpers for the local studio console (no second brain)
 
 Nothing in a lower layer imports from a higher one.
 """
@@ -49,6 +50,7 @@ __all__ = [
     "retention",
     "safe_zones",
     "scenes",
+    "studio_api",
     "theme",
     "thumbnails",
     "timing",
