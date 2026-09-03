@@ -187,7 +187,11 @@ function paintReview() {
   } else {
     player.removeAttribute("src");
   }
-  $("voiceNote").textContent = pack.voice_note || (pack.voice_stub ? "Silent stub — ElevenLabs module not present." : "");
+  const preflight = job.voice_preflight || {};
+  $("voiceNote").textContent = pack.voice_note
+    || preflight.message
+    || (pack.voice_stub ? "ElevenLabs unavailable — no audio was approved." : "");
+  $("voiceNote").classList.toggle("error", pack.voice_status === "failed" || preflight.enough === false);
   paintProduce(job);
 }
 
@@ -235,6 +239,11 @@ function showScrapePanel(show, data) {
   if (!panel) return;
   panel.hidden = !show;
   if (!show) return;
+  if (data && data.scrape_kind === "livescore" && $("scrapeUrl")) {
+    // A Livescore event id is never a WhoScored id. Keep the original URL so
+    // the source chain searches by fixture rather than using a stale override.
+    $("scrapeUrl").value = "";
+  }
   if (data && data.scrape_url && $("scrapeUrl") && !$("scrapeUrl").value) {
     $("scrapeUrl").value = data.scrape_url;
   }

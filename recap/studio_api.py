@@ -915,6 +915,14 @@ def draft_scripts(payload: dict[str, Any]) -> dict[str, Any]:
     packs = {}
     for language in languages:
         packs[language] = _draft_language(bundle, audit, language, settings)
+    account = elevenlabs_health()
+    voice_preflight: dict[str, Any] = {"account": account}
+    mod = tts_module()
+    preflight = getattr(mod, "preflight_characters", None) if mod is not None else None
+    if callable(preflight) and account.get("ok"):
+        voice_preflight.update(
+            preflight([_narration_text(pack) for pack in packs.values()], account)
+        )
 
     job = {
         "id": job_id,
@@ -925,6 +933,7 @@ def draft_scripts(payload: dict[str, Any]) -> dict[str, Any]:
         "colors": color_preview,
         "languages": languages,
         "packs": packs,
+        "voice_preflight": voice_preflight,
         "production": {
             "status": "idle",
             "percent": 0,
