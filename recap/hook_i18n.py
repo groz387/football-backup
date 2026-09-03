@@ -130,6 +130,10 @@ def _protected_terms(text: str, bundle: MatchBundle, audit: dict[str, Any]) -> l
                 match = re.search(rf"\b{re.escape(part)}\b", raw, re.I)
                 if match:
                     found.append(match.group(0))
+    known_words = set().union(*_WORDS.values())
+    for token in re.findall(r"\b[A-ZƏĞİÖŞÜÇ][A-Za-zƏĞİÖŞÜÇəğıöşüç'-]{2,}\b", raw):
+        if token.casefold() not in known_words:
+            found.append(token)
     return list(dict.fromkeys(found))
 
 
