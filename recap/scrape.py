@@ -216,9 +216,23 @@ def run_scrape(
         fn = scrape_url_fn
         if fn is None:
             fn = getattr(_load_scrape_match(), "_scrape_url")
-        result = fn(ws, str(dest), False, int(wait), False, None)
-        if asyncio.iscoroutine(result):
-            asyncio.run(result)
+        try:
+            result = fn(ws, str(dest), False, int(wait), False, None)
+            if asyncio.iscoroutine(result):
+                asyncio.run(result)
+        except Exception as exc:
+            text = str(exc)
+            blocked = any(
+                needle in text.lower()
+                for needle in ("cloudflare", "attention required", "expecting value", "just a moment")
+            )
+            if blocked:
+                raise RuntimeError(
+                    "WhoScored blocked the browser (Cloudflare) or returned no match JSON. "
+                    "On your own PC this usually works. If it fails: open the live page, "
+                    "Ctrl+U, save the HTML, then paste/upload it in the scrape panel."
+                ) from exc
+            raise
 
     match_dir = _newest_export(dest, before, classified.get("match_id"))
     if match_dir is None:
