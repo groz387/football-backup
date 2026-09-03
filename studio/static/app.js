@@ -41,6 +41,8 @@ function formSettings() {
     colors,
     format: $("format").value,
     spoiler: $("spoiler").value,
+    eleven_style: ($("elevenStyle") && $("elevenStyle").value) || "robust",
+    kids: Boolean($("kids") && $("kids").checked),
   };
 }
 
@@ -140,6 +142,14 @@ function paintReview() {
   $("scriptPill").className = `pill ${pack.script_status === "approved" ? "ok" : ""}`;
   $("voicePill").textContent = `voice ${pack.voice_status}${pack.voice_stub ? " (stub)" : ""}`;
   $("voicePill").className = `pill ${pack.voice_status === "approved" ? "ok" : pack.voice_stub ? "warn" : ""}`;
+  if ($("growthPill")) {
+    const growthOn = Boolean(pack.growth || pack.growth_ready);
+    $("growthPill").textContent = growthOn ? "growth ready" : "growth —";
+    $("growthPill").className = `pill ${growthOn ? "ok" : ""}`;
+  }
+  if ($("bookendReview")) {
+    $("bookendReview").textContent = `HOOK: ${pack.hook_claim || "—"}   ·   BAIT: ${pack.bait || "—"}`;
+  }
   $("scenes").innerHTML = (pack.scenes || []).map((scene) => `
     <article class="scene" data-id="${scene.id}">
       <header><span>${scene.visualization}</span><span>${scene.hook ? "hook" : ""}</span></header>
@@ -296,6 +306,8 @@ async function boot() {
   $("team").value = state.settings.team || "club";
   $("format").value = state.settings.format || "short";
   $("spoiler").value = state.settings.spoiler || "show";
+  if ($("elevenStyle")) $("elevenStyle").value = state.settings.eleven_style || "robust";
+  if ($("kids")) $("kids").checked = Boolean(state.settings.kids);
   const colors = state.settings.colors || [];
   $("colorHome").value = colors[0] || "";
   $("colorAway").value = colors[1] || "";
@@ -322,8 +334,8 @@ $("btnRegen").addEventListener("click", regenVoice);
 $("btnApproveVoice").addEventListener("click", approveVoice);
 $("btnPlan").addEventListener("click", () => produce("plan"));
 $("btnProduce").addEventListener("click", () => produce("full"));
-["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway"]
-  .forEach((id) => $(id).addEventListener("change", persist));
+["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway", "elevenStyle", "kids"]
+  .forEach((id) => $(id) && $(id).addEventListener("change", persist));
 $("matchDir").addEventListener("change", loadMatch);
 
 boot().catch((err) => { $("resolveHint").textContent = err.message; });

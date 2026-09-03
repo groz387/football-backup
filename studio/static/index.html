@@ -94,6 +94,15 @@
             <option value="hide">hide</option>
           </select>
         </label>
+        <label class="inline">Eleven style
+          <select id="elevenStyle">
+            <option value="robust">robust</option>
+            <option value="normal">normal</option>
+          </select>
+        </label>
+        <label class="inline">Kids-safe
+          <input id="kids" type="checkbox" />
+        </label>
         <button type="button" class="ghost" id="btnColors">Preview colours</button>
         <button type="button" class="primary" id="btnDraft">Draft scripts</button>
       </div>
@@ -109,7 +118,9 @@
         <div class="status-row">
           <span class="pill" id="scriptPill">script pending</span>
           <span class="pill" id="voicePill">voice none</span>
+          <span class="pill" id="growthPill">growth —</span>
         </div>
+        <p class="hint" id="bookendReview"></p>
         <div class="scenes" id="scenes"></div>
         <div class="row">
           <button type="button" class="ghost" id="btnEdit">Save edits</button>

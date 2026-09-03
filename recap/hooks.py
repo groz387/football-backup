@@ -1236,6 +1236,13 @@ def comment_bait_options(
         current = str(hook.get("comment_bait") or "")
     if current and all(current != item["text"] for item in options):
         options.insert(0, {"kind": "current", "key": "current", "text": current})
+    try:
+        from . import culture
+        for item in culture.curse_options(bundle, audit, lang, kind="bait"):
+            if all(item["text"] != existing["text"] for existing in options):
+                options.append(item)
+    except Exception:
+        pass
     return options
 
 
@@ -1346,6 +1353,8 @@ def shock_menu_options(
     scenes: list[dict[str, Any]],
     ab_report: dict[str, Any] | None = None,
     language: str | None = None,
+    bundle: MatchBundle | None = None,
+    audit: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Numbered first-second shock choices: A/B variants, pool lines, current."""
     lang = i18n.normalize_language(language or i18n.get_language())
@@ -1385,5 +1394,24 @@ def shock_menu_options(
             "punch": item["text"],
             "key": item["key"],
         })
+    if bundle is not None and audit is not None:
+        try:
+            from . import culture
+            spoiler = resolve_spoiler(
+                next((s.get("spoiler") for s in scenes if s.get("spoiler")), None),
+                audit.get("spoiler"),
+            )
+            for item in culture.curse_options(bundle, audit, lang, kind="hook", spoiler=spoiler):
+                if any(opt.get("claim") == item["text"] for opt in options):
+                    continue
+                options.append({
+                    "kind": "curse-hook",
+                    "label": item["text"],
+                    "claim": item["text"],
+                    "punch": item["text"],
+                    "key": item.get("key"),
+                })
+        except Exception:
+            pass
     options.append({"kind": "custom", "label": "CUSTOM", "claim": "", "punch": ""})
     return options

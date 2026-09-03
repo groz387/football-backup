@@ -921,18 +921,21 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
              "Example: --language az --dub-languages en,es",
     )
     editorial.add_argument(
-        "--platforms", default="", metavar="IDS",
+        "--platforms", default="tiktok,shorts", metavar="IDS",
         help="Comma-separated platform ids passed to recap.platforms / recap.export_pack "
-             "if those modules exist (e.g. tiktok,reels,shorts,youtube). "
-             "Warns and continues if they do not.",
+             "(e.g. tiktok,reels,shorts,youtube). Empty string skips platform export.",
     )
     editorial.add_argument(
-        "--write-growth", dest="write_growth", action="store_true", default=True,
+        "--write-growth", dest="write_growth_seo", action="store_true", default=True,
         help="Write growth.json / posting pack next to the mp4 (default on)",
     )
     editorial.add_argument(
-        "--no-write-growth", dest="write_growth", action="store_false",
+        "--no-write-growth", dest="write_growth_seo", action="store_false",
         help="Skip the growth/SEO posting pack",
+    )
+    editorial.add_argument(
+        "--growth-dir", dest="growth_pack_dir", default="", metavar="DIR",
+        help="Optional extra folder for the growth/SEO pack",
     )
     editorial.add_argument(
         "--series-id", default="", metavar="ID",
@@ -1130,6 +1133,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         parser.error("--ab-hook-variants must be >= 2")
     if getattr(args, "ab_hook_variants", 3) > 8:
         parser.error("--ab-hook-variants must be <= 8")
+    # Unique dest for the growth sibling tests; farm code still reads write_growth.
+    args.write_growth = bool(getattr(args, "write_growth_seo", True))
     return args
 
 

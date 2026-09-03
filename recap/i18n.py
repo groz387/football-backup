@@ -452,6 +452,9 @@ _ENGLISH_LEFTOVER = re.compile(
     r"bottled it|sitters wasted|changes on the tape|owned the air|"
     r"shots on the clock|watch the turn|who bottled|"
     r"was \S+ motm|who was motm|man of the match|"
+    r"shots on target|final.third|big chances|keeper saves|"
+    r"touch heatmap|field tilt|pressure curve|pass network|"
+    r"too few shots|empty xg|pressure curve empty|"
     r"\d+ then \d+)\b",
     re.IGNORECASE,
 )

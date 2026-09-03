@@ -180,7 +180,7 @@ def package_dir(
     """Language-first or match-first package path."""
     return farm.package_dir(
         output_root, match_name, language, fmt,
-        layout=layout or (farm.LAYOUT_LANG_MATCH if batched else farm.LAYOUT_LANG_MATCH),
+        layout=layout or farm.LAYOUT_LANG_MATCH,
         batched=batched,
     )
 
