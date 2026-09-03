@@ -4,15 +4,11 @@ The studio web app calls these functions. They import ``video_pipeline`` and
 ``recap.*`` — the same brain as the CLI. This module does not scrape, does not
 draw graphs, and does not own Gemini prompts.
 
-Sibling modules that may not have landed yet are probed and stubbed:
+Sibling modules:
 
     recap.elevenlabs_tts   synthesize(text, language, dest, voice_id=None) -> Path
-    recap.livescore        resolve_url(url, output_root=...) -> Path | dict
-    recap.scrape           same optional resolve_url / import_url / scrape_url
-
-TODO(elevenlabs): Culture-scripts worker fills ``recap.elevenlabs_tts``.
-TODO(livescore): Livescore-scrape worker fills URL → export. Until then we
-resolve against existing ``output/<id>_*/`` folders only.
+    recap.livescore        resolve_url(url, output_root=...) lookup only
+    recap.scrape           run_scrape(url=, html_path=) — WhoScored / saved HTML
 """
 
 from __future__ import annotations
@@ -31,7 +27,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from recap import audit as audit_mod
-from recap import batch, cast as cast_mod, culture, director, hooks, i18n, locale_meta, longform, script_culture, theme
+from recap import batch, cast as cast_mod, culture, director, hooks, i18n, locale_meta, longform, scrape as scrape_mod, script_culture, theme
 from recap.data import describe_match_dir, list_match_dirs, load_match, read_json, write_json
 
 import video_pipeline
@@ -63,12 +59,14 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "voice_name": "Liam Callahan - Witty Media Person",
     "voice_id": "",
     "kids": False,
+    "scrape_wait": 15,
 }
 
 _WHO_SCORED_ID = re.compile(r"/matches?/(\d{5,10})", re.I)
 _BARE_MATCH_ID = re.compile(r"^\d{5,10}$")
 _LOCK = threading.RLock()
 _PRODUCE_THREADS: dict[str, threading.Thread] = {}
+_SCRAPE_THREADS: dict[str, threading.Thread] = {}
 
 # Expected sibling callables (first match wins). CLI workers fill the modules.
 _TTS_FUNCS = ("synthesize", "synthesize_voiceover", "generate", "tts", "speak")
@@ -206,12 +204,13 @@ def capabilities() -> dict[str, Any]:
     tts_mod, tts_fn, tts_configured = tts_available()
     scrape_name, scrape_fn = scrape_resolver()
     eleven_live = bool(tts_fn) and tts_configured
+    scrape_live = scrape_mod.scrape_available()
     return {
         "elevenlabs": bool(tts_fn),
         "elevenlabs_configured": tts_configured,
         "elevenlabs_module": tts_mod is not None,
-        "scrape": scrape_fn is not None,
-        "scrape_module": scrape_name,
+        "scrape": scrape_live,
+        "scrape_module": "recap.scrape" if scrape_live else scrape_name,
         "gemini_key": bool(os.environ.get("GEMINI_API_KEY")),
         "wired": {
             "video_pipeline": True,
@@ -221,10 +220,11 @@ def capabilities() -> dict[str, Any]:
             "recap.director": True,
             "recap.i18n": True,
             "recap.elevenlabs_tts": bool(tts_fn),
+            "recap.scrape": scrape_live,
         },
         "stubbed": {
             "elevenlabs_tts": not eleven_live,
-            "livescore_scrape": scrape_fn is None,
+            "livescore_scrape": False,
         },
         "notes": {
             "elevenlabs_tts": (
@@ -236,8 +236,8 @@ def capabilities() -> dict[str, Any]:
                 )
             ),
             "livescore_scrape": (
-                f"live via {scrape_name}" if scrape_fn
-                else "TODO: recap.livescore.resolve_url(url) — matching local output/<id>_*/ only"
+                "Livescore is a pointer. Studio Scrape uses WhoScored (nodriver) "
+                "or a saved page-source HTML. No invented coordinates."
             ),
         },
     }
@@ -372,7 +372,7 @@ def resolve_match_dir(match_dir: str | Path) -> Path:
 
 
 def _try_sibling_scrape(url: str) -> Path | None:
-    """TODO(livescore): sibling fills recap.livescore.resolve_url — we only call it."""
+    """Lookup-only probe of ingest/resolve. Does not start a network scrape."""
     _name, fn = scrape_resolver()
     if fn is None:
         return None
@@ -392,14 +392,31 @@ def _try_sibling_scrape(url: str) -> Path | None:
     return None
 
 
+def _scrape_offer(url: str, match_id: str | None) -> dict[str, Any]:
+    classified = scrape_mod.classify_source(url)
+    return {
+        "can_scrape": bool(classified.get("can_scrape")) and scrape_mod.scrape_available(),
+        "scrape_url": classified.get("whoscored_url") or "",
+        "scrape_kind": classified.get("kind") or "",
+        "scrape_hint": classified.get("hint") or "",
+        "match_id": classified.get("match_id") or match_id,
+    }
+
+
 def resolve_source(url: str = "", match_dir: str = "") -> dict[str, Any]:
-    """Paste a WhoScored/Livescore URL or pick an existing export."""
+    """Paste a WhoScored/Livescore URL or pick an existing export.
+
+    Lookup only — never starts a scrape. When the folder is missing the
+    response sets ``needs_scrape`` and a WhoScored URL the UI can fire.
+    """
     url = (url or "").strip()
     match_dir = (match_dir or "").strip()
     path: Path | None = None
-    needs_scrape = False
-    stub = ""
     match_id = extract_match_id(url) if url else None
+    offer = _scrape_offer(url, match_id) if url else {
+        "can_scrape": False, "scrape_url": "", "scrape_kind": "", "scrape_hint": "",
+        "match_id": match_id,
+    }
 
     if match_dir:
         try:
@@ -414,19 +431,20 @@ def resolve_source(url: str = "", match_dir: str = "") -> dict[str, Any]:
         path = _try_sibling_scrape(url)
 
     if path is None and url:
-        needs_scrape = True
         stub = (
-            "TODO: recap.livescore.resolve_url / scrape_match.py — no local export "
-            f"for {match_id or url!r}. Pick a match-dir or wait for the scrape worker."
+            f"No local export for {offer['match_id'] or url!r}. "
+            "Use Scrape WhoScored (browser) or drop a saved page-source HTML. "
+            f"{offer['scrape_hint']}"
         )
         return {
             "ok": False,
             "needs_scrape": True,
             "stub": stub,
             "url": url,
-            "match_id": match_id,
+            "match_id": offer["match_id"],
             "match": None,
             "colors": None,
+            **offer,
         }
 
     if path is None:
@@ -438,6 +456,7 @@ def resolve_source(url: str = "", match_dir: str = "") -> dict[str, Any]:
             "match_id": match_id,
             "match": None,
             "colors": None,
+            **offer,
         }
 
     match = _match_payload(path)
@@ -445,12 +464,13 @@ def resolve_source(url: str = "", match_dir: str = "") -> dict[str, Any]:
     save_settings({"url": url, "match_dir": match["match_dir"]})
     return {
         "ok": True,
-        "needs_scrape": needs_scrape,
-        "stub": stub,
+        "needs_scrape": False,
+        "stub": "",
         "url": url,
         "match_id": match.get("match_id") or match_id,
         "match": match,
         "colors": colors,
+        **offer,
     }
 
 
@@ -495,6 +515,133 @@ def preview_colors(
         "surface": design.get("surface"),
         "text": design.get("text"),
     }
+
+
+# ---------------------------------------------------------------------------
+# scrape jobs (explicit — never auto-fired from resolve)
+# ---------------------------------------------------------------------------
+
+def _scrape_job_path(job_id: str) -> Path:
+    path = JOBS_DIR / f"scrape_{job_id}"
+    path.mkdir(parents=True, exist_ok=True)
+    return path / "job.json"
+
+
+def save_scrape_job(job: dict[str, Any]) -> dict[str, Any]:
+    with _LOCK:
+        write_json(_scrape_job_path(job["id"]), _jsonable(job))
+        return job
+
+
+def load_scrape_job(job_id: str) -> dict[str, Any]:
+    path = _scrape_job_path(job_id)
+    if not path.exists():
+        raise FileNotFoundError(f"Unknown scrape job {job_id}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def get_scrape_job(job_id: str) -> dict[str, Any]:
+    return load_scrape_job(job_id)
+
+
+def _run_scrape(job_id: str) -> None:
+    job = load_scrape_job(job_id)
+    log: list[str] = list(job.get("log") or [])
+
+    def say(text: str = "") -> None:
+        line = str(text)
+        log.append(line)
+        current = load_scrape_job(job_id)
+        current["log"] = log[-200:]
+        current["status"] = "running"
+        current["percent"] = min(90, int(current.get("percent") or 10) + 8)
+        current["stage"] = line[:80]
+        save_scrape_job(current)
+
+    try:
+        say("Starting WhoScored scrape…")
+        result = scrape_mod.run_scrape(
+            url=str(job.get("url") or ""),
+            html_path=str(job.get("html_path") or ""),
+            output_root=OUTPUT_ROOT,
+            wait=int(job.get("wait") or 15),
+            log=say,
+        )
+        path = Path(result["match_dir"])
+        match = _match_payload(path)
+        try:
+            colors = preview_colors(str(path))
+        except Exception:
+            colors = None
+        save_settings({"url": job.get("url") or "", "match_dir": match["match_dir"]})
+        current = load_scrape_job(job_id)
+        current.update({
+            "status": "done",
+            "percent": 100,
+            "stage": "done",
+            "ok": True,
+            "match_dir": match["match_dir"],
+            "match": match,
+            "colors": colors,
+            "match_id": result.get("match_id") or match.get("match_id"),
+            "source": result.get("source"),
+            "log": log[-200:],
+            "error": "",
+        })
+        save_scrape_job(current)
+    except Exception as exc:  # noqa: BLE001 — surface to the console
+        current = load_scrape_job(job_id)
+        current.update({
+            "status": "failed",
+            "percent": current.get("percent") or 0,
+            "stage": "failed",
+            "ok": False,
+            "error": f"{type(exc).__name__}: {exc}",
+            "log": log[-200:] + [traceback.format_exc(limit=6)],
+        })
+        save_scrape_job(current)
+
+
+def start_scrape(
+    *,
+    url: str = "",
+    html_path: str = "",
+    wait: int | None = None,
+) -> dict[str, Any]:
+    """Kick scrape_match.py in a thread. Poll get_scrape_job."""
+    url = (url or "").strip()
+    html_path = (html_path or "").strip()
+    classified = scrape_mod.classify_source(url, html_path)
+    if not classified.get("can_scrape") and classified.get("kind") != "html":
+        raise ValueError(classified.get("hint") or "Need a WhoScored URL, match id, or HTML file.")
+    seconds = int(wait if wait is not None else load_settings().get("scrape_wait") or 15)
+    seconds = max(8, min(seconds, 60))
+    job_id = uuid.uuid4().hex[:10]
+    job = {
+        "id": job_id,
+        "created_at": _now(),
+        "status": "queued",
+        "percent": 1,
+        "stage": "queued",
+        "ok": False,
+        "url": url,
+        "html_path": html_path,
+        "wait": seconds,
+        "whoscored_url": classified.get("whoscored_url") or "",
+        "match_id": classified.get("match_id"),
+        "kind": classified.get("kind"),
+        "match_dir": "",
+        "match": None,
+        "colors": None,
+        "log": [classified.get("hint") or "queued"],
+        "error": "",
+    }
+    save_scrape_job(job)
+    save_settings({"url": url, "scrape_wait": seconds})
+    thread = threading.Thread(target=_run_scrape, args=(job_id,), daemon=True, name=f"studio-scrape-{job_id}")
+    _SCRAPE_THREADS[job_id] = thread
+    thread.start()
+    return load_scrape_job(job_id)
 
 
 # ---------------------------------------------------------------------------

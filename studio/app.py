@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from fastapi import Body, FastAPI, HTTPException
+from fastapi import Body, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -58,6 +58,45 @@ def resolve(payload: dict = Body(default_factory=dict)) -> dict:
         url=str(payload.get("url") or ""),
         match_dir=str(payload.get("match_dir") or ""),
     )
+
+
+@app.post("/api/scrape")
+def scrape(payload: dict = Body(default_factory=dict)) -> dict:
+    try:
+        return studio_api.start_scrape(
+            url=str(payload.get("url") or payload.get("scrape_url") or ""),
+            html_path=str(payload.get("html_path") or ""),
+            wait=payload.get("wait"),
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(404, str(exc)) from exc
+
+
+@app.post("/api/scrape/html")
+async def scrape_html(
+    html_file: UploadFile = File(...),
+    url: str = Form(""),
+    wait: int = Form(15),
+) -> dict:
+    dest_dir = studio_api.JOBS_DIR / "uploads"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    name = Path(html_file.filename or "whoscored.html").name
+    dest = dest_dir / name
+    dest.write_bytes(await html_file.read())
+    try:
+        return studio_api.start_scrape(url=url, html_path=str(dest), wait=wait)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+
+@app.get("/api/scrape/{job_id}")
+def scrape_job(job_id: str) -> dict:
+    try:
+        return studio_api.get_scrape_job(job_id)
+    except FileNotFoundError as exc:
+        raise HTTPException(404, str(exc)) from exc
 
 
 @app.post("/api/preview-colors")

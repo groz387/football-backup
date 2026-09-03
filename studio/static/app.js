@@ -8,6 +8,7 @@ const state = {
   job: null,
   lang: null,
   poll: null,
+  scrapePoll: null,
 };
 
 async function api(path, opts) {
@@ -34,6 +35,9 @@ function formSettings() {
     url: $("url").value.trim(),
     match_dir: $("matchDir").value,
     languages: selectedLangs(),
+    scrape_url: ($("scrapeUrl") && $("scrapeUrl").value.trim()) || "",
+    html_path: ($("htmlPath") && $("htmlPath").value.trim()) || "",
+    scrape_wait: Number(($("scrapeWait") && $("scrapeWait").value) || 15),
     hook_claim: $("hookClaim").value.trim(),
     hook_punch: $("hookPunch").value.trim(),
     bait_text: $("bait").value.trim(),
@@ -195,20 +199,104 @@ function escapeHtml(value) {
 }
 function escapeAttr(value) { return escapeHtml(value); }
 
+function showScrapePanel(show, data) {
+  const panel = $("scrapePanel");
+  if (!panel) return;
+  panel.hidden = !show;
+  if (!show) return;
+  if (data && data.scrape_url && $("scrapeUrl") && !$("scrapeUrl").value) {
+    $("scrapeUrl").value = data.scrape_url;
+  }
+  if ($("scrapeHint")) {
+    $("scrapeHint").textContent = (data && (data.scrape_hint || data.stub))
+      || "No local export. Scrape WhoScored or import a saved page-source HTML.";
+  }
+}
+
+function paintScrape(job) {
+  if (!job) return;
+  showScrapePanel(true, job);
+  if ($("scrapeBar")) $("scrapeBar").style.width = `${job.percent || 0}%`;
+  if ($("scrapeStage")) {
+    $("scrapeStage").textContent = `${job.status || ""} · ${job.stage || ""} ${job.error ? "· " + job.error : ""}`;
+  }
+  if ($("scrapeLog")) {
+    $("scrapeLog").hidden = !(job.log && job.log.length);
+    $("scrapeLog").textContent = (job.log || []).slice(-30).join("\n");
+  }
+}
+
+async function refreshMatches(selected) {
+  const data = await api("/api/matches");
+  state.matches = data.matches || [];
+  paintMatches(state.matches, selected || $("matchDir").value);
+}
+
 async function loadMatch() {
   $("resolveHint").textContent = "Resolving…";
   try {
     const data = await api("/api/resolve", { method: "POST", body: formSettings() });
     if (!data.ok) {
       $("resolveHint").textContent = data.stub || "Could not resolve that source.";
+      showScrapePanel(Boolean(data.needs_scrape || data.can_scrape), data);
       return;
     }
+    showScrapePanel(false);
     applyMatch(data.match);
     applyColors(data.colors);
     $("resolveHint").textContent = data.match.label;
     await persist();
   } catch (err) {
     $("resolveHint").textContent = err.message;
+    showScrapePanel(true);
+  }
+}
+
+async function scrapeMatch() {
+  const s = formSettings();
+  const url = s.scrape_url || s.url;
+  const htmlPath = s.html_path;
+  const file = $("htmlFile") && $("htmlFile").files && $("htmlFile").files[0];
+  $("resolveHint").textContent = "Starting scrape…";
+  showScrapePanel(true, { scrape_url: url, scrape_hint: "Scraping WhoScored…" });
+  try {
+    let job;
+    if (file) {
+      const body = new FormData();
+      body.append("html_file", file);
+      body.append("url", url || "");
+      body.append("wait", String(s.scrape_wait || 15));
+      const res = await fetch("/api/scrape/html", { method: "POST", body });
+      job = await res.json();
+      if (!res.ok) throw new Error(job.detail || job.message || res.statusText);
+    } else {
+      job = await api("/api/scrape", {
+        method: "POST",
+        body: { url, html_path: htmlPath, wait: s.scrape_wait },
+      });
+    }
+    paintScrape(job);
+    state.scrapePoll = setInterval(async () => {
+      const next = await api(`/api/scrape/${job.id}`);
+      paintScrape(next);
+      if (next.status === "done") {
+        clearInterval(state.scrapePoll);
+        state.scrapePoll = null;
+        await refreshMatches(next.match_dir);
+        if (next.match) {
+          applyMatch(next.match);
+          applyColors(next.colors);
+          $("resolveHint").textContent = `Scraped ${next.match.label}`;
+        }
+      } else if (next.status === "failed") {
+        clearInterval(state.scrapePoll);
+        state.scrapePoll = null;
+        $("resolveHint").textContent = next.error || "Scrape failed.";
+      }
+    }, 1200);
+  } catch (err) {
+    $("resolveHint").textContent = err.message;
+    showScrapePanel(true);
   }
 }
 
@@ -308,6 +396,7 @@ async function boot() {
   $("spoiler").value = state.settings.spoiler || "show";
   if ($("elevenStyle")) $("elevenStyle").value = state.settings.eleven_style || "robust";
   if ($("kids")) $("kids").checked = Boolean(state.settings.kids);
+  if ($("scrapeWait")) $("scrapeWait").value = state.settings.scrape_wait || 15;
   const colors = state.settings.colors || [];
   $("colorHome").value = colors[0] || "";
   $("colorAway").value = colors[1] || "";
@@ -326,6 +415,7 @@ async function boot() {
 }
 
 $("btnResolve").addEventListener("click", loadMatch);
+$("btnScrape").addEventListener("click", scrapeMatch);
 $("btnColors").addEventListener("click", previewColors);
 $("btnDraft").addEventListener("click", draft);
 $("btnEdit").addEventListener("click", saveEdits);
@@ -334,7 +424,7 @@ $("btnRegen").addEventListener("click", regenVoice);
 $("btnApproveVoice").addEventListener("click", approveVoice);
 $("btnPlan").addEventListener("click", () => produce("plan"));
 $("btnProduce").addEventListener("click", () => produce("full"));
-["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway", "elevenStyle", "kids"]
+["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway", "elevenStyle", "kids", "scrapeWait", "scrapeUrl", "htmlPath"]
   .forEach((id) => $(id) && $(id).addEventListener("change", persist));
 $("matchDir").addEventListener("change", loadMatch);
 

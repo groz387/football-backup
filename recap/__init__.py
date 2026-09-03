@@ -29,6 +29,7 @@ Layers, from the bottom up:
     colors    club/national kits, Barça burgundy/gold, home/away clash swap
     resolve_match  typed Livescore fixture + adapter protocol (never invents x/y)
     livescore  studio probe: resolve_url → ingest.resolve
+    scrape    WhoScored live / saved-HTML scrape (studio Scrape button)
     studio_api  thin HTTP helpers for the local studio console (no second brain)
 
 Nothing in a lower layer imports from a higher one.
@@ -65,6 +66,7 @@ __all__ = [
     "retention",
     "resolve_match",
     "safe_zones",
+    "scrape",
     "scenes",
     "script_culture",
     "studio_api",

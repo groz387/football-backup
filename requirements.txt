@@ -16,3 +16,4 @@ python-bidi
 yt-dlp
 fastapi
 uvicorn
+python-multipart

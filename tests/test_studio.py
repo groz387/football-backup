@@ -48,11 +48,45 @@ class StudioApiTests(unittest.TestCase):
         self.assertIn("Barcelona", result["match"]["home"])
         self.assertFalse(result["needs_scrape"])
 
-    def test_resolve_unknown_url_is_stubbed_not_scraped(self):
-        result = studio_api.resolve_source(url="https://www.livescore.com/en/football/match/9999999")
+    def test_resolve_unknown_url_offers_scrape(self):
+        result = studio_api.resolve_source(url="https://www.livescore.com/en/football/match/1821295")
         self.assertFalse(result["ok"])
         self.assertTrue(result["needs_scrape"])
-        self.assertIn("TODO", result["stub"])
+        self.assertTrue(result["can_scrape"])
+        self.assertEqual(result["match_id"], "1821295")
+        self.assertIn("1821295", result["scrape_url"])
+        self.assertIn("whoscored.com", result["scrape_url"])
+        self.assertNotIn("TODO", result["stub"])
+        self.assertIn("Scrape", result["stub"])
+
+    def test_resolve_bare_id_offers_scrape(self):
+        result = studio_api.resolve_source(url="1821295")
+        self.assertFalse(result["ok"])
+        self.assertTrue(result["needs_scrape"])
+        self.assertTrue(result["can_scrape"])
+        self.assertEqual(result["scrape_url"], "https://www.whoscored.com/matches/1821295/live")
+
+    def test_scrape_mocked_creates_job_and_selects_export(self):
+        def fake_run(**kwargs):
+            self.assertIn("1821295", kwargs.get("url") or "")
+            return {
+                "ok": True,
+                "match_dir": str(SCOTLAND),
+                "match_id": "1953861",
+                "source": "whoscored",
+                "kind": "match_id",
+            }
+
+        with mock.patch("recap.studio_api.scrape_mod.run_scrape", fake_run):
+            job = studio_api.start_scrape(url="1821295", wait=12)
+            for _ in range(40):
+                job = studio_api.get_scrape_job(job["id"])
+                if job["status"] in ("done", "failed"):
+                    break
+                time.sleep(0.05)
+        self.assertEqual(job["status"], "done", job.get("error"))
+        self.assertTrue(job["ok"])
+        self.assertIn("Scotland", job["match"]["home"])
 
     def test_resolve_match_dir(self):
         result = studio_api.resolve_source(match_dir=str(SCOTLAND))
@@ -156,6 +190,7 @@ class StudioHttpTests(unittest.TestCase):
         page = self.client.get("/")
         self.assertEqual(page.status_code, 200)
         self.assertIn("Recap Studio", page.text)
+        self.assertIn("Scrape WhoScored", page.text)
         css = self.client.get("/static/styles.css")
         self.assertEqual(css.status_code, 200)
 
@@ -195,6 +230,37 @@ class StudioHttpTests(unittest.TestCase):
                 parse_launch_args(["--help"])
         self.assertEqual(raised.exception.code, 0)
         self.assertIn("localhost", buf.getvalue().lower())
+
+    def test_scrape_http_mocked(self):
+        def fake_run(**kwargs):
+            return {
+                "ok": True,
+                "match_dir": str(SCOTLAND),
+                "match_id": "1953861",
+                "source": "whoscored",
+                "kind": "whoscored",
+            }
+
+        with mock.patch("recap.studio_api.scrape_mod.run_scrape", fake_run):
+            posted = self.client.post("/api/scrape", json={"url": "1821295", "wait": 12})
+            self.assertEqual(posted.status_code, 200, posted.text)
+            job_id = posted.json()["id"]
+            body = None
+            for _ in range(40):
+                body = self.client.get(f"/api/scrape/{job_id}").json()
+                if body["status"] in ("done", "failed"):
+                    break
+                time.sleep(0.05)
+        self.assertEqual(body["status"], "done", body.get("error"))
+        self.assertTrue(body["ok"])
+
+    def test_resolve_missing_id_http_offers_scrape(self):
+        resolved = self.client.post("/api/resolve", json={"url": "1821295"})
+        self.assertEqual(resolved.status_code, 200)
+        body = resolved.json()
+        self.assertFalse(body["ok"])
+        self.assertTrue(body["needs_scrape"])
+        self.assertTrue(body["can_scrape"])
 
 
 if __name__ == "__main__":
