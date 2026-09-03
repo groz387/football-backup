@@ -121,19 +121,16 @@ def classify_source(url: str = "", html_path: str = "") -> dict[str, Any]:
             "hint": f"Will scrape https://www.whoscored.com/matches/{raw}/live",
         }
     if "livescore.com" in host:
-        ws = whoscored_live_url(match_id) if match_id else ""
         return {
             "kind": "livescore",
             "match_id": match_id,
-            "whoscored_url": ws,
+            "whoscored_url": "",
             "html_path": "",
-            "can_scrape": bool(match_id),
+            "can_scrape": True,
             "hint": (
-                f"Livescore has no chalkboard. If {match_id} is the WhoScored id, "
-                f"scrape {ws}. Otherwise paste the WhoScored /matches/<id>/live URL "
-                "or a saved page-source HTML."
-                if match_id
-                else "Livescore has no chalkboard. Paste the WhoScored live URL or a saved HTML file."
+                "Livescore ids are not WhoScored ids. The source chain will search "
+                "WhoScored by teams/date, verify a full chalkboard, then try "
+                "Flashscore if WhoScored is missing or limited."
             ),
         }
     if match_id:

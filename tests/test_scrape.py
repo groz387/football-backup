@@ -23,17 +23,18 @@ class ClassifyTests(unittest.TestCase):
         self.assertEqual(info["match_id"], "1993920")
         self.assertTrue(info["can_scrape"])
 
-    def test_livescore_with_id_still_needs_whoscored(self):
+    def test_livescore_id_is_not_treated_as_whoscored_id(self):
         info = scrape.classify_source("https://www.livescore.com/en/football/spain/laliga/foo-vs-bar/1821295")
         self.assertEqual(info["kind"], "livescore")
         self.assertTrue(info["can_scrape"])
-        self.assertIn("1821295", info["whoscored_url"])
+        self.assertEqual(info["whoscored_url"], "")
         self.assertIn("chalkboard", info["hint"].lower())
 
-    def test_livescore_without_id_cannot_guess(self):
+    def test_livescore_without_id_uses_search_chain(self):
         info = scrape.classify_source("https://www.livescore.com/en/football/spain/laliga/barcelona-vs-elche/")
         self.assertEqual(info["kind"], "livescore")
-        self.assertFalse(info["can_scrape"])
+        self.assertTrue(info["can_scrape"])
+        self.assertIn("Flashscore", info["hint"])
 
     def test_html_file(self):
         tmp = Path(tempfile.mkdtemp()) / "1821295_source.html"
