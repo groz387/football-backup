@@ -26,6 +26,9 @@ Layers, from the bottom up:
     script_culture  tagged ElevenLabs v3 voiceover text + Gemini culture brief
     elevenlabs_tts  Liam Callahan / eleven_v3 TTS (approve / regenerate)
     ingest    Livescore URL parse + WhoScored health + stub fallbacks
+    colors    club/national kits, Barça burgundy/gold, home/away clash swap
+    resolve_match  typed Livescore fixture + adapter protocol (never invents x/y)
+    livescore  studio probe: resolve_url → ingest.resolve
     studio_api  thin HTTP helpers for the local studio console (no second brain)
 
 Nothing in a lower layer imports from a higher one.
@@ -39,6 +42,7 @@ __all__ = [
     "batch",
     "cast",
     "clips",
+    "colors",
     "config",
     "culture",
     "data",
@@ -52,12 +56,14 @@ __all__ = [
     "hooks",
     "i18n",
     "ingest",
+    "livescore",
     "locale_meta",
     "logos",
     "longform",
     "music_beds",
     "platforms",
     "retention",
+    "resolve_match",
     "safe_zones",
     "scenes",
     "script_culture",
