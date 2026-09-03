@@ -27,6 +27,11 @@ def health() -> dict:
     return {"ok": True, "app": "studio"}
 
 
+@app.get("/api/elevenlabs/health")
+def elevenlabs_health() -> dict:
+    return studio_api.elevenlabs_health()
+
+
 @app.get("/api/bootstrap")
 def bootstrap() -> dict:
     return studio_api.bootstrap()
@@ -168,7 +173,8 @@ def voice_audio(job_id: str, language: str) -> FileResponse:
         path = studio_api.voice_file(job_id, language)
     except FileNotFoundError as exc:
         raise HTTPException(404, str(exc)) from exc
-    return FileResponse(path, media_type="audio/wav", filename=path.name)
+    media_type = "audio/mpeg" if path.suffix.lower() == ".mp3" else "audio/wav"
+    return FileResponse(path, media_type=media_type, filename=path.name)
 
 
 @app.post("/api/jobs/{job_id}/produce")

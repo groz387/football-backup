@@ -54,8 +54,10 @@ class StudioApiTests(unittest.TestCase):
         self.assertTrue(result["needs_scrape"])
         self.assertTrue(result["can_scrape"])
         self.assertEqual(result["match_id"], "1821295")
-        self.assertIn("1821295", result["scrape_url"])
-        self.assertIn("whoscored.com", result["scrape_url"])
+        self.assertEqual(result["scrape_url"], "")
+        self.assertEqual(result["scrape_kind"], "livescore")
+        self.assertIn("WhoScored", result["scrape_hint"])
+        self.assertIn("Flashscore", result["scrape_hint"])
         self.assertNotIn("TODO", result["stub"])
         self.assertIn("Scrape", result["stub"])
 
@@ -149,9 +151,11 @@ class StudioApiTests(unittest.TestCase):
         job = studio_api.regenerate_voice(job["id"], "en")
         voice = job["packs"]["en"]
         self.assertTrue(voice["voice_stub"])
-        self.assertTrue(Path(voice["voice_path"]).exists())
+        self.assertEqual(voice["voice_status"], "unavailable")
+        self.assertFalse(voice["voice_path"])
+        self.assertIn("API_KEY", voice["voice_note"])
         job = studio_api.approve_voice(job["id"], "en")
-        self.assertEqual(job["packs"]["en"]["voice_status"], "approved")
+        self.assertEqual(job["packs"]["en"]["voice_status"], "unavailable")
 
     def test_produce_plan_uses_cli_batch(self):
         if not (SCOTLAND / "match_summary.json").exists():
@@ -190,7 +194,7 @@ class StudioHttpTests(unittest.TestCase):
         page = self.client.get("/")
         self.assertEqual(page.status_code, 200)
         self.assertIn("Recap Studio", page.text)
-        self.assertIn("Scrape WhoScored", page.text)
+        self.assertIn("Find + scrape sources", page.text)
         css = self.client.get("/static/styles.css")
         self.assertEqual(css.status_code, 200)
 

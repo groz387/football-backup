@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Recap Studio</title>
   <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="stylesheet" href="/static/win95.css" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -46,7 +47,7 @@
       </label>
       <div class="row">
         <button type="button" class="primary" id="btnResolve">Load match</button>
-        <button type="button" class="ghost" id="btnScrape">Scrape WhoScored</button>
+        <button type="button" class="ghost" id="btnScrape">Find + scrape sources</button>
         <label class="inline">Team
           <select id="team">
             <option value="club">club</option>
@@ -62,7 +63,7 @@
         </label>
       </div>
       <div id="scrapePanel" class="scrape-panel" hidden>
-        <p class="hint" id="scrapeHint">No local export. Scrape WhoScored (opens Chrome via nodriver) or import a saved page-source HTML.</p>
+        <p class="hint" id="scrapeHint">No local export. Livescore starts WhoScored search → full-data check → Flashscore fallback. Direct WhoScored opens Chrome via nodriver.</p>
         <label>WhoScored live URL (if Livescore id is not the WhoScored id)
           <input id="scrapeUrl" type="text" placeholder="https://www.whoscored.com/matches/1821295/live" />
         </label>
@@ -82,6 +83,7 @@
           <p id="scrapeStage"></p>
         </div>
         <pre id="scrapeLog" class="log" hidden></pre>
+        <div id="sourceSteps"></div>
       </div>
       <p class="hint" id="resolveHint"></p>
     </section>
@@ -129,6 +131,39 @@
         <button type="button" class="ghost" id="btnColors">Preview colours</button>
         <button type="button" class="primary" id="btnDraft">Draft scripts</button>
       </div>
+      <fieldset class="win95-group">
+        <legend>Generator settings</legend>
+        <div class="settings-grid">
+          <label>Gemini
+            <span><input id="useGemini" type="checkbox" /> culture rewrite</span>
+          </label>
+          <label>Gemini model
+            <input id="geminiModel" placeholder="gemini-2.5-flash" />
+          </label>
+          <label>Star
+            <input id="star" placeholder="auto / off / player" />
+          </label>
+          <label>Platforms
+            <input id="platforms" placeholder="tiktok,reels,shorts" />
+          </label>
+          <label>Series ID
+            <input id="seriesId" placeholder="barca-26-27" />
+          </label>
+          <label>ElevenLabs voice ID
+            <input id="elevenVoice" placeholder="auto by Liam name" />
+          </label>
+          <label>ElevenLabs model
+            <input id="elevenModel" placeholder="eleven_v3" />
+          </label>
+          <label>Gemini instruction
+            <input id="instruction" placeholder="optional editorial note" />
+          </label>
+        </div>
+        <div class="row">
+          <button type="button" id="btnElevenHealth">Check ElevenLabs credits</button>
+          <span class="hint" id="elevenHealth">Not checked.</span>
+        </div>
+      </fieldset>
     </section>
 
     <section class="card wide" id="reviewCard">
@@ -144,6 +179,7 @@
           <span class="pill" id="growthPill">growth —</span>
         </div>
         <p class="hint" id="bookendReview"></p>
+        <p class="translation-note" id="translationReview"></p>
         <div class="scenes" id="scenes"></div>
         <div class="row">
           <button type="button" class="ghost" id="btnEdit">Save edits</button>
@@ -172,6 +208,12 @@
       <div id="prodResults"></div>
     </section>
   </main>
+
+  <footer class="taskbar">
+    <button type="button" class="start-button"><span class="start-flag"></span>Start</button>
+    <span class="task-app">Recap Studio — Video Farm</span>
+    <span class="tray" id="clock">00:00</span>
+  </footer>
 
   <script src="/static/app.js"></script>
 </body>

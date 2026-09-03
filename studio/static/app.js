@@ -47,6 +47,14 @@ function formSettings() {
     spoiler: $("spoiler").value,
     eleven_style: ($("elevenStyle") && $("elevenStyle").value) || "robust",
     kids: Boolean($("kids") && $("kids").checked),
+    use_gemini: Boolean($("useGemini") && $("useGemini").checked),
+    gemini_model: ($("geminiModel") && $("geminiModel").value.trim()) || "",
+    star: ($("star") && $("star").value.trim()) || "auto",
+    platforms: ($("platforms") && $("platforms").value.trim()) || "tiktok,reels,shorts",
+    series_id: ($("seriesId") && $("seriesId").value.trim()) || "",
+    voice_id: ($("elevenVoice") && $("elevenVoice").value.trim()) || "",
+    eleven_model: ($("elevenModel") && $("elevenModel").value.trim()) || "eleven_v3",
+    instruction: ($("instruction") && $("instruction").value.trim()) || "",
   };
 }
 
@@ -154,6 +162,17 @@ function paintReview() {
   if ($("bookendReview")) {
     $("bookendReview").textContent = `HOOK: ${pack.hook_claim || "—"}   ·   BAIT: ${pack.bait || "—"}`;
   }
+  if ($("translationReview")) {
+    const copy = pack.operator_copy || {};
+    const hooks = copy.hooks || [];
+    const source = hooks[0]?.source_language || copy.bait?.source_language || "—";
+    const methods = [...new Set([
+      ...hooks.map((row) => row.method),
+      copy.bait?.method,
+    ].filter(Boolean))];
+    $("translationReview").textContent =
+      `Operator copy: detected ${source} → ${pack.language}; ${methods.join(", ") || "director default"}.`;
+  }
   $("scenes").innerHTML = (pack.scenes || []).map((scene) => `
     <article class="scene" data-id="${scene.id}">
       <header><span>${scene.visualization}</span><span>${scene.hook ? "hook" : ""}</span></header>
@@ -174,6 +193,18 @@ function paintReview() {
 
 function paintProduce(job) {
   const prod = (job && job.production) || { status: "idle", percent: 0, log: [], stage: "idle" };
+  const packs = (job && job.packs) || {};
+  const blockers = [];
+  Object.entries(packs).forEach(([code, pack]) => {
+    if (pack.script_status !== "approved") blockers.push(`${code} script`);
+    if (pack.voice_status !== "approved") blockers.push(`${code} voice`);
+  });
+  if ($("btnProduce")) {
+    $("btnProduce").disabled = blockers.length > 0 || prod.status === "running";
+    $("btnProduce").title = blockers.length
+      ? `Approve before production: ${blockers.join(", ")}`
+      : "Render all approved language packages";
+  }
   $("barFill").style.width = `${prod.percent || 0}%`;
   $("prodStage").textContent = `${prod.status || "idle"} · ${prod.stage || ""} ${prod.error ? "· " + prod.error : ""}`;
   $("prodLog").textContent = (prod.log || []).slice(-40).join("\n");
@@ -223,6 +254,11 @@ function paintScrape(job) {
   if ($("scrapeLog")) {
     $("scrapeLog").hidden = !(job.log && job.log.length);
     $("scrapeLog").textContent = (job.log || []).slice(-30).join("\n");
+  }
+  if ($("sourceSteps")) {
+    $("sourceSteps").innerHTML = (job.steps || []).map((step) =>
+      `<p class="hint"><b>${escapeHtml(step.name || "step")}</b> — ${escapeHtml(step.status || "")}: ${escapeHtml(step.detail || "")}</p>`
+    ).join("");
   }
 }
 
@@ -366,6 +402,26 @@ async function approveVoice() {
   paintReview();
 }
 
+async function checkElevenHealth() {
+  const node = $("elevenHealth");
+  node.textContent = "Checking account…";
+  try {
+    const health = await api("/api/elevenlabs/health");
+    if (health.ok) {
+      const remaining = health.remaining == null ? "unknown" : Number(health.remaining).toLocaleString();
+      const limit = health.character_limit ? Number(health.character_limit).toLocaleString() : "unknown";
+      node.textContent = `${health.tier || "account"} · ${remaining} / ${limit} characters left · ${health.model || "model auto"}`;
+      node.classList.remove("error");
+    } else {
+      node.textContent = health.message || "ElevenLabs account check failed.";
+      node.classList.add("error");
+    }
+  } catch (err) {
+    node.textContent = err.message;
+    node.classList.add("error");
+  }
+}
+
 async function produce(mode) {
   if (!state.job) {
     $("prodStage").textContent = "Draft scripts first.";
@@ -397,6 +453,14 @@ async function boot() {
   if ($("elevenStyle")) $("elevenStyle").value = state.settings.eleven_style || "robust";
   if ($("kids")) $("kids").checked = Boolean(state.settings.kids);
   if ($("scrapeWait")) $("scrapeWait").value = state.settings.scrape_wait || 15;
+  if ($("useGemini")) $("useGemini").checked = Boolean(state.settings.use_gemini);
+  if ($("geminiModel")) $("geminiModel").value = state.settings.gemini_model || "";
+  if ($("star")) $("star").value = state.settings.star || "auto";
+  if ($("platforms")) $("platforms").value = state.settings.platforms || "tiktok,reels,shorts";
+  if ($("seriesId")) $("seriesId").value = state.settings.series_id || "";
+  if ($("elevenVoice")) $("elevenVoice").value = state.settings.voice_id || "";
+  if ($("elevenModel")) $("elevenModel").value = state.settings.eleven_model || "eleven_v3";
+  if ($("instruction")) $("instruction").value = state.settings.instruction || "";
   const colors = state.settings.colors || [];
   $("colorHome").value = colors[0] || "";
   $("colorAway").value = colors[1] || "";
@@ -422,10 +486,16 @@ $("btnEdit").addEventListener("click", saveEdits);
 $("btnApproveScript").addEventListener("click", approveScript);
 $("btnRegen").addEventListener("click", regenVoice);
 $("btnApproveVoice").addEventListener("click", approveVoice);
+$("btnElevenHealth").addEventListener("click", checkElevenHealth);
 $("btnPlan").addEventListener("click", () => produce("plan"));
 $("btnProduce").addEventListener("click", () => produce("full"));
-["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway", "elevenStyle", "kids", "scrapeWait", "scrapeUrl", "htmlPath"]
+["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway", "elevenStyle", "kids", "scrapeWait", "scrapeUrl", "htmlPath", "useGemini", "geminiModel", "star", "platforms", "seriesId", "elevenVoice", "elevenModel", "instruction"]
   .forEach((id) => $(id) && $(id).addEventListener("change", persist));
 $("matchDir").addEventListener("change", loadMatch);
 
 boot().catch((err) => { $("resolveHint").textContent = err.message; });
+
+setInterval(() => {
+  const now = new Date();
+  $("clock").textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}, 1000);

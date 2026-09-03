@@ -28,7 +28,7 @@ except Exception:
     pass
 
 from recap import ab_hooks, audit as audit_mod
-from recap import approvals, audio, batch, cast as cast_mod, clips, culture, director, farm, hooks, i18n, locale_meta, logos, longform, script_culture, theme, timing, video, voice, viral_audit
+from recap import approvals, audio, batch, cast as cast_mod, clips, culture, director, farm, hook_i18n, hooks, i18n, locale_meta, logos, longform, script_culture, theme, timing, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -395,10 +395,27 @@ def run(args: argparse.Namespace) -> Path:
             pass
         say(script_preview(scene_list))
 
+    operator_copy = hook_i18n.localize_operator_copy(
+        list(getattr(args, "hook_text", None) or []),
+        str(getattr(args, "bait_text", "") or ""),
+        language,
+        bundle=bundle,
+        audit=audit,
+        gemini=gemini,
+    )
     scene_list = hooks.apply_cli_copy(
         scene_list,
-        hook_texts=list(getattr(args, "hook_text", None) or []),
-        bait_text=str(getattr(args, "bait_text", "") or ""),
+        hook_texts=operator_copy["hook_texts"],
+        bait_text=operator_copy["bait_text"],
+        source_language=(
+            operator_copy["hooks"][0]["source_language"]
+            if operator_copy["hooks"] else operator_copy["bait"]["source_language"]
+        ),
+        target_language=language,
+        translation_method=(
+            operator_copy["hooks"][0]["method"]
+            if operator_copy["hooks"] else operator_copy["bait"]["method"]
+        ),
     )
     if args.interactive and not args.auto:
         scene_list = interactive_copy_picker(
@@ -409,8 +426,8 @@ def run(args: argparse.Namespace) -> Path:
         scene_list, bundle, audit, language,
         spoiler=str(spoiler or "show"),
         kids=kids,
-        hook_text=(list(getattr(args, "hook_text", None) or []) or [None])[0],
-        bait_text=str(getattr(args, "bait_text", "") or "") or None,
+        hook_text=(operator_copy["hook_texts"] or [None])[0],
+        bait_text=operator_copy["bait_text"] or None,
     )
     scene_list = director.drop_empty_visualizations(scene_list, bundle, audit)
     review = culture.script_review(scene_list, language)
@@ -880,10 +897,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     match.add_argument("--match-dir", help="Finished export directory under output/ (not a scrape)")
     match.add_argument(
         "--livescore-url", default="", metavar="URL",
-        help="Livescore.com match URL. Parses teams/date/comp, health-checks a local "
-             "WhoScored export (full events + precise x/y), then Sofascore/FotMob/"
-             "Understat-or-official adapters. Never invents coordinates. "
+        help="Livescore.com match URL. Finds and visibly scrapes WhoScored, verifies "
+             "full events + precise x/y, then tries Flashscore when needed. "
+             "Never invents coordinates. "
              "Ignored when --match-dir is set.",
+    )
+    match.add_argument(
+        "--spawn-scrapers", action=argparse.BooleanOptionalAction, default=True,
+        help="For --livescore-url, open visible scraper consoles when no local export exists.",
+    )
+    match.add_argument(
+        "--source-timeout", type=int, default=300, metavar="SECONDS",
+        help="How long to wait for each visible source scraper to produce an export.",
     )
     match.add_argument("--scrape-output-root", default="output",
                        help="Where existing scraper exports live (this command does not scrape)")
@@ -1150,12 +1175,21 @@ def apply_livescore_url(args: argparse.Namespace) -> argparse.Namespace:
         output_root=getattr(args, "scrape_output_root", "output") or "output",
     )
     if not resolved.get("ok") or not resolved.get("match_dir"):
-        fixture = resolved.get("fixture") or {}
-        hint = resolved.get("drop_hint") or ""
-        raise SystemExit(
-            f"Livescore fixture {fixture.get('home')} vs {fixture.get('away')} "
-            f"has no local export.\n  {hint}"
+        from recap.source_chain import resolve_chain
+        say("  no local export — starting WhoScored → Flashscore source chain")
+        resolved = resolve_chain(
+            url,
+            output_root=getattr(args, "scrape_output_root", "output") or "output",
+            timeout=max(30, int(getattr(args, "source_timeout", 300) or 300)),
+            allow_spawn=bool(getattr(args, "spawn_scrapers", True)),
+            on_log=lambda line: say(f"  [source] {line}"),
         )
+        if not resolved.get("ok") or not resolved.get("match_dir"):
+            fixture = resolved.get("fixture") or {}
+            raise SystemExit(
+                f"Livescore fixture {fixture.get('home')} vs {fixture.get('away')} "
+                f"could not be resolved.\n  {resolved.get('message') or 'No source export.'}"
+            )
     args.match_dir = resolved["match_dir"]
     args._ingest = resolved
     health = resolved.get("health") or {}

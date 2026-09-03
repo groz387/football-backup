@@ -27,7 +27,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from recap import audit as audit_mod
-from recap import batch, cast as cast_mod, culture, director, hooks, i18n, locale_meta, longform, scrape as scrape_mod, script_culture, theme
+from recap import batch, cast as cast_mod, culture, director, hook_i18n, hooks, i18n, locale_meta, longform, scrape as scrape_mod, script_culture, source_chain, theme
 from recap.data import describe_match_dir, list_match_dirs, load_match, read_json, write_json
 
 import video_pipeline
@@ -55,9 +55,12 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "series_id": "",
     "instruction": "",
     "use_gemini": False,
+    "gemini_model": "",
+    "gemini_script_model": "",
     "eleven_style": "robust",
     "voice_name": "Liam Callahan - Witty Media Person",
     "voice_id": "",
+    "eleven_model": "eleven_v3",
     "kids": False,
     "scrape_wait": 15,
 }
@@ -189,6 +192,28 @@ def tts_available() -> tuple[Any | None, Callable | None, bool]:
     elif fn is not None:
         configured = True
     return mod, fn, configured
+
+
+def elevenlabs_health() -> dict[str, Any]:
+    """Safe, on-demand subscription check for the settings/status window."""
+    mod = tts_module()
+    checker = getattr(mod, "check_account", None) if mod is not None else None
+    if not callable(checker):
+        return {
+            "ok": False, "code": "module_unavailable",
+            "message": "ElevenLabs client is unavailable.",
+        }
+    try:
+        result = checker()
+        return result if isinstance(result, dict) else {"ok": False, "message": str(result)}
+    except Exception as exc:  # noqa: BLE001
+        details = exc.as_dict() if callable(getattr(exc, "as_dict", None)) else {}
+        return {
+            "ok": False,
+            "code": details.get("code") or type(exc).__name__,
+            "message": details.get("message") or str(exc),
+            "http": details.get("http"),
+        }
 
 
 def scrape_resolver() -> tuple[str | None, Callable | None]:
@@ -560,13 +585,24 @@ def _run_scrape(job_id: str) -> None:
 
     try:
         say("Starting WhoScored scrape…")
-        result = scrape_mod.run_scrape(
-            url=str(job.get("url") or ""),
-            html_path=str(job.get("html_path") or ""),
-            output_root=OUTPUT_ROOT,
-            wait=int(job.get("wait") or 15),
-            log=say,
-        )
+        if job.get("kind") == "livescore" and not job.get("html_path"):
+            result = source_chain.resolve_chain(
+                str(job.get("url") or ""),
+                output_root=OUTPUT_ROOT,
+                wait=int(job.get("wait") or 15),
+                allow_spawn=True,
+                on_log=say,
+            )
+            if not result.get("ok") or not result.get("match_dir"):
+                raise FileNotFoundError(result.get("message") or "No source returned an export.")
+        else:
+            result = scrape_mod.run_scrape(
+                url=str(job.get("url") or ""),
+                html_path=str(job.get("html_path") or ""),
+                output_root=OUTPUT_ROOT,
+                wait=int(job.get("wait") or 15),
+                log=say,
+            )
         path = Path(result["match_dir"])
         match = _match_payload(path)
         try:
@@ -585,6 +621,7 @@ def _run_scrape(job_id: str) -> None:
             "colors": colors,
             "match_id": result.get("match_id") or match.get("match_id"),
             "source": result.get("source"),
+            "steps": result.get("steps") or [],
             "log": log[-200:],
             "error": "",
         })
@@ -703,6 +740,10 @@ def _cli_args(settings: dict[str, Any], match_dir: str, languages: list[str], ex
     argv += ["--spoiler", settings.get("spoiler") or "show"]
     argv += ["--star", settings.get("star") or "auto"]
     argv += ["--eleven-style", str(settings.get("eleven_style") or "robust")]
+    if settings.get("voice_id"):
+        argv += ["--eleven-voice", str(settings["voice_id"])]
+    if settings.get("eleven_model"):
+        argv += ["--eleven-model", str(settings["eleven_model"])]
     if languages:
         argv += ["--languages", ",".join(languages)]
     colors = [c for c in (settings.get("colors") or []) if c]
@@ -714,6 +755,10 @@ def _cli_args(settings: dict[str, Any], match_dir: str, languages: list[str], ex
         argv += ["--bait-text", str(settings["bait_text"])]
     if settings.get("instruction"):
         argv += ["--instruction", str(settings["instruction"])]
+    if settings.get("gemini_model"):
+        argv += ["--model", str(settings["gemini_model"])]
+    if settings.get("gemini_script_model"):
+        argv += ["--script-model", str(settings["gemini_script_model"])]
     if settings.get("platforms"):
         argv += ["--platforms", str(settings["platforms"])]
     if settings.get("series_id"):
@@ -737,6 +782,12 @@ def _draft_language(
     settings: dict[str, Any],
 ) -> dict[str, Any]:
     batch.activate_language(language)
+    gemini = director.Gemini(
+        enabled=bool(settings.get("use_gemini")),
+        required=False,
+        model=str(settings.get("gemini_model") or "") or None,
+        script_model=str(settings.get("gemini_script_model") or "") or None,
+    )
     spoiler = hooks.resolve_spoiler(settings.get("spoiler") or "show")
     fmt = settings.get("format") or longform.SHORT
     candidates_all = director.visualization_candidates(bundle, audit)
@@ -744,17 +795,17 @@ def _draft_language(
     viz_count = longform.viz_count_for(fmt, None, available_n)
     target_seconds = longform.target_seconds_for(fmt, None)
     selected, _candidates = director.select_visualizations(
-        bundle, audit, viz_count, None, str(settings.get("instruction") or ""),
+        bundle, audit, viz_count, gemini, str(settings.get("instruction") or ""),
         target_seconds=target_seconds, language=language, spoiler=spoiler,
     )
     scene_list, already_localized = video_pipeline.build_script(
-        bundle, audit, selected, None, str(settings.get("instruction") or ""),
+        bundle, audit, selected, gemini, str(settings.get("instruction") or ""),
         target_seconds, language, clip_beats=[], spoiler=spoiler,
     )
     if language != "en":
         if not already_localized:
             try:
-                scene_list, _method = i18n.localize_scenes(scene_list, language, None)
+                scene_list, _method = i18n.localize_scenes(scene_list, language, gemini)
             except ValueError:
                 pass
         try:
@@ -769,17 +820,34 @@ def _draft_language(
             scene_list = i18n.scrub_english_leftovers(scene_list, language)
         except ValueError:
             pass
+    operator_copy = hook_i18n.localize_operator_copy(
+        _hook_texts(settings),
+        str(settings.get("bait_text") or ""),
+        language,
+        bundle=bundle,
+        audit=audit,
+        gemini=gemini,
+    )
     scene_list = hooks.apply_cli_copy(
         scene_list,
-        hook_texts=_hook_texts(settings),
-        bait_text=str(settings.get("bait_text") or ""),
+        hook_texts=operator_copy["hook_texts"],
+        bait_text=operator_copy["bait_text"],
+        source_language=(
+            operator_copy["hooks"][0]["source_language"]
+            if operator_copy["hooks"] else operator_copy["bait"]["source_language"]
+        ),
+        target_language=language,
+        translation_method=(
+            operator_copy["hooks"][0]["method"]
+            if operator_copy["hooks"] else operator_copy["bait"]["method"]
+        ),
     )
     scene_list = culture.lock_bookends(
         scene_list, bundle, audit, language,
         spoiler=spoiler,
         kids=bool(settings.get("kids")),
-        hook_text=(_hook_texts(settings) or [None])[0],
-        bait_text=str(settings.get("bait_text") or "") or None,
+        hook_text=(operator_copy["hook_texts"] or [None])[0],
+        bait_text=operator_copy["bait_text"] or None,
     )
     views = [_scene_view(scene) for scene in scene_list]
     claim = next((s for s in views if s["visualization"] == "hook_claim"), {})
@@ -807,6 +875,7 @@ def _draft_language(
         "shock_options": shocks,
         "bait_options": baits,
         "visualizations": [item["id"] for item in selected],
+        "operator_copy": operator_copy,
     }
 
 
@@ -936,7 +1005,7 @@ def synthesize_voiceover(
     *,
     voice_id: str | None = None,
 ) -> dict[str, Any]:
-    """Call ``recap.elevenlabs_tts`` when present; otherwise a silent WAV stub.
+    """Call ``recap.elevenlabs_tts`` and preserve actionable API failures.
 
     Expected sibling signature (any one of):
         synthesize(text: str, language: str, dest: Path, voice_id: str | None = None) -> Path
@@ -957,19 +1026,23 @@ def synthesize_voiceover(
             if path.exists() and path.stat().st_size > 0:
                 return {"ok": True, "stub": False, "path": str(path), "note": "recap.elevenlabs_tts"}
         except Exception as exc:  # noqa: BLE001 — console must stay up if TTS fails
+            details = exc.as_dict() if callable(getattr(exc, "as_dict", None)) else {}
             return {
                 "ok": False,
-                "stub": True,
-                "path": str(_write_stub_wav(dest.with_suffix(".wav"))),
-                "note": f"elevenlabs_tts raised {type(exc).__name__}: {exc}; wrote silent stub",
+                "stub": False,
+                "path": "",
+                "code": details.get("code") or type(exc).__name__,
+                "http": details.get("http"),
+                "model": details.get("model") or "",
+                "fallback_tried": details.get("fallback_tried") or [],
+                "note": details.get("message") or str(exc),
             }
-    path = _write_stub_wav(dest.with_suffix(".wav") if dest.suffix.lower() != ".wav" else dest)
     note = (
-        "recap.elevenlabs_tts present but no API key — silent WAV stub"
+        "ElevenLabs is not configured. Add ELEVENLABS_API_KEY to .env, then restart Studio."
         if fn is not None
-        else "TODO: recap.elevenlabs_tts.synthesize — silent WAV stub (no ElevenLabs module)"
+        else "ElevenLabs module is unavailable. Reinstall requirements and restart Studio."
     )
-    return {"ok": True, "stub": True, "path": str(path), "note": note}
+    return {"ok": False, "stub": True, "path": "", "code": "not_configured", "note": note}
 
 
 def _narration_text(pack: dict[str, Any]) -> str:
@@ -987,10 +1060,18 @@ def regenerate_voice(job_id: str, language: str, voice_id: str | None = None) ->
     code = batch.normalize_lang(language)
     dest = _job_dir(job_id) / f"voice_{code}.wav"
     result = synthesize_voiceover(_narration_text(pack), code, dest, voice_id=voice_id)
-    pack["voice_path"] = result.get("path") or str(dest)
+    pack["voice_path"] = result.get("path") or ""
     pack["voice_stub"] = bool(result.get("stub"))
-    pack["voice_status"] = "stubbed" if pack["voice_stub"] else "ready"
+    pack["voice_status"] = (
+        "ready" if result.get("ok") else
+        ("unavailable" if result.get("code") == "not_configured" else "failed")
+    )
     pack["voice_note"] = result.get("note") or ""
+    pack["voice_error"] = {
+        key: result.get(key)
+        for key in ("code", "http", "model", "fallback_tried")
+        if result.get(key) not in (None, "", [])
+    }
     save_job(job)
     return job
 
@@ -1001,6 +1082,8 @@ def approve_voice(job_id: str, language: str) -> dict[str, Any]:
     if pack.get("voice_status") in ("none", "", None):
         job = regenerate_voice(job_id, language)
         pack = _pack(job, language)
+    if pack.get("voice_status") not in ("ready", "approved"):
+        return job
     pack["voice_status"] = "approved"
     save_job(job)
     return job
@@ -1167,6 +1250,24 @@ def start_produce(job_id: str, mode: str = "full") -> dict[str, Any]:
     if mode not in ("full", "plan", "skip-video"):
         raise ValueError("mode must be full, plan, or skip-video")
     job = load_job(job_id)
+    if mode == "full":
+        packs = job.get("packs") or {}
+        script_pending = [
+            code for code, pack in packs.items()
+            if pack.get("script_status") != "approved"
+        ]
+        voice_pending = [
+            code for code, pack in packs.items()
+            if pack.get("voice_status") != "approved"
+        ]
+        if script_pending:
+            raise ValueError(
+                "Approve scripts before production: " + ", ".join(script_pending)
+            )
+        if voice_pending:
+            raise ValueError(
+                "Approve voiceovers before production: " + ", ".join(voice_pending)
+            )
     existing = _PRODUCE_THREADS.get(job_id)
     if existing and existing.is_alive():
         return job
