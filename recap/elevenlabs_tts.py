@@ -103,7 +103,32 @@ def detect_model(session: Any | None = None, conf: Any | None = None) -> str:
 
 
 class ElevenLabsError(RuntimeError):
-    """Raised when synthesis cannot complete."""
+    """Actionable ElevenLabs failure with a safe, serializable payload."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        code: str = "elevenlabs_error",
+        http: int | None = None,
+        model: str = "",
+        fallback_tried: list[str] | None = None,
+    ) -> None:
+        super().__init__(message)
+        self.code = code
+        self.http = http
+        self.model = model
+        self.fallback_tried = list(fallback_tried or [])
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "ok": False,
+            "code": self.code,
+            "message": str(self),
+            "http": self.http,
+            "model": self.model,
+            "fallback_tried": list(self.fallback_tried),
+        }
 
 
 def configured() -> bool:
@@ -150,6 +175,138 @@ def _headers(key: str) -> dict[str, str]:
         "Accept": "application/octet-stream",
         "Content-Type": "application/json",
     }
+
+
+def _response_error(response: Any, model: str) -> ElevenLabsError:
+    status = int(getattr(response, "status_code", 0) or 0)
+    detail_status = ""
+    detail_message = ""
+    try:
+        payload = response.json()
+    except (ValueError, TypeError, AttributeError):
+        payload = {}
+    detail = payload.get("detail") if isinstance(payload, dict) else {}
+    if isinstance(detail, dict):
+        detail_status = str(detail.get("status") or detail.get("code") or "").strip()
+        detail_message = str(detail.get("message") or "").strip()
+    elif detail:
+        detail_message = str(detail)
+    code = detail_status or {
+        401: "invalid_api_key",
+        402: "quota_exceeded",
+        403: "access_denied",
+        404: "voice_not_found",
+        429: "rate_limited",
+    }.get(status, f"http_{status or 'error'}")
+    lowered = f"{code} {detail_message}".lower()
+    if code == "quota_exceeded" or (
+        status == 402 and not any(word in lowered for word in ("model", "access", "plan"))
+    ):
+        message = (
+            "ElevenLabs credits are exhausted for this key. Top up the account, "
+            "wait for the monthly reset, or add another key to ELEVENLABS_API_KEYS."
+        )
+        code = "quota_exceeded"
+    elif "model" in lowered and any(word in lowered for word in ("access", "allow", "plan", "unavailable")):
+        message = f"This ElevenLabs plan cannot use model {model}."
+        code = "model_access_denied"
+    elif code in {"invalid_api_key", "invalid_api_key_error"} or status == 401:
+        message = "The ElevenLabs API key is invalid or was revoked. Replace ELEVENLABS_API_KEY in .env."
+        code = "invalid_api_key"
+    elif code == "detected_unusual_activity":
+        message = (
+            "ElevenLabs detected unusual activity for this key. Check the account "
+            "security page and remove shared/free-tier proxy traffic before retrying."
+        )
+    elif "voice" in lowered and any(word in lowered for word in ("not found", "missing", "access")):
+        message = (
+            "The selected ElevenLabs voice is missing or unavailable to this account. "
+            "Choose a voice in Studio or set ELEVENLABS_VOICE_ID/VOICE_NAME in .env."
+        )
+        code = "voice_not_found"
+    elif status == 429:
+        message = "ElevenLabs rate limit reached. Retry later or add another key."
+        code = "rate_limited"
+    else:
+        message = detail_message or f"ElevenLabs request failed (HTTP {status or 'unknown'})."
+    return ElevenLabsError(message, code=code, http=status or None, model=model)
+
+
+def check_account(
+    *,
+    conf: Any | None = None,
+    session: Any | None = None,
+) -> dict[str, Any]:
+    """Return a safe subscription preflight; never includes key material."""
+    conf = conf or cfg.load_eleven_config()
+    slots = list(getattr(conf, "slots", None) or ())
+    if not slots:
+        return {
+            "ok": False, "code": "not_configured",
+            "message": "Set ELEVENLABS_API_KEY in .env.", "slots": 0,
+        }
+    failures: list[dict[str, Any]] = []
+    for slot in slots:
+        try:
+            headers = {**_headers(slot.api_key), "Accept": "application/json"}
+            if session is not None:
+                response = session.get(f"{API_ROOT}/user/subscription", headers=headers, timeout=20)
+            else:
+                response = _http_request(
+                    "GET", f"{API_ROOT}/user/subscription", headers=headers,
+                    proxies=_proxy_map(getattr(slot, "proxy", None)), timeout=20,
+                )
+        except requests.RequestException as exc:
+            failures.append({"code": type(exc).__name__, "message": str(exc)[:160]})
+            continue
+        if not getattr(response, "ok", False):
+            failures.append(_response_error(response, getattr(conf, "model", DEFAULT_MODEL)).as_dict())
+            continue
+        try:
+            payload = response.json()
+        except (ValueError, TypeError, AttributeError):
+            payload = {}
+        used = int(payload.get("character_count") or 0)
+        limit = int(payload.get("character_limit") or 0)
+        return {
+            "ok": True,
+            "tier": str(payload.get("tier") or payload.get("status") or "unknown"),
+            "character_count": used,
+            "character_limit": limit,
+            "remaining": max(0, limit - used) if limit else None,
+            "can_extend": bool(payload.get("can_extend_character_limit")),
+            "model": getattr(conf, "model", DEFAULT_MODEL),
+            "voice_name": getattr(conf, "voice_name", DEFAULT_VOICE_NAME),
+            "slots": len(slots),
+        }
+    return {
+        "ok": False, "code": "account_check_failed",
+        "message": (failures[0].get("message") if failures else "Could not check ElevenLabs account."),
+        "failures": failures, "slots": len(slots),
+    }
+
+
+health = check_account
+
+
+def preflight_characters(texts: list[str], account: dict[str, Any]) -> dict[str, Any]:
+    needed = sum(len(str(text or "")) for text in texts)
+    remaining = account.get("remaining")
+    enough = remaining is None or int(remaining) >= needed
+    return {
+        "ok": bool(account.get("ok")) and enough,
+        "characters_needed": needed,
+        "remaining": remaining,
+        "enough": enough,
+        "message": (
+            f"Need {needed:,} characters; {int(remaining):,} remain."
+            if remaining is not None
+            else f"Need {needed:,} characters; balance unavailable."
+        ),
+    }
+
+
+preflight = preflight_characters
 
 
 def resolve_voice_id(
@@ -302,69 +459,86 @@ def synthesize(
     vid = resolve_voice_id(voice_id, session=session, conf=conf)
     want_wav = target.suffix.lower() in {".wav", ".wave"}
     output_format = "pcm_24000" if want_wav else "mp3_44100_128"
-    payload = {
-        "text": spoken,
-        "model_id": model_id,
-        "voice_settings": settings,
-    }
     url = f"{API_ROOT}/text-to-speech/{vid}?output_format={output_format}"
-    last_error = "no attempts"
+    last_error: ElevenLabsError | None = None
+    tried_models: list[str] = []
+    model_chain = list(dict.fromkeys([model_id, *cfg.MODEL_CANDIDATES]))
     delay = 1.0
     for slot in conf.slots:
-        try:
-            if session is not None:
-                response = session.post(
-                    url,
-                    headers=_headers(slot.api_key),
-                    json=payload,
-                    timeout=90,
+        for active_model in model_chain:
+            tried_models.append(active_model)
+            payload = {
+                "text": spoken,
+                "model_id": active_model,
+                "voice_settings": settings,
+            }
+            try:
+                if session is not None:
+                    response = session.post(
+                        url,
+                        headers=_headers(slot.api_key),
+                        json=payload,
+                        timeout=90,
+                    )
+                else:
+                    response = _http_request(
+                        "POST",
+                        url,
+                        headers=_headers(slot.api_key),
+                        json=payload,
+                        proxies=_proxy_map(getattr(slot, "proxy", None)),
+                        timeout=90,
+                    )
+            except requests.RequestException as exc:
+                last_error = ElevenLabsError(
+                    f"ElevenLabs network request failed: {type(exc).__name__}.",
+                    code="network_error", model=active_model,
+                    fallback_tried=tried_models,
                 )
+                time.sleep(delay + random.uniform(0, 0.3))
+                delay = min(8.0, delay * 2)
+                break
+            if not response.ok:
+                error = _response_error(response, active_model)
+                error.fallback_tried = list(tried_models)
+                last_error = error
+                if error.code == "model_access_denied":
+                    # Same key, next supported model.
+                    continue
+                if error.code == "rate_limited":
+                    time.sleep(delay)
+                    delay = min(8.0, delay * 2)
+                # Quota/auth/rate failures rotate to the next configured key.
+                break
+            body = response.content or b""
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if want_wav:
+                _pcm_to_wav(body, target)
             else:
-                response = _http_request(
-                    "POST",
-                    url,
-                    headers=_headers(slot.api_key),
-                    json=payload,
-                    proxies=_proxy_map(getattr(slot, "proxy", None)),
-                    timeout=90,
-                )
-        except requests.RequestException as exc:
-            last_error = type(exc).__name__
-            time.sleep(delay + random.uniform(0, 0.3))
-            delay = min(8.0, delay * 2)
-            continue
-        if response.status_code in {401, 403}:
-            last_error = f"auth {response.status_code}"
-            continue
-        if response.status_code == 429:
-            last_error = "rate limited"
-            time.sleep(delay)
-            delay = min(8.0, delay * 2)
-            continue
-        if not response.ok:
-            last_error = f"http {response.status_code}"
-            continue
-        body = response.content or b""
-        target.parent.mkdir(parents=True, exist_ok=True)
-        if want_wav:
-            _pcm_to_wav(body, target)
-        else:
-            target.write_bytes(body)
-        _save_status(target.parent, language, {
-            "language": language,
-            "status": "ready",
-            "attempt": int(_load_status(target.parent, language).get("attempt") or 0) + 1,
-            "path": str(target),
-            "model": model_id,
-            "voice_id": vid,
-            "voice_name": getattr(conf, "voice_name", DEFAULT_VOICE_NAME),
-            "stability": style_name,
-            "style": style_name,
-            "proxy_used": redact_proxy(getattr(slot, "proxy", None) or ""),
-            "bytes": len(body),
-        })
-        return target
-    raise ElevenLabsError(f"ElevenLabs synthesis failed ({last_error}).")
+                target.write_bytes(body)
+            _save_status(target.parent, language, {
+                "language": language,
+                "status": "ready",
+                "attempt": int(_load_status(target.parent, language).get("attempt") or 0) + 1,
+                "path": str(target),
+                "model": active_model,
+                "requested_model": model_id,
+                "fallback_tried": list(tried_models[:-1]),
+                "voice_id": vid,
+                "voice_name": getattr(conf, "voice_name", DEFAULT_VOICE_NAME),
+                "stability": style_name,
+                "style": style_name,
+                "proxy_used": redact_proxy(getattr(slot, "proxy", None) or ""),
+                "bytes": len(body),
+            })
+            return target
+    if last_error is not None:
+        last_error.fallback_tried = list(tried_models)
+        raise last_error
+    raise ElevenLabsError(
+        "ElevenLabs synthesis did not make an API request.",
+        code="no_attempts", model=model_id, fallback_tried=tried_models,
+    )
 
 
 def regenerate_voiceover(
