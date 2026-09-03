@@ -14,6 +14,10 @@ Installation:
 
 ## Audited Video Pipeline
 
+For the local Windows 95 operator console, source-chain workflow, hook
+localization, and ElevenLabs troubleshooting, see
+[`STUDIO_GUIDE.md`](STUDIO_GUIDE.md).
+
 This fork includes `video_pipeline.py`, an interactive match-analysis video builder that consumes the existing scraper exports in `output/<match>/`.
 
 Quick visual-master render from an existing export:
