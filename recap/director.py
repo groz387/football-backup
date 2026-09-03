@@ -2100,6 +2100,42 @@ class Gemini:
                 }
         return result
 
+    def translate_operator_line(
+        self,
+        text: str,
+        source_language: str,
+        target_language: str,
+        *,
+        kind: str = "hook",
+        protected: list[str] | None = None,
+    ) -> str:
+        """Culture-translate user copy without weakening its terrace register."""
+        target = i18n.normalize_language(target_language)
+        payload = {
+            "task": (
+                f"Rewrite this operator-written football {kind} from language "
+                f"`{source_language}` into `{target}`."
+            ),
+            "text": text,
+            "protected_terms": list(protected or []),
+            "rules": [
+                "Return local football terrace speech, not a literal calque.",
+                "Keep the same intensity, joke and profanity level.",
+                "This is a bookend: profanity is allowed here.",
+                "One short sentence only; no markdown, explanation or alternatives.",
+                "Preserve every protected term byte-for-byte.",
+                "Preserve every digit, scoreline, minute and percentage byte-for-byte.",
+                "Never add a match fact, name, number or claim.",
+                *script_culture.gemini_rules(target),
+            ],
+            "response_schema": {"text": "translated line"},
+        }
+        parsed = self._generate(
+            payload, model=self.script_model, temperature=0.65,
+            system=SYSTEM_PROMPT,
+        )
+        return sanitize((parsed or {}).get("text"), "") if parsed else ""
+
 
 def _brief(bundle: MatchBundle, audit: dict[str, Any], angle: str = "") -> dict[str, Any]:
     """The compact, numbers-only view of the match given to the model."""

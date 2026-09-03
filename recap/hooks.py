@@ -1251,6 +1251,9 @@ def apply_shock_text(
     texts: list[str] | str | None,
     *,
     slot: str = "auto",
+    source_language: str = "",
+    target_language: str = "",
+    translation_method: str = "",
 ) -> list[dict[str, Any]]:
     """Write chosen first-second shock copy onto claim / punch / micro_hook cards.
 
@@ -1296,11 +1299,17 @@ def apply_shock_text(
             updated["lines"] = lines
             updated["narration"] = claim.rstrip(".")
             updated["user_locked"] = True
+            updated["user_source_language"] = source_language
+            updated["user_locked_language"] = target_language or source_language
+            updated["hook_translation"] = translation_method
         elif punch and viz == "hook_punch":
             updated["title"] = punch
             updated["lines"] = [punch]
             updated["narration"] = punch.rstrip(".")
             updated["user_locked"] = True
+            updated["user_source_language"] = source_language
+            updated["user_locked_language"] = target_language or source_language
+            updated["hook_translation"] = translation_method
         elif viz == "micro_hook" and micros:
             line = micros[micro_i] if micro_i < len(micros) else micros[-1]
             micro_i += 1
@@ -1308,11 +1317,21 @@ def apply_shock_text(
             updated["lines"] = [line]
             updated["narration"] = line.rstrip(".")
             updated["user_locked"] = True
+            updated["user_source_language"] = source_language
+            updated["user_locked_language"] = target_language or source_language
+            updated["hook_translation"] = translation_method
         out.append(updated)
     return out
 
 
-def apply_bait_text(scenes: list[dict[str, Any]], text: str | None) -> list[dict[str, Any]]:
+def apply_bait_text(
+    scenes: list[dict[str, Any]],
+    text: str | None,
+    *,
+    source_language: str = "",
+    target_language: str = "",
+    translation_method: str = "",
+) -> list[dict[str, Any]]:
     """Write the final comment-bait question onto the close card."""
     bait = clean_text(text)
     if not bait:
@@ -1334,6 +1353,9 @@ def apply_bait_text(scenes: list[dict[str, Any]], text: str | None) -> list[dict
             else:
                 updated["narration"] = narration
             updated["user_locked"] = True
+            updated["user_source_language"] = source_language
+            updated["user_locked_language"] = target_language or source_language
+            updated["hook_translation"] = translation_method
         out.append(updated)
     return out
 
@@ -1343,10 +1365,18 @@ def apply_cli_copy(
     *,
     hook_texts: list[str] | None = None,
     bait_text: str | None = None,
+    source_language: str = "",
+    target_language: str = "",
+    translation_method: str = "",
 ) -> list[dict[str, Any]]:
     """Apply ``--hook-text`` / ``--bait-text`` without stdin."""
-    updated = apply_shock_text(scenes, hook_texts or [])
-    return apply_bait_text(updated, bait_text)
+    meta = {
+        "source_language": source_language,
+        "target_language": target_language,
+        "translation_method": translation_method,
+    }
+    updated = apply_shock_text(scenes, hook_texts or [], **meta)
+    return apply_bait_text(updated, bait_text, **meta)
 
 
 def shock_menu_options(
