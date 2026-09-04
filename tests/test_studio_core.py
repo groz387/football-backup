@@ -176,6 +176,10 @@ class DashboardCoreTests(unittest.TestCase):
         rendered = self.tmp / "rendered"
 
         def fake_run(_args):
+            self.assertEqual(
+                _args.selected_visualizations,
+                ",".join(job["packs"]["en"]["visualizations"]),
+            )
             rendered.mkdir(parents=True, exist_ok=True)
             (rendered / "match_video.mp4").write_bytes(b"mp4")
             return rendered

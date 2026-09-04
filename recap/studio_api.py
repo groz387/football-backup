@@ -682,6 +682,7 @@ def _run_produce(job_id: str, mode: str) -> None:
                         "--auto", "--language", code,
                         "--team", settings.get("team") or "club",
                         "--visualizations", str(len(pack["visualizations"])),
+                        "--selected-visualizations", ",".join(pack["visualizations"]),
                         "--target-seconds", str(settings.get("target_seconds") or 34),
                         "--words-per-section", str(settings.get("words_per_section") or 17),
                         "--fps", str(settings.get("fps") or 30),

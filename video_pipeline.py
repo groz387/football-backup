@@ -239,6 +239,20 @@ def run(args: argparse.Namespace) -> Path:
     selected, candidates = director.select_visualizations(
         bundle, audit, args.visualizations, gemini, args.instruction
     )
+    requested_ids = [
+        value.strip()
+        for value in str(getattr(args, "selected_visualizations", "") or "").split(",")
+        if value.strip()
+    ]
+    if requested_ids:
+        available = {row["id"]: row for row in candidates if row.get("available")}
+        invalid = [value for value in requested_ids if value not in available]
+        if invalid:
+            raise SystemExit(
+                "Selected visualizations are unavailable for this export: "
+                + ", ".join(invalid)
+            )
+        selected = [available[value] for value in requested_ids]
     while True:
         for candidate in sorted(candidates, key=lambda c: c["score"], reverse=True):
             mark = "  " if candidate["available"] else "x "
@@ -520,6 +534,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--output-root", default="video_output", help="Where video packages are written")
     parser.add_argument("--visualizations", type=int, default=4,
                         help="Tactical visualizations between the hook and the closing score")
+    parser.add_argument(
+        "--selected-visualizations", default="", metavar="IDS",
+        help="Exact comma-separated visualization ids approved in Studio",
+    )
     parser.add_argument("--target-seconds", type=float, default=34.0,
                         help="Runtime the script is written to fill")
     parser.add_argument("--words-per-section", type=int, default=17,
