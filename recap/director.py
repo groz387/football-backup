@@ -17,7 +17,7 @@ from typing import Any
 
 from .audit import best_goal_chain, credible_goal_chains, dominant_team, result_context
 from .data import MatchBundle, clean_text
-from . import hooks, i18n
+from . import hooks, i18n, timing
 
 DEFAULT_MODEL = "gemini-2.5-flash"
 DEFAULT_SCRIPT_MODEL = "gemini-2.5-pro"
@@ -629,8 +629,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
                 f"{home['shots_on_target']} against {away['shots_on_target']} on target."
             ),
             "narration": (
-                f"{bundle.home} {home['shots']} shots to {away['shots']}, "
-                f"{home['shots_on_target']} on target against {away['shots_on_target']}."
+                f"{bundle.home} put {home['shots']} shots on the map against {away['shots']}, "
+                f"with {home['shots_on_target']} on target to {bundle.away}'s {away['shots_on_target']}."
             ),
         }
 
@@ -647,8 +647,10 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
                 if peak else "Pressure stayed level throughout."
             ),
             "narration": (
-                f"The heaviest spell belonged to {leader} in the {peak['minute_block']} window."
-                if peak else "Pressure stayed level throughout."
+                f"{leader} owned the heaviest pressure spell in the {peak['minute_block']} window, "
+                "the swing that set the match tone."
+                if peak else
+                "Pressure stayed level throughout the event tape, with no swing large enough to own the window."
             ),
         }
 
@@ -735,7 +737,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             ),
             "narration": (
                 f"{leader} held {leader_stats.get(control_key, 0):.0f} percent {stat_label(control_key).lower()} "
-                f"but produced only {leader_stats.get(threat_key, 0)} {stat_label(threat_key).lower()}."
+                f"and produced only {leader_stats.get(threat_key, 0)} {stat_label(threat_key).lower()} "
+                "from all that control."
             ),
         }
 
@@ -806,10 +809,10 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "kicker": "TOUCH TERRITORY",
             "title": f"{max(home_t, away_t)} TOUCHES",
             "subtitle": i18n.t("sub_heatmap"),
-            "insight": f"{home_t} touches against {away_t}; each hex is a real event bin.",
+            "insight": f"{home_t} touches against {away_t}; each cell is a real event tile.",
             "narration": (
-                f"{leader} drove the territory map: {home_t} touches against {away_t}, "
-                "with each hex tied to recorded events."
+                f"{leader} owned the tile map: {home_t} touches against {away_t}, "
+                "with each cell tied to recorded events."
             ),
         }
 
@@ -1286,7 +1289,7 @@ def build_storyboard(
             **closing,
         }
     )
-    return attach_handoffs(scenes, bundle, audit)
+    return normalize_analysis_words(attach_handoffs(scenes, bundle, audit))
 
 
 def scene_fact_pack(bundle: MatchBundle, audit: dict[str, Any], viz_id: str, copy: dict[str, Any]) -> dict[str, Any]:
@@ -1990,7 +1993,138 @@ def apply_script(
                 elif scene.get("visualization") in {"hook_punch", "micro_hook"}:
                     updated["lines"] = [value]
         merged.append(updated)
-    return _dedupe_insights(merged)
+    return normalize_analysis_words(_dedupe_insights(merged))
+
+
+_SHORT_VIZ = {"hook_claim", "hook_punch", "micro_hook", "live_clip", "title", "close"}
+_PAD_PHRASES = (
+    "from the event tape",
+    "that is the recorded split",
+    "on the picture as drawn",
+    "that is what the card shows",
+)
+
+
+def _is_analysis_scene(scene: dict[str, Any]) -> bool:
+    if scene.get("hook"):
+        return False
+    viz = str(scene.get("visualization") or "")
+    return viz not in _SHORT_VIZ
+
+
+def _fit_analysis_narration(
+    text: str,
+    scene: dict[str, Any],
+    allowed: set[str],
+    *,
+    target: int,
+    low: int,
+    high: int,
+    hard_max: int,
+) -> str:
+    current = sanitize(text)
+    count = timing.word_count(current)
+    if low <= count <= high:
+        return current
+    if count > high:
+        return _trim_analysis_narration(current, high)
+
+    insight = sanitize(scene.get("insight") or "")
+    picture = sanitize((scene.get("fact_pack") or {}).get("what_the_picture_shows") or "")
+    extras = [item for item in (insight, picture) if item]
+    if i18n.get_language() == "en":
+        extras.extend(_PAD_PHRASES)
+    have = {token.lower().strip(".,;:") for token in re.split(r"\s+", current) if token}
+    for extra in extras:
+        count = timing.word_count(current)
+        if count >= low:
+            break
+        fresh = [
+            token for token in re.split(r"\s+", extra) if token
+            and token.lower().strip(".,;:") not in have
+        ]
+        if not fresh:
+            continue
+        need = max(1, target - count)
+        take = min(len(fresh), max(need, min(4, len(fresh))))
+        while take < len(fresh) and count + take < low:
+            take += 1
+        if count + take > hard_max:
+            take = hard_max - count
+        if take <= 0:
+            continue
+        chunk = " ".join(fresh[:take])
+        candidate = re.sub(r"\s+", " ", f"{current.rstrip('. ')} {chunk}").strip()
+        if not candidate.endswith("."):
+            candidate += "."
+        if allowed and hooks.extra_numbers(candidate, allowed):
+            continue
+        for token in fresh[:take]:
+            have.add(token.lower().strip(".,;:"))
+        current = candidate
+    return current
+
+
+def _trim_analysis_narration(text: str, high: int) -> str:
+    current = sanitize(text)
+    parts = [part.strip() for part in re.split(r"(?<=[.])\s+", current) if part.strip()]
+    while len(parts) > 1 and timing.word_count(" ".join(parts)) > high:
+        parts.pop()
+    current = " ".join(parts)
+    tokens = [token for token in re.split(r"\s+", current) if token]
+    fillers = {
+        "the", "a", "an", "that", "this", "from", "with", "and", "of", "in",
+        "on", "to", "as", "for", "all", "what", "card", "shows", "drawn",
+    }
+    while len(tokens) > high:
+        last = tokens[-1].lower().strip(".,;:%")
+        if re.fullmatch(r"\d+(?:\.\d+)?", last):
+            dropped = False
+            for index in range(len(tokens) - 2, 0, -1):
+                if tokens[index].lower().strip(".,;:") in fillers:
+                    tokens.pop(index)
+                    dropped = True
+                    break
+            if not dropped:
+                break
+        else:
+            tokens.pop()
+    trimmed = " ".join(tokens).rstrip(" ,;")
+    if current.endswith(".") and trimmed and not trimmed.endswith("."):
+        trimmed += "."
+    return trimmed
+
+
+def normalize_analysis_words(
+    scenes: list[dict[str, Any]],
+    target: int = 17,
+) -> list[dict[str, Any]]:
+    """Fit analysis narration to about 17 words. Hooks and the close stay short.
+
+    Pads from insight / fact-pack picture copy, then number-free closers.
+    Never invents digits. Trims when Gemini overshoots ~20 words.
+    """
+    target = max(12, min(24, int(target or 17)))
+    low, high, hard_max = 16, 19, 20
+    fitted: list[dict[str, Any]] = []
+    for scene in scenes:
+        updated = dict(scene)
+        if not _is_analysis_scene(updated):
+            fitted.append(updated)
+            continue
+        text = str(updated.get("narration") or "").strip()
+        if not text:
+            fitted.append(updated)
+            continue
+        pack = updated.get("fact_pack") or {}
+        allowed = hooks.allowed_number_tokens(
+            pack.get("numbers") or updated.get("allowed_numbers") or []
+        )
+        updated["narration"] = _fit_analysis_narration(
+            text, updated, allowed, target=target, low=low, high=high, hard_max=hard_max,
+        )
+        fitted.append(updated)
+    return fitted
 
 
 def _dedupe_insights(scenes: list[dict[str, Any]]) -> list[dict[str, Any]]:

@@ -254,16 +254,19 @@ def _punch_slam(progress: float, duration: float) -> bool:
 
 
 def _hook_badges(fig, bundle: MatchBundle, design: dict[str, Any], *,
-                 y: float = 0.30, shake: float = 0.0, size: float = 0.132) -> None:
+                 y: float = 0.30, shake: float = 0.0, size: float = 0.132,
+                 alpha: float = 1.0) -> None:
     """Home and away crests, centred under the slam text. No score."""
+    if alpha <= 0:
+        return
     gap = 0.118
     draw.team_badge(
         fig, bundle.home, 0.5 - gap + shake, y, size,
-        identity=design["home"], alpha=1.0, zorder=22,
+        identity=design["home"], alpha=alpha, zorder=22,
     )
     draw.team_badge(
         fig, bundle.away, 0.5 + gap + shake, y, size,
-        identity=design["away"], alpha=1.0, zorder=22,
+        identity=design["away"], alpha=alpha, zorder=22,
     )
 
 
@@ -365,7 +368,9 @@ def _render_stamp_hook(bundle: MatchBundle, design: dict[str, Any], scene: dict[
 
 def _render_number_slam(bundle: MatchBundle, design: dict[str, Any], scene: dict[str, Any],
                         path: Path, progress: float, *, punch: bool) -> None:
+    """Claim slam: sentence + two-team split + badges. t=0 stays pitch-black."""
     fig = draw.new_figure(design)
+    tl = Timeline(progress)
     duration = float(scene.get("seconds") or (0.70 if punch else 0.85))
     accent, zoom, shake = _interrupt(progress, duration)
     identity = design["home"]
@@ -373,10 +378,10 @@ def _render_number_slam(bundle: MatchBundle, design: dict[str, Any], scene: dict
     if team and team.lower() in str(design["away"].get("name") or "").lower():
         identity = design["away"]
     team_color = identity.get("fill") or identity["primary"]
-    if accent or (punch and _punch_slam(progress, duration)):
-        _hook_accent(fig, team_color, punch=punch)
     ink = TEXT
     if punch:
+        if accent or _punch_slam(progress, duration):
+            _hook_accent(fig, team_color, punch=punch)
         line = (_hook_lines(scene) or [str(scene.get("title") or "")])[0]
         draw.fit_text(
             fig, 0.5 + shake, 0.58, line.upper(),
@@ -385,35 +390,82 @@ def _render_number_slam(bundle: MatchBundle, design: dict[str, Any], scene: dict
             family=theme.DISPLAY_FONT, fontweight="bold",
             linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
         )
+        _hook_badges(fig, bundle, design, y=0.18, shake=shake, size=0.11)
+        draw.save_figure(fig, path)
+        return
+
+    claim_fade = tl.cue(0.12, 0.26)
+    split_fade = tl.cue(0.22, 0.26)
+    badge_fade = tl.cue(0.32, 0.24)
+    if claim_fade <= 0 and split_fade <= 0:
+        draw.save_figure(fig, path)
+        return
+
+    lines = _hook_lines(scene)
+    claim = lines[0] if lines else str(scene.get("title") or "")
+    if claim and claim_fade > 0:
+        draw.fit_text(
+            fig, 0.5 + shake, 0.80, claim.upper(),
+            fontsize=42.0 * zoom, max_width=0.90, max_lines=2, min_fontsize=22.0,
+            ha="center", va="center", color=ink, family=theme.DISPLAY_FONT, fontweight="bold",
+            linespacing=0.94, alpha=claim_fade, zorder=20, path_effects=draw.soft_shadow(),
+        )
+    extra = lines[1:] if len(lines) > 1 else []
+    if extra and claim_fade > 0:
+        draw.fit_text(
+            fig, 0.5 + shake, 0.70, extra[0].upper(),
+            fontsize=26.0, max_width=0.88, max_lines=1, min_fontsize=14.0,
+            ha="center", va="center", color=ink, family=theme.DISPLAY_FONT, fontweight="bold",
+            alpha=claim_fade * 0.9, zorder=20,
+        )
+
+    split = scene.get("split") or {}
+    home_n = split.get("home")
+    away_n = split.get("away")
+    label = str(split.get("label") or scene.get("hero_label") or "")
+    if home_n is not None or away_n is not None:
+        home_ink = design["home"].get("chart") or ink
+        away_ink = design["away"].get("chart") or ink
+        draw.hero_number(
+            fig, 0.28 + shake, 0.50, home_n if home_n is not None else "–",
+            color=home_ink, fontsize=108.0 * zoom, alpha=split_fade,
+        )
+        draw.hero_number(
+            fig, 0.72 + shake, 0.50, away_n if away_n is not None else "–",
+            color=away_ink, fontsize=108.0 * zoom, alpha=split_fade,
+        )
+        fig.text(
+            0.28 + shake, 0.40, bundle.home.upper(), color=home_ink, fontsize=16,
+            fontweight="bold", family=theme.MONO_FONT, ha="center", va="center",
+            alpha=split_fade, zorder=22,
+        )
+        fig.text(
+            0.72 + shake, 0.40, bundle.away.upper(), color=away_ink, fontsize=16,
+            fontweight="bold", family=theme.MONO_FONT, ha="center", va="center",
+            alpha=split_fade, zorder=22,
+        )
+        if label:
+            fig.text(
+                0.5, 0.34, label.upper(), color=ink, fontsize=20, fontweight="bold",
+                family=theme.MONO_FONT, ha="center", va="center",
+                alpha=split_fade, zorder=22,
+            )
     else:
         hero = scene.get("hero_number")
-        label = str(scene.get("hero_label") or "")
-        if hero is None:
-            lines = _hook_lines(scene)
-            draw.fit_text(
-                fig, 0.5 + shake, 0.58, (lines[0] if lines else "").upper(),
-                fontsize=64.0 * zoom, max_width=0.90, max_lines=2, min_fontsize=28.0,
-                ha="center", va="center", color=ink, family=theme.DISPLAY_FONT, fontweight="bold",
-                alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
+        if hero is not None:
+            draw.hero_number(
+                fig, 0.5 + shake, 0.50, hero, color=ink, fontsize=120.0 * zoom, alpha=split_fade,
             )
-        else:
-            draw.hero_number(fig, 0.5 + shake, 0.58, hero, color=ink, fontsize=200.0 * zoom)
             if label:
                 draw.fit_text(
                     fig, 0.5 + shake, 0.36, label.upper(),
-                    fontsize=36.0, max_width=0.86, max_lines=1, min_fontsize=18.0,
+                    fontsize=28.0, max_width=0.86, max_lines=1, min_fontsize=16.0,
                     ha="center", va="center", color=ink, family=theme.DISPLAY_FONT, fontweight="bold",
-                    alpha=1.0, zorder=22,
+                    alpha=split_fade, zorder=22,
                 )
-            extra = _hook_lines(scene)
-            if extra:
-                draw.fit_text(
-                    fig, 0.5 + shake, 0.28, extra[0].upper(),
-                    fontsize=24.0, max_width=0.88, max_lines=1, min_fontsize=14.0,
-                    ha="center", va="center", color=ink, family=theme.DISPLAY_FONT, fontweight="bold",
-                    alpha=0.9, zorder=22,
-                )
-    _hook_badges(fig, bundle, design, y=0.18, shake=shake, size=0.11)
+        elif claim_fade <= 0:
+            pass
+    _hook_badges(fig, bundle, design, y=0.16, shake=shake, size=0.11, alpha=badge_fade)
     draw.save_figure(fig, path)
 
 
