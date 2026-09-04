@@ -125,12 +125,15 @@ def pick_stat_rows(bundle: MatchBundle, audit: dict[str, Any], limit: int = 5,
 
     ranked: list[tuple[float, str]] = []
     health = audit.get("data_health") or {}
+    source_supported = set(audit.get("source_supported_stats") or [])
     for key in STAT_CATALOG:
         if key in skip:
             continue
         if key == "xg" and not health.get("has_vendor_xg"):
             continue
         if key == "xgot" and not health.get("has_vendor_xgot"):
+            continue
+        if source_supported and key not in source_supported and key != "goals":
             continue
         if key not in home or key not in away:
             continue
@@ -909,10 +912,10 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         key = pick_stat_rows(bundle, audit, limit=1)[0]
         leader = dominant_team(bundle, audit, key) or bundle.home
         other = bundle.away if leader == bundle.home else bundle.home
-        n = int(round(float(stats[leader].get(key) or 0)))
+        hero_value = format_stat(key, stats[leader].get(key))
         return {
             "kicker": stat_label(key).upper(),
-            "title": f"{n} {stat_label(key).upper()}",
+            "title": f"{hero_value} {stat_label(key).upper()}",
             "subtitle": i18n.t("sub_slam"),
             "insight": (
                 f"{leader} led {stat_label(key).lower()} "
@@ -924,7 +927,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
                 f"on the tape, the number that defined the night."
             ),
             "stat_keys": [key],
-            "hero_number": n,
+            "hero_number": hero_value,
             "hero_label": stat_label(key).upper(),
             "hero_team": leader,
         }
@@ -977,14 +980,33 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         }
 
     if viz_id == "conversion_gauges":
+        source_supported = set(audit.get("source_supported_stats") or [])
+        outer_key = (
+            "shots_on_target"
+            if not source_supported or "shots_on_target" in source_supported
+            else "big_chances"
+            if "big_chances" in source_supported
+            else "shots"
+        )
+        home_outer = home.get(outer_key, 0)
+        away_outer = away.get(outer_key, 0)
+        xg_line = (
+            f" xG {home.get('xg', 0):.2f} to {away.get('xg', 0):.2f}."
+            if (audit.get("data_health") or {}).get("has_vendor_xg")
+            else ""
+        )
         return {
             "kicker": "CONVERSION",
-            "title": f"{home['shots_on_target']}-{away['shots_on_target']} ON TARGET",
+            "title": f"{home_outer}-{away_outer} {stat_label(outer_key).upper()}",
             "subtitle": i18n.t("sub_gauges"),
-            "insight": f"{home['shots_on_target']} on target against {away['shots_on_target']}. Conversion did the rest.",
+            "insight": (
+                f"{home.get('shots', 0)}-{away.get('shots', 0)} shots; "
+                f"{home_outer}-{away_outer} {stat_label(outer_key).lower()}.{xg_line}"
+            ),
             "narration": (
-                f"{bundle.home} {home['shots_on_target']} on target to {away['shots_on_target']}. "
-                f"The finishing was not the same."
+                f"{bundle.home} had {home.get('shots', 0)} shots and {home_outer} "
+                f"{stat_label(outer_key).lower()}; {bundle.away} scored "
+                f"{away.get('goals', 0)} from {away.get('shots', 0)} attempts."
             ),
         }
 
@@ -1188,8 +1210,21 @@ def _closing_copy(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, str]:
     hook = build_hook(bundle, audit)
     if winner and loser:
         loser_shots = int(context["loser_stats"].get("shots") or 0)
-        narration = f"{hook_team_name(loser)} had the shots. {winner} had the night."
-        if hook["kind"] in {"volume_upset", "waste", "sterile_upset"}:
+        source_supported = set(audit.get("source_supported_stats") or [])
+        if source_supported:
+            winner_shots = int(context["winner_stats"].get("shots") or 0)
+            narration = (
+                f"{winner} won {score.display}; {loser} led shots "
+                f"{loser_shots}-{winner_shots}"
+            )
+            if "xg" in source_supported:
+                narration += (
+                    f" and xG {float(context['loser_stats'].get('xg') or 0):.2f}-"
+                    f"{float(context['winner_stats'].get('xg') or 0):.2f}."
+                )
+            else:
+                narration += "."
+        elif hook["kind"] in {"volume_upset", "waste", "sterile_upset"}:
             narration = (
                 f"{loser} had {loser_shots} shots. {winner} take it {score.display}."
             )
@@ -1249,23 +1284,11 @@ def attach_handoffs(
     bundle: MatchBundle,
     audit: dict[str, Any],
 ) -> list[dict[str, Any]]:
-    """At most one analysis card ends on a 'but'. The rest keep their own rhythm."""
-    bodies = [scene for scene in scenes if not scene.get("hook")]
-    if len(bodies) < 2:
-        return scenes
-    scene = bodies[0]
-    nxt = bodies[1]
-    if "but " in str(scene.get("narration") or "").lower():
-        return scenes
-    line = str(nxt.get("title") or "")
-    if nxt.get("visualization") in _PACKAGE:
-        line = build_bridge(bundle, audit, nxt["visualization"])["line"]
-    next_bit = line.strip().rstrip(". ")
-    proof = str(scene.get("narration") or "").strip()
-    if proof:
-        proof = re.split(r"(?<=[.!?])\s+", proof)[0].strip().rstrip(". ")
-    if proof and next_bit and next_bit.lower() not in proof.lower():
-        scene["narration"] = i18n.t("handoff_but", proof=proof, next=next_bit)
+    """Keep each analysis sentence attached to its own evidence card.
+
+    Micro-hooks already provide transitions. Replacing a statistical sentence
+    with a generic tease destroyed the evidence-first format.
+    """
     return scenes
 
 

@@ -161,8 +161,19 @@ def pick_index(seed: str, count: int) -> int:
 
 
 def pool_line(keys: list[str], seed: str, **kwargs: Any) -> str:
-    key = keys[pick_index(seed, len(keys))]
-    return i18n.t(key, **kwargs)
+    # Visual packs can add variants before every locale catches up. Never put
+    # an internal catalog key such as ``hook_claim_red_2`` on screen.
+    available: list[str] = []
+    for key in keys:
+        try:
+            text = i18n.t(key, **kwargs)
+        except Exception:
+            continue
+        if text and text != key:
+            available.append(text)
+    if not available:
+        return i18n.t("bridge_look_at_this")
+    return available[pick_index(seed, len(available))]
 
 
 def collect_numbers(*values: Any) -> list[Any]:
