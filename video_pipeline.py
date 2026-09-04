@@ -34,7 +34,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
-from recap import clips, director, hooks, i18n, logos, theme, timing, video, voice, viral_audit
+from recap import clips, director, hooks, i18n, logos, theme, timing, translation, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -267,6 +267,9 @@ def run(args: argparse.Namespace) -> Path:
         scene_list, already_localized = build_script(
             bundle, audit, selected, gemini, instruction, args.target_seconds, language,
             clip_beats=clip_beats,
+            words_per_section=args.words_per_section,
+            translation_provider=args.translation_provider,
+            require_context_translation=args.require_context_translation,
         )
         viral_report = viral_audit.score_plan(
             scene_list, selected, bundle, audit, output_root=Path(args.output_root),
@@ -292,7 +295,7 @@ def run(args: argparse.Namespace) -> Path:
         str(viral_report.get("hook_kind") or ""),
     )
 
-    if language != "en":
+    if language != "en" and not already_localized:
         if not already_localized:
             translator = gemini
             if translator is None or not translator.enabled:
@@ -418,17 +421,22 @@ def build_script(
     target_seconds: float,
     language: str = "en",
     clip_beats: list[dict[str, Any]] | None = None,
+    words_per_section: int = 17,
+    translation_provider: str = "auto",
+    require_context_translation: bool = False,
 ) -> tuple[list[dict[str, Any]], bool]:
     """Return (scenes, already_localized_by_gemini)."""
+    target_language = i18n.normalize_language(language)
+    i18n.set_language("en")
     scene_list = director.build_storyboard(bundle, audit, selected, clip_beats=clip_beats)
     already_localized = False
     angle = director.pick_angle(bundle, audit)
     if gemini is not None and gemini.enabled:
-        editorial = gemini.choose_angle(bundle, audit, language)
+        editorial = gemini.choose_angle(bundle, audit, "en")
         if editorial.get("angle"):
             angle = str(editorial["angle"])
         hook = director.build_hook(bundle, audit)
-        rewrite = gemini.rephrase_hook(hook, language)
+        rewrite = gemini.rephrase_hook(hook, "en")
         hook = hooks.apply_hook_rephrase(hook, rewrite)
         scene_list = director.apply_script(
             scene_list,
@@ -443,16 +451,14 @@ def build_script(
                 },
             },
         )
-        speakable = [scene for scene in scene_list if not scene.get("hook")]
-        budget = timing.word_budget(target_seconds, max(1, len(speakable)))
-        say(f"  asking Gemini for roughly {budget} words per scene ({i18n.language_name(language)})")
+        budget = max(10, min(24, int(words_per_section or 17)))
+        say(f"  asking Gemini for {budget} evidence words per analysis section (canonical English)")
         overrides = gemini.write_script(
-            bundle, audit, scene_list, budget, instruction, language=language,
+            bundle, audit, scene_list, budget, instruction, language="en",
             angle=angle, audit_notes=[instruction] if instruction else [],
         )
         if overrides:
             scene_list = director.apply_script(scene_list, overrides)
-            already_localized = language != "en"
 
     problems = director.copy_problems(scene_list, audit)
     if problems:
@@ -467,6 +473,30 @@ def build_script(
         if flagged:
             already_localized = False
     scene_list = director.lock_hook_cards(scene_list, bundle, audit)
+    i18n.set_language(target_language)
+    if target_language != "en":
+        translated = translation.translate_story(
+            scene_list,
+            target_language,
+            bundle,
+            audit,
+            provider=translation_provider,
+            gemini=gemini,
+        )
+        scene_list = translated.scenes
+        already_localized = True
+        for scene in scene_list:
+            scene["translation_provider"] = translated.provider
+            scene["translation_warnings"] = list(translated.warnings)
+        if translated.warnings:
+            say("  [translation] " + " | ".join(translated.warnings[:3]))
+        if require_context_translation and not translated.ok:
+            raise RuntimeError(
+                "Contextual translation was required, but no validated whole-script "
+                "translation was produced. Configure GEMINI_API_KEY or DEEPSEEK_API_KEY."
+            )
+    else:
+        already_localized = True
     return scene_list, already_localized
 
 
@@ -488,10 +518,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--match-dir", help="An export directory under output/")
     parser.add_argument("--scrape-output-root", default="output", help="Where scraper exports live")
     parser.add_argument("--output-root", default="video_output", help="Where video packages are written")
-    parser.add_argument("--visualizations", type=int, default=5,
+    parser.add_argument("--visualizations", type=int, default=4,
                         help="Tactical visualizations between the hook and the closing score")
-    parser.add_argument("--target-seconds", type=float, default=40.0,
+    parser.add_argument("--target-seconds", type=float, default=34.0,
                         help="Runtime the script is written to fill")
+    parser.add_argument("--words-per-section", type=int, default=17,
+                        help="Evidence-rich narration target for each selected statistic")
     parser.add_argument("--fps", type=int, default=video.DEFAULT_FPS, help="Output frame rate")
 
     parser.add_argument("--interactive", action="store_true", help="Pick the match and approve each stage")
@@ -514,6 +546,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="Gemini model for copy (defaults to GEMINI_SCRIPT_MODEL or gemini-2.5-pro)")
     parser.add_argument("--no-gemini", action="store_true", help="Use only the deterministic script")
     parser.add_argument("--require-gemini", action="store_true", help="Fail rather than fall back")
+    parser.add_argument(
+        "--translation-provider", default="auto",
+        choices=("auto", "gemini", "deepseek", "offline"),
+        help="Translate the complete script in one contextual request",
+    )
+    parser.add_argument(
+        "--require-context-translation", action="store_true",
+        help="Fail rather than use partial offline localization",
+    )
 
     parser.add_argument("--voiceover-file", default="", help="Recorded narration to attach")
     parser.add_argument("--sapi-tts", action="store_true", help="Synthesise narration for a rough cut (Windows)")
@@ -543,6 +584,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         args.interactive = True
     if args.require_gemini and args.no_gemini:
         parser.error("--require-gemini and --no-gemini cannot be combined")
+    if not 10 <= args.words_per_section <= 24:
+        parser.error("--words-per-section must be between 10 and 24")
     return args
 
 

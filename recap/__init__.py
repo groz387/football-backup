@@ -29,6 +29,7 @@ __all__ = [
     "scenes",
     "theme",
     "timing",
+    "translation",
     "video",
     "viral_audit",
     "voice",

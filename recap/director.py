@@ -1662,8 +1662,11 @@ class Gemini:
     ) -> dict[str, dict[str, str]]:
         lang = i18n.normalize_language(language)
         lang_name = i18n.language_name(lang)
-        lo = max(14, min(18, words_per_scene))
-        hi = max(18, min(28, words_per_scene + 6))
+        # The original product's charm was one compact, evidence-rich sentence
+        # per card. Seventeen words is the center, not a vague upper bound.
+        target_words = max(10, min(24, words_per_scene))
+        lo = max(10, target_words - 1)
+        hi = min(24, target_words + 2)
         language_rule = (
             "Write in plain English. No hashtags, no emoji, no 'in this video'. "
             "The hook already ran. Do not repeat the score until the closing card."
@@ -1689,7 +1692,10 @@ class Gemini:
                 "Never state a number that is not in the scene's fact_pack.numbers.",
                 "Never say 'possession' unless match.data_health.has_vendor_possession is true.",
                 "Never mention expected goals, xG or xGOT unless match.data_health.has_vendor_xg is true.",
-                f"Narration for each analysis scene must be {lo} to {hi} words. Mix rhythms. "
+                f"Narration for each analysis scene must be {lo} to {hi} words, aiming at {target_words}. "
+                "Use one or two numbers from that exact scene's fact_pack and explain what they prove. "
+                "The line must be useless on any other card: statistic and interpretation belong together. "
+                "Mix rhythms. "
                 "Do not start every line with a team name. Do not tease the next card unless it earns it. "
                 "Do not use the word 'but' more than once across the whole script.",
                 "title is shown in heavy display type; keep it under 28 characters and do not end it with a full stop. "
@@ -1821,6 +1827,19 @@ class Gemini:
                     for key in ("kicker", "title", "subtitle", "insight", "narration")
                 }
         return result
+
+    def translate_contextual_script(self, payload: dict[str, Any]) -> dict[str, Any] | None:
+        """Translate the complete story in one request using its audit context."""
+        return self._generate(
+            payload,
+            model=self.script_model,
+            temperature=0.25,
+            system=(
+                "You are a native football editor translating one complete recap. "
+                "Keep every scene attached to its audited statistic. Return strict JSON. "
+                "Never invent or alter a number, score, minute, player or team."
+            ),
+        )
 
 
 def _brief(bundle: MatchBundle, audit: dict[str, Any], angle: str = "") -> dict[str, Any]:
