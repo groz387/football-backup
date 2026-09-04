@@ -29,7 +29,8 @@ SYSTEM_PROMPT = (
     "Never invent a number. The score stays off every card except close. "
     "Vary sentence openings. Do not start every line with a team name. "
     "Do not tease the next card unless it earns it. Do not use the word 'but' "
-    "more than once across the whole script."
+    "more than once across the whole script. "
+    "Swearing and culture stay on the first and last lines only."
 )
 
 SCRIPT_FEW_SHOTS = [
@@ -961,10 +962,10 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "kicker": "TOUCH TERRITORY",
             "title": f"{max(home_t, away_t)} TOUCHES",
             "subtitle": i18n.t("sub_heatmap"),
-            "insight": f"{home_t} touches against {away_t}; each hex is a real event bin.",
+            "insight": f"{home_t} touches against {away_t}; each cell is a real event bin.",
             "narration": (
                 f"{leader} drove the territory map: {home_t} touches against {away_t}, "
-                "with each hex tied to recorded events."
+                "with each cell tied to recorded events."
             ),
         }
 
@@ -1416,6 +1417,7 @@ def build_storyboard(
         if index in micro_slots:
             scenes.append(_micro_hook_scene(bundle, audit, item["id"], index))
         copy = _visual_copy(bundle, audit, item["id"])
+        copy["narration"] = fit_evidence_narration(copy.get("narration") or "")
         fact = scene_fact_pack(bundle, audit, item["id"], copy)
         scenes.append(
             {
@@ -1441,7 +1443,7 @@ def build_storyboard(
             **closing,
         }
     )
-    return attach_handoffs(scenes, bundle, audit)
+    return lock_bookends(attach_handoffs(scenes, bundle, audit))
 
 
 def scene_fact_pack(bundle: MatchBundle, audit: dict[str, Any], viz_id: str, copy: dict[str, Any]) -> dict[str, Any]:
@@ -1762,7 +1764,8 @@ class Gemini:
                 "The line must be useless on any other card: statistic and interpretation belong together. "
                 "Mix rhythms. "
                 "Do not start every line with a team name. Do not tease the next card unless it earns it. "
-                "Do not use the word 'but' more than once across the whole script.",
+                "Do not use the word 'but' more than once across the whole script. "
+                "Swearing and culture stay on hook_claim, hook_punch and close only.",
                 "title is shown in heavy display type; keep it under 28 characters and do not end it with a full stop. "
                 "When the fact pack has a number or a surname, the title must contain one.",
                 "insight IS shown on screen as a two-line caption stamped late. Make it the sharpest sentence.",
@@ -1980,6 +1983,102 @@ def _is_polite_title(text: str, bundle: MatchBundle) -> bool:
     return bool(vs) and compact == vs
 
 
+EVIDENCE_WORD_TARGET = 17
+EVIDENCE_WORD_MIN = 10
+EVIDENCE_WORD_MAX = 20
+BOOKEND_VIZ = {"hook_claim", "hook_punch", "close"}
+# Culture/spice is allowed on the open and the close only.
+_CURSE_RE = re.compile(
+    r"("
+    r"\b(fuck(?:ing|ed|er)?|shit(?:ty)?|bitch|asshole|bastard|dick|cunt|piss(?:ed)?|"
+    r"motherfuck(?:er|ing)?|bullshit|damn|bloody hell)\b|"
+    r"\b(sik(?:ir|dir|irdil[əe]r)?|göt(?:ün[əe])?|amc[iı]q|gijd[ıi]llax|pezevenk)\b|"
+    r"\b(joder|coño|mierda|carajo|puta|cabron|cabrón)\b|"
+    r"(блядь|сука|хуй|пизд|ёб|ебан)"
+    r")",
+    re.IGNORECASE,
+)
+
+
+def fit_evidence_narration(text: str, *, target: int = EVIDENCE_WORD_TARGET) -> str:
+    """Keep analysis VO near 17 words without dropping digits."""
+    words = [token for token in re.split(r"\s+", str(text or "").strip()) if token]
+    if not words:
+        return ""
+    hi = min(EVIDENCE_WORD_MAX, max(target, EVIDENCE_WORD_MIN) + 3)
+    if len(words) <= hi:
+        joined = " ".join(words)
+        if not re.search(r"[.!?]$", joined):
+            joined = joined.rstrip(",;:") + "."
+        return joined
+    kept = words[:hi]
+    joined = " ".join(kept)
+    for punct in (".", ";", ":"):
+        at = joined.rfind(punct)
+        if at >= 12:
+            candidate = joined[: at + 1].strip()
+            count = len([token for token in candidate.split() if token])
+            if any(ch.isdigit() for ch in candidate) and count >= EVIDENCE_WORD_MIN:
+                return candidate
+    if not re.search(r"[.!?]$", joined):
+        joined = joined.rstrip(",;:") + "."
+    return joined
+
+
+def _strip_curses(text: str) -> str:
+    cleaned = _CURSE_RE.sub("", str(text or ""))
+    cleaned = re.sub(r"\s{2,}", " ", cleaned)
+    cleaned = re.sub(r"\s+([,.;:!?])", r"\1", cleaned)
+    return cleaned.strip()
+
+
+def lock_bookends(
+    scenes: list[dict[str, Any]],
+    *,
+    kids: bool = False,
+) -> list[dict[str, Any]]:
+    """Keep swearing/culture on the first and last lines only.
+
+    Analysis cards (and micro-hooks between them) are evidence. Kids mode
+    strips spice from the bookends as well.
+    """
+    locked: list[dict[str, Any]] = []
+    for scene in scenes:
+        updated = dict(scene)
+        viz = str(updated.get("visualization") or "")
+        allow = (not kids) and viz in BOOKEND_VIZ
+        if not allow:
+            for field in ("kicker", "title", "subtitle", "insight", "narration", "comment_bait"):
+                value = updated.get(field)
+                if isinstance(value, str) and _CURSE_RE.search(value):
+                    updated[field] = _strip_curses(value)
+            lines = updated.get("lines")
+            if isinstance(lines, list):
+                updated["lines"] = [
+                    _strip_curses(line) if isinstance(line, str) else line for line in lines
+                ]
+        locked.append(updated)
+    return locked
+
+
+def bookend_report(scenes: list[dict[str, Any]]) -> dict[str, Any]:
+    """True when analysis copy is free of curse/culture leaks."""
+    leaks: list[str] = []
+    for scene in scenes:
+        viz = str(scene.get("visualization") or "")
+        if viz in BOOKEND_VIZ:
+            continue
+        for field in ("kicker", "title", "subtitle", "insight", "narration", "comment_bait"):
+            value = scene.get(field)
+            if isinstance(value, str) and _CURSE_RE.search(value):
+                leaks.append(f"{scene.get('id') or viz}.{field}")
+        for line in scene.get("lines") or []:
+            if isinstance(line, str) and _CURSE_RE.search(line):
+                leaks.append(f"{scene.get('id') or viz}.lines")
+                break
+    return {"clean_body": not leaks, "leaks": leaks}
+
+
 def lock_hook_cards(
     scenes: list[dict[str, Any]],
     bundle: MatchBundle,
@@ -2036,7 +2135,7 @@ def lock_hook_cards(
             if _SCORELINE.search(str(updated.get("narration") or "")):
                 updated["narration"] = current.rstrip(".")
         locked.append(updated)
-    return attach_handoffs(locked, bundle, audit)
+    return lock_bookends(attach_handoffs(locked, bundle, audit))
 
 
 def lock_title_card(
@@ -2093,7 +2192,7 @@ def apply_script(
                 elif scene.get("visualization") in {"hook_punch", "micro_hook"}:
                     updated["lines"] = [value]
         merged.append(updated)
-    return _dedupe_insights(merged)
+    return lock_bookends(_dedupe_insights(merged))
 
 
 def _dedupe_insights(scenes: list[dict[str, Any]]) -> list[dict[str, Any]]:

@@ -925,7 +925,7 @@ def build_time_zones(bundle: MatchBundle) -> list[dict[str, Any]]:
 
 
 def build_touch_heatmap(bundle: MatchBundle, x_bins: int = 24, y_bins: int = 16) -> dict[str, Any]:
-    """Dense touch grid for a true pitch heatmap."""
+    """Occupied touch bins for the mosaic. Empty cells stay empty — no blur."""
     touches = bundle.touches if not bundle.touches.empty else bundle.events[flag(bundle.events, "isTouch")]
     if touches.empty:
         return {"x_bins": x_bins, "y_bins": y_bins, "home": [], "away": []}

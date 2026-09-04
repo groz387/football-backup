@@ -31,6 +31,16 @@ class AssemblyFilterTests(unittest.TestCase):
         self.assertFalse(any(chunk == "Atl." for chunk in chunks))
         self.assertTrue(chunks[0].startswith("Atl. Madrid"))
 
+    def test_audio_encode_uses_explicit_duration_not_shortest(self):
+        args = video._audio_encode_args(17.5)
+        self.assertNotIn("-shortest", args)
+        self.assertIn("apad", args)
+        self.assertIn("-t", args)
+        self.assertIn("17.500", args)
+        self.assertIn("settb=1/24", video._assembly_filter(
+            [{"clip": 2.0, "cut": "hard"}, {"clip": 5.0, "cut": "fade"}], 24
+        )[0])
+
 
 if __name__ == "__main__":
     unittest.main()

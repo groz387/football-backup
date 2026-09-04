@@ -1365,27 +1365,67 @@ def ring_gauge(ax, cx: float, cy: float, value: float, maximum: float, color: st
         )
 
 
+def mosaic_cells(
+    ax,
+    cells: Iterable[tuple[int, int, str, float]],
+    *,
+    x_bins: int,
+    y_bins: int,
+    progress: float = 1.0,
+    gap: float = 0.22,
+    zorder: int = 6,
+    row_progress: list[float] | None = None,
+) -> None:
+    """Paint occupied bins as crisp rectangles. Never interpolates.
+
+    WhoScored ``x`` runs up the pitch (vertical), ``y`` across it. Each tuple
+    is ``(xbin, ybin, color, weight)`` with weight in 0-1. Empty bins stay
+    pitch, so the mosaic only shows recorded events.
+    """
+    if x_bins < 1 or y_bins < 1:
+        return
+    cell_w = 100.0 / y_bins
+    cell_h = 100.0 / x_bins
+    inset = min(gap, cell_w * 0.22, cell_h * 0.22)
+    for xbin, ybin, color, weight in cells:
+        local = 1.0
+        if row_progress is not None and 0 <= xbin < len(row_progress):
+            local = row_progress[xbin]
+        alpha = opacity(float(weight) * local * progress)
+        if alpha < VISIBLE_ALPHA:
+            continue
+        add_shape(
+            ax,
+            Rectangle(
+                (ybin * cell_w + inset / 2, xbin * cell_h + inset / 2),
+                max(0.05, cell_w - inset),
+                max(0.05, cell_h - inset),
+                facecolor=color,
+                edgecolor="none",
+                alpha=alpha,
+                zorder=zorder,
+            ),
+        )
+
+
 def heat_pitch(ax, grid: list[list[float]], color: str, *, progress: float = 1.0,
                flip: bool = False, zorder: int = 6) -> None:
-    """Smooth heatmap on a 0-100 pitch."""
+    """Event-backed mosaic on a 0-100 pitch. No bilinear wash."""
     array = np.array(grid, dtype=float)
     if array.size == 0:
         return
     if flip:
         array = np.flipud(np.fliplr(array))
     peak = float(array.max()) or 1.0
-    array = array / peak * progress
     x_bins, y_bins = array.shape
-    rgba = np.zeros((x_bins, y_bins, 4))
-    r, g, b = theme.hex_to_rgb(color)
-    rgba[..., 0] = r
-    rgba[..., 1] = g
-    rgba[..., 2] = b
-    rgba[..., 3] = np.clip(array, 0, 1) * 0.85
-    ax.imshow(
-        rgba, origin="lower", extent=(0, 100, 0, 100), interpolation="bilinear",
-        aspect="auto", zorder=zorder,
-    )
+    cells: list[tuple[int, int, str, float]] = []
+    for xi in range(x_bins):
+        for yi in range(y_bins):
+            value = float(array[xi, yi])
+            if value <= 0:
+                continue
+            cells.append((xi, yi, color, min(1.0, value / peak) * 0.85))
+    mosaic_cells(ax, cells, x_bins=x_bins, y_bins=y_bins, progress=progress, zorder=zorder)
 
 
 def funnel_stage(fig: plt.Figure, y: float, label: str, home_value: float, away_value: float,

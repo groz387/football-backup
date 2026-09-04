@@ -146,6 +146,7 @@ class GraphEmptyAuditTests(unittest.TestCase):
                 ("slam", graphs.render_stat_slam),
                 ("split", graphs.render_halftime_split),
                 ("bench", graphs.render_bench_impact),
+                ("heat", graphs.render_touch_heatmap),
             ):
                 path = folder / f"{name}.png"
                 renderer(self.bundle, self.audit, self.scene, path, 0.0)
@@ -155,6 +156,51 @@ class GraphEmptyAuditTests(unittest.TestCase):
                     0.05,
                     f"{name} opening frame is not pitch black",
                 )
+
+    def test_territory_cards_do_not_interpolate(self) -> None:
+        import inspect
+        from recap import scenes
+
+        sources = {
+            "heatmap": inspect.getsource(graphs.render_touch_heatmap),
+            "zone": inspect.getsource(scenes.render_zone_control),
+            "time": inspect.getsource(graphs.render_time_zones),
+            "pitch": inspect.getsource(draw.heat_pitch),
+        }
+        for name, src in sources.items():
+            self.assertNotIn('interpolation="bilinear"', src, name)
+            self.assertNotIn("interpolation='bilinear'", src, name)
+        self.assertIn("mosaic_cells", sources["heatmap"])
+        self.assertIn("mosaic_cells", sources["zone"])
+        self.assertIn("Rectangle", inspect.getsource(draw.mosaic_cells))
+
+    def test_touch_mosaic_paints_event_bins_on_black(self) -> None:
+        import matplotlib.pyplot as plt
+
+        self.audit["touch_heatmap"] = {
+            "x_bins": 4,
+            "y_bins": 3,
+            "home": [[4, 0, 0], [0, 2, 0], [0, 0, 0], [3, 0, 1]],
+            "away": [[0, 2, 0], [0, 0, 5], [1, 0, 0], [0, 0, 0]],
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "mosaic.png"
+            graphs.render_touch_heatmap(self.bundle, self.audit, self.scene, path, 1.0)
+            pixels = plt.imread(path)
+            self.assertLess(float(pixels[8, 8, :3].mean()), 0.08)
+            self.assertGreater(float(pixels[..., :3].max()), 0.15)
+
+    def test_heat_pitch_is_mosaic_not_imshow(self) -> None:
+        import matplotlib.pyplot as plt
+
+        fig, ax = plt.subplots()
+        ax.set_xlim(0, 100)
+        ax.set_ylim(0, 100)
+        before = len(ax.patches)
+        draw.heat_pitch(ax, [[0, 2], [4, 0]], "#ff0000", progress=1.0)
+        self.assertGreater(len(ax.patches), before)
+        self.assertEqual(len(ax.images), 0)
+        plt.close(fig)
 
 
 class UniquenessTests(unittest.TestCase):
