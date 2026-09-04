@@ -133,6 +133,8 @@ def public_env() -> dict[str, Any]:
     eleven = load_eleven_config()
     return {
         "gemini": bool(_env("GEMINI_API_KEY")),
+        "groq": bool(_env("GROQ_API_KEY")),
+        "groq_model": _env("GROQ_MODEL", "openai/gpt-oss-120b") or "openai/gpt-oss-120b",
         "elevenlabs": eleven.enabled,
         "elevenlabs_slots": eleven.slot_count(),
         "elevenlabs_voice_id": eleven.voice_id or None,

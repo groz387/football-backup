@@ -121,6 +121,8 @@ def load_settings() -> dict[str, Any]:
                 settings.update(saved)
         except (OSError, json.JSONDecodeError):
             pass
+    if str(settings.get("translation_provider") or "") == "deepseek":
+        settings["translation_provider"] = "groq"
     return settings
 
 
@@ -278,7 +280,8 @@ def capabilities() -> dict[str, Any]:
     return {
         "scrape": scrape_mod.scrape_available(),
         "gemini_key": bool(os.getenv("GEMINI_API_KEY")),
-        "deepseek_key": bool(os.getenv("DEEPSEEK_API_KEY")),
+        "groq_key": bool(os.getenv("GROQ_API_KEY")),
+        "groq_model": (os.getenv("GROQ_MODEL") or translation.DEFAULT_GROQ_MODEL).strip(),
         "elevenlabs": True,
         "elevenlabs_configured": elevenlabs_tts.configured(),
         "stubbed": {"elevenlabs_tts": not elevenlabs_tts.configured()},
@@ -595,7 +598,7 @@ def approve_script(job_id: str, language: str) -> dict[str, Any]:
     pack = _pack(job, language)
     if pack.get("script_status") == "translation_blocked" and not pack.get("translation_reviewed"):
         raise ValueError(
-            f"{language}: contextual translation is unavailable. Configure Gemini/DeepSeek "
+            f"{language}: contextual translation is unavailable. Configure Groq/Gemini "
             "or edit the script manually before approving."
         )
     pack["script_status"] = "approved"

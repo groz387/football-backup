@@ -2,8 +2,8 @@
 
 Translation is one request per language, with every scene plus the audited
 match context. This preserves the relationship between each spoken line and
-its statistic. DeepSeek is optional; it is not described as unlimited because
-all hosted APIs have quotas/rate limits.
+its statistic. Groq is the hosted translator; Gemini remains an optional
+fallback. Hosted APIs still have quotas and rate limits.
 """
 
 from __future__ import annotations
@@ -19,10 +19,20 @@ import requests
 from . import i18n
 from .data import MatchBundle
 
-DEEPSEEK_URL = "https://api.deepseek.com/chat/completions"
+GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+# Llama 3.3 70B was retired on Groq (Aug 2026). GPT-OSS 120B is the production
+# replacement and has usable developer-tier throughput. Qwen 3.8/3.6 are
+# stronger at AZ/ES/RU but sit on a tight preview quota on this account.
+DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
+GROQ_MODEL_CANDIDATES = (
+    "openai/gpt-oss-120b",
+    "qwen/qwen3.8-27b",
+    "qwen/qwen3.6-27b",
+)
 FIELDS = ("kicker", "title", "subtitle", "insight", "narration", "comment_bait")
 _AZ_WORDS = {"oyun", "qapandi", "qapandı", "bax", "sizcə", "götünə", "gijdıllax", "sikirdilər"}
 _ES_WORDS = {"partido", "quién", "ganó", "mira", "gol", "tiros"}
+_GROQ_PROVIDERS = {"auto", "groq", "deepseek"}
 
 
 @dataclass
@@ -118,25 +128,71 @@ def translation_payload(
     }
 
 
-class DeepSeekTranslator:
+def _parse_json_content(content: str) -> dict[str, Any]:
+    text = str(content or "").strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?\s*", "", text)
+        text = re.sub(r"\s*```$", "", text)
+    parsed = json.loads(text)
+    if not isinstance(parsed, dict):
+        raise ValueError("translator JSON was not an object")
+    return parsed
+
+
+def _model_error(status: int, body: str) -> bool:
+    if status not in {400, 404}:
+        return False
+    lower = (body or "").lower()
+    return any(
+        token in lower
+        for token in ("model", "decommission", "not found", "does not exist", "unknown")
+    )
+
+
+class GroqTranslator:
+    """OpenAI-compatible Groq chat client for one whole-script translation."""
+
     def __init__(self, api_key: str | None = None, model: str | None = None) -> None:
-        self.api_key = (api_key or os.getenv("DEEPSEEK_API_KEY") or "").strip()
-        self.model = (model or os.getenv("DEEPSEEK_MODEL") or "deepseek-chat").strip()
+        self.api_key = (api_key or os.getenv("GROQ_API_KEY") or "").strip()
+        self.model = (
+            model or os.getenv("GROQ_MODEL") or DEFAULT_GROQ_MODEL
+        ).strip() or DEFAULT_GROQ_MODEL
         self.enabled = bool(self.api_key)
         self.last_error = ""
+        self.last_model = ""
+
+    def _models(self) -> list[str]:
+        ordered: list[str] = []
+        for name in (self.model, *GROQ_MODEL_CANDIDATES):
+            token = str(name or "").strip()
+            if token and token not in ordered:
+                ordered.append(token)
+        return ordered
 
     def translate(self, payload: dict[str, Any]) -> dict[str, Any] | None:
         if not self.enabled:
             return None
+        errors: list[str] = []
+        for model in self._models():
+            parsed = self._translate_with(model, payload)
+            if parsed is not None:
+                self.last_model = model
+                self.last_error = ""
+                return parsed
+            errors.append(f"{model}: {self.last_error or 'failed'}")
+        self.last_error = " | ".join(errors)
+        return None
+
+    def _translate_with(self, model: str, payload: dict[str, Any]) -> dict[str, Any] | None:
         try:
             response = requests.post(
-                DEEPSEEK_URL,
+                GROQ_URL,
                 headers={
                     "Authorization": f"Bearer {self.api_key}",
                     "Content-Type": "application/json",
                 },
                 json={
-                    "model": self.model,
+                    "model": model,
                     "response_format": {"type": "json_object"},
                     "temperature": 0.25,
                     "messages": [
@@ -153,13 +209,20 @@ class DeepSeekTranslator:
                 timeout=120,
             )
             if not response.ok:
-                self.last_error = f"HTTP {response.status_code}"
+                snippet = (response.text or "")[:240]
+                self.last_error = f"HTTP {response.status_code} {snippet}"
+                if _model_error(response.status_code, snippet):
+                    return None
                 return None
             content = response.json()["choices"][0]["message"]["content"]
-            return json.loads(content)
+            return _parse_json_content(content)
         except (requests.RequestException, KeyError, IndexError, TypeError, ValueError) as exc:
             self.last_error = f"{type(exc).__name__}: {exc}"
             return None
+
+
+# Old settings/tests used this name. Groq is the live client.
+DeepSeekTranslator = GroqTranslator
 
 
 def _merge_and_validate(
@@ -214,7 +277,8 @@ def translate_story(
     *,
     provider: str = "auto",
     gemini: Any | None = None,
-    deepseek: DeepSeekTranslator | None = None,
+    groq: GroqTranslator | None = None,
+    deepseek: GroqTranslator | None = None,
     force: bool = False,
 ) -> TranslationResult:
     target = i18n.normalize_language(target_language)
@@ -222,12 +286,14 @@ def translate_story(
         return TranslationResult([dict(scene) for scene in scenes], "source", True, [])
     payload = translation_payload(scenes, target, bundle, audit)
     choice = str(provider or "auto").strip().lower()
+    if choice == "deepseek":
+        choice = "groq"
     parsed: dict[str, Any] | None = None
     used = ""
-    ds = deepseek or DeepSeekTranslator()
-    if choice in {"auto", "deepseek"} and ds.enabled:
-        parsed = ds.translate(payload)
-        used = "deepseek"
+    client = groq or deepseek or GroqTranslator()
+    if choice in _GROQ_PROVIDERS and client.enabled:
+        parsed = client.translate(payload)
+        used = "groq"
     if not parsed and choice in {"auto", "gemini"} and gemini is not None and getattr(gemini, "enabled", False):
         fn = getattr(gemini, "translate_contextual_script", None)
         if callable(fn):
@@ -239,11 +305,14 @@ def translate_story(
     # Conservative fallback translates catalog/template lines only. It is
     # explicitly marked partial so Studio can require human approval.
     offline = i18n.localize_scenes_offline(scenes, target)
+    extra = []
+    if choice in _GROQ_PROVIDERS and getattr(client, "last_error", ""):
+        extra.append(f"Groq: {client.last_error}")
     return TranslationResult(
         offline,
         "offline_partial",
         False,
-        [
+        extra + [
             "No contextual translation API was available. Known templates were localized, "
             "but free-form narration requires review."
         ],

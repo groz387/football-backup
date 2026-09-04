@@ -507,7 +507,7 @@ def build_script(
         if require_context_translation and not translated.ok:
             raise RuntimeError(
                 "Contextual translation was required, but no validated whole-script "
-                "translation was produced. Configure GEMINI_API_KEY or DEEPSEEK_API_KEY."
+                "translation was produced. Configure GROQ_API_KEY or GEMINI_API_KEY."
             )
     else:
         already_localized = True
@@ -566,7 +566,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--require-gemini", action="store_true", help="Fail rather than fall back")
     parser.add_argument(
         "--translation-provider", default="auto",
-        choices=("auto", "gemini", "deepseek", "offline"),
+        choices=("auto", "gemini", "groq", "offline"),
         help="Translate the complete script in one contextual request",
     )
     parser.add_argument(

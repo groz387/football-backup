@@ -76,7 +76,7 @@ function paintCaps(caps) {
     ["elevenlabs", caps.elevenlabs_configured || (caps.elevenlabs && !caps.stubbed?.elevenlabs_tts)],
     ["scrape", caps.scrape],
     ["gemini", caps.gemini_key],
-    ["deepseek", caps.deepseek_key],
+    ["groq", caps.groq_key],
   ];
   $("caps").innerHTML = bits.map(([name, live]) =>
     `<span class="cap ${live ? "live" : "stub"}">${name} ${live ? "live" : "stub"}</span>`
@@ -542,7 +542,12 @@ async function boot() {
   if ($("wordsPerSection")) $("wordsPerSection").value = state.settings.words_per_section || 17;
   if ($("targetSeconds")) $("targetSeconds").value = state.settings.target_seconds || 34;
   if ($("fps")) $("fps").value = state.settings.fps || 30;
-  if ($("translationProvider")) $("translationProvider").value = state.settings.translation_provider || "auto";
+  if ($("translationProvider")) {
+    const provider = state.settings.translation_provider === "deepseek"
+      ? "groq"
+      : (state.settings.translation_provider || "auto");
+    $("translationProvider").value = provider;
+  }
   if ($("requireTranslation")) $("requireTranslation").checked = state.settings.require_context_translation !== false;
   const colors = state.settings.colors || [];
   $("colorHome").value = colors[0] || "";

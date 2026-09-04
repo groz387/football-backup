@@ -114,6 +114,15 @@ class DashboardCoreTests(unittest.TestCase):
         self.assertTrue(all("word_count" in scene for scene in analysis))
         self.assertTrue(any(scene["fact_numbers"] for scene in analysis))
 
+    def test_dashboard_advertises_groq_not_deepseek(self):
+        html = (ROOT / "studio/static/index.html").read_text(encoding="utf-8")
+        self.assertIn('value="groq"', html)
+        self.assertNotIn("DeepSeek", html)
+        caps = studio_api.capabilities()
+        self.assertIn("groq_key", caps)
+        self.assertTrue(caps["groq_model"])
+        self.assertNotIn("deepseek_key", caps)
+
     def test_full_production_is_approval_gated(self):
         options = studio_api.visualization_options(self.export, 3)
         job = studio_api.draft_scripts({
@@ -198,7 +207,7 @@ class DashboardCoreTests(unittest.TestCase):
     def test_multilingual_draft_translates_the_whole_story_once(self):
         options = studio_api.visualization_options(self.export, 3)
 
-        class FakeDeepSeek:
+        class FakeGroq:
             enabled = True
             calls = 0
 
@@ -216,21 +225,21 @@ class DashboardCoreTests(unittest.TestCase):
                     rows.append(row)
                 return {"scenes": rows}
 
-        fake = FakeDeepSeek()
-        with mock.patch("recap.translation.DeepSeekTranslator", return_value=fake):
+        fake = FakeGroq()
+        with mock.patch("recap.translation.GroqTranslator", return_value=fake):
             job = studio_api.draft_scripts({
                 "match_dir": str(self.export),
                 "languages": ["en", "es"],
                 "selected_visualizations": options["selected"],
                 "visualization_count": 3,
                 "hook_claim": "THIS MATCH WAS ROBBED",
-                "translation_provider": "deepseek",
+                "translation_provider": "groq",
                 "use_gemini": False,
             })
         self.assertEqual(fake.calls, 1)
         self.assertEqual(job["packs"]["en"]["hook_claim"], "THIS MATCH WAS ROBBED")
         self.assertNotEqual(job["packs"]["es"]["hook_claim"], "THIS MATCH WAS ROBBED")
-        self.assertEqual(job["packs"]["es"]["translation_provider"], "deepseek")
+        self.assertEqual(job["packs"]["es"]["translation_provider"], "groq")
         self.assertFalse(job["packs"]["es"]["translation_warnings"])
 
     def test_required_context_translation_blocks_partial_offline_script(self):
