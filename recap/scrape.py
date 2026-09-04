@@ -1,14 +1,14 @@
-"""WhoScored scrape runner used by the studio console and CLI.
+"""WhoScored / Flashscore scrape runner used by the studio console and CLI.
 
 Lookup (``resolve_source``) never hits the network. This module is the
 explicit scrape path:
 
   * WhoScored live URL
   * bare WhoScored match id (``1821295`` → ``/matches/1821295/live``)
-  * saved "View Page Source" HTML (Cloudflare-safe)
-  * Livescore URL only as a pointer — it has no chalkboard; we still need
-    a WhoScored URL or HTML unless the path already contains a 5–10 digit id
-    that you confirm is a WhoScored id.
+  * saved "View Page Source" HTML (Cloudflare-safe WhoScored or Flashscore)
+  * Flashscore match URL (honest score/incidents/stats fallback)
+  * Livescore URL as a pointer — ids are never WhoScored ids; Studio routes
+    that through ``source_chain`` (WhoScored search, then Flashscore).
 
 Never invents events or coordinates.
 """
@@ -29,7 +29,6 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 _WHO_ID = re.compile(r"/matches?/(\d{5,10})", re.I)
 _BARE_ID = re.compile(r"^\d{5,10}$")
 _ANY_ID = re.compile(r"(\d{5,10})")
-_FLASHSCORE_MID = re.compile(r"(?:[?&]mid=|/match/(?:[^/?#]+/)*)([A-Za-z0-9_-]{6,})")
 
 
 def scrape_script_path() -> Path:
@@ -64,6 +63,9 @@ def extract_match_id(url_or_id: str) -> str | None:
     found = _WHO_ID.search(raw)
     if found:
         return found.group(1)
+    host = (urlparse(raw if "://" in raw else f"https://{raw}").hostname or "").lower()
+    if "livescore.com" in host:
+        return None
     digits = _ANY_ID.search(raw)
     return digits.group(1) if digits else None
 
@@ -160,7 +162,7 @@ def classify_source(url: str = "", html_path: str = "") -> dict[str, Any]:
     if "livescore.com" in host:
         return {
             "kind": "livescore",
-            "match_id": match_id,
+            "match_id": None,
             "whoscored_url": "",
             "flashscore_url": "",
             "html_path": "",

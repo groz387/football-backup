@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+from pathlib import Path
 from types import SimpleNamespace
 from unittest import mock
 
@@ -116,12 +117,15 @@ class ElevenLabsErrorTests(unittest.TestCase):
                     return _Resp(200, {"voices": [{"name": "Liam", "voice_id": "TX3LPaxmHKxFdv7VOQHJ"}]})
                 return _Resp(200, {"character_count": 10, "character_limit": 100000})
 
+        dest = Path("/tmp/el-empty.mp3")
+        dest.unlink(missing_ok=True)
         with self.assertRaises(el.ElevenLabsError) as caught:
             el.synthesize(
-                "Barcelona won 5-1.", dest="/tmp/el-empty.mp3",
+                "Barcelona won 5-1.", dest=dest,
                 regenerate=True, conf=conf, session=Session(),
             )
         self.assertEqual(caught.exception.code, "empty_audio")
+        self.assertFalse(dest.exists())
 
 
 if __name__ == "__main__":
