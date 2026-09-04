@@ -186,7 +186,18 @@ def total_seconds(scenes: list[dict[str, Any]]) -> float:
 
 def _split_for_subtitles(text: str) -> list[str]:
     """Break narration into cue-sized chunks on sentence then clause boundaries."""
-    sentences = [part.strip() for part in re.split(r"(?<=[.!?])\s+", str(text).strip()) if part.strip()]
+    raw = str(text).strip()
+    protected = re.sub(
+        r"\b(Atl|St|Mt|Dr|Mr|Mrs|Utd|F\.?C|C\.?F)\.",
+        lambda match: match.group(0).replace(".", "\u2024"),
+        raw,
+        flags=re.IGNORECASE,
+    )
+    sentences = [
+        part.replace("\u2024", ".").strip()
+        for part in re.split(r"(?<=[.!?])\s+", protected)
+        if part.strip()
+    ]
     chunks: list[str] = []
     for sentence in sentences:
         if len(sentence) <= SUBTITLE_MAX_CHARS:

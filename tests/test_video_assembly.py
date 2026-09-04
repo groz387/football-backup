@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from recap import video
+from recap import timing, video
 
 
 class AssemblyFilterTests(unittest.TestCase):
@@ -23,6 +23,13 @@ class AssemblyFilterTests(unittest.TestCase):
         self.assertIn("[raw2]fps=24,settb=1/24", graph)
         self.assertIn("[raw3]fps=24,settb=1/24", graph)
         self.assertEqual(label, "x3")
+
+    def test_subtitles_do_not_split_at_club_abbreviation(self):
+        chunks = timing._split_for_subtitles(
+            "Atl. Madrid won 0-2; Barcelona led shots 18-5. Who was best?"
+        )
+        self.assertFalse(any(chunk == "Atl." for chunk in chunks))
+        self.assertTrue(chunks[0].startswith("Atl. Madrid"))
 
 
 if __name__ == "__main__":
