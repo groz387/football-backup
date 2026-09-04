@@ -44,6 +44,7 @@ function formSettings() {
     visualization_count: Number($("visualizationCount")?.value || 4),
     words_per_section: Number($("wordsPerSection")?.value || 17),
     target_seconds: Number($("targetSeconds")?.value || 34),
+    fps: Number($("fps")?.value || 30),
     translation_provider: $("translationProvider")?.value || "auto",
     require_context_translation: Boolean($("requireTranslation")?.checked),
     scrape_url: ($("scrapeUrl") && $("scrapeUrl").value.trim()) || "",
@@ -537,6 +538,7 @@ async function boot() {
   if ($("visualizationCount")) $("visualizationCount").value = state.settings.visualization_count || 4;
   if ($("wordsPerSection")) $("wordsPerSection").value = state.settings.words_per_section || 17;
   if ($("targetSeconds")) $("targetSeconds").value = state.settings.target_seconds || 34;
+  if ($("fps")) $("fps").value = state.settings.fps || 30;
   if ($("translationProvider")) $("translationProvider").value = state.settings.translation_provider || "auto";
   if ($("requireTranslation")) $("requireTranslation").checked = state.settings.require_context_translation !== false;
   const colors = state.settings.colors || [];
@@ -569,7 +571,7 @@ $("btnElevenHealth").addEventListener("click", checkElevenHealth);
 $("btnPlan").addEventListener("click", () => produce("plan"));
 $("btnPreviewVideo").addEventListener("click", () => produce("silent"));
 $("btnProduce").addEventListener("click", () => produce("full"));
-["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway", "elevenStyle", "kids", "scrapeWait", "scrapeUrl", "htmlPath", "useGemini", "geminiModel", "star", "platforms", "seriesId", "elevenVoice", "elevenModel", "instruction", "visualizationCount", "wordsPerSection", "targetSeconds", "translationProvider", "requireTranslation"]
+["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway", "elevenStyle", "kids", "scrapeWait", "scrapeUrl", "htmlPath", "useGemini", "geminiModel", "star", "platforms", "seriesId", "elevenVoice", "elevenModel", "instruction", "visualizationCount", "wordsPerSection", "targetSeconds", "fps", "translationProvider", "requireTranslation"]
   .forEach((id) => $(id) && $(id).addEventListener("change", persist));
 $("visualizationCount").addEventListener("change", async () => {
   if ($("matchDir").value) await loadVisualizations($("matchDir").value);
