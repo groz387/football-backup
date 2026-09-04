@@ -918,13 +918,13 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "title": f"{hero_value} {stat_label(key).upper()}",
             "subtitle": i18n.t("sub_slam"),
             "insight": (
-                f"{leader} led {stat_label(key).lower()} "
+                f"{leader} led {stat_label(key)} "
                 f"{format_stat(key, stats[leader].get(key))} to "
                 f"{format_stat(key, stats[other].get(key))}."
             ),
             "narration": (
-                f"{leader} put {format_stat(key, stats[leader].get(key))} {stat_label(key).lower()} "
-                f"on the tape, the number that defined the night."
+                f"{leader} posted {format_stat(key, stats[leader].get(key))} {stat_label(key)} "
+                f"against {format_stat(key, stats[other].get(key))}, the clearest statistical gap on this card."
             ),
             "stat_keys": [key],
             "hero_number": hero_value,
@@ -938,11 +938,16 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "kicker": "PROFILE",
             "title": "THE SHAPE OF THE MATCH",
             "subtitle": i18n.t("sub_radar"),
-            "insight": f"{bundle.home} {home['shots']} shots, {bundle.away} {away['shots']}. The radar is the rest.",
+            "insight": (
+                f"{home['shots']}-{away['shots']} shots; "
+                f"{home.get(control_key, 0):.0f}-{away.get(control_key, 0):.0f} "
+                f"{stat_label(control_key).lower()}."
+            ),
             "narration": (
-                f"Six axes, two teams. {bundle.home} {home['shots']} shots to {away['shots']}, "
-                f"{home.get(control_key, 0):.0f} percent {stat_label(control_key).lower()} "
-                f"against {away.get(control_key, 0):.0f}."
+                f"{bundle.home} led {home['shots']}-{away['shots']} in shots and "
+                f"{home.get(control_key, 0):.0f}-{away.get(control_key, 0):.0f} in "
+                f"{stat_label(control_key).lower()}; {bundle.away} led {away.get('goals', 0)}-"
+                f"{home.get('goals', 0)} in goals."
             ),
         }
 
@@ -1018,10 +1023,17 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "kicker": "FUNNEL",
             "title": f"{int(leader_stats.get(control_key, 0))}% THEN THE DROP",
             "subtitle": i18n.t("sub_funnel"),
-            "insight": f"{leader} had the ball. The funnel shows where it died.",
+            "insight": (
+                f"{leader_stats.get(control_key, 0):.0f}% {stat_label(control_key).lower()} "
+                f"became {leader_stats.get('shots', 0)} shots, "
+                f"{leader_stats.get('big_chances', 0)} big chances and "
+                f"{leader_stats.get('goals', 0)} goals."
+            ),
             "narration": (
-                f"{leader} held {leader_stats.get(control_key, 0):.0f} percent {stat_label(control_key).lower()}, "
-                f"then turned it into {leader_stats.get('shots', 0)} shots and {leader_stats.get('goals', 0)} goals."
+                f"{leader} held {leader_stats.get(control_key, 0):.0f} percent "
+                f"{stat_label(control_key).lower()}, took {leader_stats.get('shots', 0)} shots "
+                f"and created {leader_stats.get('big_chances', 0)} big chances, yet scored "
+                f"{leader_stats.get('goals', 0)}."
             ),
         }
 
@@ -1239,7 +1251,16 @@ def _closing_copy(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, str]:
                 f"{winner} win it {score.display}. "
                 f"{int(context['winner_stats'].get('shots_on_target') or 0)} on target."
             )
-        insight = f"{winner} took the result. The numbers tell you how."
+        if source_supported:
+            insight = f"{loser_shots}-{winner_shots} shots"
+            if "xg" in source_supported:
+                insight += (
+                    f"; xG {float(context['loser_stats'].get('xg') or 0):.2f}-"
+                    f"{float(context['winner_stats'].get('xg') or 0):.2f}"
+                )
+            insight += f"; result {score.display}."
+        else:
+            insight = f"{winner} took the result. The numbers tell you how."
     elif score.total_goals == 0:
         total = sum(int(team.get("shots") or 0) for team in audit["team_stats"].values())
         narration = f"Goalless. {total} shots, and the net never moved."

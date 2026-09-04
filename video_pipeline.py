@@ -359,7 +359,7 @@ def run(args: argparse.Namespace) -> Path:
             "target_seconds": args.target_seconds,
             "total_seconds": timing.total_seconds(scene_list),
             "sfx": bool(getattr(args, "sfx", True)),
-            "burn_captions": bool(getattr(args, "burn_captions", True)),
+            "burn_captions": bool(getattr(args, "burn_captions", False)),
         },
         "viral_audit": viral_report,
         "selected_visualizations": selected,
@@ -395,7 +395,7 @@ def run(args: argparse.Namespace) -> Path:
         out_dir, rendered, audio_path, fps=args.fps,
         crossfade=not args.no_crossfade,
         sfx=bool(getattr(args, "sfx", True)),
-        burn_captions=bool(getattr(args, "burn_captions", True)),
+        burn_captions=bool(getattr(args, "burn_captions", False)),
         music_file=getattr(args, "music_file", "") or None,
         srt_path=out_dir / "subtitles.srt",
     )
@@ -563,8 +563,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="Mix synthesized hits under the master (default on)")
     parser.add_argument("--no-sfx", dest="sfx", action="store_false", help="Skip SFX hits")
     parser.add_argument("--music-file", default="", help="Optional music bed (ducked under VO)")
-    parser.add_argument("--burn-captions", dest="burn_captions", action="store_true", default=True,
-                        help="Burn subtitles into the social master (default on)")
+    parser.add_argument("--burn-captions", dest="burn_captions", action="store_true", default=False,
+                        help="Burn subtitles into the social master (off by default)")
     parser.add_argument("--no-burn-captions", dest="burn_captions", action="store_false",
                         help="Keep captions as an external SRT only")
 

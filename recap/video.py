@@ -212,7 +212,7 @@ def assemble(
     fps: int = DEFAULT_FPS,
     crossfade: bool = True,
     sfx: bool = True,
-    burn_captions: bool = True,
+    burn_captions: bool = False,
     music_file: str | Path | None = None,
     srt_path: Path | None = None,
 ) -> Path | None:
