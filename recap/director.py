@@ -924,7 +924,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             ),
             "narration": (
                 f"{leader} posted {format_stat(key, stats[leader].get(key))} {stat_label(key)} "
-                f"against {format_stat(key, stats[other].get(key))}, the clearest statistical gap on this card."
+                f"against {format_stat(key, stats[other].get(key))}; that was the clearest "
+                "statistical gap in the underlying performance."
             ),
             "stat_keys": [key],
             "hero_number": hero_value,

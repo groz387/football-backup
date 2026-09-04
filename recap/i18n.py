@@ -96,6 +96,8 @@ STAT_LABELS: dict[str, dict[str, str]] = {
         "tackles_won": "Tackles won",
         "interceptions": "Interceptions",
         "offsides": "Offsides",
+        "xg": "xG",
+        "xgot": "xGOT",
     },
     "az": {
         "goals": "Qollar",
@@ -118,6 +120,8 @@ STAT_LABELS: dict[str, dict[str, str]] = {
         "tackles_won": "Qazanılan mübarizələr",
         "interceptions": "Tutmalar",
         "offsides": "Ofsaydlar",
+        "xg": "xG",
+        "xgot": "xGOT",
     },
     "es": {
         "goals": "Goles",
@@ -140,6 +144,8 @@ STAT_LABELS: dict[str, dict[str, str]] = {
         "tackles_won": "Entradas ganadas",
         "interceptions": "Intercepciones",
         "offsides": "Fueras de juego",
+        "xg": "xG",
+        "xgot": "xGOT",
     },
     "ru": {
         "goals": "Голы",
@@ -162,6 +168,8 @@ STAT_LABELS: dict[str, dict[str, str]] = {
         "tackles_won": "Отборы",
         "interceptions": "Перехваты",
         "offsides": "Офсайды",
+        "xg": "xG",
+        "xgot": "xGOT",
     },
 }
 

@@ -247,8 +247,12 @@ function paintProduce(job) {
   const prod = (job && job.production) || { status: "idle", percent: 0, log: [], stage: "idle" };
   const packs = (job && job.packs) || {};
   const blockers = [];
+  const scriptBlockers = [];
   Object.entries(packs).forEach(([code, pack]) => {
-    if (pack.script_status !== "approved") blockers.push(`${code} script`);
+    if (pack.script_status !== "approved") {
+      blockers.push(`${code} script`);
+      scriptBlockers.push(`${code} script`);
+    }
     if (pack.voice_status !== "approved") blockers.push(`${code} voice`);
   });
   if ($("btnProduce")) {
@@ -256,6 +260,12 @@ function paintProduce(job) {
     $("btnProduce").title = blockers.length
       ? `Approve before production: ${blockers.join(", ")}`
       : "Render all approved language packages";
+  }
+  if ($("btnPreviewVideo")) {
+    $("btnPreviewVideo").disabled = scriptBlockers.length > 0 || prod.status === "running";
+    $("btnPreviewVideo").title = scriptBlockers.length
+      ? `Approve before preview: ${scriptBlockers.join(", ")}`
+      : "Render approved scripts without voiceover";
   }
   $("barFill").style.width = `${prod.percent || 0}%`;
   $("prodStage").textContent = `${prod.status || "idle"} · ${prod.stage || ""} ${prod.error ? "· " + prod.error : ""}`;
@@ -557,6 +567,7 @@ $("btnRegen").addEventListener("click", regenVoice);
 $("btnApproveVoice").addEventListener("click", approveVoice);
 $("btnElevenHealth").addEventListener("click", checkElevenHealth);
 $("btnPlan").addEventListener("click", () => produce("plan"));
+$("btnPreviewVideo").addEventListener("click", () => produce("silent"));
 $("btnProduce").addEventListener("click", () => produce("full"));
 ["url", "matchDir", "team", "format", "spoiler", "hookClaim", "hookPunch", "bait", "colorHome", "colorAway", "elevenStyle", "kids", "scrapeWait", "scrapeUrl", "htmlPath", "useGemini", "geminiModel", "star", "platforms", "seriesId", "elevenVoice", "elevenModel", "instruction", "visualizationCount", "wordsPerSection", "targetSeconds", "translationProvider", "requireTranslation"]
   .forEach((id) => $(id) && $(id).addEventListener("change", persist));

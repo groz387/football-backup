@@ -674,7 +674,7 @@ def _run_produce(job_id: str, mode: str) -> None:
                         "--no-gemini",
                         "--colors", colors_preview["home"]["primary"], colors_preview["away"]["primary"],
                     ]
-                    if pack.get("voice_path"):
+                    if mode != "silent" and pack.get("voice_path"):
                         argv += ["--voiceover-file", pack["voice_path"]]
                     else:
                         argv.append("--skip-audio")
@@ -715,14 +715,15 @@ def _run_produce(job_id: str, mode: str) -> None:
 
 
 def start_produce(job_id: str, mode: str = "full") -> dict[str, Any]:
-    if mode not in {"full", "plan", "skip-video"}:
-        raise ValueError("mode must be full, plan, or skip-video")
+    if mode not in {"full", "plan", "silent"}:
+        raise ValueError("mode must be full, plan, or silent")
     job = get_job(job_id)
-    if mode == "full":
+    if mode in {"full", "silent"}:
         pending_scripts = [code for code, pack in job["packs"].items() if pack["script_status"] != "approved"]
-        pending_voice = [code for code, pack in job["packs"].items() if pack["voice_status"] != "approved"]
         if pending_scripts:
             raise ValueError("Approve scripts: " + ", ".join(pending_scripts))
+    if mode == "full":
+        pending_voice = [code for code, pack in job["packs"].items() if pack["voice_status"] != "approved"]
         if pending_voice:
             raise ValueError("Approve voiceovers: " + ", ".join(pending_voice))
     thread = threading.Thread(target=_run_produce, args=(job_id, mode), daemon=True)

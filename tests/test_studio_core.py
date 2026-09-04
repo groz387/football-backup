@@ -78,6 +78,7 @@ class DashboardCoreTests(unittest.TestCase):
         for text in (
             "Words / section", "Pick 3–4 evidence graphics",
             "require contextual translation", "Find + scrape sources",
+            "Render silent preview",
         ):
             self.assertIn(text, page.text)
 
@@ -126,6 +127,11 @@ class DashboardCoreTests(unittest.TestCase):
         studio_api.approve_script(job["id"], "en")
         with self.assertRaisesRegex(ValueError, "Approve voiceovers"):
             studio_api.start_produce(job["id"], "full")
+
+    def test_burned_captions_are_off_by_default(self):
+        from video_pipeline import parse_args
+        args = parse_args(["--auto", "--match-dir", "output/example"])
+        self.assertFalse(args.burn_captions)
 
     def test_plan_runs_without_voice_spend(self):
         options = studio_api.visualization_options(self.export, 3)
