@@ -63,6 +63,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "eleven_model": "eleven_v3",
     "kids": False,
     "scrape_wait": 15,
+    "last_job_id": "",
 }
 
 LANGUAGES = [
@@ -542,7 +543,9 @@ def draft_scripts(payload: dict[str, Any]) -> dict[str, Any]:
         "production": {"status": "idle", "percent": 0, "stage": "review", "log": ["Scripts drafted. Review evidence, translation and timing."], "results": [], "error": ""},
         "capabilities": capabilities(),
     }
-    return _save(_job_path(job_id), job)
+    saved = _save(_job_path(job_id), job)
+    save_settings({"last_job_id": job_id})
+    return saved
 
 
 def get_job(job_id: str) -> dict[str, Any]:
@@ -691,16 +694,38 @@ def _run_produce(job_id: str, mode: str) -> None:
                         argv.append("--skip-audio")
                     args = video_pipeline.parse_args(argv)
                     original_build = video_pipeline.build_script
+                    original_progress = video_pipeline.progress_reporter
 
                     def approved_build(*call_args, **call_kwargs):
                         base_scenes, _ = original_build(*call_args, **call_kwargs)
                         return _restore_scenes(pack["scenes"], base_scenes), True
 
                     video_pipeline.build_script = approved_build
+
+                    def dashboard_progress():
+                        last = [-1]
+
+                        def report(done: int, frame_total: int, elapsed: float) -> None:
+                            fraction = done / max(1, frame_total)
+                            overall = ((index - 1) + fraction) / max(1, total)
+                            percent = min(94, 5 + int(overall * 89))
+                            if percent == last[0] and done < frame_total:
+                                return
+                            last[0] = percent
+                            current_job = get_job(job_id)
+                            current_job["production"].update({
+                                "stage": f"{code}: frames {done}/{frame_total}",
+                                "percent": percent,
+                            })
+                            _save(_job_path(job_id), current_job)
+                        return report
+
+                    video_pipeline.progress_reporter = dashboard_progress
                     try:
                         out_dir = video_pipeline.run(args)
                     finally:
                         video_pipeline.build_script = original_build
+                        video_pipeline.progress_reporter = original_progress
                     video_path = Path(out_dir) / "match_video.mp4"
                     results.append({
                         "language": code, "format": "short",

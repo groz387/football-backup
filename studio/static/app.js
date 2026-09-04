@@ -557,6 +557,13 @@ async function boot() {
       }
     } catch (_) { /* first load without a match is fine */ }
   }
+  if (state.settings.last_job_id) {
+    try {
+      state.job = await api(`/api/jobs/${state.settings.last_job_id}`);
+      state.lang = (state.job.languages || [])[0];
+      paintReview();
+    } catch (_) { /* stale job files are harmless */ }
+  }
 }
 
 $("btnResolve").addEventListener("click", loadMatch);
