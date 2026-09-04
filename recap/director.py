@@ -405,10 +405,10 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         },
         {
             "id": "touch_heatmap",
-            "title": "Touch Heat",
+            "title": "Touch Territory",
             "available": bool((audit.get("touch_heatmap") or {}).get("home")),
             "score": 64 + min(16, max(0.0, max_tilt - 50) * 0.35),
-            "reason": "True pitch gradient from every touch.",
+            "reason": "Crisp dominance cells from every real touch; no blur or invented interpolation.",
             "best_for": "Pins, sieges, territorial stories.",
             "avoid_when": "Even territory.",
         },
@@ -934,11 +934,14 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         away_t = sum(int(z.get("away_touches") or 0) for z in zones)
         leader = bundle.home if home_t >= away_t else bundle.away
         return {
-            "kicker": "HEAT",
-            "title": f"{max(home_t, away_t)} TOUCHES. THE PIN.",
+            "kicker": "TOUCH TERRITORY",
+            "title": f"{max(home_t, away_t)} TOUCHES",
             "subtitle": i18n.t("sub_heatmap"),
-            "insight": f"{home_t} touches against {away_t}. The colour is the pin.",
-            "narration": f"{leader} left the hotter footprint, {home_t} touches against {away_t}.",
+            "insight": f"{home_t} touches against {away_t}; each hex is a real event bin.",
+            "narration": (
+                f"{leader} drove the territory map: {home_t} touches against {away_t}, "
+                "with each hex tied to recorded events."
+            ),
         }
 
     if viz_id == "field_tilt_wave":

@@ -17,7 +17,7 @@ import matplotlib
 from matplotlib import font_manager
 
 # --- surfaces ---------------------------------------------------------------
-INK = "#0b1014"          # page background — lifted off pure black so team tint can read
+INK = "#000000"          # permanent pitch-black canvas; team colour belongs to data
 SURFACE = "#0e1211"      # cards and panels
 SURFACE_HI = "#161b19"   # raised rows
 PITCH = "#0a0f0b"
