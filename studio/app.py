@@ -180,6 +180,8 @@ def voice_action(job_id: str, language: str, payload: dict = Body(default_factor
         raise HTTPException(400, "action must be regenerate or approve")
     except (FileNotFoundError, KeyError) as exc:
         raise HTTPException(404, str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 @app.get("/api/jobs/{job_id}/audio/{language}")

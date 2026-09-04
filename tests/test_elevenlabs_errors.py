@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+from pathlib import Path
 from types import SimpleNamespace
 from unittest import mock
 
@@ -15,7 +16,7 @@ class _Resp:
         self.ok = 200 <= status < 300
         self._payload = payload or {}
         self.text = text or str(payload or "")
-        self.content = b"ID3fake-mp3"
+        self.content = b"ID3" + (b"fake-mp3-audio-body" * 8)
 
     def json(self):
         return self._payload
@@ -94,6 +95,37 @@ class ElevenLabsErrorTests(unittest.TestCase):
         self.assertTrue(dest.exists())
         self.assertIn("eleven_v3", calls)
         self.assertIn("eleven_multilingual_v2", calls)
+
+    def test_empty_audio_body_is_not_success(self):
+        el.reset_caches()
+        conf = SimpleNamespace(
+            slots=[SimpleNamespace(api_key="sk_test", proxy=None)],
+            model="eleven_v3", voice_id="TX3LPaxmHKxFdv7VOQHJ", voice_name="Liam",
+            style="robust",
+        )
+
+        class Session:
+            def post(self, url, **kwargs):
+                empty = _Resp(200, {})
+                empty.content = b"\x00" * 8
+                return empty
+
+            def get(self, url, **kwargs):
+                if url.endswith("/models"):
+                    return _Resp(200, [{"model_id": "eleven_v3"}])
+                if url.endswith("/voices"):
+                    return _Resp(200, {"voices": [{"name": "Liam", "voice_id": "TX3LPaxmHKxFdv7VOQHJ"}]})
+                return _Resp(200, {"character_count": 10, "character_limit": 100000})
+
+        dest = Path("/tmp/el-empty.mp3")
+        dest.unlink(missing_ok=True)
+        with self.assertRaises(el.ElevenLabsError) as caught:
+            el.synthesize(
+                "Barcelona won 5-1.", dest=dest,
+                regenerate=True, conf=conf, session=Session(),
+            )
+        self.assertEqual(caught.exception.code, "empty_audio")
+        self.assertFalse(dest.exists())
 
 
 if __name__ == "__main__":

@@ -144,6 +144,14 @@ button:disabled { opacity: .45; cursor: not-allowed; }
   color: #c9d4cc; white-space: pre-wrap;
 }
 
+.produce-steps {
+  margin: 0 0 10px 1.2rem;
+  color: var(--dim);
+  font-size: 13px;
+}
+.produce-steps li { margin: 0 0 4px; }
+#produceGates { margin-bottom: 10px; }
+
 @media (max-width: 900px) {
   .grid, .row3 { grid-template-columns: 1fr; }
   .card.wide { grid-column: auto; }

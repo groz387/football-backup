@@ -35,6 +35,7 @@ API_ROOT = "https://api.elevenlabs.io/v1"
 DEFAULT_MODEL = cfg.DEFAULT_MODEL
 DEFAULT_VOICE_NAME = cfg.DEFAULT_VOICE_NAME
 DEFAULT_VOICE_ID = cfg.FALLBACK_VOICE_ID
+MIN_AUDIO_BYTES = 64
 
 _VOICE_CACHE: dict[str, str] = {}
 _MODEL_CACHE: str | None = None
@@ -600,6 +601,14 @@ def synthesize(
                 # Quota/auth failures rotate to the next configured key.
                 break
             body = response.content or b""
+            if len(body) < MIN_AUDIO_BYTES or set(body) == {0}:
+                last_error = ElevenLabsError(
+                    "ElevenLabs returned an empty or silent audio body. "
+                    "This is not a usable voiceover — do not treat it as success.",
+                    code="empty_audio", http=getattr(response, "status_code", None),
+                    model=active_model, fallback_tried=tried_models,
+                )
+                continue
             target.parent.mkdir(parents=True, exist_ok=True)
             if want_wav:
                 _pcm_to_wav(body, target)

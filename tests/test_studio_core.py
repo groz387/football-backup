@@ -79,7 +79,8 @@ class DashboardCoreTests(unittest.TestCase):
         for text in (
             "Words / section", "Pick 3–4 evidence graphics",
             "require contextual translation", "Find + scrape sources",
-            "Render MP4s (no voice)",
+            "Render MP4s (no voice)", "Flashscore",
+            "Approve each language script",
         ):
             self.assertIn(text, page.text)
 
@@ -189,11 +190,17 @@ class DashboardCoreTests(unittest.TestCase):
                 _args.selected_visualizations,
                 ",".join(job["packs"]["en"]["visualizations"]),
             )
+            self.assertTrue(_args.skip_audio)
+            self.assertFalse(_args.voiceover_file)
             rendered.mkdir(parents=True, exist_ok=True)
             (rendered / "match_video.mp4").write_bytes(b"mp4")
             return rendered
 
-        with mock.patch("recap.studio_api.video_pipeline.run", side_effect=fake_run):
+        def boom(*_a, **_k):
+            raise AssertionError("silent render must not call ElevenLabs")
+
+        with mock.patch("recap.studio_api.video_pipeline.run", side_effect=fake_run), \
+                mock.patch("recap.studio_api.elevenlabs_tts.synthesize", side_effect=boom):
             studio_api.start_produce(job["id"], "silent")
             for _ in range(80):
                 job = studio_api.get_job(job["id"])
@@ -203,6 +210,30 @@ class DashboardCoreTests(unittest.TestCase):
         self.assertEqual(job["production"]["status"], "done", job["production"]["error"])
         self.assertEqual(job["production"]["results"][0]["language"], "en")
         self.assertTrue(job["production"]["results"][0]["video"].endswith("match_video.mp4"))
+
+    def test_approve_voice_rejects_stub_audio(self):
+        options = studio_api.visualization_options(self.export, 3)
+        job = studio_api.draft_scripts({
+            "match_dir": str(self.export),
+            "languages": ["en"],
+            "selected_visualizations": options["selected"],
+            "visualization_count": 3,
+            "use_gemini": False,
+        })
+        pack = job["packs"]["en"]
+        stub = self.tmp / "silent.wav"
+        stub.write_bytes(b"\x00" * 8)
+        pack.update({
+            "voice_stub": True, "voice_status": "ready", "voice_path": str(stub),
+        })
+        studio_api._save(studio_api._job_path(job["id"]), job)
+        with self.assertRaisesRegex(ValueError, "stub"):
+            studio_api.approve_voice(job["id"], "en")
+        pack["voice_stub"] = False
+        pack["voice_status"] = "failed"
+        studio_api._save(studio_api._job_path(job["id"]), job)
+        with self.assertRaisesRegex(ValueError, "no real"):
+            studio_api.approve_voice(job["id"], "en")
 
     def test_multilingual_draft_translates_the_whole_story_once(self):
         options = studio_api.visualization_options(self.export, 3)
@@ -262,6 +293,22 @@ class DashboardCoreTests(unittest.TestCase):
         }])
         approved = studio_api.approve_script(job["id"], "es")
         self.assertEqual(approved["packs"]["es"]["script_status"], "approved")
+
+    def test_stub_voiceover_cannot_be_approved(self):
+        options = studio_api.visualization_options(self.export, 3)
+        job = studio_api.draft_scripts({
+            "match_dir": str(self.export),
+            "languages": ["en"],
+            "selected_visualizations": options["selected"],
+            "visualization_count": 3,
+            "use_gemini": False,
+        })
+        studio_api._pack(job, "en").update({
+            "voice_status": "ready", "voice_stub": True, "voice_path": "",
+        })
+        studio_api._save(studio_api._job_path(job["id"]), job)
+        with self.assertRaisesRegex(ValueError, "stub"):
+            studio_api.approve_voice(job["id"], "en")
 
 
 if __name__ == "__main__":
