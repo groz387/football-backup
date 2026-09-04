@@ -299,7 +299,9 @@ def _job_path(job_id: str) -> Path:
 def _save(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
     with _LOCK:
         path.parent.mkdir(parents=True, exist_ok=True)
-        write_json(path, payload)
+        temporary = path.with_suffix(path.suffix + ".tmp")
+        write_json(temporary, payload)
+        temporary.replace(path)
     return payload
 
 
@@ -307,7 +309,8 @@ def get_scrape_job(job_id: str) -> dict[str, Any]:
     path = _scrape_path(job_id)
     if not path.exists():
         raise FileNotFoundError(f"Unknown scrape job {job_id}")
-    return read_json(path)
+    with _LOCK:
+        return read_json(path)
 
 
 def _run_scrape_job(job_id: str) -> None:
@@ -540,7 +543,8 @@ def get_job(job_id: str) -> dict[str, Any]:
     path = _job_path(job_id)
     if not path.exists():
         raise FileNotFoundError(f"Unknown studio job {job_id}")
-    return read_json(path)
+    with _LOCK:
+        return read_json(path)
 
 
 def _pack(job: dict[str, Any], language: str) -> dict[str, Any]:
