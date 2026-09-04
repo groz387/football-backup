@@ -134,6 +134,35 @@ class GraphEmptyAuditTests(unittest.TestCase):
                     f"{name} opening frame is not pitch black",
                 )
 
+    def test_hook_opening_corners_stay_pitch_black(self) -> None:
+        import matplotlib.pyplot as plt
+
+        scene = {
+            "title": "KOREA HAD 9 SHOTS",
+            "insight": "late stamp",
+            "visual_language": "number_slam",
+            "hero_number": 9,
+            "hero_label": "SHOTS",
+            "hero_team": "South Korea",
+            "seconds": 0.85,
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "hook.png"
+            scenes.render_hook_claim(self.bundle, self.audit, scene, path, 0.0)
+            pixels = plt.imread(path)
+            h, w = pixels.shape[:2]
+            corners = (
+                pixels[8, w // 2, :3],
+                pixels[h // 2, w // 2, :3],
+                pixels[h - 9, w // 2, :3],
+            )
+            for sample in corners:
+                self.assertLess(
+                    float(sample.mean()),
+                    0.12,
+                    f"hook opening sample {tuple(sample)} is not pitch black",
+                )
+
 
 class UniquenessTests(unittest.TestCase):
     def test_core_viz_have_shape_families(self) -> None:

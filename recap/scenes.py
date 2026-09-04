@@ -214,9 +214,9 @@ def _hook_lines(scene: dict[str, Any]) -> list[str]:
 
 
 def _interrupt(progress: float, duration: float) -> tuple[bool, float, float]:
-    """Return (flash_bg, zoom, shake). Flash is a background slam, text stays on top."""
+    """Return (accent, zoom, shake). Canvas stays pitch-black; team colour is accent only."""
     t = max(0.0, progress) * max(0.05, duration)
-    flash = t < 0.15
+    accent = t < 0.18
     zoom = 1.0
     if t < 0.28:
         zoom = 1.0 + 0.18 * (1.0 - t / 0.28)
@@ -224,7 +224,7 @@ def _interrupt(progress: float, duration: float) -> tuple[bool, float, float]:
     if t < 0.22:
         decay = 1.0 - t / 0.22
         shake = 0.010 * decay * math.sin(t * 95.0)
-    return flash, zoom, shake
+    return accent, zoom, shake
 
 
 def _team_flash_color(design: dict[str, Any], scene: dict[str, Any]) -> str:
@@ -238,6 +238,13 @@ def _team_flash_color(design: dict[str, Any], scene: dict[str, Any]) -> str:
     if team and team.lower() in str(design["away"].get("name") or "").lower():
         identity = design["away"]
     return identity.get("fill") or identity["primary"]
+
+
+def _hook_accent(fig, color: str, *, punch: bool = False) -> None:
+    """Thin team-colour rails. Never a full-canvas wash."""
+    width = 0.018 if punch else 0.012
+    draw.fig_rect(fig, 0.0, 0.0, width, 1.0, color, 0.92, zorder=6)
+    draw.fig_rect(fig, 1.0 - width, 0.0, width, 1.0, color, 0.92, zorder=6)
 
 
 def _punch_slam(progress: float, duration: float) -> bool:
@@ -289,22 +296,20 @@ def render_hook_punch(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
 
 def render_micro_hook(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, Any],
                       path: Path, progress: float = 1.0) -> None:
-    """0.45s mid-pack interrupt. Flash colour cycles; badges skip every other."""
+    """0.45s mid-pack interrupt. Accent rails cycle; badges skip every other."""
     design = theme.match_design(bundle.home, bundle.away)
     fig = draw.new_figure(design)
     duration = float(scene.get("seconds") or 0.45)
-    flash, zoom, shake = _interrupt(progress, duration)
+    accent, zoom, shake = _interrupt(progress, duration)
     line = (_hook_lines(scene) or [str(scene.get("title") or "")])[0]
     flash_color = _team_flash_color(design, scene)
     if str(scene.get("flash") or "") == "cream":
         flash_color = "#fff4d6"
     elif str(scene.get("flash") or "") == "black":
         flash_color = "#050608"
-    if flash:
-        draw.color_flash(fig, flash_color, alpha=1.0, zorder=5)
-    ink = "#120e08" if flash and flash_color != "#050608" else TEXT
-    if flash and flash_color == "#050608":
-        ink = TEXT
+    if accent:
+        _hook_accent(fig, flash_color, punch=True)
+    ink = TEXT
     size = 52.0 if len(line) > 26 else 64.0
     draw.fit_text(
         fig, 0.5 + shake, 0.58, line.upper(),
@@ -321,14 +326,11 @@ def _render_stamp_hook(bundle: MatchBundle, design: dict[str, Any], scene: dict[
                        path: Path, progress: float, *, punch: bool) -> None:
     fig = draw.new_figure(design)
     duration = float(scene.get("seconds") or (0.70 if punch else 0.85))
-    flash, zoom, shake = _interrupt(progress, duration)
+    accent, zoom, shake = _interrupt(progress, duration)
     team_color = _team_flash_color(design, scene)
-    if punch and _punch_slam(progress, duration):
-        draw.color_flash(fig, team_color, alpha=1.0, zorder=5)
-        flash = True
-    elif flash:
-        draw.color_flash(fig, team_color if not punch else "#fff4d6", alpha=1.0, zorder=5)
-    ink = "#120e08" if flash else (theme.WARNING if punch else TEXT)
+    if accent or (punch and _punch_slam(progress, duration)):
+        _hook_accent(fig, team_color, punch=punch)
+    ink = theme.WARNING if punch else TEXT
     if punch:
         line = (_hook_lines(scene) or [str(scene.get("title") or "")])[0]
         draw.fit_text(
@@ -365,21 +367,21 @@ def _render_number_slam(bundle: MatchBundle, design: dict[str, Any], scene: dict
                         path: Path, progress: float, *, punch: bool) -> None:
     fig = draw.new_figure(design)
     duration = float(scene.get("seconds") or (0.70 if punch else 0.85))
-    flash, zoom, shake = _interrupt(progress, duration)
+    accent, zoom, shake = _interrupt(progress, duration)
     identity = design["home"]
+    team = str(scene.get("hero_team") or scene.get("team") or "")
+    if team and team.lower() in str(design["away"].get("name") or "").lower():
+        identity = design["away"]
     team_color = identity.get("fill") or identity["primary"]
-    if punch and _punch_slam(progress, duration):
-        draw.color_flash(fig, team_color, alpha=1.0, zorder=5)
-        flash = True
-    elif flash:
-        draw.color_flash(fig, team_color, alpha=1.0, zorder=5)
-    ink = "#120e08" if flash else TEXT
+    if accent or (punch and _punch_slam(progress, duration)):
+        _hook_accent(fig, team_color, punch=punch)
+    ink = TEXT
     if punch:
         line = (_hook_lines(scene) or [str(scene.get("title") or "")])[0]
         draw.fit_text(
             fig, 0.5 + shake, 0.58, line.upper(),
             fontsize=78.0 * zoom, max_width=0.92, max_lines=3, min_fontsize=32.0,
-            ha="center", va="center", color=ink if not flash else "#120e08",
+            ha="center", va="center", color=ink,
             family=theme.DISPLAY_FONT, fontweight="bold",
             linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
         )
@@ -419,26 +421,17 @@ def _render_split_smash(bundle: MatchBundle, design: dict[str, Any], scene: dict
                         path: Path, progress: float, *, punch: bool) -> None:
     fig = draw.new_figure(design)
     duration = float(scene.get("seconds") or (0.70 if punch else 0.85))
-    flash, zoom, shake = _interrupt(progress, duration)
-    if punch and _punch_slam(progress, duration):
-        draw.color_flash(fig, design["home"].get("fill") or design["home"]["primary"], alpha=1.0, zorder=5)
-        line = (_hook_lines(scene) or [str(scene.get("title") or "")])[0]
-        draw.fit_text(
-            fig, 0.5 + shake, 0.58, line.upper(),
-            fontsize=78.0 * zoom, max_width=0.92, max_lines=3, min_fontsize=32.0,
-            ha="center", va="center", color="#120e08", family=theme.DISPLAY_FONT, fontweight="bold",
-            linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
-        )
-        _hook_badges(fig, bundle, design, y=0.24, shake=shake)
-        draw.save_figure(fig, path)
-        return
+    accent, zoom, shake = _interrupt(progress, duration)
+    home_fill = design["home"].get("fill") or design["home"]["primary"]
+    away_fill = design["away"].get("fill") or design["away"]["primary"]
     if punch:
-        draw.color_flash(fig, "#fff4d6", alpha=1.0 if flash else 0.0, zorder=5)
+        if accent or _punch_slam(progress, duration):
+            _hook_accent(fig, home_fill, punch=True)
         line = (_hook_lines(scene) or [str(scene.get("title") or "")])[0]
         draw.fit_text(
             fig, 0.5 + shake, 0.58, line.upper(),
             fontsize=78.0 * zoom, max_width=0.92, max_lines=3, min_fontsize=32.0,
-            ha="center", va="center", color="#120e08" if flash else theme.WARNING,
+            ha="center", va="center", color=theme.WARNING if punch else TEXT,
             family=theme.DISPLAY_FONT, fontweight="bold",
             linespacing=0.94, alpha=1.0, zorder=20, path_effects=draw.soft_shadow(),
         )
@@ -446,29 +439,31 @@ def _render_split_smash(bundle: MatchBundle, design: dict[str, Any], scene: dict
         draw.save_figure(fig, path)
         return
 
-    draw.fig_rect(fig, 0.0, 0.0, 0.5, 1.0, design["home"].get("fill") or design["home"]["primary"], 0.92, zorder=4)
-    draw.fig_rect(fig, 0.5, 0.0, 0.5, 1.0, design["away"].get("fill") or design["away"]["primary"], 0.92, zorder=4)
+    if accent:
+        _hook_accent(fig, home_fill)
+    draw.fig_panel(fig, 0.05, 0.34, 0.42, 0.38, color=home_fill, alpha=0.94, zorder=4)
+    draw.fig_panel(fig, 0.53, 0.34, 0.42, 0.38, color=away_fill, alpha=0.94, zorder=4)
     split = scene.get("split") or {}
     home_n = split.get("home", "")
     away_n = split.get("away", "")
     label = str(split.get("label") or "")
-    ink_home = theme.ink_on(design["home"].get("fill") or design["home"]["primary"])
-    ink_away = theme.ink_on(design["away"].get("fill") or design["away"]["primary"])
-    draw.hero_number(fig, 0.25 + shake, 0.58, home_n, color=ink_home, fontsize=140.0 * zoom)
-    draw.hero_number(fig, 0.75 + shake, 0.58, away_n, color=ink_away, fontsize=140.0 * zoom)
+    ink_home = theme.ink_on(home_fill)
+    ink_away = theme.ink_on(away_fill)
+    draw.hero_number(fig, 0.26 + shake, 0.56, home_n, color=ink_home, fontsize=140.0 * zoom)
+    draw.hero_number(fig, 0.74 + shake, 0.56, away_n, color=ink_away, fontsize=140.0 * zoom)
     if label:
-        fig.text(0.5, 0.38, label.upper(), color="#120e08", fontsize=22, fontweight="bold",
+        fig.text(0.5, 0.30, label.upper(), color=TEXT, fontsize=22, fontweight="bold",
                  family=theme.MONO_FONT, ha="center", va="center", zorder=22)
     lines = _hook_lines(scene)
     if lines:
         draw.fit_text(
-            fig, 0.5, 0.28, lines[0].upper(),
+            fig, 0.5, 0.24, lines[0].upper(),
             fontsize=26.0, max_width=0.88, max_lines=2, min_fontsize=14.0,
-            ha="center", va="center", color="#120e08", family=theme.DISPLAY_FONT, fontweight="bold",
+            ha="center", va="center", color=TEXT, family=theme.DISPLAY_FONT, fontweight="bold",
             alpha=1.0, zorder=22,
         )
-    draw.team_badge(fig, bundle.home, 0.25, 0.16, 0.12, identity=design["home"], alpha=1.0, zorder=22)
-    draw.team_badge(fig, bundle.away, 0.75, 0.16, 0.12, identity=design["away"], alpha=1.0, zorder=22)
+    draw.team_badge(fig, bundle.home, 0.26, 0.14, 0.12, identity=design["home"], alpha=1.0, zorder=22)
+    draw.team_badge(fig, bundle.away, 0.74, 0.14, 0.12, identity=design["away"], alpha=1.0, zorder=22)
     draw.save_figure(fig, path)
 
 
