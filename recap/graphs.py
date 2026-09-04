@@ -170,8 +170,8 @@ def render_touch_heatmap(bundle: MatchBundle, audit: dict[str, Any], scene: dict
     """Crisp touch-territory mosaic.
 
     The old blurred red/blue wash hid the pitch and looked like compression
-    noise. Hex cells show the dominant side and volume at each real touch bin;
-    no interpolation invents activity between coordinates.
+    noise. Each rectangle is one audited touch bin; no interpolation invents
+    activity between coordinates, and empty bins stay pitch black.
     """
     design = theme.match_design(bundle.home, bundle.away)
     fig = draw.new_figure(design)
@@ -183,37 +183,32 @@ def render_touch_heatmap(bundle: MatchBundle, audit: dict[str, Any], scene: dict
                              alpha=tl.cue(0.06, 0.26))
     home_grid = heat.get("home") or []
     away_grid = heat.get("away") or []
-    cells: list[tuple[float, int, int, float, float]] = []
+    x_bins = max(1, int(heat.get("x_bins") or len(home_grid) or 1))
+    y_bins = max(1, int(heat.get("y_bins") or (len(home_grid[0]) if home_grid else 1)))
+    cells: list[tuple[int, int, str, float]] = []
+    maximum = 1.0
     if home_grid and away_grid:
+        totals: list[tuple[int, int, float, float, float]] = []
         for xi, home_row in enumerate(home_grid):
             away_row = away_grid[xi] if xi < len(away_grid) else []
             for yi, home_value in enumerate(home_row):
                 away_value = away_row[yi] if yi < len(away_row) else 0
                 total = float(home_value or 0) + float(away_value or 0)
                 if total > 0:
-                    cells.append((total, xi, yi, float(home_value or 0), float(away_value or 0)))
-    cells.sort(reverse=True)
-    cells = cells[:110]
-    maximum = max((cell[0] for cell in cells), default=1.0)
-    shown = tl.reveal_count(len(cells), start=0.08, span=0.62)
-    x_bins = max(1, int(heat.get("x_bins") or len(home_grid) or 1))
-    y_bins = max(1, int(heat.get("y_bins") or (len(home_grid[0]) if home_grid else 1)))
+                    totals.append((xi, yi, total, float(home_value or 0), float(away_value or 0)))
+        maximum = max((row[2] for row in totals), default=1.0)
+        grown = tl.cue(0.08, 0.52, ease=draw.ease_in_out)
+        for xi, yi, total, home_value, away_value in totals:
+            share = home_value / total if total else 0.5
+            identity = design["home"] if share >= 0.5 else design["away"]
+            dominance = abs(share - 0.5) * 2.0
+            weight = (0.22 + 0.70 * (total / maximum) ** 0.72) * (0.55 + 0.45 * dominance)
+            cells.append((xi, yi, identity["fill"], weight * grown))
+    row_progress = [tl.stagger(row, x_bins, start=0.08, span=0.50, duration=0.28)
+                    for row in range(x_bins)]
     draw.pitch_grid_fade(ax, alpha=0.035 * tl.cue(0.08, 0.24))
-    for index, (total, xi, yi, home_value, away_value) in enumerate(cells[:shown]):
-        local = tl.stagger(index, max(1, len(cells)), start=0.08, span=0.60, duration=0.18)
-        share = home_value / total if total else 0.5
-        identity = design["home"] if share >= 0.5 else design["away"]
-        dominance = abs(share - 0.5) * 2.0
-        px = (yi + 0.5) * 100.0 / y_bins
-        py = (xi + 0.5) * 100.0 / x_bins
-        size = (34.0 + 250.0 * (total / maximum) ** 0.72) * local
-        ax.scatter(
-            [px], [py], s=size, marker="h",
-            facecolor=identity["fill"], edgecolor=identity["chart"],
-            linewidth=0.7 + 0.8 * dominance,
-            alpha=draw.opacity((0.22 + 0.60 * dominance) * local),
-            zorder=6 + index * 0.001,
-        )
+    draw.mosaic_cells(ax, cells, x_bins=x_bins, y_bins=y_bins, gap=0.28,
+                      zorder=6, row_progress=row_progress)
     draw.legend_row(
         fig, 0.118,
         [("bar", design["home"]["fill"], bundle.home), ("bar", design["away"]["fill"], bundle.away)],
@@ -238,7 +233,7 @@ def render_field_tilt_wave(bundle: MatchBundle, audit: dict[str, Any], scene: di
     chart_top = content_top - 0.08
     rect = [Layout.MARGIN, 0.18, Layout.CONTENT_W, chart_top - 0.18]
     ax = fig.add_axes(rect, zorder=4)
-    ax.set_facecolor("#0b0f0d")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
     starts = np.array([row["start"] for row in rows], dtype=float)
@@ -424,7 +419,7 @@ def render_keeper_frame(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
     ax.set_ylim(0, view_z_max)
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.set_facecolor("#070a09")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
 
@@ -512,7 +507,7 @@ def render_xg_race(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, 
 
     rect = [Layout.MARGIN, 0.20, Layout.CONTENT_W, content_top - 0.34]
     ax = fig.add_axes(rect, zorder=4)
-    ax.set_facecolor("#0b0f0d")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
     peak = max(home_y[-1], away_y[-1], 0.6) * 1.18
@@ -582,19 +577,16 @@ def render_time_zones(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
             continue
         x_bins = max(z["xbin"] for z in zones) + 1
         y_bins = max(z["ybin"] for z in zones) + 1
-        grid = np.zeros((x_bins, y_bins, 4))
         busiest = max((z["total_touches"] for z in zones), default=1) or 1
+        cells: list[tuple[int, int, str, float]] = []
         for zone in zones:
+            if not zone["total_touches"]:
+                continue
             share = zone["home_share_pct"] / 100.0
             base = home_c if share >= 0.5 else away_c
-            r, g, b = theme.hex_to_rgb(base)
             weight = 0.15 + 0.75 * (zone["total_touches"] / busiest)
-            grid[zone["xbin"], zone["ybin"], 0] = r
-            grid[zone["xbin"], zone["ybin"], 1] = g
-            grid[zone["xbin"], zone["ybin"], 2] = b
-            grid[zone["xbin"], zone["ybin"], 3] = weight * local
-        ax.imshow(grid, origin="lower", extent=(0, 100, 0, 100), interpolation="bilinear",
-                  aspect="auto", zorder=5)
+            cells.append((zone["xbin"], zone["ybin"], base, weight * local))
+        draw.mosaic_cells(ax, cells, x_bins=x_bins, y_bins=y_bins, gap=0.18, zorder=5)
         leader = bundle.home if slice_.get("home_touches", 0) >= slice_.get("away_touches", 0) else bundle.away
         fig.text(1 - Layout.MARGIN, top - 0.012, leader.upper(),
                  color=design["home"]["chart"] if leader == bundle.home else design["away"]["chart"],
@@ -1180,7 +1172,7 @@ def render_momentum_wave(bundle: MatchBundle, audit: dict[str, Any], scene: dict
 
     rect = [Layout.MARGIN, 0.20, Layout.CONTENT_W, content_top - 0.28]
     ax = fig.add_axes(rect, zorder=4)
-    ax.set_facecolor("#0b0f0d")
+    ax.set_facecolor("#000000")
     for spine in ax.spines.values():
         spine.set_visible(False)
     axis = audit.get("clock_axis") or {}

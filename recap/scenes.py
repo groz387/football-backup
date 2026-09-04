@@ -926,23 +926,23 @@ def render_zone_control(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
     home_colour = design["home"]["chart"]
     away_colour = design["away"]["chart"]
     busiest = max((z["total_touches"] for z in zones), default=1) or 1
-    grid = np.zeros((x_bins, y_bins, 4))
-    grown = tl.cue(0.06, 0.52, ease=draw.ease_in_out)
+    # Restored from the backup recap: one rectangle per audited touch bin.
+    # Bilinear imshow invented colour between coordinates and looked like a
+    # compressed heatmap. Cells stay crisp and event-backed.
+    row_progress = [tl.stagger(row, x_bins, start=0.10, span=0.48, duration=0.30)
+                    for row in range(x_bins)]
+    cells: list[tuple[int, int, str, float]] = []
     for zone in zones:
         share = zone["home_share_pct"] / 100.0
         home_leads = share >= 0.5
         margin = abs(share - 0.5) * 2
         base = home_colour if home_leads else away_colour
         colour = theme.mix("#5b6660", base, 0.30 + 0.70 * margin)
-        r, g, b = theme.hex_to_rgb(colour)
         volume = zone["total_touches"] / busiest
-        weight = 0.18 + 0.62 * volume
-        grid[zone["xbin"], zone["ybin"], 0] = r
-        grid[zone["xbin"], zone["ybin"], 1] = g
-        grid[zone["xbin"], zone["ybin"], 2] = b
-        grid[zone["xbin"], zone["ybin"], 3] = weight * grown
-    ax.imshow(grid, origin="lower", extent=(0, 100, 0, 100), interpolation="bilinear",
-              aspect="auto", zorder=4)
+        weight = 0.20 + 0.58 * volume
+        cells.append((zone["xbin"], zone["ybin"], colour, weight))
+    draw.mosaic_cells(ax, cells, x_bins=x_bins, y_bins=y_bins, gap=0.0,
+                      zorder=4, row_progress=row_progress)
 
     cell_w = 100 / y_bins
     cell_h = 100 / x_bins

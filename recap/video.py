@@ -272,11 +272,8 @@ def assemble(
 
     command += ["-filter_complex", graph, "-map", mapped_video]
     if has_audio:
-        command += [
-            "-map", f"{len(scene_list)}:a:0",
-            "-c:a", "aac", "-b:a", "192k",
-            "-af", "apad", "-shortest",
-        ]
+        command += ["-map", f"{len(scene_list)}:a:0"]
+        command += _audio_encode_args(duration)
     else:
         command += ["-an"]
     command += [
@@ -310,6 +307,21 @@ def assemble(
             output.unlink(missing_ok=True)
             return None
     return output if output.exists() else None
+
+
+def _audio_encode_args(duration: float) -> list[str]:
+    """Pad audio to the planned picture length. Never `-shortest`.
+
+    `-shortest` truncated xfades when the mixed bed was a hair short of the
+    filter-graph duration. ``apad`` plus an explicit ``-t`` keeps the encode
+    on the quantized frame timeline.
+    """
+    seconds = max(0.04, float(duration))
+    return [
+        "-c:a", "aac", "-b:a", "192k",
+        "-af", "apad",
+        "-t", f"{seconds:.3f}",
+    ]
 
 
 def _escape_subtitles_path(path: Path) -> str:
