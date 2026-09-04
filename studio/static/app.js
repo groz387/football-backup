@@ -271,6 +271,19 @@ function paintProduce(job) {
       ? `Approve scripts first: ${scriptBlockers.join(", ")}`
       : "Write match_video.mp4 for each approved language, without waiting for ElevenLabs";
   }
+  if ($("produceGates")) {
+    if (!job) {
+      $("produceGates").textContent = "Draft scripts first. Silent MP4s need approved scripts. Voiceover produce needs approved VO as well.";
+    } else if (prod.status === "running") {
+      $("produceGates").textContent = `Rendering… ${prod.stage || ""}`;
+    } else if (scriptBlockers.length) {
+      $("produceGates").textContent = `Approve scripts before MP4: ${scriptBlockers.join(", ")}.`;
+    } else if (blockers.length) {
+      $("produceGates").textContent = `Silent MP4 is ready to render. Voiceover still needs: ${blockers.filter((item) => item.includes("voice")).join(", ") || "voice approval"}.`;
+    } else {
+      $("produceGates").textContent = "Scripts and voice approved. Render silent MP4s or produce with voiceover.";
+    }
+  }
   $("barFill").style.width = `${prod.percent || 0}%`;
   $("prodStage").textContent = `${prod.status || "idle"} · ${prod.stage || ""} ${prod.error ? "· " + prod.error : ""}`;
   $("prodLog").textContent = (prod.log || []).slice(-40).join("\n");
@@ -369,7 +382,10 @@ async function scrapeMatch() {
   const htmlPath = s.html_path;
   const file = $("htmlFile") && $("htmlFile").files && $("htmlFile").files[0];
   $("resolveHint").textContent = "Starting scrape…";
-  showScrapePanel(true, { scrape_url: url, scrape_hint: "Scraping WhoScored…" });
+  showScrapePanel(true, {
+    scrape_url: url,
+    scrape_hint: "Finding WhoScored first, then Flashscore if the chalkboard is missing or limited…",
+  });
   try {
     let job;
     if (file) {
@@ -475,11 +491,16 @@ async function regenVoice() {
 
 async function approveVoice() {
   if (!state.job) return;
-  state.job = await api(`/api/jobs/${state.job.id}/voice/${state.lang}`, {
-    method: "POST",
-    body: { action: "approve" },
-  });
-  paintReview();
+  try {
+    state.job = await api(`/api/jobs/${state.job.id}/voice/${state.lang}`, {
+      method: "POST",
+      body: { action: "approve" },
+    });
+    paintReview();
+  } catch (err) {
+    $("voiceNote").textContent = err.message;
+    $("voiceNote").classList.add("error");
+  }
 }
 
 async function checkElevenHealth() {
@@ -507,11 +528,15 @@ async function produce(mode) {
     $("prodStage").textContent = "Draft scripts first.";
     return;
   }
-  state.job = await api(`/api/jobs/${state.job.id}/produce`, {
-    method: "POST",
-    body: { mode },
-  });
-  paintProduce(state.job);
+  try {
+    state.job = await api(`/api/jobs/${state.job.id}/produce`, {
+      method: "POST",
+      body: { mode },
+    });
+    paintProduce(state.job);
+  } catch (err) {
+    $("prodStage").textContent = err.message;
+  }
 }
 
 async function boot() {

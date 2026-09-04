@@ -35,6 +35,16 @@ def _tokens(value: str) -> set[str]:
     return set(re.findall(r"[a-z0-9]+", str(value or "").casefold()))
 
 
+_ISO_DATE = re.compile(r"(20\d{2}[-/.]\d{1,2}[-/.]\d{1,2})")
+
+
+def _iso_date(value: str) -> str:
+    found = _ISO_DATE.search(str(value or ""))
+    if not found:
+        return ""
+    return found.group(1).replace(".", "-").replace("/", "-")
+
+
 def parse_search_candidates(
     html: str,
     base_url: str,
@@ -56,11 +66,15 @@ def parse_search_candidates(
         seen.add(url)
         text = " ".join(anchor.get_text(" ", strip=True).split())
         context = " ".join((anchor.parent.get_text(" ", strip=True) if anchor.parent else text).split())
-        date = ""
-        date_match = re.search(r"(20\d{2}[-/.]\d{1,2}[-/.]\d{1,2})", context)
-        if date_match:
-            date = date_match.group(1).replace(".", "-").replace("/", "-")
-        out.append({"url": url, "text": text, "context": context[:500], "date": date})
+        date_from_text = _iso_date(text)
+        date_from_context = _iso_date(context)
+        out.append({
+            "url": url,
+            "text": text,
+            "context": context[:500],
+            "date": date_from_text,
+            "date_context": date_from_context,
+        })
     return out
 
 
@@ -76,10 +90,17 @@ def rank_candidates(
         home_hit = bool(home) and len(home & hay) >= max(1, min(2, len(home)))
         away_hit = bool(away) and len(away & hay) >= max(1, min(2, len(away)))
         score = (4 if home_hit else 0) + (4 if away_hit else 0)
-        if fixture.date and fixture.date == item.get("date"):
+        date_on_link = str(item.get("date") or "")
+        date_in_parent = str(item.get("date_context") or "")
+        if fixture.date and date_on_link and fixture.date == date_on_link:
             score += 4
-        elif fixture.date and fixture.date in item.get("context", ""):
+        elif fixture.date and fixture.date in str(item.get("text") or ""):
             score += 3
+        elif fixture.date and (
+            date_in_parent == fixture.date or fixture.date in str(item.get("context") or "")
+        ) and fixture.date not in str(item.get("text") or ""):
+            # Parent-node text can include sibling results; keep this weaker.
+            score += 1
         row = dict(item)
         row["score"] = score
         ranked.append(row)

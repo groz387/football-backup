@@ -33,14 +33,14 @@
         <em id="awayHex">auto</em>
       </div>
     </div>
-    <p class="match-label" id="matchLabel">Paste a Livescore / WhoScored URL or pick an export.</p>
+    <p class="match-label" id="matchLabel">Paste a Livescore / WhoScored / Flashscore URL or pick an export.</p>
   </section>
 
   <main class="grid">
     <section class="card">
       <h2>1. Match</h2>
-      <label>Livescore / WhoScored URL or match id
-        <input id="url" type="text" placeholder="Paste a Livescore match URL (or a direct WhoScored URL)" />
+      <label>Livescore / WhoScored / Flashscore URL or match id
+        <input id="url" type="text" placeholder="Paste a Livescore match URL (or a direct WhoScored / Flashscore URL)" />
       </label>
       <label>Match export
         <select id="matchDir"></select>
@@ -61,7 +61,7 @@
         </label>
       </div>
       <div id="scrapePanel" class="scrape-panel" hidden>
-        <p class="hint" id="scrapeHint">No local export. Livescore starts WhoScored search → full-data check → Flashscore fallback. Direct WhoScored opens Chrome via nodriver.</p>
+        <p class="hint" id="scrapeHint">No local export. Livescore starts WhoScored search → full-data check → Flashscore fallback. Direct WhoScored or Flashscore URLs scrape that source.</p>
         <label>WhoScored live URL (if Livescore id is not the WhoScored id)
           <input id="scrapeUrl" type="text" placeholder="https://www.whoscored.com/matches/1821295/live" />
         </label>
@@ -175,7 +175,7 @@
         <legend>Generator settings</legend>
         <div class="settings-grid">
           <label>Gemini
-            <span><input id="useGemini" type="checkbox" /> culture rewrite</span>
+            <span><input id="useGemini" type="checkbox" /> script writing when keyed</span>
           </label>
           <label>Gemini model
             <input id="geminiModel" placeholder="gemini-2.5-flash" />
@@ -236,8 +236,14 @@
 
     <section class="card wide">
       <h2>5. Produce</h2>
+      <ol class="produce-steps">
+        <li>Load a match (or scrape Livescore → WhoScored → Flashscore).</li>
+        <li>Pick exactly 3–4 available graphics, then Draft scripts.</li>
+        <li>Approve each language script. Render MP4s (no voice) writes silent masters.</li>
+        <li>Optional: Check ElevenLabs, generate/listen, approve VO, then Produce with voiceover.</li>
+      </ol>
+      <p class="hint" id="produceGates">Draft scripts first. Silent MP4s need approved scripts. Voiceover produce needs approved VO as well.</p>
       <div class="row">
-        <p class="hint">Voiceover is optional. Approve each language script, then press <b>Render MP4s (no voice)</b>. Files write to <code>video_output\&lt;language&gt;\&lt;match&gt;\match_video.mp4</code>. <b>Produce with voiceover</b> stays locked until every selected language has an approved VO.</p>
         <button type="button" class="ghost" id="btnPlan">Dry-run plan</button>
         <button type="button" class="primary" id="btnPreviewVideo">Render MP4s (no voice)</button>
         <button type="button" class="ghost" id="btnProduce">Produce with voiceover</button>
