@@ -31,7 +31,6 @@ from matplotlib.patches import Circle, Ellipse, FancyArrowPatch, FancyBboxPatch,
 
 from . import theme
 from .theme import (
-    ASPECT,
     GOAL,
     HAIRLINE,
     INK,
@@ -46,11 +45,20 @@ from .theme import (
 
 theme.configure_matplotlib()
 
-FIG_SIZE = (9.0, 16.0)
 FIG_DPI = 120
+# Default portrait box; ``figure_size()`` follows ``theme.FRAME_W/H``.
+FIG_SIZE = (9.0, 16.0)
 
 # Animation finishes here and the frame holds, so the viewer can read it.
 HOLD_AT = 0.80
+# Hero numerals stay on one integer for this many frames at 24fps.
+HOLD_FRAMES = 8
+COUNT_FPS = 24
+COUNT_ANIM_SECONDS = 1.5
+# Below this, ink is not drawn. Matplotlib path-effects keep a 0.55 stroke
+# even when the glyph alpha is 0, which is the ghost-type flicker on frame 1.
+VISIBLE_ALPHA = 0.08
+EFFECT_ALPHA = 0.28
 
 
 # ---------------------------------------------------------------------------
@@ -109,7 +117,7 @@ class Timeline:
             return 1.0 if self.t >= start else 0.0
         return ease(clamp01((self.t - start) / duration))
 
-    def stagger(self, index: int, count: int, start: float = 0.10, span: float = 0.55,
+    def stagger(self, index: int, count: int, start: float = 0.06, span: float = 0.52,
                 duration: float = 0.30, ease=ease_out_cubic) -> float:
         """Cue for item *index* of *count* in a staggered sequence."""
         if count <= 1:
@@ -125,8 +133,50 @@ class Timeline:
         return max(0, min(count, int(math.ceil(ease_out_cubic(local) * count))))
 
     def count_to(self, value: float, start: float = 0.06, duration: float = 0.45) -> float:
-        """A number ticking up to *value*."""
-        return value * self.cue(start, duration, ease_out_quint)
+        """A number ticking up to *value*, holding each glyph ~HOLD_FRAMES."""
+        return hold_count(value, self.cue(start, duration, ease_out_quint))
+
+    def wipe(self, start: float = 0.02, duration: float = 0.58) -> float:
+        """0-1 ease-in-out reveal used by waves, tapes and split stamps."""
+        return ease_in_out(clamp01((self.t - start) / max(1e-6, duration)))
+
+    def stamp(self, start: float = 0.70, duration: float = 0.28) -> float:
+        """Late insight cue that still finishes before HOLD_AT (t=1)."""
+        return self.cue(start, duration, ease_in_out)
+
+def hold_count(
+    value: float,
+    progress: float,
+    *,
+    hold_frames: int = HOLD_FRAMES,
+    fps: int = COUNT_FPS,
+) -> float:
+    """Quantize a ticking number so each glyph stays readable (~8 frames).
+
+    Integers hold on whole numbers. xG-style decimals hold on tenths so the
+    readout does not chatter every frame, then snap at the end.
+    """
+    progress = clamp01(progress)
+    target = float(value)
+    mag = abs(target)
+    if mag < 1e-9:
+        return 0.0
+    if progress >= 0.995:
+        return target
+    fractional = abs(target - round(target)) >= 0.05
+    unit = 0.1 if fractional and mag < 20 else 1.0
+    if mag < 0.5 and not fractional:
+        return target * progress
+    steps_max = max(1, int(math.ceil(mag / unit)))
+    anim_frames = max(hold_frames, int(COUNT_ANIM_SECONDS * fps))
+    n_steps = max(1, min(steps_max, anim_frames // max(1, hold_frames)))
+    step_index = min(n_steps, int(math.floor(progress * n_steps + 1e-9)))
+    shown = mag * step_index / n_steps
+    if unit >= 1.0:
+        shown = round(shown)
+    else:
+        shown = round(shown / unit) * unit
+    return math.copysign(shown, target)
 
 
 # ---------------------------------------------------------------------------
@@ -192,8 +242,20 @@ class Layout:
 # figure and background
 # ---------------------------------------------------------------------------
 
-def new_figure(design: dict[str, Any]) -> plt.Figure:
-    fig = plt.figure(figsize=FIG_SIZE, dpi=FIG_DPI, facecolor=design["ink"])
+def figure_size(dpi: float | None = None) -> tuple[float, float]:
+    """Matplotlib figsize (inches) that matches the active frame size."""
+    dpi = float(dpi or FIG_DPI)
+    return (theme.FRAME_W / dpi, theme.FRAME_H / dpi)
+
+
+def new_figure(
+    design: dict[str, Any],
+    figsize: tuple[float, float] | None = None,
+    dpi: float | None = None,
+) -> plt.Figure:
+    dpi = float(dpi or FIG_DPI)
+    figsize = figsize or figure_size(dpi)
+    fig = plt.figure(figsize=figsize, dpi=dpi, facecolor=design["ink"])
     _paint_background(fig, design)
     return fig
 
@@ -201,53 +263,40 @@ def new_figure(design: dict[str, Any]) -> plt.Figure:
 def y_of(x_length: float) -> float:
     """Figure-y length that occupies the same number of pixels as *x_length*.
 
-    The frame is 1080x1920, so a vertical span has to be multiplied by
-    1080/1920 to look the same size as a horizontal one. Getting this the wrong
-    way round is what previously turned flag tiles into portrait slabs.
+    Uses the live frame aspect so landscape 1920x1080 stays round, not oval.
     """
-    return x_length * ASPECT
+    return x_length * theme.ASPECT
 
 
 @lru_cache(maxsize=8)
-def _background_pixels(ink: str, home: str, away: str) -> np.ndarray:
-    """The full-frame background as raw pixels.
-
-    Drawn straight into the canvas buffer with ``figimage``, which skips both
-    resampling and an extra axes. Stacking rectangles or resampling a small
-    gradient both cost more per frame than the rest of a scene combined.
-    """
-    base = np.array(theme.hex_to_rgb(ink))
-    top = np.array(theme.hex_to_rgb(home))
-    bottom = np.array(theme.hex_to_rgb(away))
-
-    # figimage rows run bottom-to-top, so fraction 0 is the bottom of the frame.
-    fraction = np.linspace(0.0, 1.0, theme.FRAME_H)[:, None]
-    tint = bottom * (1.0 - fraction) + top * fraction
-    wash = 0.085 * (1.0 - np.abs(fraction - 0.5) * 0.6)
-    colour = base * (1.0 - wash) + tint * wash
-
-    # Vignette so the chrome bands always have a darker base to sit on.
-    from_top = 1.0 - fraction
-    darken = np.where(from_top < 0.17, 0.26 * (1.0 - from_top / 0.17), 0.0)
-    darken = np.where(from_top > 0.76, 0.32 * ((from_top - 0.76) / 0.24), darken)
-    colour = colour * (1.0 - darken)
-
-    column = np.clip(colour * 255.0, 0, 255).astype(np.uint8)
-    return np.repeat(column[:, None, :], theme.FRAME_W, axis=1)
+def _background_pixels(ink: str, home: str, away: str, width: int, height: int) -> np.ndarray:
+    """Permanent pitch-black canvas; no muddy team-colour wash."""
+    pixel = np.array(theme.hex_to_rgb("#000000"), dtype=float)
+    rgb = np.clip(pixel * 255.0, 0, 255).astype(np.uint8)
+    return np.broadcast_to(rgb, (height, width, 3)).copy()
 
 
 def _paint_background(fig: plt.Figure, design: dict[str, Any]) -> None:
     fig.figimage(
-        _background_pixels(design["ink"], design["home"]["primary"], design["away"]["primary"]),
+        _background_pixels(
+            design["ink"],
+            design["home"]["primary"],
+            design["away"]["primary"],
+            int(theme.FRAME_W),
+            int(theme.FRAME_H),
+        ),
         xo=0, yo=0, zorder=0,
     )
 
 
 def fig_rect(fig: plt.Figure, x: float, y: float, w: float, h: float, color: str,
              alpha: float = 1.0, zorder: int = 2) -> None:
+    alpha = opacity(alpha)
+    if alpha < 0.02:
+        return
     fig.patches.append(
         Rectangle((x, y), w, h, transform=fig.transFigure, facecolor=color,
-                  edgecolor="none", alpha=opacity(alpha), zorder=zorder)
+                  edgecolor="none", alpha=alpha, zorder=zorder)
     )
 
 
@@ -259,6 +308,9 @@ def fig_panel(fig: plt.Figure, x: float, y: float, w: float, h: float, *,
     ``mutation_aspect`` is set so the padding and the corner radius come out
     square in pixels rather than stretched by the 9:16 frame.
     """
+    alpha = opacity(alpha)
+    if alpha < 0.02:
+        return
     pad_x = min(radius, w / 2 - 1e-4, 0.06)
     pad_y = y_of(pad_x)
     fig.patches.append(
@@ -269,7 +321,7 @@ def fig_panel(fig: plt.Figure, x: float, y: float, w: float, h: float, *,
             boxstyle=f"round,pad={pad_x},rounding_size={pad_x}",
             transform=fig.transFigure, facecolor=color,
             edgecolor=edge or "none", linewidth=lw if edge else 0.0,
-            alpha=opacity(alpha), zorder=zorder, mutation_aspect=ASPECT,
+            alpha=alpha, zorder=zorder, mutation_aspect=theme.ASPECT,
         )
     )
 
@@ -278,6 +330,8 @@ def fig_ellipse(fig: plt.Figure, cx: float, cy: float, radius: float, **kwargs: 
     """A true circle in output pixels, placed in figure coordinates."""
     if "alpha" in kwargs:
         kwargs["alpha"] = opacity(kwargs["alpha"])
+        if kwargs["alpha"] < 0.02:
+            return None
     patch = Ellipse((cx, cy), radius * 2, y_of(radius * 2), transform=fig.transFigure, **kwargs)
     fig.patches.append(patch)
     return patch
@@ -299,9 +353,9 @@ def score_badge(
     frame, so ``1-0`` overflowed the sides. Size is measured from the glyphs.
     """
     text = str(label or "")
-    if not text:
+    if not text or opacity(alpha) < VISIBLE_ALPHA:
         return
-    size = min(16.0, max(11.0, max_height * 72.0 * FIG_SIZE[1] * 0.42))
+    size = min(16.0, max(11.0, max_height * 72.0 * (theme.FRAME_H / FIG_DPI) * 0.42))
     artist = fig.text(
         cx, cy, text,
         fontsize=size, fontweight="bold", family=theme.DISPLAY_FONT,
@@ -314,8 +368,8 @@ def score_badge(
     height *= 1.22
     need_w = width + 2 * pad
     need_h = height + 2 * y_of(pad)
-    diameter = max(need_w, need_h / ASPECT, 0.046)
-    max_diameter = max(0.040, max_height / ASPECT)
+    diameter = max(need_w, need_h / theme.ASPECT, 0.046)
+    max_diameter = max(0.040, max_height / theme.ASPECT)
     if diameter > max_diameter + 1e-6:
         scale = max_diameter / diameter
         size = max(10.0, size * scale * 0.90)
@@ -325,7 +379,7 @@ def score_badge(
         height *= 1.22
         need_w = width + 2 * pad
         need_h = height + 2 * y_of(pad)
-        diameter = min(max_diameter, max(need_w, need_h / ASPECT, 0.038))
+        diameter = min(max_diameter, max(need_w, need_h / theme.ASPECT, 0.038))
 
     if need_w <= diameter * 1.04:
         fig_ellipse(
@@ -343,12 +397,41 @@ def score_badge(
     )
 
 
-def outline() -> list[Any]:
-    return [pe.withStroke(linewidth=3.0, foreground="#040605", alpha=0.85)]
+def outline(alpha: float = 1.0) -> list[Any]:
+    """Halo around type. Empty at low alpha so the stroke cannot ghost."""
+    alpha = opacity(alpha)
+    if alpha < EFFECT_ALPHA:
+        return []
+    return [pe.withStroke(linewidth=3.0, foreground="#040605", alpha=opacity(0.85 * alpha))]
 
 
-def soft_shadow() -> list[Any]:
-    return [pe.withStroke(linewidth=5.0, foreground="#040605", alpha=0.55)]
+def soft_shadow(alpha: float = 1.0) -> list[Any]:
+    """Soft display-type shadow. Empty at low alpha so frame 1 is not a ghost."""
+    alpha = opacity(alpha)
+    if alpha < EFFECT_ALPHA:
+        return []
+    return [pe.withStroke(linewidth=5.0, foreground="#040605", alpha=opacity(0.55 * alpha))]
+
+
+def fade_effects(effects: list[Any] | None, alpha: float) -> list[Any]:
+    """Re-scale stroke alpha with the glyph. Drops the effect while ink is faint."""
+    alpha = opacity(alpha)
+    if not effects or alpha < EFFECT_ALPHA:
+        return []
+    faded: list[Any] = []
+    for effect in effects:
+        gc = getattr(effect, "_gc", None) or {}
+        stroke_alpha = opacity(float(gc.get("alpha", 0.55)) * alpha)
+        if stroke_alpha < 0.05:
+            continue
+        faded.append(
+            pe.withStroke(
+                linewidth=gc.get("linewidth", 3.0),
+                foreground=gc.get("foreground", "#040605"),
+                alpha=stroke_alpha,
+            )
+        )
+    return faded
 
 
 # ---------------------------------------------------------------------------
@@ -377,11 +460,12 @@ def _extent_fractions(fig: plt.Figure, artist: Any) -> tuple[float, float]:
 # Mean glyph advance as a fraction of the point size. Used only to pick a
 # starting wrap width; the result is then verified by measurement.
 _DEFAULT_ADVANCE = 0.52
-_POINTS_TO_FIG_X = 1.0 / 72.0 / FIG_SIZE[0]
+def _points_to_fig_x() -> float:
+    return 1.0 / 72.0 / max(1e-6, theme.FRAME_W / FIG_DPI)
 
 
 def _chars_per_line(size: float, max_width: float, family: str) -> int:
-    char_width = size * _POINTS_TO_FIG_X * _DEFAULT_ADVANCE
+    char_width = size * _points_to_fig_x() * _DEFAULT_ADVANCE
     return max(4, int(max_width / max(1e-6, char_width)))
 
 
@@ -402,18 +486,25 @@ def fit_text(
 ) -> tuple[Any, int]:
     """Draw *text* so that it fits *max_width* in at most *max_lines* lines.
 
-    The font size is reduced until the measured width fits. Text is never cut:
-    if even ``min_fontsize`` will not fit, the full string is drawn anyway so
-    the overflow is visible rather than silently losing words.
+    The font size is reduced until the measured width fits. If it still will
+    not fit at ``min_fontsize``, one extra wrap line is allowed rather than
+    clipping glyphs at the edge of the card.
     """
     text = " ".join(str(text).split())
     if not text:
         return None, 0
+    alpha = opacity(kwargs.get("alpha", 1.0))
+    if alpha < VISIBLE_ALPHA:
+        return None, 0
+    kwargs["alpha"] = alpha
+    if "path_effects" in kwargs:
+        kwargs["path_effects"] = fade_effects(kwargs.get("path_effects"), alpha)
     if family is None:
         family = theme.BODY_FONT
 
     size = float(fontsize)
     artist = None
+    extra_line = False
     while True:
         if max_lines <= 1:
             lines = [text]
@@ -424,14 +515,20 @@ def fit_text(
 
         if artist is not None:
             artist.remove()
-        if "alpha" in kwargs:
-            kwargs["alpha"] = opacity(kwargs["alpha"])
         artist = fig.text(x, y, "\n".join(lines), fontsize=size, ha=ha, va=va,
                           family=family, **kwargs)
         width, _ = _extent_fractions(fig, artist)
-        if (width <= max_width and len(lines) <= max_lines) or size <= min_fontsize:
+        fits = width <= max_width and len(lines) <= max_lines
+        if fits:
             return artist, len(lines)
-        size = max(min_fontsize, size * 0.93)
+        if size > min_fontsize + 0.05:
+            size = max(min_fontsize, size * 0.93)
+            continue
+        if not extra_line and max_lines >= 1:
+            extra_line = True
+            max_lines += 1
+            continue
+        return artist, len(lines)
 
 
 def kicker(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT_DIM) -> None:
@@ -452,12 +549,15 @@ def headline(fig: plt.Figure, text: str, subtitle: str = "", *, alpha: float = 1
     directly beneath a title whether it wrapped to one line or two.
     """
     y = Layout.TITLE_TOP
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA:
+        return y
     if text:
         artist, _ = fit_text(
             fig, Layout.MARGIN, y, str(text).upper(),
-            fontsize=fontsize, max_width=Layout.CONTENT_W, max_lines=2, min_fontsize=24.0,
+            fontsize=fontsize, max_width=Layout.CONTENT_W, max_lines=2, min_fontsize=22.0,
             va="top", color=color, family=theme.DISPLAY_FONT, fontweight="bold",
-            linespacing=0.92, alpha=alpha, zorder=20, path_effects=soft_shadow(),
+            linespacing=1.05, alpha=alpha, zorder=20, path_effects=soft_shadow(alpha),
         )
         if artist is not None:
             _, height = _extent_fractions(fig, artist)
@@ -476,7 +576,7 @@ def headline(fig: plt.Figure, text: str, subtitle: str = "", *, alpha: float = 1
 
 def insight(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT) -> None:
     """The single conclusion line in the footer band."""
-    if not text:
+    if not text or opacity(alpha) < VISIBLE_ALPHA:
         return
     fig_rect(fig, 0.0, Layout.FOOTER_Y + 0.030, 1.0, Layout.INSIGHT_Y - Layout.FOOTER_Y + 0.010,
              "#040605", 0.30 * alpha, zorder=17)
@@ -491,8 +591,11 @@ def insight(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT
 def footer(fig: plt.Figure, right_text: str = "", *, alpha: float = 1.0) -> None:
     from . import i18n
 
-    fig.text(Layout.MARGIN, Layout.FOOTER_Y, i18n.t("watermark"), color=TEXT_FAINT, fontsize=9.5,
-             family=theme.MONO_FONT, ha="left", va="center", alpha=alpha, zorder=20)
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA:
+        return
+    fig.text(Layout.MARGIN, Layout.FOOTER_Y, i18n.t("watermark"), color=TEXT_FAINT, fontsize=8.0,
+             family=theme.MONO_FONT, ha="left", va="center", alpha=alpha * 0.45, zorder=20)
     fit_text(
         fig, 1 - Layout.MARGIN, Layout.FOOTER_Y, (right_text or theme.DATA_SOURCE).upper(),
         fontsize=9.0, max_width=0.52, max_lines=1, min_fontsize=6.5,
@@ -507,7 +610,7 @@ def legend_row(fig: plt.Figure, y: float, entries: Iterable[tuple[str, str, str]
     Marker is one of ``dot``, ``ring``, ``cross`` or ``bar``.
     """
     entries = list(entries)
-    if not entries:
+    if not entries or opacity(alpha) < VISIBLE_ALPHA:
         return
     slot = (Layout.CONTENT_W) / len(entries)
     for index, (marker, colour, label) in enumerate(entries):
@@ -582,6 +685,7 @@ def vertical_pitch(fig: plt.Figure, rect: list[float], *, face: str = PITCH,
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
     ax.set_facecolor(face)
+    ax.patch.set_alpha(opacity(alpha))
     ax.set_xticks([])
     ax.set_yticks([])
     for spine in ax.spines.values():
@@ -663,6 +767,9 @@ def team_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, *
     3:2 flag ratio; club badges are circular so height matches width in pixels.
     """
     identity = identity or theme.team_identity(team)
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA:
+        return
     shape = identity.get("shape") or theme.badge_shape()
     if shape == "circle":
         _club_badge(fig, team, cx, cy, width, identity=identity, alpha=alpha, zorder=zorder)
@@ -1013,28 +1120,34 @@ def comparison_bar(
     total = home_value + away_value
     home_share = 0.5 if total <= 0 else home_value / total
     width = right - left
+    grown = ease_in_out(clamp01(progress))
+    if grown < VISIBLE_ALPHA:
+        return
+    ink = min(1.0, grown * 2.4)
 
     fig.text(0.5, y + height + 0.019, str(label).upper(), color=TEXT_DIM,
              fontsize=theme.label_size(13), family=theme.LABEL_FONT, fontweight="bold",
-             ha="center", va="center", alpha=min(1.0, progress * 2.5),
+             ha="center", va="center", alpha=ink,
              zorder=zorder)
 
-    fig_rect(fig, left, y, width, height, "#171d19", 0.95 * min(1.0, progress * 3), zorder=zorder - 2)
+    fig_rect(fig, left, y, width, height, "#171d19", 0.95 * min(1.0, grown * 3), zorder=zorder - 2)
 
     split = left + width * home_share
-    grown_home = (split - left) * progress
-    grown_away = (right - split) * progress
+    grown_home = (split - left) * grown
+    grown_away = (right - split) * grown
     fig_rect(fig, split - grown_home, y, grown_home, height, home_color, 0.95, zorder=zorder)
     fig_rect(fig, split, y, grown_away, height, away_color, 0.95, zorder=zorder)
 
-    fig.text(left - 0.022, y + height / 2, number_text(home_value * progress, decimals=decimals, suffix=suffix),
+    shown_home = hold_count(home_value, grown)
+    shown_away = hold_count(away_value, grown)
+    fig.text(left - 0.022, y + height / 2, number_text(shown_home, decimals=decimals, suffix=suffix),
              color=home_color, fontsize=38, fontweight="bold", family=theme.DISPLAY_FONT,
-             ha="right", va="center", alpha=min(1.0, progress * 2.5), zorder=zorder,
-             path_effects=soft_shadow())
-    fig.text(right + 0.022, y + height / 2, number_text(away_value * progress, decimals=decimals, suffix=suffix),
+             ha="right", va="center", alpha=ink, zorder=zorder,
+             path_effects=soft_shadow(ink))
+    fig.text(right + 0.022, y + height / 2, number_text(shown_away, decimals=decimals, suffix=suffix),
              color=away_color, fontsize=38, fontweight="bold", family=theme.DISPLAY_FONT,
-             ha="left", va="center", alpha=min(1.0, progress * 2.5), zorder=zorder,
-             path_effects=soft_shadow())
+             ha="left", va="center", alpha=ink, zorder=zorder,
+             path_effects=soft_shadow(ink))
 
 
 def impact_burst(ax: plt.Axes, x: float, y: float, color: str, progress: float,
@@ -1119,10 +1232,249 @@ def scatter_batch(
     ax.scatter(xs, ys, **kwargs)
 
 
+def hero_number(fig: plt.Figure, x: float, y: float, value: Any, *,
+                color: str = TEXT, alpha: float = 1.0, fontsize: float = 160.0,
+                ha: str = "center", va: str = "center") -> None:
+    """A phone-stopping numeral. Labels stay small; this does not."""
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA:
+        return
+    fig.text(
+        x, y, str(value), color=color, fontsize=fontsize, fontweight="bold",
+        family=theme.DISPLAY_FONT, ha=ha, va=va, alpha=alpha, zorder=22,
+        path_effects=soft_shadow(alpha),
+    )
+
+
+def caption_bar(fig: plt.Figure, text: str, *, y: float | None = None, alpha: float = 1.0,
+                progress: float = 1.0) -> None:
+    """On-screen insight, stamped late so the graph can speak first."""
+    if not text or opacity(alpha * progress) < VISIBLE_ALPHA:
+        return
+    if y is None:
+        insight(fig, text, alpha=opacity(alpha * progress))
+        return
+    slide = (1.0 - ease_out_cubic(progress)) * 0.04
+    fit_text(
+        fig, 0.5, y + slide, str(text),
+        fontsize=22.0, max_width=Layout.CONTENT_W - 0.02, max_lines=2, min_fontsize=13.0,
+        ha="center", va="center", color=TEXT, family=theme.DISPLAY_FONT, fontweight="bold",
+        linespacing=1.05, alpha=opacity(alpha * progress), zorder=21, path_effects=soft_shadow(),
+    )
+
+
+def stamp_insight(fig: plt.Figure, scene: dict[str, Any], tl: Timeline,
+                  *, y: float | None = None) -> None:
+    """Insight that completes on the compressed timeline, before HOLD_AT.
+
+    ``y`` is only for cards that already have their own footer band. The
+    default stays on ``insight()`` / ``Layout.INSIGHT_Y`` — do not invent a
+    second stamp position.
+    """
+    text = str(scene.get("insight") or "").strip()
+    stamp = tl.stamp()
+    if not text or stamp < VISIBLE_ALPHA:
+        return
+    caption_bar(fig, text, y=y, progress=stamp)
+
+
+def scene_chrome(fig: plt.Figure, scene: dict[str, Any], tl: Timeline,
+                 *, headline_size: float = 50.0) -> float:
+    """Headline plus a late insight stamp. Shared by scenes and graphs."""
+    header_bottom = headline(
+        fig, scene.get("title", ""), "",
+        alpha=tl.cue(0.0, 0.28, ease=ease_out_cubic),
+        fontsize=headline_size,
+    )
+    stamp_insight(fig, scene, tl)
+    return header_bottom - 0.016
+
+
+def empty_stage(fig: plt.Figure, message: str, tl: Timeline, *, y: float = 0.50) -> None:
+    """Fallback copy that fades in — never a finished empty card on frame 1."""
+    alpha = tl.cue(0.10, 0.36, ease=ease_in_out)
+    if not message or alpha < VISIBLE_ALPHA:
+        return
+    fig.text(
+        0.5, y, str(message), color=TEXT_DIM, fontsize=22,
+        family=theme.DISPLAY_FONT, ha="center", va="center",
+        alpha=alpha, zorder=14,
+    )
+
+
+def color_flash(fig: plt.Figure, color: str, *, alpha: float = 1.0, zorder: int = 5) -> None:
+    fig_rect(fig, 0.0, 0.0, 1.0, 1.0, color, opacity(alpha), zorder=zorder)
+
+
+def particle_burst(ax, x: float, y: float, color: str, progress: float,
+                   count: int = 8, radius: float = 4.0, zorder: int = 21) -> None:
+    """Cheap expanding dots around a goal / slam."""
+    if progress <= 0:
+        return
+    fade = opacity(1.0 - progress)
+    for index in range(count):
+        angle = (index / count) * math.tau
+        reach = radius * (0.35 + 0.65 * progress)
+        add_shape(
+            ax,
+            Circle((x + math.cos(angle) * reach, y + math.sin(angle) * reach),
+                   0.35 + 0.25 * (1.0 - progress), facecolor=color, edgecolor="none",
+                   alpha=fade * 0.85, zorder=zorder),
+        )
+
+
+def radar_polygon(ax, values: list[float], color: str, *, progress: float = 1.0,
+                  fill_alpha: float = 0.28, lw: float = 2.2, zorder: int = 8) -> None:
+    """Regular polygon radar. *values* are 0-1 scores, one per axis."""
+    count = len(values)
+    progress = opacity(progress)
+    if count < 3 or progress < VISIBLE_ALPHA:
+        return
+    grown = [max(0.0, min(1.0, float(value) * progress)) for value in values]
+    angles = [index * math.tau / count + math.pi / 2 for index in range(count)]
+    xs = [0.5 + math.cos(angle) * value * 0.48 for angle, value in zip(angles, grown)]
+    ys = [0.5 + math.sin(angle) * value * 0.48 for angle, value in zip(angles, grown)]
+    xs.append(xs[0])
+    ys.append(ys[0])
+    ax.fill(xs, ys, color=color, alpha=opacity(fill_alpha * progress), zorder=zorder, linewidth=0)
+    ax.plot(xs, ys, color=color, lw=lw, alpha=opacity(0.95 * progress), zorder=zorder + 1)
+
+
+def ring_gauge(ax, cx: float, cy: float, value: float, maximum: float, color: str, *,
+               progress: float = 1.0, radius: float = 0.32, width: float = 0.07,
+               zorder: int = 8) -> None:
+    """Arc gauge from 12 o'clock clockwise. *value* / *maximum* fills the ring."""
+    from matplotlib.patches import Wedge
+
+    progress = opacity(progress)
+    if progress < VISIBLE_ALPHA:
+        return
+    frac = 0.0 if maximum <= 0 else min(1.0, max(0.0, value / maximum))
+    frac *= progress
+    add_shape(
+        ax,
+        Wedge((cx, cy), radius, 90, 90 - 359.9, width=width,
+              facecolor="#2a332f", edgecolor="none",
+              alpha=opacity(0.95 * min(1.0, progress * 2.2)), zorder=zorder),
+    )
+    if frac > 0.002:
+        add_shape(
+            ax,
+            Wedge((cx, cy), radius, 90, 90 - 359.9 * frac, width=width,
+                  facecolor=color, edgecolor="none", alpha=0.95, zorder=zorder + 1),
+        )
+
+
+def heat_pitch(ax, grid: list[list[float]], color: str, *, progress: float = 1.0,
+               flip: bool = False, zorder: int = 6) -> None:
+    """Smooth heatmap on a 0-100 pitch."""
+    array = np.array(grid, dtype=float)
+    if array.size == 0:
+        return
+    if flip:
+        array = np.flipud(np.fliplr(array))
+    peak = float(array.max()) or 1.0
+    array = array / peak * progress
+    x_bins, y_bins = array.shape
+    rgba = np.zeros((x_bins, y_bins, 4))
+    r, g, b = theme.hex_to_rgb(color)
+    rgba[..., 0] = r
+    rgba[..., 1] = g
+    rgba[..., 2] = b
+    rgba[..., 3] = np.clip(array, 0, 1) * 0.85
+    ax.imshow(
+        rgba, origin="lower", extent=(0, 100, 0, 100), interpolation="bilinear",
+        aspect="auto", zorder=zorder,
+    )
+
+
+def funnel_stage(fig: plt.Figure, y: float, label: str, home_value: float, away_value: float,
+                 home_color: str, away_color: str, *, progress: float = 1.0,
+                 inset: float = 0.0, height: float = 0.055) -> None:
+    """A trapezoid row that narrows toward the goal. Not a comparison bar."""
+    left = 0.18 + inset
+    right = 0.82 - inset
+    width = right - left
+    total = home_value + away_value
+    home_share = 0.5 if total <= 0 else home_value / total
+    grown = ease_in_out(clamp01(progress))
+    if grown < VISIBLE_ALPHA:
+        return
+    split = left + width * home_share
+    fig_rect(fig, left, y, (split - left) * grown, height, home_color, 0.92, zorder=12)
+    fig_rect(fig, split, y, (right - split) * grown, height, away_color, 0.92, zorder=12)
+    ink = min(1.0, grown * 2.2)
+    fig.text(0.5, y + height + 0.016, str(label).upper(), color=TEXT_DIM,
+             fontsize=theme.label_size(12), family=theme.LABEL_FONT, fontweight="bold",
+             ha="center", va="center", alpha=ink, zorder=14)
+    fig.text(left - 0.018, y + height / 2, number_text(hold_count(home_value, grown)),
+             color=home_color, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
+             ha="right", va="center", alpha=ink, zorder=14,
+             path_effects=soft_shadow(ink))
+    fig.text(right + 0.018, y + height / 2, number_text(hold_count(away_value, grown)),
+             color=away_color, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
+             ha="left", va="center", alpha=ink, zorder=14,
+             path_effects=soft_shadow(ink))
+
+
+def glow_ring(
+    ax: plt.Axes,
+    x: float,
+    y: float,
+    color: str,
+    *,
+    radius: float = 3.0,
+    alpha: float = 0.28,
+    zorder: int = 7,
+) -> None:
+    """One restrained halo. Not a particle storm."""
+    if alpha <= 0:
+        return
+    add_shape(
+        ax,
+        Circle((x, y), radius, fill=False, ec=color, lw=2.0,
+               alpha=opacity(alpha), zorder=zorder),
+    )
+
+
+def freeze_frame_badge(
+    ax: plt.Axes,
+    x: float,
+    y: float,
+    n: int,
+    color: str,
+    *,
+    alpha: float = 1.0,
+    radius: float = 2.15,
+    zorder: int = 18,
+    latest: bool = False,
+) -> None:
+    """Numbered freeze-frame disc. Default radius is pitch 0-100 units.
+
+    Polar / 0-1 axes should pass ``radius=0.022``.
+    """
+    if alpha <= 0:
+        return
+    r = radius * (1.18 if latest else 1.0)
+    add_shape(
+        ax,
+        Circle(
+            (x, y), r, facecolor=color, edgecolor=TEXT, linewidth=1.3,
+            alpha=opacity(alpha), zorder=zorder,
+        ),
+    )
+    ax.text(
+        x, y, str(n),
+        color=theme.ink_on(color), fontsize=12.0 if latest else 10.5,
+        fontweight="bold", family=theme.DISPLAY_FONT,
+        ha="center", va="center", alpha=opacity(alpha), zorder=zorder + 1,
+    )
+
+
 def save_figure(fig: plt.Figure, path: Path) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     # Intermediate frames are read once by ffmpeg, so trade file size for speed.
-    fig.savefig(path, facecolor=fig.get_facecolor(), dpi=FIG_DPI, pad_inches=0,
+    fig.savefig(path, facecolor=fig.get_facecolor(), dpi=fig.dpi, pad_inches=0,
                 pil_kwargs={"compress_level": 1})
     plt.close(fig)
