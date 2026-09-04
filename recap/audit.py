@@ -288,7 +288,10 @@ def build_clock_axis(events: pd.DataFrame, tick_every: int = 15) -> dict[str, An
             if not at.empty:
                 ticks.append({"at": float(at.min()), "label": f"{mark}'"})
 
-    final_minute = int(minute[period.isin(PLAYING_PERIODS)].max() or 90)
+    final_value = minute[period.isin(PLAYING_PERIODS)].max()
+    if pd.isna(final_value):
+        final_value = minute.max()
+    final_minute = int(final_value) if not pd.isna(final_value) else 90
     ticks.append({"at": end, "label": f"{final_minute}'"})
 
     # Drop ticks that would print on top of each other, and never repeat a
