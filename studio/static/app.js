@@ -198,7 +198,10 @@ function paintReview() {
   });
   const pack = job.packs[state.lang];
   $("scriptPill").textContent = `script ${pack.script_status}`;
-  $("scriptPill").className = `pill ${pack.script_status === "approved" ? "ok" : ""}`;
+  $("scriptPill").className = `pill ${
+    pack.script_status === "approved" ? "ok"
+      : pack.script_status === "translation_blocked" ? "warn" : ""
+  }`;
   $("voicePill").textContent = `voice ${pack.voice_status}${pack.voice_stub ? " (stub)" : ""}`;
   $("voicePill").className = `pill ${pack.voice_status === "approved" ? "ok" : pack.voice_stub ? "warn" : ""}`;
   if ($("growthPill")) {

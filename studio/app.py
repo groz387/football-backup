@@ -165,6 +165,8 @@ def script_action(job_id: str, language: str, payload: dict = Body(default_facto
         raise HTTPException(400, "action must be approve or edit")
     except (FileNotFoundError, KeyError) as exc:
         raise HTTPException(404, str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 @app.post("/api/jobs/{job_id}/voice/{language}")

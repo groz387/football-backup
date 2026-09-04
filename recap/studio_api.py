@@ -518,9 +518,15 @@ def draft_scripts(payload: dict[str, Any]) -> dict[str, Any]:
         claim = next((scene for scene in views if scene["visualization"] == "hook_claim"), {})
         punch = next((scene for scene in views if scene["visualization"] == "hook_punch"), {})
         close = next((scene for scene in views if scene["visualization"] == "close"), {})
+        translation_blocked = bool(
+            settings.get("require_context_translation")
+            and language != "en"
+            and warnings
+        )
         packs[language] = {
             "language": language, "language_name": i18n.language_name(language),
-            "script_status": "pending", "voice_status": "none", "voice_path": "",
+            "script_status": "translation_blocked" if translation_blocked else "pending",
+            "voice_status": "none", "voice_path": "",
             "voice_stub": False, "hook_claim": claim.get("title") or "",
             "hook_punch": punch.get("title") or "", "bait": close.get("comment_bait") or close.get("insight") or "",
             "scenes": views, "visualizations": [row["id"] for row in selected],
@@ -586,7 +592,13 @@ def edit_script(job_id: str, language: str, scenes: list[dict[str, Any]]) -> dic
 
 def approve_script(job_id: str, language: str) -> dict[str, Any]:
     job = get_job(job_id)
-    _pack(job, language)["script_status"] = "approved"
+    pack = _pack(job, language)
+    if pack.get("script_status") == "translation_blocked" and not pack.get("translation_reviewed"):
+        raise ValueError(
+            f"{language}: contextual translation is unavailable. Configure Gemini/DeepSeek "
+            "or edit the script manually before approving."
+        )
+    pack["script_status"] = "approved"
     return _save(_job_path(job_id), job)
 
 

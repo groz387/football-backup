@@ -233,6 +233,27 @@ class DashboardCoreTests(unittest.TestCase):
         self.assertEqual(job["packs"]["es"]["translation_provider"], "deepseek")
         self.assertFalse(job["packs"]["es"]["translation_warnings"])
 
+    def test_required_context_translation_blocks_partial_offline_script(self):
+        options = studio_api.visualization_options(self.export, 3)
+        job = studio_api.draft_scripts({
+            "match_dir": str(self.export),
+            "languages": ["es"],
+            "selected_visualizations": options["selected"],
+            "visualization_count": 3,
+            "translation_provider": "offline",
+            "require_context_translation": True,
+            "use_gemini": False,
+        })
+        self.assertEqual(job["packs"]["es"]["script_status"], "translation_blocked")
+        with self.assertRaisesRegex(ValueError, "contextual translation"):
+            studio_api.approve_script(job["id"], "es")
+        first = job["packs"]["es"]["scenes"][0]
+        studio_api.edit_script(job["id"], "es", [{
+            "id": first["id"], "narration": "Revisión humana completa.",
+        }])
+        approved = studio_api.approve_script(job["id"], "es")
+        self.assertEqual(approved["packs"]["es"]["script_status"], "approved")
+
 
 if __name__ == "__main__":
     unittest.main()
