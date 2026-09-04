@@ -33,14 +33,14 @@
         <em id="awayHex">auto</em>
       </div>
     </div>
-    <p class="match-label" id="matchLabel">Paste a Livescore / WhoScored URL or pick an export.</p>
+    <p class="match-label" id="matchLabel">Paste a Livescore / WhoScored / Flashscore URL or pick an export.</p>
   </section>
 
   <main class="grid">
     <section class="card">
       <h2>1. Match</h2>
-      <label>Livescore / WhoScored URL or match id
-        <input id="url" type="text" placeholder="Paste a Livescore match URL (or a direct WhoScored URL)" />
+      <label>Livescore / WhoScored / Flashscore URL or match id
+        <input id="url" type="text" placeholder="Paste a Livescore match URL (or a direct WhoScored / Flashscore URL)" />
       </label>
       <label>Match export
         <select id="matchDir"></select>
@@ -61,7 +61,7 @@
         </label>
       </div>
       <div id="scrapePanel" class="scrape-panel" hidden>
-        <p class="hint" id="scrapeHint">No local export. Livescore starts WhoScored search → full-data check → Flashscore fallback. Direct WhoScored opens Chrome via nodriver.</p>
+        <p class="hint" id="scrapeHint">No local export. Livescore starts WhoScored search → full-data check → Flashscore fallback. Direct WhoScored or Flashscore URLs scrape that source.</p>
         <label>WhoScored live URL (if Livescore id is not the WhoScored id)
           <input id="scrapeUrl" type="text" placeholder="https://www.whoscored.com/matches/1821295/live" />
         </label>

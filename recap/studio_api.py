@@ -238,8 +238,8 @@ def resolve_source(url: str = "", match_dir: str = "") -> dict[str, Any]:
             "scrape_url": classified.get("whoscored_url") or "",
             "scrape_hint": classified.get("hint") or "",
             "stub": (
-                "No local export. Run the source chain; Livescore searches "
-                "WhoScored first and Flashscore only when needed."
+                "No local export. Livescore searches WhoScored first, then "
+                "Flashscore. A direct WhoScored or Flashscore URL scrapes that source."
             ),
             "match": None,
             "colors": None,
@@ -329,7 +329,8 @@ def _run_scrape_job(job_id: str) -> None:
 
     try:
         url = str(job.get("url") or "")
-        if "livescore.com" in urlparse(url).netloc.lower():
+        kind = str(job.get("kind") or scrape_mod.classify_source(url, str(job.get("html_path") or "")).get("kind") or "")
+        if kind == "livescore" or "livescore.com" in urlparse(url).netloc.lower():
             result = source_chain.resolve_chain(
                 url, output_root=OUTPUT_ROOT, wait=job["wait"],
                 allow_spawn=True, on_log=say,
@@ -641,8 +642,19 @@ def regenerate_voice(job_id: str, language: str, voice_id: str | None = None) ->
 def approve_voice(job_id: str, language: str) -> dict[str, Any]:
     job = get_job(job_id)
     pack = _pack(job, language)
-    if pack.get("voice_status") == "ready" and Path(pack.get("voice_path") or "").exists():
-        pack["voice_status"] = "approved"
+    path = Path(pack.get("voice_path") or "")
+    if pack.get("voice_stub"):
+        raise ValueError(
+            f"{language}: silent stub voiceover cannot be approved. "
+            "Use Render MP4s (no voice) or regenerate a real ElevenLabs take."
+        )
+    if pack.get("voice_status") != "ready" or not path.is_file() or path.stat().st_size < 64:
+        raise ValueError(
+            f"{language}: no real ElevenLabs voiceover to approve. "
+            "Generate VO, or render MP4s without voice."
+        )
+    pack["voice_status"] = "approved"
+    pack["voice_stub"] = False
     return _save(_job_path(job_id), job)
 
 

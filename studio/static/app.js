@@ -382,7 +382,10 @@ async function scrapeMatch() {
   const htmlPath = s.html_path;
   const file = $("htmlFile") && $("htmlFile").files && $("htmlFile").files[0];
   $("resolveHint").textContent = "Starting scrape…";
-  showScrapePanel(true, { scrape_url: url, scrape_hint: "Scraping WhoScored…" });
+  showScrapePanel(true, {
+    scrape_url: url,
+    scrape_hint: "Finding WhoScored first, then Flashscore if the chalkboard is missing or limited…",
+  });
   try {
     let job;
     if (file) {
@@ -488,11 +491,16 @@ async function regenVoice() {
 
 async function approveVoice() {
   if (!state.job) return;
-  state.job = await api(`/api/jobs/${state.job.id}/voice/${state.lang}`, {
-    method: "POST",
-    body: { action: "approve" },
-  });
-  paintReview();
+  try {
+    state.job = await api(`/api/jobs/${state.job.id}/voice/${state.lang}`, {
+      method: "POST",
+      body: { action: "approve" },
+    });
+    paintReview();
+  } catch (err) {
+    $("voiceNote").textContent = err.message;
+    $("voiceNote").classList.add("error");
+  }
 }
 
 async function checkElevenHealth() {
@@ -520,11 +528,15 @@ async function produce(mode) {
     $("prodStage").textContent = "Draft scripts first.";
     return;
   }
-  state.job = await api(`/api/jobs/${state.job.id}/produce`, {
-    method: "POST",
-    body: { mode },
-  });
-  paintProduce(state.job);
+  try {
+    state.job = await api(`/api/jobs/${state.job.id}/produce`, {
+      method: "POST",
+      body: { mode },
+    });
+    paintProduce(state.job);
+  } catch (err) {
+    $("prodStage").textContent = err.message;
+  }
 }
 
 async function boot() {

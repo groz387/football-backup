@@ -292,6 +292,22 @@ class DashboardCoreTests(unittest.TestCase):
         self.assertNotIn("fucked", kids[0]["narration"])
         self.assertNotIn("shit", kids[2]["narration"].lower())
 
+    def test_stub_voiceover_cannot_be_approved(self):
+        options = studio_api.visualization_options(self.export, 3)
+        job = studio_api.draft_scripts({
+            "match_dir": str(self.export),
+            "languages": ["en"],
+            "selected_visualizations": options["selected"],
+            "visualization_count": 3,
+            "use_gemini": False,
+        })
+        studio_api._pack(job, "en").update({
+            "voice_status": "ready", "voice_stub": True, "voice_path": "",
+        })
+        studio_api._save(studio_api._job_path(job["id"]), job)
+        with self.assertRaisesRegex(ValueError, "stub"):
+            studio_api.approve_voice(job["id"], "en")
+
 
 if __name__ == "__main__":
     unittest.main()
