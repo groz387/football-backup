@@ -133,6 +133,17 @@ class DashboardCoreTests(unittest.TestCase):
         args = parse_args(["--auto", "--match-dir", "output/example"])
         self.assertFalse(args.burn_captions)
 
+    def test_operator_bait_application_is_idempotent(self):
+        scenes = [{
+            "id": "close", "visualization": "close",
+            "narration": "Atl. Madrid won 0-2.",
+            "insight": "", "comment_bait": "",
+        }]
+        once = studio_api._apply_operator_copy(scenes, "", "", "WHO STOLE THIS MATCH?")
+        twice = studio_api._apply_operator_copy(once, "", "", "WHO STOLE THIS MATCH?")
+        self.assertEqual(twice[0]["narration"].count("WHO STOLE THIS MATCH?"), 1)
+        self.assertNotIn("?.", twice[0]["narration"])
+
     def test_plan_runs_without_voice_spend(self):
         options = studio_api.visualization_options(self.export, 3)
         job = studio_api.draft_scripts({

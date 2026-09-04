@@ -389,8 +389,14 @@ def _apply_operator_copy(
         elif viz == "hook_punch" and hook_punch:
             updated.update({"title": hook_punch, "narration": hook_punch, "lines": [hook_punch]})
         elif viz == "close" and bait:
-            old = str(updated.get("narration") or "").rstrip(". ")
-            updated.update({"insight": bait, "comment_bait": bait, "narration": f"{old}. {bait}"})
+            old = str(updated.get("narration") or "").strip()
+            previous = str(updated.get("comment_bait") or "").strip()
+            if previous and previous.casefold() != bait.casefold():
+                old = old.replace(previous, "").rstrip(". ")
+            narration = old
+            if bait.casefold() not in old.casefold():
+                narration = f"{old.rstrip()} {bait}".strip()
+            updated.update({"insight": bait, "comment_bait": bait, "narration": narration})
         out.append(updated)
     return out
 
