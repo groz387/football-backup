@@ -114,7 +114,8 @@ def outfield_blocks(df: pd.DataFrame) -> pd.Series:
 
 def build_team_stats(bundle: MatchBundle) -> dict[str, dict[str, Any]]:
     events = bundle.events
-    if events.empty:
+    source_stats = bundle.summary.get("source_team_stats") or {}
+    if events.empty and not source_stats:
         return {}
 
     is_pass = text_col(events, "type").eq("Pass")
@@ -197,6 +198,19 @@ def build_team_stats(bundle: MatchBundle) -> dict[str, dict[str, Any]]:
         xgot_col = next((col for col in events.columns if col.lower() in {"xgot", "expectedgoalsontarget", "expected_goals_on_target"}), "")
         if xgot_col:
             stats[bundle.team(h_a)]["xgot"] = round(float(num(events, xgot_col)[team_shots].fillna(0).sum()), 2)
+    # Fallback providers may expose aggregate match statistics but no event
+    # coordinates. Keep those numbers in the audit instead of fabricating
+    # pseudo-events to make the old event counter reach them.
+    for h_a, source_key in (("h", "home"), ("a", "away")):
+        team_name = bundle.team(h_a)
+        stats.setdefault(team_name, {"h_a": h_a})
+        block = source_stats.get(source_key) if isinstance(source_stats, dict) else {}
+        if isinstance(block, dict):
+            for key, value in block.items():
+                if isinstance(value, (int, float)):
+                    stats[team_name][str(key)] = value
+    stats.setdefault(bundle.home, {"h_a": "h"})["goals"] = bundle.score.home
+    stats.setdefault(bundle.away, {"h_a": "a"})["goals"] = bundle.score.away
     return stats
 
 
@@ -1157,23 +1171,77 @@ def build_halftime_split(bundle: MatchBundle) -> dict[str, Any]:
     return {"first": first, "second": second, "ready": ready}
 
 
+def _xy_pairs(frame: pd.DataFrame) -> list[tuple[float, float]]:
+    if frame is None or getattr(frame, "empty", True):
+        return []
+    if "x" not in frame.columns or "y" not in frame.columns:
+        return []
+    xs = pd.to_numeric(frame["x"], errors="coerce")
+    ys = pd.to_numeric(frame["y"], errors="coerce")
+    return [
+        (float(x), float(y))
+        for x, y in zip(xs, ys)
+        if not pd.isna(x) and not pd.isna(y)
+    ]
+
+
+def classify_coordinates(pairs: list[tuple[float, float]]) -> dict[str, Any]:
+    n = len(pairs)
+    unique = {(round(x, 1), round(y, 1)) for x, y in pairs}
+    centroidish = sum(
+        1 for x, y in pairs
+        if abs(round(x, 1) * 2 - round(round(x, 1) * 2)) < 0.05
+        and abs(round(y, 1) * 2 - round(round(y, 1) * 2)) < 0.05
+    )
+    reconstructed = (
+        (n >= 20 and len(unique) < 8)
+        or (n >= 8 and len(unique) < 8 and centroidish >= 0.85 * n)
+    )
+    precise = (
+        n >= 6
+        and not reconstructed
+        and len(unique) >= min(8, max(6, int(0.5 * n)))
+        and centroidish < 0.5 * n
+    )
+    return {
+        "has_precise_coordinates": precise,
+        "coordinate_source": "reconstructed" if reconstructed else "whoscored" if precise else "unavailable",
+        "unique_xy": len(unique),
+        "sample_n": n,
+    }
+
+
 def detect_data_health(bundle: MatchBundle) -> dict[str, Any]:
     events = bundle.events
     columns = {col.lower() for col in events.columns}
-    has_xg = bool(columns & {"xg", "expectedgoals", "expected_goals"})
+    supported = set(bundle.summary.get("source_supported_stats") or [])
+    has_xg = bool(columns & {"xg", "expectedgoals", "expected_goals"}) or "xg" in supported
     has_xgot = bool(columns & {"xgot", "expectedgoalsontarget", "expected_goals_on_target"})
     goal_mouth = int(num(events, "goalMouthY").notna().sum())
+    shots = bundle.shots if bundle.shots is not None and not bundle.shots.empty else events.loc[flag(events, "isShot")]
+    quality = classify_coordinates(_xy_pairs(shots))
+    if quality["sample_n"] < 6:
+        quality = classify_coordinates(_xy_pairs(bundle.touches))
     return {
         "event_rows": int(len(events)),
         "pass_rows": int(text_col(events, "type").eq("Pass").sum()),
         "shot_rows": int(flag(events, "isShot").sum()),
         "touch_rows": int(flag(events, "isTouch").sum()),
         "goal_mouth_rows": goal_mouth,
-        "has_coordinates": {"x", "y"}.issubset(events.columns),
-        "has_pass_end_coordinates": {"endX", "endY"}.issubset(events.columns),
+        "has_coordinates": quality["sample_n"] > 0,
+        "has_pass_end_coordinates": bool(
+            {"endX", "endY"}.issubset(events.columns)
+            and num(events, "endX").notna().any()
+            and num(events, "endY").notna().any()
+        ),
         "has_goal_mouth_coordinates": goal_mouth > 0,
         "has_vendor_xg": has_xg,
         "has_vendor_xgot": has_xgot,
+        "has_vendor_possession": "possession_pct" in supported,
+        "has_precise_coordinates": quality["has_precise_coordinates"],
+        "coordinate_source": quality["coordinate_source"],
+        "coordinate_unique_xy": quality["unique_xy"],
+        "coordinate_sample_n": quality["sample_n"],
         "blocked_claims": [name for name, present in (("xG", has_xg), ("xGOT", has_xgot)) if not present],
     }
 
@@ -1195,6 +1263,7 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
             "last_minute": bundle.last_minute,
         },
         "data_health": detect_data_health(bundle),
+        "source_supported_stats": list(bundle.summary.get("source_supported_stats") or []),
         "team_stats": stats,
         "clock_axis": build_clock_axis(bundle.events),
         "momentum": build_momentum(bundle),
@@ -1213,6 +1282,7 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
         "halftime_split": build_halftime_split(bundle),
         "definitions": {
             "pass_share_pct": "Share of all pass attempts in the export. A proxy for territory of the ball, not broadcast possession.",
+            "possession_pct": "Provider-reported ball possession; only present when the fallback source publishes it.",
             "shots_on_target": "WhoScored shotOnTarget flag. Shots blocked by an outfield player are counted separately and are not on target.",
             "saves": "Save events flagged keeperSaveTotal, which is goalkeeper saves only. Outfield blocks are reported as blocks.",
             "pressure_index": "Weighted count of attacking events per five minutes: "
@@ -1248,21 +1318,54 @@ def _describe(bundle: MatchBundle, audit: dict[str, Any]) -> list[str]:
     home = stats[bundle.home]
     away = stats[bundle.away]
     score = bundle.score
+    source_supported = set(audit.get("source_supported_stats") or [])
+    full_events = not source_supported
 
     facts = [score.sentence(bundle.home, bundle.away) + "."]
-    facts.append(
-        f"Pass share: {bundle.home} {home['pass_share_pct']}%, {bundle.away} {away['pass_share_pct']}%."
-    )
-    facts.append(
-        f"Shots: {bundle.home} {home['shots']} ({home['shots_on_target']} on target, "
-        f"{home['shots_blocked']} blocked), {bundle.away} {away['shots']} "
-        f"({away['shots_on_target']} on target, {away['shots_blocked']} blocked)."
-    )
-    facts.append(
-        f"Final-third passes: {bundle.home} {home['final_third_passes']}, {bundle.away} {away['final_third_passes']}."
-    )
-    if home["big_chances"] or away["big_chances"]:
-        facts.append(f"Big chances: {bundle.home} {home['big_chances']}, {bundle.away} {away['big_chances']}.")
+    if "possession_pct" in source_supported:
+        facts.append(
+            f"Possession: {bundle.home} {home.get('possession_pct', 0)}%, "
+            f"{bundle.away} {away.get('possession_pct', 0)}%."
+        )
+    elif full_events:
+        facts.append(
+            f"Pass share: {bundle.home} {home.get('pass_share_pct', 0)}%, "
+            f"{bundle.away} {away.get('pass_share_pct', 0)}%."
+        )
+    if full_events or "shots" in source_supported:
+        if full_events or "shots_on_target" in source_supported:
+            facts.append(
+                f"Shots: {bundle.home} {home.get('shots', 0)} ({home.get('shots_on_target', 0)} on target, "
+                f"{home.get('shots_blocked', 0)} blocked), {bundle.away} {away.get('shots', 0)} "
+                f"({away.get('shots_on_target', 0)} on target, {away.get('shots_blocked', 0)} blocked)."
+            )
+        else:
+            facts.append(
+                f"Shots: {bundle.home} {home.get('shots', 0)}, "
+                f"{bundle.away} {away.get('shots', 0)}."
+            )
+    if full_events:
+        facts.append(
+            f"Final-third passes: {bundle.home} {home.get('final_third_passes', 0)}, "
+            f"{bundle.away} {away.get('final_third_passes', 0)}."
+        )
+    if (full_events or "big_chances" in source_supported) and (
+        home.get("big_chances") or away.get("big_chances")
+    ):
+        facts.append(
+            f"Big chances: {bundle.home} {home.get('big_chances', 0)}, "
+            f"{bundle.away} {away.get('big_chances', 0)}."
+        )
+    if "penalty_box_touches" in source_supported:
+        facts.append(
+            f"Opposition-box touches: {bundle.home} {home.get('penalty_box_touches', 0)}, "
+            f"{bundle.away} {away.get('penalty_box_touches', 0)}."
+        )
+    if "xg" in source_supported:
+        facts.append(
+            f"Provider xG: {bundle.home} {home.get('xg', 0)}, "
+            f"{bundle.away} {away.get('xg', 0)}."
+        )
     chain = best_goal_chain(audit)
     if chain:
         facts.append(

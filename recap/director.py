@@ -61,6 +61,7 @@ STAT_CATALOG: dict[str, dict[str, Any]] = {
     "shots_blocked": {"label": "Blocked", "kind": "count"},
     "big_chances": {"label": "Big chances", "kind": "count"},
     "pass_share_pct": {"label": "Pass share", "kind": "percent"},
+    "possession_pct": {"label": "Possession", "kind": "percent"},
     "pass_accuracy_pct": {"label": "Pass accuracy", "kind": "percent"},
     "touch_share_pct": {"label": "Touch share", "kind": "percent"},
     "final_third_passes": {"label": "Final-third passes", "kind": "count"},
@@ -88,6 +89,7 @@ STAT_INTEREST = {
     "shots": 0.50,
     "penalty_box_touches": 0.40,
     "pass_share_pct": 0.30,
+    "possession_pct": 0.35,
     "final_third_passes": 0.25,
     "saves": 0.25,
     "dribbles_won": 0.32,
@@ -305,7 +307,8 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
     total_shots = home.get("shots", 0) + away.get("shots", 0)
     shot_gap = abs(home.get("shots", 0) - away.get("shots", 0))
     on_target_gap = abs(home.get("shots_on_target", 0) - away.get("shots_on_target", 0))
-    pass_gap = abs(home.get("pass_share_pct", 50) - away.get("pass_share_pct", 50))
+    control_key = "possession_pct" if health.get("has_vendor_possession") else "pass_share_pct"
+    pass_gap = abs(home.get(control_key, 50) - away.get(control_key, 50))
     max_saves = max(home.get("saves", 0), away.get("saves", 0))
     max_swing = max((abs(row["swing"]) for row in momentum), default=0.0)
     max_tilt = max((max(row["home_tilt_pct"], row["away_tilt_pct"]) for row in tilt), default=50.0)
@@ -325,7 +328,7 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         {
             "id": "shot_map",
             "title": "Shot Map",
-            "available": total_shots >= 6,
+            "available": total_shots >= 6 and bool(health.get("has_precise_coordinates")),
             "score": 70 + min(16, total_shots * 0.6) + min(10, shot_gap + on_target_gap),
             "reason": "Where both teams shot from and what happened to each attempt.",
             "best_for": "Volume mismatches, wasteful finishing, or a goal glut.",
@@ -379,7 +382,8 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         {
             "id": "sterile_domination",
             "title": "Control vs Threat",
-            "available": max(home.get("pass_share_pct", 0), away.get("pass_share_pct", 0)) >= 56,
+            "available": max(home.get(control_key, 0), away.get(control_key, 0)) >= 56
+            and total_shots >= 4,
             "score": 48 + pass_gap,
             "reason": "Tests whether the team with the ball turned it into shots.",
             "best_for": "One-sided pass share that did not become chances.",
@@ -397,7 +401,10 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         {
             "id": "match_radar",
             "title": "Match Radar",
-            "available": total_shots >= 4,
+            "available": total_shots >= 4 and (
+                len(audit.get("source_supported_stats") or []) >= 4
+                or int(health.get("event_rows") or 0) >= 50
+            ),
             "score": 66 + min(10, pass_gap * 0.2),
             "reason": "Six axes, two overlays — the shape of the night.",
             "best_for": "A one-look profile of both teams.",
@@ -406,7 +413,8 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         {
             "id": "touch_heatmap",
             "title": "Touch Territory",
-            "available": bool((audit.get("touch_heatmap") or {}).get("home")),
+            "available": bool((audit.get("touch_heatmap") or {}).get("home"))
+            and bool(health.get("has_precise_coordinates")),
             "score": 64 + min(16, max(0.0, max_tilt - 50) * 0.35),
             "reason": "Crisp dominance cells from every real touch; no blur or invented interpolation.",
             "best_for": "Pins, sieges, territorial stories.",
@@ -433,7 +441,8 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         {
             "id": "chance_funnel",
             "title": "Chance Funnel",
-            "available": max(home.get("pass_share_pct", 0), away.get("pass_share_pct", 0)) >= 54,
+            "available": max(home.get(control_key, 0), away.get(control_key, 0)) >= 54
+            and total_shots >= 6,
             "score": 60 + pass_gap,
             "reason": "Control to third to box to shot to goal, narrowing as it dies.",
             "best_for": "Sterile domination.",
@@ -479,7 +488,7 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         {
             "id": "shot_clock_spiral",
             "title": "Shot Clock",
-            "available": total_shots >= 4,
+            "available": total_shots >= 4 and len(audit.get("shots") or []) >= 4,
             "score": 74 + min(12, shot_gap + on_target_gap),
             "reason": "Every shot on a match clock, numbered in order.",
             "best_for": "Volume stories and games with a shooting gallery.",
@@ -876,19 +885,21 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         }
 
     if viz_id == "sterile_domination":
-        leader = dominant_team(bundle, audit, "pass_share_pct") or bundle.home
+        control_key = "possession_pct" if (audit.get("data_health") or {}).get("has_vendor_possession") else "pass_share_pct"
+        leader = dominant_team(bundle, audit, control_key) or bundle.home
         leader_stats = stats[leader]
+        threat_key = "shots_on_target" if "shots_on_target" in (audit.get("source_supported_stats") or []) or not audit.get("source_supported_stats") else "shots"
         return {
             "kicker": "CONTROL VS THREAT",
             "title": f"{leader.upper()} HAD THE BALL",
             "subtitle": i18n.t("sub_sterile"),
             "insight": (
-                f"{leader_stats['pass_share_pct']:.0f}% of the passing, "
-                f"{leader_stats['shots_on_target']} shots on target to show for it."
+                f"{leader_stats.get(control_key, 0):.0f}% {stat_label(control_key).lower()}, "
+                f"{leader_stats.get(threat_key, 0)} {stat_label(threat_key).lower()} to show for it."
             ),
             "narration": (
-                f"{leader} played {leader_stats['pass_share_pct']:.0f} percent of the passes "
-                f"and still only put {leader_stats['shots_on_target']} on target."
+                f"{leader} held {leader_stats.get(control_key, 0):.0f} percent {stat_label(control_key).lower()} "
+                f"but produced only {leader_stats.get(threat_key, 0)} {stat_label(threat_key).lower()}."
             ),
         }
 
@@ -917,6 +928,7 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         }
 
     if viz_id == "match_radar":
+        control_key = "possession_pct" if (audit.get("data_health") or {}).get("has_vendor_possession") else "pass_share_pct"
         return {
             "kicker": "PROFILE",
             "title": "THE SHAPE OF THE MATCH",
@@ -924,7 +936,8 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "insight": f"{bundle.home} {home['shots']} shots, {bundle.away} {away['shots']}. The radar is the rest.",
             "narration": (
                 f"Six axes, two teams. {bundle.home} {home['shots']} shots to {away['shots']}, "
-                f"{home['pass_share_pct']:.0f} percent of the passes against {away['pass_share_pct']:.0f}."
+                f"{home.get(control_key, 0):.0f} percent {stat_label(control_key).lower()} "
+                f"against {away.get(control_key, 0):.0f}."
             ),
         }
 
@@ -974,16 +987,17 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         }
 
     if viz_id == "chance_funnel":
-        leader = dominant_team(bundle, audit, "pass_share_pct") or bundle.home
+        control_key = "possession_pct" if (audit.get("data_health") or {}).get("has_vendor_possession") else "pass_share_pct"
+        leader = dominant_team(bundle, audit, control_key) or bundle.home
         leader_stats = stats[leader]
         return {
             "kicker": "FUNNEL",
-            "title": f"{int(leader_stats['pass_share_pct'])}% THEN THE DROP",
+            "title": f"{int(leader_stats.get(control_key, 0))}% THEN THE DROP",
             "subtitle": i18n.t("sub_funnel"),
             "insight": f"{leader} had the ball. The funnel shows where it died.",
             "narration": (
-                f"{leader} played {leader_stats['pass_share_pct']:.0f} percent of the passes "
-                f"and put {leader_stats['shots_on_target']} on target."
+                f"{leader} held {leader_stats.get(control_key, 0):.0f} percent {stat_label(control_key).lower()}, "
+                f"then turned it into {leader_stats.get('shots', 0)} shots and {leader_stats.get('goals', 0)} goals."
             ),
         }
 
@@ -1396,12 +1410,13 @@ def scene_fact_pack(bundle: MatchBundle, audit: dict[str, Any], viz_id: str, cop
             numbers.append(away.get(key))
 
     if viz_id in {"shot_map", "stat_slam", "match_radar", "standard_stats", "box_score"}:
-        add_stat("shots", "shots_on_target", "big_chances", "pass_share_pct", "saves",
+        add_stat("shots", "shots_on_target", "big_chances", "pass_share_pct", "possession_pct", "saves",
                  "penalty_box_touches", "tackles_won", "dribbles_won")
     elif viz_id in {"goalmouth", "keeper_frame"}:
         add_stat("saves", "shots_on_target", "shots")
     elif viz_id in {"sterile_domination", "chance_funnel", "pass_network"}:
-        add_stat("pass_share_pct", "final_third_passes", "box_entry_passes", "shots", "shots_on_target", "goals")
+        add_stat("pass_share_pct", "possession_pct", "final_third_passes", "box_entry_passes",
+                 "penalty_box_touches", "big_chances", "shots", "shots_on_target", "goals")
     elif viz_id in {"zone_control", "touch_heatmap", "time_zones", "field_tilt_wave"}:
         zones = audit.get("zone_control") or []
         numbers.extend([

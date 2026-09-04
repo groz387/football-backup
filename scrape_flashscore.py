@@ -14,7 +14,14 @@ from recap.flashscore import export_flashscore, parse_flashscore_html
 async def _url(url: str, output_dir: str, wait: int) -> Path:
     print(f"[*] Loading Flashscore: {url}")
     html = await fetch_with_nodriver(url, wait_seconds=wait)
-    dest = export_flashscore(parse_flashscore_html(html, url=url), output_dir)
+    base = url.split("#", 1)[0]
+    stats_url = base + "#/match-summary/match-statistics/0"
+    print(f"[*] Loading Flashscore statistics: {stats_url}")
+    stats_html = await fetch_with_nodriver(stats_url, wait_seconds=wait)
+    dest = export_flashscore(
+        parse_flashscore_html(html, url=url, stats_html=stats_html),
+        output_dir,
+    )
     print(f"[*] Export ready: {dest}")
     return dest
 

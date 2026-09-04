@@ -62,7 +62,10 @@ def _team_key_row(fig, design: dict[str, Any], bundle: MatchBundle, y: float, al
 
 
 def _radar_axes() -> list[str]:
-    return ["shots", "shots_on_target", "pass_share_pct", "penalty_box_touches", "tackles_won", "saves"]
+    return [
+        "shots", "shots_on_target", "big_chances", "possession_pct",
+        "pass_share_pct", "penalty_box_touches", "tackles_won", "saves", "goals",
+    ]
 
 
 def render_stat_slam(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, Any],
@@ -106,9 +109,14 @@ def render_match_radar(bundle: MatchBundle, audit: dict[str, Any], scene: dict[s
     tl = Timeline(progress)
     stats = audit["team_stats"]
     home, away = stats[bundle.home], stats[bundle.away]
-    keys = [key for key in _radar_axes() if key in home and key in away]
+    source_supported = set(audit.get("source_supported_stats") or [])
+    keys = [
+        key for key in _radar_axes()
+        if key in home and key in away
+        and (not source_supported or key in source_supported or key == "goals")
+    ]
     if len(keys) < 3:
-        keys = ["shots", "shots_on_target", "pass_share_pct"]
+        keys = [key for key in _radar_axes() if key in home and key in away][:4]
 
     content_top = _chrome(fig, scene, tl)
     _team_key_row(fig, design, bundle, content_top - 0.028, tl.cue(0.08, 0.24))
@@ -293,6 +301,7 @@ def render_conversion_gauges(bundle: MatchBundle, audit: dict[str, Any], scene: 
         (0.72, bundle.away, away, design["away"]),
     )
     health = audit.get("data_health") or {}
+    source_supported = set(audit.get("source_supported_stats") or [])
     use_xg = bool(health.get("has_vendor_xg"))
     for cx, name, team, identity in pairs:
         ax = fig.add_axes([cx - 0.18, 0.32, 0.36, 0.36], zorder=6)
@@ -301,7 +310,14 @@ def render_conversion_gauges(bundle: MatchBundle, audit: dict[str, Any], scene: 
         ax.set_axis_off()
         ax.set_aspect("equal")
         shots = float(team.get("shots") or 0)
-        on = float(team.get("shots_on_target") or 0)
+        outer_key = (
+            "shots_on_target"
+            if not source_supported or "shots_on_target" in source_supported
+            else "big_chances"
+            if "big_chances" in source_supported
+            else "shots"
+        )
+        on = float(team.get(outer_key) or 0)
         goals = float(team.get("goals") or 0)
         if use_xg and team.get("xg") is not None:
             inner_value, inner_max, inner_label = float(team.get("xg") or 0), max(shots / 4, 1.5), "xG"
@@ -322,7 +338,7 @@ def render_conversion_gauges(bundle: MatchBundle, audit: dict[str, Any], scene: 
         inner_shown = format_stat("xg", shown_inner) if use_xg else str(int(round(shown_inner)))
         fig.text(
             cx, 0.22,
-            f"{int(round(shown_on))} {stat_label('shots_on_target').upper()}  ·  {str(inner_label).upper()} {inner_shown}",
+            f"{int(round(shown_on))} {stat_label(outer_key).upper()}  ·  {str(inner_label).upper()} {inner_shown}",
             color=TEXT_DIM, fontsize=theme.label_size(11), family=theme.LABEL_FONT,
             fontweight="bold", ha="center", va="center", alpha=tl.cue(0.36, 0.24), zorder=20,
         )
@@ -339,14 +355,28 @@ def render_chance_funnel(bundle: MatchBundle, audit: dict[str, Any], scene: dict
     content_top = _chrome(fig, scene, tl)
     _team_key_row(fig, design, bundle, content_top - 0.028, tl.cue(0.08, 0.24))
 
-    funnel = [
-        ("pass_share_pct", i18n.t("pass_share"), True),
-        ("final_third_passes", i18n.t("final_third_short"), False),
-        ("box_entry_passes", i18n.t("into_box_short"), False),
-        ("shots", stat_label("shots"), False),
-        ("shots_on_target", stat_label("shots_on_target"), False),
-        ("goals", stat_label("goals"), False),
-    ]
+    source_supported = set(audit.get("source_supported_stats") or [])
+    if source_supported:
+        candidates = [
+            ("possession_pct", stat_label("possession_pct"), True),
+            ("penalty_box_touches", stat_label("penalty_box_touches"), False),
+            ("shots", stat_label("shots"), False),
+            ("big_chances", stat_label("big_chances"), False),
+            ("goals", stat_label("goals"), False),
+        ]
+        funnel = [
+            row for row in candidates
+            if row[0] == "goals" or row[0] in source_supported
+        ]
+    else:
+        funnel = [
+            ("pass_share_pct", i18n.t("pass_share"), True),
+            ("final_third_passes", i18n.t("final_third_short"), False),
+            ("box_entry_passes", i18n.t("into_box_short"), False),
+            ("shots", stat_label("shots"), False),
+            ("shots_on_target", stat_label("shots_on_target"), False),
+            ("goals", stat_label("goals"), False),
+        ]
     top = content_top - 0.08
     bottom = Layout.STAGE_BOTTOM + 0.055
     step = (top - bottom) / len(funnel)
