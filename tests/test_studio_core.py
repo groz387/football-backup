@@ -191,6 +191,44 @@ class DashboardCoreTests(unittest.TestCase):
         self.assertEqual(job["production"]["results"][0]["language"], "en")
         self.assertTrue(job["production"]["results"][0]["video"].endswith("match_video.mp4"))
 
+    def test_multilingual_draft_translates_the_whole_story_once(self):
+        options = studio_api.visualization_options(self.export, 3)
+
+        class FakeDeepSeek:
+            enabled = True
+            calls = 0
+
+            def translate(self, payload):
+                self.calls += 1
+                rows = []
+                for source in payload["scenes"]:
+                    row = {"id": source["id"], "lines": list(source.get("lines") or [])}
+                    for field in (
+                        "kicker", "title", "subtitle", "insight",
+                        "narration", "comment_bait",
+                    ):
+                        value = source.get(field) or ""
+                        row[field] = f"ES {value}" if value else ""
+                    rows.append(row)
+                return {"scenes": rows}
+
+        fake = FakeDeepSeek()
+        with mock.patch("recap.translation.DeepSeekTranslator", return_value=fake):
+            job = studio_api.draft_scripts({
+                "match_dir": str(self.export),
+                "languages": ["en", "es"],
+                "selected_visualizations": options["selected"],
+                "visualization_count": 3,
+                "hook_claim": "THIS MATCH WAS ROBBED",
+                "translation_provider": "deepseek",
+                "use_gemini": False,
+            })
+        self.assertEqual(fake.calls, 1)
+        self.assertEqual(job["packs"]["en"]["hook_claim"], "THIS MATCH WAS ROBBED")
+        self.assertNotEqual(job["packs"]["es"]["hook_claim"], "THIS MATCH WAS ROBBED")
+        self.assertEqual(job["packs"]["es"]["translation_provider"], "deepseek")
+        self.assertFalse(job["packs"]["es"]["translation_warnings"])
+
 
 if __name__ == "__main__":
     unittest.main()

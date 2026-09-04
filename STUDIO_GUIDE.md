@@ -8,7 +8,7 @@ Run every command from the repository root (the folder containing
 ```bat
 cd "C:\Users\Murad Baghirli\Desktop\Scrape-Whoscored-Event-Data"
 git fetch origin
-git checkout cursor/studio-farm-cf63
+git checkout cursor/recap-rebuild-cf63
 pip install -r requirements.txt
 copy .env.example .env
 notepad .env
@@ -32,12 +32,33 @@ python -m studio --port 8766
      and precise x/y;
    - otherwise searches and opens the Flashscore fallback;
    - never treats a Livescore event id as a WhoScored id.
-4. Pick languages. The operator hook/bait language is detected automatically.
-   That language keeps the exact input; other packages get a Gemini culture
-   translation or a fluent locale-pool fallback.
-5. Draft and approve each script.
-6. Click **Check ElevenLabs credits**, then generate/listen/approve each voice.
-7. Produce is enabled only when every selected script and voice is approved.
+4. Pick exactly three or four **available** evidence graphics.
+5. Keep **17 words / section** unless the statistic needs a shorter sentence.
+6. Pick languages. One contextual request translates the complete story with
+   match facts, scene order and protected names. `auto` uses DeepSeek when
+   configured, then Gemini. Offline localization is visibly marked partial.
+7. Draft scripts. Review each card's word count and allowed numbers, then
+   approve each language.
+8. Click **Check ElevenLabs credits**, then generate/listen/approve each voice.
+9. Produce is enabled only when every selected script and voice is approved.
+   **Render silent preview** tests the complete visual pipeline after scripts
+   are approved, even when ElevenLabs has no credits.
+
+## Contextual translation
+
+```dotenv
+GEMINI_API_KEY=
+GEMINI_SCRIPT_MODEL=gemini-2.5-pro
+
+# Optional alternative:
+DEEPSEEK_API_KEY=
+DEEPSEEK_MODEL=deepseek-chat
+TRANSLATION_PROVIDER=auto
+```
+
+DeepSeek and Gemini both have account quotas. Studio never labels either one
+“unlimited.” A translation is accepted only when every scene returns and its
+digits, scorelines, minutes and names pass the lock.
 
 ## ElevenLabs HTTP 402
 
@@ -68,7 +89,8 @@ ELEVENLABS_PROXIES=http://proxy-one:port,http://proxy-two:port
 ## Honest data policy
 
 - WhoScored is primary for shot maps, heatmaps, pass networks and goal chains.
-- Flashscore fallback provides only source-backed score, incidents and stats.
+- Flashscore fallback provides only source-backed score, incidents and stats
+  (including provider xG when Flashscore actually publishes it).
 - x/y and xG are never fabricated.
 - Tracking-only graphics remain unavailable when coordinates are absent or
   reconstructed.

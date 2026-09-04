@@ -1,4 +1,17 @@
 # Scraping Whoscored Event Data
+
+## Recap Studio
+
+The primary production interface is the local Windows 95-style dashboard:
+
+```bash
+python -m studio
+```
+
+Open `http://127.0.0.1:8765`. It controls source resolution, selection of
+three or four evidence graphics, contextual whole-script translation,
+ElevenLabs review, timings and final rendering. See
+[`STUDIO_GUIDE.md`](STUDIO_GUIDE.md).
 ![alt text](https://github.com/Ali-Hasan-Khan/Scrape-Whoscored-Event-Data/blob/main/logo.jpg "Whoscored")
 
 Tool to scrape match event data from [Whoscored](http://whoscored.com/ "Whoscored")'s chalkboard using **Selenium**. 
