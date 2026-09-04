@@ -628,9 +628,10 @@ def regenerate_voice(job_id: str, language: str, voice_id: str | None = None) ->
         )
         pack.update({"voice_status": "ready", "voice_path": str(path), "voice_note": "", "voice_stub": False})
     except elevenlabs_tts.ElevenLabsError as exc:
+        note = str(exc)
         pack.update({
             "voice_status": "failed", "voice_path": "", "voice_stub": False,
-            "voice_note": str(exc), "voice_error": exc.as_dict(),
+            "voice_note": note, "voice_error": exc.as_dict(),
         })
     return _save(_job_path(job_id), job)
 
@@ -648,6 +649,17 @@ def voice_file(job_id: str, language: str) -> Path:
     if not path.exists() or not path.is_file():
         raise FileNotFoundError(f"No voiceover for {language}")
     return path
+
+
+def video_file(job_id: str, language: str) -> Path:
+    job = get_job(job_id)
+    for row in (job.get("production") or {}).get("results") or []:
+        if str(row.get("language") or "") != language:
+            continue
+        path = Path(str(row.get("video") or ""))
+        if path.exists() and path.is_file():
+            return path
+    raise FileNotFoundError(f"No MP4 for {language}. Render MP4s (no voice) first.")
 
 
 def _restore_scenes(views: list[dict[str, Any]], canonical: list[dict[str, Any]]) -> list[dict[str, Any]]:

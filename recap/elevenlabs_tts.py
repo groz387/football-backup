@@ -177,59 +177,148 @@ def _headers(key: str) -> dict[str, str]:
     }
 
 
+def _detail_fields(payload: Any) -> tuple[str, str]:
+    """Return (status, message) from the several ElevenLabs error body shapes."""
+    if not isinstance(payload, dict):
+        return "", str(payload or "").strip()
+    detail = payload.get("detail", payload)
+    if isinstance(detail, list) and detail:
+        detail = detail[0]
+    if isinstance(detail, dict):
+        status = str(
+            detail.get("status") or detail.get("code") or payload.get("status") or ""
+        ).strip()
+        message = str(
+            detail.get("message") or detail.get("msg") or payload.get("message") or ""
+        ).strip()
+        return status, message
+    return str(payload.get("status") or "").strip(), str(detail or "").strip()
+
+
+def _looks_like_model_block(blob: str, model: str) -> bool:
+    text = str(blob or "").lower()
+    model_l = str(model or "").strip().lower()
+    mentions_model = (
+        "this model" in text
+        or "model_id" in text
+        or (model_l and model_l in text)
+        or any(token in text for token in ("eleven_v3", "eleven_multilingual", "eleven_turbo", "eleven_flash"))
+    )
+    if not mentions_model:
+        return "model" in text and any(
+            token in text for token in ("access", "allow", "plan", "tier", "unavailable", "not included", "quota of")
+        )
+    return any(
+        token in text
+        for token in ("quota", "access", "allow", "plan", "tier", "unavailable", "not included", "cannot use", "can't use")
+    )
+
+
+def _looks_like_account_quota(blob: str) -> bool:
+    text = blob.lower()
+    if _looks_like_model_block(text, ""):
+        return False
+    return any(
+        token in text
+        for token in (
+            "insufficient credits",
+            "out of credits",
+            "no credits remaining",
+            "character quota",
+            "exceeded your monthly",
+            "exceeded your quota",
+            "quota_exceeded",
+        )
+    )
+
+
 def _response_error(response: Any, model: str) -> ElevenLabsError:
     status = int(getattr(response, "status_code", 0) or 0)
-    detail_status = ""
-    detail_message = ""
     try:
         payload = response.json()
     except (ValueError, TypeError, AttributeError):
         payload = {}
-    detail = payload.get("detail") if isinstance(payload, dict) else {}
-    if isinstance(detail, dict):
-        detail_status = str(detail.get("status") or detail.get("code") or "").strip()
-        detail_message = str(detail.get("message") or "").strip()
-    elif detail:
-        detail_message = str(detail)
-    code = detail_status or {
-        401: "invalid_api_key",
-        402: "quota_exceeded",
-        403: "access_denied",
-        404: "voice_not_found",
-        429: "rate_limited",
-    }.get(status, f"http_{status or 'error'}")
-    lowered = f"{code} {detail_message}".lower()
-    if code == "quota_exceeded" or (
-        status == 402 and not any(word in lowered for word in ("model", "access", "plan"))
-    ):
-        message = (
-            "ElevenLabs credits are exhausted for this key. Top up the account, "
-            "wait for the monthly reset, or add another key to ELEVENLABS_API_KEYS."
+    detail_status, detail_message = _detail_fields(payload)
+    api_text = detail_message or detail_status or (getattr(response, "text", "") or "")[:240]
+    blob = f"{detail_status} {detail_message}".lower()
+    if status == 401 or detail_status in {"invalid_api_key", "invalid_api_key_error", "authentication_error"}:
+        return ElevenLabsError(
+            "The ElevenLabs API key is invalid or was revoked. Replace ELEVENLABS_API_KEY in .env.",
+            code="invalid_api_key", http=status or None, model=model,
         )
-        code = "quota_exceeded"
-    elif "model" in lowered and any(word in lowered for word in ("access", "allow", "plan", "unavailable")):
-        message = f"This ElevenLabs plan cannot use model {model}."
-        code = "model_access_denied"
-    elif code in {"invalid_api_key", "invalid_api_key_error"} or status == 401:
-        message = "The ElevenLabs API key is invalid or was revoked. Replace ELEVENLABS_API_KEY in .env."
-        code = "invalid_api_key"
-    elif code == "detected_unusual_activity":
-        message = (
+    if _looks_like_model_block(blob, model):
+        return ElevenLabsError(
+            f"This ElevenLabs plan cannot use model {model}: {api_text or 'model blocked'}.",
+            code="model_access_denied", http=status or None, model=model,
+        )
+    if detail_status == "detected_unusual_activity" or "unusual activity" in blob:
+        return ElevenLabsError(
             "ElevenLabs detected unusual activity for this key. Check the account "
-            "security page and remove shared/free-tier proxy traffic before retrying."
+            "security page and remove shared/free-tier proxy traffic before retrying.",
+            code="detected_unusual_activity", http=status or None, model=model,
         )
-    elif "voice" in lowered and any(word in lowered for word in ("not found", "missing", "access")):
-        message = (
+    if "voice" in blob and any(word in blob for word in ("not found", "missing", "access")):
+        return ElevenLabsError(
             "The selected ElevenLabs voice is missing or unavailable to this account. "
-            "Choose a voice in Studio or set ELEVENLABS_VOICE_ID/VOICE_NAME in .env."
+            "Choose a voice in Studio or set ELEVENLABS_VOICE_ID/VOICE_NAME in .env.",
+            code="voice_not_found", http=status or None, model=model,
         )
-        code = "voice_not_found"
-    elif status == 429:
-        message = "ElevenLabs rate limit reached. Retry later or add another key."
-        code = "rate_limited"
-    else:
-        message = detail_message or f"ElevenLabs request failed (HTTP {status or 'unknown'})."
-    return ElevenLabsError(message, code=code, http=status or None, model=model)
+    if status == 429 or detail_status in {"rate_limit_exceeded", "rate_limited", "concurrent_limit_exceeded"}:
+        return ElevenLabsError(
+            f"ElevenLabs rate limit reached. {api_text}".strip(),
+            code="rate_limited", http=status or None, model=model,
+        )
+    if _looks_like_account_quota(blob):
+        return ElevenLabsError(
+            f"ElevenLabs account quota: {api_text or 'character/credit limit reached'}. "
+            "Top up, wait for the monthly reset, or add another key to ELEVENLABS_API_KEYS.",
+            code="quota_exceeded", http=status or None, model=model,
+        )
+    if status == 402 or detail_status in {"payment_required", "quota_exceeded"}:
+        return ElevenLabsError(
+            f"ElevenLabs HTTP 402 ({detail_status or 'payment_required'}): "
+            f"{api_text or 'payment required'}. This is not always an empty character balance.",
+            code="payment_required", http=status or None, model=model,
+        )
+    return ElevenLabsError(
+        api_text or f"ElevenLabs request failed (HTTP {status or 'unknown'}).",
+        code=detail_status or f"http_{status or 'error'}",
+        http=status or None, model=model,
+    )
+
+
+def _enrich_with_account(error: ElevenLabsError, conf: Any, session: Any | None) -> ElevenLabsError:
+    """Attach live remaining-character context so 402 is not guessed as 'empty'."""
+    try:
+        account = check_account(conf=conf, session=session)
+    except Exception:
+        return error
+    remaining = account.get("remaining")
+    used = account.get("character_count")
+    limit = account.get("character_limit")
+    extra = ""
+    if account.get("ok") and remaining is not None:
+        extra = (
+            f" Subscription reports {int(remaining):,} characters remaining "
+            f"({int(used or 0):,} used / {int(limit or 0):,} limit)."
+        )
+        if int(remaining) > 0 and error.code == "quota_exceeded":
+            error = ElevenLabsError(
+                f"{error}{extra} Tried models: {', '.join(error.fallback_tried) or error.model}.",
+                code="payment_required",
+                http=error.http,
+                model=error.model,
+                fallback_tried=error.fallback_tried,
+            )
+            return error
+    tried = f" Tried models: {', '.join(error.fallback_tried)}." if error.fallback_tried else ""
+    if extra or tried:
+        return ElevenLabsError(
+            f"{error}{extra}{tried}".strip(),
+            code=error.code, http=error.http, model=error.model,
+            fallback_tried=error.fallback_tried,
+        )
+    return error
 
 
 def check_account(
@@ -502,13 +591,13 @@ def synthesize(
                 error = _response_error(response, active_model)
                 error.fallback_tried = list(tried_models)
                 last_error = error
-                if error.code == "model_access_denied":
-                    # Same key, next supported model.
+                if error.code in {"model_access_denied", "payment_required"}:
+                    # v3 often 402s on plans that still have multilingual credits.
                     continue
                 if error.code == "rate_limited":
                     time.sleep(delay)
                     delay = min(8.0, delay * 2)
-                # Quota/auth/rate failures rotate to the next configured key.
+                # Quota/auth failures rotate to the next configured key.
                 break
             body = response.content or b""
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -534,7 +623,7 @@ def synthesize(
             return target
     if last_error is not None:
         last_error.fallback_tried = list(tried_models)
-        raise last_error
+        raise _enrich_with_account(last_error, conf, session)
     raise ElevenLabsError(
         "ElevenLabs synthesis did not make an API request.",
         code="no_attempts", model=model_id, fallback_tried=tried_models,

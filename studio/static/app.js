@@ -263,20 +263,23 @@ function paintProduce(job) {
     $("btnProduce").disabled = blockers.length > 0 || prod.status === "running";
     $("btnProduce").title = blockers.length
       ? `Approve before production: ${blockers.join(", ")}`
-      : "Render all approved language packages";
+      : "Render all approved language packages with voiceover";
   }
   if ($("btnPreviewVideo")) {
     $("btnPreviewVideo").disabled = scriptBlockers.length > 0 || prod.status === "running";
     $("btnPreviewVideo").title = scriptBlockers.length
-      ? `Approve before preview: ${scriptBlockers.join(", ")}`
-      : "Render approved scripts without voiceover";
+      ? `Approve scripts first: ${scriptBlockers.join(", ")}`
+      : "Write match_video.mp4 for each approved language, without waiting for ElevenLabs";
   }
   $("barFill").style.width = `${prod.percent || 0}%`;
   $("prodStage").textContent = `${prod.status || "idle"} · ${prod.stage || ""} ${prod.error ? "· " + prod.error : ""}`;
   $("prodLog").textContent = (prod.log || []).slice(-40).join("\n");
-  $("prodResults").innerHTML = (prod.results || []).map((row) =>
-    `<p class="hint">${row.language}/${row.format} · ${row.status} · ${row.out_dir}${row.video ? " · " + row.video : ""}</p>`
-  ).join("");
+  $("prodResults").innerHTML = (prod.results || []).map((row) => {
+    const link = row.video && job && job.id
+      ? ` · <a href="/api/jobs/${job.id}/video/${row.language}" download>Download ${row.language} MP4</a>`
+      : (row.video ? ` · ${row.video}` : "");
+    return `<p class="hint">${row.language}/${row.format} · ${row.status} · ${row.out_dir || ""}${link}</p>`;
+  }).join("");
   if (prod.status === "running" && !state.poll) {
     state.poll = setInterval(async () => {
       state.job = await api(`/api/jobs/${job.id}`);

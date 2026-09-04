@@ -40,9 +40,9 @@ python -m studio --port 8766
 7. Draft scripts. Review each card's word count and allowed numbers, then
    approve each language.
 8. Click **Check ElevenLabs credits**, then generate/listen/approve each voice.
-9. Produce is enabled only when every selected script and voice is approved.
-   **Render silent preview** tests the complete visual pipeline after scripts
-   are approved, even when ElevenLabs has no credits.
+9. Produce with voiceover is enabled only when every selected script and voice is approved.
+   **Render MP4s (no voice)** writes `video_output\<language>\<match>\match_video.mp4`
+   after scripts are approved, even when ElevenLabs fails.
 
 ## Contextual translation
 
@@ -63,13 +63,15 @@ scene returns and its digits, scorelines, minutes and names pass the lock.
 
 ## ElevenLabs HTTP 402
 
-402 is returned by ElevenLabs, not ffmpeg. The Studio now distinguishes:
+402 is returned by ElevenLabs, not ffmpeg. A 402 is **not** automatically
+“credits exhausted.” Studio now:
 
-- credits exhausted — top up/wait for reset/add another key;
-- model access denied — retry the next configured model;
-- invalid key;
-- voice unavailable;
-- unusual activity/rate limiting.
+- shows the raw ElevenLabs status/message;
+- retries `eleven_multilingual_v2` / `eleven_turbo_v2_5` when `eleven_v3` is blocked;
+- appends the live remaining character count from `/v1/user/subscription`.
+
+True account quota is only claimed when ElevenLabs says the monthly character
+quota/credits are gone. Model-specific v3 quota is treated as a model fallback.
 
 Configure `.env` (never commit it):
 

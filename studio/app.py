@@ -192,6 +192,15 @@ def voice_audio(job_id: str, language: str) -> FileResponse:
     return FileResponse(path, media_type=media_type, filename=path.name)
 
 
+@app.get("/api/jobs/{job_id}/video/{language}")
+def job_video(job_id: str, language: str) -> FileResponse:
+    try:
+        path = studio_api.video_file(job_id, language)
+    except FileNotFoundError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    return FileResponse(path, media_type="video/mp4", filename=path.name)
+
+
 @app.post("/api/jobs/{job_id}/produce")
 def produce(job_id: str, payload: dict = Body(default_factory=dict)) -> dict:
     mode = str(payload.get("mode") or "full")

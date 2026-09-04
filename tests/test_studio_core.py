@@ -79,7 +79,7 @@ class DashboardCoreTests(unittest.TestCase):
         for text in (
             "Words / section", "Pick 3–4 evidence graphics",
             "require contextual translation", "Find + scrape sources",
-            "Render silent preview",
+            "Render MP4s (no voice)",
         ):
             self.assertIn(text, page.text)
 
