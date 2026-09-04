@@ -21,6 +21,8 @@ from .data import MatchBundle
 
 DEEPSEEK_URL = "https://api.deepseek.com/chat/completions"
 FIELDS = ("kicker", "title", "subtitle", "insight", "narration", "comment_bait")
+_AZ_WORDS = {"oyun", "qapandi", "qapandı", "bax", "sizcə", "götünə", "gijdıllax", "sikirdilər"}
+_ES_WORDS = {"partido", "quién", "ganó", "mira", "gol", "tiros"}
 
 
 @dataclass
@@ -29,6 +31,19 @@ class TranslationResult:
     provider: str
     ok: bool
     warnings: list[str]
+
+
+def detect_language(text: str) -> tuple[str, float]:
+    """Short-copy detector for exact operator hook/bait preservation."""
+    raw = str(text or "").strip()
+    lower = raw.casefold()
+    if re.search(r"[\u0400-\u04ff]", raw):
+        return "ru", 0.98
+    if any(ch in lower for ch in "əğı") or set(re.findall(r"[^\W\d_]+", lower)) & _AZ_WORDS:
+        return "az", 0.94
+    if set(re.findall(r"[^\W\d_]+", lower)) & _ES_WORDS or any(ch in lower for ch in "ñ¿¡"):
+        return "es", 0.88
+    return "en", 0.60
 
 
 def _digits(value: str) -> list[str]:
@@ -200,9 +215,10 @@ def translate_story(
     provider: str = "auto",
     gemini: Any | None = None,
     deepseek: DeepSeekTranslator | None = None,
+    force: bool = False,
 ) -> TranslationResult:
     target = i18n.normalize_language(target_language)
-    if target == "en":
+    if target == "en" and not force:
         return TranslationResult([dict(scene) for scene in scenes], "source", True, [])
     payload = translation_payload(scenes, target, bundle, audit)
     choice = str(provider or "auto").strip().lower()

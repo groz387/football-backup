@@ -1,6 +1,7 @@
 ﻿# Secrets
 .env
 .env.*
+!.env.example
 
 # Python
 __pycache__/
@@ -22,6 +23,10 @@ _*.log
 
 # Generated video packages (regenerate with video_pipeline.py)
 video_output/
+output/
+studio/settings.json
+studio/jobs/*
+!studio/jobs/.gitkeep
 
 # OS / editor
 .DS_Store
