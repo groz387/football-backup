@@ -6,6 +6,7 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import pandas as pd
 from fastapi.testclient import TestClient
@@ -161,6 +162,34 @@ class DashboardCoreTests(unittest.TestCase):
             time.sleep(0.02)
         self.assertEqual(job["production"]["status"], "done")
         self.assertEqual(job["production"]["results"][0]["status"], "planned")
+
+    def test_silent_render_uses_the_selected_language_pack(self):
+        options = studio_api.visualization_options(self.export, 3)
+        job = studio_api.draft_scripts({
+            "match_dir": str(self.export),
+            "languages": ["en"],
+            "selected_visualizations": options["selected"],
+            "visualization_count": 3,
+            "use_gemini": False,
+        })
+        studio_api.approve_script(job["id"], "en")
+        rendered = self.tmp / "rendered"
+
+        def fake_run(_args):
+            rendered.mkdir(parents=True, exist_ok=True)
+            (rendered / "match_video.mp4").write_bytes(b"mp4")
+            return rendered
+
+        with mock.patch("recap.studio_api.video_pipeline.run", side_effect=fake_run):
+            studio_api.start_produce(job["id"], "silent")
+            for _ in range(80):
+                job = studio_api.get_job(job["id"])
+                if job["production"]["status"] in {"done", "failed"}:
+                    break
+                time.sleep(0.02)
+        self.assertEqual(job["production"]["status"], "done", job["production"]["error"])
+        self.assertEqual(job["production"]["results"][0]["language"], "en")
+        self.assertTrue(job["production"]["results"][0]["video"].endswith("match_video.mp4"))
 
 
 if __name__ == "__main__":

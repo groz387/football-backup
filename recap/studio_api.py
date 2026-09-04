@@ -664,6 +664,7 @@ def _run_produce(job_id: str, mode: str) -> None:
                     })
             else:
                 for index, code in enumerate(job["languages"], 1):
+                    pack = job["packs"][code]
                     current = get_job(job_id)
                     current["production"].update({
                         "stage": f"rendering {code}", "percent": int((index - 1) / total * 90) + 5,
