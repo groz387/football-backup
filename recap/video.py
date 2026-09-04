@@ -178,8 +178,9 @@ def _assembly_filter(scene_list: list[dict[str, Any]], fps: int) -> tuple[str, s
     ``wiperight`` sliced through type and left a torn-card artifact. A fade
     keeps the pitch-black field and does not clip glyphs mid-wipe.
     """
+    tb = f"1/{fps}"
     parts = [
-        f"[{index}:v]settb=AVTB,fps={fps},format=yuv420p[v{index}]"
+        f"[{index}:v]fps={fps},settb={tb},setpts=N/{fps}/TB,format=yuv420p[v{index}]"
         for index in range(len(scene_list))
     ]
     if len(scene_list) == 1:
@@ -189,17 +190,21 @@ def _assembly_filter(scene_list: list[dict[str, Any]], fps: int) -> tuple[str, s
     elapsed = float(scene_list[0]["clip"])
     for index in range(1, len(scene_list)):
         label = f"x{index}"
+        raw = f"raw{index}"
         incoming = scene_list[index]
         if incoming.get("cut") == "hard":
-            parts.append(f"[{current}][v{index}]concat=n=2:v=1:a=0[{label}]")
+            parts.append(f"[{current}][v{index}]concat=n=2:v=1:a=0[{raw}]")
             elapsed += float(incoming["clip"])
         else:
             offset = max(0.0, elapsed - timing.TRANSITION)
             parts.append(
                 f"[{current}][v{index}]xfade=transition=fade"
-                f":duration={timing.TRANSITION:.3f}:offset={offset:.3f}[{label}]"
+                f":duration={timing.TRANSITION:.3f}:offset={offset:.3f}[{raw}]"
             )
             elapsed += float(incoming["clip"]) - timing.TRANSITION
+        parts.append(
+            f"[{raw}]fps={fps},settb={tb},setpts=N/{fps}/TB[{label}]"
+        )
         current = label
     return ";".join(parts), current
 
@@ -246,7 +251,7 @@ def assemble(
         graph, label = _assembly_filter(scene_list, fps)
     else:
         graph = ";".join(
-            f"[{index}:v]settb=AVTB,fps={fps},format=yuv420p[v{index}]"
+            f"[{index}:v]fps={fps},settb=1/{fps},setpts=N/{fps}/TB,format=yuv420p[v{index}]"
             for index in range(len(scene_list))
         )
         graph += ";" + "".join(f"[v{i}]" for i in range(len(scene_list)))
@@ -267,7 +272,11 @@ def assemble(
 
     command += ["-filter_complex", graph, "-map", mapped_video]
     if has_audio:
-        command += ["-map", f"{len(scene_list)}:a:0", "-c:a", "aac", "-b:a", "192k", "-shortest"]
+        command += [
+            "-map", f"{len(scene_list)}:a:0",
+            "-c:a", "aac", "-b:a", "192k",
+            "-af", "apad", "-shortest",
+        ]
     else:
         command += ["-an"]
     command += [
@@ -289,13 +298,17 @@ def assemble(
                 out_dir, scene_list, audio_path, fps=fps, crossfade=crossfade,
                 sfx=sfx, burn_captions=False, music_file=music_file, srt_path=srt_path,
             )
-        if crossfade:
-            print("  [video] retrying without cross-dissolves")
-            return assemble(
-                out_dir, scene_list, audio_path, fps=fps, crossfade=False,
-                sfx=sfx, burn_captions=False, music_file=music_file, srt_path=srt_path,
-            )
         return None
+    if output.exists() and crossfade:
+        actual = probe_duration(output)
+        expected = timing.total_seconds(scene_list)
+        if actual and abs(actual - expected) > 0.35:
+            print(
+                f"  [video] rejecting duration mismatch: encoded {actual:.2f}s, "
+                f"planned {expected:.2f}s"
+            )
+            output.unlink(missing_ok=True)
+            return None
     return output if output.exists() else None
 
 
