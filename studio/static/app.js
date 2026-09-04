@@ -76,7 +76,7 @@ function paintCaps(caps) {
     ["elevenlabs", caps.elevenlabs_configured || (caps.elevenlabs && !caps.stubbed?.elevenlabs_tts)],
     ["scrape", caps.scrape],
     ["gemini", caps.gemini_key],
-    ["deepseek", caps.deepseek_key],
+    ["groq", caps.groq_key],
   ];
   $("caps").innerHTML = bits.map(([name, live]) =>
     `<span class="cap ${live ? "live" : "stub"}">${name} ${live ? "live" : "stub"}</span>`
@@ -263,20 +263,23 @@ function paintProduce(job) {
     $("btnProduce").disabled = blockers.length > 0 || prod.status === "running";
     $("btnProduce").title = blockers.length
       ? `Approve before production: ${blockers.join(", ")}`
-      : "Render all approved language packages";
+      : "Render all approved language packages with voiceover";
   }
   if ($("btnPreviewVideo")) {
     $("btnPreviewVideo").disabled = scriptBlockers.length > 0 || prod.status === "running";
     $("btnPreviewVideo").title = scriptBlockers.length
-      ? `Approve before preview: ${scriptBlockers.join(", ")}`
-      : "Render approved scripts without voiceover";
+      ? `Approve scripts first: ${scriptBlockers.join(", ")}`
+      : "Write match_video.mp4 for each approved language, without waiting for ElevenLabs";
   }
   $("barFill").style.width = `${prod.percent || 0}%`;
   $("prodStage").textContent = `${prod.status || "idle"} · ${prod.stage || ""} ${prod.error ? "· " + prod.error : ""}`;
   $("prodLog").textContent = (prod.log || []).slice(-40).join("\n");
-  $("prodResults").innerHTML = (prod.results || []).map((row) =>
-    `<p class="hint">${row.language}/${row.format} · ${row.status} · ${row.out_dir}${row.video ? " · " + row.video : ""}</p>`
-  ).join("");
+  $("prodResults").innerHTML = (prod.results || []).map((row) => {
+    const link = row.video && job && job.id
+      ? ` · <a href="/api/jobs/${job.id}/video/${row.language}" download>Download ${row.language} MP4</a>`
+      : (row.video ? ` · ${row.video}` : "");
+    return `<p class="hint">${row.language}/${row.format} · ${row.status} · ${row.out_dir || ""}${link}</p>`;
+  }).join("");
   if (prod.status === "running" && !state.poll) {
     state.poll = setInterval(async () => {
       state.job = await api(`/api/jobs/${job.id}`);
@@ -542,7 +545,12 @@ async function boot() {
   if ($("wordsPerSection")) $("wordsPerSection").value = state.settings.words_per_section || 17;
   if ($("targetSeconds")) $("targetSeconds").value = state.settings.target_seconds || 34;
   if ($("fps")) $("fps").value = state.settings.fps || 30;
-  if ($("translationProvider")) $("translationProvider").value = state.settings.translation_provider || "auto";
+  if ($("translationProvider")) {
+    const provider = state.settings.translation_provider === "deepseek"
+      ? "groq"
+      : (state.settings.translation_provider || "auto");
+    $("translationProvider").value = provider;
+  }
   if ($("requireTranslation")) $("requireTranslation").checked = state.settings.require_context_translation !== false;
   const colors = state.settings.colors || [];
   $("colorHome").value = colors[0] || "";

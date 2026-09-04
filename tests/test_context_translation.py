@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import pandas as pd
 
@@ -75,7 +77,7 @@ class TranslationTests(unittest.TestCase):
         self.assertIn("Lamine Yamal", payload["protected_names"])
 
     def test_contextual_result_preserves_numbers_and_names(self):
-        class DeepSeek:
+        class Groq:
             enabled = True
 
             @staticmethod
@@ -96,10 +98,10 @@ class TranslationTests(unittest.TestCase):
                 ]}
 
         result = translation.translate_story(
-            SCENES, "es", bundle(), AUDIT, provider="deepseek", deepseek=DeepSeek(),
+            SCENES, "es", bundle(), AUDIT, provider="groq", groq=Groq(),
         )
         self.assertTrue(result.ok, result.warnings)
-        self.assertEqual(result.provider, "deepseek")
+        self.assertEqual(result.provider, "groq")
         self.assertIn("19", result.scenes[0]["narration"])
         self.assertIn("Barcelona", result.scenes[0]["narration"])
         self.assertIn("Elche", result.scenes[0]["narration"])
@@ -134,6 +136,69 @@ class TranslationTests(unittest.TestCase):
         self.assertEqual(args.visualizations, 4)
         self.assertEqual(args.words_per_section, 17)
         self.assertEqual(args.target_seconds, 34.0)
+
+    def test_cli_accepts_groq_translator(self):
+        args = parse_args([
+            "--auto", "--match-dir", "output/x", "--translation-provider", "groq",
+        ])
+        self.assertEqual(args.translation_provider, "groq")
+
+
+class GroqClientTests(unittest.TestCase):
+    def test_posts_to_groq_json_endpoint(self):
+        captured: dict = {}
+
+        class Resp:
+            ok = True
+            status_code = 200
+            text = ""
+
+            def json(self):
+                return {"choices": [{"message": {"content": '{"scenes":[]}'}}]}
+
+        def fake_post(url, **kwargs):
+            captured["url"] = url
+            captured["json"] = kwargs["json"]
+            captured["auth"] = kwargs["headers"]["Authorization"]
+            return Resp()
+
+        with mock.patch("recap.translation.requests.post", fake_post):
+            client = translation.GroqTranslator(api_key="gsk_test", model="qwen/qwen3.8-27b")
+            parsed = client.translate({"task": "x"})
+        self.assertEqual(parsed, {"scenes": []})
+        self.assertEqual(captured["url"], translation.GROQ_URL)
+        self.assertEqual(captured["json"]["model"], "qwen/qwen3.8-27b")
+        self.assertEqual(captured["json"]["response_format"], {"type": "json_object"})
+        self.assertTrue(captured["auth"].startswith("Bearer gsk_"))
+        self.assertEqual(client.last_model, "qwen/qwen3.8-27b")
+
+    def test_falls_back_when_preferred_model_is_gone(self):
+        models: list[str] = []
+
+        class Resp:
+            def __init__(self, status, payload):
+                self.status_code = status
+                self.ok = status == 200
+                self.text = payload if isinstance(payload, str) else json.dumps(payload)
+                self._payload = payload if isinstance(payload, dict) else {}
+
+            def json(self):
+                return self._payload
+
+        def fake_post(url, **kwargs):
+            model = kwargs["json"]["model"]
+            models.append(model)
+            if model == "qwen/qwen3.8-27b":
+                return Resp(404, '{"error":{"message":"model not found"}}')
+            return Resp(200, {"choices": [{"message": {"content": '{"scenes":[{"id":"x"}]}'}}]})
+
+        with mock.patch("recap.translation.requests.post", fake_post):
+            client = translation.GroqTranslator(api_key="gsk_test", model="qwen/qwen3.8-27b")
+            parsed = client.translate({"task": "x"})
+        self.assertEqual(parsed, {"scenes": [{"id": "x"}]})
+        self.assertEqual(models[0], "qwen/qwen3.8-27b")
+        self.assertIn(client.last_model, translation.GROQ_MODEL_CANDIDATES)
+        self.assertNotEqual(client.last_model, "qwen/qwen3.8-27b")
 
 
 if __name__ == "__main__":

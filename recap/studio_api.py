@@ -121,6 +121,8 @@ def load_settings() -> dict[str, Any]:
                 settings.update(saved)
         except (OSError, json.JSONDecodeError):
             pass
+    if str(settings.get("translation_provider") or "") == "deepseek":
+        settings["translation_provider"] = "groq"
     return settings
 
 
@@ -278,7 +280,8 @@ def capabilities() -> dict[str, Any]:
     return {
         "scrape": scrape_mod.scrape_available(),
         "gemini_key": bool(os.getenv("GEMINI_API_KEY")),
-        "deepseek_key": bool(os.getenv("DEEPSEEK_API_KEY")),
+        "groq_key": bool(os.getenv("GROQ_API_KEY")),
+        "groq_model": (os.getenv("GROQ_MODEL") or translation.DEFAULT_GROQ_MODEL).strip(),
         "elevenlabs": True,
         "elevenlabs_configured": elevenlabs_tts.configured(),
         "stubbed": {"elevenlabs_tts": not elevenlabs_tts.configured()},
@@ -595,7 +598,7 @@ def approve_script(job_id: str, language: str) -> dict[str, Any]:
     pack = _pack(job, language)
     if pack.get("script_status") == "translation_blocked" and not pack.get("translation_reviewed"):
         raise ValueError(
-            f"{language}: contextual translation is unavailable. Configure Gemini/DeepSeek "
+            f"{language}: contextual translation is unavailable. Configure Groq/Gemini "
             "or edit the script manually before approving."
         )
     pack["script_status"] = "approved"
@@ -625,9 +628,10 @@ def regenerate_voice(job_id: str, language: str, voice_id: str | None = None) ->
         )
         pack.update({"voice_status": "ready", "voice_path": str(path), "voice_note": "", "voice_stub": False})
     except elevenlabs_tts.ElevenLabsError as exc:
+        note = str(exc)
         pack.update({
             "voice_status": "failed", "voice_path": "", "voice_stub": False,
-            "voice_note": str(exc), "voice_error": exc.as_dict(),
+            "voice_note": note, "voice_error": exc.as_dict(),
         })
     return _save(_job_path(job_id), job)
 
@@ -645,6 +649,17 @@ def voice_file(job_id: str, language: str) -> Path:
     if not path.exists() or not path.is_file():
         raise FileNotFoundError(f"No voiceover for {language}")
     return path
+
+
+def video_file(job_id: str, language: str) -> Path:
+    job = get_job(job_id)
+    for row in (job.get("production") or {}).get("results") or []:
+        if str(row.get("language") or "") != language:
+            continue
+        path = Path(str(row.get("video") or ""))
+        if path.exists() and path.is_file():
+            return path
+    raise FileNotFoundError(f"No MP4 for {language}. Render MP4s (no voice) first.")
 
 
 def _restore_scenes(views: list[dict[str, Any]], canonical: list[dict[str, Any]]) -> list[dict[str, Any]]:
