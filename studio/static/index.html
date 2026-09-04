@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recap Studio</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="stylesheet" href="/static/win95.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="top">
+    <div class="brand">
+      <span class="mark">RS</span>
+      <div>
+        <p class="kicker">Local operator console</p>
+        <h1>Recap Studio</h1>
+      </div>
+    </div>
+    <div class="caps" id="caps"></div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="split" id="split">
+      <div class="side home" id="sideHome">
+        <span class="abbr" id="homeAbbr">HOM</span>
+        <strong id="homeName">Home</strong>
+        <em id="homeHex">auto</em>
+      </div>
+      <div class="side away" id="sideAway">
+        <span class="abbr" id="awayAbbr">AWY</span>
+        <strong id="awayName">Away</strong>
+        <em id="awayHex">auto</em>
+      </div>
+    </div>
+    <p class="match-label" id="matchLabel">Paste a Livescore / WhoScored URL or pick an export.</p>
+  </section>
+
+  <main class="grid">
+    <section class="card">
+      <h2>1. Match</h2>
+      <label>Livescore / WhoScored URL or match id
+        <input id="url" type="text" placeholder="Paste a Livescore match URL (or a direct WhoScored URL)" />
+      </label>
+      <label>Match export
+        <select id="matchDir"></select>
+      </label>
+      <div class="row">
+        <button type="button" class="primary" id="btnResolve">Load match</button>
+        <button type="button" class="ghost" id="btnScrape">Find + scrape sources</button>
+        <label class="inline">Team
+          <select id="team">
+            <option value="club">club</option>
+            <option value="national">national</option>
+          </select>
+        </label>
+        <label class="inline">Format
+          <select id="format">
+            <option value="short">short</option>
+          </select>
+        </label>
+      </div>
+      <div id="scrapePanel" class="scrape-panel" hidden>
+        <p class="hint" id="scrapeHint">No local export. Livescore starts WhoScored search → full-data check → Flashscore fallback. Direct WhoScored opens Chrome via nodriver.</p>
+        <label>WhoScored live URL (if Livescore id is not the WhoScored id)
+          <input id="scrapeUrl" type="text" placeholder="https://www.whoscored.com/matches/1821295/live" />
+        </label>
+        <div class="row">
+          <label class="grow">Saved page-source HTML (Cloudflare-safe)
+            <input id="htmlPath" type="text" placeholder="C:\Users\you\Downloads\1821295.html" />
+          </label>
+          <label class="inline">or upload
+            <input id="htmlFile" type="file" accept=".html,.htm,text/html" />
+          </label>
+          <label class="inline">Wait
+            <input id="scrapeWait" type="number" min="8" max="60" value="15" style="width:4.5rem" />
+          </label>
+        </div>
+        <div class="progress scrape-progress">
+          <div class="bar"><i id="scrapeBar"></i></div>
+          <p id="scrapeStage"></p>
+        </div>
+        <pre id="scrapeLog" class="log" hidden></pre>
+        <div id="sourceSteps"></div>
+      </div>
+      <p class="hint" id="resolveHint"></p>
+    </section>
+
+    <section class="card">
+      <h2>2. Languages to dub</h2>
+      <div class="langs" id="langs"></div>
+      <fieldset class="win95-group">
+        <legend>Story contract</legend>
+        <div class="row">
+          <label class="inline">Sections
+            <select id="visualizationCount">
+              <option value="3">3</option>
+              <option value="4" selected>4</option>
+            </select>
+          </label>
+          <label class="inline">Words / section
+            <input id="wordsPerSection" type="number" min="10" max="24" value="17" />
+          </label>
+          <label class="inline">Target seconds
+            <input id="targetSeconds" type="number" min="20" max="60" value="34" />
+          </label>
+          <label class="inline">FPS
+            <select id="fps">
+              <option value="24">24</option>
+              <option value="30" selected>30</option>
+              <option value="60">60</option>
+            </select>
+          </label>
+          <label class="inline">Translation
+            <select id="translationProvider">
+              <option value="auto">auto</option>
+              <option value="gemini">Gemini</option>
+              <option value="deepseek">DeepSeek</option>
+              <option value="offline">offline preview</option>
+            </select>
+          </label>
+          <label class="inline">
+            <input id="requireTranslation" type="checkbox" checked />
+            require contextual translation
+          </label>
+        </div>
+      </fieldset>
+      <fieldset class="win95-group">
+        <legend>Pick 3–4 evidence graphics</legend>
+        <div id="vizOptions" class="viz-options">
+          <p class="hint">Load a match to inspect available statistics.</p>
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="card wide">
+      <h2>3. Hook / bait overrides</h2>
+      <div class="row3">
+        <label>Hook claim (first-second shock)
+          <input id="hookClaim" placeholder="Leave blank for director default" />
+        </label>
+        <label>Hook punch
+          <input id="hookPunch" placeholder="Optional second line" />
+        </label>
+        <label>Comment bait
+          <input id="bait" placeholder="was yamal motm?" />
+        </label>
+      </div>
+      <div class="row">
+        <label class="grow">Home colour
+          <input id="colorHome" placeholder="#a50044 or auto" />
+        </label>
+        <label class="grow">Away colour
+          <input id="colorAway" placeholder="#004d98 or auto" />
+        </label>
+        <label class="inline">Spoiler
+          <select id="spoiler">
+            <option value="show">show</option>
+            <option value="hide">hide</option>
+          </select>
+        </label>
+        <label class="inline">Eleven style
+          <select id="elevenStyle">
+            <option value="robust">robust</option>
+            <option value="normal">normal</option>
+          </select>
+        </label>
+        <label class="inline">Kids-safe
+          <input id="kids" type="checkbox" />
+        </label>
+        <button type="button" class="ghost" id="btnColors">Preview colours</button>
+        <button type="button" class="primary" id="btnDraft">Draft scripts</button>
+      </div>
+      <fieldset class="win95-group">
+        <legend>Generator settings</legend>
+        <div class="settings-grid">
+          <label>Gemini
+            <span><input id="useGemini" type="checkbox" /> culture rewrite</span>
+          </label>
+          <label>Gemini model
+            <input id="geminiModel" placeholder="gemini-2.5-flash" />
+          </label>
+          <label>Star
+            <input id="star" placeholder="auto / off / player" />
+          </label>
+          <label>Platforms
+            <input id="platforms" placeholder="tiktok,reels,shorts" />
+          </label>
+          <label>Series ID
+            <input id="seriesId" placeholder="barca-26-27" />
+          </label>
+          <label>ElevenLabs voice ID
+            <input id="elevenVoice" placeholder="auto by Liam name" />
+          </label>
+          <label>ElevenLabs model
+            <input id="elevenModel" placeholder="eleven_v3" />
+          </label>
+          <label>Gemini instruction
+            <input id="instruction" placeholder="optional editorial note" />
+          </label>
+        </div>
+        <div class="row">
+          <button type="button" id="btnElevenHealth">Check ElevenLabs credits</button>
+          <span class="hint" id="elevenHealth">Not checked.</span>
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="card wide" id="reviewCard">
+      <div class="card-head">
+        <h2>4. Script + voice</h2>
+        <div class="tabs" id="langTabs"></div>
+      </div>
+      <p class="empty" id="reviewEmpty">Draft scripts to review copy per language.</p>
+      <div id="reviewBody" hidden>
+        <div class="status-row">
+          <span class="pill" id="scriptPill">script pending</span>
+          <span class="pill" id="voicePill">voice none</span>
+          <span class="pill" id="growthPill">growth —</span>
+        </div>
+        <p class="hint" id="bookendReview"></p>
+        <p class="translation-note" id="translationReview"></p>
+        <div class="scenes" id="scenes"></div>
+        <div class="row">
+          <button type="button" class="ghost" id="btnEdit">Save edits</button>
+          <button type="button" class="primary" id="btnApproveScript">Approve script</button>
+        </div>
+        <div class="voice">
+          <audio id="player" controls></audio>
+          <button type="button" class="ghost" id="btnRegen">Regenerate VO</button>
+          <button type="button" class="primary" id="btnApproveVoice">Approve VO</button>
+          <p class="hint" id="voiceNote"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>5. Produce</h2>
+      <div class="row">
+        <button type="button" class="ghost" id="btnPlan">Dry-run plan</button>
+        <button type="button" class="ghost" id="btnPreviewVideo">Render silent preview</button>
+        <button type="button" class="primary" id="btnProduce">Produce</button>
+      </div>
+      <div class="progress">
+        <div class="bar"><i id="barFill"></i></div>
+        <p id="prodStage">idle</p>
+      </div>
+      <pre id="prodLog" class="log"></pre>
+      <div id="prodResults"></div>
+    </section>
+  </main>
+
+  <footer class="taskbar">
+    <button type="button" class="start-button"><span class="start-flag"></span>Start</button>
+    <span class="task-app">Recap Studio — Video Farm</span>
+    <span class="tray" id="clock">00:00</span>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

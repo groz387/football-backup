@@ -11,3 +11,6 @@ nodriver
 moviepy
 google-genai
 python-dotenv
+fastapi
+uvicorn
+python-multipart
