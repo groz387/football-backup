@@ -64,7 +64,7 @@ def _team_key_row(fig, design: dict[str, Any], bundle: MatchBundle, y: float, al
 def _radar_axes() -> list[str]:
     return [
         "shots", "shots_on_target", "big_chances", "possession_pct",
-        "pass_share_pct", "penalty_box_touches", "tackles_won", "saves", "goals",
+        "pass_share_pct", "penalty_box_touches", "xg", "tackles_won", "saves", "goals",
     ]
 
 

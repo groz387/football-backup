@@ -406,6 +406,36 @@ def _scene_view(scene: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _script_warnings(
+    scenes: list[dict[str, Any]],
+    selected_ids: list[str],
+    target_words: int,
+) -> list[str]:
+    warnings: list[str] = []
+    for scene in scenes:
+        if scene.get("visualization") not in selected_ids:
+            continue
+        words = timing.word_count(scene.get("narration") or "")
+        if words < max(10, target_words - 3) or words > min(24, target_words + 3):
+            warnings.append(
+                f"{scene.get('visualization')}: {words} words; target is {target_words}"
+            )
+        allowed = [
+            str(value)
+            for value in (
+                scene.get("fact_numbers")
+                or (scene.get("fact_pack") or {}).get("numbers")
+                or []
+            )
+        ]
+        narration = str(scene.get("narration") or "")
+        if allowed and not any(value and value in narration for value in allowed):
+            warnings.append(
+                f"{scene.get('visualization')}: narration cites no number from its fact pack"
+            )
+    return warnings
+
+
 def _selected_objects(bundle, audit: dict[str, Any], ids: list[str], count: int) -> list[dict[str, Any]]:
     candidates = director.visualization_candidates(bundle, audit)
     available = {row["id"]: row for row in candidates if row.get("available")}
@@ -486,6 +516,10 @@ def draft_scripts(payload: dict[str, Any]) -> dict[str, Any]:
             "scenes": views, "visualizations": [row["id"] for row in selected],
             "translation_provider": translation_provider,
             "translation_warnings": warnings,
+            "script_warnings": _script_warnings(
+                scenes, [row["id"] for row in selected],
+                int(settings.get("words_per_section") or 17),
+            ),
             "operator_copy": {
                 "source_language": translation.detect_language(hook_texts[0] or bait)[0] if (hook_texts[0] or bait) else "director",
                 "provider": translation_provider,
@@ -529,7 +563,11 @@ def edit_script(job_id: str, language: str, scenes: list[dict[str, Any]]) -> dic
                 scene[field] = patch[field]
         scene["word_count"] = timing.word_count(scene.get("narration") or "")
     pack["script_status"] = "edited"
-    pack["translation_warnings"] = []
+    pack["translation_reviewed"] = True
+    pack["script_warnings"] = _script_warnings(
+        pack["scenes"], list(pack.get("visualizations") or []),
+        int((job.get("settings") or {}).get("words_per_section") or 17),
+    )
     return _save(_job_path(job_id), job)
 
 

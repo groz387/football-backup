@@ -212,7 +212,10 @@ function paintReview() {
     const copy = pack.operator_copy || {};
     const source = copy.source_language || "director";
     const methods = [pack.translation_provider || copy.provider || "source"];
-    const warning = (pack.translation_warnings || []).join(" | ");
+    const warning = [
+      ...(pack.translation_warnings || []),
+      ...(pack.script_warnings || []),
+    ].join(" | ");
     $("translationReview").textContent =
       `Whole script: ${source} → ${pack.language}; ${methods.join(", ")}.${warning ? " REVIEW: " + warning : ""}`;
     $("translationReview").classList.toggle("error", Boolean(warning));

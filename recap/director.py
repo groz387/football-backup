@@ -218,11 +218,11 @@ SHAPE_FAMILY = {
     "goal_timeline": "time",
     "field_tilt_wave": "time",
     "xg_race": "time",
-    "sterile_domination": "hero",
-    "chance_funnel": "hero",
-    "match_radar": "hero",
-    "stat_slam": "hero",
-    "conversion_gauges": "hero",
+    "sterile_domination": "comparison",
+    "chance_funnel": "funnel",
+    "match_radar": "radar",
+    "stat_slam": "slam",
+    "conversion_gauges": "gauges",
     "player_spike": "poster",
     "standard_stats": "bars",
     "box_score": "bars",
@@ -337,7 +337,8 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         {
             "id": "momentum",
             "title": "Momentum Swing",
-            "available": len(momentum) >= 6,
+            "available": len(momentum) >= 6
+            and int(health.get("pass_rows") or 0) >= 40,
             "score": 68 + min(20, max_swing * 0.4),
             "reason": "Attacking pressure per five minutes, so the turning point is visible.",
             "best_for": "Comebacks, late sieges, and games that changed character.",
@@ -551,7 +552,8 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
         {
             "id": "halftime_split",
             "title": "Two Halves",
-            "available": bool((audit.get("halftime_split") or {}).get("ready")),
+            "available": bool((audit.get("halftime_split") or {}).get("ready"))
+            and int(health.get("event_rows") or 0) >= 50,
             "score": 63 + min(12, abs(
                 int(((audit.get("halftime_split") or {}).get("first") or {}).get("home_shots") or 0)
                 + int(((audit.get("halftime_split") or {}).get("first") or {}).get("away_shots") or 0)

@@ -1367,7 +1367,7 @@ def _describe(bundle: MatchBundle, audit: dict[str, Any]) -> list[str]:
             f"{bundle.away} {away.get('xg', 0)}."
         )
     chain = best_goal_chain(audit)
-    if chain:
+    if chain and int(chain.get("passes") or 0) > 0:
         facts.append(
             f"Longest build-up to a goal: {chain['team']}, {chain['passes']} passes over "
             f"{chain['pass_distance_m']} metres, finished by {chain['scorer']} "
