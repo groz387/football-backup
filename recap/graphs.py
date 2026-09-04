@@ -2,8 +2,8 @@
 
 Viral slam/radar/spiral cards lived here and drifted from the backup recap
 core. Studio now selects backup pitch/time/territory cards from ``scenes.py``.
-This module keeps one extra renderer: hex cells from real touch bins, with
-no interpolation that invents activity between coordinates.
+This module keeps one extra renderer: rectangular tiles from real touch bins,
+with no interpolation that invents activity between coordinates.
 
 Does not import ``scenes``, so draw → graphs/scenes stays one-way.
 """
@@ -12,6 +12,8 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
+
+from matplotlib.patches import Rectangle
 
 from . import draw, theme
 from .data import MatchBundle
@@ -27,8 +29,8 @@ def render_touch_heatmap(
 ) -> None:
     """Crisp touch-territory mosaic.
 
-    The old blurred red/blue wash hid the pitch and looked like compression
-    noise. Hex cells show the dominant side and volume at each real touch bin.
+    Occupied bins become rectangular tiles with a small gap. Volume is inset
+    plus alpha, not marker size, so a 9:16 still reads as a map of cells.
     """
     design = theme.match_design(bundle.home, bundle.away)
     fig = draw.new_figure(design)
@@ -52,27 +54,50 @@ def render_touch_heatmap(
                 if total > 0:
                     cells.append((total, xi, yi, float(home_value or 0), float(away_value or 0)))
     cells.sort(reverse=True)
-    cells = cells[:110]
     maximum = max((cell[0] for cell in cells), default=1.0)
     shown = tl.reveal_count(len(cells), start=0.08, span=0.62)
     x_bins = max(1, int(heat.get("x_bins") or len(home_grid) or 1))
     y_bins = max(1, int(heat.get("y_bins") or (len(home_grid[0]) if home_grid else 1)))
-    draw.pitch_grid_fade(ax, alpha=0.035 * tl.cue(0.08, 0.24))
+    cell_w = 100.0 / y_bins
+    cell_h = 100.0 / x_bins
+    gap = min(cell_w, cell_h) * 0.08
     for index, (total, xi, yi, home_value, away_value) in enumerate(cells[:shown]):
         local = tl.stagger(index, max(1, len(cells)), start=0.08, span=0.60, duration=0.18)
+        if local <= 0:
+            continue
         share = home_value / total if total else 0.5
         identity = design["home"] if share >= 0.5 else design["away"]
         dominance = abs(share - 0.5) * 2.0
-        px = (yi + 0.5) * 100.0 / y_bins
-        py = (xi + 0.5) * 100.0 / x_bins
-        size = (34.0 + 250.0 * (total / maximum) ** 0.72) * local
-        ax.scatter(
-            [px], [py], s=size, marker="h",
-            facecolor=identity["fill"], edgecolor=identity["chart"],
-            linewidth=0.7 + 0.8 * dominance,
-            alpha=draw.opacity((0.22 + 0.60 * dominance) * local),
-            zorder=6 + index * 0.001,
+        volume = total / maximum
+        extra = (0.20 * (1.0 - volume ** 0.65)) * min(cell_w, cell_h)
+        inset = gap + extra
+        x0 = yi * cell_w + inset
+        y0 = xi * cell_h + inset
+        width = max(0.55, cell_w - 2 * inset)
+        height = max(0.55, cell_h - 2 * inset)
+        draw.add_shape(
+            ax,
+            Rectangle(
+                (x0, y0), width, height,
+                facecolor=identity["fill"],
+                edgecolor=identity["chart"],
+                linewidth=0.6 + 0.7 * dominance,
+                alpha=draw.opacity((0.26 + 0.50 * volume + 0.18 * dominance) * local),
+                zorder=6 + index * 0.001,
+            ),
         )
+    grid_alpha = 0.55 * tl.cue(0.10, 0.26)
+    if grid_alpha > 0:
+        for index in range(1, y_bins):
+            ax.plot(
+                [index * cell_w] * 2, [0, 100], color="#0a0d0b", lw=1.6,
+                alpha=grid_alpha, zorder=12, solid_capstyle="butt",
+            )
+        for index in range(1, x_bins):
+            ax.plot(
+                [0, 100], [index * cell_h] * 2, color="#0a0d0b", lw=1.6,
+                alpha=grid_alpha, zorder=12, solid_capstyle="butt",
+            )
     draw.legend_row(
         fig, 0.118,
         [("bar", design["home"]["fill"], bundle.home), ("bar", design["away"]["fill"], bundle.away)],

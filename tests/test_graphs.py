@@ -5,6 +5,7 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import pandas as pd
 
@@ -145,6 +146,8 @@ class GraphEmptyAuditTests(unittest.TestCase):
             "hero_label": "SHOTS",
             "hero_team": "South Korea",
             "seconds": 0.85,
+            "lines": ["KOREA HAD 9 SHOTS.", "KOREA HAD 3 BIG CHANCES."],
+            "split": {"home": 8, "away": 9, "label": "SHOTS"},
         }
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "hook.png"
@@ -162,6 +165,138 @@ class GraphEmptyAuditTests(unittest.TestCase):
                     0.12,
                     f"hook opening sample {tuple(sample)} is not pitch black",
                 )
+
+
+    def test_mosaic_draws_rectangular_tiles_not_hex_scatter(self) -> None:
+        source = Path(graphs.__file__).read_text(encoding="utf-8")
+        self.assertNotIn('marker="h"', source)
+        self.assertNotIn("marker='h'", source)
+        self.assertIn("Rectangle", source)
+        self.assertNotIn("cells[:110]", source)
+
+        heat = {
+            "x_bins": 12,
+            "y_bins": 8,
+            "home": [[float((x + y) % 4) for y in range(8)] for x in range(12)],
+            "away": [[float((x * y) % 3) for y in range(8)] for x in range(12)],
+        }
+        occupied = 0
+        for xi in range(12):
+            for yi in range(8):
+                if heat["home"][xi][yi] + heat["away"][xi][yi] > 0:
+                    occupied += 1
+        self.audit["touch_heatmap"] = heat
+        patches: list[object] = []
+        scatter_calls: list[object] = []
+
+        original_add = graphs.draw.add_shape
+        original_scatter_batch = getattr(graphs.draw, "scatter_batch", None)
+
+        def capture_shape(ax, patch):
+            patches.append(patch)
+            return original_add(ax, patch)
+
+        def capture_scatter(*args, **kwargs):
+            scatter_calls.append(kwargs)
+
+        with tempfile.TemporaryDirectory() as tmp, \
+                mock.patch.object(graphs.draw, "add_shape", side_effect=capture_shape), \
+                mock.patch("matplotlib.axes.Axes.scatter", side_effect=capture_scatter):
+            path = Path(tmp) / "mosaic.png"
+            graphs.render_touch_heatmap(self.bundle, self.audit, self.scene, path, 1.0)
+        from matplotlib.patches import Rectangle
+        tiles = [patch for patch in patches if isinstance(patch, Rectangle)]
+        self.assertGreaterEqual(len(tiles), occupied)
+        self.assertFalse(scatter_calls)
+
+    def test_english_bridges_do_not_say_heat_map(self) -> None:
+        from recap import i18n
+
+        i18n.set_language("en")
+        blob = " ".join(
+            i18n.t(key, team="KOREA", n=100)
+            for key in ("bridge_heat_0", "bridge_heat_1", "bridge_heat_2", "sub_heatmap")
+        ).lower()
+        self.assertNotIn("heat map", blob)
+        self.assertNotIn("heatmap", blob.replace(" ", ""))
+        self.assertNotIn("hex", blob)
+        self.assertTrue("tile" in blob or "mosaic" in blob)
+        copy = director._visual_copy(self.bundle, {
+            **self.audit,
+            "zone_control": [{"home_touches": 12, "away_touches": 9}],
+            "team_stats": self.audit["team_stats"],
+            "goal_timeline": [],
+        }, "touch_heatmap")
+        joined = f"{copy['insight']} {copy['narration']}".lower()
+        self.assertNotIn("hex", joined)
+        self.assertNotIn("heat map", joined)
+        self.assertIn("tile", joined)
+
+    def test_analysis_narration_lands_near_seventeen_words(self) -> None:
+        from recap import timing
+
+        stats = {
+            self.bundle.home: {
+                **_empty_stats(),
+                "shots": 8, "shots_on_target": 4, "shots_blocked": 1,
+                "big_chances": 1, "goals": 1, "pass_share_pct": 42,
+                "pass_attempts": 200, "passes_completed": 160,
+            },
+            self.bundle.away: {
+                **_empty_stats(),
+                "shots": 9, "shots_on_target": 2, "shots_blocked": 2,
+                "big_chances": 3, "goals": 0, "pass_share_pct": 58,
+                "pass_attempts": 280, "passes_completed": 230,
+            },
+        }
+        audit = {
+            **self.audit,
+            "team_stats": stats,
+            "zone_control": [
+                {"home_touches": 40, "away_touches": 55, "xbin": 0, "ybin": 0, "total_touches": 95, "home_share_pct": 42},
+            ],
+            "momentum": [{"swing": 4.2, "minute_block": "45-49", "home_pressure": 8, "away_pressure": 3}],
+            "goal_timeline": [{"minute": 12, "team": self.bundle.home, "scorer": "Alpha", "h_a": "h", "own_goal": False, "penalty": False}],
+            "data_health": {**self.audit["data_health"], "has_vendor_possession": False},
+        }
+        selected = [{"id": vid} for vid in ("shot_map", "touch_heatmap", "sterile_domination", "momentum")]
+        scenes = director.build_storyboard(self.bundle, audit, selected)
+        analysis = [
+            scene for scene in scenes
+            if scene["visualization"] in {"shot_map", "touch_heatmap", "sterile_domination", "momentum"}
+        ]
+        self.assertEqual(len(analysis), 4)
+        for scene in analysis:
+            words = timing.word_count(scene.get("narration") or "")
+            self.assertGreaterEqual(words, 16, f"{scene['visualization']} is {words}: {scene.get('narration')}")
+            self.assertLessEqual(words, 19, f"{scene['visualization']} is {words}: {scene.get('narration')}")
+        hooks = [scene for scene in scenes if scene.get("hook") or scene["visualization"] == "close"]
+        for scene in hooks:
+            words = timing.word_count(scene.get("narration") or "")
+            self.assertLessEqual(words, 16, f"{scene['visualization']} should stay short: {scene.get('narration')}")
+
+        long_line = (
+            "Mexico put eight shots on the map against nine and then kept adding "
+            "clauses until the sentence wandered far past twenty words easily here."
+        )
+        fitted = director.normalize_analysis_words([
+            {
+                "id": "shot_map",
+                "visualization": "shot_map",
+                "narration": long_line,
+                "insight": "8 against 9 shots",
+                "fact_pack": {"numbers": [8, 9], "what_the_picture_shows": "Every attempt, by outcome"},
+            },
+            {
+                "id": "hook_claim",
+                "visualization": "hook_claim",
+                "hook": True,
+                "narration": "KOREA HAD 9 SHOTS.",
+            },
+        ])
+        self.assertLessEqual(timing.word_count(fitted[0]["narration"]), 20)
+        self.assertGreaterEqual(timing.word_count(fitted[0]["narration"]), 16)
+        self.assertEqual(fitted[1]["narration"], "KOREA HAD 9 SHOTS.")
 
 
 class UniquenessTests(unittest.TestCase):
