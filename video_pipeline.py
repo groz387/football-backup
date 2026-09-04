@@ -34,7 +34,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from recap import audit as audit_mod
-from recap import clips, director, i18n, logos, theme, timing, video, voice
+from recap import clips, director, hooks, i18n, logos, theme, timing, translation, video, voice, viral_audit
 from recap.data import describe_match_dir, list_match_dirs, load_match, safe_name, write_json
 
 
@@ -223,9 +223,14 @@ def run(args: argparse.Namespace) -> Path:
 
     gemini = None
     if not args.no_gemini:
-        gemini = director.Gemini(enabled=True, required=args.require_gemini, model=args.model)
+        gemini = director.Gemini(
+            enabled=True,
+            required=args.require_gemini,
+            model=args.model,
+            script_model=getattr(args, "script_model", None),
+        )
         if gemini.enabled:
-            say(f"  Gemini enabled ({gemini.model}).")
+            say(f"  Gemini enabled ({gemini.model} / script {gemini.script_model}).")
         else:
             say("  Gemini disabled (GEMINI_API_KEY is not set); using the deterministic script.")
 
@@ -234,6 +239,20 @@ def run(args: argparse.Namespace) -> Path:
     selected, candidates = director.select_visualizations(
         bundle, audit, args.visualizations, gemini, args.instruction
     )
+    requested_ids = [
+        value.strip()
+        for value in str(getattr(args, "selected_visualizations", "") or "").split(",")
+        if value.strip()
+    ]
+    if requested_ids:
+        available = {row["id"]: row for row in candidates if row.get("available")}
+        invalid = [value for value in requested_ids if value not in available]
+        if invalid:
+            raise SystemExit(
+                "Selected visualizations are unavailable for this export: "
+                + ", ".join(invalid)
+            )
+        selected = [available[value] for value in requested_ids]
     while True:
         for candidate in sorted(candidates, key=lambda c: c["score"], reverse=True):
             mark = "  " if candidate["available"] else "x "
@@ -257,11 +276,22 @@ def run(args: argparse.Namespace) -> Path:
     stage("3. Script")
     instruction = args.instruction
     already_localized = False
+    viral_report: dict[str, Any] = {}
     while True:
         scene_list, already_localized = build_script(
             bundle, audit, selected, gemini, instruction, args.target_seconds, language,
             clip_beats=clip_beats,
+            words_per_section=args.words_per_section,
+            translation_provider=args.translation_provider,
+            require_context_translation=args.require_context_translation,
+            kids=bool(getattr(args, "kids", False)),
         )
+        viral_report = viral_audit.score_plan(
+            scene_list, selected, bundle, audit, output_root=Path(args.output_root),
+        )
+        say(f"  viral score: {viral_report['score']}")
+        for note in viral_report.get("warnings") or []:
+            say(f"  [viral] {note}")
         say(script_preview(scene_list))
         action = ask("Use this script?", ("ok", "change", "redo", "quit"), args.auto)
         if action == "quit":
@@ -271,9 +301,16 @@ def run(args: argparse.Namespace) -> Path:
         if action == "change":
             instruction = input("  What should change? ").strip() or instruction
         else:
-            instruction = f"{instruction} Sharpen the hook and vary the sentence rhythm."
+            instruction = viral_audit.redo_instruction(instruction, viral_report)
 
-    if language != "en":
+    viral_audit.remember_punch(
+        Path(args.output_root),
+        str(viral_report.get("punch") or ""),
+        match_dir.name,
+        str(viral_report.get("hook_kind") or ""),
+    )
+
+    if language != "en" and not already_localized:
         if not already_localized:
             translator = gemini
             if translator is None or not translator.enabled:
@@ -330,12 +367,16 @@ def run(args: argparse.Namespace) -> Path:
             },
             "gemini_used": bool(gemini and gemini.enabled),
             "gemini_model": gemini.model if gemini else None,
+            "gemini_script_model": gemini.script_model if gemini else None,
             "gemini_error": (gemini.last_error or None) if gemini else None,
             "fps": args.fps,
             "transition_seconds": timing.TRANSITION,
             "target_seconds": args.target_seconds,
             "total_seconds": timing.total_seconds(scene_list),
+            "sfx": bool(getattr(args, "sfx", True)),
+            "burn_captions": bool(getattr(args, "burn_captions", False)),
         },
+        "viral_audit": viral_report,
         "selected_visualizations": selected,
         "all_candidates": candidates,
         "scenes": scene_list,
@@ -365,8 +406,14 @@ def run(args: argparse.Namespace) -> Path:
         say("  skipped (--skip-video)")
         return out_dir
 
-    path = video.assemble(out_dir, rendered, audio_path, fps=args.fps,
-                          crossfade=not args.no_crossfade)
+    path = video.assemble(
+        out_dir, rendered, audio_path, fps=args.fps,
+        crossfade=not args.no_crossfade,
+        sfx=bool(getattr(args, "sfx", True)),
+        burn_captions=bool(getattr(args, "burn_captions", False)),
+        music_file=getattr(args, "music_file", "") or None,
+        srt_path=out_dir / "subtitles.srt",
+    )
     if not path:
         say("  no mp4 was produced; the frames and script are still in place.")
         return out_dir
@@ -389,20 +436,45 @@ def build_script(
     target_seconds: float,
     language: str = "en",
     clip_beats: list[dict[str, Any]] | None = None,
+    words_per_section: int = 17,
+    translation_provider: str = "auto",
+    require_context_translation: bool = False,
+    kids: bool = False,
 ) -> tuple[list[dict[str, Any]], bool]:
     """Return (scenes, already_localized_by_gemini)."""
+    target_language = i18n.normalize_language(language)
+    i18n.set_language("en")
     scene_list = director.build_storyboard(bundle, audit, selected, clip_beats=clip_beats)
     already_localized = False
+    angle = director.pick_angle(bundle, audit)
     if gemini is not None and gemini.enabled:
-        speakable = [scene for scene in scene_list if not scene.get("hook")]
-        budget = timing.word_budget(target_seconds, max(1, len(speakable)))
-        say(f"  asking Gemini for roughly {budget} words per scene ({i18n.language_name(language)})")
+        editorial = gemini.choose_angle(bundle, audit, "en")
+        if editorial.get("angle"):
+            angle = str(editorial["angle"])
+        hook = director.build_hook(bundle, audit)
+        rewrite = gemini.rephrase_hook(hook, "en")
+        hook = hooks.apply_hook_rephrase(hook, rewrite)
+        scene_list = director.apply_script(
+            scene_list,
+            {
+                "hook_claim": {
+                    "title": (hook.get("lines") or [hook.get("punch")])[0],
+                    "narration": hook.get("narration_claim") or "",
+                },
+                "hook_punch": {
+                    "title": hook.get("punch") or "",
+                    "narration": hook.get("narration_punch") or "",
+                },
+            },
+        )
+        budget = max(10, min(24, int(words_per_section or 17)))
+        say(f"  asking Gemini for {budget} evidence words per analysis section (canonical English)")
         overrides = gemini.write_script(
-            bundle, audit, scene_list, budget, instruction, language=language
+            bundle, audit, scene_list, budget, instruction, language="en",
+            angle=angle, audit_notes=[instruction] if instruction else [],
         )
         if overrides:
             scene_list = director.apply_script(scene_list, overrides)
-            already_localized = language != "en"
 
     problems = director.copy_problems(scene_list, audit)
     if problems:
@@ -417,6 +489,31 @@ def build_script(
         if flagged:
             already_localized = False
     scene_list = director.lock_hook_cards(scene_list, bundle, audit)
+    i18n.set_language(target_language)
+    if target_language != "en":
+        translated = translation.translate_story(
+            scene_list,
+            target_language,
+            bundle,
+            audit,
+            provider=translation_provider,
+            gemini=gemini,
+        )
+        scene_list = translated.scenes
+        already_localized = True
+        for scene in scene_list:
+            scene["translation_provider"] = translated.provider
+            scene["translation_warnings"] = list(translated.warnings)
+        if translated.warnings:
+            say("  [translation] " + " | ".join(translated.warnings[:3]))
+        if require_context_translation and not translated.ok:
+            raise RuntimeError(
+                "Contextual translation was required, but no validated whole-script "
+                "translation was produced. Configure GROQ_API_KEY or GEMINI_API_KEY."
+            )
+    else:
+        already_localized = True
+    scene_list = director.lock_bookends(scene_list, kids=bool(kids))
     return scene_list, already_localized
 
 
@@ -438,10 +535,16 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--match-dir", help="An export directory under output/")
     parser.add_argument("--scrape-output-root", default="output", help="Where scraper exports live")
     parser.add_argument("--output-root", default="video_output", help="Where video packages are written")
-    parser.add_argument("--visualizations", type=int, default=3,
+    parser.add_argument("--visualizations", type=int, default=4,
                         help="Tactical visualizations between the hook and the closing score")
-    parser.add_argument("--target-seconds", type=float, default=32.0,
+    parser.add_argument(
+        "--selected-visualizations", default="", metavar="IDS",
+        help="Exact comma-separated visualization ids approved in Studio",
+    )
+    parser.add_argument("--target-seconds", type=float, default=34.0,
                         help="Runtime the script is written to fill")
+    parser.add_argument("--words-per-section", type=int, default=17,
+                        help="Evidence-rich narration target for each selected statistic")
     parser.add_argument("--fps", type=int, default=video.DEFAULT_FPS, help="Output frame rate")
 
     parser.add_argument("--interactive", action="store_true", help="Pick the match and approve each stage")
@@ -459,13 +562,33 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
              "(quote them in PowerShell; # without quotes is a comment)",
     )
     parser.add_argument("--instruction", default="", help="Editorial note passed to Gemini")
-    parser.add_argument("--model", default=None, help="Gemini model (defaults to GEMINI_MODEL)")
+    parser.add_argument("--model", default=None, help="Gemini model for viz pick (defaults to GEMINI_MODEL)")
+    parser.add_argument("--script-model", default=None,
+                        help="Gemini model for copy (defaults to GEMINI_SCRIPT_MODEL or gemini-2.5-pro)")
     parser.add_argument("--no-gemini", action="store_true", help="Use only the deterministic script")
     parser.add_argument("--require-gemini", action="store_true", help="Fail rather than fall back")
+    parser.add_argument(
+        "--translation-provider", default="auto",
+        choices=("auto", "gemini", "groq", "offline"),
+        help="Translate the complete script in one contextual request",
+    )
+    parser.add_argument(
+        "--require-context-translation", action="store_true",
+        help="Fail rather than use partial offline localization",
+    )
 
     parser.add_argument("--voiceover-file", default="", help="Recorded narration to attach")
     parser.add_argument("--sapi-tts", action="store_true", help="Synthesise narration for a rough cut (Windows)")
     parser.add_argument("--skip-audio", action="store_true", help="Render silent")
+    parser.add_argument("--kids", action="store_true", help="Strip spice from hook and close as well")
+    parser.add_argument("--sfx", dest="sfx", action="store_true", default=True,
+                        help="Mix synthesized hits under the master (default on)")
+    parser.add_argument("--no-sfx", dest="sfx", action="store_false", help="Skip SFX hits")
+    parser.add_argument("--music-file", default="", help="Optional music bed (ducked under VO)")
+    parser.add_argument("--burn-captions", dest="burn_captions", action="store_true", default=False,
+                        help="Burn subtitles into the social master (off by default)")
+    parser.add_argument("--no-burn-captions", dest="burn_captions", action="store_false",
+                        help="Keep captions as an external SRT only")
 
     parser.add_argument("--clip", action="append", default=[],
                         help="Path to a match clip or highlight (repeatable). Also reads match-dir/clips/")
@@ -483,6 +606,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         args.interactive = True
     if args.require_gemini and args.no_gemini:
         parser.error("--require-gemini and --no-gemini cannot be combined")
+    if not 10 <= args.words_per_section <= 24:
+        parser.error("--words-per-section must be between 10 and 24")
     return args
 
 
