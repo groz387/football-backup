@@ -118,6 +118,17 @@ class GraphEmptyAuditTests(unittest.TestCase):
             render_shot_map(self.bundle, self.audit, self.scene, path, 1.0)
             self.assertTrue(path.exists())
 
+    def test_duel_tower_clamps_overshooting_opacity(self) -> None:
+        self.audit["duels"] = {
+            "home": {"tackles": 9, "aerials": 7, "take_ons": 6, "total": 22},
+            "away": {"tackles": 8, "aerials": 6, "take_ons": 5, "total": 19},
+            "total": 41,
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "duel_tower_midpoint.png"
+            graphs.render_duel_tower(self.bundle, self.audit, self.scene, path, 0.5)
+            self.assertTrue(path.exists())
+
     def test_landscape_figure_does_not_crash(self) -> None:
         theme.set_frame_size(1920, 1080)
         design = theme.match_design("Scotland", "Morocco")

@@ -996,10 +996,11 @@ def render_duel_tower(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
         local = tl.stagger(index, 3, start=0.16, span=0.40, duration=0.28, ease=draw.ease_out_back)
         if local <= 0.02:
             continue
+        alpha = draw.opacity(local)
         y = base_y + index * (block_h + 0.028)
         fig.text(0.5, y + block_h + 0.006, label, color=TEXT_DIM, fontsize=12,
                  family=theme.MONO_FONT, fontweight="bold", ha="center", va="bottom",
-                 alpha=local, zorder=16)
+                 alpha=alpha, zorder=16)
         for cx, payload, identity in (
             (0.28, home, design["home"]),
             (0.72, away, design["away"]),
@@ -1016,12 +1017,13 @@ def render_duel_tower(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
                     (cx - width / 2 + inset, y + block_h * local),
                 ],
                 closed=True, transform=fig.transFigure, facecolor=identity["fill"],
-                edgecolor=identity["chart"], linewidth=1.4, alpha=0.92 * local, zorder=12,
+                edgecolor=identity["chart"], linewidth=1.4,
+                alpha=draw.opacity(0.92 * local), zorder=12,
             )
             fig.patches.append(poly)
             fig.text(cx, y + block_h * local / 2, str(value), color=TEXT,
                      fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
-                     ha="center", va="center", alpha=local, zorder=14,
+                     ha="center", va="center", alpha=alpha, zorder=14,
                      path_effects=draw.soft_shadow())
     draw.save_figure(fig, path)
 
