@@ -1,0 +1,439 @@
+{
+  "matchId": 1998571,
+  "startDate": "2026-07-07T00:00:00",
+  "startTime": "2026-07-07T17:00:00",
+  "score": "3 : 2",
+  "ftScore": "3 : 2",
+  "htScore": "0 : 1",
+  "etScore": "",
+  "venueName": "Atlanta Stadium",
+  "attendance": 68239,
+  "referee": {
+    "officialId": 880,
+    "firstName": "François",
+    "lastName": "Letexier",
+    "hasParticipatedMatches": false,
+    "name": "François Letexier"
+  },
+  "maxMinute": 101,
+  "home": {
+    "teamId": 346,
+    "name": "Argentina",
+    "countryName": "Argentina",
+    "averageAge": 28.8,
+    "formations": [
+      {
+        "formationName": "4132",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 72
+      },
+      {
+        "formationName": "4132",
+        "startMinuteExpanded": 72,
+        "endMinuteExpanded": 79
+      },
+      {
+        "formationName": "4132",
+        "startMinuteExpanded": 79,
+        "endMinuteExpanded": 101
+      },
+      {
+        "formationName": "4132",
+        "startMinuteExpanded": 101,
+        "endMinuteExpanded": 101
+      }
+    ],
+    "players": [
+      {
+        "playerId": 102248,
+        "name": "Emiliano Martínez",
+        "shirtNo": 23,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 303728,
+        "name": "Nahuel Molina",
+        "shirtNo": 26,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 340105,
+        "name": "Lisandro Martínez",
+        "shirtNo": 6,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 323663,
+        "name": "Cristian Romero",
+        "shirtNo": 13,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 83809,
+        "name": "Nicolás Tagliafico",
+        "shirtNo": 3,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 93700,
+        "name": "Leandro Paredes",
+        "shirtNo": 5,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 345319,
+        "name": "Alexis Mac Allister",
+        "shirtNo": 20,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 125547,
+        "name": "Rodrigo De Paul",
+        "shirtNo": 7,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 369430,
+        "name": "Enzo Fernández",
+        "shirtNo": 24,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 11119,
+        "name": "Lionel Messi",
+        "shirtNo": 10,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 365409,
+        "name": "Julián Alvarez",
+        "shirtNo": 9,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 75691,
+        "name": "Nicolás Otamendi",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 330672,
+        "name": "Facundo Medina",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 299344,
+        "name": "Lautaro Martínez",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 316883,
+        "name": "Gonzalo Montiel",
+        "shirtNo": 4,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 345322,
+        "name": "Nico González",
+        "shirtNo": 15,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 125375,
+        "name": "Gerónimo Rulli",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 361732,
+        "name": "Thiago Almada",
+        "shirtNo": 16,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 126278,
+        "name": "Juan Musso",
+        "shirtNo": 1,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 419341,
+        "name": "Valentín Barco",
+        "shirtNo": 8,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 299684,
+        "name": "Exequiel Palacios",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 422918,
+        "name": "Giuliano Simeone",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 303908,
+        "name": "Giovani Lo Celso",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 408110,
+        "name": "José Manuel López",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 328330,
+        "name": "Marcos Senesi",
+        "shirtNo": 2,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 448659,
+        "name": "Nico Paz",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 944,
+    "name": "Egypt",
+    "countryName": "Egypt",
+    "averageAge": 28.8,
+    "formations": [
+      {
+        "formationName": "442",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 52
+      },
+      {
+        "formationName": "451",
+        "startMinuteExpanded": 52,
+        "endMinuteExpanded": 79
+      },
+      {
+        "formationName": "451",
+        "startMinuteExpanded": 79,
+        "endMinuteExpanded": 86
+      },
+      {
+        "formationName": "451",
+        "startMinuteExpanded": 86,
+        "endMinuteExpanded": 102
+      },
+      {
+        "formationName": "442",
+        "startMinuteExpanded": 102,
+        "endMinuteExpanded": 101
+      }
+    ],
+    "players": [
+      {
+        "playerId": 519797,
+        "name": "Mostafa Shobeir",
+        "shirtNo": 23,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 450471,
+        "name": "Mohamed Hany",
+        "shirtNo": 3,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 450472,
+        "name": "Yasser Ibrahim",
+        "shirtNo": 2,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 139468,
+        "name": "Ramy Rabia",
+        "shirtNo": 5,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 228655,
+        "name": "Karim Hafez",
+        "shirtNo": 15,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 475046,
+        "name": "Haissem Hassan",
+        "shirtNo": 12,
+        "position": "MR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 476815,
+        "name": "Marwan Attia",
+        "shirtNo": 19,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 431069,
+        "name": "Mohanad Lasheen",
+        "shirtNo": 17,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 431068,
+        "name": "Emam Ashour",
+        "shirtNo": 8,
+        "position": "ML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 108226,
+        "name": "Mohamed Salah",
+        "shirtNo": 10,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 512753,
+        "name": "Mostafa Zico",
+        "shirtNo": 11,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 313545,
+        "name": "Trezeguet",
+        "shirtNo": 7,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 431063,
+        "name": "Hamdi Fathy",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 333238,
+        "name": "Zizo",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 394749,
+        "name": "Omar Marmoush",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 450474,
+        "name": "Ibrahim Adel",
+        "shirtNo": 20,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 499595,
+        "name": "Hossam Abdelmaguid",
+        "shirtNo": 4,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 551610,
+        "name": "Mahmoud Saber",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 202180,
+        "name": "Mohamed El Shenawy",
+        "shirtNo": 1,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 519796,
+        "name": "El Mahdy Soliman",
+        "shirtNo": 16,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 377407,
+        "name": "Nabil Emad Dunga",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 615391,
+        "name": "Tarek Alaa",
+        "shirtNo": 24,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 615390,
+        "name": "Mohamed Alaa",
+        "shirtNo": 26,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 559489,
+        "name": "Hamza Abdelkarim",
+        "shirtNo": 9,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "International",
+  "league": "FIFA World Cup",
+  "season": "2026",
+  "competitionType": "Knock Out",
+  "competitionStage": "World Cup Final Stage"
+}

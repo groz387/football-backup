@@ -1,0 +1,16 @@
+{
+  "provider": "flashscore",
+  "url": "https://www.flashscore.com/match/football/h-beer-sheva-EXAD1YZP/sabah-baku-fNGcxbyr/summary/stats/overall/",
+  "stats_url": "https://www.flashscore.com/match/football/h-beer-sheva-EXAD1YZP/sabah-baku-fNGcxbyr/summary/stats/overall/",
+  "summary_url": "https://www.flashscore.com/match/football/h-beer-sheva-EXAD1YZP/sabah-baku-fNGcxbyr/summary/",
+  "event_id": "EXAD1YZP_fNGcxbyr",
+  "home_slug": "h-beer-sheva-EXAD1YZP",
+  "away_slug": "sabah-baku-fNGcxbyr",
+  "scraped_at": "2026-08-26T12:50:10Z",
+  "has_coordinates": false,
+  "has_vendor_xg": true,
+  "has_vendor_xgot": true,
+  "has_vendor_possession": true,
+  "stat_rows": 36,
+  "incident_rows": 36
+}

@@ -1,0 +1,43 @@
+ALL 31
+hook_claim	hook_claim	6 SEYV. DİVAR.	
+hook_punch	hook_punch	OYUN. QAPANDI.	
+standard_stats	standard_stats	ƏSAS GÖSTƏRİCİLƏR	Birbaşa matç hadisə axınından qurulub.
+bridge_goal_timeline	micro_hook	HESAB BELƏ HƏRƏKƏT ETDİ.	
+goal_timeline	goal_timeline	1 QOL, BİR CANLI HESAB	Real Betis 80-ci dəqiqədə son sözü dedi.
+bridge_shot_map	micro_hook	20 ZƏRBƏ. BAX.	
+shot_map	shot_map	XƏRİTƏDƏ 10-20	10 zərbəyə qarşı 20, çərçivəyə 5–8.
+momentum	momentum	10-Cİ DƏQİQƏ TONU VERDİ	Ən ağır dalğa Real Madrid üçün 10-14 dəqiqələrində idi.
+zone_control	zone_control	REAL MADRID XƏRİTƏYƏ SAHİB OLDU	Real Madrid təhlükəli zonada daha çox toxundu.
+goal_chain	goal_chain	FİNİŞƏ 1 PAS	34 metr pas, 3 saniyəyə.
+goalmouth	goalmouth	REAL BETIS İŞİ VAR İDİ	Çərçivəyə 8 zərbə. 6 seyvlə dayandırıldı.
+pass_network	pass_network	REAL MADRID TOPU BELƏ APARDI	561 uğurlu pas, 89% dəqiqlik.
+sterile_domination	sterile_domination	REAL MADRID TOPA SAHİB İDİ	58% pas payı, qarşılığında 8 çərçivəyə.
+stat_slam	stat_slam	7 BÖYÜK ŞANSLAR	Real Madrid Böyük şanslar üzrə 7–1 öndə idi.
+match_radar	match_radar	OYUNUN FORMASI	10-20 zərbə; 42-58 pas payı.
+touch_heatmap	touch_heatmap	782 TOXUNUŞ	585 toxunuşa qarşı 782; hər hex real hadisədir.
+field_tilt_wave	field_tilt_wave	93-98 PƏNCƏRƏSİNDƏ 100% TİLT	Real Madrid o pəncərədə təhlükəli üçdə birə sahib idi.
+conversion_gauges	conversion_gauges	5-8 ÇƏRÇIVƏYƏ	10-20 zərbə; 5-8 çərçivəyə.
+chance_funnel	chance_funnel	58% SONRA DÜŞÜŞ	58% pas payı 20 zərbə, 7 böyük şans və 0 qol oldu.
+keeper_frame	keeper_frame	REAL BETIS ÜÇÜN 6 SEYV	Çərçivəyə 8 zərbə. 6 seyvlə dayandırıldı.
+xg_race	xg_race	HESABIN SAYMADIĞI YARIŞ	xG 0 qarşı 0. Hesab yarışı saymadı.
+time_zones	time_zones	XƏRİTƏ DƏYİŞDİ	Üç pəncərə. Rəng deyir kim sahib idi.
+player_spike	player_spike	MBAPPÉ 7 ETDİ	Kylian Mbappé shots üzrə 7 ilə öndə.
+shot_clock_spiral	shot_clock_spiral	SAATDA 30 ZƏRBƏ	10 qarşı 20. Sıra ilə düşmələrinə bax.
+press_trap	press_trap	REAL MADRID — 10.5 PPDA	Real Madrid 10.5 PPDA ilə press etdi.
+pass_lanes	pass_lanes	REAL MADRID TOPU BELƏ APARDI	Real Madrid — yalnız ən qalın pas xətləri.
+bench_impact	bench_impact	EHTİYATDAN 10 NƏFƏR	10 əvəzetmə. Hər gəlişdən sonra nə oldu.
+duel_tower	duel_tower	REAL MADRID ÜÇÜN 26 MÜBARİZƏ	21 qarşı 26. Mübarizə, hava, dribling.
+aerial_war	aerial_war	REAL MADRID HAVANI ALDI	5 hava topu qarşı 7.
+halftime_split	halftime_split	20 SONRA 10	Fasilədən əvvəl 20 zərbə, sonra 10.
+close	close	REAL BETIS 1-0 REAL MADRID	Real Betis nəticəni götürdü. Rəqəmlər necə olduğunu deyir.
+USED_FIXED
+FIX	live_clip	Real Betis — Real Madrid	
+FIX	hook_claim	6 SEYV. DİVAR.	
+FIX	hook_punch	OYUN. QAPANDI.	
+FIX	stat_slam	7 BÖYÜK ŞANSLAR	Real Madrid Böyük şanslar üzrə 7–1 öndə idi.
+FIX	micro_hook	SIRA İLƏ DÜŞMƏLƏRİNƏ BAX.	
+FIX	shot_clock_spiral	SAATDA 30 ZƏRBƏ	10 qarşı 20. Sıra ilə düşmələrinə bax.
+FIX	micro_hook	BUDUR KƏRPİC DİVAR.	
+FIX	keeper_frame	REAL BETIS ÜÇÜN 6 SEYV	Çərçivəyə 8 zərbə. 6 seyvlə dayandırıldı.
+FIX	conversion_gauges	5-8 ÇƏRÇIVƏYƏ	10-20 zərbə; 5-8 çərçivəyə.
+FIX	close	REAL BETIS 1-0 REAL MADRID	Real Betis nəticəni götürdü. Rəqəmlər necə olduğunu deyir.

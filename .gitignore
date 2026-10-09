@@ -24,9 +24,10 @@ _*.log
 # Generated video packages (regenerate with video_pipeline.py)
 video_output/
 output/
-studio/settings.json
-studio/jobs/*
-!studio/jobs/.gitkeep
+
+# Unrelated local scrape sitting in the backup folder
+output_backup/mylatinacam/
+output_backup/mylatinacam_test/
 
 # OS / editor
 .DS_Store

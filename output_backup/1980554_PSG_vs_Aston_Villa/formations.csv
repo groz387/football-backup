@@ -1,0 +1,133 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+PSG,home,0,433,329019,Matvey Safonov,0,0.0,5.0,0,48
+PSG,home,0,433,320834,Achraf Hakimi,1,2.5,1.0,0,48
+PSG,home,0,433,395221,Nuno Mendes,2,2.5,9.0,0,48
+PSG,home,0,433,384887,Vitinha,3,5.5,5.0,0,48
+PSG,home,0,433,101949,Marquinhos,4,2.5,3.5,0,48
+PSG,home,0,433,432378,Willian Pacho,5,2.5,6.5,0,48
+PSG,home,0,433,444679,Warren Zaïre-Emery,6,5.5,2.0,0,48
+PSG,home,0,433,465388,João Neves,7,5.5,8.0,0,48
+PSG,home,0,433,426648,Maghnes Akliouche,8,8.5,5.0,0,48
+PSG,home,0,433,433183,Désiré Doué,9,8.5,2.0,0,48
+PSG,home,0,433,370984,Khvicha Kvaratskhelia,10,8.5,8.0,0,48
+PSG,home,1,433,329019,Matvey Safonov,0,0.0,5.0,48,77
+PSG,home,1,433,320834,Achraf Hakimi,1,2.5,1.0,48,77
+PSG,home,1,433,395221,Nuno Mendes,2,2.5,9.0,48,77
+PSG,home,1,433,384887,Vitinha,3,5.5,5.0,48,77
+PSG,home,1,433,101949,Marquinhos,4,2.5,3.5,48,77
+PSG,home,1,433,432378,Willian Pacho,5,2.5,6.5,48,77
+PSG,home,1,433,444679,Warren Zaïre-Emery,6,5.5,2.0,48,77
+PSG,home,1,433,465388,João Neves,7,5.5,8.0,48,77
+PSG,home,1,433,299513,Ousmane Dembélé,8,8.5,5.0,48,77
+PSG,home,1,433,433183,Désiré Doué,9,8.5,2.0,48,77
+PSG,home,1,433,370984,Khvicha Kvaratskhelia,10,8.5,8.0,48,77
+PSG,home,2,433,329019,Matvey Safonov,0,0.0,5.0,77,77
+PSG,home,2,433,320834,Achraf Hakimi,1,2.5,1.0,77,77
+PSG,home,2,433,139186,Lucas Hernández,2,2.5,9.0,77,77
+PSG,home,2,433,384887,Vitinha,3,5.5,5.0,77,77
+PSG,home,2,433,101949,Marquinhos,4,2.5,3.5,77,77
+PSG,home,2,433,432378,Willian Pacho,5,2.5,6.5,77,77
+PSG,home,2,433,444679,Warren Zaïre-Emery,6,5.5,2.0,77,77
+PSG,home,2,433,465388,João Neves,7,5.5,8.0,77,77
+PSG,home,2,433,299513,Ousmane Dembélé,8,8.5,5.0,77,77
+PSG,home,2,433,433183,Désiré Doué,9,8.5,2.0,77,77
+PSG,home,2,433,370984,Khvicha Kvaratskhelia,10,8.5,8.0,77,77
+PSG,home,3,433,329019,Matvey Safonov,0,0.0,5.0,77,89
+PSG,home,3,433,320834,Achraf Hakimi,1,2.5,1.0,77,89
+PSG,home,3,433,139186,Lucas Hernández,2,2.5,9.0,77,89
+PSG,home,3,433,384887,Vitinha,3,5.5,5.0,77,89
+PSG,home,3,433,101949,Marquinhos,4,2.5,3.5,77,89
+PSG,home,3,433,432378,Willian Pacho,5,2.5,6.5,77,89
+PSG,home,3,433,444679,Warren Zaïre-Emery,6,5.5,2.0,77,89
+PSG,home,3,433,294193,Fabián Ruiz,7,5.5,8.0,77,89
+PSG,home,3,433,299513,Ousmane Dembélé,8,8.5,5.0,77,89
+PSG,home,3,433,433183,Désiré Doué,9,8.5,2.0,77,89
+PSG,home,3,433,370984,Khvicha Kvaratskhelia,10,8.5,8.0,77,89
+PSG,home,4,433,329019,Matvey Safonov,0,0.0,5.0,89,90
+PSG,home,4,433,320834,Achraf Hakimi,1,2.5,1.0,89,90
+PSG,home,4,433,139186,Lucas Hernández,2,2.5,9.0,89,90
+PSG,home,4,433,384887,Vitinha,3,5.5,5.0,89,90
+PSG,home,4,433,101949,Marquinhos,4,2.5,3.5,89,90
+PSG,home,4,433,432378,Willian Pacho,5,2.5,6.5,89,90
+PSG,home,4,433,444679,Warren Zaïre-Emery,6,5.5,2.0,89,90
+PSG,home,4,433,294193,Fabián Ruiz,7,5.5,8.0,89,90
+PSG,home,4,433,299513,Ousmane Dembélé,8,8.5,5.0,89,90
+PSG,home,4,433,513665,Senny Mayulu,9,8.5,2.0,89,90
+PSG,home,4,433,370984,Khvicha Kvaratskhelia,10,8.5,8.0,89,90
+PSG,home,5,433,329019,Matvey Safonov,0,0.0,5.0,90,95
+PSG,home,5,433,320834,Achraf Hakimi,1,2.5,1.0,90,95
+PSG,home,5,433,139186,Lucas Hernández,2,2.5,9.0,90,95
+PSG,home,5,433,440085,Beraldo,3,5.5,5.0,90,95
+PSG,home,5,433,101949,Marquinhos,4,2.5,3.5,90,95
+PSG,home,5,433,432378,Willian Pacho,5,2.5,6.5,90,95
+PSG,home,5,433,444679,Warren Zaïre-Emery,6,5.5,2.0,90,95
+PSG,home,5,433,294193,Fabián Ruiz,7,5.5,8.0,90,95
+PSG,home,5,433,299513,Ousmane Dembélé,8,8.5,5.0,90,95
+PSG,home,5,433,513665,Senny Mayulu,9,8.5,2.0,90,95
+PSG,home,5,433,384887,Vitinha,10,8.5,8.0,90,95
+Aston Villa,away,0,4231,83824,Marco Bizot,0,0.0,5.0,0,74
+Aston Villa,away,0,4231,322043,Matty Cash,1,2.5,1.0,0,74
+Aston Villa,away,0,4231,384134,Ian Maatsen,2,2.5,9.0,0,74
+Aston Villa,away,0,4231,403693,João Gomes,3,5.0,6.5,0,74
+Aston Villa,away,0,4231,100008,Victor Lindelöf,4,2.5,3.5,0,74
+Aston Villa,away,0,4231,344259,Pau Torres,5,2.5,6.5,0,74
+Aston Villa,away,0,4231,318449,John McGinn,6,7.0,2.0,0,74
+Aston Villa,away,0,4231,331790,Boubacar Kamara,7,5.0,3.5,0,74
+Aston Villa,away,0,4231,555332,Brian Madjo,8,9.0,5.0,0,74
+Aston Villa,away,0,4231,260592,Emiliano Buendía,9,7.0,5.0,0,74
+Aston Villa,away,0,4231,576066,George Hemmings,10,7.0,8.0,0,74
+Aston Villa,away,1,4231,83824,Marco Bizot,0,0.0,5.0,74,74
+Aston Villa,away,1,4231,322043,Matty Cash,1,2.5,1.0,74,74
+Aston Villa,away,1,4231,384134,Ian Maatsen,2,2.5,9.0,74,74
+Aston Villa,away,1,4231,403693,João Gomes,3,5.0,6.5,74,74
+Aston Villa,away,1,4231,100008,Victor Lindelöf,4,2.5,3.5,74,74
+Aston Villa,away,1,4231,344259,Pau Torres,5,2.5,6.5,74,74
+Aston Villa,away,1,4231,318449,John McGinn,6,7.0,2.0,74,74
+Aston Villa,away,1,4231,331790,Boubacar Kamara,7,5.0,3.5,74,74
+Aston Villa,away,1,4231,317506,Tammy Abraham,8,9.0,5.0,74,74
+Aston Villa,away,1,4231,260592,Emiliano Buendía,9,7.0,5.0,74,74
+Aston Villa,away,1,4231,576066,George Hemmings,10,7.0,8.0,74,74
+Aston Villa,away,2,4231,83824,Marco Bizot,0,0.0,5.0,74,75
+Aston Villa,away,2,4231,322043,Matty Cash,1,2.5,1.0,74,75
+Aston Villa,away,2,4231,384134,Ian Maatsen,2,2.5,9.0,74,75
+Aston Villa,away,2,4231,403693,João Gomes,3,5.0,6.5,74,75
+Aston Villa,away,2,4231,100008,Victor Lindelöf,4,2.5,3.5,74,75
+Aston Villa,away,2,4231,344259,Pau Torres,5,2.5,6.5,74,75
+Aston Villa,away,2,4231,318449,John McGinn,6,7.0,2.0,74,75
+Aston Villa,away,2,4231,408946,Lamare Bogarde,7,5.0,3.5,74,75
+Aston Villa,away,2,4231,317506,Tammy Abraham,8,9.0,5.0,74,75
+Aston Villa,away,2,4231,260592,Emiliano Buendía,9,7.0,5.0,74,75
+Aston Villa,away,2,4231,576066,George Hemmings,10,7.0,8.0,74,75
+Aston Villa,away,3,4231,83824,Marco Bizot,0,0.0,5.0,75,81
+Aston Villa,away,3,4231,322043,Matty Cash,1,2.5,1.0,75,81
+Aston Villa,away,3,4231,384134,Ian Maatsen,2,2.5,9.0,75,81
+Aston Villa,away,3,4231,403693,João Gomes,3,5.0,6.5,75,81
+Aston Villa,away,3,4231,100008,Victor Lindelöf,4,2.5,3.5,75,81
+Aston Villa,away,3,4231,344259,Pau Torres,5,2.5,6.5,75,81
+Aston Villa,away,3,4231,520919,Alysson Edward,6,7.0,2.0,75,81
+Aston Villa,away,3,4231,408946,Lamare Bogarde,7,5.0,3.5,75,81
+Aston Villa,away,3,4231,317506,Tammy Abraham,8,9.0,5.0,75,81
+Aston Villa,away,3,4231,260592,Emiliano Buendía,9,7.0,5.0,75,81
+Aston Villa,away,3,4231,576066,George Hemmings,10,7.0,8.0,75,81
+Aston Villa,away,4,4231,83824,Marco Bizot,0,0.0,5.0,81,81
+Aston Villa,away,4,4231,322043,Matty Cash,1,2.5,1.0,81,81
+Aston Villa,away,4,4231,384134,Ian Maatsen,2,2.5,9.0,81,81
+Aston Villa,away,4,4231,403693,João Gomes,3,5.0,6.5,81,81
+Aston Villa,away,4,4231,100008,Victor Lindelöf,4,2.5,3.5,81,81
+Aston Villa,away,4,4231,123167,Tyrone Mings,5,2.5,6.5,81,81
+Aston Villa,away,4,4231,520919,Alysson Edward,6,7.0,2.0,81,81
+Aston Villa,away,4,4231,408946,Lamare Bogarde,7,5.0,3.5,81,81
+Aston Villa,away,4,4231,317506,Tammy Abraham,8,9.0,5.0,81,81
+Aston Villa,away,4,4231,260592,Emiliano Buendía,9,7.0,5.0,81,81
+Aston Villa,away,4,4231,576066,George Hemmings,10,7.0,8.0,81,81
+Aston Villa,away,5,4231,83824,Marco Bizot,0,0.0,5.0,81,95
+Aston Villa,away,5,4231,322043,Matty Cash,1,2.5,1.0,81,95
+Aston Villa,away,5,4231,384134,Ian Maatsen,2,2.5,9.0,81,95
+Aston Villa,away,5,4231,92547,Ross Barkley,3,5.0,6.5,81,95
+Aston Villa,away,5,4231,100008,Victor Lindelöf,4,2.5,3.5,81,95
+Aston Villa,away,5,4231,123167,Tyrone Mings,5,2.5,6.5,81,95
+Aston Villa,away,5,4231,520919,Alysson Edward,6,7.0,2.0,81,95
+Aston Villa,away,5,4231,408946,Lamare Bogarde,7,5.0,3.5,81,95
+Aston Villa,away,5,4231,317506,Tammy Abraham,8,9.0,5.0,81,95
+Aston Villa,away,5,4231,260592,Emiliano Buendía,9,7.0,5.0,81,95
+Aston Villa,away,5,4231,576066,George Hemmings,10,7.0,8.0,81,95

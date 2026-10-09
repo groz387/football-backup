@@ -1,0 +1,409 @@
+{
+  "matchId": 1982255,
+  "startDate": "2026-08-14T00:00:00",
+  "startTime": "2026-08-14T19:00:00",
+  "score": "1 : 3",
+  "ftScore": "1 : 3",
+  "htScore": "0 : 1",
+  "etScore": "",
+  "venueName": "BUKO Stadion",
+  "attendance": 0,
+  "referee": {
+    "officialId": 1002,
+    "firstName": "Ingmar",
+    "lastName": "Oostrom",
+    "hasParticipatedMatches": false,
+    "name": "Ingmar Oostrom"
+  },
+  "maxMinute": 97,
+  "home": {
+    "teamId": 876,
+    "name": "Telstar",
+    "countryName": "Netherlands",
+    "averageAge": 23.9,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 59
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 59,
+        "endMinuteExpanded": 59
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 59,
+        "endMinuteExpanded": 66
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 66,
+        "endMinuteExpanded": 66
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 66,
+        "endMinuteExpanded": 67
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 67,
+        "endMinuteExpanded": 97
+      }
+    ],
+    "players": [
+      {
+        "playerId": 566829,
+        "name": "Ronald Koeman",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 391012,
+        "name": "Gabi Caschili",
+        "shirtNo": 18,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 78353,
+        "name": "Marvin Peersman",
+        "shirtNo": 43,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 470097,
+        "name": "Abdelnour Soualhia",
+        "shirtNo": 4,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 142242,
+        "name": "Jeff Hardeveld",
+        "shirtNo": 2,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 566840,
+        "name": "Tyrone Owusu",
+        "shirtNo": 10,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 431307,
+        "name": "Nils Rossen",
+        "shirtNo": 17,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 444652,
+        "name": "Rui Mendes",
+        "shirtNo": 7,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 445063,
+        "name": "Patrick Brouwer",
+        "shirtNo": 27,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 566842,
+        "name": "Soufiane Hetli",
+        "shirtNo": 11,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 596291,
+        "name": "Jelani Seedorf",
+        "shirtNo": 9,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 444273,
+        "name": "Prince Aning",
+        "shirtNo": 5,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 575829,
+        "name": "Rojendro Oudsten",
+        "shirtNo": 28,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 568284,
+        "name": "Emirhan Demircan",
+        "shirtNo": 8,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 630892,
+        "name": "Noach Shenkman",
+        "shirtNo": 23,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 413209,
+        "name": "Daan Reiziger",
+        "shirtNo": 20,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 494032,
+        "name": "Harrie Kuster",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 568289,
+        "name": "Nigel Ogidi Nwankwo",
+        "shirtNo": 15,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 569075,
+        "name": "Fabiano Rust",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 536002,
+        "name": "Isaiah Ahmed",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 566828,
+        "name": "Finn Mulder",
+        "shirtNo": 13,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 482883,
+        "name": "Fofin Turay",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 303,
+    "name": "Sparta Rotterdam",
+    "countryName": "Netherlands",
+    "averageAge": 24.0,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 64
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 64,
+        "endMinuteExpanded": 78
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 78,
+        "endMinuteExpanded": 87
+      },
+      {
+        "formationName": "541",
+        "startMinuteExpanded": 87,
+        "endMinuteExpanded": 97
+      }
+    ],
+    "players": [
+      {
+        "playerId": 96632,
+        "name": "Filip Bednarek",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 601809,
+        "name": "Lushendry Martes",
+        "shirtNo": 2,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 535931,
+        "name": "Marvin Young",
+        "shirtNo": 3,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 497763,
+        "name": "Nick Verschuren",
+        "shirtNo": 4,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 134722,
+        "name": "Bas Kuipers",
+        "shirtNo": 5,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 444623,
+        "name": "Julian Baas",
+        "shirtNo": 6,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 82401,
+        "name": "Jens Toornstra",
+        "shirtNo": 8,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 423834,
+        "name": "Casper Terho",
+        "shirtNo": 7,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 513252,
+        "name": "Shunsuke Mito",
+        "shirtNo": 10,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 566827,
+        "name": "Ayoni Santos",
+        "shirtNo": 11,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 470487,
+        "name": "Nökkvi Thórisson",
+        "shirtNo": 9,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 567653,
+        "name": "Milan Zonneveld",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 301423,
+        "name": "Mitchell van Bergen",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 457153,
+        "name": "Teo Quintero",
+        "shirtNo": 13,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 576498,
+        "name": "Robin van Cruijsen",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 505569,
+        "name": "Alwande Roaldsøy",
+        "shirtNo": 16,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 552276,
+        "name": "Joel Ideho",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 451993,
+        "name": "Boyd Reith",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 90810,
+        "name": "Bruno Martins Indi",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 576791,
+        "name": "Giannino Vianello",
+        "shirtNo": 15,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 603374,
+        "name": "Younes el Meftahi",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 622122,
+        "name": "Rik Suur",
+        "shirtNo": 20,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 642619,
+        "name": "Duncan Lindhout",
+        "shirtNo": 30,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "Netherlands",
+  "league": "Eredivisie",
+  "season": "2026/2027",
+  "competitionType": "League",
+  "competitionStage": ""
+}

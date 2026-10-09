@@ -1,0 +1,133 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Real Madrid,home,0,4231,73798,Thibaut Courtois,0,0.0,5.0,0,68
+Real Madrid,home,0,4231,318871,Trent Alexander-Arnold,1,2.5,1.0,0,68
+Real Madrid,home,0,4231,363496,Marc Cucurella,2,2.5,9.0,0,68
+Real Madrid,home,0,4231,369109,Eduardo Camavinga,3,5.0,6.5,0,68
+Real Madrid,home,0,4231,104010,Antonio Rüdiger,4,2.5,3.5,0,68
+Real Madrid,home,0,4231,468852,Dean Huijsen,5,2.5,6.5,0,68
+Real Madrid,home,0,4231,317541,Brahim Díaz,6,7.0,2.0,0,68
+Real Madrid,home,0,4231,344644,Federico Valverde,7,5.0,3.5,0,68
+Real Madrid,home,0,4231,300713,Kylian Mbappé,8,9.0,5.0,0,68
+Real Madrid,home,0,4231,379868,Jude Bellingham,9,7.0,5.0,0,68
+Real Madrid,home,0,4231,337782,Vinícius Júnior,10,7.0,8.0,0,68
+Real Madrid,home,1,4231,73798,Thibaut Courtois,0,0.0,5.0,68,80
+Real Madrid,home,1,4231,318871,Trent Alexander-Arnold,1,2.5,1.0,68,80
+Real Madrid,home,1,4231,363496,Marc Cucurella,2,2.5,9.0,68,80
+Real Madrid,home,1,4231,369109,Eduardo Camavinga,3,5.0,6.5,68,80
+Real Madrid,home,1,4231,104010,Antonio Rüdiger,4,2.5,3.5,68,80
+Real Madrid,home,1,4231,468852,Dean Huijsen,5,2.5,6.5,68,80
+Real Madrid,home,1,4231,557000,Yan Diomande,6,7.0,2.0,68,80
+Real Madrid,home,1,4231,344644,Federico Valverde,7,5.0,3.5,68,80
+Real Madrid,home,1,4231,300713,Kylian Mbappé,8,9.0,5.0,68,80
+Real Madrid,home,1,4231,379868,Jude Bellingham,9,7.0,5.0,68,80
+Real Madrid,home,1,4231,337782,Vinícius Júnior,10,7.0,8.0,68,80
+Real Madrid,home,2,4231,73798,Thibaut Courtois,0,0.0,5.0,80,90
+Real Madrid,home,2,4231,318871,Trent Alexander-Arnold,1,2.5,1.0,80,90
+Real Madrid,home,2,4231,363496,Marc Cucurella,2,2.5,9.0,80,90
+Real Madrid,home,2,4231,369109,Eduardo Camavinga,3,5.0,6.5,80,90
+Real Madrid,home,2,4231,104010,Antonio Rüdiger,4,2.5,3.5,80,90
+Real Madrid,home,2,4231,468852,Dean Huijsen,5,2.5,6.5,80,90
+Real Madrid,home,2,4231,557000,Yan Diomande,6,7.0,2.0,80,90
+Real Madrid,home,2,4231,136741,Bernardo Silva,7,5.0,3.5,80,90
+Real Madrid,home,2,4231,300713,Kylian Mbappé,8,9.0,5.0,80,90
+Real Madrid,home,2,4231,379868,Jude Bellingham,9,7.0,5.0,80,90
+Real Madrid,home,2,4231,337782,Vinícius Júnior,10,7.0,8.0,80,90
+Real Madrid,home,3,4231,73798,Thibaut Courtois,0,0.0,5.0,90,92
+Real Madrid,home,3,4231,318871,Trent Alexander-Arnold,1,2.5,1.0,90,92
+Real Madrid,home,3,4231,363496,Marc Cucurella,2,2.5,9.0,90,92
+Real Madrid,home,3,4231,369109,Eduardo Camavinga,3,5.0,6.5,90,92
+Real Madrid,home,3,4231,104010,Antonio Rüdiger,4,2.5,3.5,90,92
+Real Madrid,home,3,4231,468852,Dean Huijsen,5,2.5,6.5,90,92
+Real Madrid,home,3,4231,557000,Yan Diomande,6,7.0,2.0,90,92
+Real Madrid,home,3,4231,136741,Bernardo Silva,7,5.0,3.5,90,92
+Real Madrid,home,3,4231,300713,Kylian Mbappé,8,9.0,5.0,90,92
+Real Madrid,home,3,4231,415181,Arda Güler,9,7.0,5.0,90,92
+Real Madrid,home,3,4231,337782,Vinícius Júnior,10,7.0,8.0,90,92
+Malaga,away,0,442,261509,Alfonso Herrero,0,0.0,5.0,0,49
+Malaga,away,0,442,447938,Carlos Puga,1,2.5,1.0,0,49
+Malaga,away,0,442,508349,Rafita,2,2.5,9.0,0,49
+Malaga,away,0,442,471958,Rafa Rodríguez,3,6.0,3.5,0,49
+Malaga,away,0,442,511043,Ángel Recio,4,2.5,3.5,0,49
+Malaga,away,0,442,141497,Einar Galilea,5,2.5,6.5,0,49
+Malaga,away,0,442,448303,David Larrubia,6,6.0,1.0,0,49
+Malaga,away,0,442,508035,Izan Merino,7,6.0,6.5,0,49
+Malaga,away,0,442,461527,Carlos Dotor,8,9.0,6.5,0,49
+Malaga,away,0,442,541868,Chupe,9,9.0,3.5,0,49
+Malaga,away,0,442,366204,Joaquín Muñoz,10,6.0,9.0,0,49
+Malaga,away,1,442,261509,Alfonso Herrero,0,0.0,5.0,49,64
+Malaga,away,1,442,447938,Carlos Puga,1,2.5,1.0,49,64
+Malaga,away,1,442,508349,Rafita,2,2.5,9.0,49,64
+Malaga,away,1,442,388808,Pablo Martínez,3,6.0,3.5,49,64
+Malaga,away,1,442,511043,Ángel Recio,4,2.5,3.5,49,64
+Malaga,away,1,442,141497,Einar Galilea,5,2.5,6.5,49,64
+Malaga,away,1,442,448303,David Larrubia,6,6.0,1.0,49,64
+Malaga,away,1,442,508035,Izan Merino,7,6.0,6.5,49,64
+Malaga,away,1,442,461527,Carlos Dotor,8,9.0,6.5,49,64
+Malaga,away,1,442,541868,Chupe,9,9.0,3.5,49,64
+Malaga,away,1,442,366204,Joaquín Muñoz,10,6.0,9.0,49,64
+Malaga,away,2,442,261509,Alfonso Herrero,0,0.0,5.0,64,64
+Malaga,away,2,442,402092,José Salinas,1,2.5,1.0,64,64
+Malaga,away,2,442,508349,Rafita,2,2.5,9.0,64,64
+Malaga,away,2,442,388808,Pablo Martínez,3,6.0,3.5,64,64
+Malaga,away,2,442,511043,Ángel Recio,4,2.5,3.5,64,64
+Malaga,away,2,442,141497,Einar Galilea,5,2.5,6.5,64,64
+Malaga,away,2,442,448303,David Larrubia,6,6.0,1.0,64,64
+Malaga,away,2,442,508035,Izan Merino,7,6.0,6.5,64,64
+Malaga,away,2,442,461527,Carlos Dotor,8,9.0,6.5,64,64
+Malaga,away,2,442,541868,Chupe,9,9.0,3.5,64,64
+Malaga,away,2,442,366204,Joaquín Muñoz,10,6.0,9.0,64,64
+Malaga,away,3,442,261509,Alfonso Herrero,0,0.0,5.0,64,65
+Malaga,away,3,442,402092,José Salinas,1,2.5,1.0,64,65
+Malaga,away,3,442,508349,Rafita,2,2.5,9.0,64,65
+Malaga,away,3,442,388808,Pablo Martínez,3,6.0,3.5,64,65
+Malaga,away,3,442,511043,Ángel Recio,4,2.5,3.5,64,65
+Malaga,away,3,442,141497,Einar Galilea,5,2.5,6.5,64,65
+Malaga,away,3,442,448303,David Larrubia,6,6.0,1.0,64,65
+Malaga,away,3,442,508035,Izan Merino,7,6.0,6.5,64,65
+Malaga,away,3,442,461527,Carlos Dotor,8,9.0,6.5,64,65
+Malaga,away,3,442,541868,Chupe,9,9.0,3.5,64,65
+Malaga,away,3,442,357786,Juan Cruz,10,6.0,9.0,64,65
+Malaga,away,4,442,261509,Alfonso Herrero,0,0.0,5.0,65,77
+Malaga,away,4,442,508349,Rafita,1,2.5,1.0,65,77
+Malaga,away,4,442,402092,José Salinas,2,2.5,9.0,65,77
+Malaga,away,4,442,388808,Pablo Martínez,3,6.0,3.5,65,77
+Malaga,away,4,442,511043,Ángel Recio,4,2.5,3.5,65,77
+Malaga,away,4,442,141497,Einar Galilea,5,2.5,6.5,65,77
+Malaga,away,4,442,448303,David Larrubia,6,6.0,1.0,65,77
+Malaga,away,4,442,508035,Izan Merino,7,6.0,6.5,65,77
+Malaga,away,4,442,461527,Carlos Dotor,8,9.0,6.5,65,77
+Malaga,away,4,442,541868,Chupe,9,9.0,3.5,65,77
+Malaga,away,4,442,357786,Juan Cruz,10,6.0,9.0,65,77
+Malaga,away,5,442,261509,Alfonso Herrero,0,0.0,5.0,77,82
+Malaga,away,5,442,508349,Rafita,1,2.5,1.0,77,82
+Malaga,away,5,442,402092,José Salinas,2,2.5,9.0,77,82
+Malaga,away,5,442,388808,Pablo Martínez,3,6.0,3.5,77,82
+Malaga,away,5,442,511043,Ángel Recio,4,2.5,3.5,77,82
+Malaga,away,5,442,448292,Haitam Abaida,5,2.5,6.5,77,82
+Malaga,away,5,442,448303,David Larrubia,6,6.0,1.0,77,82
+Malaga,away,5,442,508035,Izan Merino,7,6.0,6.5,77,82
+Malaga,away,5,442,461527,Carlos Dotor,8,9.0,6.5,77,82
+Malaga,away,5,442,541868,Chupe,9,9.0,3.5,77,82
+Malaga,away,5,442,357786,Juan Cruz,10,6.0,9.0,77,82
+Malaga,away,6,442,261509,Alfonso Herrero,0,0.0,5.0,82,90
+Malaga,away,6,442,508349,Rafita,1,2.5,1.0,82,90
+Malaga,away,6,442,448292,Haitam Abaida,2,2.5,9.0,82,90
+Malaga,away,6,442,388808,Pablo Martínez,3,6.0,3.5,82,90
+Malaga,away,6,442,511043,Ángel Recio,4,2.5,3.5,82,90
+Malaga,away,6,442,402092,José Salinas,5,2.5,6.5,82,90
+Malaga,away,6,442,448303,David Larrubia,6,6.0,1.0,82,90
+Malaga,away,6,442,508035,Izan Merino,7,6.0,6.5,82,90
+Malaga,away,6,442,461527,Carlos Dotor,8,9.0,6.5,82,90
+Malaga,away,6,442,541868,Chupe,9,9.0,3.5,82,90
+Malaga,away,6,442,357786,Juan Cruz,10,6.0,9.0,82,90
+Malaga,away,7,442,261509,Alfonso Herrero,0,0.0,5.0,90,92
+Malaga,away,7,442,508349,Rafita,1,2.5,1.0,90,92
+Malaga,away,7,442,448292,Haitam Abaida,2,2.5,9.0,90,92
+Malaga,away,7,442,388808,Pablo Martínez,3,6.0,3.5,90,92
+Malaga,away,7,442,511043,Ángel Recio,4,2.5,3.5,90,92
+Malaga,away,7,442,402092,José Salinas,5,2.5,6.5,90,92
+Malaga,away,7,442,448303,David Larrubia,6,6.0,1.0,90,92
+Malaga,away,7,442,448289,Ramón Enríquez,7,6.0,6.5,90,92
+Malaga,away,7,442,461527,Carlos Dotor,8,9.0,6.5,90,92
+Malaga,away,7,442,541868,Chupe,9,9.0,3.5,90,92
+Malaga,away,7,442,357786,Juan Cruz,10,6.0,9.0,90,92

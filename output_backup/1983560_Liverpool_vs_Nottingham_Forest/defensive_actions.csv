@@ -1,0 +1,238 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2960924023.0,0,34.0,FirstHalf,Nikola Milenkovic,319785,174,a,31.2,59.5,BallRecovery,Successful,[]
+2960924379.0,0,51.0,FirstHalf,Dominik Szoboszlai,369875,26,h,53.7,74.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""14""}, {""type"": ""Defensive""}]"
+2960927447.0,3,36.0,FirstHalf,Milos Kerkez,424273,26,h,43.2,85.5,BallRecovery,Successful,[]
+2960927531.0,3,39.0,FirstHalf,Nikola Milenkovic,319785,174,a,19.1,9.6,BallRecovery,Successful,[]
+2960927539.0,3,41.0,FirstHalf,Víctor Muñoz,548106,26,h,72.2,93.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""40""}, {""type"": ""Defensive""}]"
+2960928535.0,4,41.0,FirstHalf,Alexis Mac Allister,345319,26,h,21.9,53.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""64.5""}, {""type"": ""PassEndY"", ""value"": ""67.0""}, {""type"": ""Length"", ""value"": ""45.6""}, {""type"": ""Angle"", ""value"": ""0.20""}]"
+2960928773.0,4,58.0,FirstHalf,Jérémy Jacquet,468827,26,h,9.4,33.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""11.0""}, {""type"": ""PassEndY"", ""value"": ""28.3""}, {""type"": ""Length"", ""value"": ""4.0""}, {""type"": ""Angle"", ""value"": ""5.15""}]"
+2960928861.0,5,0.0,FirstHalf,Alexis Mac Allister,345319,26,h,13.8,41.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""57.7""}, {""type"": ""PassEndY"", ""value"": ""59.1""}, {""type"": ""Length"", ""value"": ""47.6""}, {""type"": ""Angle"", ""value"": ""0.25""}]"
+2960928903.0,5,8.0,FirstHalf,Florian Wirtz,394786,26,h,46.9,40.6,BallRecovery,Successful,[]
+2960929599.0,5,48.0,FirstHalf,Ola Aina,315543,174,a,25.2,39.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""68""}, {""type"": ""Defensive""}]"
+2960929633.0,5,51.0,FirstHalf,Murillo,445424,174,a,22.5,50.4,BallRecovery,Successful,[]
+2960929765.0,6,0.0,FirstHalf,Jérémy Jacquet,468827,26,h,15.8,16.8,BallRecovery,Successful,[]
+2960930823.0,6,52.0,FirstHalf,Neco Williams,386969,174,a,6.6,47.8,Tackle,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""83""}, {""type"": ""Defensive""}]"
+2960930991.0,6,55.0,FirstHalf,Jair Cunha,443545,174,a,5.2,26.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""PassEndX"", ""value"": ""59.6""}, {""type"": ""PassEndY"", ""value"": ""10.9""}, {""type"": ""Length"", ""value"": ""58.1""}, {""type"": ""Angle"", ""value"": ""6.10""}]"
+2960931825.0,7,31.0,FirstHalf,Nikola Milenkovic,319785,174,a,8.8,55.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.7""}, {""type"": ""PassEndY"", ""value"": ""57.1""}, {""type"": ""Length"", ""value"": ""35.6""}, {""type"": ""Angle"", ""value"": ""0.04""}]"
+2960931965.0,7,44.0,FirstHalf,Dan Ndoye,398414,174,a,59.2,77.8,BallRecovery,Successful,[]
+2960932583.0,8,13.0,FirstHalf,Virgil van Dijk,95408,26,h,24.0,54.4,BallRecovery,Successful,[]
+2960932705.0,8,21.0,FirstHalf,Nikola Milenkovic,319785,174,a,12.2,30.7,BallRecovery,Successful,[]
+2960932781.0,8,24.0,FirstHalf,Alexander Isak,299254,26,h,88.8,81.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""84""}, {""type"": ""Defensive""}]"
+2960934351.0,9,44.0,FirstHalf,Alexis Mac Allister,345319,26,h,64.3,32.7,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""102""}, {""type"": ""Defensive""}]"
+2960934373.0,9,47.0,FirstHalf,Alexis Mac Allister,345319,26,h,63.5,28.2,BallRecovery,Successful,[]
+2960934439.0,9,50.0,FirstHalf,Matz Sels,78386,174,a,9.7,52.9,KeeperPickup,Successful,[]
+2960934635.0,9,58.0,FirstHalf,Jérémy Jacquet,468827,26,h,45.0,14.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""43.6""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""11.2""}, {""type"": ""Angle"", ""value"": ""4.58""}]"
+2960935429.0,10,42.0,FirstHalf,Jérémy Jacquet,468827,26,h,1.3,49.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""109""}]"
+2960938533.0,13,32.0,FirstHalf,Virgil van Dijk,95408,26,h,35.9,75.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960939019.0,13,56.0,FirstHalf,Víctor Muñoz,548106,26,h,52.4,74.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2960939025.0,13,56.0,FirstHalf,Víctor Muñoz,548106,26,h,59.2,83.1,BallRecovery,Successful,[]
+2960939081.0,13,58.0,FirstHalf,Jair Cunha,443545,174,a,36.0,22.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""133""}, {""type"": ""Defensive""}]"
+2960939731.0,14,29.0,FirstHalf,Jeremie Frimpong,392644,26,h,26.5,22.3,BallRecovery,Successful,[]
+2960943373.0,15,30.0,FirstHalf,Alexis Mac Allister,345319,26,h,45.4,47.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""146""}, {""type"": ""Defensive""}]"
+2960941065.0,15,35.0,FirstHalf,Dan Ndoye,398414,174,a,61.8,66.0,BallRecovery,Successful,[]
+2960941109.0,15,37.0,FirstHalf,Jérémy Jacquet,468827,26,h,31.9,34.9,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""149""}, {""type"": ""Defensive""}]"
+2960941171.0,15,40.0,FirstHalf,Jérémy Jacquet,468827,26,h,23.5,39.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""152""}, {""type"": ""Defensive""}]"
+2960941379.0,15,49.0,FirstHalf,Milos Kerkez,424273,26,h,9.3,62.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""159""}]"
+2960942005.0,16,29.0,FirstHalf,Jeremie Frimpong,392644,26,h,8.5,56.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.3""}, {""type"": ""PassEndY"", ""value"": ""51.3""}, {""type"": ""Length"", ""value"": ""15.9""}, {""type"": ""Angle"", ""value"": ""6.06""}]"
+2960942009.0,16,30.0,FirstHalf,Víctor Muñoz,548106,26,h,18.0,55.4,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""162""}]"
+2960942027.0,16,32.0,FirstHalf,Alexis Mac Allister,345319,26,h,17.7,28.2,BallRecovery,Successful,[]
+2960945249.0,19,44.0,FirstHalf,Jair Cunha,443545,174,a,10.7,16.0,BallRecovery,Successful,[]
+2960946353.0,21,0.0,FirstHalf,Xaver Schlager,262856,174,a,26.2,78.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""213""}, {""type"": ""Defensive""}]"
+2960946613.0,21,17.0,FirstHalf,Nikola Milenkovic,319785,174,a,8.1,48.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.5""}, {""type"": ""PassEndY"", ""value"": ""33.6""}, {""type"": ""Length"", ""value"": ""13.0""}, {""type"": ""Angle"", ""value"": ""5.35""}]"
+2960946635.0,21,20.0,FirstHalf,Jair Cunha,443545,174,a,15.5,33.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.3""}, {""type"": ""PassEndY"", ""value"": ""37.3""}, {""type"": ""Length"", ""value"": ""11.6""}, {""type"": ""Angle"", ""value"": ""0.22""}]"
+2960947289.0,22,6.0,FirstHalf,Jérémy Jacquet,468827,26,h,31.8,29.4,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2960947295.0,22,8.0,FirstHalf,Jeremie Frimpong,392644,26,h,30.2,5.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""197""}, {""type"": ""Defensive""}]"
+2960947715.0,22,35.0,FirstHalf,Víctor Muñoz,548106,26,h,8.6,84.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""203""}]"
+2960948135.0,23,0.0,FirstHalf,Jérémy Jacquet,468827,26,h,11.3,54.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""8.8""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""31.9""}, {""type"": ""Angle"", ""value"": ""1.65""}]"
+2960948403.0,23,20.0,FirstHalf,Milos Kerkez,424273,26,h,9.3,65.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.9""}, {""type"": ""PassEndY"", ""value"": ""72.3""}, {""type"": ""Length"", ""value"": ""9.3""}, {""type"": ""Angle"", ""value"": ""0.53""}]"
+2960948411.0,23,21.0,FirstHalf,Milos Kerkez,424273,26,h,8.1,63.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""209""}]"
+2960948605.0,23,36.0,FirstHalf,Alexis Mac Allister,345319,26,h,16.5,42.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""213""}, {""type"": ""Defensive""}]"
+2960949793.0,25,4.0,FirstHalf,Murillo,445424,174,a,31.2,83.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960949859.0,25,10.0,FirstHalf,Neco Williams,386969,174,a,32.7,87.1,BallRecovery,Successful,[]
+2960949941.0,25,18.0,FirstHalf,Jérémy Jacquet,468827,26,h,31.6,9.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960950121.0,25,30.0,FirstHalf,Alexis Mac Allister,345319,26,h,9.0,10.5,BallRecovery,Successful,[]
+2960950381.0,25,46.0,FirstHalf,Jair Cunha,443545,174,a,11.1,31.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""4.9""}, {""type"": ""PassEndY"", ""value"": ""16.2""}, {""type"": ""Length"", ""value"": ""12.1""}, {""type"": ""Angle"", ""value"": ""4.14""}]"
+2960950689.0,26,7.0,FirstHalf,Xaver Schlager,262856,174,a,28.1,33.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""255""}, {""type"": ""Defensive""}]"
+2960950711.0,26,10.0,FirstHalf,James McAtee,425576,174,a,22.1,42.7,BallRecovery,Successful,[]
+2960951121.0,26,33.0,FirstHalf,Alisson Becker,114147,26,h,6.0,51.1,KeeperPickup,Successful,[]
+2960952101.0,27,47.0,FirstHalf,Matz Sels,78386,174,a,3.1,49.5,Punch,Successful,"[{""type"": ""PassEndX"", ""value"": ""10.6""}, {""type"": ""PassEndY"", ""value"": ""41.8""}, {""type"": ""Length"", ""value"": ""9.5""}, {""type"": ""Angle"", ""value"": ""5.70""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""264""}]"
+2960952107.0,27,49.0,FirstHalf,Xaver Schlager,262856,174,a,11.0,42.3,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""8.7""}, {""type"": ""PassEndY"", ""value"": ""37.3""}, {""type"": ""Length"", ""value"": ""4.2""}, {""type"": ""Angle"", ""value"": ""4.09""}]"
+2960952139.0,27,51.0,FirstHalf,Nikola Milenkovic,319785,174,a,8.4,42.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.3""}, {""type"": ""PassEndY"", ""value"": ""42.1""}, {""type"": ""Length"", ""value"": ""6.2""}, {""type"": ""Angle"", ""value"": ""6.23""}]"
+2960952173.0,27,53.0,FirstHalf,James McAtee,425576,174,a,18.4,42.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""266""}, {""type"": ""Defensive""}]"
+2960952955.0,28,57.0,FirstHalf,Xaver Schlager,262856,174,a,14.2,59.0,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""284""}]"
+2960953303.0,29,13.0,FirstHalf,Nikola Milenkovic,319785,174,a,7.4,33.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""40.0""}, {""type"": ""PassEndY"", ""value"": ""20.1""}, {""type"": ""Length"", ""value"": ""35.3""}, {""type"": ""Angle"", ""value"": ""6.03""}]"
+2960953305.0,29,23.0,FirstHalf,Dan Ndoye,398414,174,a,35.9,68.8,BallRecovery,Successful,[]
+2960953625.0,29,46.0,FirstHalf,Florian Wirtz,394786,26,h,65.6,27.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""254""}, {""type"": ""Defensive""}]"
+2960953633.0,29,47.0,FirstHalf,Cody Gakpo,352825,26,h,70.6,24.0,BallRecovery,Successful,[]
+2960953735.0,29,54.0,FirstHalf,Neco Williams,386969,174,a,12.0,35.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""298""}, {""type"": ""Defensive""}]"
+2960954317.0,30,40.0,FirstHalf,Murillo,445424,174,a,5.3,49.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""18.5""}, {""type"": ""PassEndY"", ""value"": ""35.4""}, {""type"": ""Length"", ""value"": ""17.0""}, {""type"": ""Angle"", ""value"": ""5.66""}]"
+2960954405.0,30,45.0,FirstHalf,James McAtee,425576,174,a,30.5,20.5,BallRecovery,Successful,[]
+2960954431.0,30,46.0,FirstHalf,Florian Wirtz,394786,26,h,57.8,89.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""261""}, {""type"": ""Defensive""}]"
+2960955215.0,31,43.0,FirstHalf,Nikola Milenkovic,319785,174,a,27.1,73.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960958095.0,34,39.0,FirstHalf,Milos Kerkez,424273,26,h,13.6,92.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""278""}, {""type"": ""Defensive""}]"
+2960958493.0,35,2.0,FirstHalf,Virgil van Dijk,95408,26,h,9.6,58.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.0""}, {""type"": ""PassEndY"", ""value"": ""70.3""}, {""type"": ""Length"", ""value"": ""21.9""}, {""type"": ""Angle"", ""value"": ""0.38""}]"
+2960958517.0,35,4.0,FirstHalf,Florian Wirtz,394786,26,h,29.0,70.3,BallRecovery,Successful,[]
+2960959379.0,35,52.0,FirstHalf,Alisson Becker,114147,26,h,10.7,35.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""36.5""}, {""type"": ""PassEndY"", ""value"": ""33.9""}, {""type"": ""Length"", ""value"": ""27.1""}, {""type"": ""Angle"", ""value"": ""6.25""}]"
+2960959381.0,35,57.0,FirstHalf,Milos Kerkez,424273,26,h,33.7,67.8,BallRecovery,Successful,[]
+2960959815.0,36,16.0,FirstHalf,Dan Ndoye,398414,174,a,40.0,77.1,BallRecovery,Successful,[]
+2960962383.0,38,34.0,FirstHalf,Jair Cunha,443545,174,a,4.6,45.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""5.8""}, {""type"": ""PassEndY"", ""value"": ""21.1""}, {""type"": ""Length"", ""value"": ""16.6""}, {""type"": ""Angle"", ""value"": ""4.79""}]"
+2960963331.0,39,37.0,FirstHalf,Jair Cunha,443545,174,a,31.5,3.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""367""}, {""type"": ""Defensive""}]"
+2960963343.0,39,40.0,FirstHalf,Ola Aina,315543,174,a,27.8,11.7,BallRecovery,Successful,[]
+2960963401.0,39,42.0,FirstHalf,Virgil van Dijk,95408,26,h,37.1,90.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""45.2""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""11.2""}, {""type"": ""Angle"", ""value"": ""0.71""}]"
+2960963771.0,40,4.0,FirstHalf,Víctor Muñoz,548106,26,h,41.4,78.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960963799.0,40,6.0,FirstHalf,Alexis Mac Allister,345319,26,h,32.2,72.3,BallRecovery,Successful,[]
+2960964393.0,40,39.0,FirstHalf,Dan Ndoye,398414,174,a,24.6,75.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""383""}]"
+2960964815.0,41,5.0,FirstHalf,Dan Ndoye,398414,174,a,23.8,76.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960965145.0,41,23.0,FirstHalf,Neco Williams,386969,174,a,21.6,84.7,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""395""}, {""type"": ""Defensive""}]"
+2960965757.0,41,55.0,FirstHalf,James McAtee,425576,174,a,26.4,52.2,BallRecovery,Successful,[]
+2960965899.0,42,1.0,FirstHalf,Milos Kerkez,424273,26,h,30.5,82.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""32.5""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""13.1""}, {""type"": ""Angle"", ""value"": ""1.41""}]"
+2960966179.0,42,17.0,FirstHalf,Milos Kerkez,424273,26,h,20.9,73.6,BallRecovery,Successful,[]
+2960966611.0,42,40.0,FirstHalf,Ola Aina,315543,174,a,32.3,29.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""417""}, {""type"": ""Defensive""}]"
+2960966671.0,42,44.0,FirstHalf,Morgan Gibbs-White,332867,174,a,46.5,18.1,BallRecovery,Successful,[]
+2960966683.0,42,44.0,FirstHalf,Alexander Isak,299254,26,h,55.7,79.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""321""}, {""type"": ""Defensive""}]"
+2960966747.0,42,46.0,FirstHalf,Virgil van Dijk,95408,26,h,43.9,84.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""44.6""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""11.7""}, {""type"": ""Angle"", ""value"": ""1.51""}]"
+2960967127.0,43,10.0,FirstHalf,Milos Kerkez,424273,26,h,9.1,79.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.0""}, {""type"": ""PassEndY"", ""value"": ""77.7""}, {""type"": ""Length"", ""value"": ""7.4""}, {""type"": ""Angle"", ""value"": ""6.09""}]"
+2960967129.0,43,12.0,FirstHalf,Virgil van Dijk,95408,26,h,14.4,76.9,BallRecovery,Successful,[]
+2960969259.0,45,5.0,FirstHalf,Jair Cunha,443545,174,a,24.5,23.4,BallRecovery,Successful,[]
+2960969375.0,45,12.0,FirstHalf,Virgil van Dijk,95408,26,h,46.3,91.2,BallRecovery,Successful,[]
+2960970281.0,45,55.0,FirstHalf,Murillo,445424,174,a,23.1,49.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""49.5""}, {""type"": ""PassEndY"", ""value"": ""40.9""}, {""type"": ""Length"", ""value"": ""28.3""}, {""type"": ""Angle"", ""value"": ""6.07""}]"
+2960970331.0,46,10.0,FirstHalf,Nikola Milenkovic,319785,174,a,6.3,57.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""12.6""}, {""type"": ""PassEndY"", ""value"": ""74.4""}, {""type"": ""Length"", ""value"": ""13.1""}, {""type"": ""Angle"", ""value"": ""1.04""}]"
+2960971127.0,46,14.0,FirstHalf,Jeremie Frimpong,392644,26,h,88.6,34.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""366""}, {""type"": ""Offensive""}]"
+2960970377.0,46,19.0,FirstHalf,Dan Ndoye,398414,174,a,23.9,75.1,BallRecovery,Successful,[]
+2960970507.0,46,27.0,FirstHalf,Jeremie Frimpong,392644,26,h,67.3,11.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""351""}, {""type"": ""Defensive""}]"
+2960970583.0,46,31.0,FirstHalf,Jérémy Jacquet,468827,26,h,48.9,10.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""PassEndX"", ""value"": ""53.6""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""10.1""}, {""type"": ""Angle"", ""value"": ""5.22""}]"
+2960970989.0,46,54.0,FirstHalf,Jair Cunha,443545,174,a,50.0,41.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""475""}, {""type"": ""Defensive""}]"
+2960971929.0,48,0.0,FirstHalf,Dominik Szoboszlai,369875,26,h,3.2,52.4,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""369""}]"
+2960972257.0,48,29.0,FirstHalf,Virgil van Dijk,95408,26,h,8.3,54.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.7""}, {""type"": ""PassEndY"", ""value"": ""80.7""}, {""type"": ""Length"", ""value"": ""25.0""}, {""type"": ""Angle"", ""value"": ""0.81""}]"
+2960984591.0,45,44.0,SecondHalf,Murillo,445424,174,a,3.7,77.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""501""}]"
+2960986069.0,46,12.0,SecondHalf,Neco Williams,386969,174,a,8.6,61.6,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""522""}]"
+2960985193.0,46,14.0,SecondHalf,Matz Sels,78386,174,a,6.8,49.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""8.4""}, {""type"": ""PassEndY"", ""value"": ""53.2""}, {""type"": ""Length"", ""value"": ""3.3""}, {""type"": ""Angle"", ""value"": ""1.03""}]"
+2960985241.0,46,15.0,SecondHalf,Igor Jesus,397497,174,a,12.3,60.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""19.6""}, {""type"": ""PassEndY"", ""value"": ""82.9""}, {""type"": ""Length"", ""value"": ""17.3""}, {""type"": ""Angle"", ""value"": ""1.11""}]"
+2960985259.0,46,21.0,SecondHalf,Igor Jesus,397497,174,a,9.2,67.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.4""}, {""type"": ""PassEndY"", ""value"": ""89.1""}, {""type"": ""Length"", ""value"": ""18.8""}, {""type"": ""Angle"", ""value"": ""0.90""}]"
+2960985391.0,46,29.0,SecondHalf,Xaver Schlager,262856,174,a,42.6,54.7,BallRecovery,Successful,[]
+2960985539.0,46,38.0,SecondHalf,Alisson Becker,114147,26,h,12.3,43.6,BallRecovery,Successful,[]
+2960986349.0,47,18.0,SecondHalf,Neco Williams,386969,174,a,6.0,50.4,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""524""}]"
+2960986419.0,47,21.0,SecondHalf,Ola Aina,315543,174,a,13.7,22.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.9""}, {""type"": ""PassEndY"", ""value"": ""10.2""}, {""type"": ""Length"", ""value"": ""16.3""}, {""type"": ""Angle"", ""value"": ""5.73""}]"
+2960986571.0,47,31.0,SecondHalf,Ola Aina,315543,174,a,15.7,3.6,BallRecovery,Successful,[]
+2960988457.0,49,12.0,SecondHalf,Matz Sels,78386,174,a,9.3,40.5,KeeperPickup,Successful,[]
+2960988771.0,49,29.0,SecondHalf,Cody Gakpo,352825,26,h,65.1,40.3,BallRecovery,Successful,[]
+2960988811.0,49,29.0,SecondHalf,Nikola Milenkovic,319785,174,a,39.0,57.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""544""}, {""type"": ""Defensive""}]"
+2960988885.0,49,33.0,SecondHalf,Xaver Schlager,262856,174,a,34.7,34.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""546""}, {""type"": ""Defensive""}]"
+2960988889.0,49,35.0,SecondHalf,Xaver Schlager,262856,174,a,37.7,27.4,BallRecovery,Successful,[]
+2960989017.0,49,41.0,SecondHalf,Dominik Szoboszlai,369875,26,h,54.0,63.3,BallRecovery,Successful,[]
+2960989875.0,50,28.0,SecondHalf,Matz Sels,78386,174,a,11.7,49.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""22.2""}, {""type"": ""PassEndY"", ""value"": ""63.4""}, {""type"": ""Length"", ""value"": ""14.5""}, {""type"": ""Angle"", ""value"": ""0.71""}]"
+2960989883.0,50,31.0,SecondHalf,Xaver Schlager,262856,174,a,22.3,65.7,BallRecovery,Successful,[]
+2960990319.0,50,54.0,SecondHalf,Dominik Szoboszlai,369875,26,h,34.9,5.7,BallRecovery,Successful,[]
+2960990809.0,51,19.0,SecondHalf,Murillo,445424,174,a,11.4,70.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.0""}, {""type"": ""PassEndY"", ""value"": ""89.7""}, {""type"": ""Length"", ""value"": ""17.9""}, {""type"": ""Angle"", ""value"": ""0.82""}]"
+2960990887.0,51,25.0,SecondHalf,Neco Williams,386969,174,a,8.8,83.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""566""}, {""type"": ""Defensive""}]"
+2960990961.0,51,30.0,SecondHalf,Dan Ndoye,398414,174,a,10.5,85.9,BallRecovery,Successful,[]
+2960990993.0,51,31.0,SecondHalf,Alexis Mac Allister,345319,26,h,83.5,16.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""427""}, {""type"": ""Defensive""}]"
+2960991015.0,51,32.0,SecondHalf,Florian Wirtz,394786,26,h,84.6,17.8,BallRecovery,Successful,[]
+2960991211.0,51,42.0,SecondHalf,Xaver Schlager,262856,174,a,20.0,51.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""31.1""}, {""type"": ""PassEndY"", ""value"": ""63.7""}, {""type"": ""Length"", ""value"": ""14.5""}, {""type"": ""Angle"", ""value"": ""0.63""}]"
+2960991919.0,52,15.0,SecondHalf,Jérémy Jacquet,468827,26,h,53.3,77.5,BallRecovery,Successful,[]
+2960991981.0,52,20.0,SecondHalf,James McAtee,425576,174,a,51.1,43.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""580""}, {""type"": ""Defensive""}]"
+2960992669.0,52,58.0,SecondHalf,Dan Ndoye,398414,174,a,25.6,82.5,BallRecovery,Successful,[]
+2960993027.0,53,16.0,SecondHalf,Milos Kerkez,424273,26,h,47.9,83.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960993139.0,53,20.0,SecondHalf,Víctor Muñoz,548106,26,h,41.8,79.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960993211.0,53,21.0,SecondHalf,Xaver Schlager,262856,174,a,57.6,21.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""594""}, {""type"": ""Defensive""}]"
+2960993239.0,53,25.0,SecondHalf,Florian Wirtz,394786,26,h,57.7,86.7,BallRecovery,Successful,[]
+2960995135.0,54,48.0,SecondHalf,Dan Ndoye,398414,174,a,39.8,79.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""614""}, {""type"": ""Defensive""}]"
+2960995189.0,54,52.0,SecondHalf,Dan Ndoye,398414,174,a,66.0,81.0,BallRecovery,Successful,[]
+2960995351.0,54,58.0,SecondHalf,Milos Kerkez,424273,26,h,9.1,64.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""34.2""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""36.1""}, {""type"": ""Angle"", ""value"": ""0.75""}]"
+2960997823.0,57,3.0,SecondHalf,Nikola Milenkovic,319785,174,a,22.2,22.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""639""}, {""type"": ""Defensive""}]"
+2960997867.0,57,6.0,SecondHalf,Jérémy Jacquet,468827,26,h,64.1,76.6,BallRecovery,Successful,[]
+2960998029.0,57,15.0,SecondHalf,Morgan Gibbs-White,332867,174,a,33.2,10.2,BallRecovery,Successful,[]
+2960998113.0,57,20.0,SecondHalf,Florian Wirtz,394786,26,h,64.0,90.3,BallRecovery,Successful,[]
+2960998205.0,57,23.0,SecondHalf,Morgan Gibbs-White,332867,174,a,32.2,9.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""650""}, {""type"": ""Defensive""}]"
+2960998295.0,57,27.0,SecondHalf,Morgan Gibbs-White,332867,174,a,30.6,6.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""651""}, {""type"": ""Defensive""}]"
+2960998317.0,57,30.0,SecondHalf,Milos Kerkez,424273,26,h,69.1,96.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""472""}, {""type"": ""Defensive""}]"
+2961267029.0,57,41.0,SecondHalf,Cody Gakpo,352825,26,h,61.6,33.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2960998563.0,57,43.0,SecondHalf,Jeremie Frimpong,392644,26,h,61.3,34.2,BallRecovery,Successful,[]
+2960998703.0,57,49.0,SecondHalf,Murillo,445424,174,a,35.3,66.3,BallRecovery,Successful,[]
+2960999383.0,58,36.0,SecondHalf,Jérémy Jacquet,468827,26,h,29.1,12.1,BallRecovery,Successful,[]
+2960999471.0,58,38.0,SecondHalf,Neco Williams,386969,174,a,64.0,82.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""662""}, {""type"": ""Defensive""}]"
+2961268015.0,60,13.0,SecondHalf,Jeremie Frimpong,392644,26,h,17.7,10.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.1""}, {""type"": ""PassEndY"", ""value"": ""18.6""}, {""type"": ""Length"", ""value"": ""13.1""}, {""type"": ""Angle"", ""value"": ""0.42""}]"
+2961268677.0,60,18.0,SecondHalf,Virgil van Dijk,95408,26,h,20.5,28.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.9""}, {""type"": ""PassEndY"", ""value"": ""11.8""}, {""type"": ""Length"", ""value"": ""12.1""}, {""type"": ""Angle"", ""value"": ""5.01""}]"
+2961001411.0,60,26.0,SecondHalf,Alexis Mac Allister,345319,26,h,11.9,6.0,BallRecovery,Successful,[]
+2961001627.0,60,40.0,SecondHalf,Ola Aina,315543,174,a,53.1,10.9,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Right""}]"
+2961269999.0,61,18.0,SecondHalf,Virgil van Dijk,95408,26,h,32.3,27.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""46.2""}, {""type"": ""PassEndY"", ""value"": ""27.4""}, {""type"": ""Length"", ""value"": ""14.6""}, {""type"": ""Angle"", ""value"": ""6.27""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""731""}]"
+2961270405.0,61,18.0,SecondHalf,Dan Ndoye,398414,174,a,61.2,78.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""1083""}, {""type"": ""Defensive""}]"
+2961270401.0,61,19.0,SecondHalf,Jeremie Frimpong,392644,26,h,36.5,21.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.8""}, {""type"": ""PassEndY"", ""value"": ""21.3""}, {""type"": ""Length"", ""value"": ""2.4""}, {""type"": ""Angle"", ""value"": ""0.00""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""731""}]"
+2961002749.0,61,52.0,SecondHalf,Nikola Milenkovic,319785,174,a,27.8,54.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2961002781.0,61,52.0,SecondHalf,Florian Wirtz,394786,26,h,64.6,29.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""492""}, {""type"": ""Defensive""}]"
+2961002813.0,61,56.0,SecondHalf,Jair Cunha,443545,174,a,19.4,50.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.9""}, {""type"": ""PassEndY"", ""value"": ""34.2""}, {""type"": ""Length"", ""value"": ""15.0""}, {""type"": ""Angle"", ""value"": ""5.44""}]"
+2961003285.0,62,20.0,SecondHalf,Murillo,445424,174,a,9.2,37.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""21.6""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""29.8""}, {""type"": ""Angle"", ""value"": ""5.16""}]"
+2961004227.0,63,24.0,SecondHalf,Florian Wirtz,394786,26,h,55.7,43.5,BallRecovery,Successful,[]
+2961004361.0,63,37.0,SecondHalf,Jair Cunha,443545,174,a,29.4,32.4,BallRecovery,Successful,[]
+2961004765.0,64,4.0,SecondHalf,Jeremie Frimpong,392644,26,h,12.7,41.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.0""}, {""type"": ""PassEndY"", ""value"": ""48.3""}, {""type"": ""Length"", ""value"": ""4.9""}, {""type"": ""Angle"", ""value"": ""1.29""}]"
+2961004823.0,64,8.0,SecondHalf,Alisson Becker,114147,26,h,1.7,45.1,KeeperPickup,Successful,[]
+2961004959.0,64,18.0,SecondHalf,Neco Williams,386969,174,a,58.0,79.5,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""731""}, {""type"": ""Defensive""}]"
+2961005017.0,64,25.0,SecondHalf,Murillo,445424,174,a,38.3,76.3,BallRecovery,Successful,[]
+2961006291.0,65,58.0,SecondHalf,Jérémy Jacquet,468827,26,h,39.7,17.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""527""}, {""type"": ""Defensive""}]"
+2961006297.0,66,2.0,SecondHalf,Jeremie Frimpong,392644,26,h,43.2,18.4,BallRecovery,Successful,[]
+2961006811.0,66,46.0,SecondHalf,Milos Kerkez,424273,26,h,60.0,87.7,BallRecovery,Successful,[]
+2961007433.0,67,35.0,SecondHalf,Jérémy Jacquet,468827,26,h,27.8,12.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2961010377.0,71,39.0,SecondHalf,Jair Cunha,443545,174,a,8.4,35.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.5""}, {""type"": ""PassEndY"", ""value"": ""60.0""}, {""type"": ""Length"", ""value"": ""35.6""}, {""type"": ""Angle"", ""value"": ""0.48""}]"
+2961010809.0,72,6.0,SecondHalf,Ola Aina,315543,174,a,30.9,9.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""791""}, {""type"": ""Defensive""}]"
+2961019825.0,72,17.0,SecondHalf,Xaver Schlager,262856,174,a,29.2,14.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""1062""}, {""type"": ""Defensive""}]"
+2961020119.0,72,21.0,SecondHalf,Ola Aina,315543,174,a,28.0,13.9,BallRecovery,Successful,[]
+2961011205.0,72,30.0,SecondHalf,Nikola Milenkovic,319785,174,a,27.8,42.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2961011309.0,72,37.0,SecondHalf,Dominik Szoboszlai,369875,26,h,55.8,6.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""556""}, {""type"": ""Defensive""}]"
+2961011317.0,72,39.0,SecondHalf,Dominik Szoboszlai,369875,26,h,58.5,9.6,BallRecovery,Successful,[]
+2961011799.0,73,14.0,SecondHalf,Ola Aina,315543,174,a,4.8,45.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""21.0""}, {""type"": ""PassEndY"", ""value"": ""41.8""}, {""type"": ""Length"", ""value"": ""17.2""}, {""type"": ""Angle"", ""value"": ""6.14""}]"
+2961011857.0,73,18.0,SecondHalf,Matz Sels,78386,174,a,2.2,46.9,KeeperPickup,Successful,[]
+2961012055.0,73,37.0,SecondHalf,Dominik Szoboszlai,369875,26,h,22.1,12.9,BallRecovery,Successful,[]
+2961012917.0,74,31.0,SecondHalf,Dominik Szoboszlai,369875,26,h,34.8,27.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""572""}, {""type"": ""Defensive""}]"
+2961012953.0,74,32.0,SecondHalf,Dominik Szoboszlai,369875,26,h,32.0,17.2,BallRecovery,Successful,[]
+2961013273.0,74,43.0,SecondHalf,Nikola Milenkovic,319785,174,a,42.7,60.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""831""}, {""type"": ""Defensive""}]"
+2961013305.0,74,48.0,SecondHalf,Xaver Schlager,262856,174,a,40.7,47.8,BallRecovery,Successful,[]
+2961013331.0,74,49.0,SecondHalf,Víctor Muñoz,548106,26,h,66.6,62.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""712""}, {""type"": ""Defensive""}]"
+2961013961.0,75,24.0,SecondHalf,Xaver Schlager,262856,174,a,13.0,27.7,BallRecovery,Successful,[]
+2961014389.0,75,48.0,SecondHalf,Igor Jesus,397497,174,a,18.1,87.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""846""}, {""type"": ""Defensive""}]"
+2961014967.0,76,28.0,SecondHalf,Igor Jesus,397497,174,a,12.2,68.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""18.4""}, {""type"": ""PassEndY"", ""value"": ""90.0""}, {""type"": ""Length"", ""value"": ""15.9""}, {""type"": ""Angle"", ""value"": ""1.15""}]"
+2961015701.0,77,8.0,SecondHalf,Ronald Araujo,384711,26,h,27.4,36.9,BallRecovery,Successful,[]
+2961016947.0,78,11.0,SecondHalf,Trey Nyoni,509423,26,h,29.6,29.7,BallRecovery,Successful,[]
+2961017149.0,78,22.0,SecondHalf,Xaver Schlager,262856,174,a,61.7,34.9,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""879""}, {""type"": ""Defensive""}]"
+2961017223.0,78,24.0,SecondHalf,Ryan Gravenberch,363884,26,h,36.8,62.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""597""}, {""type"": ""Defensive""}]"
+2961017447.0,78,36.0,SecondHalf,Neco Williams,386969,174,a,12.5,69.1,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""882""}]"
+2961017583.0,78,39.0,SecondHalf,James McAtee,425576,174,a,14.2,62.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""27.4""}, {""type"": ""PassEndY"", ""value"": ""87.7""}, {""type"": ""Length"", ""value"": ""22.1""}, {""type"": ""Angle"", ""value"": ""0.89""}]"
+2961017605.0,78,43.0,SecondHalf,Igor Jesus,397497,174,a,36.2,88.8,BallRecovery,Successful,[]
+2961018489.0,79,23.0,SecondHalf,Dominik Szoboszlai,369875,26,h,5.8,11.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""606""}, {""type"": ""Defensive""}]"
+2961020969.0,82,17.0,SecondHalf,Dominik Szoboszlai,369875,26,h,30.4,20.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2961021113.0,82,23.0,SecondHalf,Ronald Araujo,384711,26,h,11.6,38.1,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""621""}]"
+2961021663.0,83,2.0,SecondHalf,Alisson Becker,114147,26,h,6.7,50.4,Punch,Unsuccessful,"[{""type"": ""PassEndX"", ""value"": ""29.7""}, {""type"": ""PassEndY"", ""value"": ""47.2""}, {""type"": ""Length"", ""value"": ""24.2""}, {""type"": ""Angle"", ""value"": ""6.19""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""623""}]"
+2961021675.0,83,8.0,SecondHalf,Alisson Becker,114147,26,h,7.4,50.3,KeeperPickup,Successful,[]
+2961021761.0,83,15.0,SecondHalf,Ola Aina,315543,174,a,28.6,83.4,BallRecovery,Successful,[]
+2961021831.0,83,20.0,SecondHalf,Trey Nyoni,509423,26,h,50.3,19.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2961021837.0,83,21.0,SecondHalf,Trey Nyoni,509423,26,h,62.6,11.1,BallRecovery,Successful,[]
+2961022015.0,83,30.0,SecondHalf,James McAtee,425576,174,a,32.9,55.2,BallRecovery,Successful,[]
+2961022129.0,83,36.0,SecondHalf,Ronald Araujo,384711,26,h,24.7,35.1,BallRecovery,Successful,[]
+2961024673.0,86,2.0,SecondHalf,Dominik Szoboszlai,369875,26,h,6.6,27.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""642""}, {""type"": ""Defensive""}]"
+2961024677.0,86,3.0,SecondHalf,Dominik Szoboszlai,369875,26,h,6.4,30.0,BallRecovery,Successful,[]
+2961024791.0,86,8.0,SecondHalf,Luca Netz,394888,174,a,78.4,88.5,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""944""}, {""type"": ""Offensive""}]"
+2961025195.0,86,31.0,SecondHalf,Luca Netz,394888,174,a,73.9,95.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""949""}, {""type"": ""Defensive""}]"
+2961025547.0,86,50.0,SecondHalf,Matz Sels,78386,174,a,25.3,63.7,BallRecovery,Successful,[]
+2961025777.0,87,3.0,SecondHalf,Trey Nyoni,509423,26,h,26.8,71.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""653""}, {""type"": ""Defensive""}]"
+2961025827.0,87,5.0,SecondHalf,Virgil van Dijk,95408,26,h,25.1,69.1,BallRecovery,Successful,[]
+2961026749.0,87,27.0,SecondHalf,Nikola Milenkovic,319785,174,a,7.5,42.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""PassEndX"", ""value"": ""51.9""}, {""type"": ""PassEndY"", ""value"": ""11.8""}, {""type"": ""Length"", ""value"": ""51.1""}, {""type"": ""Angle"", ""value"": ""5.86""}]"
+2961027053.0,88,13.0,SecondHalf,James McAtee,425576,174,a,34.1,35.1,BallRecovery,Successful,[]
+2961027161.0,88,20.0,SecondHalf,Dominik Szoboszlai,369875,26,h,29.0,9.3,BallRecovery,Successful,[]
+2961027639.0,88,49.0,SecondHalf,Morgan Gibbs-White,332867,174,a,20.6,18.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""986""}, {""type"": ""Defensive""}]"
+2961027727.0,88,53.0,SecondHalf,Morgan Gibbs-White,332867,174,a,6.3,14.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""PassEndX"", ""value"": ""75.2""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""73.2""}, {""type"": ""Angle"", ""value"": ""6.13""}]"
+2961028001.0,89,9.0,SecondHalf,Neco Williams,386969,174,a,19.9,14.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""991""}, {""type"": ""Defensive""}]"
+2961028023.0,89,12.0,SecondHalf,Neco Williams,386969,174,a,1.6,14.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.9""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""22.8""}, {""type"": ""Angle"", ""value"": ""5.80""}]"
+2961028627.0,89,43.0,SecondHalf,James McAtee,425576,174,a,22.0,63.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""54.6""}, {""type"": ""PassEndY"", ""value"": ""56.4""}, {""type"": ""Length"", ""value"": ""34.5""}, {""type"": ""Angle"", ""value"": ""6.15""}]"
+2961030307.0,91,45.0,SecondHalf,Florian Wirtz,394786,26,h,41.6,58.8,BallRecovery,Successful,[]
+2961031133.0,92,47.0,SecondHalf,Nikola Milenkovic,319785,174,a,4.1,57.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""22.1""}, {""type"": ""PassEndY"", ""value"": ""93.0""}, {""type"": ""Length"", ""value"": ""30.7""}, {""type"": ""Angle"", ""value"": ""0.91""}]"
+2961031197.0,92,54.0,SecondHalf,Neco Williams,386969,174,a,4.8,34.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""12.8""}, {""type"": ""PassEndY"", ""value"": ""35.4""}, {""type"": ""Length"", ""value"": ""8.4""}, {""type"": ""Angle"", ""value"": ""0.10""}]"
+2961031201.0,92,59.0,SecondHalf,Xaver Schlager,262856,174,a,20.3,67.0,BallRecovery,Successful,[]
+2961031335.0,93,8.0,SecondHalf,Trey Nyoni,509423,26,h,69.2,10.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""684""}, {""type"": ""Offensive""}]"
+2961031483.0,93,18.0,SecondHalf,Virgil van Dijk,95408,26,h,37.6,33.6,BallRecovery,Successful,[]
+2961031637.0,93,30.0,SecondHalf,Matz Sels,78386,174,a,6.6,66.6,BallRecovery,Successful,[]
+2961031865.0,93,52.0,SecondHalf,Murillo,445424,174,a,4.1,57.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""5.8""}, {""type"": ""PassEndY"", ""value"": ""65.1""}, {""type"": ""Length"", ""value"": ""5.3""}, {""type"": ""Angle"", ""value"": ""1.23""}]"
+2961031897.0,93,55.0,SecondHalf,Matz Sels,78386,174,a,5.8,65.1,KeeperPickup,Successful,[]
+2961032849.0,94,12.0,SecondHalf,Florian Wirtz,394786,26,h,47.6,26.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""699""}, {""type"": ""Defensive""}]"
+2961032261.0,94,15.0,SecondHalf,Víctor Muñoz,548106,26,h,44.3,21.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""700""}, {""type"": ""Defensive""}]"
+2961032519.0,94,48.0,SecondHalf,Neco Williams,386969,174,a,19.6,19.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.0""}, {""type"": ""PassEndY"", ""value"": ""22.6""}, {""type"": ""Length"", ""value"": ""6.0""}, {""type"": ""Angle"", ""value"": ""0.31""}]"
+2961032559.0,94,52.0,SecondHalf,Xaver Schlager,262856,174,a,28.9,16.9,BallRecovery,Successful,[]
+2961033019.0,95,28.0,SecondHalf,Dominik Szoboszlai,369875,26,h,13.3,17.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""33.8""}, {""type"": ""PassEndY"", ""value"": ""15.1""}, {""type"": ""Length"", ""value"": ""21.6""}, {""type"": ""Angle"", ""value"": ""6.21""}]"

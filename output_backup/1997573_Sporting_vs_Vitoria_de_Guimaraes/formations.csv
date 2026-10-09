@@ -1,0 +1,133 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Sporting,home,0,4231,141833,Rui Silva,0,0.0,5.0,0,69
+Sporting,home,0,4231,439734,Georgios Vagiannidis,1,2.5,1.0,0,69
+Sporting,home,0,4231,460758,Maxi Araújo,2,2.5,9.0,0,69
+Sporting,home,0,4231,531776,Issa Doumbia,3,5.0,6.5,0,69
+Sporting,home,0,4231,394932,Eduardo Quaresma,4,2.5,3.5,0,69
+Sporting,home,0,4231,395992,Gonçalo Inácio,5,2.5,6.5,0,69
+Sporting,home,0,4231,425093,Geny Catamo,6,7.0,2.0,0,69
+Sporting,home,0,4231,489232,Sergi Altimira,7,5.0,3.5,0,69
+Sporting,home,0,4231,418176,Fotis Ioannidis,8,9.0,5.0,0,69
+Sporting,home,0,4231,401251,Rodrigo Zalazar,9,7.0,5.0,0,69
+Sporting,home,0,4231,597806,Flávio Gonçalves,10,7.0,8.0,0,69
+Sporting,home,1,4231,141833,Rui Silva,0,0.0,5.0,69,69
+Sporting,home,1,4231,439734,Georgios Vagiannidis,1,2.5,1.0,69,69
+Sporting,home,1,4231,460758,Maxi Araújo,2,2.5,9.0,69,69
+Sporting,home,1,4231,531776,Issa Doumbia,3,5.0,6.5,69,69
+Sporting,home,1,4231,394932,Eduardo Quaresma,4,2.5,3.5,69,69
+Sporting,home,1,4231,395992,Gonçalo Inácio,5,2.5,6.5,69,69
+Sporting,home,1,4231,425093,Geny Catamo,6,7.0,2.0,69,69
+Sporting,home,1,4231,489232,Sergi Altimira,7,5.0,3.5,69,69
+Sporting,home,1,4231,418176,Fotis Ioannidis,8,9.0,5.0,69,69
+Sporting,home,1,4231,401251,Rodrigo Zalazar,9,7.0,5.0,69,69
+Sporting,home,1,4231,402887,Luis Suárez,10,7.0,8.0,69,69
+Sporting,home,2,4231,141833,Rui Silva,0,0.0,5.0,69,70
+Sporting,home,2,4231,439734,Georgios Vagiannidis,1,2.5,1.0,69,70
+Sporting,home,2,4231,460758,Maxi Araújo,2,2.5,9.0,69,70
+Sporting,home,2,4231,531776,Issa Doumbia,3,5.0,6.5,69,70
+Sporting,home,2,4231,394932,Eduardo Quaresma,4,2.5,3.5,69,70
+Sporting,home,2,4231,395992,Gonçalo Inácio,5,2.5,6.5,69,70
+Sporting,home,2,4231,478319,Luís Guilherme,6,7.0,2.0,69,70
+Sporting,home,2,4231,489232,Sergi Altimira,7,5.0,3.5,69,70
+Sporting,home,2,4231,418176,Fotis Ioannidis,8,9.0,5.0,69,70
+Sporting,home,2,4231,401251,Rodrigo Zalazar,9,7.0,5.0,69,70
+Sporting,home,2,4231,402887,Luis Suárez,10,7.0,8.0,69,70
+Sporting,home,3,4231,141833,Rui Silva,0,0.0,5.0,70,78
+Sporting,home,3,4231,439734,Georgios Vagiannidis,1,2.5,1.0,70,78
+Sporting,home,3,4231,460758,Maxi Araújo,2,2.5,9.0,70,78
+Sporting,home,3,4231,531776,Issa Doumbia,3,5.0,6.5,70,78
+Sporting,home,3,4231,394932,Eduardo Quaresma,4,2.5,3.5,70,78
+Sporting,home,3,4231,395992,Gonçalo Inácio,5,2.5,6.5,70,78
+Sporting,home,3,4231,478319,Luís Guilherme,6,7.0,2.0,70,78
+Sporting,home,3,4231,489232,Sergi Altimira,7,5.0,3.5,70,78
+Sporting,home,3,4231,418176,Fotis Ioannidis,8,9.0,5.0,70,78
+Sporting,home,3,4231,402887,Luis Suárez,9,7.0,5.0,70,78
+Sporting,home,3,4231,401251,Rodrigo Zalazar,10,7.0,8.0,70,78
+Sporting,home,4,4231,141833,Rui Silva,0,0.0,5.0,78,86
+Sporting,home,4,4231,439734,Georgios Vagiannidis,1,2.5,1.0,78,86
+Sporting,home,4,4231,460758,Maxi Araújo,2,2.5,9.0,78,86
+Sporting,home,4,4231,531776,Issa Doumbia,3,5.0,6.5,78,86
+Sporting,home,4,4231,394932,Eduardo Quaresma,4,2.5,3.5,78,86
+Sporting,home,4,4231,395992,Gonçalo Inácio,5,2.5,6.5,78,86
+Sporting,home,4,4231,478319,Luís Guilherme,6,7.0,2.0,78,86
+Sporting,home,4,4231,489232,Sergi Altimira,7,5.0,3.5,78,86
+Sporting,home,4,4231,402887,Luis Suárez,8,9.0,5.0,78,86
+Sporting,home,4,4231,401251,Rodrigo Zalazar,9,7.0,5.0,78,86
+Sporting,home,4,4231,609224,Jesse Derry,10,7.0,8.0,78,86
+Sporting,home,5,4231,141833,Rui Silva,0,0.0,5.0,86,96
+Sporting,home,5,4231,444257,Iván Fresneda,1,2.5,1.0,86,96
+Sporting,home,5,4231,460758,Maxi Araújo,2,2.5,9.0,86,96
+Sporting,home,5,4231,531776,Issa Doumbia,3,5.0,6.5,86,96
+Sporting,home,5,4231,394932,Eduardo Quaresma,4,2.5,3.5,86,96
+Sporting,home,5,4231,395992,Gonçalo Inácio,5,2.5,6.5,86,96
+Sporting,home,5,4231,478319,Luís Guilherme,6,7.0,2.0,86,96
+Sporting,home,5,4231,489232,Sergi Altimira,7,5.0,3.5,86,96
+Sporting,home,5,4231,402887,Luis Suárez,8,9.0,5.0,86,96
+Sporting,home,5,4231,401251,Rodrigo Zalazar,9,7.0,5.0,86,96
+Sporting,home,5,4231,609224,Jesse Derry,10,7.0,8.0,86,96
+Vitoria de Guimaraes,away,0,4231,408957,Oliwier Zych,0,0.0,5.0,0,49
+Vitoria de Guimaraes,away,0,4231,431674,Miguel Maga,1,2.5,1.0,0,49
+Vitoria de Guimaraes,away,0,4231,431416,João Mendes,2,2.5,9.0,0,49
+Vitoria de Guimaraes,away,0,4231,472325,Beni Mukendi,3,5.0,6.5,0,49
+Vitoria de Guimaraes,away,0,4231,447861,Óscar Rivas,4,2.5,3.5,0,49
+Vitoria de Guimaraes,away,0,4231,478450,Thiago Balieiro,5,2.5,6.5,0,49
+Vitoria de Guimaraes,away,0,4231,568342,Oumar Camara,6,7.0,2.0,0,49
+Vitoria de Guimaraes,away,0,4231,460211,Gonçalo Nogueira,7,5.0,3.5,0,49
+Vitoria de Guimaraes,away,0,4231,485557,Alioune Ndoye,8,9.0,5.0,0,49
+Vitoria de Guimaraes,away,0,4231,322742,Samu,9,7.0,5.0,0,49
+Vitoria de Guimaraes,away,0,4231,531762,Gustavo Silva,10,7.0,8.0,0,49
+Vitoria de Guimaraes,away,1,4231,408957,Oliwier Zych,0,0.0,5.0,49,49
+Vitoria de Guimaraes,away,1,4231,431674,Miguel Maga,1,2.5,1.0,49,49
+Vitoria de Guimaraes,away,1,4231,431416,João Mendes,2,2.5,9.0,49,49
+Vitoria de Guimaraes,away,1,4231,472325,Beni Mukendi,3,5.0,6.5,49,49
+Vitoria de Guimaraes,away,1,4231,447861,Óscar Rivas,4,2.5,3.5,49,49
+Vitoria de Guimaraes,away,1,4231,478450,Thiago Balieiro,5,2.5,6.5,49,49
+Vitoria de Guimaraes,away,1,4231,581872,Miguel Nogueira,6,7.0,2.0,49,49
+Vitoria de Guimaraes,away,1,4231,460211,Gonçalo Nogueira,7,5.0,3.5,49,49
+Vitoria de Guimaraes,away,1,4231,485557,Alioune Ndoye,8,9.0,5.0,49,49
+Vitoria de Guimaraes,away,1,4231,322742,Samu,9,7.0,5.0,49,49
+Vitoria de Guimaraes,away,1,4231,531762,Gustavo Silva,10,7.0,8.0,49,49
+Vitoria de Guimaraes,away,2,4231,408957,Oliwier Zych,0,0.0,5.0,49,49
+Vitoria de Guimaraes,away,2,4231,479903,Tony Strata,1,2.5,1.0,49,49
+Vitoria de Guimaraes,away,2,4231,431416,João Mendes,2,2.5,9.0,49,49
+Vitoria de Guimaraes,away,2,4231,472325,Beni Mukendi,3,5.0,6.5,49,49
+Vitoria de Guimaraes,away,2,4231,447861,Óscar Rivas,4,2.5,3.5,49,49
+Vitoria de Guimaraes,away,2,4231,478450,Thiago Balieiro,5,2.5,6.5,49,49
+Vitoria de Guimaraes,away,2,4231,581872,Miguel Nogueira,6,7.0,2.0,49,49
+Vitoria de Guimaraes,away,2,4231,460211,Gonçalo Nogueira,7,5.0,3.5,49,49
+Vitoria de Guimaraes,away,2,4231,485557,Alioune Ndoye,8,9.0,5.0,49,49
+Vitoria de Guimaraes,away,2,4231,322742,Samu,9,7.0,5.0,49,49
+Vitoria de Guimaraes,away,2,4231,531762,Gustavo Silva,10,7.0,8.0,49,49
+Vitoria de Guimaraes,away,3,4231,408957,Oliwier Zych,0,0.0,5.0,49,80
+Vitoria de Guimaraes,away,3,4231,479903,Tony Strata,1,2.5,1.0,49,80
+Vitoria de Guimaraes,away,3,4231,431416,João Mendes,2,2.5,9.0,49,80
+Vitoria de Guimaraes,away,3,4231,430903,Lohann Doucet,3,5.0,6.5,49,80
+Vitoria de Guimaraes,away,3,4231,447861,Óscar Rivas,4,2.5,3.5,49,80
+Vitoria de Guimaraes,away,3,4231,478450,Thiago Balieiro,5,2.5,6.5,49,80
+Vitoria de Guimaraes,away,3,4231,581872,Miguel Nogueira,6,7.0,2.0,49,80
+Vitoria de Guimaraes,away,3,4231,460211,Gonçalo Nogueira,7,5.0,3.5,49,80
+Vitoria de Guimaraes,away,3,4231,485557,Alioune Ndoye,8,9.0,5.0,49,80
+Vitoria de Guimaraes,away,3,4231,322742,Samu,9,7.0,5.0,49,80
+Vitoria de Guimaraes,away,3,4231,531762,Gustavo Silva,10,7.0,8.0,49,80
+Vitoria de Guimaraes,away,4,4231,408957,Oliwier Zych,0,0.0,5.0,80,91
+Vitoria de Guimaraes,away,4,4231,479903,Tony Strata,1,2.5,1.0,80,91
+Vitoria de Guimaraes,away,4,4231,431416,João Mendes,2,2.5,9.0,80,91
+Vitoria de Guimaraes,away,4,4231,430903,Lohann Doucet,3,5.0,6.5,80,91
+Vitoria de Guimaraes,away,4,4231,447861,Óscar Rivas,4,2.5,3.5,80,91
+Vitoria de Guimaraes,away,4,4231,478450,Thiago Balieiro,5,2.5,6.5,80,91
+Vitoria de Guimaraes,away,4,4231,581872,Miguel Nogueira,6,7.0,2.0,80,91
+Vitoria de Guimaraes,away,4,4231,640939,Santi Verdi,7,5.0,3.5,80,91
+Vitoria de Guimaraes,away,4,4231,485557,Alioune Ndoye,8,9.0,5.0,80,91
+Vitoria de Guimaraes,away,4,4231,322742,Samu,9,7.0,5.0,80,91
+Vitoria de Guimaraes,away,4,4231,531762,Gustavo Silva,10,7.0,8.0,80,91
+Vitoria de Guimaraes,away,5,4231,408957,Oliwier Zych,0,0.0,5.0,91,96
+Vitoria de Guimaraes,away,5,4231,479903,Tony Strata,1,2.5,1.0,91,96
+Vitoria de Guimaraes,away,5,4231,431416,João Mendes,2,2.5,9.0,91,96
+Vitoria de Guimaraes,away,5,4231,430903,Lohann Doucet,3,5.0,6.5,91,96
+Vitoria de Guimaraes,away,5,4231,447861,Óscar Rivas,4,2.5,3.5,91,96
+Vitoria de Guimaraes,away,5,4231,478450,Thiago Balieiro,5,2.5,6.5,91,96
+Vitoria de Guimaraes,away,5,4231,531762,Gustavo Silva,6,7.0,2.0,91,96
+Vitoria de Guimaraes,away,5,4231,640939,Santi Verdi,7,5.0,3.5,91,96
+Vitoria de Guimaraes,away,5,4231,485557,Alioune Ndoye,8,9.0,5.0,91,96
+Vitoria de Guimaraes,away,5,4231,581872,Miguel Nogueira,9,7.0,5.0,91,96
+Vitoria de Guimaraes,away,5,4231,470454,Patrick Ouotro,10,7.0,8.0,91,96

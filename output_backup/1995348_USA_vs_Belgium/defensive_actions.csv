@@ -1,0 +1,234 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2946502499.0,0,7.0,FirstHalf,Tim Ream,85006,461,h,24.2,68.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""35.2""}, {""type"": ""PassEndY"", ""value"": ""52.3""}, {""type"": ""Length"", ""value"": ""16.1""}, {""type"": ""Angle"", ""value"": ""5.52""}]"
+2946502505.0,0,9.0,FirstHalf,Tyler Adams,315275,461,h,22.8,56.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""22.1""}, {""type"": ""PassEndY"", ""value"": ""38.7""}, {""type"": ""Length"", ""value"": ""11.8""}, {""type"": ""Angle"", ""value"": ""4.65""}]"
+2946502507.0,0,12.0,FirstHalf,Alex Freeman,440159,461,h,17.3,41.0,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""6""}]"
+2946502545.0,0,40.0,FirstHalf,Chris Richards,395401,461,h,9.9,34.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.4""}, {""type"": ""PassEndY"", ""value"": ""36.4""}, {""type"": ""Length"", ""value"": ""6.9""}, {""type"": ""Angle"", ""value"": ""0.16""}]"
+2946502547.0,0,42.0,FirstHalf,Nicolas Raskin,399999,339,a,87.2,63.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""9""}, {""type"": ""Offensive""}, {""type"": ""KeyPass""}]"
+2946502555.0,0,44.0,FirstHalf,Antonee Robinson,306581,461,h,15.0,50.3,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""10""}]"
+2946502621.0,1,53.0,FirstHalf,Matt Freese,371610,461,h,2.2,50.2,KeeperPickup,Successful,[]
+2946502657.0,2,16.0,FirstHalf,Brandon Mechele,129832,339,a,23.8,6.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.9""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""5.4""}, {""type"": ""Angle"", ""value"": ""4.93""}]"
+2946502675.0,2,28.0,FirstHalf,Nicolas Raskin,399999,339,a,6.0,66.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""6.6""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""23.2""}, {""type"": ""Angle"", ""value"": ""1.54""}]"
+2946502723.0,2,51.0,FirstHalf,Amadou Onana,400815,339,a,31.5,10.7,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""29""}, {""type"": ""Defensive""}]"
+2946502725.0,2,56.0,FirstHalf,Youri Tielemans,136345,339,a,36.2,24.3,BallRecovery,Successful,[]
+2946502759.0,3,10.0,FirstHalf,Chris Richards,395401,461,h,25.6,84.9,BallRecovery,Successful,[]
+2946502809.0,3,44.0,FirstHalf,Amadou Onana,400815,339,a,56.3,69.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""38""}, {""type"": ""Defensive""}]"
+2946502813.0,3,46.0,FirstHalf,Tyler Adams,315275,461,h,36.2,35.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""31""}, {""type"": ""Defensive""}]"
+2946502823.0,3,53.0,FirstHalf,Thibaut Courtois,73798,339,a,14.6,51.5,KeeperPickup,Successful,[]
+2946502859.0,4,28.0,FirstHalf,Sergiño Dest,379205,461,h,64.2,7.9,BallRecovery,Successful,[]
+2946502911.0,5,24.0,FirstHalf,Matt Freese,371610,461,h,12.7,71.2,KeeperPickup,Successful,[]
+2946502985.0,6,15.0,FirstHalf,Amadou Onana,400815,339,a,27.0,12.2,BallRecovery,Successful,[]
+2946503037.0,6,50.0,FirstHalf,Antonee Robinson,306581,461,h,39.4,69.0,BallRecovery,Successful,[]
+2946503059.0,7,2.0,FirstHalf,Youri Tielemans,136345,339,a,54.0,81.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""64""}, {""type"": ""Defensive""}]"
+2946510747.0,7,6.0,FirstHalf,Amadou Onana,400815,339,a,47.8,78.7,BallRecovery,Successful,[]
+2946503111.0,7,18.0,FirstHalf,Alex Freeman,440159,461,h,5.6,41.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""9.4""}, {""type"": ""PassEndY"", ""value"": ""4.6""}, {""type"": ""Length"", ""value"": ""25.5""}, {""type"": ""Angle"", ""value"": ""4.87""}]"
+2946503113.0,7,22.0,FirstHalf,Sergiño Dest,379205,461,h,16.6,10.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""77""}, {""type"": ""Defensive""}]"
+2946503149.0,8,1.0,FirstHalf,Antonee Robinson,306581,461,h,28.1,96.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""84""}, {""type"": ""Defensive""}]"
+2946503201.0,8,29.0,FirstHalf,Alex Freeman,440159,461,h,2.9,23.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""94""}]"
+2946503205.0,8,30.0,FirstHalf,Alex Freeman,440159,461,h,3.3,25.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.2""}, {""type"": ""PassEndY"", ""value"": ""31.3""}, {""type"": ""Length"", ""value"": ""13.1""}, {""type"": ""Angle"", ""value"": ""0.30""}]"
+2946503305.0,10,19.0,FirstHalf,Youri Tielemans,136345,339,a,32.7,74.2,BallRecovery,Successful,[]
+2946503349.0,11,6.0,FirstHalf,Chris Richards,395401,461,h,28.9,58.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""45.1""}, {""type"": ""PassEndY"", ""value"": ""68.1""}, {""type"": ""Length"", ""value"": ""18.3""}, {""type"": ""Angle"", ""value"": ""0.38""}]"
+2946503355.0,11,10.0,FirstHalf,Tim Ream,85006,461,h,31.3,67.5,BallRecovery,Successful,[]
+2946503363.0,11,13.0,FirstHalf,Timothy Castagne,141169,339,a,31.0,30.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946503365.0,11,13.0,FirstHalf,Timothy Castagne,141169,339,a,36.2,23.1,BallRecovery,Successful,[]
+2946503397.0,11,36.0,FirstHalf,Alex Freeman,440159,461,h,57.3,12.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""116""}, {""type"": ""Defensive""}]"
+2946503399.0,11,37.0,FirstHalf,Sergiño Dest,379205,461,h,60.3,11.1,BallRecovery,Successful,[]
+2946503615.0,12,48.0,FirstHalf,Chris Richards,395401,461,h,43.9,57.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""39.1""}, {""type"": ""PassEndY"", ""value"": ""73.5""}, {""type"": ""Length"", ""value"": ""11.8""}, {""type"": ""Angle"", ""value"": ""2.01""}]"
+2946503505.0,12,50.0,FirstHalf,Dodi Lukébakio,299490,339,a,58.1,19.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""111""}, {""type"": ""Defensive""}]"
+2946503535.0,13,13.0,FirstHalf,Chris Richards,395401,461,h,3.0,52.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""3.3""}, {""type"": ""PassEndY"", ""value"": ""75.7""}, {""type"": ""Length"", ""value"": ""15.7""}, {""type"": ""Angle"", ""value"": ""1.55""}]"
+2946503539.0,13,14.0,FirstHalf,Antonee Robinson,306581,461,h,3.3,75.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.0""}, {""type"": ""PassEndY"", ""value"": ""63.7""}, {""type"": ""Length"", ""value"": ""13.9""}, {""type"": ""Angle"", ""value"": ""5.66""}]"
+2946503541.0,13,17.0,FirstHalf,Leandro Trossard,113994,339,a,88.9,31.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""117""}, {""type"": ""Offensive""}]"
+2946503545.0,13,18.0,FirstHalf,Christian Pulisic,302692,461,h,14.4,69.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.4""}, {""type"": ""PassEndY"", ""value"": ""67.5""}, {""type"": ""Length"", ""value"": ""9.5""}, {""type"": ""Angle"", ""value"": ""6.17""}]"
+2946503553.0,13,24.0,FirstHalf,Matt Freese,371610,461,h,2.2,54.6,KeeperPickup,Successful,[]
+2946503565.0,13,34.0,FirstHalf,Dodi Lukébakio,299490,339,a,59.4,82.0,BallRecovery,Successful,[]
+2946503639.0,14,33.0,FirstHalf,Thibaut Courtois,73798,339,a,5.9,37.0,KeeperPickup,Successful,[]
+2946503655.0,14,50.0,FirstHalf,Antonee Robinson,306581,461,h,46.1,86.5,BallRecovery,Successful,[]
+2946503661.0,14,51.0,FirstHalf,Charles De Ketelaere,386390,339,a,51.6,6.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""133""}, {""type"": ""Defensive""}]"
+2946511037.0,14,52.0,FirstHalf,Leandro Trossard,113994,339,a,46.7,18.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946503665.0,14,58.0,FirstHalf,Leandro Trossard,113994,339,a,43.1,14.0,BallRecovery,Successful,[]
+2946503795.0,16,42.0,FirstHalf,Leandro Trossard,113994,339,a,69.6,72.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2946503797.0,16,44.0,FirstHalf,Maxim De Cuyper,392647,339,a,53.5,70.3,BallRecovery,Successful,[]
+2946503845.0,18,52.0,FirstHalf,Antonee Robinson,306581,461,h,10.4,96.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""184""}, {""type"": ""Defensive""}]"
+2946503885.0,19,20.0,FirstHalf,Weston McKennie,338275,461,h,7.7,66.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.0""}, {""type"": ""PassEndY"", ""value"": ""88.3""}, {""type"": ""Length"", ""value"": ""23.3""}, {""type"": ""Angle"", ""value"": ""0.68""}]"
+2946503901.0,19,26.0,FirstHalf,Chris Richards,395401,461,h,7.0,50.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.2""}, {""type"": ""PassEndY"", ""value"": ""54.0""}, {""type"": ""Length"", ""value"": ""9.0""}, {""type"": ""Angle"", ""value"": ""0.28""}]"
+2946503905.0,19,28.0,FirstHalf,Tyler Adams,315275,461,h,14.9,54.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""31.4""}, {""type"": ""PassEndY"", ""value"": ""55.0""}, {""type"": ""Length"", ""value"": ""17.3""}, {""type"": ""Angle"", ""value"": ""0.04""}]"
+2946503935.0,19,43.0,FirstHalf,Matt Freese,371610,461,h,16.6,88.8,BallRecovery,Successful,[]
+2946504003.0,20,44.0,FirstHalf,Dodi Lukébakio,299490,339,a,31.9,47.5,BallRecovery,Successful,[]
+2946504045.0,21,10.0,FirstHalf,Thibaut Courtois,73798,339,a,15.0,32.7,KeeperPickup,Successful,[]
+2946504053.0,21,34.0,FirstHalf,Chris Richards,395401,461,h,15.2,54.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.7""}, {""type"": ""PassEndY"", ""value"": ""58.1""}, {""type"": ""Length"", ""value"": ""2.6""}, {""type"": ""Angle"", ""value"": ""1.37""}]"
+2946504059.0,21,38.0,FirstHalf,Antonee Robinson,306581,461,h,15.9,89.4,BallRecovery,Successful,[]
+2946504099.0,22,26.0,FirstHalf,Youri Tielemans,136345,339,a,23.9,72.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""195""}, {""type"": ""Defensive""}]"
+2946504101.0,22,28.0,FirstHalf,Nicolas Raskin,399999,339,a,26.9,67.8,BallRecovery,Successful,[]
+2946504105.0,22,32.0,FirstHalf,Tim Ream,85006,461,h,46.3,36.6,BallRecovery,Successful,[]
+2946504305.0,26,46.0,FirstHalf,Weston McKennie,338275,461,h,48.3,38.1,BallRecovery,Successful,[]
+2946504335.0,27,15.0,FirstHalf,Leandro Trossard,113994,339,a,13.5,73.9,BallRecovery,Successful,[]
+2946504377.0,28,4.0,FirstHalf,Tim Ream,85006,461,h,43.8,76.8,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2946504387.0,28,8.0,FirstHalf,Antonee Robinson,306581,461,h,43.0,95.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""253""}, {""type"": ""Defensive""}]"
+2946504395.0,28,25.0,FirstHalf,Antonee Robinson,306581,461,h,22.1,95.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946511161.0,28,27.0,FirstHalf,Malik Tillman,397465,461,h,29.3,85.6,BallRecovery,Successful,[]
+2946504501.0,31,39.0,FirstHalf,Christian Pulisic,302692,461,h,44.5,85.2,BallRecovery,Successful,[]
+2946504513.0,31,42.0,FirstHalf,Nicolas Raskin,399999,339,a,48.8,23.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""243""}, {""type"": ""Defensive""}]"
+2946504515.0,31,44.0,FirstHalf,Nathan Ngoy,414495,339,a,36.2,29.8,BallRecovery,Successful,[]
+2946504669.0,34,3.0,FirstHalf,Alex Freeman,440159,461,h,88.2,16.6,BallRecovery,Successful,[]
+2946504677.0,34,6.0,FirstHalf,Maxim De Cuyper,392647,339,a,10.9,61.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""12.1""}, {""type"": ""PassEndY"", ""value"": ""68.5""}, {""type"": ""Length"", ""value"": ""4.7""}, {""type"": ""Angle"", ""value"": ""1.30""}]"
+2946504679.0,34,8.0,FirstHalf,Leandro Trossard,113994,339,a,12.7,69.9,BallRecovery,Successful,[]
+2946504731.0,35,8.0,FirstHalf,Antonee Robinson,306581,461,h,30.4,93.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""292""}, {""type"": ""Defensive""}]"
+2946504737.0,35,11.0,FirstHalf,Christian Pulisic,302692,461,h,41.8,90.6,BallRecovery,Successful,[]
+2946504803.0,36,3.0,FirstHalf,Nicolas Raskin,399999,339,a,53.0,56.6,BallRecovery,Successful,[]
+2946504837.0,36,29.0,FirstHalf,Matt Freese,371610,461,h,13.5,49.3,KeeperPickup,Successful,[]
+2946504867.0,37,0.0,FirstHalf,Nicolas Raskin,399999,339,a,35.3,25.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""289""}, {""type"": ""Defensive""}]"
+2946504869.0,37,2.0,FirstHalf,Dodi Lukébakio,299490,339,a,38.5,14.3,BallRecovery,Successful,[]
+2946504877.0,37,4.0,FirstHalf,Antonee Robinson,306581,461,h,60.0,89.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""307""}, {""type"": ""Defensive""}]"
+2946504909.0,37,22.0,FirstHalf,Weston McKennie,338275,461,h,73.7,32.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""317""}, {""type"": ""Defensive""}]"
+2946504953.0,37,58.0,FirstHalf,Tyler Adams,315275,461,h,11.4,61.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""56.7""}, {""type"": ""Length"", ""value"": ""14.2""}, {""type"": ""Angle"", ""value"": ""3.38""}]"
+2946504979.0,38,39.0,FirstHalf,Matt Freese,371610,461,h,1.7,48.4,KeeperPickup,Successful,[]
+2946504995.0,38,43.0,FirstHalf,Maxim De Cuyper,392647,339,a,58.6,39.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""299""}, {""type"": ""Defensive""}]"
+2946504999.0,38,45.0,FirstHalf,Maxim De Cuyper,392647,339,a,56.7,31.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""300""}, {""type"": ""Defensive""}]"
+2946505001.0,38,46.0,FirstHalf,Maxim De Cuyper,392647,339,a,54.9,16.5,BallRecovery,Successful,[]
+2946505035.0,39,13.0,FirstHalf,Tyler Adams,315275,461,h,45.7,18.9,BallRecovery,Successful,[]
+2946505095.0,39,51.0,FirstHalf,Nathan Ngoy,414495,339,a,3.8,84.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""312""}, {""type"": ""Defensive""}]"
+2946505121.0,40,22.0,FirstHalf,Hans Vanaken,243567,339,a,27.0,35.8,BallRecovery,Successful,[]
+2946505147.0,40,44.0,FirstHalf,Chris Richards,395401,461,h,40.7,29.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""48.2""}, {""type"": ""PassEndY"", ""value"": ""49.3""}, {""type"": ""Length"", ""value"": ""15.6""}, {""type"": ""Angle"", ""value"": ""1.04""}]"
+2946505289.0,42,40.0,FirstHalf,Nathan Ngoy,414495,339,a,15.3,7.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""335""}, {""type"": ""Defensive""}]"
+2946505325.0,43,15.0,FirstHalf,Nathan Ngoy,414495,339,a,12.9,55.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""36.4""}, {""type"": ""PassEndY"", ""value"": ""65.5""}, {""type"": ""Length"", ""value"": ""25.5""}, {""type"": ""Angle"", ""value"": ""0.26""}]"
+2946505361.0,43,47.0,FirstHalf,Nathan Ngoy,414495,339,a,19.4,58.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946505443.0,45,48.0,FirstHalf,Timothy Castagne,141169,339,a,41.0,10.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""367""}, {""type"": ""Defensive""}]"
+2946505453.0,45,54.0,FirstHalf,Alex Freeman,440159,461,h,31.8,31.5,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2946505469.0,46,9.0,FirstHalf,Alex Freeman,440159,461,h,18.1,10.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.5""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""9.9""}, {""type"": ""Angle"", ""value"": ""5.32""}]"
+2946505501.0,46,24.0,FirstHalf,Alex Freeman,440159,461,h,10.8,13.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""391""}, {""type"": ""Defensive""}]"
+2946505515.0,46,33.0,FirstHalf,Chris Richards,395401,461,h,12.9,11.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""395""}, {""type"": ""Defensive""}]"
+2946505521.0,46,35.0,FirstHalf,Alex Freeman,440159,461,h,3.3,13.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""396""}]"
+2946505539.0,46,59.0,FirstHalf,Weston McKennie,338275,461,h,33.7,6.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946505541.0,47,0.0,FirstHalf,Sergiño Dest,379205,461,h,43.1,11.1,BallRecovery,Successful,[]
+2946505553.0,47,8.0,FirstHalf,Youri Tielemans,136345,339,a,13.6,74.5,BallRecovery,Successful,[]
+2946505595.0,47,40.0,FirstHalf,Alex Freeman,440159,461,h,6.1,16.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""406""}, {""type"": ""Defensive""}]"
+2946513231.0,48,52.0,FirstHalf,Nathan Ngoy,414495,339,a,7.0,73.2,BallRecovery,Successful,[]
+2946505729.0,49,25.0,FirstHalf,Maxim De Cuyper,392647,339,a,28.8,70.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""403""}, {""type"": ""Defensive""}]"
+2946505731.0,49,27.0,FirstHalf,Dodi Lukébakio,299490,339,a,39.4,35.7,BallRecovery,Successful,[]
+2946505827.0,50,43.0,FirstHalf,Nathan Ngoy,414495,339,a,12.2,70.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""417""}, {""type"": ""Defensive""}]"
+2946505837.0,51,23.0,FirstHalf,Thibaut Courtois,73798,339,a,6.5,50.8,Claim,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""HighClaim""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""419""}]"
+2946505975.0,45,4.0,SecondHalf,Maxim De Cuyper,392647,339,a,28.3,93.6,BallRecovery,Successful,[]
+2946505997.0,45,12.0,SecondHalf,Antonee Robinson,306581,461,h,45.7,74.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""48.9""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""18.1""}, {""type"": ""Angle"", ""value"": ""1.38""}]"
+2946506033.0,45,39.0,SecondHalf,Alex Freeman,440159,461,h,38.4,5.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""446""}, {""type"": ""Defensive""}]"
+2946506057.0,46,0.0,SecondHalf,Tyler Adams,315275,461,h,29.2,25.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""450""}, {""type"": ""Defensive""}]"
+2946506069.0,46,5.0,SecondHalf,Malik Tillman,397465,461,h,33.0,42.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""452""}, {""type"": ""Defensive""}]"
+2946506071.0,46,6.0,SecondHalf,Christian Pulisic,302692,461,h,32.9,59.4,BallRecovery,Successful,[]
+2946506131.0,46,47.0,SecondHalf,Malik Tillman,397465,461,h,53.8,84.3,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Left""}]"
+2946506133.0,46,48.0,SecondHalf,Tyler Adams,315275,461,h,51.7,81.3,BallRecovery,Successful,[]
+2946506159.0,47,7.0,SecondHalf,Maxim De Cuyper,392647,339,a,21.4,56.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""469""}, {""type"": ""Defensive""}]"
+2946506161.0,47,9.0,SecondHalf,Maxim De Cuyper,392647,339,a,22.4,50.7,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""450""}, {""type"": ""Defensive""}]"
+2946506357.0,47,11.0,SecondHalf,Weston McKennie,338275,461,h,74.1,53.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""462""}, {""type"": ""Defensive""}]"
+2946506169.0,47,13.0,SecondHalf,Hans Vanaken,243567,339,a,29.3,73.8,BallRecovery,Successful,[]
+2946506237.0,48,3.0,SecondHalf,Brandon Mechele,129832,339,a,9.8,50.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""17.4""}, {""type"": ""PassEndY"", ""value"": ""37.1""}, {""type"": ""Length"", ""value"": ""11.9""}, {""type"": ""Angle"", ""value"": ""5.45""}]"
+2946506247.0,48,6.0,SecondHalf,Nicolas Raskin,399999,339,a,17.4,37.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""19.4""}, {""type"": ""PassEndY"", ""value"": ""40.0""}, {""type"": ""Length"", ""value"": ""2.9""}, {""type"": ""Angle"", ""value"": ""0.75""}]"
+2946506245.0,48,8.0,SecondHalf,Antonee Robinson,306581,461,h,79.3,70.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2946506325.0,49,8.0,SecondHalf,Matt Freese,371610,461,h,10.0,65.7,KeeperPickup,Successful,[]
+2946506361.0,49,47.0,SecondHalf,Leandro Trossard,113994,339,a,25.0,67.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""491""}, {""type"": ""Defensive""}]"
+2946506363.0,49,50.0,SecondHalf,Leandro Trossard,113994,339,a,24.9,63.0,BallRecovery,Successful,[]
+2946506373.0,49,52.0,SecondHalf,Giovanni Reyna,389087,461,h,76.0,49.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""483""}, {""type"": ""Defensive""}]"
+2946506379.0,50,1.0,SecondHalf,Tim Ream,85006,461,h,25.5,37.2,BallRecovery,Successful,[]
+2946506391.0,50,11.0,SecondHalf,Nathan Ngoy,414495,339,a,25.1,33.7,BallRecovery,Successful,[]
+2946506397.0,50,23.0,SecondHalf,Tim Ream,85006,461,h,2.5,71.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""488""}]"
+2946506411.0,51,0.0,SecondHalf,Chris Richards,395401,461,h,1.8,57.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.1""}, {""type"": ""PassEndY"", ""value"": ""66.9""}, {""type"": ""Length"", ""value"": ""23.3""}, {""type"": ""Angle"", ""value"": ""0.28""}]"
+2946506417.0,51,5.0,SecondHalf,Matt Freese,371610,461,h,4.4,49.1,Claim,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""HighClaim""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""492""}]"
+2946506457.0,51,48.0,SecondHalf,Nicolas Raskin,399999,339,a,22.6,30.9,BallRecovery,Successful,[]
+2946506463.0,51,49.0,SecondHalf,Malik Tillman,397465,461,h,72.8,70.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""495""}, {""type"": ""Offensive""}]"
+2946506465.0,51,51.0,SecondHalf,Giovanni Reyna,389087,461,h,56.1,68.2,BallRecovery,Successful,[]
+2946506547.0,53,12.0,SecondHalf,Brandon Mechele,129832,339,a,25.6,32.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.0""}, {""type"": ""PassEndY"", ""value"": ""16.5""}, {""type"": ""Length"", ""value"": ""11.3""}, {""type"": ""Angle"", ""value"": ""4.94""}]"
+2946506551.0,53,16.0,SecondHalf,Antonee Robinson,306581,461,h,80.4,59.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""503""}, {""type"": ""Offensive""}]"
+2946506557.0,53,18.0,SecondHalf,Leandro Trossard,113994,339,a,20.8,51.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""53.6""}, {""type"": ""PassEndY"", ""value"": ""25.6""}, {""type"": ""Length"", ""value"": ""38.6""}, {""type"": ""Angle"", ""value"": ""5.82""}]"
+2946506599.0,54,5.0,SecondHalf,Giovanni Reyna,389087,461,h,52.9,52.5,BallRecovery,Successful,[]
+2946506651.0,55,31.0,SecondHalf,Matt Freese,371610,461,h,21.3,58.3,BallRecovery,Successful,[]
+2946506683.0,55,54.0,SecondHalf,Charles De Ketelaere,386390,339,a,43.2,30.0,BallRecovery,Successful,[]
+2946506747.0,56,31.0,SecondHalf,Matt Freese,371610,461,h,22.5,37.0,BallRecovery,Successful,[]
+2946506749.0,56,31.0,SecondHalf,Charles De Ketelaere,386390,339,a,78.6,58.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""559""}, {""type"": ""Defensive""}, {""type"": ""KeyPass""}]"
+2946506753.0,56,32.0,SecondHalf,Hans Vanaken,243567,339,a,69.8,57.2,BallRecovery,Successful,[]
+2946506905.0,59,33.0,SecondHalf,Malik Tillman,397465,461,h,61.6,70.8,BallRecovery,Successful,[]
+2946506911.0,59,36.0,SecondHalf,Nicolas Raskin,399999,339,a,35.2,36.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""587""}, {""type"": ""Defensive""}]"
+2946506953.0,60,4.0,SecondHalf,Hans Vanaken,243567,339,a,22.8,63.4,BallRecovery,Successful,[]
+2946506969.0,60,13.0,SecondHalf,Matt Freese,371610,461,h,8.3,41.1,BallRecovery,Successful,[]
+2946506983.0,60,21.0,SecondHalf,Timothy Castagne,141169,339,a,46.2,17.9,BallRecovery,Successful,[]
+2946507021.0,60,42.0,SecondHalf,Charles De Ketelaere,386390,339,a,45.8,43.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946507261.0,60,44.0,SecondHalf,Tyler Adams,315275,461,h,47.6,49.1,BallRecovery,Successful,[]
+2946507067.0,61,14.0,SecondHalf,Nathan Ngoy,414495,339,a,15.8,44.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""43.0""}, {""type"": ""PassEndY"", ""value"": ""67.1""}, {""type"": ""Length"", ""value"": ""32.3""}, {""type"": ""Angle"", ""value"": ""0.49""}]"
+2946507097.0,61,28.0,SecondHalf,Leandro Trossard,113994,339,a,26.7,87.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""623""}, {""type"": ""Defensive""}]"
+2946507135.0,61,51.0,SecondHalf,Charles De Ketelaere,386390,339,a,43.6,73.8,BallRecovery,Successful,[]
+2946507153.0,61,56.0,SecondHalf,Chris Richards,395401,461,h,10.6,35.0,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""559""}]"
+2946507177.0,62,40.0,SecondHalf,Malik Tillman,397465,461,h,7.3,38.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.3""}, {""type"": ""PassEndY"", ""value"": ""18.6""}, {""type"": ""Length"", ""value"": ""26.0""}, {""type"": ""Angle"", ""value"": ""5.73""}]"
+2946507197.0,62,50.0,SecondHalf,Weston McKennie,338275,461,h,44.3,9.3,BallRecovery,Successful,[]
+2946507209.0,62,52.0,SecondHalf,Brandon Mechele,129832,339,a,54.4,91.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""637""}, {""type"": ""Defensive""}]"
+2946507249.0,63,23.0,SecondHalf,Tim Ream,85006,461,h,37.4,93.1,BallRecovery,Successful,[]
+2946507275.0,63,53.0,SecondHalf,Charles De Ketelaere,386390,339,a,37.4,9.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946507339.0,64,44.0,SecondHalf,Youri Tielemans,136345,339,a,2.2,87.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""672""}]"
+2946507451.0,67,16.0,SecondHalf,Hans Vanaken,243567,339,a,13.4,93.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""691""}, {""type"": ""Defensive""}]"
+2946507489.0,67,59.0,SecondHalf,Maxim De Cuyper,392647,339,a,21.5,67.0,BallRecovery,Successful,[]
+2946507601.0,71,24.0,SecondHalf,Alex Freeman,440159,461,h,29.1,10.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946507603.0,71,25.0,SecondHalf,Alex Freeman,440159,461,h,37.3,4.3,BallRecovery,Successful,[]
+2946507611.0,71,33.0,SecondHalf,Nicolas Raskin,399999,339,a,35.6,76.4,BallRecovery,Successful,[]
+2946507621.0,71,42.0,SecondHalf,Chris Richards,395401,461,h,33.3,4.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""32.7""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""4.5""}, {""type"": ""Angle"", ""value"": ""4.57""}]"
+2946507659.0,72,21.0,SecondHalf,Chris Richards,395401,461,h,14.8,5.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""36.5""}, {""type"": ""PassEndY"", ""value"": ""1.8""}, {""type"": ""Length"", ""value"": ""22.9""}, {""type"": ""Angle"", ""value"": ""6.18""}]"
+2946507665.0,72,27.0,SecondHalf,Folarin Balogun,384065,461,h,53.2,5.5,BallRecovery,Successful,[]
+2946507671.0,72,30.0,SecondHalf,Nathan Ngoy,414495,339,a,26.1,89.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""35.8""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""13.0""}, {""type"": ""Angle"", ""value"": ""0.67""}]"
+2946507689.0,72,50.0,SecondHalf,Hans Vanaken,243567,339,a,33.5,48.8,BallRecovery,Successful,[]
+2946507701.0,72,59.0,SecondHalf,Matt Freese,371610,461,h,8.3,60.0,BallRecovery,Successful,[]
+2946507727.0,73,43.0,SecondHalf,Tim Ream,85006,461,h,28.1,87.4,BallRecovery,Successful,[]
+2946507733.0,73,49.0,SecondHalf,Nathan Ngoy,414495,339,a,23.0,11.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""22.4""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""8.8""}, {""type"": ""Angle"", ""value"": ""4.64""}]"
+2946507747.0,74,3.0,SecondHalf,Youri Tielemans,136345,339,a,7.2,18.6,BallRecovery,Successful,[]
+2946507921.0,75,8.0,SecondHalf,Maxim De Cuyper,392647,339,a,40.9,79.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""59.5""}, {""type"": ""PassEndY"", ""value"": ""68.8""}, {""type"": ""Length"", ""value"": ""20.9""}, {""type"": ""Angle"", ""value"": ""5.92""}]"
+2946507785.0,75,11.0,SecondHalf,Nicolas Raskin,399999,339,a,53.9,89.0,BallRecovery,Successful,[]
+2946507815.0,75,46.0,SecondHalf,Leandro Trossard,113994,339,a,31.6,3.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946507817.0,75,47.0,SecondHalf,Leandro Trossard,113994,339,a,32.1,7.1,BallRecovery,Successful,[]
+2946507845.0,76,41.0,SecondHalf,Malik Tillman,397465,461,h,43.2,96.9,BallRecovery,Successful,[]
+2946507867.0,77,21.0,SecondHalf,Tim Ream,85006,461,h,56.7,89.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2946507869.0,77,23.0,SecondHalf,Giovanni Reyna,389087,461,h,65.2,87.9,BallRecovery,Successful,[]
+2946507919.0,78,21.0,SecondHalf,Timothy Castagne,141169,339,a,9.2,48.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.0""}, {""type"": ""PassEndY"", ""value"": ""48.5""}, {""type"": ""Length"", ""value"": ""15.5""}, {""type"": ""Angle"", ""value"": ""0.00""}]"
+2946507933.0,78,51.0,SecondHalf,Antonee Robinson,306581,461,h,19.3,88.6,BallRecovery,Successful,[]
+2946511785.0,79,1.0,SecondHalf,Timothy Castagne,141169,339,a,47.4,36.3,BallRecovery,Successful,[]
+2946511809.0,79,6.0,SecondHalf,Weston McKennie,338275,461,h,63.5,6.1,BallRecovery,Successful,[]
+2946507961.0,79,27.0,SecondHalf,Maxim De Cuyper,392647,339,a,46.7,96.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946507977.0,79,32.0,SecondHalf,Giovanni Reyna,389087,461,h,40.5,11.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""674""}, {""type"": ""Defensive""}]"
+2946507979.0,79,42.0,SecondHalf,Antonee Robinson,306581,461,h,28.2,90.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""677""}, {""type"": ""Defensive""}]"
+2946507985.0,79,43.0,SecondHalf,Antonee Robinson,306581,461,h,34.3,96.3,BallRecovery,Successful,[]
+2946507997.0,79,51.0,SecondHalf,Youri Tielemans,136345,339,a,33.7,37.0,BallRecovery,Successful,[]
+2946508013.0,80,4.0,SecondHalf,Alex Freeman,440159,461,h,39.3,5.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""685""}, {""type"": ""Defensive""}]"
+2946508033.0,81,1.0,SecondHalf,Nathan Ngoy,414495,339,a,60.8,7.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2946508035.0,81,2.0,SecondHalf,Youri Tielemans,136345,339,a,61.8,8.5,BallRecovery,Successful,[]
+2946508039.0,81,4.0,SecondHalf,Malik Tillman,397465,461,h,35.2,90.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2946508041.0,81,5.0,SecondHalf,Giovanni Reyna,389087,461,h,38.4,85.6,BallRecovery,Successful,[]
+2946508055.0,81,14.0,SecondHalf,Maxim De Cuyper,392647,339,a,6.6,25.0,BallRecovery,Successful,[]
+2946508103.0,81,57.0,SecondHalf,Brandon Mechele,129832,339,a,3.7,67.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""71.1""}, {""type"": ""Length"", ""value"": ""6.2""}, {""type"": ""Angle"", ""value"": ""2.78""}]"
+2946508119.0,82,33.0,SecondHalf,Thibaut Courtois,73798,339,a,2.6,41.0,KeeperPickup,Successful,[]
+2946508131.0,82,53.0,SecondHalf,Weston McKennie,338275,461,h,35.6,83.7,BallRecovery,Successful,[]
+2946508163.0,83,28.0,SecondHalf,Nathan Ngoy,414495,339,a,6.8,38.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""18.5""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""29.8""}, {""type"": ""Angle"", ""value"": ""5.14""}]"
+2946508175.0,83,39.0,SecondHalf,Brandon Mechele,129832,339,a,3.9,26.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""854""}, {""type"": ""Defensive""}]"
+2946508177.0,83,41.0,SecondHalf,Timothy Castagne,141169,339,a,3.9,14.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.9""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""25.5""}, {""type"": ""Angle"", ""value"": ""5.84""}]"
+2946508199.0,84,13.0,SecondHalf,Timothy Castagne,141169,339,a,10.8,15.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""865""}, {""type"": ""Defensive""}]"
+2946508205.0,84,14.0,SecondHalf,Leandro Trossard,113994,339,a,11.8,13.1,BallRecovery,Successful,[]
+2946508229.0,84,39.0,SecondHalf,Maxim De Cuyper,392647,339,a,14.6,58.7,BallRecovery,Successful,[]
+2946508239.0,84,49.0,SecondHalf,Alex Freeman,440159,461,h,35.0,13.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""720""}, {""type"": ""Defensive""}]"
+2946508247.0,84,55.0,SecondHalf,Antonee Robinson,306581,461,h,14.2,51.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""722""}, {""type"": ""Defensive""}]"
+2946508255.0,85,1.0,SecondHalf,Chris Richards,395401,461,h,5.9,55.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""724""}]"
+2946508303.0,85,32.0,SecondHalf,Alex Freeman,440159,461,h,11.9,46.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""39.0""}, {""type"": ""PassEndY"", ""value"": ""89.8""}, {""type"": ""Length"", ""value"": ""41.1""}, {""type"": ""Angle"", ""value"": ""0.81""}]"
+2946508307.0,85,40.0,SecondHalf,Ricardo Pepi,377466,461,h,37.9,92.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""740""}, {""type"": ""Defensive""}]"
+2946508377.0,86,34.0,SecondHalf,Nathan Ngoy,414495,339,a,19.5,26.2,BallRecovery,Successful,[]
+2946508481.0,87,29.0,SecondHalf,Chris Richards,395401,461,h,26.5,47.8,BallRecovery,Successful,[]
+2946508495.0,87,44.0,SecondHalf,Youri Tielemans,136345,339,a,22.9,33.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""901""}, {""type"": ""Defensive""}]"
+2946508499.0,87,52.0,SecondHalf,Thibaut Courtois,73798,339,a,8.0,32.5,KeeperPickup,Successful,[]
+2946508557.0,89,3.0,SecondHalf,Alexis Saelemaekers,365308,339,a,34.3,16.4,BallRecovery,Successful,[]
+2946508563.0,89,6.0,SecondHalf,Malik Tillman,397465,461,h,72.3,94.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""776""}, {""type"": ""Defensive""}]"
+2946508581.0,89,20.0,SecondHalf,Tim Ream,85006,461,h,39.5,75.6,BallRecovery,Successful,[]
+2946508599.0,89,34.0,SecondHalf,Maxim De Cuyper,392647,339,a,14.4,86.0,BallRecovery,Successful,[]
+2946508621.0,89,48.0,SecondHalf,Malik Tillman,397465,461,h,53.9,48.4,BallRecovery,Successful,[]
+2946508683.0,90,46.0,SecondHalf,Alexis Saelemaekers,365308,339,a,20.1,50.0,BallRecovery,Successful,[]
+2946508709.0,91,5.0,SecondHalf,Alex Freeman,440159,461,h,37.0,9.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""791""}, {""type"": ""Defensive""}]"
+2946508711.0,91,6.0,SecondHalf,Alex Freeman,440159,461,h,29.3,9.9,BallRecovery,Successful,[]
+2946508723.0,91,20.0,SecondHalf,Brandon Mechele,129832,339,a,13.5,44.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.7""}, {""type"": ""PassEndY"", ""value"": ""26.5""}, {""type"": ""Length"", ""value"": ""16.4""}, {""type"": ""Angle"", ""value"": ""5.42""}]"
+2946508795.0,92,10.0,SecondHalf,Alex Freeman,440159,461,h,26.8,5.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""797""}, {""type"": ""Defensive""}]"
+2946508805.0,92,15.0,SecondHalf,Alex Freeman,440159,461,h,11.4,7.3,BallRecovery,Successful,[]
+2946508811.0,92,17.0,SecondHalf,Hans Vanaken,243567,339,a,90.0,95.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""954""}, {""type"": ""Offensive""}]"
+2946508817.0,92,18.0,SecondHalf,Hans Vanaken,243567,339,a,89.7,96.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""955""}, {""type"": ""Defensive""}]"
+2946508823.0,92,19.0,SecondHalf,Hans Vanaken,243567,339,a,88.8,86.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""956""}, {""type"": ""Defensive""}, {""type"": ""KeyPass""}]"
+2946508827.0,92,23.0,SecondHalf,Romelu Lukaku,78498,339,a,90.5,69.5,BallRecovery,Successful,[]
+2946508905.0,93,51.0,SecondHalf,Timothy Castagne,141169,339,a,25.5,14.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""34.0""}, {""type"": ""PassEndY"", ""value"": ""16.5""}, {""type"": ""Length"", ""value"": ""9.0""}, {""type"": ""Angle"", ""value"": ""0.14""}]"
+2946508915.0,93,59.0,SecondHalf,Youri Tielemans,136345,339,a,32.4,27.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""964""}, {""type"": ""Defensive""}]"
+2946508917.0,94,0.0,SecondHalf,Axel Witsel,25191,339,a,35.0,25.0,BallRecovery,Successful,[]
+2946508925.0,94,5.0,SecondHalf,Sebastian Berhalter,393132,461,h,43.4,48.7,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""811""}, {""type"": ""Defensive""}]"

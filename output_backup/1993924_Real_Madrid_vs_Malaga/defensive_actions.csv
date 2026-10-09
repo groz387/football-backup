@@ -1,0 +1,183 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2962096895.0,0,7.0,FirstHalf,Marc Cucurella,363496,52,h,28.7,86.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""33.2""}, {""type"": ""PassEndY"", ""value"": ""63.7""}, {""type"": ""Length"", ""value"": ""16.3""}, {""type"": ""Angle"", ""value"": ""5.01""}]"
+2962097105.0,0,19.0,FirstHalf,Federico Valverde,344644,52,h,12.7,64.6,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""10""}]"
+2962097151.0,0,23.0,FirstHalf,Jude Bellingham,379868,52,h,40.1,67.9,BallRecovery,Successful,[]
+2962097361.0,0,33.0,FirstHalf,Joaquín Muñoz,366204,69,a,14.4,52.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.5""}, {""type"": ""PassEndY"", ""value"": ""76.4""}, {""type"": ""Length"", ""value"": ""19.9""}, {""type"": ""Angle"", ""value"": ""0.94""}]"
+2962098149.0,1,14.0,FirstHalf,Thibaut Courtois,73798,52,h,10.3,52.5,KeeperPickup,Successful,[]
+2962098873.0,1,45.0,FirstHalf,David Larrubia,448303,69,a,54.2,6.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""23""}, {""type"": ""Defensive""}]"
+2962099879.0,2,37.0,FirstHalf,David Larrubia,448303,69,a,36.4,30.0,BallRecovery,Successful,[]
+2962100247.0,2,52.0,FirstHalf,Dean Huijsen,468852,52,h,43.4,98.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""25""}, {""type"": ""Defensive""}]"
+2962100681.0,3,14.0,FirstHalf,Ángel Recio,511043,69,a,8.5,57.3,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""10.3""}, {""type"": ""PassEndY"", ""value"": ""63.6""}, {""type"": ""Length"", ""value"": ""4.7""}, {""type"": ""Angle"", ""value"": ""1.16""}]"
+2962100741.0,3,16.0,FirstHalf,Einar Galilea,141497,69,a,11.1,54.0,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""45""}]"
+2962100785.0,3,20.0,FirstHalf,Rafita,508349,69,a,10.2,92.4,BallRecovery,Successful,[]
+2962101797.0,4,12.0,FirstHalf,Eduardo Camavinga,369109,52,h,20.3,75.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962101863.0,4,15.0,FirstHalf,Vinícius Júnior,337782,52,h,44.6,85.5,BallRecovery,Successful,[]
+2962102173.0,4,26.0,FirstHalf,Izan Merino,508035,69,a,12.0,27.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""50""}, {""type"": ""Defensive""}]"
+2962103763.0,5,39.0,FirstHalf,Alfonso Herrero,261509,69,a,10.7,52.7,KeeperPickup,Successful,[]
+2962104931.0,6,31.0,FirstHalf,Eduardo Camavinga,369109,52,h,21.7,34.9,BallRecovery,Successful,[]
+2962106629.0,7,49.0,FirstHalf,Trent Alexander-Arnold,318871,52,h,40.7,34.9,BallRecovery,Successful,[]
+2962107119.0,8,9.0,FirstHalf,Carlos Puga,447938,69,a,8.3,14.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""101""}, {""type"": ""Defensive""}]"
+2962108819.0,9,34.0,FirstHalf,Dean Huijsen,468852,52,h,36.1,90.1,BallRecovery,Successful,[]
+2962109737.0,10,18.0,FirstHalf,Izan Merino,508035,69,a,2.8,71.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962110465.0,10,48.0,FirstHalf,Ángel Recio,511043,69,a,7.1,50.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""136""}]"
+2962110979.0,10,49.0,FirstHalf,Chupe,541868,69,a,2.8,64.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""65.8""}, {""type"": ""Length"", ""value"": ""4.1""}, {""type"": ""Angle"", ""value"": ""2.88""}]"
+2962113651.0,13,19.0,FirstHalf,Rafa Rodríguez,471958,69,a,58.3,28.0,BallRecovery,Successful,[]
+2962114127.0,13,43.0,FirstHalf,Ángel Recio,511043,69,a,44.2,71.2,BallRecovery,Successful,[]
+2962114379.0,13,55.0,FirstHalf,Marc Cucurella,363496,52,h,33.8,93.3,BallRecovery,Successful,[]
+2962116087.0,15,16.0,FirstHalf,Carlos Dotor,461527,69,a,24.6,78.2,BallRecovery,Successful,[]
+2962118503.0,17,7.0,FirstHalf,Carlos Puga,447938,69,a,12.7,16.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.9""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""18.5""}, {""type"": ""Angle"", ""value"": ""5.56""}]"
+2962118979.0,17,34.0,FirstHalf,Rafa Rodríguez,471958,69,a,30.4,32.3,BallRecovery,Successful,[]
+2962119919.0,18,14.0,FirstHalf,Ángel Recio,511043,69,a,28.0,39.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""207""}, {""type"": ""Defensive""}]"
+2962122677.0,20,40.0,FirstHalf,Eduardo Camavinga,369109,52,h,37.4,68.7,BallRecovery,Successful,[]
+2962123035.0,20,57.0,FirstHalf,Carlos Dotor,461527,69,a,57.2,94.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""216""}, {""type"": ""Defensive""}]"
+2962123039.0,20,58.0,FirstHalf,Carlos Dotor,461527,69,a,54.6,92.9,BallRecovery,Successful,[]
+2962123235.0,21,9.0,FirstHalf,Marc Cucurella,363496,52,h,31.5,44.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""148""}, {""type"": ""Defensive""}]"
+2962123337.0,21,17.0,FirstHalf,Ángel Recio,511043,69,a,19.4,65.0,BallRecovery,Successful,[]
+2962124111.0,21,57.0,FirstHalf,Carlos Puga,447938,69,a,69.6,25.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""221""}, {""type"": ""Offensive""}]"
+2962124151.0,22,1.0,FirstHalf,Jude Bellingham,379868,52,h,35.2,53.4,BallRecovery,Successful,[]
+2962124295.0,22,9.0,FirstHalf,Carlos Dotor,461527,69,a,37.0,65.9,BallRecovery,Successful,[]
+2962124359.0,22,11.0,FirstHalf,Eduardo Camavinga,369109,52,h,52.7,56.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""164""}, {""type"": ""Defensive""}]"
+2962125637.0,23,13.0,FirstHalf,Rafita,508349,69,a,30.1,74.1,BallRecovery,Successful,[]
+2962126299.0,23,41.0,FirstHalf,Marc Cucurella,363496,52,h,37.3,96.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""186""}, {""type"": ""Defensive""}]"
+2962128615.0,23,42.0,FirstHalf,Marc Cucurella,363496,52,h,31.4,96.3,BallRecovery,Successful,[]
+2962126351.0,23,48.0,FirstHalf,Izan Merino,508035,69,a,51.4,20.7,BallRecovery,Successful,[]
+2962126491.0,23,54.0,FirstHalf,Dean Huijsen,468852,52,h,13.8,89.5,BallRecovery,Successful,[]
+2962130325.0,25,12.0,FirstHalf,Carlos Puga,447938,69,a,1.2,49.3,Save,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""269""}]"
+2962129919.0,26,52.0,FirstHalf,Trent Alexander-Arnold,318871,52,h,22.4,10.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962129931.0,26,53.0,FirstHalf,Trent Alexander-Arnold,318871,52,h,22.7,6.4,BallRecovery,Successful,[]
+2962131587.0,28,12.0,FirstHalf,Ángel Recio,511043,69,a,19.5,31.0,BallRecovery,Successful,[]
+2962131637.0,28,13.0,FirstHalf,Federico Valverde,344644,52,h,72.0,69.4,BallRecovery,Successful,[]
+2962131737.0,28,13.0,FirstHalf,Rafa Rodríguez,471958,69,a,28.0,31.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""293""}, {""type"": ""Defensive""}]"
+2962131705.0,28,13.0,FirstHalf,Jude Bellingham,379868,52,h,71.4,63.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""218""}, {""type"": ""Defensive""}]"
+2962134835.0,28,17.0,FirstHalf,Rafa Rodríguez,471958,69,a,8.7,71.1,BallRecovery,Successful,[]
+2962131755.0,28,21.0,FirstHalf,Marc Cucurella,363496,52,h,77.2,94.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""213""}, {""type"": ""Defensive""}]"
+2962132545.0,28,58.0,FirstHalf,Antonio Rüdiger,104010,52,h,30.2,65.1,BallRecovery,Successful,[]
+2962136541.0,32,17.0,FirstHalf,Vinícius Júnior,337782,52,h,26.6,92.5,BallRecovery,Successful,[]
+2962136821.0,32,28.0,FirstHalf,Joaquín Muñoz,366204,69,a,55.4,79.7,BallRecovery,Successful,[]
+2962137107.0,32,40.0,FirstHalf,Brahim Díaz,317541,52,h,11.7,27.9,BallRecovery,Successful,[]
+2962138175.0,33,22.0,FirstHalf,Rafa Rodríguez,471958,69,a,65.6,84.4,BallRecovery,Successful,[]
+2962138207.0,33,24.0,FirstHalf,Jude Bellingham,379868,52,h,30.6,16.9,BallRecovery,Successful,[]
+2962138573.0,33,38.0,FirstHalf,Ángel Recio,511043,69,a,9.0,17.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""346""}, {""type"": ""Defensive""}]"
+2962141157.0,35,25.0,FirstHalf,Joaquín Muñoz,366204,69,a,12.3,29.2,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""367""}]"
+2962141315.0,35,31.0,FirstHalf,Einar Galilea,141497,69,a,13.4,53.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.8""}, {""type"": ""PassEndY"", ""value"": ""58.0""}, {""type"": ""Length"", ""value"": ""14.4""}, {""type"": ""Angle"", ""value"": ""0.21""}]"
+2962143321.0,37,0.0,FirstHalf,Rafita,508349,69,a,8.9,87.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.1""}, {""type"": ""PassEndY"", ""value"": ""93.8""}, {""type"": ""Length"", ""value"": ""16.6""}, {""type"": ""Angle"", ""value"": ""0.28""}]"
+2962143857.0,37,22.0,FirstHalf,Joaquín Muñoz,366204,69,a,23.4,78.5,BallRecovery,Successful,[]
+2962143921.0,37,26.0,FirstHalf,Eduardo Camavinga,369109,52,h,77.0,31.8,BallRecovery,Successful,[]
+2962144045.0,37,31.0,FirstHalf,Ángel Recio,511043,69,a,12.9,41.0,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""413""}]"
+2962145229.0,38,25.0,FirstHalf,Carlos Dotor,461527,69,a,7.0,85.9,BallRecovery,Successful,[]
+2962145515.0,38,38.0,FirstHalf,Trent Alexander-Arnold,318871,52,h,41.4,90.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962145535.0,38,39.0,FirstHalf,Trent Alexander-Arnold,318871,52,h,44.5,92.5,BallRecovery,Successful,[]
+2962146171.0,39,7.0,FirstHalf,Carlos Puga,447938,69,a,9.3,20.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""433""}]"
+2962147273.0,40,0.0,FirstHalf,Alfonso Herrero,261509,69,a,8.2,50.3,KeeperPickup,Successful,[]
+2962149179.0,41,21.0,FirstHalf,Dean Huijsen,468852,52,h,14.1,68.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962150815.0,42,36.0,FirstHalf,Rafita,508349,69,a,59.8,96.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""446""}, {""type"": ""Defensive""}]"
+2962150823.0,42,38.0,FirstHalf,Rafita,508349,69,a,61.1,91.8,BallRecovery,Successful,[]
+2962150935.0,42,44.0,FirstHalf,Brahim Díaz,317541,52,h,38.4,10.6,BallRecovery,Successful,[]
+2962151167.0,42,53.0,FirstHalf,Rafita,508349,69,a,4.8,65.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""450""}]"
+2962152019.0,43,37.0,FirstHalf,Rafa Rodríguez,471958,69,a,10.1,55.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""34.0""}, {""type"": ""PassEndY"", ""value"": ""67.7""}, {""type"": ""Length"", ""value"": ""26.5""}, {""type"": ""Angle"", ""value"": ""0.33""}]"
+2962152183.0,43,46.0,FirstHalf,Trent Alexander-Arnold,318871,52,h,58.9,26.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2962152349.0,43,52.0,FirstHalf,Alfonso Herrero,261509,69,a,8.8,32.6,KeeperPickup,Successful,[]
+2962154125.0,45,33.0,FirstHalf,Alfonso Herrero,261509,69,a,12.2,52.6,KeeperPickup,Successful,[]
+2962154247.0,45,40.0,FirstHalf,Dean Huijsen,468852,52,h,27.5,76.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""30.4""}, {""type"": ""PassEndY"", ""value"": ""83.7""}, {""type"": ""Length"", ""value"": ""5.9""}, {""type"": ""Angle"", ""value"": ""1.03""}]"
+2962171231.0,45,16.0,SecondHalf,Rafita,508349,69,a,23.9,93.4,BallRecovery,Successful,[]
+2962172767.0,46,26.0,SecondHalf,Chupe,541868,69,a,8.3,54.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""30.3""}, {""type"": ""PassEndY"", ""value"": ""46.4""}, {""type"": ""Length"", ""value"": ""23.7""}, {""type"": ""Angle"", ""value"": ""6.05""}]"
+2962173063.0,46,39.0,SecondHalf,Carlos Dotor,461527,69,a,8.6,14.8,BallRecovery,Successful,[]
+2962173239.0,46,45.0,SecondHalf,Marc Cucurella,363496,52,h,65.9,74.2,BallRecovery,Successful,[]
+2962175131.0,48,5.0,SecondHalf,Marc Cucurella,363496,52,h,70.9,95.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2962175355.0,48,6.0,SecondHalf,Carlos Puga,447938,69,a,20.7,5.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962176265.0,48,6.0,SecondHalf,Marc Cucurella,363496,52,h,73.7,96.3,BallRecovery,Successful,[]
+2962177351.0,49,37.0,SecondHalf,Eduardo Camavinga,369109,52,h,19.6,63.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962177373.0,49,38.0,SecondHalf,Jude Bellingham,379868,52,h,25.2,64.0,BallRecovery,Successful,[]
+2962177709.0,49,52.0,SecondHalf,Rafita,508349,69,a,15.8,62.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""546""}]"
+2962177815.0,49,56.0,SecondHalf,Joaquín Muñoz,366204,69,a,31.0,98.1,BallRecovery,Successful,[]
+2962179789.0,51,22.0,SecondHalf,Einar Galilea,141497,69,a,47.2,65.7,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2962179887.0,51,25.0,SecondHalf,Ángel Recio,511043,69,a,40.1,49.8,BallRecovery,Successful,[]
+2962184119.0,54,15.0,SecondHalf,Ángel Recio,511043,69,a,14.1,60.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.3""}, {""type"": ""PassEndY"", ""value"": ""61.5""}, {""type"": ""Length"", ""value"": ""9.7""}, {""type"": ""Angle"", ""value"": ""0.07""}]"
+2962184157.0,54,18.0,SecondHalf,Pablo Martínez,388808,69,a,27.8,55.3,BallRecovery,Successful,[]
+2962184219.0,54,21.0,SecondHalf,Jude Bellingham,379868,52,h,72.4,71.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""441""}, {""type"": ""Defensive""}]"
+2962184281.0,54,23.0,SecondHalf,Vinícius Júnior,337782,52,h,88.6,86.4,BallRecovery,Successful,[]
+2962184715.0,54,37.0,SecondHalf,Ángel Recio,511043,69,a,9.0,40.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.3""}, {""type"": ""PassEndY"", ""value"": ""28.0""}, {""type"": ""Length"", ""value"": ""17.2""}, {""type"": ""Angle"", ""value"": ""5.77""}]"
+2962184725.0,54,45.0,SecondHalf,Einar Galilea,141497,69,a,4.1,52.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""7.1""}, {""type"": ""PassEndY"", ""value"": ""58.8""}, {""type"": ""Length"", ""value"": ""5.6""}, {""type"": ""Angle"", ""value"": ""0.97""}]"
+2962184755.0,54,47.0,SecondHalf,Alfonso Herrero,261509,69,a,7.1,59.4,KeeperPickup,Successful,[]
+2962185669.0,55,24.0,SecondHalf,Jude Bellingham,379868,52,h,37.0,87.6,BallRecovery,Successful,[]
+2962186799.0,56,13.0,SecondHalf,Rafita,508349,69,a,10.2,87.9,BallRecovery,Successful,[]
+2962186859.0,56,17.0,SecondHalf,Eduardo Camavinga,369109,52,h,59.3,9.4,BallRecovery,Successful,[]
+2962187399.0,56,34.0,SecondHalf,Carlos Dotor,461527,69,a,25.2,65.5,BallRecovery,Successful,[]
+2962187651.0,56,45.0,SecondHalf,Marc Cucurella,363496,52,h,67.9,94.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""468""}, {""type"": ""Offensive""}]"
+2962187663.0,56,47.0,SecondHalf,Vinícius Júnior,337782,52,h,82.6,95.8,BallRecovery,Successful,[]
+2962187851.0,56,52.0,SecondHalf,Carlos Puga,447938,69,a,7.9,9.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""622""}, {""type"": ""Defensive""}]"
+2962188953.0,57,37.0,SecondHalf,Alfonso Herrero,261509,69,a,3.3,52.3,Punch,Unsuccessful,"[{""type"": ""PassEndX"", ""value"": ""28.6""}, {""type"": ""PassEndY"", ""value"": ""80.8""}, {""type"": ""Length"", ""value"": ""32.9""}, {""type"": ""Angle"", ""value"": ""0.63""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""624""}]"
+2962189289.0,57,57.0,SecondHalf,Carlos Dotor,461527,69,a,9.1,80.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""629""}, {""type"": ""Defensive""}]"
+2962192359.0,60,35.0,SecondHalf,Marc Cucurella,363496,52,h,58.3,74.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""486""}, {""type"": ""Defensive""}]"
+2962193115.0,61,13.0,SecondHalf,Dean Huijsen,468852,52,h,58.8,69.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""497""}, {""type"": ""Defensive""}]"
+2962193181.0,61,15.0,SecondHalf,Vinícius Júnior,337782,52,h,67.5,74.1,BallRecovery,Successful,[]
+2962194177.0,62,9.0,SecondHalf,Federico Valverde,344644,52,h,8.6,84.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""505""}]"
+2962197449.0,65,4.0,SecondHalf,Federico Valverde,344644,52,h,36.0,60.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962197471.0,65,5.0,SecondHalf,Eduardo Camavinga,369109,52,h,23.2,70.0,BallRecovery,Successful,[]
+2962198501.0,65,59.0,SecondHalf,David Larrubia,448303,69,a,32.5,12.1,BallRecovery,Successful,[]
+2962198571.0,66,0.0,SecondHalf,David Larrubia,448303,69,a,35.6,15.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""688""}, {""type"": ""Defensive""}]"
+2962198553.0,66,3.0,SecondHalf,Vinícius Júnior,337782,52,h,59.4,97.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""529""}, {""type"": ""Defensive""}]"
+2962199301.0,66,40.0,SecondHalf,Rafita,508349,69,a,28.7,11.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962205299.0,66,40.0,SecondHalf,Marc Cucurella,363496,52,h,60.7,89.7,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""534""}, {""type"": ""Defensive""}]"
+2962199373.0,66,41.0,SecondHalf,Marc Cucurella,363496,52,h,43.1,90.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""535""}, {""type"": ""Defensive""}]"
+2962199365.0,66,44.0,SecondHalf,Rafita,508349,69,a,54.9,13.6,BallRecovery,Successful,[]
+2962199607.0,66,58.0,SecondHalf,Trent Alexander-Arnold,318871,52,h,31.9,35.8,BallRecovery,Successful,[]
+2962199723.0,67,1.0,SecondHalf,David Larrubia,448303,69,a,53.8,10.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""708""}, {""type"": ""Defensive""}]"
+2962201269.0,68,25.0,SecondHalf,Izan Merino,508035,69,a,24.4,52.6,BallRecovery,Successful,[]
+2962201621.0,68,39.0,SecondHalf,Eduardo Camavinga,369109,52,h,58.4,72.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""555""}, {""type"": ""Defensive""}]"
+2962201737.0,68,42.0,SecondHalf,Yan Diomande,557000,52,h,56.3,67.6,BallRecovery,Successful,[]
+2962203989.0,70,17.0,SecondHalf,Eduardo Camavinga,369109,52,h,29.6,60.4,BallRecovery,Successful,[]
+2962204589.0,70,41.0,SecondHalf,José Salinas,402092,69,a,32.3,71.5,BallRecovery,Successful,[]
+2962205241.0,71,4.0,SecondHalf,Dean Huijsen,468852,52,h,7.2,82.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""584""}, {""type"": ""Defensive""}]"
+2962205815.0,71,32.0,SecondHalf,Antonio Rüdiger,104010,52,h,9.4,52.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.9""}, {""type"": ""PassEndY"", ""value"": ""25.5""}, {""type"": ""Length"", ""value"": ""28.1""}, {""type"": ""Angle"", ""value"": ""5.59""}]"
+2962206061.0,71,42.0,SecondHalf,Thibaut Courtois,73798,52,h,1.1,51.3,KeeperPickup,Successful,[]
+2962206639.0,72,5.0,SecondHalf,Pablo Martínez,388808,69,a,61.9,9.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""763""}, {""type"": ""Defensive""}]"
+2962207297.0,72,38.0,SecondHalf,Juan Cruz,357786,69,a,40.3,69.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""772""}, {""type"": ""Defensive""}]"
+2962207329.0,72,40.0,SecondHalf,Juan Cruz,357786,69,a,43.3,60.3,BallRecovery,Successful,[]
+2962207493.0,72,44.0,SecondHalf,Jude Bellingham,379868,52,h,57.6,70.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""593""}, {""type"": ""Defensive""}]"
+2962207497.0,72,46.0,SecondHalf,Vinícius Júnior,337782,52,h,64.8,78.3,BallRecovery,Successful,[]
+2962207617.0,72,51.0,SecondHalf,Alfonso Herrero,261509,69,a,12.2,28.3,KeeperPickup,Successful,[]
+2962209407.0,74,9.0,SecondHalf,Alfonso Herrero,261509,69,a,11.8,38.0,BallRecovery,Successful,[]
+2962209763.0,74,25.0,SecondHalf,Trent Alexander-Arnold,318871,52,h,39.9,3.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962210379.0,74,52.0,SecondHalf,Jude Bellingham,379868,52,h,20.4,84.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""622""}, {""type"": ""Defensive""}]"
+2962210385.0,74,53.0,SecondHalf,Federico Valverde,344644,52,h,16.9,85.5,BallRecovery,Successful,[]
+2962210631.0,75,2.0,SecondHalf,Rafita,508349,69,a,57.9,25.7,BallRecovery,Successful,[]
+2962210717.0,75,5.0,SecondHalf,Trent Alexander-Arnold,318871,52,h,32.9,30.0,BallRecovery,Successful,[]
+2962211107.0,75,22.0,SecondHalf,Rafita,508349,69,a,3.3,14.8,BallRecovery,Successful,[]
+2962211655.0,75,45.0,SecondHalf,Haitam Abaida,448292,69,a,38.8,82.9,BallRecovery,Successful,[]
+2962211861.0,75,51.0,SecondHalf,Antonio Rüdiger,104010,52,h,12.2,36.1,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""633""}]"
+2962213805.0,77,18.0,SecondHalf,Eduardo Camavinga,369109,52,h,10.5,43.9,BallRecovery,Successful,[]
+2962214485.0,77,45.0,SecondHalf,José Salinas,402092,69,a,45.2,81.1,BallRecovery,Successful,[]
+2962214755.0,77,56.0,SecondHalf,Marc Cucurella,363496,52,h,4.5,83.8,BallRecovery,Successful,[]
+2962214931.0,78,4.0,SecondHalf,Vinícius Júnior,337782,52,h,40.3,89.8,BallRecovery,Successful,[]
+2962215227.0,78,14.0,SecondHalf,Ángel Recio,511043,69,a,11.9,17.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""10.7""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""12.8""}, {""type"": ""Angle"", ""value"": ""4.61""}]"
+2962215943.0,78,47.0,SecondHalf,Rafita,508349,69,a,8.3,32.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962216031.0,78,49.0,SecondHalf,Pablo Martínez,388808,69,a,8.3,32.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""21.1""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""26.6""}, {""type"": ""Angle"", ""value"": ""5.24""}]"
+2962216417.0,79,8.0,SecondHalf,Pablo Martínez,388808,69,a,12.7,62.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962216447.0,79,10.0,SecondHalf,Haitam Abaida,448292,69,a,24.8,78.2,BallRecovery,Successful,[]
+2962216665.0,79,19.0,SecondHalf,Jude Bellingham,379868,52,h,19.6,47.3,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""670""}]"
+2962217439.0,79,55.0,SecondHalf,Dean Huijsen,468852,52,h,9.1,51.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.1""}, {""type"": ""PassEndY"", ""value"": ""23.4""}, {""type"": ""Length"", ""value"": ""27.6""}, {""type"": ""Angle"", ""value"": ""5.52""}]"
+2962217941.0,80,17.0,SecondHalf,Eduardo Camavinga,369109,52,h,10.1,35.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.3""}, {""type"": ""PassEndY"", ""value"": ""23.8""}, {""type"": ""Length"", ""value"": ""9.3""}, {""type"": ""Angle"", ""value"": ""5.21""}]"
+2962218025.0,80,21.0,SecondHalf,Trent Alexander-Arnold,318871,52,h,11.9,13.8,BallRecovery,Successful,[]
+2962218809.0,80,49.0,SecondHalf,Pablo Martínez,388808,69,a,54.5,7.4,BallRecovery,Successful,[]
+2962219279.0,81,9.0,SecondHalf,Eduardo Camavinga,369109,52,h,12.3,34.8,BallRecovery,Successful,[]
+2962220823.0,82,12.0,SecondHalf,Marc Cucurella,363496,52,h,8.9,68.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""692""}]"
+2962221547.0,82,41.0,SecondHalf,Antonio Rüdiger,104010,52,h,7.9,47.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.2""}, {""type"": ""PassEndY"", ""value"": ""53.8""}, {""type"": ""Length"", ""value"": ""18.7""}, {""type"": ""Angle"", ""value"": ""0.23""}]"
+2962222077.0,82,44.0,SecondHalf,Dean Huijsen,468852,52,h,18.5,49.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962224777.0,84,1.0,SecondHalf,Antonio Rüdiger,104010,52,h,12.4,49.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""697""}]"
+2962227043.0,87,2.0,SecondHalf,Thibaut Courtois,73798,52,h,14.7,48.7,BallRecovery,Successful,[]
+2962227165.0,87,7.0,SecondHalf,Ángel Recio,511043,69,a,37.1,47.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962227175.0,87,8.0,SecondHalf,Carlos Dotor,461527,69,a,62.6,53.6,BallRecovery,Successful,[]
+2962227853.0,87,45.0,SecondHalf,Rafita,508349,69,a,55.0,26.5,BallRecovery,Successful,[]
+2962228095.0,87,59.0,SecondHalf,Antonio Rüdiger,104010,52,h,9.6,44.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""25.5""}, {""type"": ""Length"", ""value"": ""17.1""}, {""type"": ""Angle"", ""value"": ""4.02""}]"
+2962228521.0,88,22.0,SecondHalf,Bernardo Silva,136741,52,h,11.2,85.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""726""}, {""type"": ""Defensive""}]"
+2962228823.0,88,25.0,SecondHalf,Eduardo Camavinga,369109,52,h,10.0,78.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""47.5""}, {""type"": ""PassEndY"", ""value"": ""93.0""}, {""type"": ""Length"", ""value"": ""40.6""}, {""type"": ""Angle"", ""value"": ""0.25""}]"
+2962228881.0,88,44.0,SecondHalf,Eduardo Camavinga,369109,52,h,38.5,64.2,BallRecovery,Successful,[]
+2962229355.0,89,12.0,SecondHalf,Ángel Recio,511043,69,a,29.8,52.9,BallRecovery,Successful,[]
+2962230297.0,90,7.0,SecondHalf,Dean Huijsen,468852,52,h,28.8,71.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""749""}, {""type"": ""Defensive""}]"
+2962230303.0,90,10.0,SecondHalf,Vinícius Júnior,337782,52,h,43.8,68.8,BallRecovery,Successful,[]
+2962231807.0,91,52.0,SecondHalf,Eduardo Camavinga,369109,52,h,13.7,57.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""758""}]"
+2962231829.0,91,54.0,SecondHalf,Antonio Rüdiger,104010,52,h,13.1,48.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""37.2""}, {""type"": ""PassEndY"", ""value"": ""52.8""}, {""type"": ""Length"", ""value"": ""25.5""}, {""type"": ""Angle"", ""value"": ""0.11""}]"
+2962232199.0,92,22.0,SecondHalf,Dean Huijsen,468852,52,h,6.2,71.1,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""768""}, {""type"": ""Defensive""}]"
+2962232441.0,92,44.0,SecondHalf,Arda Güler,415181,52,h,25.4,72.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""772""}, {""type"": ""Defensive""}]"
+2962232467.0,92,45.0,SecondHalf,Arda Güler,415181,52,h,37.8,74.2,BallRecovery,Successful,[]

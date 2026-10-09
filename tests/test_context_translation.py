@@ -106,6 +106,35 @@ class TranslationTests(unittest.TestCase):
         self.assertIn("Barcelona", result.scenes[0]["narration"])
         self.assertIn("Elche", result.scenes[0]["narration"])
 
+    def test_leftover_english_is_rejected_per_field(self):
+        class Groq:
+            enabled = True
+
+            @staticmethod
+            def translate(payload):
+                return {"scenes": [
+                    {
+                        "id": "shot_map", "kicker": "MAPA DE TIROS", "title": "19 TIROS",
+                        "subtitle": "", "insight": "Barcelona led 19 to 8.",
+                        "narration": "Barcelona produced 19 shots against Elche's 8.",
+                        "comment_bait": "", "lines": [],
+                    },
+                    {
+                        "id": "close", "kicker": "FINAL", "title": "BARCELONA 5-1 ELCHE",
+                        "subtitle": "", "insight": "¿Quién fue el mejor?",
+                        "narration": "Barcelona ganó 5-1. ¿Quién fue el mejor?",
+                        "comment_bait": "¿Quién fue el mejor?", "lines": [],
+                    },
+                ]}
+
+        result = translation.translate_story(
+            SCENES, "az", bundle(), AUDIT, provider="groq", groq=Groq(),
+        )
+        self.assertFalse(result.ok)
+        self.assertIn("leftover English", " ".join(result.warnings))
+        self.assertEqual(result.scenes[0]["insight"], SCENES[0]["insight"])
+        self.assertEqual(result.scenes[0]["narration"], SCENES[0]["narration"])
+
     def test_digit_drift_is_rejected_per_field(self):
         class Gemini:
             enabled = True
@@ -142,6 +171,99 @@ class TranslationTests(unittest.TestCase):
             "--auto", "--match-dir", "output/x", "--translation-provider", "groq",
         ])
         self.assertEqual(args.translation_provider, "groq")
+
+    def test_cli_accepts_multi_language_batch(self):
+        args = parse_args([
+            "--auto", "--match-dir", "output/x", "--language", "az,en,ru",
+        ])
+        self.assertEqual(args.language_list, ["az", "en", "ru"])
+
+    def test_patch_leftover_copy_keeps_native_titles(self):
+        from recap import i18n
+
+        scenes = [{
+            "id": "shot_map",
+            "visualization": "shot_map",
+            "title": "Raphinha yenə vurdu",
+            "kicker": "ZƏRBƏ XƏRİTƏSİ",
+            "insight": "22 zərbədən 10-u çərçivəyə.",
+            "narration": "Barcelona 22 zərbə vurdu, Athletic 5.",
+        }]
+        fallback = {
+            "shot_map": {
+                "title": "22 ZƏRBƏ",
+                "kicker": "ZƏRBƏ XƏRİTƏSİ",
+                "insight": "Kataloq sətri",
+                "narration": "Kataloq nəqli",
+            }
+        }
+        out = i18n.patch_leftover_copy(scenes, fallback, "az")
+        self.assertEqual(out[0]["title"], "Raphinha yenə vurdu")
+        self.assertEqual(out[0]["insight"], "22 zərbədən 10-u çərçivəyə.")
+
+    def test_patch_leftover_copy_replaces_english_title(self):
+        from recap import i18n
+
+        scenes = [{
+            "id": "shot_map",
+            "title": "19 SHOTS",
+            "insight": "Barcelona led 19 to 8.",
+            "kicker": "SHOT MAP",
+        }]
+        fallback = {
+            "shot_map": {
+                "title": "19 ZƏRBƏ",
+                "insight": "Barcelona 19-a 8 apardı.",
+                "kicker": "ZƏRBƏ",
+            }
+        }
+        out = i18n.patch_leftover_copy(scenes, fallback, "az")
+        self.assertEqual(out[0]["title"], "19 ZƏRBƏ")
+
+    def test_build_script_asks_gemini_in_picked_language(self):
+        captured: dict[str, str] = {}
+
+        class FakeGemini:
+            enabled = True
+            last_error = ""
+
+            def choose_angle(self, bundle, audit, language="en", hook=None):
+                captured["angle"] = language
+                return {}
+
+            def rephrase_hook(self, hook, language="en"):
+                captured["hook"] = language
+                return {}
+
+            def write_script(self, *args, **kwargs):
+                captured["script"] = kwargs.get("language", "")
+                return {}
+
+        stub_scene = {
+            "id": "shot_map",
+            "visualization": "shot_map",
+            "title": "22 ZƏRBƏ",
+            "narration": "Barcelona 22 zərbə vurdu.",
+            "fact_pack": {"numbers": ["22"]},
+        }
+        with mock.patch("video_pipeline.director.build_storyboard", return_value=[dict(stub_scene)]):
+            with mock.patch("video_pipeline.director.build_hook", return_value={
+                "lines": ["22 zərbə"], "punch": "22", "narration_claim": "",
+                "narration_punch": "", "kind": "waste",
+            }):
+                with mock.patch("video_pipeline.director.pick_angle", return_value="waste"):
+                    with mock.patch("video_pipeline.director.copy_problems", return_value=[]):
+                        with mock.patch("video_pipeline.director.lock_hook_cards", side_effect=lambda scenes, *a, **k: scenes):
+                            with mock.patch("video_pipeline.director.apply_script", side_effect=lambda scenes, overrides: scenes):
+                                from video_pipeline import build_script
+
+                                build_script(
+                                    bundle(), AUDIT, [{"id": "shot_map"}], FakeGemini(),
+                                    "", language="az",
+                                )
+        self.assertEqual(captured["angle"], "az")
+        self.assertEqual(captured["hook"], "az")
+        self.assertEqual(captured["script"], "az")
 
 
 class GroqClientTests(unittest.TestCase):

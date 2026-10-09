@@ -10,7 +10,7 @@ Layers, from the bottom up:
     draw      low-level drawing primitives and the layout grid
     scenes    one renderer per visualization
     video     frame rendering and mp4 assembly
-    voice     narration audio
+    voice     optional attached narration audio
 
 Nothing in a lower layer imports from a higher one.
 """
@@ -18,26 +18,17 @@ Nothing in a lower layer imports from a higher one.
 __all__ = [
     "audit",
     "audio",
-    "approvals",
     "clips",
-    "colors",
-    "config",
     "data",
     "director",
     "draw",
-    "elevenlabs_tts",
     "flashscore",
     "graphs",
     "hooks",
     "i18n",
+    "jsonutil",
     "logos",
-    "ingest",
-    "livescore",
-    "resolve_match",
-    "scrape",
     "scenes",
-    "source_chain",
-    "studio_api",
     "theme",
     "timing",
     "translation",

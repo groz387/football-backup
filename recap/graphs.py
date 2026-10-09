@@ -11,14 +11,20 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from matplotlib.patches import Circle, Ellipse, Polygon
+from matplotlib.patches import Circle, Polygon
 
 from . import draw, i18n, theme
-from .audit import GOAL_Y_MAX, GOAL_Y_MIN, GOAL_Z_MAX, build_pass_network, dominant_team
+from .audit import build_pass_network, dominant_team
 from .data import MatchBundle
 from .director import format_stat, pick_stat_rows, stat_label
 from .draw import Layout, Timeline
 from .theme import TEXT, TEXT_DIM, TEXT_FAINT
+
+
+def _short_team(name: str) -> str:
+    skip = {"fc", "cf", "afc", "the", "de", "club", "sd", "ud", "cd", "sc"}
+    parts = [part for part in str(name or "").split() if part.lower() not in skip]
+    return (parts[-1] if parts else name).upper()
 
 
 def _chrome(fig, scene: dict[str, Any], tl: Timeline, *, headline_size: float = 50.0) -> float:
@@ -84,20 +90,20 @@ def render_stat_slam(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str
     grown = tl.cue(0.04, 0.40, ease=draw.ease_out_back)
     shown = tl.count_to(float(value), start=0.04, duration=0.42)
     text = format_stat(key, shown) if key.endswith("_pct") or key in {"xg", "xgot"} else str(int(round(shown)))
-    draw.hero_number(fig, 0.5, 0.58, text, color=identity["chart"], alpha=grown, fontsize=188.0)
+    draw.hero_number(fig, 0.5, 0.56, text, color=identity["chart"], alpha=grown, fontsize=188.0)
     draw.fit_text(
-        fig, 0.5, 0.38, str(scene.get("hero_label") or stat_label(key)).upper(),
+        fig, 0.5, 0.40, stat_label(key).upper(),
         fontsize=34, max_width=0.86, max_lines=1, min_fontsize=18,
         ha="center", va="center", color=TEXT,
         family=theme.DISPLAY_FONT, fontweight="bold", alpha=tl.cue(0.18, 0.28), zorder=22,
     )
     draw.fit_text(
-        fig, 0.5, 0.30, f"{other.upper()}  {format_stat(key, other_value)}",
+        fig, 0.5, 0.33, i18n.t("vs_other", team=other.upper(), value=format_stat(key, other_value)),
         fontsize=22, max_width=0.86, max_lines=1, min_fontsize=13,
         ha="center", va="center", color=TEXT_DIM, family=theme.LABEL_FONT, fontweight="bold",
         alpha=tl.cue(0.34, 0.28), zorder=22,
     )
-    draw.team_badge(fig, leader, 0.5, 0.20, 0.14, identity=identity, alpha=tl.cue(0.28, 0.30), zorder=22)
+    draw.team_badge(fig, leader, 0.5, 0.22, 0.14, identity=identity, alpha=tl.cue(0.28, 0.30), zorder=22)
     _stamp_insight(fig, scene, tl)
     draw.save_figure(fig, path)
 
@@ -293,7 +299,6 @@ def render_conversion_gauges(bundle: MatchBundle, audit: dict[str, Any], scene: 
     stats = audit["team_stats"]
     home, away = stats[bundle.home], stats[bundle.away]
     content_top = _chrome(fig, scene, tl)
-    _team_key_row(fig, design, bundle, content_top - 0.028, tl.cue(0.08, 0.24))
     grown = tl.cue(0.08, 0.52, ease=draw.ease_in_out)
 
     pairs = (
@@ -304,7 +309,7 @@ def render_conversion_gauges(bundle: MatchBundle, audit: dict[str, Any], scene: 
     source_supported = set(audit.get("source_supported_stats") or [])
     use_xg = bool(health.get("has_vendor_xg"))
     for cx, name, team, identity in pairs:
-        ax = fig.add_axes([cx - 0.18, 0.32, 0.36, 0.36], zorder=6)
+        ax = fig.add_axes([cx - 0.16, 0.38, 0.32, 0.32], zorder=6)
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 1)
         ax.set_axis_off()
@@ -332,12 +337,15 @@ def render_conversion_gauges(bundle: MatchBundle, audit: dict[str, Any], scene: 
         ax.text(0.5, 0.52, f"{int(round(shown_on))}" if not use_xg else f"{shown_inner:.1f}",
                 color=TEXT, fontsize=36, fontweight="bold", family=theme.DISPLAY_FONT,
                 ha="center", va="center", alpha=grown, zorder=12)
-        ax.text(0.5, 0.18, name.upper(), color=identity["chart"], fontsize=13,
-                family=theme.MONO_FONT, fontweight="bold", ha="center", va="center",
-                alpha=tl.cue(0.28, 0.24), zorder=12)
         inner_shown = format_stat("xg", shown_inner) if use_xg else str(int(round(shown_inner)))
         fig.text(
-            cx, 0.22,
+            cx, 0.30,
+            name.upper(),
+            color=identity["chart"], fontsize=14, family=theme.MONO_FONT, fontweight="bold",
+            ha="center", va="center", alpha=tl.cue(0.28, 0.24), zorder=20,
+        )
+        fig.text(
+            cx, 0.24,
             f"{int(round(shown_on))} {stat_label(outer_key).upper()}  ·  {str(inner_label).upper()} {inner_shown}",
             color=TEXT_DIM, fontsize=theme.label_size(11), family=theme.LABEL_FONT,
             fontweight="bold", ha="center", va="center", alpha=tl.cue(0.36, 0.24), zorder=20,
@@ -377,23 +385,78 @@ def render_chance_funnel(bundle: MatchBundle, audit: dict[str, Any], scene: dict
             ("shots_on_target", stat_label("shots_on_target"), False),
             ("goals", stat_label("goals"), False),
         ]
-    top = content_top - 0.08
-    bottom = Layout.STAGE_BOTTOM + 0.055
+    top = content_top - 0.078
+    bottom = Layout.STAGE_BOTTOM + 0.050
     step = (top - bottom) / len(funnel)
     for index, (key, label, percent) in enumerate(funnel):
         local = tl.stagger(index, len(funnel), start=0.10, span=0.52, duration=0.28)
         if local <= 0.01:
             continue
-        inset = 0.04 + 0.055 * (index / max(1, len(funnel) - 1))
-        next_inset = 0.04 + 0.055 * ((index + 1) / max(1, len(funnel) - 1))
-        y = top - step * (index + 1) + step * 0.18
-        _funnel_trap(
-            fig, y, step * 0.62, inset, next_inset,
-            float(home.get(key) or 0), float(away.get(key) or 0),
-            design["home"]["fill"], design["away"]["fill"],
-            label, local, percent=percent,
-            home_chart=design["home"]["chart"], away_chart=design["away"]["chart"],
+        home_v = float(home.get(key) or 0)
+        away_v = float(away.get(key) or 0)
+        total = home_v + away_v
+        share = 0.5 if total <= 0 else home_v / total
+        taper = index / max(1, len(funnel) - 1)
+        total_w = (0.70 - 0.18 * taper) * (0.55 + 0.45 * local)
+        height = step * 0.50
+        y = top - step * (index + 1) + 0.010
+        ink = min(1.0, local * 2.0)
+        fig.text(
+            0.5, y + height + 0.015, str(label).upper(),
+            color=TEXT_DIM, fontsize=theme.label_size(11), family=theme.LABEL_FONT,
+            fontweight="bold", ha="center", va="center", alpha=ink, zorder=14,
         )
+        gap = 0.008
+        home_w = max(0.11, (total_w - gap) * share) if home_v > 0 else 0.0
+        away_w = max(0.11, (total_w - gap) * (1.0 - share)) if away_v > 0 else 0.0
+        if home_v > 0 and away_v > 0 and home_w + away_w + gap > total_w:
+            scale = (total_w - gap) / (home_w + away_w)
+            home_w *= scale
+            away_w *= scale
+        used = (home_w + away_w + (gap if home_w and away_w else 0.0))
+        x = 0.5 - used / 2
+        suffix = "%" if percent else ""
+        if home_w:
+            draw.fig_panel(
+                fig, x, y, home_w, height,
+                color=design["home"]["chart"], alpha=0.94 * draw.opacity(local),
+                edge="none", radius=0.014, zorder=12,
+            )
+            fig.text(
+                x + home_w / 2, y + height / 2,
+                draw.number_text(draw.hold_count(home_v, local), suffix=suffix),
+                color=theme.ink_on(design["home"]["chart"]), fontsize=26,
+                fontweight="bold", family=theme.DISPLAY_FONT,
+                ha="center", va="center", alpha=ink, zorder=14,
+            )
+            x += home_w + gap
+        else:
+            fig.text(
+                0.5 - total_w / 2 - 0.018, y + height / 2,
+                draw.number_text(0, suffix=suffix),
+                color=design["home"]["chart"], fontsize=22, fontweight="bold",
+                family=theme.DISPLAY_FONT, ha="right", va="center", alpha=ink, zorder=14,
+            )
+        if away_w:
+            draw.fig_panel(
+                fig, x, y, away_w, height,
+                color=design["away"]["chart"], alpha=0.94 * draw.opacity(local),
+                edge="none", radius=0.014, zorder=12,
+            )
+            fig.text(
+                x + away_w / 2, y + height / 2,
+                draw.number_text(draw.hold_count(away_v, local), suffix=suffix),
+                color=theme.ink_on(design["away"]["chart"]), fontsize=26,
+                fontweight="bold", family=theme.DISPLAY_FONT,
+                ha="center", va="center", alpha=ink, zorder=14,
+            )
+        else:
+            fig.text(
+                0.5 + total_w / 2 + 0.018, y + height / 2,
+                draw.number_text(0, suffix=suffix),
+                color=design["away"]["chart"], fontsize=22, fontweight="bold",
+                family=theme.DISPLAY_FONT, ha="left", va="center", alpha=ink, zorder=14,
+            )
     draw.save_figure(fig, path)
 
 
@@ -414,26 +477,18 @@ def render_keeper_frame(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
         draw.save_figure(fig, path)
         return
 
-    view_y_min, view_y_max = GOAL_Y_MIN - 1.4, GOAL_Y_MAX + 1.4
-    view_z_max = GOAL_Z_MAX * 1.18
-    metres_wide = (view_y_max - view_y_min) / (GOAL_Y_MAX - GOAL_Y_MIN) * 7.32
-    metres_tall = view_z_max / GOAL_Z_MAX * 2.44
-    rect = Layout.fitted_rect(metres_wide / metres_tall, top=content_top - 0.04, bottom=0.22, align="top")
-    ax = fig.add_axes(rect, zorder=4)
-    ax.set_xlim(view_y_min, view_y_max)
-    ax.set_ylim(0, view_z_max)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_facecolor("#070a09")
-    for spine in ax.spines.values():
-        spine.set_visible(False)
-
+    key_row_y = content_top - 0.028
+    _team_key_row(fig, design, bundle, key_row_y, tl.cue(0.08, 0.24))
+    rect = draw.goal_frame_rect(key_row_y - 0.046, 0.210)
+    ax = draw.goal_frame_axes(fig, rect)
     frame_alpha = tl.cue(0.06, 0.26)
-    ax.plot([GOAL_Y_MIN, GOAL_Y_MIN, GOAL_Y_MAX, GOAL_Y_MAX],
-            [0, GOAL_Z_MAX, GOAL_Z_MAX, 0], color=TEXT, lw=4.2, alpha=frame_alpha, zorder=8)
-    ax.plot([view_y_min, view_y_max], [0, 0], color=design["pitch_line"], lw=2.0, alpha=frame_alpha, zorder=6)
+    draw.paint_goal_frame(ax, design, alpha=frame_alpha)
 
     visible = tl.reveal_count(len(on_target), start=0.14, span=0.52)
+    dots: dict[str, dict[str, list]] = {
+        "save": {"x": [], "y": [], "s": [], "c": [], "a": []},
+        "goal": {"x": [], "y": [], "s": [], "c": [], "a": []},
+    }
     for index, shot in enumerate(on_target):
         if index >= visible:
             break
@@ -441,27 +496,54 @@ def render_keeper_frame(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
                            ease=draw.ease_out_back)
         if local <= 0.02:
             continue
-        colour = design["goal"] if shot["outcome"] == "goal" else theme.side_color(design, shot["h_a"], "fill")
-        threat = 1.15 if shot.get("big_chance") else 0.85
-        if shot.get("xg"):
-            threat = 0.7 + min(1.4, float(shot["xg"]) * 2.2)
-        rx, ry = 0.28 * threat * local, 0.18 * threat * local
-        draw.add_shape(
-            ax,
-            Ellipse((shot["goal_mouth_y"], shot["goal_mouth_z"]), rx * 2, ry * 2,
-                    facecolor=colour, edgecolor=TEXT if shot["outcome"] == "goal" else "none",
-                    linewidth=1.2, alpha=draw.opacity(0.55 + 0.4 * local), zorder=12),
-        )
-        if shot["outcome"] == "goal" and local > 0.45:
-            draw.particle_burst(ax, shot["goal_mouth_y"], shot["goal_mouth_z"], design["goal"],
-                                min(1.0, (local - 0.45) * 2), count=7, radius=0.55, zorder=14)
+        mx, mz = draw.goal_mouth_metres(shot["goal_mouth_y"], shot["goal_mouth_z"])
+        is_goal = shot["outcome"] == "goal"
+        colour = design["goal"] if is_goal else theme.side_color(design, shot["h_a"])
+        size = (250 if is_goal else 145) * (0.70 + 0.30 * local)
+        if shot.get("big_chance"):
+            size *= 1.12
+        batch = dots["goal" if is_goal else "save"]
+        batch["x"].append(mx)
+        batch["y"].append(mz)
+        batch["s"].append(size)
+        batch["c"].append(colour)
+        batch["a"].append(draw.opacity(0.88 * local))
+        if is_goal and local > 0.45:
+            draw.glow_ring(ax, mx, mz, design["goal"], radius=0.22,
+                           alpha=0.36 * local, zorder=11)
+
+    draw.scatter_batch(ax, dots["save"]["x"], dots["save"]["y"],
+                       sizes=dots["save"]["s"], colors=dots["save"]["c"],
+                       alphas=dots["save"]["a"], linewidth=0.8, zorder=15)
+    draw.scatter_batch(ax, dots["goal"]["x"], dots["goal"]["y"],
+                       sizes=dots["goal"]["s"], colors=dots["goal"]["c"],
+                       alphas=dots["goal"]["a"], linewidth=1.6, edgecolor=TEXT, zorder=16)
+
+    legend_y = rect[1] - 0.030
     draw.legend_row(
-        fig, 0.155,
+        fig, legend_y,
         [("dot", design["goal"], i18n.t("outcome_goal")),
-         ("dot", design["home"]["chart"], bundle.home),
-         ("dot", design["away"]["chart"], bundle.away)],
+         ("dot", design["home"]["chart"], _short_team(bundle.home)),
+         ("dot", design["away"]["chart"], _short_team(bundle.away))],
         alpha=tl.cue(0.48, 0.26), fontsize=theme.label_size(10),
     )
+    stats = audit.get("team_stats") or {}
+    keys = ["shots_on_target", "saves", "goals"]
+    top = legend_y - 0.048
+    floor = Layout.STAGE_BOTTOM + 0.034
+    step = (top - floor) / len(keys)
+    for index, key in enumerate(keys):
+        local = tl.stagger(index, len(keys), start=0.18, span=0.36, duration=0.28,
+                           ease=draw.ease_in_out)
+        if local <= 0.01:
+            continue
+        y = top - step * (index + 1) + step * 0.30
+        draw.comparison_bar(
+            fig, y, stat_label(key),
+            float((stats.get(bundle.home) or {}).get(key) or 0),
+            float((stats.get(bundle.away) or {}).get(key) or 0),
+            design["home"]["chart"], design["away"]["chart"], progress=local,
+        )
     draw.save_figure(fig, path)
 
 
@@ -645,7 +727,7 @@ def render_player_spike(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
         ha="center", va="center", alpha=tl.cue(0.22, 0.24), zorder=22,
     )
     fig.text(
-        0.5, 0.325, str(spike.get("action") or "").upper(),
+        0.5, 0.325, i18n.spike_action_label(str(spike.get("action") or "")).upper(),
         color=TEXT_DIM, fontsize=18, family=theme.MONO_FONT, fontweight="bold",
         ha="center", va="center", alpha=tl.cue(0.26, 0.24), zorder=22,
     )
@@ -708,50 +790,6 @@ def _smooth_series(x: np.ndarray, y: np.ndarray, cutoff: float) -> tuple[np.ndar
     return dense, smooth
 
 
-def _funnel_trap(
-    fig, y: float, height: float, inset: float, next_inset: float,
-    home_value: float, away_value: float, home_fill: str, away_fill: str,
-    label: str, progress: float, *, percent: bool, home_chart: str, away_chart: str,
-) -> None:
-    left = 0.16 + inset
-    right = 0.84 - inset
-    inner_left = 0.16 + next_inset
-    inner_right = 0.84 - next_inset
-    total = home_value + away_value
-    share = 0.5 if total <= 0 else home_value / max(total, 1e-6)
-    grown = draw.ease_in_out(draw.clamp01(progress))
-    mid_top = left + (right - left) * share
-    mid_bot = inner_left + (inner_right - inner_left) * share
-    home_poly = Polygon(
-        [(left, y + height), (mid_top, y + height), (mid_bot, y), (inner_left, y)],
-        closed=True, transform=fig.transFigure, facecolor=home_fill, edgecolor="none",
-        alpha=0.92 * grown, zorder=12,
-    )
-    away_poly = Polygon(
-        [(mid_top, y + height), (right, y + height), (inner_right, y), (mid_bot, y)],
-        closed=True, transform=fig.transFigure, facecolor=away_fill, edgecolor="none",
-        alpha=0.92 * grown, zorder=12,
-    )
-    fig.patches.append(home_poly)
-    fig.patches.append(away_poly)
-    ink = min(1.0, grown * 2.0)
-    if percent:
-        home_text = f"{draw.hold_count(home_value, grown):.0f}%"
-        away_text = f"{draw.hold_count(away_value, grown):.0f}%"
-    else:
-        home_text = draw.number_text(draw.hold_count(home_value, grown))
-        away_text = draw.number_text(draw.hold_count(away_value, grown))
-    fig.text(0.5, y + height + 0.014, str(label).upper(), color=TEXT_DIM,
-             fontsize=theme.label_size(11), family=theme.LABEL_FONT, fontweight="bold",
-             ha="center", va="center", alpha=ink, zorder=14)
-    fig.text(left - 0.012, y + height / 2, home_text, color=home_chart, fontsize=26,
-             fontweight="bold", family=theme.DISPLAY_FONT, ha="right", va="center",
-             alpha=ink, zorder=14, path_effects=draw.soft_shadow(ink))
-    fig.text(right + 0.012, y + height / 2, away_text, color=away_chart, fontsize=26,
-             fontweight="bold", family=theme.DISPLAY_FONT, ha="left", va="center",
-             alpha=ink, zorder=14, path_effects=draw.soft_shadow(ink))
-
-
 def render_shot_clock_spiral(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, Any],
                              path: Path, progress: float = 1.0) -> None:
     """Shots on a match clock. Angle is minute; radius is how close to goal."""
@@ -768,14 +806,7 @@ def render_shot_clock_spiral(bundle: MatchBundle, audit: dict[str, Any], scene: 
         draw.save_figure(fig, path)
         return
 
-    shown = int(round(tl.count_to(len(shots), start=0.08, duration=0.40)))
-    draw.hero_number(fig, 0.5, 0.18, shown, color=TEXT, fontsize=72.0,
-                     alpha=tl.cue(0.10, 0.28))
-    fig.text(0.5, 0.125, i18n.t("sub_spiral").upper(), color=TEXT_DIM, fontsize=13,
-             family=theme.MONO_FONT, fontweight="bold", ha="center", va="center",
-             alpha=tl.cue(0.28, 0.22), zorder=22)
-
-    rect = Layout.fitted_rect(1.0, top=content_top - 0.01, bottom=0.24, align="center")
+    rect = Layout.fitted_rect(1.0, top=content_top - 0.02, bottom=0.18, align="center")
     ax = fig.add_axes(rect, zorder=6)
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
@@ -904,7 +935,7 @@ def render_pass_lanes(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
                              alpha=tl.cue(0.06, 0.26))
     strongest = max(int(e.get("count") or 0) for e in edges)
     shown = int(round(tl.count_to(strongest, start=0.10, duration=0.36)))
-    fig.text(rect[0], rect[1] + rect[3] + 0.016, f"{shown} LANES  ·  {focus.upper()}",
+    fig.text(rect[0], rect[1] + rect[3] + 0.016, i18n.t("lanes_label", n=shown, team=focus.upper()),
              color=identity["chart"], fontsize=16, family=theme.DISPLAY_FONT, fontweight="bold",
              ha="left", va="center", alpha=tl.cue(0.12, 0.22), zorder=20)
 
@@ -1025,7 +1056,7 @@ def render_bench_impact(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
 
 def render_duel_tower(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, Any],
                       path: Path, progress: float = 1.0) -> None:
-    """Stacked cubes — tackles / aerials / take-ons. Not a bar chart."""
+    """Two columns of stacked slabs — tackles, aerials, take-ons."""
     design = theme.match_design(bundle.home, bundle.away)
     fig = draw.new_figure(design)
     tl = Timeline(progress)
@@ -1040,66 +1071,53 @@ def render_duel_tower(bundle: MatchBundle, audit: dict[str, Any], scene: dict[st
         return
 
     layers = (
-        ("tackles", "TACKLES"),
-        ("aerials", "AERIALS"),
-        ("take_ons", "TAKE-ONS"),
+        ("tackles", i18n.t("layer_tackles")),
+        ("aerials", i18n.t("layer_aerials")),
+        ("take_ons", i18n.t("layer_take_ons")),
     )
     peak = max(
         1,
         max(int(home.get(key) or 0) for key, _ in layers),
         max(int(away.get(key) or 0) for key, _ in layers),
     )
-    home_total = int(home.get("total") or 0)
-    away_total = int(away.get("total") or 0)
-    home_alpha = tl.cue(0.08, 0.28)
-    away_alpha = tl.cue(0.12, 0.28)
-    draw.hero_number(
-        fig, 0.28, content_top - 0.10,
-        int(round(tl.count_to(home_total, start=0.10, duration=0.40))),
-        color=design["home"]["chart"], alpha=home_alpha, fontsize=64.0,
-    )
-    draw.hero_number(
-        fig, 0.72, content_top - 0.10,
-        int(round(tl.count_to(away_total, start=0.14, duration=0.40))),
-        color=design["away"]["chart"], alpha=away_alpha, fontsize=64.0,
-    )
+    col_w = 0.30
+    gap = 0.006
+    min_h = 0.068
+    max_h = 0.168
+    stack_bottom = 0.168
 
-    base_y = 0.20
-    block_h = 0.12
-    for index, (key, label) in enumerate(layers):
-        local = tl.stagger(index, 3, start=0.16, span=0.40, duration=0.28, ease=draw.ease_out_back)
-        if local <= 0.02:
-            continue
-        alpha = draw.opacity(local)
-        y = base_y + index * (block_h + 0.028)
-        fig.text(0.5, y + block_h + 0.006, label, color=TEXT_DIM, fontsize=12,
-                 family=theme.MONO_FONT, fontweight="bold", ha="center", va="bottom",
-                 alpha=alpha, zorder=16)
-        for cx, payload, identity in (
-            (0.28, home, design["home"]),
-            (0.72, away, design["away"]),
-        ):
+    for cx, payload, identity, delay in (
+        (0.28, home, design["home"], 0.00),
+        (0.72, away, design["away"], 0.04),
+    ):
+        y = stack_bottom
+        for index, (key, label) in enumerate(layers):
+            local = tl.stagger(index, 3, start=0.14 + delay, span=0.40, duration=0.28,
+                               ease=draw.ease_out_back)
+            if local <= 0.02:
+                continue
             value = int(payload.get(key) or 0)
-            width = 0.10 + 0.16 * (value / peak) * local
-            # Trapezoid that narrows as it rises — a tower block, not a bar.
-            inset = 0.018
-            poly = Polygon(
-                [
-                    (cx - width / 2, y),
-                    (cx + width / 2, y),
-                    (cx + width / 2 - inset, y + block_h * local),
-                    (cx - width / 2 + inset, y + block_h * local),
-                ],
-                closed=True, transform=fig.transFigure, facecolor=identity["fill"],
-                edgecolor=identity["chart"], linewidth=1.4,
-                alpha=draw.opacity(0.92 * local), zorder=12,
+            height = (min_h + (max_h - min_h) * (value / peak)) * local
+            fill = identity["chart"] if value else "#161c18"
+            draw.fig_panel(
+                fig, cx - col_w / 2, y, col_w, height,
+                color=fill, alpha=0.94 * draw.opacity(local),
+                edge="none", radius=0.012, zorder=12,
             )
-            fig.patches.append(poly)
+            ink = theme.ink_on(fill) if value else TEXT_FAINT
             shown = int(round(draw.hold_count(value, local)))
-            fig.text(cx, y + block_h * local / 2, str(shown), color=TEXT,
-                     fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
-                     ha="center", va="center", alpha=alpha, zorder=14,
-                     path_effects=draw.soft_shadow(alpha))
+            fig.text(
+                cx, y + height * 0.58, str(shown),
+                color=ink, fontsize=32, fontweight="bold", family=theme.DISPLAY_FONT,
+                ha="center", va="center", alpha=draw.opacity(local), zorder=14,
+            )
+            fig.text(
+                cx, y + height * 0.26, str(label).upper(),
+                color=ink, fontsize=theme.label_size(10), family=theme.LABEL_FONT,
+                fontweight="bold", ha="center", va="center",
+                alpha=0.78 * draw.opacity(local), zorder=14,
+            )
+            y += height + gap
     draw.save_figure(fig, path)
 
 
@@ -1272,7 +1290,7 @@ def render_halftime_split(bundle: MatchBundle, audit: dict[str, Any], scene: dic
                  fontweight="bold", ha="center", va="center", alpha=tl.cue(start + 0.08, 0.22), zorder=16)
         fig.text(
             x, 0.28,
-            f"{int(payload.get('home_shots') or 0)}–{int(payload.get('away_shots') or 0)}  SHOTS",
+            f"{int(payload.get('home_shots') or 0)}–{int(payload.get('away_shots') or 0)}  {stat_label('shots').upper()}",
             color=TEXT_FAINT, fontsize=13, family=theme.MONO_FONT, fontweight="bold",
             ha="center", va="center", alpha=tl.cue(start + 0.12, 0.22), zorder=16,
         )

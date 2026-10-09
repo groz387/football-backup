@@ -330,3 +330,64 @@ def probe_duration(path: Path) -> float | None:
         return float(result.stdout.strip())
     except ValueError:
         return None
+
+
+def render_language_job(job: dict[str, Any]) -> dict[str, Any]:
+    """Spawn-safe render for one language package. Narration is already on disk."""
+    from . import i18n, theme
+    from .data import load_match
+
+    language = job["language"]
+    i18n.set_language(language)
+    theme.set_team_kind(job["team"])
+    if job.get("home_color") and job.get("away_color"):
+        theme.set_team_colors(job["home_color"], job["away_color"])
+    bundle = load_match(Path(job["match_dir"]))
+    audit = job["audit"]
+    scene_list = job["scene_list"]
+    out_dir = Path(job["out_dir"])
+    fps = int(job["fps"])
+
+    def report(done: int, total: int, elapsed: float) -> None:
+        percent = int(done / max(1, total) * 100)
+        rate = done / elapsed if elapsed > 0 else 0
+        remaining = (total - done) / rate if rate > 0 else 0
+        end = "\n" if done >= total else "\r"
+        print(
+            f"  [{language}] frames {done}/{total} ({percent:3d}%)  "
+            f"{rate:4.1f} fps  eta {remaining:5.0f}s",
+            end=end, flush=True,
+        )
+
+    if job.get("still"):
+        written = render_stills(
+            bundle, audit, scene_list, out_dir / "stills",
+            positions=tuple(job.get("still_positions") or [1.0]),
+        )
+        return {
+            "language": language,
+            "out_dir": str(out_dir),
+            "path": str(written[0]) if written else "",
+            "error": "",
+        }
+    if job.get("skip_video"):
+        return {"language": language, "out_dir": str(out_dir), "path": "", "error": ""}
+    rendered = render_frames(
+        bundle, audit, scene_list, out_dir / "assets",
+        fps=fps, on_progress=report,
+    )
+    path = assemble(
+        out_dir, rendered, Path(job["audio_path"]) if job.get("audio_path") else None,
+        fps=fps,
+        crossfade=not job.get("no_crossfade"),
+        sfx=bool(job.get("sfx", True)),
+        burn_captions=bool(job.get("burn_captions", False)),
+        music_file=job.get("music_file") or None,
+        srt_path=out_dir / "subtitles.srt",
+    )
+    return {
+        "language": language,
+        "out_dir": str(out_dir),
+        "path": str(path) if path else "",
+        "error": "" if path else "no mp4",
+    }

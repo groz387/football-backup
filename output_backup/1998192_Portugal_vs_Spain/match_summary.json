@@ -1,0 +1,458 @@
+{
+  "matchId": 1998192,
+  "startDate": "2026-07-06T00:00:00",
+  "startTime": "2026-07-06T20:00:00",
+  "score": "0 : 1",
+  "ftScore": "0 : 1",
+  "htScore": "0 : 0",
+  "etScore": "",
+  "venueName": "Dallas Stadium",
+  "attendance": 70649,
+  "referee": {
+    "officialId": 99,
+    "firstName": "Anthony",
+    "lastName": "Taylor",
+    "hasParticipatedMatches": false,
+    "name": "Anthony Taylor"
+  },
+  "maxMinute": 98,
+  "home": {
+    "teamId": 340,
+    "name": "Portugal",
+    "countryName": "Portugal",
+    "averageAge": 27.8,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 62
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 62,
+        "endMinuteExpanded": 77
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 77,
+        "endMinuteExpanded": 77
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 77,
+        "endMinuteExpanded": 89
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 89,
+        "endMinuteExpanded": 89
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 89,
+        "endMinuteExpanded": 98
+      }
+    ],
+    "players": [
+      {
+        "playerId": 373842,
+        "name": "Diogo Costa",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 128967,
+        "name": "João Cancelo",
+        "shirtNo": 20,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 313171,
+        "name": "Rúben Dias",
+        "shirtNo": 3,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 434077,
+        "name": "Renato Veiga",
+        "shirtNo": 13,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 395221,
+        "name": "Nuno Mendes",
+        "shirtNo": 25,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 384887,
+        "name": "Vitinha",
+        "shirtNo": 23,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 465388,
+        "name": "João Neves",
+        "shirtNo": 15,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 337916,
+        "name": "Pedro Neto",
+        "shirtNo": 18,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 123761,
+        "name": "Bruno Fernandes",
+        "shirtNo": 8,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 362431,
+        "name": "João Félix",
+        "shirtNo": 11,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 5583,
+        "name": "Cristiano Ronaldo",
+        "shirtNo": 7,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 136741,
+        "name": "Bernardo Silva",
+        "shirtNo": 10,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 296363,
+        "name": "Nélson Semedo",
+        "shirtNo": 2,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 349207,
+        "name": "Rafael Leão",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 353418,
+        "name": "Diogo Dalot",
+        "shirtNo": 5,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 409221,
+        "name": "Francisco Conceição",
+        "shirtNo": 26,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 122714,
+        "name": "José Sá",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 141833,
+        "name": "Rui Silva",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 238244,
+        "name": "Rúben Neves",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 247995,
+        "name": "Gonçalo Guedes",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 368409,
+        "name": "Trincão",
+        "shirtNo": 16,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 394933,
+        "name": "Matheus Nunes",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 395802,
+        "name": "Gonçalo Ramos",
+        "shirtNo": 9,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 395992,
+        "name": "Gonçalo Inácio",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 391562,
+        "name": "Samú Costa",
+        "shirtNo": 24,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 426502,
+        "name": "Tomás Araújo",
+        "shirtNo": 4,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 338,
+    "name": "Spain",
+    "countryName": "Spain",
+    "averageAge": 26.5,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 81
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 81,
+        "endMinuteExpanded": 91
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 91,
+        "endMinuteExpanded": 91
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 91,
+        "endMinuteExpanded": 98
+      }
+    ],
+    "players": [
+      {
+        "playerId": 332823,
+        "name": "Unai Simón",
+        "shirtNo": 23,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 362352,
+        "name": "Pedro Porro",
+        "shirtNo": 12,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 122117,
+        "name": "Aymeric Laporte",
+        "shirtNo": 14,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 498386,
+        "name": "Pau Cubarsí",
+        "shirtNo": 22,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 363496,
+        "name": "Marc Cucurella",
+        "shirtNo": 24,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 303139,
+        "name": "Rodri",
+        "shirtNo": 16,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 402197,
+        "name": "Pedri",
+        "shirtNo": 20,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 480249,
+        "name": "Lamine Yamal",
+        "shirtNo": 19,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 261212,
+        "name": "Dani Olmo",
+        "shirtNo": 10,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 395242,
+        "name": "Álex Baena",
+        "shirtNo": 15,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 298839,
+        "name": "Mikel Oyarzabal",
+        "shirtNo": 21,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 238916,
+        "name": "Mikel Merino",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 259042,
+        "name": "Borja Iglesias",
+        "shirtNo": 26,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 294193,
+        "name": "Fabián Ruiz",
+        "shirtNo": 8,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 349760,
+        "name": "Ferran Torres",
+        "shirtNo": 7,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 107252,
+        "name": "Alejandro Grimaldo",
+        "shirtNo": 3,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 254582,
+        "name": "Marcos Llorente",
+        "shirtNo": 5,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 276366,
+        "name": "David Raya",
+        "shirtNo": 1,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 368091,
+        "name": "Eric García",
+        "shirtNo": 4,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 372424,
+        "name": "Martín Zubimendi",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 403865,
+        "name": "Yéremy Pino",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 408449,
+        "name": "Nico Williams",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 422824,
+        "name": "Joan García",
+        "shirtNo": 13,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 422937,
+        "name": "Gavi",
+        "shirtNo": 9,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 430148,
+        "name": "Marc Pubill",
+        "shirtNo": 2,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 548106,
+        "name": "Víctor Muñoz",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "International",
+  "league": "FIFA World Cup",
+  "season": "2026",
+  "competitionType": "Knock Out",
+  "competitionStage": "World Cup Final Stage"
+}

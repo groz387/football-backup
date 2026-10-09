@@ -1,0 +1,1301 @@
+{
+  "match": {
+    "match_dir": "output\\1995348_USA_vs_Belgium",
+    "home": "USA",
+    "away": "Belgium",
+    "score": {
+      "home": 1,
+      "away": 4,
+      "display": "1-4",
+      "after_extra_time": false,
+      "after_shootout": false,
+      "ninety_minute": null
+    },
+    "score_display": "1-4",
+    "score_qualifier": "",
+    "kickoff": "2026-07-07",
+    "league": "FIFA World Cup",
+    "stage": "World Cup Final Stage",
+    "venue": "Seattle Stadium",
+    "last_minute": 94
+  },
+  "data_health": {
+    "event_rows": 1591,
+    "pass_rows": 1018,
+    "shot_rows": 22,
+    "touch_rows": 1331,
+    "goal_mouth_rows": 22,
+    "has_coordinates": true,
+    "has_pass_end_coordinates": true,
+    "has_goal_mouth_coordinates": true,
+    "has_vendor_xg": false,
+    "has_vendor_xgot": false,
+    "blocked_claims": [
+      "xG",
+      "xGOT"
+    ]
+  },
+  "team_stats": {
+    "USA": {
+      "h_a": "h",
+      "goals": 1,
+      "shots": 7,
+      "shots_on_target": 2,
+      "shots_blocked": 0,
+      "shots_off_target": 5,
+      "woodwork": 0,
+      "big_chances": 0,
+      "big_chances_created": 0,
+      "pass_attempts": 570,
+      "passes_completed": 490,
+      "pass_accuracy_pct": 86.0,
+      "pass_share_pct": 56.0,
+      "key_passes": 5,
+      "touches": 734,
+      "touch_share_pct": 55.1,
+      "final_third_passes": 79,
+      "box_entry_passes": 11,
+      "penalty_box_touches": 12,
+      "corners": 3,
+      "corners_taken": 3,
+      "fouls": 11,
+      "offsides": 0,
+      "saves": 3,
+      "blocks": 4,
+      "tackles_won": 9,
+      "interceptions": 9,
+      "yellow_cards": 2,
+      "red_cards": 0
+    },
+    "Belgium": {
+      "h_a": "a",
+      "goals": 4,
+      "shots": 15,
+      "shots_on_target": 7,
+      "shots_blocked": 4,
+      "shots_off_target": 4,
+      "woodwork": 0,
+      "big_chances": 4,
+      "big_chances_created": 4,
+      "pass_attempts": 448,
+      "passes_completed": 348,
+      "pass_accuracy_pct": 77.7,
+      "pass_share_pct": 44.0,
+      "key_passes": 13,
+      "touches": 597,
+      "touch_share_pct": 44.9,
+      "final_third_passes": 56,
+      "box_entry_passes": 12,
+      "penalty_box_touches": 22,
+      "corners": 5,
+      "corners_taken": 5,
+      "fouls": 9,
+      "offsides": 1,
+      "saves": 1,
+      "blocks": 0,
+      "tackles_won": 10,
+      "interceptions": 9,
+      "yellow_cards": 0,
+      "red_cards": 0
+    }
+  },
+  "clock_axis": {
+    "end": 101.0,
+    "ticks": [
+      {
+        "at": 0.0,
+        "label": "0'"
+      },
+      {
+        "at": 15.0,
+        "label": "15'"
+      },
+      {
+        "at": 30.0,
+        "label": "30'"
+      },
+      {
+        "at": 45.0,
+        "label": "45'"
+      },
+      {
+        "at": 67.0,
+        "label": "60'"
+      },
+      {
+        "at": 82.0,
+        "label": "75'"
+      },
+      {
+        "at": 97.0,
+        "label": "90'"
+      }
+    ],
+    "boundaries": [
+      {
+        "at": 52.0,
+        "label": "HT"
+      }
+    ]
+  },
+  "momentum": [
+    {
+      "start": 0.0,
+      "end": 5.0,
+      "minute_block": "0-4",
+      "period": "FirstHalf",
+      "home_pressure": 5.0,
+      "away_pressure": 18.7,
+      "swing": -13.7
+    },
+    {
+      "start": 5.0,
+      "end": 10.0,
+      "minute_block": "5-9",
+      "period": "FirstHalf",
+      "home_pressure": 1.0,
+      "away_pressure": 27.1,
+      "swing": -26.1
+    },
+    {
+      "start": 10.0,
+      "end": 15.0,
+      "minute_block": "10-14",
+      "period": "FirstHalf",
+      "home_pressure": 0.8,
+      "away_pressure": 15.2,
+      "swing": -14.4
+    },
+    {
+      "start": 15.0,
+      "end": 20.0,
+      "minute_block": "15-19",
+      "period": "FirstHalf",
+      "home_pressure": 0.0,
+      "away_pressure": 1.8,
+      "swing": -1.8
+    },
+    {
+      "start": 20.0,
+      "end": 25.0,
+      "minute_block": "20-23",
+      "period": "FirstHalf",
+      "home_pressure": 6.0,
+      "away_pressure": 0.0,
+      "swing": 6.0
+    },
+    {
+      "start": 25.0,
+      "end": 30.0,
+      "minute_block": "26-29",
+      "period": "FirstHalf",
+      "home_pressure": 7.0,
+      "away_pressure": 0.0,
+      "swing": 7.0
+    },
+    {
+      "start": 30.0,
+      "end": 35.0,
+      "minute_block": "30-34",
+      "period": "FirstHalf",
+      "home_pressure": 14.3,
+      "away_pressure": 16.7,
+      "swing": -2.4
+    },
+    {
+      "start": 35.0,
+      "end": 40.0,
+      "minute_block": "35-39",
+      "period": "FirstHalf",
+      "home_pressure": 2.2,
+      "away_pressure": 14.8,
+      "swing": -12.6
+    },
+    {
+      "start": 40.0,
+      "end": 45.0,
+      "minute_block": "40-44",
+      "period": "FirstHalf",
+      "home_pressure": 21.2,
+      "away_pressure": 6.2,
+      "swing": 15.0
+    },
+    {
+      "start": 45.0,
+      "end": 50.0,
+      "minute_block": "45-49",
+      "period": "FirstHalf",
+      "home_pressure": 0.0,
+      "away_pressure": 14.7,
+      "swing": -14.7
+    },
+    {
+      "start": 50.0,
+      "end": 55.0,
+      "minute_block": "45-51",
+      "period": "SecondHalf",
+      "home_pressure": 4.5,
+      "away_pressure": 2.0,
+      "swing": 2.5
+    },
+    {
+      "start": 55.0,
+      "end": 60.0,
+      "minute_block": "48-52",
+      "period": "SecondHalf",
+      "home_pressure": 10.8,
+      "away_pressure": 2.5,
+      "swing": 8.3
+    },
+    {
+      "start": 60.0,
+      "end": 65.0,
+      "minute_block": "53-56",
+      "period": "SecondHalf",
+      "home_pressure": 4.0,
+      "away_pressure": 13.3,
+      "swing": -9.3
+    },
+    {
+      "start": 65.0,
+      "end": 70.0,
+      "minute_block": "58-62",
+      "period": "SecondHalf",
+      "home_pressure": 7.8,
+      "away_pressure": 4.5,
+      "swing": 3.3
+    },
+    {
+      "start": 70.0,
+      "end": 75.0,
+      "minute_block": "63-67",
+      "period": "SecondHalf",
+      "home_pressure": 16.7,
+      "away_pressure": 4.0,
+      "swing": 12.7
+    },
+    {
+      "start": 75.0,
+      "end": 80.0,
+      "minute_block": "68-72",
+      "period": "SecondHalf",
+      "home_pressure": 0.8,
+      "away_pressure": 0.0,
+      "swing": 0.8
+    },
+    {
+      "start": 80.0,
+      "end": 85.0,
+      "minute_block": "73-77",
+      "period": "SecondHalf",
+      "home_pressure": 3.8,
+      "away_pressure": 1.8,
+      "swing": 2.0
+    },
+    {
+      "start": 85.0,
+      "end": 90.0,
+      "minute_block": "78-82",
+      "period": "SecondHalf",
+      "home_pressure": 23.2,
+      "away_pressure": 0.8,
+      "swing": 22.4
+    },
+    {
+      "start": 90.0,
+      "end": 95.0,
+      "minute_block": "83-87",
+      "period": "SecondHalf",
+      "home_pressure": 11.6,
+      "away_pressure": 18.4,
+      "swing": -6.8
+    },
+    {
+      "start": 95.0,
+      "end": 100.0,
+      "minute_block": "88-92",
+      "period": "SecondHalf",
+      "home_pressure": 2.8,
+      "away_pressure": 14.3,
+      "swing": -11.5
+    },
+    {
+      "start": 100.0,
+      "end": 101.0,
+      "minute_block": "93-94",
+      "period": "SecondHalf",
+      "home_pressure": 1.0,
+      "away_pressure": 0.0,
+      "swing": 1.0
+    }
+  ],
+  "phase_pressure": [
+    {
+      "period": "FirstHalf",
+      "label": "First half",
+      "home_pressure": 60.2,
+      "away_pressure": 115.2,
+      "home_share_pct": 34.3
+    },
+    {
+      "period": "SecondHalf",
+      "label": "Second half",
+      "home_pressure": 84.3,
+      "away_pressure": 61.6,
+      "home_share_pct": 57.8
+    }
+  ],
+  "field_tilt": [
+    {
+      "start": 0.0,
+      "end": 10.0,
+      "minute_block": "0-9",
+      "home_final_third_passes": 6,
+      "away_final_third_passes": 11,
+      "home_tilt_pct": 35.3,
+      "away_tilt_pct": 64.7
+    },
+    {
+      "start": 10.0,
+      "end": 20.0,
+      "minute_block": "10-19",
+      "home_final_third_passes": 1,
+      "away_final_third_passes": 13,
+      "home_tilt_pct": 7.1,
+      "away_tilt_pct": 92.9
+    },
+    {
+      "start": 20.0,
+      "end": 30.0,
+      "minute_block": "20-29",
+      "home_final_third_passes": 14,
+      "away_final_third_passes": 2,
+      "home_tilt_pct": 87.5,
+      "away_tilt_pct": 12.5
+    },
+    {
+      "start": 30.0,
+      "end": 40.0,
+      "minute_block": "30-39",
+      "home_final_third_passes": 2,
+      "away_final_third_passes": 11,
+      "home_tilt_pct": 15.4,
+      "away_tilt_pct": 84.6
+    },
+    {
+      "start": 40.0,
+      "end": 50.0,
+      "minute_block": "40-49",
+      "home_final_third_passes": 18,
+      "away_final_third_passes": 12,
+      "home_tilt_pct": 60.0,
+      "away_tilt_pct": 40.0
+    },
+    {
+      "start": 50.0,
+      "end": 60.0,
+      "minute_block": "45-52",
+      "home_final_third_passes": 13,
+      "away_final_third_passes": 7,
+      "home_tilt_pct": 65.0,
+      "away_tilt_pct": 35.0
+    },
+    {
+      "start": 60.0,
+      "end": 70.0,
+      "minute_block": "53-62",
+      "home_final_third_passes": 13,
+      "away_final_third_passes": 2,
+      "home_tilt_pct": 86.7,
+      "away_tilt_pct": 13.3
+    },
+    {
+      "start": 70.0,
+      "end": 80.0,
+      "minute_block": "63-72",
+      "home_final_third_passes": 14,
+      "away_final_third_passes": 3,
+      "home_tilt_pct": 82.4,
+      "away_tilt_pct": 17.6
+    },
+    {
+      "start": 80.0,
+      "end": 90.0,
+      "minute_block": "73-82",
+      "home_final_third_passes": 13,
+      "away_final_third_passes": 2,
+      "home_tilt_pct": 86.7,
+      "away_tilt_pct": 13.3
+    },
+    {
+      "start": 90.0,
+      "end": 100.0,
+      "minute_block": "83-92",
+      "home_final_third_passes": 17,
+      "away_final_third_passes": 17,
+      "home_tilt_pct": 50.0,
+      "away_tilt_pct": 50.0
+    },
+    {
+      "start": 100.0,
+      "end": 101.0,
+      "minute_block": "93-94",
+      "home_final_third_passes": 1,
+      "away_final_third_passes": 0,
+      "home_tilt_pct": 100.0,
+      "away_tilt_pct": 0.0
+    }
+  ],
+  "zone_control": [
+    {
+      "xbin": 0,
+      "ybin": 0,
+      "home_touches": 20,
+      "away_touches": 21,
+      "total_touches": 41,
+      "home_share_pct": 48.8
+    },
+    {
+      "xbin": 0,
+      "ybin": 1,
+      "home_touches": 48,
+      "away_touches": 44,
+      "total_touches": 92,
+      "home_share_pct": 52.2
+    },
+    {
+      "xbin": 0,
+      "ybin": 2,
+      "home_touches": 11,
+      "away_touches": 17,
+      "total_touches": 28,
+      "home_share_pct": 39.3
+    },
+    {
+      "xbin": 1,
+      "ybin": 0,
+      "home_touches": 30,
+      "away_touches": 56,
+      "total_touches": 86,
+      "home_share_pct": 34.9
+    },
+    {
+      "xbin": 1,
+      "ybin": 1,
+      "home_touches": 28,
+      "away_touches": 39,
+      "total_touches": 67,
+      "home_share_pct": 41.8
+    },
+    {
+      "xbin": 1,
+      "ybin": 2,
+      "home_touches": 25,
+      "away_touches": 46,
+      "total_touches": 71,
+      "home_share_pct": 35.2
+    },
+    {
+      "xbin": 2,
+      "ybin": 0,
+      "home_touches": 52,
+      "away_touches": 52,
+      "total_touches": 104,
+      "home_share_pct": 50.0
+    },
+    {
+      "xbin": 2,
+      "ybin": 1,
+      "home_touches": 61,
+      "away_touches": 38,
+      "total_touches": 99,
+      "home_share_pct": 61.6
+    },
+    {
+      "xbin": 2,
+      "ybin": 2,
+      "home_touches": 81,
+      "away_touches": 45,
+      "total_touches": 126,
+      "home_share_pct": 64.3
+    },
+    {
+      "xbin": 3,
+      "ybin": 0,
+      "home_touches": 65,
+      "away_touches": 50,
+      "total_touches": 115,
+      "home_share_pct": 56.5
+    },
+    {
+      "xbin": 3,
+      "ybin": 1,
+      "home_touches": 60,
+      "away_touches": 19,
+      "total_touches": 79,
+      "home_share_pct": 75.9
+    },
+    {
+      "xbin": 3,
+      "ybin": 2,
+      "home_touches": 97,
+      "away_touches": 44,
+      "total_touches": 141,
+      "home_share_pct": 68.8
+    },
+    {
+      "xbin": 4,
+      "ybin": 0,
+      "home_touches": 36,
+      "away_touches": 34,
+      "total_touches": 70,
+      "home_share_pct": 51.4
+    },
+    {
+      "xbin": 4,
+      "ybin": 1,
+      "home_touches": 21,
+      "away_touches": 18,
+      "total_touches": 39,
+      "home_share_pct": 53.8
+    },
+    {
+      "xbin": 4,
+      "ybin": 2,
+      "home_touches": 59,
+      "away_touches": 21,
+      "total_touches": 80,
+      "home_share_pct": 73.8
+    },
+    {
+      "xbin": 5,
+      "ybin": 0,
+      "home_touches": 19,
+      "away_touches": 17,
+      "total_touches": 36,
+      "home_share_pct": 52.8
+    },
+    {
+      "xbin": 5,
+      "ybin": 1,
+      "home_touches": 4,
+      "away_touches": 12,
+      "total_touches": 16,
+      "home_share_pct": 25.0
+    },
+    {
+      "xbin": 5,
+      "ybin": 2,
+      "home_touches": 17,
+      "away_touches": 24,
+      "total_touches": 41,
+      "home_share_pct": 41.5
+    }
+  ],
+  "shots": [
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Leandro Trossard",
+      "minute": 0,
+      "x": 79.9,
+      "y": 59.1,
+      "outcome": "blocked",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 52.4,
+      "goal_mouth_z": 19.0
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Youri Tielemans",
+      "minute": 0,
+      "x": 80.9,
+      "y": 50.5,
+      "outcome": "blocked",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 50.7,
+      "goal_mouth_z": 19.0
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Timothy Castagne",
+      "minute": 0,
+      "x": 74.3,
+      "y": 45.2,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 53.5,
+      "goal_mouth_z": 29.8
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Charles De Ketelaere",
+      "minute": 1,
+      "x": 89.3,
+      "y": 45.4,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "FromCorner",
+      "goal_mouth_y": 48.7,
+      "goal_mouth_z": 5.7
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Youri Tielemans",
+      "minute": 7,
+      "x": 91.9,
+      "y": 44.7,
+      "outcome": "off_target",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 87.4,
+      "goal_mouth_z": 8.3
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Charles De Ketelaere",
+      "minute": 8,
+      "x": 96.7,
+      "y": 50.1,
+      "outcome": "goal",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 49.0,
+      "goal_mouth_z": 12.7
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Leandro Trossard",
+      "minute": 13,
+      "x": 72.5,
+      "y": 42.1,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 46.4,
+      "goal_mouth_z": 65.3
+    },
+    {
+      "h_a": "h",
+      "team": "USA",
+      "player": "Malik Tillman",
+      "minute": 30,
+      "x": 75.3,
+      "y": 51.9,
+      "outcome": "goal",
+      "big_chance": false,
+      "situation": "DirectFreekick",
+      "goal_mouth_y": 49.4,
+      "goal_mouth_z": 21.5
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Charles De Ketelaere",
+      "minute": 32,
+      "x": 96.9,
+      "y": 48.1,
+      "outcome": "goal",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 46.3,
+      "goal_mouth_z": 26.6
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Nicolas Raskin",
+      "minute": 38,
+      "x": 95.0,
+      "y": 38.0,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "FromCorner",
+      "goal_mouth_y": 49.8,
+      "goal_mouth_z": 3.8
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Dodi Lukébakio",
+      "minute": 42,
+      "x": 91.1,
+      "y": 51.5,
+      "outcome": "off_target",
+      "big_chance": true,
+      "situation": "SetPiece",
+      "goal_mouth_y": 59.3,
+      "goal_mouth_z": 6.9
+    },
+    {
+      "h_a": "h",
+      "team": "USA",
+      "player": "Alex Freeman",
+      "minute": 44,
+      "x": 90.9,
+      "y": 44.6,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 59.8,
+      "goal_mouth_z": 4.2
+    },
+    {
+      "h_a": "h",
+      "team": "USA",
+      "player": "Folarin Balogun",
+      "minute": 44,
+      "x": 94.3,
+      "y": 50.9,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 46.0,
+      "goal_mouth_z": 84.7
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Dodi Lukébakio",
+      "minute": 48,
+      "x": 86.8,
+      "y": 68.3,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "FromCorner",
+      "goal_mouth_y": 36.6,
+      "goal_mouth_z": 4.2
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Hans Vanaken",
+      "minute": 56,
+      "x": 70.4,
+      "y": 57.3,
+      "outcome": "goal",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 46.1,
+      "goal_mouth_z": 8.2
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Leandro Trossard",
+      "minute": 61,
+      "x": 86.8,
+      "y": 68.8,
+      "outcome": "blocked",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 52.8,
+      "goal_mouth_z": 19.0
+    },
+    {
+      "h_a": "h",
+      "team": "USA",
+      "player": "Alex Freeman",
+      "minute": 65,
+      "x": 88.7,
+      "y": 56.6,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "FromCorner",
+      "goal_mouth_y": 42.5,
+      "goal_mouth_z": 69.4
+    },
+    {
+      "h_a": "h",
+      "team": "USA",
+      "player": "Sebastian Berhalter",
+      "minute": 78,
+      "x": 80.2,
+      "y": 50.7,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 58.3,
+      "goal_mouth_z": 22.2
+    },
+    {
+      "h_a": "h",
+      "team": "USA",
+      "player": "Folarin Balogun",
+      "minute": 81,
+      "x": 92.0,
+      "y": 67.9,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 52.4,
+      "goal_mouth_z": 19.6
+    },
+    {
+      "h_a": "h",
+      "team": "USA",
+      "player": "Folarin Balogun",
+      "minute": 82,
+      "x": 92.3,
+      "y": 47.7,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "FromCorner",
+      "goal_mouth_y": 63.7,
+      "goal_mouth_z": 15.3
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Leandro Trossard",
+      "minute": 85,
+      "x": 87.5,
+      "y": 36.0,
+      "outcome": "blocked",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 51.4,
+      "goal_mouth_z": 19.0
+    },
+    {
+      "h_a": "a",
+      "team": "Belgium",
+      "player": "Romelu Lukaku",
+      "minute": 92,
+      "x": 90.8,
+      "y": 66.7,
+      "outcome": "goal",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 46.4,
+      "goal_mouth_z": 7.6
+    }
+  ],
+  "goal_chains": [
+    {
+      "team": "Belgium",
+      "h_a": "a",
+      "minute": 8,
+      "second": 36,
+      "clock": 8.0,
+      "scorer": "Charles De Ketelaere",
+      "own_goal": false,
+      "penalty": false,
+      "situation": "OpenPlay",
+      "passes": 1,
+      "events": [
+        {
+          "eventId": "95",
+          "type": "Pass",
+          "player": "Nicolas Raskin",
+          "minute": 8,
+          "second": 34,
+          "x": 92.6,
+          "y": 68.7,
+          "endX": 96.7,
+          "endY": 50.1
+        },
+        {
+          "eventId": "96",
+          "type": "Goal",
+          "player": "Charles De Ketelaere",
+          "minute": 8,
+          "second": 36,
+          "x": 96.7,
+          "y": 50.1,
+          "endX": null,
+          "endY": null
+        }
+      ],
+      "pass_distance_m": 13.4,
+      "duration_seconds": 2.0,
+      "assist_event_id": "95",
+      "assist_player": "Nicolas Raskin"
+    },
+    {
+      "team": "USA",
+      "h_a": "h",
+      "minute": 30,
+      "second": 31,
+      "clock": 30.0,
+      "scorer": "Malik Tillman",
+      "own_goal": false,
+      "penalty": false,
+      "situation": "DirectFreekick",
+      "passes": 0,
+      "events": [
+        {
+          "eventId": "240",
+          "type": "Goal",
+          "player": "Malik Tillman",
+          "minute": 30,
+          "second": 31,
+          "x": 75.3,
+          "y": 51.9,
+          "endX": null,
+          "endY": null
+        }
+      ],
+      "pass_distance_m": 0,
+      "duration_seconds": 0.0,
+      "assist_event_id": "",
+      "assist_player": ""
+    },
+    {
+      "team": "Belgium",
+      "h_a": "a",
+      "minute": 32,
+      "second": 27,
+      "clock": 32.0,
+      "scorer": "Charles De Ketelaere",
+      "own_goal": false,
+      "penalty": false,
+      "situation": "OpenPlay",
+      "passes": 15,
+      "events": [
+        {
+          "eventId": "263",
+          "type": "Pass",
+          "player": "Nathan Ngoy",
+          "minute": 31,
+          "second": 45,
+          "x": 36.6,
+          "y": 35.1,
+          "endX": 12.4,
+          "endY": 42.4
+        },
+        {
+          "eventId": "264",
+          "type": "Pass",
+          "player": "Thibaut Courtois",
+          "minute": 31,
+          "second": 49,
+          "x": 14.1,
+          "y": 50.0,
+          "endX": 19.8,
+          "endY": 69.6
+        },
+        {
+          "eventId": "265",
+          "type": "Pass",
+          "player": "Brandon Mechele",
+          "minute": 31,
+          "second": 52,
+          "x": 24.2,
+          "y": 70.9,
+          "endX": 36.3,
+          "endY": 72.4
+        },
+        {
+          "eventId": "266",
+          "type": "Pass",
+          "player": "Leandro Trossard",
+          "minute": 31,
+          "second": 53,
+          "x": 36.3,
+          "y": 72.4,
+          "endX": 27.7,
+          "endY": 74.8
+        },
+        {
+          "eventId": "267",
+          "type": "Pass",
+          "player": "Brandon Mechele",
+          "minute": 31,
+          "second": 54,
+          "x": 27.7,
+          "y": 74.8,
+          "endX": 31.7,
+          "endY": 86.0
+        },
+        {
+          "eventId": "268",
+          "type": "Pass",
+          "player": "Maxim De Cuyper",
+          "minute": 31,
+          "second": 56,
+          "x": 31.6,
+          "y": 86.5,
+          "endX": 26.3,
+          "endY": 77.8
+        },
+        {
+          "eventId": "269",
+          "type": "Pass",
+          "player": "Brandon Mechele",
+          "minute": 31,
+          "second": 59,
+          "x": 25.6,
+          "y": 71.1,
+          "endX": 25.4,
+          "endY": 29.2
+        },
+        {
+          "eventId": "270",
+          "type": "Pass",
+          "player": "Nathan Ngoy",
+          "minute": 32,
+          "second": 1,
+          "x": 24.2,
+          "y": 27.1,
+          "endX": 11.9,
+          "endY": 46.6
+        },
+        {
+          "eventId": "271",
+          "type": "Pass",
+          "player": "Thibaut Courtois",
+          "minute": 32,
+          "second": 4,
+          "x": 11.4,
+          "y": 55.0,
+          "endX": 48.7,
+          "endY": 49.5
+        },
+        {
+          "eventId": "272",
+          "type": "Pass",
+          "player": "Hans Vanaken",
+          "minute": 32,
+          "second": 9,
+          "x": 48.6,
+          "y": 49.5,
+          "endX": 55.8,
+          "endY": 30.7
+        },
+        {
+          "eventId": "273",
+          "type": "Pass",
+          "player": "Charles De Ketelaere",
+          "minute": 32,
+          "second": 10,
+          "x": 55.8,
+          "y": 21.6,
+          "endX": 62.8,
+          "endY": 5.0
+        },
+        {
+          "eventId": "274",
+          "type": "Pass",
+          "player": "Dodi Lukébakio",
+          "minute": 32,
+          "second": 13,
+          "x": 63.4,
+          "y": 4.9,
+          "endX": 63.6,
+          "endY": 10.0
+        },
+        {
+          "eventId": "275",
+          "type": "Pass",
+          "player": "Charles De Ketelaere",
+          "minute": 32,
+          "second": 16,
+          "x": 70.4,
+          "y": 26.7,
+          "endX": 67.8,
+          "endY": 30.4
+        },
+        {
+          "eventId": "276",
+          "type": "Pass",
+          "player": "Youri Tielemans",
+          "minute": 32,
+          "second": 19,
+          "x": 68.0,
+          "y": 36.6,
+          "endX": 75.2,
+          "endY": 83.5
+        },
+        {
+          "eventId": "277",
+          "type": "Pass",
+          "player": "Leandro Trossard",
+          "minute": 32,
+          "second": 25,
+          "x": 98.6,
+          "y": 79.3,
+          "endX": 96.9,
+          "endY": 48.1
+        },
+        {
+          "eventId": "279",
+          "type": "Goal",
+          "player": "Charles De Ketelaere",
+          "minute": 32,
+          "second": 27,
+          "x": 96.9,
+          "y": 48.1,
+          "endX": null,
+          "endY": null
+        }
+      ],
+      "pass_distance_m": 255.2,
+      "duration_seconds": 42.0,
+      "assist_event_id": "277",
+      "assist_player": "Leandro Trossard"
+    },
+    {
+      "team": "Belgium",
+      "h_a": "a",
+      "minute": 56,
+      "second": 35,
+      "clock": 63.0,
+      "scorer": "Hans Vanaken",
+      "own_goal": false,
+      "penalty": false,
+      "situation": "OpenPlay",
+      "passes": 0,
+      "events": [
+        {
+          "eventId": "533",
+          "type": "Goal",
+          "player": "Hans Vanaken",
+          "minute": 56,
+          "second": 35,
+          "x": 70.4,
+          "y": 57.3,
+          "endX": null,
+          "endY": null
+        }
+      ],
+      "pass_distance_m": 0,
+      "duration_seconds": 0.0,
+      "assist_event_id": "",
+      "assist_player": ""
+    },
+    {
+      "team": "Belgium",
+      "h_a": "a",
+      "minute": 92,
+      "second": 24,
+      "clock": 99.0,
+      "scorer": "Romelu Lukaku",
+      "own_goal": false,
+      "penalty": false,
+      "situation": "OpenPlay",
+      "passes": 0,
+      "events": [
+        {
+          "eventId": "804",
+          "type": "Goal",
+          "player": "Romelu Lukaku",
+          "minute": 92,
+          "second": 24,
+          "x": 90.8,
+          "y": 66.7,
+          "endX": null,
+          "endY": null
+        }
+      ],
+      "pass_distance_m": 0,
+      "duration_seconds": 0.0,
+      "assist_event_id": "",
+      "assist_player": ""
+    }
+  ],
+  "definitions": {
+    "pass_share_pct": "Share of all pass attempts in the export. A proxy for territory of the ball, not broadcast possession.",
+    "shots_on_target": "WhoScored shotOnTarget flag. Shots blocked by an outfield player are counted separately and are not on target.",
+    "saves": "Save events flagged keeperSaveTotal, which is goalkeeper saves only. Outfield blocks are reported as blocks.",
+    "pressure_index": "Weighted count of attacking events per five minutes: final_third_pass=1.0, box_entry_pass=1.2, shot=3.0, shot_on_target_bonus=1.5, goal_bonus=8.0, corner=1.5, successful_take_on=1.0, attacking_recovery=0.8",
+    "match_clock": "Time buckets use expandedMinute, which runs continuously. Plain minute restarts each period, so stoppage time overlaps the next period.",
+    "field_tilt": "Share of successful final-third passes in each ten-minute window.",
+    "goal_chain": "Uninterrupted possession immediately before a goal, capped at 75 seconds and 18 events."
+  },
+  "goal_timeline": [
+    {
+      "index": 1,
+      "team": "Belgium",
+      "h_a": "a",
+      "minute": 8,
+      "second": 36,
+      "clock": 8.0,
+      "scorer": "Charles De Ketelaere",
+      "own_goal": false,
+      "penalty": false,
+      "score_after": "0-1",
+      "passes": 1,
+      "duration_seconds": 2.0,
+      "pass_distance_m": 13.4
+    },
+    {
+      "index": 2,
+      "team": "USA",
+      "h_a": "h",
+      "minute": 30,
+      "second": 31,
+      "clock": 30.0,
+      "scorer": "Malik Tillman",
+      "own_goal": false,
+      "penalty": false,
+      "score_after": "1-1",
+      "passes": 0,
+      "duration_seconds": 0.0,
+      "pass_distance_m": 0.0
+    },
+    {
+      "index": 3,
+      "team": "Belgium",
+      "h_a": "a",
+      "minute": 32,
+      "second": 27,
+      "clock": 32.0,
+      "scorer": "Charles De Ketelaere",
+      "own_goal": false,
+      "penalty": false,
+      "score_after": "1-2",
+      "passes": 15,
+      "duration_seconds": 42.0,
+      "pass_distance_m": 255.2
+    },
+    {
+      "index": 4,
+      "team": "Belgium",
+      "h_a": "a",
+      "minute": 56,
+      "second": 35,
+      "clock": 63.0,
+      "scorer": "Hans Vanaken",
+      "own_goal": false,
+      "penalty": false,
+      "score_after": "1-3",
+      "passes": 0,
+      "duration_seconds": 0.0,
+      "pass_distance_m": 0.0
+    },
+    {
+      "index": 5,
+      "team": "Belgium",
+      "h_a": "a",
+      "minute": 92,
+      "second": 24,
+      "clock": 99.0,
+      "scorer": "Romelu Lukaku",
+      "own_goal": false,
+      "penalty": false,
+      "score_after": "1-4",
+      "passes": 0,
+      "duration_seconds": 0.0,
+      "pass_distance_m": 0.0
+    }
+  ],
+  "facts": [
+    "USA 1-4 Belgium.",
+    "Pass share: USA 56.0%, Belgium 44.0%.",
+    "Shots: USA 7 (2 on target, 0 blocked), Belgium 15 (7 on target, 4 blocked).",
+    "Final-third passes: USA 79, Belgium 56.",
+    "Big chances: USA 0, Belgium 4.",
+    "Longest build-up to a goal: Belgium, 15 passes over 255.2 metres, finished by Charles De Ketelaere in the 32nd minute.",
+    "Not in this export, so never claimed: xG, xGOT."
+  ]
+}

@@ -1,0 +1,111 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Portugal,home,0,4231,373842,Diogo Costa,0,0.0,5.0,0,62
+Portugal,home,0,4231,128967,João Cancelo,1,2.5,1.0,0,62
+Portugal,home,0,4231,395221,Nuno Mendes,2,2.5,9.0,0,62
+Portugal,home,0,4231,465388,João Neves,3,5.0,6.5,0,62
+Portugal,home,0,4231,313171,Rúben Dias,4,2.5,3.5,0,62
+Portugal,home,0,4231,434077,Renato Veiga,5,2.5,6.5,0,62
+Portugal,home,0,4231,337916,Pedro Neto,6,7.0,2.0,0,62
+Portugal,home,0,4231,384887,Vitinha,7,5.0,3.5,0,62
+Portugal,home,0,4231,5583,Cristiano Ronaldo,8,9.0,5.0,0,62
+Portugal,home,0,4231,123761,Bruno Fernandes,9,7.0,5.0,0,62
+Portugal,home,0,4231,362431,João Félix,10,7.0,8.0,0,62
+Portugal,home,1,4231,373842,Diogo Costa,0,0.0,5.0,62,77
+Portugal,home,1,4231,128967,João Cancelo,1,2.5,1.0,62,77
+Portugal,home,1,4231,296363,Nélson Semedo,2,2.5,9.0,62,77
+Portugal,home,1,4231,465388,João Neves,3,5.0,6.5,62,77
+Portugal,home,1,4231,313171,Rúben Dias,4,2.5,3.5,62,77
+Portugal,home,1,4231,434077,Renato Veiga,5,2.5,6.5,62,77
+Portugal,home,1,4231,337916,Pedro Neto,6,7.0,2.0,62,77
+Portugal,home,1,4231,384887,Vitinha,7,5.0,3.5,62,77
+Portugal,home,1,4231,5583,Cristiano Ronaldo,8,9.0,5.0,62,77
+Portugal,home,1,4231,123761,Bruno Fernandes,9,7.0,5.0,62,77
+Portugal,home,1,4231,362431,João Félix,10,7.0,8.0,62,77
+Portugal,home,2,4231,373842,Diogo Costa,0,0.0,5.0,77,77
+Portugal,home,2,4231,353418,Diogo Dalot,1,2.5,1.0,77,77
+Portugal,home,2,4231,296363,Nélson Semedo,2,2.5,9.0,77,77
+Portugal,home,2,4231,465388,João Neves,3,5.0,6.5,77,77
+Portugal,home,2,4231,313171,Rúben Dias,4,2.5,3.5,77,77
+Portugal,home,2,4231,434077,Renato Veiga,5,2.5,6.5,77,77
+Portugal,home,2,4231,337916,Pedro Neto,6,7.0,2.0,77,77
+Portugal,home,2,4231,384887,Vitinha,7,5.0,3.5,77,77
+Portugal,home,2,4231,5583,Cristiano Ronaldo,8,9.0,5.0,77,77
+Portugal,home,2,4231,123761,Bruno Fernandes,9,7.0,5.0,77,77
+Portugal,home,2,4231,362431,João Félix,10,7.0,8.0,77,77
+Portugal,home,3,4231,373842,Diogo Costa,0,0.0,5.0,77,89
+Portugal,home,3,4231,353418,Diogo Dalot,1,2.5,1.0,77,89
+Portugal,home,3,4231,296363,Nélson Semedo,2,2.5,9.0,77,89
+Portugal,home,3,4231,465388,João Neves,3,5.0,6.5,77,89
+Portugal,home,3,4231,313171,Rúben Dias,4,2.5,3.5,77,89
+Portugal,home,3,4231,434077,Renato Veiga,5,2.5,6.5,77,89
+Portugal,home,3,4231,337916,Pedro Neto,6,7.0,2.0,77,89
+Portugal,home,3,4231,384887,Vitinha,7,5.0,3.5,77,89
+Portugal,home,3,4231,5583,Cristiano Ronaldo,8,9.0,5.0,77,89
+Portugal,home,3,4231,123761,Bruno Fernandes,9,7.0,5.0,77,89
+Portugal,home,3,4231,349207,Rafael Leão,10,7.0,8.0,77,89
+Portugal,home,4,4231,373842,Diogo Costa,0,0.0,5.0,89,89
+Portugal,home,4,4231,353418,Diogo Dalot,1,2.5,1.0,89,89
+Portugal,home,4,4231,296363,Nélson Semedo,2,2.5,9.0,89,89
+Portugal,home,4,4231,465388,João Neves,3,5.0,6.5,89,89
+Portugal,home,4,4231,313171,Rúben Dias,4,2.5,3.5,89,89
+Portugal,home,4,4231,434077,Renato Veiga,5,2.5,6.5,89,89
+Portugal,home,4,4231,409221,Francisco Conceição,6,7.0,2.0,89,89
+Portugal,home,4,4231,384887,Vitinha,7,5.0,3.5,89,89
+Portugal,home,4,4231,5583,Cristiano Ronaldo,8,9.0,5.0,89,89
+Portugal,home,4,4231,123761,Bruno Fernandes,9,7.0,5.0,89,89
+Portugal,home,4,4231,349207,Rafael Leão,10,7.0,8.0,89,89
+Portugal,home,5,4231,373842,Diogo Costa,0,0.0,5.0,89,98
+Portugal,home,5,4231,353418,Diogo Dalot,1,2.5,1.0,89,98
+Portugal,home,5,4231,296363,Nélson Semedo,2,2.5,9.0,89,98
+Portugal,home,5,4231,465388,João Neves,3,5.0,6.5,89,98
+Portugal,home,5,4231,313171,Rúben Dias,4,2.5,3.5,89,98
+Portugal,home,5,4231,434077,Renato Veiga,5,2.5,6.5,89,98
+Portugal,home,5,4231,409221,Francisco Conceição,6,7.0,2.0,89,98
+Portugal,home,5,4231,136741,Bernardo Silva,7,5.0,3.5,89,98
+Portugal,home,5,4231,5583,Cristiano Ronaldo,8,9.0,5.0,89,98
+Portugal,home,5,4231,123761,Bruno Fernandes,9,7.0,5.0,89,98
+Portugal,home,5,4231,349207,Rafael Leão,10,7.0,8.0,89,98
+Spain,away,0,4231,332823,Unai Simón,0,0.0,5.0,0,81
+Spain,away,0,4231,362352,Pedro Porro,1,2.5,1.0,0,81
+Spain,away,0,4231,363496,Marc Cucurella,2,2.5,9.0,0,81
+Spain,away,0,4231,402197,Pedri,3,5.0,6.5,0,81
+Spain,away,0,4231,498386,Pau Cubarsí,4,2.5,3.5,0,81
+Spain,away,0,4231,122117,Aymeric Laporte,5,2.5,6.5,0,81
+Spain,away,0,4231,480249,Lamine Yamal,6,7.0,2.0,0,81
+Spain,away,0,4231,303139,Rodri,7,5.0,3.5,0,81
+Spain,away,0,4231,298839,Mikel Oyarzabal,8,9.0,5.0,0,81
+Spain,away,0,4231,261212,Dani Olmo,9,7.0,5.0,0,81
+Spain,away,0,4231,395242,Álex Baena,10,7.0,8.0,0,81
+Spain,away,1,4231,332823,Unai Simón,0,0.0,5.0,81,91
+Spain,away,1,4231,362352,Pedro Porro,1,2.5,1.0,81,91
+Spain,away,1,4231,363496,Marc Cucurella,2,2.5,9.0,81,91
+Spain,away,1,4231,402197,Pedri,3,5.0,6.5,81,91
+Spain,away,1,4231,498386,Pau Cubarsí,4,2.5,3.5,81,91
+Spain,away,1,4231,122117,Aymeric Laporte,5,2.5,6.5,81,91
+Spain,away,1,4231,480249,Lamine Yamal,6,7.0,2.0,81,91
+Spain,away,1,4231,303139,Rodri,7,5.0,3.5,81,91
+Spain,away,1,4231,298839,Mikel Oyarzabal,8,9.0,5.0,81,91
+Spain,away,1,4231,261212,Dani Olmo,9,7.0,5.0,81,91
+Spain,away,1,4231,349760,Ferran Torres,10,7.0,8.0,81,91
+Spain,away,2,4231,332823,Unai Simón,0,0.0,5.0,91,91
+Spain,away,2,4231,362352,Pedro Porro,1,2.5,1.0,91,91
+Spain,away,2,4231,363496,Marc Cucurella,2,2.5,9.0,91,91
+Spain,away,2,4231,294193,Fabián Ruiz,3,5.0,6.5,91,91
+Spain,away,2,4231,498386,Pau Cubarsí,4,2.5,3.5,91,91
+Spain,away,2,4231,122117,Aymeric Laporte,5,2.5,6.5,91,91
+Spain,away,2,4231,480249,Lamine Yamal,6,7.0,2.0,91,91
+Spain,away,2,4231,303139,Rodri,7,5.0,3.5,91,91
+Spain,away,2,4231,298839,Mikel Oyarzabal,8,9.0,5.0,91,91
+Spain,away,2,4231,261212,Dani Olmo,9,7.0,5.0,91,91
+Spain,away,2,4231,349760,Ferran Torres,10,7.0,8.0,91,91
+Spain,away,3,4231,332823,Unai Simón,0,0.0,5.0,91,98
+Spain,away,3,4231,362352,Pedro Porro,1,2.5,1.0,91,98
+Spain,away,3,4231,363496,Marc Cucurella,2,2.5,9.0,91,98
+Spain,away,3,4231,294193,Fabián Ruiz,3,5.0,6.5,91,98
+Spain,away,3,4231,498386,Pau Cubarsí,4,2.5,3.5,91,98
+Spain,away,3,4231,122117,Aymeric Laporte,5,2.5,6.5,91,98
+Spain,away,3,4231,480249,Lamine Yamal,6,7.0,2.0,91,98
+Spain,away,3,4231,303139,Rodri,7,5.0,3.5,91,98
+Spain,away,3,4231,298839,Mikel Oyarzabal,8,9.0,5.0,91,98
+Spain,away,3,4231,238916,Mikel Merino,9,7.0,5.0,91,98
+Spain,away,3,4231,349760,Ferran Torres,10,7.0,8.0,91,98

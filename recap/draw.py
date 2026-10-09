@@ -15,8 +15,11 @@ Two ideas keep the output consistent:
 
 from __future__ import annotations
 
+import json
 import math
 import textwrap
+import urllib.error
+import urllib.request
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Iterable
@@ -751,11 +754,275 @@ def pitch_grid_fade(ax: plt.Axes, alpha: float = 0.05) -> None:
 
 
 # ---------------------------------------------------------------------------
+# keeper's-view goal (metres)
+# ---------------------------------------------------------------------------
+# WhoScored goal-mouth y/z is a local frame, not pitch 0-100. These bounds
+# match audit.GOAL_Y_MIN / GOAL_Y_MAX / GOAL_Z_MAX so a saved shot lands in
+# the same place on every card that uses this helper.
+GOAL_MOUTH_Y_MIN, GOAL_MOUTH_Y_MAX = 45.2, 54.8
+GOAL_MOUTH_Z_MAX = 38.0
+GOAL_WIDTH_M = 7.32
+GOAL_HEIGHT_M = 2.44
+GOAL_VIEW_PAD_X = 0.70
+GOAL_VIEW_PAD_Z = 0.36
+GOAL_VIEW_TURF = 0.26
+
+
+def goal_mouth_metres(goal_mouth_y: float, goal_mouth_z: float) -> tuple[float, float]:
+    """Map WhoScored goal-mouth (y, z) onto a 7.32 × 2.44 m frame."""
+    span = GOAL_MOUTH_Y_MAX - GOAL_MOUTH_Y_MIN
+    x = (float(goal_mouth_y) - GOAL_MOUTH_Y_MIN) / span * GOAL_WIDTH_M
+    z = float(goal_mouth_z) / GOAL_MOUTH_Z_MAX * GOAL_HEIGHT_M
+    return x, z
+
+
+def goal_frame_rect(top: float, bottom: float) -> list[float]:
+    """Largest true-proportion goal that fits between *top* and *bottom*."""
+    metres_w = GOAL_WIDTH_M + 2 * GOAL_VIEW_PAD_X
+    metres_h = GOAL_HEIGHT_M + GOAL_VIEW_PAD_Z + GOAL_VIEW_TURF
+    return Layout.fitted_rect(metres_w / metres_h, top=top, bottom=bottom, align="top")
+
+
+def goal_frame_axes(fig: plt.Figure, rect: list[float]) -> plt.Axes:
+    """Axes in metres. Posts sit at x=0 / 7.32, the bar at z=2.44."""
+    ax = fig.add_axes(rect, zorder=4)
+    ax.set_xlim(-GOAL_VIEW_PAD_X, GOAL_WIDTH_M + GOAL_VIEW_PAD_X)
+    ax.set_ylim(-GOAL_VIEW_TURF, GOAL_HEIGHT_M + GOAL_VIEW_PAD_Z)
+    ax.set_aspect("equal", adjustable="box")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_facecolor("none")
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    return ax
+
+
+def paint_goal_frame(ax: plt.Axes, design: dict[str, Any], *, alpha: float = 1.0) -> None:
+    """Turf strip, net, posts. Callers draw shots on top of this."""
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA:
+        return
+    turf = design.get("pitch") or PITCH
+    line = design.get("pitch_line") or PITCH_LINE
+    add_shape(
+        ax,
+        Rectangle(
+            (-GOAL_VIEW_PAD_X, -GOAL_VIEW_TURF),
+            GOAL_WIDTH_M + 2 * GOAL_VIEW_PAD_X, GOAL_VIEW_TURF,
+            facecolor=turf, edgecolor="none", alpha=alpha, zorder=5,
+        ),
+    )
+    add_shape(
+        ax,
+        Rectangle(
+            (-GOAL_VIEW_PAD_X, -0.045),
+            GOAL_WIDTH_M + 2 * GOAL_VIEW_PAD_X, 0.045,
+            facecolor="#070c09", edgecolor="none", alpha=opacity(0.7 * alpha), zorder=6,
+        ),
+    )
+    add_shape(
+        ax,
+        Rectangle(
+            (0.0, 0.0), GOAL_WIDTH_M, GOAL_HEIGHT_M,
+            facecolor="#0b100d", edgecolor="none", alpha=opacity(0.92 * alpha), zorder=6,
+        ),
+    )
+    net = "#6f7b74"
+    for step in range(1, 5):
+        z = GOAL_HEIGHT_M * step / 5
+        ax.plot([0.0, GOAL_WIDTH_M], [z, z], color=net, lw=0.65,
+                alpha=0.26 * alpha, zorder=8, solid_capstyle="butt")
+    for step in range(1, 10):
+        x = GOAL_WIDTH_M * step / 10
+        ax.plot([x, x], [0.0, GOAL_HEIGHT_M], color=net, lw=0.65,
+                alpha=0.20 * alpha, zorder=8, solid_capstyle="butt")
+    ax.plot(
+        [-0.12, GOAL_WIDTH_M + 0.12], [0.0, 0.0],
+        color=line, lw=2.2, alpha=alpha, zorder=13, solid_capstyle="butt",
+    )
+    post = dict(color=TEXT, lw=5.2, alpha=alpha, zorder=14, solid_capstyle="round")
+    ax.plot([0.0, 0.0], [0.0, GOAL_HEIGHT_M], **post)
+    ax.plot([GOAL_WIDTH_M, GOAL_WIDTH_M], [0.0, GOAL_HEIGHT_M], **post)
+    ax.plot([0.0, GOAL_WIDTH_M], [GOAL_HEIGHT_M, GOAL_HEIGHT_M], **post)
+
+
+# ---------------------------------------------------------------------------
 # team badges
 # ---------------------------------------------------------------------------
 
 def _flag_painter(key: str):
     return _FLAGS.get(key)
+
+
+# Football names that do not match flagcdn's English label exactly.
+# Home nations are not ISO countries.
+_FLAG_ALIASES = {
+    "england": "gb-eng",
+    "scotland": "gb-sct",
+    "wales": "gb-wls",
+    "northern ireland": "gb-nir",
+    "ivory coast": "ci",
+    "cote d ivoire": "ci",
+    "czech republic": "cz",
+    "czechia": "cz",
+    "usa": "us",
+    "united states of america": "us",
+    "holland": "nl",
+    "korea republic": "kr",
+    "republic of korea": "kr",
+    "korea dpr": "kp",
+    "dpr korea": "kp",
+    "turkiye": "tr",
+    "republic of ireland": "ie",
+    "bosnia": "ba",
+    "bosnia herzegovina": "ba",
+    "macedonia": "mk",
+    "fyrom": "mk",
+    "dr congo": "cd",
+    "congo dr": "cd",
+    "democratic republic of congo": "cd",
+    "democratic republic of the congo": "cd",
+    "congo": "cg",
+    "china pr": "cn",
+    "chinese taipei": "tw",
+    "cape verde": "cv",
+    "cabo verde": "cv",
+    "curacao": "cw",
+    "swaziland": "sz",
+    "uae": "ae",
+    "kosovo": "xk",
+    "lithuania": "lt",
+    "azerbaijan": "az",
+}
+_FLAG_ASSET = Path(__file__).resolve().parent.parent / "assets" / "flags"
+_FLAG_CACHE = Path(__file__).resolve().parent.parent / ".cache" / "flags"
+
+
+def _load_flag_catalog() -> dict[str, str]:
+    """flagcdn code → English name. Cached on disk after the first download."""
+    path = _FLAG_CACHE / "codes.json"
+    if path.exists() and path.stat().st_size > 64:
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(payload, dict) and payload:
+                return {str(code): str(name) for code, name in payload.items()}
+        except (OSError, json.JSONDecodeError, TypeError):
+            pass
+    request = urllib.request.Request(
+        "https://flagcdn.com/en/codes.json",
+        headers={"User-Agent": "Mozilla/5.0 (compatible; MatchRecap/1.0)"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=12) as response:
+            data = response.read()
+        payload = json.loads(data.decode("utf-8"))
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError, json.JSONDecodeError):
+        return {}
+    if not isinstance(payload, dict) or not payload:
+        return {}
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload), encoding="utf-8")
+    except OSError:
+        pass
+    return {str(code): str(name) for code, name in payload.items()}
+
+
+@lru_cache(maxsize=1)
+def _flag_name_index() -> dict[str, str]:
+    """Normalized country name → flagcdn code. Aliases win over the catalog."""
+    index: dict[str, str] = {}
+    for code, name in _load_flag_catalog().items():
+        raw = str(name)
+        main, _, paren = raw.partition("(")
+        parts = (raw, main, paren.rstrip(")"))
+        for part in parts:
+            token = theme.normalize_team_key(part)
+            if not token:
+                continue
+            current = index.get(token)
+            # "Georgia" is both the country (ge) and a US state (us-ga).
+            if current is None or (len(code) == 2 and len(current) != 2):
+                index[token] = code
+    index.update(_FLAG_ALIASES)
+    return index
+
+
+def _flag_code(key: str) -> str | None:
+    token = theme.normalize_team_key(key)
+    if not token:
+        return None
+    return _flag_name_index().get(token) or _FLAG_ALIASES.get(token)
+
+
+def _flag_candidates(key: str) -> list[Path]:
+    code = _flag_code(key) or ""
+    slug = key.replace(" ", "_")
+    names = [f"{slug}.png", f"{key}.png"]
+    if code:
+        names = [f"{code}.png", *names]
+    out: list[Path] = []
+    for folder in (_FLAG_ASSET, _FLAG_CACHE):
+        for name in names:
+            out.append(folder / name)
+    return out
+
+
+@lru_cache(maxsize=64)
+def _resolve_flag(key: str) -> str | None:
+    """Local flag PNG, otherwise one download into .cache/flags."""
+    for path in _flag_candidates(key):
+        if path.exists() and path.stat().st_size > 64:
+            return str(path)
+    code = _flag_code(key)
+    if not code:
+        return None
+    request = urllib.request.Request(
+        f"https://flagcdn.com/w640/{code}.png",
+        headers={"User-Agent": "Mozilla/5.0 (compatible; MatchRecap/1.0)"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=12) as response:
+            data = response.read()
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError):
+        return None
+    if not data or not data.startswith(b"\x89PNG"):
+        return None
+    dest = _FLAG_CACHE / f"{code}.png"
+    try:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(data)
+    except OSError:
+        return None
+    return str(dest)
+
+
+def _draw_flag_image(fig: plt.Figure, key: str, x0: float, y0: float,
+                     width: float, height: float, alpha: float, zorder: int) -> bool:
+    path = _resolve_flag(key)
+    if not path:
+        return False
+    try:
+        image = plt.imread(path)
+    except Exception:
+        return False
+    if image is None or getattr(image, "size", 0) == 0:
+        return False
+    ax = fig.add_axes([x0, y0, width, height])
+    ax.set_zorder(zorder)
+    ax.set_facecolor("none")
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.patch.set_alpha(0.0)
+    ax.imshow(
+        image, extent=(0, 1, 0, 1), origin="upper", interpolation="bilinear",
+        alpha=alpha, zorder=1, aspect="auto",
+    )
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    return True
 
 
 def team_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, *,
@@ -783,11 +1050,12 @@ def team_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, *
               color="#0c100e", alpha=0.92 * alpha, edge=identity["chart"], radius=0.006,
               zorder=zorder - 1, lw=1.4)
 
-    painter = _flag_painter(identity["key"])
-    if painter is not None:
-        painter(fig, x0, y0, width, height, alpha, zorder)
-    else:
-        _crest_fallback(fig, identity, x0, y0, width, height, alpha, zorder)
+    if not _draw_flag_image(fig, identity["key"], x0, y0, width, height, alpha, zorder):
+        painter = _flag_painter(identity["key"])
+        if painter is not None:
+            painter(fig, x0, y0, width, height, alpha, zorder)
+        else:
+            _crest_fallback(fig, identity, x0, y0, width, height, alpha, zorder)
 
     # Border on top of the flag, so the tile stays crisp against the panel.
     fig.patches.append(
@@ -1390,29 +1658,48 @@ def heat_pitch(ax, grid: list[list[float]], color: str, *, progress: float = 1.0
 
 def funnel_stage(fig: plt.Figure, y: float, label: str, home_value: float, away_value: float,
                  home_color: str, away_color: str, *, progress: float = 1.0,
-                 inset: float = 0.0, height: float = 0.055) -> None:
-    """A trapezoid row that narrows toward the goal. Not a comparison bar."""
-    left = 0.18 + inset
-    right = 0.82 - inset
+                 inset: float = 0.0, height: float = 0.055, percent: bool = False,
+                 home_ink: str | None = None, away_ink: str | None = None) -> None:
+    """One rounded funnel pill. Width tapers via *inset*; the split is share."""
+    left = 0.168 + inset
+    right = 0.832 - inset
     width = right - left
     total = home_value + away_value
     home_share = 0.5 if total <= 0 else home_value / total
     grown = ease_in_out(clamp01(progress))
     if grown < VISIBLE_ALPHA:
         return
-    split = left + width * home_share
-    fig_rect(fig, left, y, (split - left) * grown, height, home_color, 0.92, zorder=12)
-    fig_rect(fig, split, y, (right - split) * grown, height, away_color, 0.92, zorder=12)
     ink = min(1.0, grown * 2.2)
-    fig.text(0.5, y + height + 0.016, str(label).upper(), color=TEXT_DIM,
-             fontsize=theme.label_size(12), family=theme.LABEL_FONT, fontweight="bold",
+    home_ink = home_ink or home_color
+    away_ink = away_ink or away_color
+
+    fig_panel(
+        fig, left, y, width, height,
+        color="#121816", alpha=0.96 * grown, edge="none", radius=0.013, zorder=11,
+    )
+    pad = 0.007
+    inner_left = left + pad
+    inner_width = max(1e-4, width - 2 * pad)
+    inner_y = y + y_of(0.005)
+    inner_h = max(1e-4, height - 2 * y_of(0.005))
+    split = inner_left + inner_width * home_share
+    fig_rect(fig, inner_left, inner_y, (split - inner_left) * grown, inner_h,
+             home_color, 0.94, zorder=12)
+    fig_rect(fig, split, inner_y, (inner_left + inner_width - split) * grown, inner_h,
+             away_color, 0.94, zorder=12)
+
+    fig.text(0.5, y + height + 0.015, str(label).upper(), color=TEXT_DIM,
+             fontsize=theme.label_size(11), family=theme.LABEL_FONT, fontweight="bold",
              ha="center", va="center", alpha=ink, zorder=14)
-    fig.text(left - 0.018, y + height / 2, number_text(hold_count(home_value, grown)),
-             color=home_color, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
+    suffix = "%" if percent else ""
+    fig.text(left - 0.016, y + height / 2,
+             number_text(hold_count(home_value, grown), suffix=suffix),
+             color=home_ink, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
              ha="right", va="center", alpha=ink, zorder=14,
              path_effects=soft_shadow(ink))
-    fig.text(right + 0.018, y + height / 2, number_text(hold_count(away_value, grown)),
-             color=away_color, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
+    fig.text(right + 0.016, y + height / 2,
+             number_text(hold_count(away_value, grown), suffix=suffix),
+             color=away_ink, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
              ha="left", va="center", alpha=ink, zorder=14,
              path_effects=soft_shadow(ink))
 
@@ -1426,14 +1713,20 @@ def glow_ring(
     radius: float = 3.0,
     alpha: float = 0.28,
     zorder: int = 7,
+    x_radius: float | None = None,
 ) -> None:
-    """One restrained halo. Not a particle storm."""
+    """One restrained halo. Not a particle storm.
+
+    On a vertical pitch the x and y units are not equal in pixels, so pass
+    ``x_radius=radius / PITCH_ASPECT`` to keep the ring round.
+    """
     if alpha <= 0:
         return
+    rx = radius if x_radius is None else x_radius
     add_shape(
         ax,
-        Circle((x, y), radius, fill=False, ec=color, lw=2.0,
-               alpha=opacity(alpha), zorder=zorder),
+        Ellipse((x, y), rx * 2, radius * 2, fill=False, ec=color, lw=2.0,
+                alpha=opacity(alpha), zorder=zorder),
     )
 
 

@@ -1,0 +1,411 @@
+{
+  "matchId": 1993911,
+  "startDate": "2026-08-22T00:00:00",
+  "startTime": "2026-08-22T20:30:00",
+  "score": "1 : 2",
+  "ftScore": "1 : 2",
+  "htScore": "1 : 1",
+  "etScore": "",
+  "venueName": "RCDE Stadium",
+  "attendance": 33304,
+  "referee": {
+    "officialId": 233,
+    "firstName": "José María",
+    "lastName": "Sánchez Martínez",
+    "hasParticipatedMatches": false,
+    "name": "José María Sánchez Martínez"
+  },
+  "maxMinute": 94,
+  "home": {
+    "teamId": 70,
+    "name": "Espanyol",
+    "countryName": "Spain",
+    "averageAge": 24.5,
+    "formations": [
+      {
+        "formationName": "442",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 69
+      },
+      {
+        "formationName": "442",
+        "startMinuteExpanded": 69,
+        "endMinuteExpanded": 78
+      },
+      {
+        "formationName": "442",
+        "startMinuteExpanded": 78,
+        "endMinuteExpanded": 78
+      },
+      {
+        "formationName": "442",
+        "startMinuteExpanded": 78,
+        "endMinuteExpanded": 91
+      },
+      {
+        "formationName": "442",
+        "startMinuteExpanded": 91,
+        "endMinuteExpanded": 94
+      }
+    ],
+    "players": [
+      {
+        "playerId": 259393,
+        "name": "Marko Dmitrovic",
+        "shirtNo": 13,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 449410,
+        "name": "Omar El Hilali",
+        "shirtNo": 23,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 419935,
+        "name": "Clemens Riedel",
+        "shirtNo": 5,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 344200,
+        "name": "Unai Núñez",
+        "shirtNo": 14,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 555136,
+        "name": "Roger Hinojo",
+        "shirtNo": 21,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 468761,
+        "name": "Cala",
+        "shirtNo": 22,
+        "position": "MR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 335696,
+        "name": "Edu Expósito",
+        "shirtNo": 8,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 401173,
+        "name": "Urko González de Zárate",
+        "shirtNo": 4,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 398922,
+        "name": "Tyrhys Dolan",
+        "shirtNo": 24,
+        "position": "ML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 506010,
+        "name": "Javi Hernández",
+        "shirtNo": 28,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 448296,
+        "name": "Roberto Fernández",
+        "shirtNo": 9,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 361696,
+        "name": "Vanja Drkusic",
+        "shirtNo": 16,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 382157,
+        "name": "Pol Lozano",
+        "shirtNo": 10,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 430451,
+        "name": "Jofre Carreras",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 140772,
+        "name": "Pere Milla",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 531460,
+        "name": "Rafel Bauzà",
+        "shirtNo": 26,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 478349,
+        "name": "Gabriel Moscardo",
+        "shirtNo": 20,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 444739,
+        "name": "Quilindschy Hartman",
+        "shirtNo": 3,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 519103,
+        "name": "Llorenç Serred",
+        "shirtNo": 31,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 449409,
+        "name": "Ángel Fortuño",
+        "shirtNo": 1,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 547317,
+        "name": "José Ángel",
+        "shirtNo": 32,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 464541,
+        "name": "Marcos Fernández",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 614269,
+        "name": "Adama Timera",
+        "shirtNo": 27,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 52,
+    "name": "Real Madrid",
+    "countryName": "Spain",
+    "averageAge": 25.0,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 67
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 67,
+        "endMinuteExpanded": 67
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 67,
+        "endMinuteExpanded": 83
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 83,
+        "endMinuteExpanded": 94
+      }
+    ],
+    "players": [
+      {
+        "playerId": 73798,
+        "name": "Thibaut Courtois",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 322153,
+        "name": "Denzel Dumfries",
+        "shirtNo": 24,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 345957,
+        "name": "Ibrahima Konaté",
+        "shirtNo": 16,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 468852,
+        "name": "Dean Huijsen",
+        "shirtNo": 4,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 437583,
+        "name": "Álvaro Carreras",
+        "shirtNo": 18,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 136741,
+        "name": "Bernardo Silva",
+        "shirtNo": 20,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 344644,
+        "name": "Federico Valverde",
+        "shirtNo": 8,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 415181,
+        "name": "Arda Güler",
+        "shirtNo": 15,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 379868,
+        "name": "Jude Bellingham",
+        "shirtNo": 5,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 337782,
+        "name": "Vinícius Júnior",
+        "shirtNo": 7,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 300713,
+        "name": "Kylian Mbappé",
+        "shirtNo": 10,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 369109,
+        "name": "Eduardo Camavinga",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 363496,
+        "name": "Marc Cucurella",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 318871,
+        "name": "Trent Alexander-Arnold",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 557000,
+        "name": "Yan Diomande",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 516341,
+        "name": "Carlos Espí",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 104010,
+        "name": "Antonio Rüdiger",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 317541,
+        "name": "Brahim Díaz",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 345031,
+        "name": "Andrii Lunin",
+        "shirtNo": 13,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 603671,
+        "name": "Jorge Cestero",
+        "shirtNo": 29,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 641373,
+        "name": "Alexis Ciria",
+        "shirtNo": 36,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 552207,
+        "name": "Mario Rivas",
+        "shirtNo": 33,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 456502,
+        "name": "Sergio Mestre",
+        "shirtNo": 26,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "Spain",
+  "league": "LaLiga",
+  "season": "2026/2027",
+  "competitionType": "League",
+  "competitionStage": ""
+}

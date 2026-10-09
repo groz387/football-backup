@@ -1,0 +1,198 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2957472931.0,0,15.0,FirstHalf,Lucas Torreira,248109,294,a,55.6,5.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""10""}, {""type"": ""Defensive""}]"
+2957405197.0,0,19.0,FirstHalf,Brandon Baiye,444677,10533,h,39.2,81.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""5""}, {""type"": ""Defensive""}]"
+2957552643.0,0,20.0,FirstHalf,Lucas Torreira,248109,294,a,55.6,32.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2957405791.0,0,53.0,FirstHalf,Mario Lemina,123481,294,a,41.8,77.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""18""}, {""type"": ""Defensive""}]"
+2957406163.0,1,14.0,FirstHalf,Mustafa Fettahoglu,451269,10533,h,44.1,2.2,BallRecovery,Successful,[]
+2957406117.0,1,15.0,FirstHalf,Baris Alper Yilmaz,421779,294,a,56.9,97.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""26""}, {""type"": ""Defensive""}]"
+2957406261.0,1,21.0,FirstHalf,Gabriel Sara,349218,294,a,47.3,73.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957406283.0,1,23.0,FirstHalf,Mario Lemina,123481,294,a,41.2,84.7,BallRecovery,Successful,[]
+2957406641.0,1,45.0,FirstHalf,Orhan Ovacikli,119550,10533,h,18.1,12.4,BallRecovery,Successful,[]
+2957407449.0,2,20.0,FirstHalf,Abdülkerim Bardakci,108073,294,a,8.5,63.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.9""}, {""type"": ""PassEndY"", ""value"": ""62.6""}, {""type"": ""Length"", ""value"": ""13.0""}, {""type"": ""Angle"", ""value"": ""6.25""}]"
+2957407965.0,3,0.0,FirstHalf,Davinson Sánchez,322655,294,a,14.3,41.1,BallRecovery,Successful,[]
+2957410195.0,5,6.0,FirstHalf,Orhan Ovacikli,119550,10533,h,6.7,8.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""47""}, {""type"": ""Defensive""}]"
+2957411351.0,6,8.0,FirstHalf,Orhan Ovacikli,119550,10533,h,9.3,34.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.8""}, {""type"": ""PassEndY"", ""value"": ""60.1""}, {""type"": ""Length"", ""value"": ""18.1""}, {""type"": ""Angle"", ""value"": ""1.25""}]"
+2957411431.0,6,13.0,FirstHalf,Martín Rodríguez,101584,10533,h,26.1,68.2,BallRecovery,Successful,[]
+2957411543.0,6,14.0,FirstHalf,Lucas Torreira,248109,294,a,72.6,43.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""74""}, {""type"": ""Offensive""}]"
+2957411553.0,6,16.0,FirstHalf,Gabriel Sara,349218,294,a,69.2,48.7,BallRecovery,Successful,[]
+2957411561.0,6,17.0,FirstHalf,Nihad Mujakic,385060,10533,h,28.4,68.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""62""}, {""type"": ""Defensive""}]"
+2957413467.0,7,59.0,FirstHalf,Amar Gërxhaliu,454393,10533,h,23.8,29.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""43.2""}, {""type"": ""PassEndY"", ""value"": ""21.1""}, {""type"": ""Length"", ""value"": ""21.2""}, {""type"": ""Angle"", ""value"": ""6.01""}]"
+2957413567.0,8,6.0,FirstHalf,Baris Alper Yilmaz,421779,294,a,70.9,97.2,BallRecovery,Successful,[]
+2957414427.0,8,53.0,FirstHalf,Ugurcan Çakir,258840,294,a,5.5,46.9,Claim,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""HighClaim""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""107""}]"
+2957554659.0,9,55.0,FirstHalf,Orhan Ovacikli,119550,10533,h,9.4,29.1,BallRecovery,Successful,[]
+2957554715.0,9,58.0,FirstHalf,Victor Osimhen,298510,294,a,87.3,75.5,BallRecovery,Successful,[]
+2957415863.0,10,0.0,FirstHalf,Orhan Ovacikli,119550,10533,h,13.3,27.1,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""89""}]"
+2957416525.0,10,33.0,FirstHalf,Mustafa Fettahoglu,451269,10533,h,13.3,7.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""100""}]"
+2957417373.0,11,10.0,FirstHalf,Matija Orbanic,630558,10533,h,2.7,50.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""7.8""}, {""type"": ""PassEndY"", ""value"": ""58.3""}, {""type"": ""Length"", ""value"": ""7.7""}, {""type"": ""Angle"", ""value"": ""0.81""}]"
+2957418781.0,12,35.0,FirstHalf,Gabriel Sara,349218,294,a,74.8,58.6,BallRecovery,Successful,[]
+2957421533.0,15,10.0,FirstHalf,Martín Rodríguez,101584,10533,h,32.0,38.5,BallRecovery,Successful,[]
+2957422109.0,15,13.0,FirstHalf,Gabriel Sara,349218,294,a,66.3,80.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""156""}, {""type"": ""Defensive""}]"
+2957422439.0,15,50.0,FirstHalf,Roland Sallai,243889,294,a,62.4,3.1,BallRecovery,Successful,[]
+2957423009.0,16,20.0,FirstHalf,Orhan Ovacikli,119550,10533,h,37.2,4.5,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""138""}, {""type"": ""Defensive""}]"
+2957423017.0,16,21.0,FirstHalf,Mustafa Fettahoglu,451269,10533,h,45.2,7.8,BallRecovery,Successful,[]
+2957425819.0,18,59.0,FirstHalf,Abdülkerim Bardakci,108073,294,a,40.5,96.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.7""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""3.6""}, {""type"": ""Angle"", ""value"": ""2.12""}]"
+2957425907.0,19,7.0,FirstHalf,Yunus Akgün,361709,294,a,62.2,75.6,BallRecovery,Successful,[]
+2957428533.0,21,46.0,FirstHalf,Gyrano Kerk,141875,10533,h,40.0,71.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""162""}, {""type"": ""Defensive""}]"
+2957429141.0,22,24.0,FirstHalf,Ugurcan Çakir,258840,294,a,4.3,46.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""45.7""}, {""type"": ""PassEndY"", ""value"": ""15.3""}, {""type"": ""Length"", ""value"": ""48.3""}, {""type"": ""Angle"", ""value"": ""5.83""}]"
+2957429147.0,22,29.0,FirstHalf,Yakup Kirtay,630559,10533,h,50.4,89.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""PassEndX"", ""value"": ""55.5""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""10.0""}, {""type"": ""Angle"", ""value"": ""1.00""}]"
+2957429651.0,23,9.0,FirstHalf,Nihad Mujakic,385060,10533,h,31.5,96.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""179""}, {""type"": ""Defensive""}]"
+2957429813.0,23,21.0,FirstHalf,Abdülkerim Bardakci,108073,294,a,9.7,45.3,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.7""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""38.3""}, {""type"": ""Angle"", ""value"": ""1.43""}]"
+2957431527.0,25,45.0,FirstHalf,Davinson Sánchez,322655,294,a,40.8,12.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""PassEndX"", ""value"": ""50.9""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""13.8""}, {""type"": ""Angle"", ""value"": ""5.59""}]"
+2957431683.0,25,57.0,FirstHalf,Mario Lemina,123481,294,a,42.6,33.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957431699.0,25,58.0,FirstHalf,Yunus Akgün,361709,294,a,43.2,15.9,BallRecovery,Successful,[]
+2957431715.0,26,1.0,FirstHalf,Elisha Owusu,345988,10533,h,60.3,56.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2957431787.0,26,4.0,FirstHalf,Gyrano Kerk,141875,10533,h,62.7,86.4,BallRecovery,Successful,[]
+2957432545.0,26,50.0,FirstHalf,Mario Lemina,123481,294,a,16.0,31.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""66.1""}, {""type"": ""PassEndY"", ""value"": ""23.4""}, {""type"": ""Length"", ""value"": ""52.9""}, {""type"": ""Angle"", ""value"": ""6.18""}]"
+2957432583.0,27,7.0,FirstHalf,Abdülkerim Bardakci,108073,294,a,14.1,45.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957447615.0,27,8.0,FirstHalf,Abdülkerim Bardakci,108073,294,a,14.7,50.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""271""}, {""type"": ""Defensive""}]"
+2957562845.0,27,10.0,FirstHalf,Lucas Torreira,248109,294,a,14.3,52.2,BallRecovery,Successful,[]
+2957432685.0,27,20.0,FirstHalf,Orhan Ovacikli,119550,10533,h,41.0,59.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""212""}, {""type"": ""Defensive""}]"
+2957432719.0,27,22.0,FirstHalf,Orhan Ovacikli,119550,10533,h,42.7,61.9,BallRecovery,Successful,[]
+2957432829.0,27,33.0,FirstHalf,Ugurcan Çakir,258840,294,a,1.2,51.1,Claim,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""HighClaim""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""276""}]"
+2957433753.0,28,47.0,FirstHalf,Davinson Sánchez,322655,294,a,26.5,13.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""287""}, {""type"": ""Defensive""}]"
+2957434055.0,29,10.0,FirstHalf,Victor Osimhen,298510,294,a,43.7,39.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957434061.0,29,10.0,FirstHalf,Victor Osimhen,298510,294,a,47.3,34.2,BallRecovery,Successful,[]
+2957434499.0,29,48.0,FirstHalf,Gabriel Sara,349218,294,a,35.7,43.6,BallRecovery,Successful,[]
+2957435157.0,30,46.0,FirstHalf,Yakup Kirtay,630559,10533,h,27.3,84.9,BallRecovery,Successful,[]
+2957435353.0,30,58.0,FirstHalf,Lucas Torreira,248109,294,a,63.9,19.8,BallRecovery,Successful,[]
+2957435739.0,31,18.0,FirstHalf,Amar Gërxhaliu,454393,10533,h,7.7,52.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""19.5""}, {""type"": ""PassEndY"", ""value"": ""72.9""}, {""type"": ""Length"", ""value"": ""18.6""}, {""type"": ""Angle"", ""value"": ""0.84""}]"
+2957436725.0,32,11.0,FirstHalf,Lucas Torreira,248109,294,a,44.5,46.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957436741.0,32,12.0,FirstHalf,Mario Lemina,123481,294,a,41.9,55.0,BallRecovery,Successful,[]
+2957436999.0,32,21.0,FirstHalf,Amar Gërxhaliu,454393,10533,h,12.5,44.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.3""}, {""type"": ""PassEndY"", ""value"": ""44.1""}, {""type"": ""Length"", ""value"": ""14.5""}, {""type"": ""Angle"", ""value"": ""6.26""}]"
+2957437003.0,32,23.0,FirstHalf,Elisha Owusu,345988,10533,h,26.3,44.1,BallRecovery,Successful,[]
+2957437261.0,32,36.0,FirstHalf,Ugurcan Çakir,258840,294,a,3.0,51.3,KeeperPickup,Successful,[]
+2957438131.0,33,10.0,FirstHalf,Ugurcan Çakir,258840,294,a,14.0,34.0,BallRecovery,Successful,[]
+2957439461.0,34,0.0,FirstHalf,Nihad Mujakic,385060,10533,h,19.6,48.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""283""}, {""type"": ""Defensive""}]"
+2957439513.0,34,2.0,FirstHalf,Nihad Mujakic,385060,10533,h,7.8,27.7,BallRecovery,Successful,[]
+2957439693.0,34,11.0,FirstHalf,Lucas Torreira,248109,294,a,62.2,67.2,BallRecovery,Successful,[]
+2957567293.0,34,15.0,FirstHalf,Mustafa Fettahoglu,451269,10533,h,36.3,24.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""287""}, {""type"": ""Defensive""}]"
+2957439901.0,34,18.0,FirstHalf,Orhan Ovacikli,119550,10533,h,25.5,13.9,BallRecovery,Successful,[]
+2957441709.0,35,28.0,FirstHalf,Nihad Mujakic,385060,10533,h,27.2,88.5,BallRecovery,Successful,[]
+2957442157.0,35,40.0,FirstHalf,Lucas Torreira,248109,294,a,66.6,14.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""341""}, {""type"": ""Defensive""}]"
+2957442191.0,35,43.0,FirstHalf,Elisha Owusu,345988,10533,h,36.5,91.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957445563.0,37,48.0,FirstHalf,Ismail Jakobs,349699,294,a,19.7,66.9,Tackle,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""351""}, {""type"": ""Defensive""}]"
+2957445565.0,37,50.0,FirstHalf,Ugurcan Çakir,258840,294,a,12.8,68.2,KeeperPickup,Successful,[]
+2957449257.0,40,1.0,FirstHalf,Roland Sallai,243889,294,a,79.4,7.5,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""360""}, {""type"": ""Offensive""}]"
+2957449263.0,40,3.0,FirstHalf,Yunus Akgün,361709,294,a,88.4,5.5,BallRecovery,Successful,[]
+2957449387.0,40,8.0,FirstHalf,Brandon Baiye,444677,10533,h,23.2,62.8,BallRecovery,Successful,[]
+2957449479.0,40,13.0,FirstHalf,Baris Alper Yilmaz,421779,294,a,73.0,68.4,BallRecovery,Successful,[]
+2957452283.0,41,55.0,FirstHalf,Ismail Jakobs,349699,294,a,6.7,96.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""377""}]"
+2957452331.0,42,2.0,FirstHalf,Ugurcan Çakir,258840,294,a,1.6,60.9,KeeperPickup,Successful,[]
+2957452913.0,42,25.0,FirstHalf,Matija Orbanic,630558,10533,h,22.6,38.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""35.3""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""29.9""}, {""type"": ""Angle"", ""value"": ""5.17""}]"
+2957453439.0,42,45.0,FirstHalf,Orhan Ovacikli,119550,10533,h,14.2,3.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""382""}, {""type"": ""Defensive""}]"
+2957453553.0,42,49.0,FirstHalf,Mustafa Fettahoglu,451269,10533,h,19.0,2.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""385""}, {""type"": ""Defensive""}]"
+2957454973.0,43,40.0,FirstHalf,Matija Orbanic,630558,10533,h,6.0,45.9,Claim,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""HighClaim""}]"
+2957458125.0,45,53.0,FirstHalf,Mario Lemina,123481,294,a,29.2,36.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957482987.0,47,16.0,SecondHalf,Mario Lemina,123481,294,a,33.4,72.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""426""}, {""type"": ""Defensive""}]"
+2957483107.0,47,21.0,SecondHalf,Lucas Torreira,248109,294,a,29.0,51.7,BallRecovery,Successful,[]
+2957483267.0,47,31.0,SecondHalf,Brandon Baiye,444677,10533,h,67.3,79.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2957483285.0,47,32.0,SecondHalf,Martín Rodríguez,101584,10533,h,65.4,80.1,BallRecovery,Successful,[]
+2957483359.0,47,37.0,SecondHalf,Ugurcan Çakir,258840,294,a,2.5,39.1,BallRecovery,Successful,[]
+2957484933.0,49,3.0,SecondHalf,Orhan Ovacikli,119550,10533,h,38.8,26.5,BallRecovery,Successful,[]
+2957485055.0,49,8.0,SecondHalf,Ismail Jakobs,349699,294,a,47.7,95.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""435""}, {""type"": ""Defensive""}]"
+2957485103.0,49,11.0,SecondHalf,Baris Alper Yilmaz,421779,294,a,62.3,96.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""436""}, {""type"": ""Defensive""}]"
+2957485305.0,49,19.0,SecondHalf,Mario Lemina,123481,294,a,77.3,43.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2957485361.0,49,24.0,SecondHalf,Roland Sallai,243889,294,a,62.9,15.4,BallRecovery,Successful,[]
+2957485477.0,49,28.0,SecondHalf,Amar Gërxhaliu,454393,10533,h,14.4,49.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.8""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""33.6""}, {""type"": ""Angle"", ""value"": ""4.76""}]"
+2957486041.0,49,53.0,SecondHalf,Orhan Ovacikli,119550,10533,h,5.9,38.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""11.7""}, {""type"": ""PassEndY"", ""value"": ""27.0""}, {""type"": ""Length"", ""value"": ""9.9""}, {""type"": ""Angle"", ""value"": ""5.37""}]"
+2957486089.0,49,56.0,SecondHalf,Elisha Owusu,345988,10533,h,11.7,27.3,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.8""}, {""type"": ""PassEndY"", ""value"": ""41.8""}, {""type"": ""Length"", ""value"": ""10.4""}, {""type"": ""Angle"", ""value"": ""1.25""}]"
+2957486119.0,49,58.0,SecondHalf,Martín Rodríguez,101584,10533,h,14.8,41.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.0""}, {""type"": ""PassEndY"", ""value"": ""32.4""}, {""type"": ""Length"", ""value"": ""16.2""}, {""type"": ""Angle"", ""value"": ""5.88""}]"
+2957486223.0,50,2.0,SecondHalf,Mustafa Fettahoglu,451269,10533,h,19.4,32.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957486727.0,50,29.0,SecondHalf,Eren Tozlu,110535,10533,h,8.9,55.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""31.2""}, {""type"": ""PassEndY"", ""value"": ""95.4""}, {""type"": ""Length"", ""value"": ""36.0""}, {""type"": ""Angle"", ""value"": ""0.86""}]"
+2957486777.0,50,32.0,SecondHalf,Gyrano Kerk,141875,10533,h,39.2,97.5,BallRecovery,Successful,[]
+2957486875.0,50,38.0,SecondHalf,Yunus Akgün,361709,294,a,21.1,31.6,BallRecovery,Successful,[]
+2957487797.0,51,19.0,SecondHalf,Nihad Mujakic,385060,10533,h,46.0,77.4,BallRecovery,Successful,[]
+2957553805.0,51,30.0,SecondHalf,Yunus Akgün,361709,294,a,70.5,3.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2957488165.0,51,40.0,SecondHalf,Gyrano Kerk,141875,10533,h,41.2,90.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""465""}, {""type"": ""Defensive""}]"
+2957488219.0,51,42.0,SecondHalf,Davinson Sánchez,322655,294,a,56.0,20.5,BallRecovery,Successful,[]
+2957488273.0,51,45.0,SecondHalf,Matija Orbanic,630558,10533,h,12.7,52.8,BallRecovery,Successful,[]
+2957488735.0,52,7.0,SecondHalf,Gabriel Sara,349218,294,a,39.0,68.1,BallRecovery,Successful,[]
+2957489175.0,52,31.0,SecondHalf,Matija Orbanic,630558,10533,h,9.3,24.6,BallRecovery,Successful,[]
+2957489549.0,52,49.0,SecondHalf,Mario Lemina,123481,294,a,66.0,59.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""473""}, {""type"": ""Defensive""}]"
+2957489553.0,52,50.0,SecondHalf,Mario Lemina,123481,294,a,66.5,48.7,BallRecovery,Successful,[]
+2957489579.0,52,52.0,SecondHalf,Matija Orbanic,630558,10533,h,9.4,54.4,KeeperPickup,Successful,[]
+2957490385.0,53,29.0,SecondHalf,Ismail Jakobs,349699,294,a,24.2,70.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""484""}, {""type"": ""Defensive""}]"
+2957490417.0,53,33.0,SecondHalf,Lucas Torreira,248109,294,a,28.0,56.7,BallRecovery,Successful,[]
+2957490477.0,53,38.0,SecondHalf,Nihad Mujakic,385060,10533,h,58.1,82.0,BallRecovery,Successful,[]
+2957492065.0,55,2.0,SecondHalf,Orhan Ovacikli,119550,10533,h,19.5,47.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957492859.0,55,36.0,SecondHalf,Gabriel Sara,349218,294,a,56.6,4.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""503""}, {""type"": ""Defensive""}]"
+2957492893.0,55,39.0,SecondHalf,Gabriel Sara,349218,294,a,35.0,7.5,BallRecovery,Successful,[]
+2957493209.0,55,57.0,SecondHalf,Elisha Owusu,345988,10533,h,44.4,61.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957494259.0,56,49.0,SecondHalf,Yakup Kirtay,630559,10533,h,7.7,38.6,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""538""}]"
+2957494349.0,56,53.0,SecondHalf,Nariman Akhundzada,443691,10533,h,13.6,39.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""PassEndX"", ""value"": ""57.2""}, {""type"": ""PassEndY"", ""value"": ""93.1""}, {""type"": ""Length"", ""value"": ""58.3""}, {""type"": ""Angle"", ""value"": ""0.67""}]"
+2957494353.0,56,55.0,SecondHalf,Mustafa Fettahoglu,451269,10533,h,57.2,93.1,BallRecovery,Successful,[]
+2957494661.0,57,11.0,SecondHalf,Ugurcan Çakir,258840,294,a,1.6,52.5,KeeperPickup,Successful,[]
+2957495563.0,57,56.0,SecondHalf,Elisha Owusu,345988,10533,h,44.2,40.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""552""}, {""type"": ""Defensive""}]"
+2957495643.0,58,0.0,SecondHalf,Orhan Ovacikli,119550,10533,h,31.1,36.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""553""}, {""type"": ""Defensive""}]"
+2957495677.0,58,3.0,SecondHalf,Elisha Owusu,345988,10533,h,32.7,37.5,BallRecovery,Successful,[]
+2957496027.0,58,21.0,SecondHalf,Mario Lemina,123481,294,a,67.0,95.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""525""}, {""type"": ""Offensive""}]"
+2957496081.0,58,24.0,SecondHalf,Amar Gërxhaliu,454393,10533,h,37.8,21.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""558""}, {""type"": ""Defensive""}]"
+2957496113.0,58,26.0,SecondHalf,Lucas Torreira,248109,294,a,58.6,60.3,BallRecovery,Successful,[]
+2957496833.0,59,1.0,SecondHalf,Amar Gërxhaliu,454393,10533,h,8.2,53.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.1""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""38.6""}, {""type"": ""Angle"", ""value"": ""1.00""}]"
+2957504261.0,59,15.0,SecondHalf,Amar Gërxhaliu,454393,10533,h,23.6,74.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957497097.0,59,16.0,SecondHalf,Amar Gërxhaliu,454393,10533,h,23.6,66.4,BallRecovery,Successful,[]
+2957498435.0,60,18.0,SecondHalf,Gabriel Sara,349218,294,a,56.9,61.8,BallRecovery,Successful,[]
+2957498445.0,60,20.0,SecondHalf,Orhan Ovacikli,119550,10533,h,23.7,28.5,BallRecovery,Successful,[]
+2957499455.0,61,8.0,SecondHalf,Davinson Sánchez,322655,294,a,12.4,33.6,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""559""}]"
+2957499687.0,61,18.0,SecondHalf,Ugurcan Çakir,258840,294,a,1.7,67.3,KeeperPickup,Successful,[]
+2957500269.0,61,46.0,SecondHalf,Brandon Baiye,444677,10533,h,51.7,34.2,BallRecovery,Successful,[]
+2957503007.0,64,13.0,SecondHalf,Orhan Ovacikli,119550,10533,h,14.1,6.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""612""}, {""type"": ""Defensive""}]"
+2957503085.0,64,17.0,SecondHalf,Baris Alper Yilmaz,421779,294,a,86.6,81.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""578""}, {""type"": ""Offensive""}]"
+2957503101.0,64,20.0,SecondHalf,Nariman Akhundzada,443691,10533,h,14.0,28.5,BallRecovery,Successful,[]
+2957503163.0,64,26.0,SecondHalf,Gabriel Sara,349218,294,a,72.9,77.1,BallRecovery,Successful,[]
+2957503431.0,64,41.0,SecondHalf,Amar Gërxhaliu,454393,10533,h,7.7,46.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""19.7""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""39.6""}, {""type"": ""Angle"", ""value"": ""1.25""}]"
+2957504433.0,66,7.0,SecondHalf,Nihad Mujakic,385060,10533,h,39.4,96.0,BallRecovery,Successful,[]
+2957508705.0,66,8.0,SecondHalf,Wilfried Singo,371063,294,a,43.8,10.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957508815.0,66,12.0,SecondHalf,Lucas Torreira,248109,294,a,65.0,14.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""588""}, {""type"": ""Defensive""}]"
+2957505203.0,67,21.0,SecondHalf,Yakup Kirtay,630559,10533,h,21.4,63.6,BallRecovery,Successful,[]
+2957505243.0,67,23.0,SecondHalf,Lucas Torreira,248109,294,a,70.9,36.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""593""}, {""type"": ""Offensive""}]"
+2957505245.0,67,25.0,SecondHalf,Lucas Torreira,248109,294,a,69.8,32.8,BallRecovery,Successful,[]
+2957506003.0,68,48.0,SecondHalf,Wilfried Singo,371063,294,a,21.3,7.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""609""}, {""type"": ""Defensive""}]"
+2957506015.0,68,51.0,SecondHalf,Leroy Sané,144711,294,a,33.8,17.2,BallRecovery,Successful,[]
+2957506677.0,70,4.0,SecondHalf,Matija Orbanic,630558,10533,h,6.2,71.8,KeeperPickup,Successful,[]
+2957506899.0,70,24.0,SecondHalf,Gabriel Sara,349218,294,a,59.8,12.6,BallRecovery,Successful,[]
+2957506989.0,70,31.0,SecondHalf,Brandon Baiye,444677,10533,h,29.0,76.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""668""}, {""type"": ""Defensive""}]"
+2957506993.0,70,32.0,SecondHalf,Brandon Baiye,444677,10533,h,26.7,79.5,BallRecovery,Successful,[]
+2957507177.0,70,56.0,SecondHalf,Gabriel Sara,349218,294,a,66.4,65.5,BallRecovery,Successful,[]
+2957507185.0,70,57.0,SecondHalf,Elisha Owusu,345988,10533,h,33.2,25.8,BallRecovery,Successful,[]
+2957507627.0,71,43.0,SecondHalf,Ugurcan Çakir,258840,294,a,13.8,64.8,KeeperPickup,Successful,[]
+2957507755.0,71,55.0,SecondHalf,Abdülkerim Bardakci,108073,294,a,15.7,87.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.6""}, {""type"": ""PassEndY"", ""value"": ""93.0""}, {""type"": ""Length"", ""value"": ""12.0""}, {""type"": ""Angle"", ""value"": ""0.31""}]"
+2957507765.0,71,58.0,SecondHalf,Brandon Baiye,444677,10533,h,74.6,10.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""678""}, {""type"": ""Defensive""}]"
+2957507887.0,72,17.0,SecondHalf,Yakup Kirtay,630559,10533,h,28.9,34.6,BallRecovery,Successful,[]
+2957508225.0,72,49.0,SecondHalf,Eren Elmali,373036,294,a,41.3,95.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""665""}, {""type"": ""Defensive""}]"
+2957508227.0,72,53.0,SecondHalf,Baris Alper Yilmaz,421779,294,a,53.5,92.7,BallRecovery,Successful,[]
+2957509069.0,74,25.0,SecondHalf,Davinson Sánchez,322655,294,a,12.3,32.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""44.1""}, {""type"": ""PassEndY"", ""value"": ""28.6""}, {""type"": ""Length"", ""value"": ""33.5""}, {""type"": ""Angle"", ""value"": ""6.21""}]"
+2957509273.0,74,39.0,SecondHalf,Davinson Sánchez,322655,294,a,8.6,40.6,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""686""}]"
+2957509941.0,76,6.0,SecondHalf,Amar Gërxhaliu,454393,10533,h,30.6,13.2,BallRecovery,Successful,[]
+2957510203.0,76,34.0,SecondHalf,Davinson Sánchez,322655,294,a,59.9,49.5,BallRecovery,Successful,[]
+2957510673.0,77,15.0,SecondHalf,Elisha Owusu,345988,10533,h,33.2,7.5,BallRecovery,Successful,[]
+2957511379.0,78,13.0,SecondHalf,Lesley Ugochukwu,404616,294,a,11.9,39.4,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""721""}]"
+2957511555.0,78,25.0,SecondHalf,Baris Alper Yilmaz,421779,294,a,8.9,95.5,BallRecovery,Successful,[]
+2957514201.0,81,30.0,SecondHalf,Wilfried Singo,371063,294,a,31.4,34.9,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2957514229.0,81,32.0,SecondHalf,Ugurcan Çakir,258840,294,a,7.6,63.0,KeeperPickup,Successful,[]
+2957523127.0,82,10.0,SecondHalf,Nihad Mujakic,385060,10533,h,67.1,89.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""747""}, {""type"": ""Offensive""}]"
+2957523371.0,82,12.0,SecondHalf,Wilfried Singo,371063,294,a,45.6,36.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""755""}, {""type"": ""Defensive""}]"
+2957514851.0,82,14.0,SecondHalf,Fernando Andrade,362559,10533,h,71.0,73.2,BallRecovery,Successful,[]
+2957514947.0,82,20.0,SecondHalf,Davinson Sánchez,322655,294,a,20.7,24.4,BallRecovery,Successful,[]
+2957515485.0,83,2.0,SecondHalf,Eren Elmali,373036,294,a,3.7,86.9,BallRecovery,Successful,[]
+2957515577.0,83,9.0,SecondHalf,Brandon Baiye,444677,10533,h,82.1,2.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2957515591.0,83,10.0,SecondHalf,Festy Ebosele,408984,10533,h,72.2,10.9,BallRecovery,Successful,[]
+2957516117.0,83,40.0,SecondHalf,Baris Alper Yilmaz,421779,294,a,26.4,84.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""780""}, {""type"": ""Defensive""}]"
+2957517593.0,85,43.0,SecondHalf,Brandon Baiye,444677,10533,h,45.0,40.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""783""}, {""type"": ""Defensive""}]"
+2957517995.0,86,16.0,SecondHalf,Gabriel Sara,349218,294,a,67.4,59.4,BallRecovery,Successful,[]
+2957518601.0,86,59.0,SecondHalf,Davinson Sánchez,322655,294,a,10.6,36.7,BallRecovery,Successful,[]
+2957518629.0,87,1.0,SecondHalf,Miguel Cardoso,295002,10533,h,67.4,57.7,BallRecovery,Successful,[]
+2957518719.0,87,7.0,SecondHalf,Ugurcan Çakir,258840,294,a,2.0,53.5,KeeperPickup,Successful,[]
+2957519721.0,88,20.0,SecondHalf,Nariman Akhundzada,443691,10533,h,30.5,36.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957519731.0,88,20.0,SecondHalf,Nariman Akhundzada,443691,10533,h,29.3,37.5,BallRecovery,Successful,[]
+2957519805.0,88,28.0,SecondHalf,Ugurcan Çakir,258840,294,a,6.3,67.0,BallRecovery,Successful,[]
+2957520079.0,88,50.0,SecondHalf,Amar Gërxhaliu,454393,10533,h,28.7,42.9,BallRecovery,Successful,[]
+2957520291.0,89,7.0,SecondHalf,Davinson Sánchez,322655,294,a,15.8,47.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957567427.0,89,7.0,SecondHalf,Davinson Sánchez,322655,294,a,18.9,49.6,BallRecovery,Successful,[]
+2957567461.0,89,12.0,SecondHalf,Yakup Kirtay,630559,10533,h,62.6,66.0,BallRecovery,Successful,[]
+2957520607.0,89,30.0,SecondHalf,Abdülkerim Bardakci,108073,294,a,11.9,64.0,BallRecovery,Successful,[]
+2957521339.0,90,30.0,SecondHalf,Festy Ebosele,408984,10533,h,26.5,43.9,BallRecovery,Successful,[]
+2957521437.0,90,38.0,SecondHalf,Eren Elmali,373036,294,a,39.5,64.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2957521449.0,90,39.0,SecondHalf,Eren Elmali,373036,294,a,35.8,43.0,BallRecovery,Successful,[]
+2957521567.0,90,47.0,SecondHalf,Nihad Mujakic,385060,10533,h,34.1,90.3,BallRecovery,Successful,[]
+2957522099.0,91,12.0,SecondHalf,Ugurcan Çakir,258840,294,a,5.9,52.8,KeeperPickup,Successful,[]

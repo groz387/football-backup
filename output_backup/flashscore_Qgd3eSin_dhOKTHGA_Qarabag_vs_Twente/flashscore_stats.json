@@ -1,0 +1,402 @@
+{
+  "provider": "flashscore",
+  "event_id": "Qgd3eSin_dhOKTHGA",
+  "home": "Qarabag",
+  "away": "Twente",
+  "overall": {
+    "xg": {
+      "h": 0.76,
+      "a": 2.65
+    },
+    "possession_pct": {
+      "h": 39.0,
+      "a": 61.0
+    },
+    "shots": {
+      "h": 9.0,
+      "a": 29.0
+    },
+    "shots_on_target": {
+      "h": 1.0,
+      "a": 10.0
+    },
+    "big_chances": {
+      "h": 1.0,
+      "a": 5.0
+    },
+    "corners": {
+      "h": 0.0,
+      "a": 9.0
+    },
+    "pass_accuracy_pct": {
+      "h": 76.0,
+      "a": 85.0
+    },
+    "passes_completed": {
+      "h": 324.0,
+      "a": 551.0
+    },
+    "pass_attempts": {
+      "h": 428.0,
+      "a": 651.0
+    },
+    "yellow_cards": {
+      "h": 6.0,
+      "a": 3.0
+    },
+    "red_cards": {
+      "h": 1.0,
+      "a": 0.0
+    },
+    "xgot": {
+      "h": 0.71,
+      "a": 2.96
+    },
+    "shots_off_target": {
+      "h": 4.0,
+      "a": 8.0
+    },
+    "shots_blocked": {
+      "h": 4.0,
+      "a": 11.0
+    },
+    "woodwork": {
+      "h": 1.0,
+      "a": 1.0
+    },
+    "penalty_box_touches": {
+      "h": 14.0,
+      "a": 56.0
+    },
+    "offsides": {
+      "h": 2.0,
+      "a": 2.0
+    },
+    "free_kicks": {
+      "h": 16.0,
+      "a": 21.0
+    },
+    "final_third_passes": {
+      "h": 54.0,
+      "a": 210.0
+    },
+    "throw_ins": {
+      "h": 21.0,
+      "a": 25.0
+    },
+    "fouls": {
+      "h": 21.0,
+      "a": 16.0
+    },
+    "tackles_won": {
+      "h": 14.0,
+      "a": 10.0
+    },
+    "tackles_attempted": {
+      "h": 24.0,
+      "a": 19.0
+    },
+    "duels_won": {
+      "h": 55.0,
+      "a": 68.0
+    },
+    "clearances": {
+      "h": 40.0,
+      "a": 15.0
+    },
+    "interceptions": {
+      "h": 11.0,
+      "a": 7.0
+    },
+    "saves": {
+      "h": 5.0,
+      "a": 0.0
+    }
+  },
+  "periods": {
+    "2nd Half": {
+      "xg": {
+        "h": 0.63,
+        "a": 1.47
+      },
+      "possession_pct": {
+        "h": 41.0,
+        "a": 59.0
+      },
+      "shots": {
+        "h": 5.0,
+        "a": 16.0
+      },
+      "shots_on_target": {
+        "h": 1.0,
+        "a": 4.0
+      },
+      "big_chances": {
+        "h": 1.0,
+        "a": 1.0
+      },
+      "corners": {
+        "h": 0.0,
+        "a": 6.0
+      },
+      "pass_accuracy_pct": {
+        "h": 74.0,
+        "a": 80.0
+      },
+      "passes_completed": {
+        "h": 105.0,
+        "a": 151.0
+      },
+      "pass_attempts": {
+        "h": 142.0,
+        "a": 188.0
+      },
+      "yellow_cards": {
+        "h": 3.0,
+        "a": 0.0
+      },
+      "xgot": {
+        "h": 0.71,
+        "a": 1.15
+      },
+      "shots_off_target": {
+        "h": 2.0,
+        "a": 5.0
+      },
+      "shots_blocked": {
+        "h": 2.0,
+        "a": 7.0
+      },
+      "woodwork": {
+        "h": 1.0,
+        "a": 0.0
+      },
+      "penalty_box_touches": {
+        "h": 5.0,
+        "a": 27.0
+      },
+      "offsides": {
+        "h": 2.0,
+        "a": 0.0
+      },
+      "free_kicks": {
+        "h": 5.0,
+        "a": 11.0
+      },
+      "final_third_passes": {
+        "h": 18.0,
+        "a": 62.0
+      },
+      "throw_ins": {
+        "h": 7.0,
+        "a": 9.0
+      },
+      "fouls": {
+        "h": 11.0,
+        "a": 5.0
+      },
+      "tackles_won": {
+        "h": 4.0,
+        "a": 4.0
+      },
+      "tackles_attempted": {
+        "h": 8.0,
+        "a": 7.0
+      },
+      "duels_won": {
+        "h": 19.0,
+        "a": 22.0
+      },
+      "clearances": {
+        "h": 16.0,
+        "a": 7.0
+      },
+      "interceptions": {
+        "h": 7.0,
+        "a": 1.0
+      },
+      "saves": {
+        "h": 1.0,
+        "a": 0.0
+      }
+    }
+  },
+  "raw_rows": [
+    {
+      "name": "Expected goals (xG)",
+      "home": "0.76",
+      "away": "2.65"
+    },
+    {
+      "name": "Ball possession",
+      "home": "39%",
+      "away": "61%"
+    },
+    {
+      "name": "Total shots",
+      "home": "9",
+      "away": "29"
+    },
+    {
+      "name": "Shots on target",
+      "home": "1",
+      "away": "10"
+    },
+    {
+      "name": "Big chances",
+      "home": "1",
+      "away": "5"
+    },
+    {
+      "name": "Corner kicks",
+      "home": "0",
+      "away": "9"
+    },
+    {
+      "name": "Passes",
+      "home": "76% (324/428)",
+      "away": "85% (551/651)"
+    },
+    {
+      "name": "Yellow cards",
+      "home": "6",
+      "away": "3"
+    },
+    {
+      "name": "Red cards",
+      "home": "1",
+      "away": "0"
+    },
+    {
+      "name": "xG on target (xGOT)",
+      "home": "0.71",
+      "away": "2.96"
+    },
+    {
+      "name": "Shots off target",
+      "home": "4",
+      "away": "8"
+    },
+    {
+      "name": "Blocked shots",
+      "home": "4",
+      "away": "11"
+    },
+    {
+      "name": "Shots inside the box",
+      "home": "5",
+      "away": "18"
+    },
+    {
+      "name": "Shots outside the box",
+      "home": "4",
+      "away": "11"
+    },
+    {
+      "name": "Hit the woodwork",
+      "home": "1",
+      "away": "1"
+    },
+    {
+      "name": "Touches in opposition box",
+      "home": "14",
+      "away": "56"
+    },
+    {
+      "name": "Accurate through passes",
+      "home": "1",
+      "away": "1"
+    },
+    {
+      "name": "Offsides",
+      "home": "2",
+      "away": "2"
+    },
+    {
+      "name": "Free kicks",
+      "home": "16",
+      "away": "21"
+    },
+    {
+      "name": "Long passes",
+      "home": "34% (31/92)",
+      "away": "60% (57/95)"
+    },
+    {
+      "name": "Passes in final third",
+      "home": "53% (54/101)",
+      "away": "80% (210/263)"
+    },
+    {
+      "name": "Crosses",
+      "home": "33% (3/9)",
+      "away": "29% (9/31)"
+    },
+    {
+      "name": "Expected assists (xA)",
+      "home": "0.47",
+      "away": "2.85"
+    },
+    {
+      "name": "Throw ins",
+      "home": "21",
+      "away": "25"
+    },
+    {
+      "name": "Fouls",
+      "home": "21",
+      "away": "16"
+    },
+    {
+      "name": "Tackles",
+      "home": "58% (14/24)",
+      "away": "53% (10/19)"
+    },
+    {
+      "name": "Duels won",
+      "home": "55",
+      "away": "68"
+    },
+    {
+      "name": "Clearances",
+      "home": "40",
+      "away": "15"
+    },
+    {
+      "name": "Interceptions",
+      "home": "11",
+      "away": "7"
+    },
+    {
+      "name": "Errors leading to shot",
+      "home": "1",
+      "away": "0"
+    },
+    {
+      "name": "Errors leading to goal",
+      "home": "1",
+      "away": "0"
+    },
+    {
+      "name": "Goalkeeper saves",
+      "home": "5",
+      "away": "0"
+    },
+    {
+      "name": "xGOT faced",
+      "home": "2.96",
+      "away": "0.71"
+    },
+    {
+      "name": "Goals prevented",
+      "home": "-1.04",
+      "away": "-0.29"
+    },
+    {
+      "name": "Goal kicks",
+      "home": "16",
+      "away": "10"
+    }
+  ],
+  "status": "AFTER EXTRA TIME"
+}

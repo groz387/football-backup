@@ -18,6 +18,7 @@ import requests
 
 from . import i18n
 from .data import MatchBundle
+from .jsonutil import loads_model_json
 
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 # Llama 3.3 70B was retired on Groq (Aug 2026). GPT-OSS 120B is the production
@@ -107,6 +108,33 @@ def translation_payload(
             "Return exactly one object for every input scene id, in the same order.",
             "Return JSON only.",
         ],
+        "glossary": {
+            "az": {
+                "saves": "seyvlər / qapıçı seyvləri — never qələbə",
+                "save": "seyv",
+                "clearances": "təmizləmələr",
+                "brick wall": "kərpic divar",
+                "on target": "çərçivəyə",
+                "big chances": "böyük şanslar",
+                "shots": "zərbələr",
+                "goals": "qollar",
+                "dribbles won": "driblinqlər",
+            },
+            "es": {
+                "saves": "paradas",
+                "brick wall": "muro de ladrillo",
+                "on target": "a puerta",
+                "big chances": "grandes ocasiones",
+                "dribbles won": "regates",
+            },
+            "ru": {
+                "saves": "сейвы",
+                "brick wall": "кирпичная стена",
+                "on target": "в створ",
+                "big chances": "острые моменты",
+                "dribbles won": "обводки",
+            },
+        }.get(target, {}),
         "scenes": [
             {
                 "id": scene["id"],
@@ -129,11 +157,7 @@ def translation_payload(
 
 
 def _parse_json_content(content: str) -> dict[str, Any]:
-    text = str(content or "").strip()
-    if text.startswith("```"):
-        text = re.sub(r"^```(?:json)?\s*", "", text)
-        text = re.sub(r"\s*```$", "", text)
-    parsed = json.loads(text)
+    parsed = loads_model_json(content)
     if not isinstance(parsed, dict):
         raise ValueError("translator JSON was not an object")
     return parsed
@@ -230,6 +254,7 @@ def _merge_and_validate(
     translated: dict[str, Any],
     bundle: MatchBundle,
     audit: dict[str, Any],
+    target: str = "en",
 ) -> tuple[list[dict[str, Any]], list[str]]:
     rows = translated.get("scenes") if isinstance(translated, dict) else None
     if not isinstance(rows, list):
@@ -261,6 +286,9 @@ def _merge_and_validate(
             required_names = [name for name in protected if name.casefold() in before.casefold()]
             if any(name.casefold() not in after.casefold() for name in required_names):
                 warnings.append(f"{scene_id}.{field}: name lock failed")
+                continue
+            if target != "en" and i18n.leftover_english(after, target):
+                warnings.append(f"{scene_id}.{field}: leftover English")
                 continue
             updated[field] = after
         if isinstance(scene.get("lines"), list) and isinstance(row.get("lines"), list):
@@ -300,10 +328,9 @@ def translate_story(
             parsed = fn(payload)
             used = "gemini"
     if parsed:
-        merged, warnings = _merge_and_validate(scenes, parsed, bundle, audit)
+        merged, warnings = _merge_and_validate(scenes, parsed, bundle, audit, target)
         return TranslationResult(merged, used, not warnings, warnings)
-    # Conservative fallback translates catalog/template lines only. It is
-    # explicitly marked partial so Studio can require human approval.
+    # Conservative fallback translates catalog/template lines only.
     offline = i18n.localize_scenes_offline(scenes, target)
     extra = []
     if choice in _GROQ_PROVIDERS and getattr(client, "last_error", ""):

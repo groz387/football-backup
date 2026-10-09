@@ -1,0 +1,204 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2962887625.0,0,18.0,FirstHalf,Cristhian Mosquera,425591,13,a,46.4,11.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962887653.0,0,21.0,FirstHalf,Bukayo Saka,367185,13,a,61.3,20.0,BallRecovery,Successful,[]
+2962887733.0,0,27.0,FirstHalf,Pau Torres,344259,24,h,7.3,91.5,BallRecovery,Successful,[]
+2962887749.0,0,28.0,FirstHalf,Kai Havertz,326413,13,a,89.6,1.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""10""}, {""type"": ""Defensive""}]"
+2963024501.0,1,8.0,FirstHalf,Ian Maatsen,384134,24,h,3.4,88.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""12.9""}, {""type"": ""PassEndY"", ""value"": ""89.3""}, {""type"": ""Length"", ""value"": ""10.0""}, {""type"": ""Angle"", ""value"": ""0.04""}]"
+2962888199.0,1,11.0,FirstHalf,Emiliano Buendía,260592,24,h,24.0,85.9,BallRecovery,Successful,[]
+2962888249.0,1,17.0,FirstHalf,Gabriel Magalhães,334087,13,a,39.6,22.8,BallRecovery,Successful,[]
+2962888423.0,1,31.0,FirstHalf,Ross Barkley,92547,24,h,47.2,69.6,BallRecovery,Successful,[]
+2962889047.0,1,50.0,FirstHalf,David Raya,276366,13,a,25.3,63.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""69.3""}, {""type"": ""PassEndY"", ""value"": ""51.1""}, {""type"": ""Length"", ""value"": ""47.0""}, {""type"": ""Angle"", ""value"": ""6.10""}]"
+2962889099.0,2,13.0,FirstHalf,Gabriel Magalhães,334087,13,a,5.6,61.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""3.6""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""27.6""}, {""type"": ""Angle"", ""value"": ""1.65""}]"
+2962889525.0,2,45.0,FirstHalf,Gabriel Magalhães,334087,13,a,4.8,57.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""9.3""}, {""type"": ""PassEndY"", ""value"": ""89.9""}, {""type"": ""Length"", ""value"": ""22.7""}, {""type"": ""Angle"", ""value"": ""1.36""}]"
+2962889533.0,2,47.0,FirstHalf,Christos Tzolis,399296,13,a,9.3,89.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.4""}, {""type"": ""PassEndY"", ""value"": ""96.9""}, {""type"": ""Length"", ""value"": ""8.8""}, {""type"": ""Angle"", ""value"": ""0.57""}]"
+2962889865.0,3,15.0,FirstHalf,Ross Barkley,92547,24,h,60.6,7.9,BallRecovery,Successful,[]
+2962889967.0,3,22.0,FirstHalf,David Raya,276366,13,a,3.4,38.7,BallRecovery,Successful,[]
+2962890073.0,3,28.0,FirstHalf,Zion Suzuki,447570,24,h,20.8,41.5,BallRecovery,Successful,[]
+2962890501.0,3,51.0,FirstHalf,Gabriel Magalhães,334087,13,a,53.4,42.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""50""}, {""type"": ""Defensive""}]"
+2962890529.0,3,55.0,FirstHalf,Myles Lewis-Skelly,467918,13,a,61.2,47.7,BallRecovery,Successful,[]
+2962891297.0,4,43.0,FirstHalf,Declan Rice,332325,13,a,68.5,87.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2962892009.0,5,33.0,FirstHalf,Victor Lindelöf,100008,24,h,22.2,96.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""63""}, {""type"": ""Defensive""}]"
+2962893305.0,7,3.0,FirstHalf,John McGinn,318449,24,h,7.2,13.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962893329.0,7,4.0,FirstHalf,John McGinn,318449,24,h,6.3,3.6,BallRecovery,Successful,[]
+2962893365.0,7,7.0,FirstHalf,Christos Tzolis,399296,13,a,79.9,91.1,BallRecovery,Successful,[]
+2962893485.0,7,12.0,FirstHalf,Matty Cash,322043,24,h,12.5,36.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""81""}]"
+2962894073.0,7,52.0,FirstHalf,Zion Suzuki,447570,24,h,6.0,56.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""6.8""}, {""type"": ""PassEndY"", ""value"": ""59.7""}, {""type"": ""Length"", ""value"": ""2.1""}, {""type"": ""Angle"", ""value"": ""1.17""}]"
+2962894679.0,8,35.0,FirstHalf,Bukayo Saka,367185,13,a,90.5,28.3,BallRecovery,Successful,[]
+2962894719.0,8,38.0,FirstHalf,Pau Torres,344259,24,h,7.8,61.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""61.8""}, {""type"": ""PassEndY"", ""value"": ""74.2""}, {""type"": ""Length"", ""value"": ""57.3""}, {""type"": ""Angle"", ""value"": ""0.15""}]"
+2962895129.0,9,6.0,FirstHalf,Bukayo Saka,367185,13,a,46.1,23.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""43.2""}, {""type"": ""PassEndY"", ""value"": ""35.9""}, {""type"": ""Length"", ""value"": ""9.2""}, {""type"": ""Angle"", ""value"": ""1.91""}]"
+2962895163.0,9,9.0,FirstHalf,Declan Rice,332325,13,a,38.5,35.7,BallRecovery,Successful,[]
+2962895703.0,9,48.0,FirstHalf,Ian Maatsen,384134,24,h,12.2,81.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""101""}, {""type"": ""Defensive""}]"
+2962895757.0,9,49.0,FirstHalf,Ian Maatsen,384134,24,h,21.7,81.4,BallRecovery,Successful,[]
+2962895843.0,9,54.0,FirstHalf,Martin Ødegaard,247454,13,a,64.8,6.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""89""}, {""type"": ""Defensive""}]"
+2962896227.0,10,23.0,FirstHalf,Declan Rice,332325,13,a,33.1,35.6,BallRecovery,Successful,[]
+2962896339.0,10,31.0,FirstHalf,Ross Barkley,92547,24,h,33.9,67.3,BallRecovery,Successful,[]
+2962899223.0,14,15.0,FirstHalf,Christos Tzolis,399296,13,a,24.6,68.0,BallRecovery,Successful,[]
+2962900567.0,15,52.0,FirstHalf,Declan Rice,332325,13,a,63.6,22.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""131""}, {""type"": ""Defensive""}]"
+2962901253.0,16,36.0,FirstHalf,Matty Cash,322043,24,h,6.8,25.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""165""}]"
+2962902595.0,18,5.0,FirstHalf,Myles Lewis-Skelly,467918,13,a,11.5,69.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""69.7""}, {""type"": ""Length"", ""value"": ""12.7""}, {""type"": ""Angle"", ""value"": ""3.13""}]"
+2962903229.0,18,43.0,FirstHalf,Riccardo Calafiori,386519,13,a,5.3,58.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""30.8""}, {""type"": ""PassEndY"", ""value"": ""92.2""}, {""type"": ""Length"", ""value"": ""35.1""}, {""type"": ""Angle"", ""value"": ""0.70""}]"
+2962903323.0,18,51.0,FirstHalf,Ben White,322036,13,a,14.0,25.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""27.0""}, {""type"": ""PassEndY"", ""value"": ""29.4""}, {""type"": ""Length"", ""value"": ""13.9""}, {""type"": ""Angle"", ""value"": ""0.19""}]"
+2962903379.0,18,56.0,FirstHalf,David Raya,276366,13,a,7.6,41.6,KeeperPickup,Successful,[]
+2962903489.0,19,4.0,FirstHalf,Zion Suzuki,447570,24,h,13.9,51.0,KeeperPickup,Successful,[]
+2962903935.0,19,36.0,FirstHalf,Myles Lewis-Skelly,467918,13,a,20.6,76.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962903955.0,19,38.0,FirstHalf,Riccardo Calafiori,386519,13,a,20.0,88.8,BallRecovery,Successful,[]
+2962903979.0,19,39.0,FirstHalf,Matty Cash,322043,24,h,69.3,3.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""185""}, {""type"": ""Offensive""}]"
+2962905145.0,20,56.0,FirstHalf,Boubacar Kamara,331790,24,h,33.8,55.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""45.8""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""33.8""}, {""type"": ""Angle"", ""value"": ""1.19""}]"
+2962905703.0,21,32.0,FirstHalf,Pau Torres,344259,24,h,12.8,88.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""12.8""}, {""type"": ""PassEndY"", ""value"": ""91.0""}, {""type"": ""Length"", ""value"": ""2.0""}, {""type"": ""Angle"", ""value"": ""1.57""}]"
+2962906061.0,21,52.0,FirstHalf,Gabriel Magalhães,334087,13,a,33.0,20.8,BallRecovery,Successful,[]
+2962906537.0,22,25.0,FirstHalf,Ian Maatsen,384134,24,h,22.4,90.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.0""}, {""type"": ""PassEndY"", ""value"": ""86.1""}, {""type"": ""Length"", ""value"": ""6.6""}, {""type"": ""Angle"", ""value"": ""5.80""}]"
+2962906543.0,22,27.0,FirstHalf,George Hemmings,576066,24,h,28.0,86.1,BallRecovery,Successful,[]
+2962906619.0,22,28.0,FirstHalf,Ben White,322036,13,a,71.2,8.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""173""}, {""type"": ""Offensive""}]"
+2962907063.0,23,6.0,FirstHalf,Gabriel Magalhães,334087,13,a,28.2,20.4,BallRecovery,Successful,[]
+2962907591.0,23,34.0,FirstHalf,Matty Cash,322043,24,h,31.0,3.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""226""}, {""type"": ""Defensive""}]"
+2962907931.0,24,1.0,FirstHalf,Pau Torres,344259,24,h,5.3,71.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""235""}]"
+2962909773.0,25,48.0,FirstHalf,Gabriel Magalhães,334087,13,a,9.7,70.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""PassEndX"", ""value"": ""62.5""}, {""type"": ""PassEndY"", ""value"": ""93.9""}, {""type"": ""Length"", ""value"": ""57.7""}, {""type"": ""Angle"", ""value"": ""0.28""}]"
+2962911053.0,27,55.0,FirstHalf,Ian Maatsen,384134,24,h,11.1,57.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""33.9""}, {""type"": ""PassEndY"", ""value"": ""60.7""}, {""type"": ""Length"", ""value"": ""24.0""}, {""type"": ""Angle"", ""value"": ""0.09""}]"
+2962911189.0,28,1.0,FirstHalf,Matty Cash,322043,24,h,13.5,13.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""258""}, {""type"": ""Defensive""}]"
+2962911835.0,28,50.0,FirstHalf,David Raya,276366,13,a,4.9,45.7,KeeperPickup,Successful,[]
+2962912737.0,30,2.0,FirstHalf,Victor Lindelöf,100008,24,h,35.9,64.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.7""}, {""type"": ""PassEndY"", ""value"": ""68.7""}, {""type"": ""Length"", ""value"": ""7.8""}, {""type"": ""Angle"", ""value"": ""0.42""}]"
+2962912775.0,30,5.0,FirstHalf,Kai Havertz,326413,13,a,70.9,39.1,BallRecovery,Successful,[]
+2962913803.0,31,16.0,FirstHalf,Ross Barkley,92547,24,h,5.2,51.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""7.4""}, {""type"": ""PassEndY"", ""value"": ""76.0""}, {""type"": ""Length"", ""value"": ""16.9""}, {""type"": ""Angle"", ""value"": ""1.43""}]"
+2962913945.0,31,25.0,FirstHalf,Ian Maatsen,384134,24,h,22.6,98.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""282""}, {""type"": ""Defensive""}]"
+2962914501.0,32,10.0,FirstHalf,Pau Torres,344259,24,h,11.2,73.0,BallRecovery,Successful,[]
+2962914803.0,32,33.0,FirstHalf,David Raya,276366,13,a,7.0,51.2,KeeperPickup,Successful,[]
+2962916453.0,34,37.0,FirstHalf,Bukayo Saka,367185,13,a,61.9,6.7,BallRecovery,Successful,[]
+2962916509.0,34,41.0,FirstHalf,Ross Barkley,92547,24,h,25.6,96.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""320""}, {""type"": ""Defensive""}]"
+2962917707.0,35,5.0,FirstHalf,Emiliano Buendía,260592,24,h,17.2,84.1,BallRecovery,Successful,[]
+2962916893.0,35,12.0,FirstHalf,John McGinn,318449,24,h,20.9,45.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""327""}, {""type"": ""Defensive""}]"
+2962916913.0,35,16.0,FirstHalf,Emiliano Buendía,260592,24,h,44.0,42.9,BallRecovery,Successful,[]
+2962916953.0,35,19.0,FirstHalf,Gabriel Magalhães,334087,13,a,29.8,59.2,BallRecovery,Successful,[]
+2962918381.0,37,10.0,FirstHalf,George Hemmings,576066,24,h,33.4,74.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""345""}, {""type"": ""Defensive""}]"
+2962918725.0,37,38.0,FirstHalf,Ross Barkley,92547,24,h,33.9,75.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""353""}, {""type"": ""Defensive""}]"
+2962919733.0,39,3.0,FirstHalf,Victor Lindelöf,100008,24,h,9.4,45.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.1""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""47.0""}, {""type"": ""Angle"", ""value"": ""5.53""}]"
+2962920853.0,40,19.0,FirstHalf,Zion Suzuki,447570,24,h,3.0,49.0,KeeperPickup,Successful,[]
+2962921149.0,40,33.0,FirstHalf,Riccardo Calafiori,386519,13,a,30.3,55.4,BallRecovery,Successful,[]
+2962921773.0,41,27.0,FirstHalf,Matty Cash,322043,24,h,8.7,27.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""393""}]"
+2962921815.0,41,29.0,FirstHalf,Matty Cash,322043,24,h,1.0,15.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""7.3""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""13.0""}, {""type"": ""Angle"", ""value"": ""5.25""}]"
+2962922111.0,41,50.0,FirstHalf,Nicolas Jackson,426050,24,h,33.4,3.1,BallRecovery,Successful,[]
+2962922391.0,42,11.0,FirstHalf,Gabriel Magalhães,334087,13,a,11.4,67.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""21.7""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""25.6""}, {""type"": ""Angle"", ""value"": ""1.14""}]"
+2962922913.0,42,48.0,FirstHalf,Martin Ødegaard,247454,13,a,21.5,59.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.5""}, {""type"": ""PassEndY"", ""value"": ""32.6""}, {""type"": ""Length"", ""value"": ""18.3""}, {""type"": ""Angle"", ""value"": ""4.66""}]"
+2962923007.0,42,56.0,FirstHalf,Martin Ødegaard,247454,13,a,25.9,16.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""266""}, {""type"": ""Defensive""}]"
+2962923045.0,42,57.0,FirstHalf,Martin Ødegaard,247454,13,a,21.3,15.2,BallRecovery,Successful,[]
+2962923169.0,43,8.0,FirstHalf,Matty Cash,322043,24,h,45.5,33.6,BallRecovery,Successful,[]
+2962923279.0,43,17.0,FirstHalf,Bukayo Saka,367185,13,a,53.7,8.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2962923289.0,43,19.0,FirstHalf,Bukayo Saka,367185,13,a,55.7,10.0,BallRecovery,Successful,[]
+2962924161.0,44,27.0,FirstHalf,Boubacar Kamara,331790,24,h,60.8,53.6,BallRecovery,Successful,[]
+2962936013.0,47,32.0,SecondHalf,George Hemmings,576066,24,h,20.4,81.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""441""}, {""type"": ""Defensive""}]"
+2962936053.0,47,35.0,SecondHalf,George Hemmings,576066,24,h,19.8,87.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""442""}, {""type"": ""Defensive""}]"
+2962936137.0,47,41.0,SecondHalf,Ross Barkley,92547,24,h,11.9,86.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""444""}, {""type"": ""Defensive""}]"
+2962936143.0,47,43.0,SecondHalf,Ross Barkley,92547,24,h,14.2,90.1,BallRecovery,Successful,[]
+2962936427.0,48,13.0,SecondHalf,Ross Barkley,92547,24,h,20.5,51.0,BallRecovery,Successful,[]
+2962937015.0,49,2.0,SecondHalf,Matty Cash,322043,24,h,37.4,4.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""454""}, {""type"": ""Defensive""}]"
+2962937515.0,50,1.0,SecondHalf,Victor Lindelöf,100008,24,h,8.7,46.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""1.1""}, {""type"": ""PassEndY"", ""value"": ""44.6""}, {""type"": ""Length"", ""value"": ""8.1""}, {""type"": ""Angle"", ""value"": ""3.29""}]"
+2962937523.0,50,3.0,SecondHalf,Zion Suzuki,447570,24,h,2.7,47.5,KeeperPickup,Successful,[]
+2962937637.0,50,16.0,SecondHalf,David Raya,276366,13,a,13.7,74.8,KeeperPickup,Successful,[]
+2962939265.0,51,3.0,SecondHalf,Gabriel Magalhães,334087,13,a,42.6,91.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962938101.0,51,7.0,SecondHalf,Riccardo Calafiori,386519,13,a,30.6,96.7,BallRecovery,Successful,[]
+2962939061.0,52,45.0,SecondHalf,Boubacar Kamara,331790,24,h,26.3,30.7,BallRecovery,Successful,[]
+2962939121.0,52,49.0,SecondHalf,Declan Rice,332325,13,a,53.0,50.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""349""}, {""type"": ""Defensive""}]"
+2962939559.0,53,33.0,SecondHalf,Cristhian Mosquera,425591,13,a,31.8,34.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""53.6""}, {""type"": ""PassEndY"", ""value"": ""41.7""}, {""type"": ""Length"", ""value"": ""23.5""}, {""type"": ""Angle"", ""value"": ""0.22""}]"
+2962939599.0,53,38.0,SecondHalf,Declan Rice,332325,13,a,38.5,36.3,BallRecovery,Successful,[]
+2962941899.0,57,32.0,SecondHalf,Declan Rice,332325,13,a,24.5,44.4,BallRecovery,Successful,[]
+2962942057.0,57,44.0,SecondHalf,Emiliano Buendía,260592,24,h,40.2,95.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""527""}, {""type"": ""Defensive""}]"
+2962943251.0,60,14.0,SecondHalf,Declan Rice,332325,13,a,43.6,65.5,BallRecovery,Successful,[]
+2962943693.0,61,12.0,SecondHalf,George Hemmings,576066,24,h,23.3,87.0,BallRecovery,Successful,[]
+2962943799.0,61,23.0,SecondHalf,David Raya,276366,13,a,5.0,44.1,KeeperPickup,Successful,[]
+2962944233.0,62,11.0,SecondHalf,Nicolas Jackson,426050,24,h,53.9,94.2,BallRecovery,Successful,[]
+2962944281.0,62,17.0,SecondHalf,Ben White,322036,13,a,29.9,21.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962944329.0,62,21.0,SecondHalf,Bukayo Saka,367185,13,a,29.1,25.3,BallRecovery,Successful,[]
+2962945071.0,63,38.0,SecondHalf,George Hemmings,576066,24,h,23.6,83.8,BallRecovery,Successful,[]
+2962945233.0,63,52.0,SecondHalf,Kai Havertz,326413,13,a,36.6,48.8,BallRecovery,Successful,[]
+2962945269.0,63,56.0,SecondHalf,Nicolas Jackson,426050,24,h,79.1,50.4,BallRecovery,Successful,[]
+2962945285.0,63,56.0,SecondHalf,Riccardo Calafiori,386519,13,a,13.0,62.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""428""}, {""type"": ""Defensive""}]"
+2962945349.0,64,0.0,SecondHalf,Myles Lewis-Skelly,467918,13,a,8.0,56.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""414""}]"
+2962945383.0,64,4.0,SecondHalf,Ben White,322036,13,a,15.3,50.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.0""}, {""type"": ""PassEndY"", ""value"": ""66.6""}, {""type"": ""Length"", ""value"": ""13.9""}, {""type"": ""Angle"", ""value"": ""0.95""}]"
+2962945403.0,64,6.0,SecondHalf,Eberechi Eze,332403,13,a,25.7,75.1,BallRecovery,Successful,[]
+2962945433.0,64,8.0,SecondHalf,Pau Torres,344259,24,h,68.1,38.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""590""}, {""type"": ""Offensive""}]"
+2962945497.0,64,13.0,SecondHalf,Boubacar Kamara,331790,24,h,73.0,35.8,BallRecovery,Successful,[]
+2962945495.0,64,13.0,SecondHalf,Declan Rice,332325,13,a,26.7,65.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""417""}, {""type"": ""Defensive""}]"
+2962945537.0,64,16.0,SecondHalf,Declan Rice,332325,13,a,29.0,69.9,BallRecovery,Successful,[]
+2962945999.0,64,59.0,SecondHalf,Cristhian Mosquera,425591,13,a,61.5,54.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""70.7""}, {""type"": ""PassEndY"", ""value"": ""56.4""}, {""type"": ""Length"", ""value"": ""9.8""}, {""type"": ""Angle"", ""value"": ""0.17""}]"
+2962946015.0,65,3.0,SecondHalf,Ross Barkley,92547,24,h,31.4,55.0,BallRecovery,Successful,[]
+2962946077.0,65,8.0,SecondHalf,Declan Rice,332325,13,a,27.0,31.1,BallRecovery,Successful,[]
+2962946279.0,65,27.0,SecondHalf,Victor Lindelöf,100008,24,h,12.5,46.3,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.0""}, {""type"": ""PassEndY"", ""value"": ""76.9""}, {""type"": ""Length"", ""value"": ""24.1""}, {""type"": ""Angle"", ""value"": ""1.04""}]"
+2962946301.0,65,29.0,SecondHalf,George Hemmings,576066,24,h,24.9,73.3,BallRecovery,Successful,[]
+2962946369.0,65,36.0,SecondHalf,Eberechi Eze,332403,13,a,66.0,78.1,BallRecovery,Successful,[]
+2962946823.0,66,20.0,SecondHalf,Ian Maatsen,384134,24,h,20.9,93.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962947071.0,66,50.0,SecondHalf,Boubacar Kamara,331790,24,h,3.2,70.6,BallRecovery,Successful,[]
+2962947137.0,66,56.0,SecondHalf,Gabriel Magalhães,334087,13,a,68.4,56.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""433""}, {""type"": ""Offensive""}]"
+2962947135.0,66,58.0,SecondHalf,Zion Suzuki,447570,24,h,3.4,45.3,KeeperPickup,Successful,[]
+2962947455.0,67,39.0,SecondHalf,Bukayo Saka,367185,13,a,10.1,28.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962951885.0,67,39.0,SecondHalf,Ross Barkley,92547,24,h,75.2,60.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""677""}, {""type"": ""Offensive""}]"
+2962947475.0,67,41.0,SecondHalf,Declan Rice,332325,13,a,18.4,42.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""442""}]"
+2962947525.0,67,46.0,SecondHalf,Declan Rice,332325,13,a,20.6,36.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""445""}, {""type"": ""Defensive""}]"
+2962947545.0,67,48.0,SecondHalf,Martin Ødegaard,247454,13,a,19.6,35.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""36.2""}, {""type"": ""PassEndY"", ""value"": ""59.8""}, {""type"": ""Length"", ""value"": ""24.1""}, {""type"": ""Angle"", ""value"": ""0.76""}]"
+2962948243.0,68,57.0,SecondHalf,Ben White,322036,13,a,7.9,35.4,BallRecovery,Successful,[]
+2962948321.0,69,5.0,SecondHalf,Zion Suzuki,447570,24,h,31.4,65.8,BallRecovery,Successful,[]
+2962948525.0,69,23.0,SecondHalf,Cristhian Mosquera,425591,13,a,8.9,42.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.8""}, {""type"": ""PassEndY"", ""value"": ""51.2""}, {""type"": ""Length"", ""value"": ""18.7""}, {""type"": ""Angle"", ""value"": ""0.33""}]"
+2962948575.0,69,30.0,SecondHalf,Myles Lewis-Skelly,467918,13,a,18.4,62.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.2""}, {""type"": ""PassEndY"", ""value"": ""63.8""}, {""type"": ""Length"", ""value"": ""2.0""}, {""type"": ""Angle"", ""value"": ""0.31""}]"
+2962949287.0,71,12.0,SecondHalf,Pau Torres,344259,24,h,24.8,82.9,BallRecovery,Successful,[]
+2962949331.0,71,18.0,SecondHalf,Kai Havertz,326413,13,a,78.3,3.9,BallRecovery,Successful,[]
+2962950173.0,73,1.0,SecondHalf,Gabriel Magalhães,334087,13,a,4.3,55.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.0""}, {""type"": ""PassEndY"", ""value"": ""98.9""}, {""type"": ""Length"", ""value"": ""31.1""}, {""type"": ""Angle"", ""value"": ""1.24""}]"
+2962950329.0,73,23.0,SecondHalf,Bruno Guimarães,338780,13,a,35.0,58.1,BallRecovery,Successful,[]
+2962950521.0,73,48.0,SecondHalf,Zion Suzuki,447570,24,h,9.5,56.2,KeeperPickup,Successful,[]
+2962950961.0,74,30.0,SecondHalf,Emiliano Buendía,260592,24,h,64.8,41.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""695""}, {""type"": ""Defensive""}]"
+2962950993.0,74,31.0,SecondHalf,Mikel Merino,238916,13,a,39.5,56.8,BallRecovery,Successful,[]
+2962951499.0,75,18.0,SecondHalf,Bruno Guimarães,338780,13,a,52.1,85.4,BallRecovery,Successful,[]
+2962953545.0,78,50.0,SecondHalf,Bukayo Saka,367185,13,a,30.8,8.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""536""}, {""type"": ""Defensive""}]"
+2962953575.0,78,54.0,SecondHalf,Mikel Merino,238916,13,a,38.5,12.0,BallRecovery,Successful,[]
+2962953713.0,79,9.0,SecondHalf,Pau Torres,344259,24,h,13.1,45.6,BallRecovery,Successful,[]
+2962953773.0,79,15.0,SecondHalf,Riccardo Calafiori,386519,13,a,53.2,76.5,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Center""}]"
+2962953811.0,79,17.0,SecondHalf,Eberechi Eze,332403,13,a,66.8,82.0,BallRecovery,Successful,[]
+2962954107.0,79,45.0,SecondHalf,Ian Maatsen,384134,24,h,59.9,95.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""738""}, {""type"": ""Defensive""}]"
+2962954123.0,79,51.0,SecondHalf,Emiliano Buendía,260592,24,h,64.9,67.3,BallRecovery,Successful,[]
+2962954151.0,79,52.0,SecondHalf,Bukayo Saka,367185,13,a,12.4,18.5,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""547""}, {""type"": ""Defensive""}]"
+2962954477.0,80,26.0,SecondHalf,David Raya,276366,13,a,4.5,52.5,Claim,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""HighClaim""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""551""}]"
+2962955109.0,81,32.0,SecondHalf,Alejandro Garnacho,437022,24,h,40.6,85.6,BallRecovery,Successful,[]
+2962955285.0,81,49.0,SecondHalf,Boubacar Kamara,331790,24,h,25.1,52.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.6""}, {""type"": ""PassEndY"", ""value"": ""57.1""}, {""type"": ""Length"", ""value"": ""3.0""}, {""type"": ""Angle"", ""value"": ""1.39""}]"
+2962955281.0,81,51.0,SecondHalf,Kai Havertz,326413,13,a,69.8,41.2,BallRecovery,Successful,[]
+2962955325.0,81,54.0,SecondHalf,Ian Maatsen,384134,24,h,6.3,75.1,BallRecovery,Successful,[]
+2962955455.0,82,5.0,SecondHalf,Ben White,322036,13,a,9.8,17.6,BallRecovery,Successful,[]
+2962955579.0,82,17.0,SecondHalf,Pau Torres,344259,24,h,42.3,82.2,BallRecovery,Successful,[]
+2962956143.0,83,13.0,SecondHalf,David Raya,276366,13,a,3.4,32.0,KeeperPickup,Successful,[]
+2962956583.0,84,4.0,SecondHalf,Victor Lindelöf,100008,24,h,3.4,57.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""67.2""}, {""type"": ""Length"", ""value"": ""8.4""}, {""type"": ""Angle"", ""value"": ""2.26""}]"
+2962957195.0,85,17.0,SecondHalf,Boubacar Kamara,331790,24,h,7.6,53.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""33.5""}, {""type"": ""PassEndY"", ""value"": ""61.6""}, {""type"": ""Length"", ""value"": ""27.7""}, {""type"": ""Angle"", ""value"": ""0.20""}]"
+2962957327.0,85,28.0,SecondHalf,Aaron Wan-Bissaka,331924,24,h,22.7,31.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""777""}, {""type"": ""Defensive""}]"
+2962957339.0,85,30.0,SecondHalf,John McGinn,318449,24,h,32.5,37.2,BallRecovery,Successful,[]
+2962957401.0,85,37.0,SecondHalf,David Raya,276366,13,a,14.6,37.9,KeeperPickup,Successful,[]
+2962957699.0,86,11.0,SecondHalf,Zion Suzuki,447570,24,h,7.8,46.2,KeeperPickup,Successful,[]
+2962957941.0,86,34.0,SecondHalf,Martín Zubimendi,372424,13,a,27.3,57.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""600""}, {""type"": ""Defensive""}]"
+2962957951.0,86,36.0,SecondHalf,Aaron Wan-Bissaka,331924,24,h,61.7,5.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""782""}, {""type"": ""Defensive""}]"
+2962958625.0,87,43.0,SecondHalf,Victor Lindelöf,100008,24,h,30.0,6.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.2""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""13.8""}, {""type"": ""Angle"", ""value"": ""5.90""}]"
+2962958803.0,87,58.0,SecondHalf,Alysson,520919,24,h,40.1,5.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""794""}, {""type"": ""Defensive""}]"
+2962959025.0,88,21.0,SecondHalf,Alysson,520919,24,h,66.0,3.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""803""}, {""type"": ""Defensive""}]"
+2962959297.0,88,51.0,SecondHalf,Zion Suzuki,447570,24,h,31.2,31.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""60.7""}, {""type"": ""PassEndY"", ""value"": ""34.9""}, {""type"": ""Length"", ""value"": ""31.0""}, {""type"": ""Angle"", ""value"": ""0.07""}]"
+2962959363.0,88,54.0,SecondHalf,Martín Zubimendi,372424,13,a,45.8,61.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""615""}, {""type"": ""Defensive""}]"
+2962959365.0,88,57.0,SecondHalf,Mikel Merino,238916,13,a,61.5,68.2,BallRecovery,Successful,[]
+2962959487.0,89,13.0,SecondHalf,Aaron Wan-Bissaka,331924,24,h,28.2,57.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""817""}, {""type"": ""Defensive""}]"
+2962959509.0,89,17.0,SecondHalf,Alejandro Garnacho,437022,24,h,28.0,58.9,BallRecovery,Successful,[]
+2962959521.0,89,19.0,SecondHalf,Mikel Merino,238916,13,a,57.3,67.2,BallRecovery,Successful,[]
+2962959581.0,89,26.0,SecondHalf,Alysson,520919,24,h,57.3,67.0,BallRecovery,Successful,[]
+2962959829.0,89,58.0,SecondHalf,Bukayo Saka,367185,13,a,35.6,16.5,BallRecovery,Successful,[]
+2962959975.0,90,14.0,SecondHalf,Pau Torres,344259,24,h,43.2,47.1,BallRecovery,Successful,[]
+2962960085.0,90,25.0,SecondHalf,Gabriel Magalhães,334087,13,a,22.4,70.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962960097.0,90,27.0,SecondHalf,Riccardo Calafiori,386519,13,a,23.0,82.8,BallRecovery,Successful,[]
+2962960207.0,90,38.0,SecondHalf,Alysson,520919,24,h,54.6,4.1,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""835""}, {""type"": ""Defensive""}]"
+2962960881.0,91,47.0,SecondHalf,Gabriel Magalhães,334087,13,a,27.0,84.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""652""}, {""type"": ""Defensive""}]"
+2962961457.0,92,46.0,SecondHalf,Ian Maatsen,384134,24,h,33.2,89.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2962962347.0,94,26.0,SecondHalf,Ezri Konsa,301440,13,a,36.4,30.3,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.7""}, {""type"": ""PassEndY"", ""value"": ""37.4""}, {""type"": ""Length"", ""value"": ""5.4""}, {""type"": ""Angle"", ""value"": ""1.11""}]"
+2962962365.0,94,30.0,SecondHalf,Gabriel Magalhães,334087,13,a,32.0,40.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""45.9""}, {""type"": ""PassEndY"", ""value"": ""49.2""}, {""type"": ""Length"", ""value"": ""15.9""}, {""type"": ""Angle"", ""value"": ""0.40""}]"
+2962962413.0,94,35.0,SecondHalf,Kai Havertz,326413,13,a,53.7,80.9,BallRecovery,Successful,[]
+2962962487.0,94,45.0,SecondHalf,Victor Lindelöf,100008,24,h,24.8,18.1,BallRecovery,Successful,[]
+2962962551.0,94,51.0,SecondHalf,David Raya,276366,13,a,8.7,52.0,KeeperPickup,Successful,[]
+2962962741.0,95,12.0,SecondHalf,Pau Torres,344259,24,h,30.0,71.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""40.0""}, {""type"": ""PassEndY"", ""value"": ""69.9""}, {""type"": ""Length"", ""value"": ""10.6""}, {""type"": ""Angle"", ""value"": ""6.18""}]"
+2962962779.0,95,17.0,SecondHalf,Ian Maatsen,384134,24,h,31.7,88.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""876""}, {""type"": ""Defensive""}]"
+2962962801.0,95,17.0,SecondHalf,Alejandro Garnacho,437022,24,h,33.4,86.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""877""}, {""type"": ""Defensive""}]"
+2962963287.0,96,25.0,SecondHalf,Boubacar Kamara,331790,24,h,29.4,71.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""886""}, {""type"": ""Defensive""}]"
+2962963291.0,96,27.0,SecondHalf,Pau Torres,344259,24,h,28.4,64.9,BallRecovery,Successful,[]
+2962963405.0,96,40.0,SecondHalf,David Raya,276366,13,a,10.2,52.3,KeeperPickup,Successful,[]
+2962963565.0,96,57.0,SecondHalf,Zion Suzuki,447570,24,h,14.5,74.1,KeeperPickup,Successful,[]
+2962963731.0,97,17.0,SecondHalf,Bruno Guimarães,338780,13,a,27.4,75.1,BallRecovery,Successful,[]
+2962963875.0,97,34.0,SecondHalf,Pau Torres,344259,24,h,18.0,72.9,BallRecovery,Successful,[]
+2962964337.0,98,29.0,SecondHalf,Bruno Guimarães,338780,13,a,11.4,56.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""702""}, {""type"": ""Defensive""}]"
+2962964365.0,98,36.0,SecondHalf,Gabriel Magalhães,334087,13,a,5.9,82.0,BallRecovery,Successful,[]

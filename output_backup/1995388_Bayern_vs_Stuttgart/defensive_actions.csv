@@ -1,0 +1,218 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2960582619.0,1,12.0,FirstHalf,Fabian Bredlow,142529,41,a,12.7,54.2,BallRecovery,Successful,[]
+2960582743.0,1,18.0,FirstHalf,Konrad Laimer,248010,37,h,65.1,12.9,BallRecovery,Successful,[]
+2960582915.0,1,25.0,FirstHalf,Maximilian Mittelstädt,261020,41,a,23.3,73.2,BallRecovery,Successful,[]
+2960583103.0,1,35.0,FirstHalf,Dayot Upamecano,327721,37,h,21.9,28.6,BallRecovery,Successful,[]
+2960583469.0,1,53.0,FirstHalf,Fabian Bredlow,142529,41,a,13.4,70.2,KeeperPickup,Successful,[]
+2960583915.0,2,12.0,FirstHalf,Manuel Neuer,13754,37,h,14.5,39.1,KeeperPickup,Successful,[]
+2960585377.0,3,10.0,FirstHalf,Fabian Bredlow,142529,41,a,11.0,43.0,KeeperPickup,Successful,[]
+2960594173.0,3,37.0,FirstHalf,Dayot Upamecano,327721,37,h,23.6,25.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.9""}, {""type"": ""PassEndY"", ""value"": ""25.5""}, {""type"": ""Length"", ""value"": ""0.4""}, {""type"": ""Angle"", ""value"": ""5.57""}]"
+2960586075.0,3,41.0,FirstHalf,Dayot Upamecano,327721,37,h,28.2,25.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""25""}, {""type"": ""Defensive""}]"
+2960645931.0,3,54.0,FirstHalf,Konrad Laimer,248010,37,h,41.3,23.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""376""}, {""type"": ""Defensive""}]"
+2960586463.0,3,55.0,FirstHalf,Deniz Undav,357091,41,a,59.2,83.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""46""}, {""type"": ""Defensive""}]"
+2960586525.0,3,56.0,FirstHalf,Maximilian Mittelstädt,261020,41,a,60.3,78.9,BallRecovery,Successful,[]
+2960586823.0,4,14.0,FirstHalf,Grischa Prömel,278125,41,a,40.7,11.2,BallRecovery,Successful,[]
+2960587309.0,4,36.0,FirstHalf,Dayot Upamecano,327721,37,h,19.2,61.1,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2960587357.0,4,37.0,FirstHalf,Dayot Upamecano,327721,37,h,12.4,65.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""13.8""}, {""type"": ""PassEndY"", ""value"": ""62.8""}, {""type"": ""Length"", ""value"": ""2.3""}, {""type"": ""Angle"", ""value"": ""5.41""}]"
+2960588243.0,5,24.0,FirstHalf,Dayot Upamecano,327721,37,h,5.5,44.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""13.8""}, {""type"": ""PassEndY"", ""value"": ""26.6""}, {""type"": ""Length"", ""value"": ""14.7""}, {""type"": ""Angle"", ""value"": ""5.34""}]"
+2960588279.0,5,26.0,FirstHalf,Aleksandar Pavlovic,481079,37,h,15.5,24.0,BallRecovery,Successful,[]
+2960588417.0,5,32.0,FirstHalf,Tiago Tomás,395850,41,a,41.2,97.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""58""}, {""type"": ""Defensive""}]"
+2960589947.0,6,44.0,FirstHalf,Dayot Upamecano,327721,37,h,38.5,27.4,BallRecovery,Successful,[]
+2960590317.0,7,2.0,FirstHalf,Maximilian Mittelstädt,261020,41,a,68.7,93.3,BallRecovery,Successful,[]
+2960590509.0,7,6.0,FirstHalf,Konrad Laimer,248010,37,h,26.5,16.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""56""}, {""type"": ""Defensive""}]"
+2960592229.0,8,28.0,FirstHalf,Finn Jeltsch,507717,41,a,65.3,17.7,BallRecovery,Successful,[]
+2960592431.0,8,37.0,FirstHalf,Kim Min-Jae,370912,37,h,4.0,42.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""9.2""}, {""type"": ""PassEndY"", ""value"": ""37.9""}, {""type"": ""Length"", ""value"": ""6.4""}, {""type"": ""Angle"", ""value"": ""5.73""}]"
+2960592611.0,8,44.0,FirstHalf,Konrad Laimer,248010,37,h,8.9,12.7,BallRecovery,Successful,[]
+2960592693.0,8,47.0,FirstHalf,Jeff Chabot,343317,41,a,67.5,84.6,BallRecovery,Successful,[]
+2960593131.0,9,5.0,FirstHalf,Joshua Kimmich,283323,37,h,9.2,39.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960593167.0,9,6.0,FirstHalf,Manuel Neuer,13754,37,h,4.3,41.1,KeeperPickup,Successful,[]
+2960595587.0,10,56.0,FirstHalf,Dayot Upamecano,327721,37,h,34.1,59.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960596439.0,11,32.0,FirstHalf,Kim Min-Jae,370912,37,h,13.4,57.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.0""}, {""type"": ""PassEndY"", ""value"": ""51.7""}, {""type"": ""Length"", ""value"": ""10.9""}, {""type"": ""Angle"", ""value"": ""5.89""}]"
+2960596553.0,11,35.0,FirstHalf,Dayot Upamecano,327721,37,h,14.8,43.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""99""}]"
+2960596615.0,11,38.0,FirstHalf,Tiago Tomás,395850,41,a,80.2,49.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""470""}, {""type"": ""Offensive""}]"
+2960597401.0,11,55.0,FirstHalf,Kim Min-Jae,370912,37,h,2.0,57.0,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""111""}]"
+2960599277.0,13,27.0,FirstHalf,Konrad Laimer,248010,37,h,33.5,3.3,BallRecovery,Successful,[]
+2960603035.0,16,36.0,FirstHalf,Tiago Tomás,395850,41,a,60.9,68.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""149""}, {""type"": ""Defensive""}]"
+2960604987.0,18,46.0,FirstHalf,Ramon Hendriks,422909,41,a,13.9,73.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""17.4""}, {""type"": ""PassEndY"", ""value"": ""74.6""}, {""type"": ""Length"", ""value"": ""3.7""}, {""type"": ""Angle"", ""value"": ""0.15""}]"
+2960605487.0,19,20.0,FirstHalf,Alphonso Davies,320040,37,h,47.0,80.1,BallRecovery,Successful,[]
+2960605687.0,19,34.0,FirstHalf,Finn Jeltsch,507717,41,a,4.8,21.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""173""}, {""type"": ""Defensive""}]"
+2960607417.0,21,48.0,FirstHalf,Alphonso Davies,320040,37,h,7.7,49.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""31.6""}, {""type"": ""PassEndY"", ""value"": ""8.8""}, {""type"": ""Length"", ""value"": ""37.5""}, {""type"": ""Angle"", ""value"": ""5.45""}]"
+2960607427.0,21,52.0,FirstHalf,Michael Olise,371281,37,h,31.6,8.8,BallRecovery,Successful,[]
+2960607539.0,22,1.0,FirstHalf,Finn Jeltsch,507717,41,a,46.2,59.2,BallRecovery,Successful,[]
+2960607589.0,22,5.0,FirstHalf,Dayot Upamecano,327721,37,h,32.1,70.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960607719.0,22,16.0,FirstHalf,Joshua Kimmich,283323,37,h,8.5,43.8,BallRecovery,Successful,[]
+2960608177.0,22,51.0,FirstHalf,Manuel Neuer,13754,37,h,13.5,53.7,KeeperPickup,Successful,[]
+2960747793.0,23,7.0,FirstHalf,Grischa Prömel,278125,41,a,52.2,31.7,BallRecovery,Successful,[]
+2960608957.0,23,27.0,FirstHalf,Dayot Upamecano,327721,37,h,40.3,20.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""757""}, {""type"": ""Defensive""}]"
+2960608849.0,23,48.0,FirstHalf,Fabian Bredlow,142529,41,a,15.7,52.0,KeeperPickup,Successful,[]
+2960608983.0,23,59.0,FirstHalf,Joshua Kimmich,283323,37,h,29.6,23.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""176""}, {""type"": ""Defensive""}]"
+2960651907.0,24,2.0,FirstHalf,Tiago Tomás,395850,41,a,75.5,72.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""199""}, {""type"": ""Defensive""}]"
+2960609297.0,24,22.0,FirstHalf,Joshua Kimmich,283323,37,h,7.5,18.7,BallRecovery,Successful,[]
+2960609413.0,24,31.0,FirstHalf,Ramon Hendriks,422909,41,a,25.5,97.5,BallRecovery,Successful,[]
+2960609619.0,24,51.0,FirstHalf,Luis Díaz,377168,37,h,52.7,41.5,BallRecovery,Successful,[]
+2960609665.0,24,56.0,FirstHalf,Fabian Bredlow,142529,41,a,11.0,54.1,KeeperPickup,Successful,[]
+2960609819.0,25,11.0,FirstHalf,Dayot Upamecano,327721,37,h,19.9,24.4,BallRecovery,Successful,[]
+2960610561.0,26,4.0,FirstHalf,Angelo Stiller,407476,41,a,25.9,63.4,BallRecovery,Successful,[]
+2960610743.0,26,18.0,FirstHalf,Michael Olise,371281,37,h,24.9,65.4,BallRecovery,Successful,[]
+2960610885.0,26,26.0,FirstHalf,Angelo Stiller,407476,41,a,38.7,36.7,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""239""}, {""type"": ""Defensive""}]"
+2960610947.0,26,32.0,FirstHalf,Jeff Chabot,343317,41,a,17.4,58.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""242""}, {""type"": ""Defensive""}]"
+2960611011.0,26,38.0,FirstHalf,Josha Vagnoman,354241,41,a,16.8,52.4,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""244""}]"
+2960612759.0,28,24.0,FirstHalf,Kim Min-Jae,370912,37,h,18.9,56.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.9""}, {""type"": ""PassEndY"", ""value"": ""23.1""}, {""type"": ""Length"", ""value"": ""23.2""}, {""type"": ""Angle"", ""value"": ""4.99""}]"
+2960612767.0,28,30.0,FirstHalf,Kim Min-Jae,370912,37,h,5.4,50.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.0""}, {""type"": ""PassEndY"", ""value"": ""68.1""}, {""type"": ""Length"", ""value"": ""23.7""}, {""type"": ""Angle"", ""value"": ""0.52""}]"
+2960612939.0,28,38.0,FirstHalf,Kim Min-Jae,370912,37,h,16.7,55.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""19.8""}, {""type"": ""PassEndY"", ""value"": ""50.8""}, {""type"": ""Length"", ""value"": ""4.7""}, {""type"": ""Angle"", ""value"": ""5.48""}]"
+2960613027.0,28,42.0,FirstHalf,Alphonso Davies,320040,37,h,13.6,67.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""22.9""}, {""type"": ""PassEndY"", ""value"": ""51.0""}, {""type"": ""Length"", ""value"": ""14.9""}, {""type"": ""Angle"", ""value"": ""5.43""}]"
+2960613541.0,29,10.0,FirstHalf,Michael Olise,371281,37,h,44.7,8.8,BallRecovery,Successful,[]
+2960613593.0,29,13.0,FirstHalf,Tiago Tomás,395850,41,a,63.6,88.0,BallRecovery,Successful,[]
+2960614077.0,29,36.0,FirstHalf,Joshua Kimmich,283323,37,h,9.7,38.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""37.5""}, {""type"": ""Length"", ""value"": ""11.2""}, {""type"": ""Angle"", ""value"": ""3.18""}]"
+2960614873.0,30,13.0,FirstHalf,Dayot Upamecano,327721,37,h,8.5,48.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""12.5""}, {""type"": ""PassEndY"", ""value"": ""41.2""}, {""type"": ""Length"", ""value"": ""6.5""}, {""type"": ""Angle"", ""value"": ""5.42""}]"
+2960614969.0,30,16.0,FirstHalf,Kim Min-Jae,370912,37,h,12.5,41.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.2""}, {""type"": ""PassEndY"", ""value"": ""56.4""}, {""type"": ""Length"", ""value"": ""15.3""}, {""type"": ""Angle"", ""value"": ""0.74""}]"
+2960615011.0,30,19.0,FirstHalf,Alphonso Davies,320040,37,h,13.5,33.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.4""}, {""type"": ""PassEndY"", ""value"": ""43.2""}, {""type"": ""Length"", ""value"": ""15.2""}, {""type"": ""Angle"", ""value"": ""0.47""}]"
+2960617389.0,31,59.0,FirstHalf,Ramon Hendriks,422909,41,a,16.7,93.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""27.5""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""12.4""}, {""type"": ""Angle"", ""value"": ""0.42""}]"
+2960618687.0,32,47.0,FirstHalf,Konrad Laimer,248010,37,h,87.5,42.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""266""}, {""type"": ""Offensive""}]"
+2960618949.0,33,2.0,FirstHalf,Angelo Stiller,407476,41,a,14.1,71.1,BallRecovery,Successful,[]
+2960621077.0,34,25.0,FirstHalf,Alphonso Davies,320040,37,h,20.4,76.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960621223.0,34,29.0,FirstHalf,Michael Olise,371281,37,h,11.3,4.9,BallRecovery,Successful,[]
+2960621557.0,34,38.0,FirstHalf,Josha Vagnoman,354241,41,a,53.8,47.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""328""}, {""type"": ""Defensive""}]"
+2960621619.0,34,42.0,FirstHalf,Finn Jeltsch,507717,41,a,42.6,27.9,BallRecovery,Successful,[]
+2960622655.0,35,16.0,FirstHalf,Luis Díaz,377168,37,h,36.6,90.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""289""}, {""type"": ""Defensive""}]"
+2960623553.0,35,46.0,FirstHalf,Aleksandar Pavlovic,481079,37,h,27.1,33.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""293""}, {""type"": ""Defensive""}]"
+2960628281.0,35,47.0,FirstHalf,Aleksandar Pavlovic,481079,37,h,31.1,45.6,BallRecovery,Successful,[]
+2960624003.0,35,58.0,FirstHalf,Fabian Bredlow,142529,41,a,27.4,55.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""52.9""}, {""type"": ""PassEndY"", ""value"": ""74.1""}, {""type"": ""Length"", ""value"": ""29.6""}, {""type"": ""Angle"", ""value"": ""0.44""}]"
+2960624461.0,36,19.0,FirstHalf,Grischa Prömel,278125,41,a,15.1,67.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""32.8""}, {""type"": ""PassEndY"", ""value"": ""97.5""}, {""type"": ""Length"", ""value"": ""27.7""}, {""type"": ""Angle"", ""value"": ""0.84""}]"
+2960626993.0,37,53.0,FirstHalf,Maximilian Mittelstädt,261020,41,a,7.2,57.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.5""}, {""type"": ""PassEndY"", ""value"": ""92.7""}, {""type"": ""Length"", ""value"": ""29.8""}, {""type"": ""Angle"", ""value"": ""0.92""}]"
+2960627413.0,38,8.0,FirstHalf,Jeff Chabot,343317,41,a,2.7,33.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""366""}, {""type"": ""Defensive""}]"
+2960628961.0,39,7.0,FirstHalf,Fabian Bredlow,142529,41,a,2.4,45.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.7""}, {""type"": ""PassEndY"", ""value"": ""57.1""}, {""type"": ""Length"", ""value"": ""15.1""}, {""type"": ""Angle"", ""value"": ""0.54""}]"
+2960628991.0,39,13.0,FirstHalf,Angelo Stiller,407476,41,a,14.7,57.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.9""}, {""type"": ""PassEndY"", ""value"": ""76.5""}, {""type"": ""Length"", ""value"": ""32.4""}, {""type"": ""Angle"", ""value"": ""0.42""}]"
+2960629629.0,39,36.0,FirstHalf,Dzenan Pejcinovic,444298,41,a,28.4,7.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""384""}, {""type"": ""Defensive""}]"
+2960629639.0,39,39.0,FirstHalf,Dzenan Pejcinovic,444298,41,a,39.4,7.5,BallRecovery,Successful,[]
+2960629725.0,39,41.0,FirstHalf,Joshua Kimmich,283323,37,h,46.3,67.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""319""}, {""type"": ""Defensive""}]"
+2960643383.0,39,42.0,FirstHalf,Kim Min-Jae,370912,37,h,45.3,55.9,BallRecovery,Successful,[]
+2960630199.0,39,52.0,FirstHalf,Josha Vagnoman,354241,41,a,12.3,52.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""13.3""}, {""type"": ""PassEndY"", ""value"": ""53.8""}, {""type"": ""Length"", ""value"": ""1.3""}, {""type"": ""Angle"", ""value"": ""0.57""}]"
+2960630215.0,39,55.0,FirstHalf,Ramon Hendriks,422909,41,a,4.7,62.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""17.3""}, {""type"": ""PassEndY"", ""value"": ""85.5""}, {""type"": ""Length"", ""value"": ""20.7""}, {""type"": ""Angle"", ""value"": ""0.88""}]"
+2960630473.0,40,7.0,FirstHalf,Fabian Bredlow,142529,41,a,4.5,54.9,KeeperPickup,Successful,[]
+2960631027.0,40,27.0,FirstHalf,Konrad Laimer,248010,37,h,43.3,41.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960631071.0,40,29.0,FirstHalf,Joshua Kimmich,283323,37,h,54.0,45.7,BallRecovery,Successful,[]
+2960633339.0,41,46.0,FirstHalf,Fabian Bredlow,142529,41,a,3.1,49.8,Punch,Successful,"[{""type"": ""PassEndX"", ""value"": ""24.1""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""41.3""}, {""type"": ""Angle"", ""value"": ""5.28""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""415""}]"
+2960634785.0,42,45.0,FirstHalf,Joshua Kimmich,283323,37,h,29.7,5.1,BallRecovery,Successful,[]
+2960635675.0,43,16.0,FirstHalf,Fabian Bredlow,142529,41,a,8.8,57.4,KeeperPickup,Successful,[]
+2960636277.0,43,38.0,FirstHalf,Alphonso Davies,320040,37,h,44.6,90.4,BallRecovery,Successful,[]
+2960636669.0,43,52.0,FirstHalf,Deniz Undav,357091,41,a,57.8,35.2,BallRecovery,Successful,[]
+2960636831.0,43,58.0,FirstHalf,Alphonso Davies,320040,37,h,35.4,80.5,BallRecovery,Successful,[]
+2960637185.0,44,11.0,FirstHalf,Jeff Chabot,343317,41,a,19.9,41.2,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2960637451.0,44,18.0,FirstHalf,Maximilian Mittelstädt,261020,41,a,13.0,63.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""448""}, {""type"": ""Defensive""}]"
+2960637539.0,44,23.0,FirstHalf,Finn Jeltsch,507717,41,a,9.5,46.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""9.7""}, {""type"": ""PassEndY"", ""value"": ""54.3""}, {""type"": ""Length"", ""value"": ""5.3""}, {""type"": ""Angle"", ""value"": ""1.53""}]"
+2960637573.0,44,24.0,FirstHalf,Maximilian Mittelstädt,261020,41,a,9.7,54.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""9.8""}, {""type"": ""PassEndY"", ""value"": ""87.4""}, {""type"": ""Length"", ""value"": ""22.3""}, {""type"": ""Angle"", ""value"": ""1.57""}]"
+2960638803.0,45,13.0,FirstHalf,Konrad Laimer,248010,37,h,15.8,4.0,BallRecovery,Successful,[]
+2960639129.0,45,26.0,FirstHalf,Joshua Kimmich,283323,37,h,37.1,4.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""370""}, {""type"": ""Defensive""}]"
+2960639629.0,45,42.0,FirstHalf,Fabian Bredlow,142529,41,a,3.1,48.0,KeeperPickup,Successful,[]
+2960664055.0,45,10.0,SecondHalf,Alphonso Davies,320040,37,h,24.5,68.2,BallRecovery,Successful,[]
+2960746417.0,45,42.0,SecondHalf,Ramon Hendriks,422909,41,a,38.7,85.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960665515.0,46,10.0,SecondHalf,Dayot Upamecano,327721,37,h,39.3,41.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""46.1""}, {""type"": ""PassEndY"", ""value"": ""41.4""}, {""type"": ""Length"", ""value"": ""7.1""}, {""type"": ""Angle"", ""value"": ""0.02""}]"
+2960665607.0,46,12.0,SecondHalf,Konrad Laimer,248010,37,h,41.0,24.9,BallRecovery,Successful,[]
+2960666003.0,46,15.0,SecondHalf,Ramon Hendriks,422909,41,a,29.3,71.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""32.2""}, {""type"": ""PassEndY"", ""value"": ""77.4""}, {""type"": ""Length"", ""value"": ""5.2""}, {""type"": ""Angle"", ""value"": ""0.95""}]"
+2960666011.0,46,28.0,SecondHalf,Finn Jeltsch,507717,41,a,9.3,35.4,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""493""}]"
+2960667255.0,47,11.0,SecondHalf,Fabian Bredlow,142529,41,a,2.5,51.3,Punch,Unsuccessful,"[{""type"": ""PassEndX"", ""value"": ""6.8""}, {""type"": ""PassEndY"", ""value"": ""81.9""}, {""type"": ""Length"", ""value"": ""21.3""}, {""type"": ""Angle"", ""value"": ""1.36""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""495""}]"
+2960667679.0,47,28.0,SecondHalf,Deniz Undav,357091,41,a,23.7,35.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""504""}, {""type"": ""Defensive""}]"
+2960669319.0,48,33.0,SecondHalf,Finn Jeltsch,507717,41,a,13.4,4.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""17.5""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""5.7""}, {""type"": ""Angle"", ""value"": ""5.58""}]"
+2960669585.0,48,44.0,SecondHalf,Maximilian Mittelstädt,261020,41,a,32.0,70.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""517""}, {""type"": ""Defensive""}]"
+2960669617.0,48,45.0,SecondHalf,Tiago Tomás,395850,41,a,36.0,74.1,BallRecovery,Successful,[]
+2960669847.0,48,54.0,SecondHalf,Konrad Laimer,248010,37,h,32.0,9.6,BallRecovery,Successful,[]
+2960670075.0,49,3.0,SecondHalf,Jeff Chabot,343317,41,a,24.5,80.1,BallRecovery,Successful,[]
+2960670357.0,49,15.0,SecondHalf,Joshua Kimmich,283323,37,h,57.8,19.2,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Right""}]"
+2960670451.0,49,18.0,SecondHalf,Konrad Laimer,248010,37,h,58.2,4.5,BallRecovery,Successful,[]
+2960670923.0,49,38.0,SecondHalf,Fabian Bredlow,142529,41,a,6.0,25.9,BallRecovery,Successful,[]
+2960671329.0,49,51.0,SecondHalf,Kim Min-Jae,370912,37,h,34.0,30.5,BallRecovery,Successful,[]
+2960671897.0,50,19.0,SecondHalf,Grischa Prömel,278125,41,a,24.2,33.0,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2960671931.0,50,20.0,SecondHalf,Angelo Stiller,407476,41,a,22.0,30.7,BallRecovery,Successful,[]
+2960672075.0,50,25.0,SecondHalf,Kim Min-Jae,370912,37,h,33.3,8.8,BallRecovery,Successful,[]
+2960672749.0,50,54.0,SecondHalf,Deniz Undav,357091,41,a,27.0,35.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960673535.0,51,26.0,SecondHalf,Grischa Prömel,278125,41,a,71.6,87.1,BallRecovery,Successful,[]
+2960673571.0,51,31.0,SecondHalf,Joshua Kimmich,283323,37,h,13.3,34.6,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2960673883.0,51,40.0,SecondHalf,Aleksandar Pavlovic,481079,37,h,7.8,56.5,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2960675695.0,53,1.0,SecondHalf,Jeff Chabot,343317,41,a,22.9,71.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""44.5""}, {""type"": ""PassEndY"", ""value"": ""73.9""}, {""type"": ""Length"", ""value"": ""22.7""}, {""type"": ""Angle"", ""value"": ""0.06""}]"
+2960676035.0,53,12.0,SecondHalf,Jeff Chabot,343317,41,a,18.5,52.0,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""562""}]"
+2960676121.0,53,16.0,SecondHalf,Josha Vagnoman,354241,41,a,14.5,46.2,BallRecovery,Successful,[]
+2960678011.0,54,23.0,SecondHalf,Angelo Stiller,407476,41,a,3.1,91.6,BallRecovery,Successful,[]
+2960678063.0,54,25.0,SecondHalf,Joshua Kimmich,283323,37,h,67.8,27.9,BallRecovery,Successful,[]
+2960679859.0,55,45.0,SecondHalf,Dayot Upamecano,327721,37,h,42.3,25.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""457""}, {""type"": ""Defensive""}]"
+2960679923.0,55,49.0,SecondHalf,Aleksandar Pavlovic,481079,37,h,41.3,29.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""458""}, {""type"": ""Defensive""}]"
+2960680137.0,55,56.0,SecondHalf,Maximilian Mittelstädt,261020,41,a,31.8,92.7,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2960680225.0,55,58.0,SecondHalf,Jeff Chabot,343317,41,a,34.2,98.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""590""}, {""type"": ""Defensive""}]"
+2960680741.0,56,18.0,SecondHalf,Finn Jeltsch,507717,41,a,12.9,73.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""32.5""}, {""type"": ""PassEndY"", ""value"": ""83.1""}, {""type"": ""Length"", ""value"": ""21.6""}, {""type"": ""Angle"", ""value"": ""0.30""}]"
+2960684953.0,59,2.0,SecondHalf,Joshua Kimmich,283323,37,h,15.9,41.9,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""477""}]"
+2960685083.0,59,6.0,SecondHalf,Manuel Neuer,13754,37,h,1.8,49.6,KeeperPickup,Successful,[]
+2960685211.0,59,14.0,SecondHalf,Deniz Undav,357091,41,a,62.5,10.9,BallRecovery,Successful,[]
+2960685791.0,59,34.0,SecondHalf,Joshua Kimmich,283323,37,h,23.9,53.6,BallRecovery,Successful,[]
+2960685955.0,59,43.0,SecondHalf,Finn Jeltsch,507717,41,a,46.0,7.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""612""}, {""type"": ""Defensive""}]"
+2960685959.0,59,44.0,SecondHalf,Finn Jeltsch,507717,41,a,53.2,9.6,BallRecovery,Successful,[]
+2960686051.0,59,49.0,SecondHalf,Aleksandar Pavlovic,481079,37,h,36.0,95.7,BallRecovery,Successful,[]
+2960686067.0,59,50.0,SecondHalf,Deniz Undav,357091,41,a,62.2,4.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""616""}, {""type"": ""Defensive""}]"
+2960686189.0,59,52.0,SecondHalf,Grischa Prömel,278125,41,a,57.1,6.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2960686397.0,60,4.0,SecondHalf,Jeff Chabot,343317,41,a,62.4,88.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""622""}, {""type"": ""Defensive""}]"
+2960687237.0,60,44.0,SecondHalf,Josha Vagnoman,354241,41,a,24.9,65.7,BallRecovery,Successful,[]
+2960687777.0,61,8.0,SecondHalf,Luis Díaz,377168,37,h,31.0,91.9,BallRecovery,Successful,[]
+2960723441.0,62,15.0,SecondHalf,Finn Jeltsch,507717,41,a,29.5,24.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""640""}, {""type"": ""Defensive""}]"
+2960689623.0,62,17.0,SecondHalf,Angelo Stiller,407476,41,a,28.4,23.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""721""}, {""type"": ""Defensive""}]"
+2960691571.0,64,19.0,SecondHalf,Aleksandar Pavlovic,481079,37,h,8.3,88.3,BallRecovery,Successful,[]
+2960692091.0,64,51.0,SecondHalf,Manuel Neuer,13754,37,h,1.1,51.1,KeeperPickup,Successful,[]
+2960692339.0,65,9.0,SecondHalf,Jamie Leweling,379252,41,a,16.6,63.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960692415.0,65,11.0,SecondHalf,Grischa Prömel,278125,41,a,15.3,52.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.8""}, {""type"": ""PassEndY"", ""value"": ""30.0""}, {""type"": ""Length"", ""value"": ""18.4""}, {""type"": ""Angle"", ""value"": ""5.28""}]"
+2960692423.0,65,11.0,SecondHalf,Josha Vagnoman,354241,41,a,20.6,28.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""657""}, {""type"": ""Defensive""}]"
+2960693145.0,66,15.0,SecondHalf,Manuel Neuer,13754,37,h,14.0,64.3,KeeperPickup,Successful,[]
+2960693371.0,66,31.0,SecondHalf,Josha Vagnoman,354241,41,a,66.5,6.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2960693463.0,66,39.0,SecondHalf,Fabian Bredlow,142529,41,a,21.8,26.1,BallRecovery,Successful,[]
+2960695277.0,68,47.0,SecondHalf,Jeff Chabot,343317,41,a,13.0,65.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.2""}, {""type"": ""PassEndY"", ""value"": ""59.7""}, {""type"": ""Length"", ""value"": ""8.6""}, {""type"": ""Angle"", ""value"": ""5.79""}]"
+2960695309.0,68,49.0,SecondHalf,Jamie Leweling,379252,41,a,30.4,70.3,BallRecovery,Successful,[]
+2960695327.0,68,50.0,SecondHalf,Alphonso Davies,320040,37,h,61.4,63.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""549""}, {""type"": ""Defensive""}]"
+2960695363.0,68,53.0,SecondHalf,Kim Min-Jae,370912,37,h,54.3,55.9,BallRecovery,Successful,[]
+2960695511.0,69,4.0,SecondHalf,Fabian Bredlow,142529,41,a,1.5,43.2,KeeperPickup,Successful,[]
+2960695821.0,69,29.0,SecondHalf,Fabian Bredlow,142529,41,a,15.1,32.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""35.6""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""31.8""}, {""type"": ""Angle"", ""value"": ""5.45""}]"
+2960696209.0,70,2.0,SecondHalf,Grischa Prömel,278125,41,a,62.3,90.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""714""}, {""type"": ""Defensive""}]"
+2960696229.0,70,6.0,SecondHalf,Jamie Leweling,379252,41,a,73.0,74.8,BallRecovery,Successful,[]
+2960696291.0,70,11.0,SecondHalf,Harry Kane,83532,37,h,24.6,37.6,BallRecovery,Successful,[]
+2960696357.0,70,17.0,SecondHalf,Angelo Stiller,407476,41,a,26.7,55.5,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2960696395.0,70,20.0,SecondHalf,Fabian Bredlow,142529,41,a,5.4,61.9,BallRecovery,Successful,[]
+2960697185.0,71,37.0,SecondHalf,Aleksandar Pavlovic,481079,37,h,9.3,36.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.1""}, {""type"": ""PassEndY"", ""value"": ""26.8""}, {""type"": ""Length"", ""value"": ""18.9""}, {""type"": ""Angle"", ""value"": ""5.92""}]"
+2960697939.0,72,44.0,SecondHalf,Jamie Leweling,379252,41,a,24.8,42.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""732""}, {""type"": ""Defensive""}]"
+2960697991.0,72,50.0,SecondHalf,Josha Vagnoman,354241,41,a,19.6,18.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""32.0""}, {""type"": ""PassEndY"", ""value"": ""9.0""}, {""type"": ""Length"", ""value"": ""14.7""}, {""type"": ""Angle"", ""value"": ""5.81""}]"
+2960698085.0,72,58.0,SecondHalf,Ramon Hendriks,422909,41,a,26.0,52.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""743""}, {""type"": ""Defensive""}]"
+2960699047.0,74,5.0,SecondHalf,Kim Min-Jae,370912,37,h,21.7,69.7,BallRecovery,Successful,[]
+2960699447.0,74,29.0,SecondHalf,Ramon Hendriks,422909,41,a,33.4,66.9,BallRecovery,Successful,[]
+2960700179.0,75,16.0,SecondHalf,Fabian Bredlow,142529,41,a,4.3,46.5,KeeperPickup,Successful,[]
+2960700575.0,75,40.0,SecondHalf,Luis Díaz,377168,37,h,60.1,93.0,BallRecovery,Successful,[]
+2960701267.0,76,19.0,SecondHalf,Grischa Prömel,278125,41,a,7.4,46.2,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""774""}]"
+2960701765.0,76,50.0,SecondHalf,Maximilian Mittelstädt,261020,41,a,1.2,44.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""777""}]"
+2960702741.0,77,45.0,SecondHalf,Fabian Bredlow,142529,41,a,4.1,51.0,Punch,Unsuccessful,"[{""type"": ""PassEndX"", ""value"": ""9.9""}, {""type"": ""PassEndY"", ""value"": ""46.5""}, {""type"": ""Length"", ""value"": ""6.8""}, {""type"": ""Angle"", ""value"": ""5.82""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""779""}]"
+2960702769.0,77,49.0,SecondHalf,Bilal El Khannouss,433572,41,a,11.6,54.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""782""}, {""type"": ""Defensive""}]"
+2960702867.0,77,57.0,SecondHalf,Josha Vagnoman,354241,41,a,10.7,45.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""786""}]"
+2960703355.0,78,28.0,SecondHalf,Kim Min-Jae,370912,37,h,34.1,34.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""40.0""}, {""type"": ""PassEndY"", ""value"": ""29.8""}, {""type"": ""Length"", ""value"": ""7.1""}, {""type"": ""Angle"", ""value"": ""5.77""}]"
+2960703877.0,78,57.0,SecondHalf,Kim Min-Jae,370912,37,h,10.8,49.6,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""631""}]"
+2960704451.0,79,39.0,SecondHalf,Dayot Upamecano,327721,37,h,2.9,47.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.2""}, {""type"": ""PassEndY"", ""value"": ""18.0""}, {""type"": ""Length"", ""value"": ""29.9""}, {""type"": ""Angle"", ""value"": ""5.56""}]"
+2960705445.0,80,46.0,SecondHalf,Maximilian Mittelstädt,261020,41,a,78.9,63.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""799""}, {""type"": ""Offensive""}]"
+2960705699.0,81,8.0,SecondHalf,Harry Kane,83532,37,h,6.9,43.8,BallRecovery,Successful,[]
+2960708005.0,83,51.0,SecondHalf,Dayot Upamecano,327721,37,h,7.7,59.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""17.3""}, {""type"": ""PassEndY"", ""value"": ""84.9""}, {""type"": ""Length"", ""value"": ""19.9""}, {""type"": ""Angle"", ""value"": ""1.04""}]"
+2960708031.0,83,53.0,SecondHalf,Luis Díaz,377168,37,h,18.5,86.7,BallRecovery,Successful,[]
+2960708123.0,84,0.0,SecondHalf,Leonidas Stergiou,401742,41,a,29.8,16.0,BallRecovery,Successful,[]
+2960709631.0,85,40.0,SecondHalf,Konrad Laimer,248010,37,h,64.8,17.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2960709655.0,85,41.0,SecondHalf,Ismael Saibari,404776,37,h,66.0,31.5,BallRecovery,Successful,[]
+2960710903.0,87,19.0,SecondHalf,Bilal El Khannouss,433572,41,a,5.1,77.4,BallRecovery,Successful,[]
+2960712073.0,88,45.0,SecondHalf,Tom Bischof,431282,37,h,37.7,17.1,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""702""}, {""type"": ""Defensive""}]"
+2960712097.0,88,48.0,SecondHalf,Joshua Kimmich,283323,37,h,37.4,9.1,BallRecovery,Successful,[]
+2960712223.0,88,53.0,SecondHalf,Leonidas Stergiou,401742,41,a,15.3,52.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""9.4""}, {""type"": ""PassEndY"", ""value"": ""75.6""}, {""type"": ""Length"", ""value"": ""16.9""}, {""type"": ""Angle"", ""value"": ""1.95""}]"
+2960712233.0,88,59.0,SecondHalf,Chema Andrés,539663,41,a,3.8,54.3,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2960712359.0,89,7.0,SecondHalf,Bilal El Khannouss,433572,41,a,19.6,96.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""878""}, {""type"": ""Defensive""}]"
+2960712731.0,89,36.0,SecondHalf,Josha Vagnoman,354241,41,a,20.2,21.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2960713075.0,90,1.0,SecondHalf,Maximilian Mittelstädt,261020,41,a,18.2,75.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""900""}, {""type"": ""Defensive""}]"
+2960713081.0,90,3.0,SecondHalf,Fabian Bredlow,142529,41,a,7.1,53.8,KeeperPickup,Successful,[]
+2960713707.0,90,35.0,SecondHalf,Jonathan Tah,134946,37,h,36.9,61.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""46.9""}, {""type"": ""PassEndY"", ""value"": ""31.8""}, {""type"": ""Length"", ""value"": ""22.8""}, {""type"": ""Angle"", ""value"": ""5.19""}]"
+2960713731.0,90,40.0,SecondHalf,Jonathan Tah,134946,37,h,32.4,40.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.3""}, {""type"": ""PassEndY"", ""value"": ""35.8""}, {""type"": ""Length"", ""value"": ""7.0""}, {""type"": ""Angle"", ""value"": ""5.81""}]"
+2960713791.0,90,43.0,SecondHalf,Dayot Upamecano,327721,37,h,28.2,30.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""719""}, {""type"": ""Defensive""}]"
+2960713847.0,90,48.0,SecondHalf,Dayot Upamecano,327721,37,h,22.0,6.7,BallRecovery,Successful,[]
+2960713929.0,90,53.0,SecondHalf,Finn Jeltsch,507717,41,a,58.3,63.9,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Center""}]"
+2960714029.0,90,58.0,SecondHalf,Leonidas Stergiou,401742,41,a,35.8,47.7,BallRecovery,Successful,[]
+2960714091.0,91,5.0,SecondHalf,Tom Bischof,431282,37,h,55.0,54.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2960714109.0,91,6.0,SecondHalf,Ismael Saibari,404776,37,h,64.1,40.5,BallRecovery,Successful,[]
+2960716521.0,93,47.0,SecondHalf,Leonidas Stergiou,401742,41,a,6.5,20.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""9.2""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""15.2""}, {""type"": ""Angle"", ""value"": ""4.90""}]"
+2960716599.0,93,54.0,SecondHalf,Finn Jeltsch,507717,41,a,21.0,16.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""929""}, {""type"": ""Defensive""}]"
+2960716803.0,94,0.0,SecondHalf,Leonidas Stergiou,401742,41,a,11.8,36.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""27.2""}, {""type"": ""PassEndY"", ""value"": ""25.5""}, {""type"": ""Length"", ""value"": ""17.7""}, {""type"": ""Angle"", ""value"": ""5.87""}]"
+2960717541.0,94,59.0,SecondHalf,Manuel Neuer,13754,37,h,6.6,41.5,KeeperPickup,Successful,[]

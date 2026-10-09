@@ -1,0 +1,326 @@
+{
+  "match": {
+    "match_dir": "output\\1980554_PSG_vs_Aston_Villa",
+    "home": "PSG",
+    "away": "Aston Villa",
+    "score": {
+      "home": 2,
+      "away": 1,
+      "display": "2-1",
+      "after_extra_time": false,
+      "after_shootout": false,
+      "ninety_minute": null
+    },
+    "score_display": "2-1",
+    "score_qualifier": "",
+    "kickoff": "2026-08-12",
+    "league": "UEFA Super Cup",
+    "stage": "",
+    "venue": "Red Bull Arena Salzburg",
+    "last_minute": 95
+  },
+  "generation": {
+    "language": "en",
+    "language_name": "English",
+    "team_kind": "club",
+    "badge_shape": "circle",
+    "gemini_used": false,
+    "gemini_model": null,
+    "gemini_error": null,
+    "fps": 24,
+    "transition_seconds": 0.45,
+    "target_seconds": 48.0,
+    "total_seconds": 57.417
+  },
+  "selected_visualizations": [
+    {
+      "id": "goal_timeline",
+      "title": "Goal Timeline",
+      "available": true,
+      "score": 99.0,
+      "reason": "Every goal in order with the running scoreline.",
+      "best_for": "Matches where the scoreline itself is the story.",
+      "avoid_when": "One-goal games, where a single tactical pattern says more."
+    },
+    {
+      "id": "shot_map",
+      "title": "Shot Map",
+      "available": true,
+      "score": 91.0,
+      "reason": "Where both teams shot from and what happened to each attempt.",
+      "best_for": "Volume mismatches, wasteful finishing, or a goal glut.",
+      "avoid_when": "Too few shots to fill the pitch."
+    },
+    {
+      "id": "momentum",
+      "title": "Momentum Swing",
+      "available": true,
+      "score": 85.0,
+      "reason": "Attacking pressure per five minutes, so the turning point is visible.",
+      "best_for": "Comebacks, late sieges, and games that changed character.",
+      "avoid_when": "The curve is flat and no swing actually happened."
+    }
+  ],
+  "all_candidates": [
+    {
+      "id": "goal_timeline",
+      "title": "Goal Timeline",
+      "available": true,
+      "score": 99.0,
+      "reason": "Every goal in order with the running scoreline.",
+      "best_for": "Matches where the scoreline itself is the story.",
+      "avoid_when": "One-goal games, where a single tactical pattern says more."
+    },
+    {
+      "id": "shot_map",
+      "title": "Shot Map",
+      "available": true,
+      "score": 91.0,
+      "reason": "Where both teams shot from and what happened to each attempt.",
+      "best_for": "Volume mismatches, wasteful finishing, or a goal glut.",
+      "avoid_when": "Too few shots to fill the pitch."
+    },
+    {
+      "id": "momentum",
+      "title": "Momentum Swing",
+      "available": true,
+      "score": 85.0,
+      "reason": "Attacking pressure per five minutes, so the turning point is visible.",
+      "best_for": "Comebacks, late sieges, and games that changed character.",
+      "avoid_when": "The curve is flat and no swing actually happened."
+    },
+    {
+      "id": "zone_control",
+      "title": "Territory Map",
+      "available": true,
+      "score": 76.0,
+      "reason": "Touch volume across eighteen zones shows who owned which areas.",
+      "best_for": "Territorial stories where one side was pinned back.",
+      "avoid_when": "Territory was even and the scoreline was not."
+    },
+    {
+      "id": "goal_chain",
+      "title": "Goal Build-up",
+      "available": true,
+      "score": 64.0,
+      "reason": "One verified possession traced pass by pass to the finish.",
+      "best_for": "A single constructed goal worth slowing down for.",
+      "avoid_when": "High-scoring games, where one chain cannot carry the story."
+    },
+    {
+      "id": "goalmouth",
+      "title": "Goalmouth Placement",
+      "available": true,
+      "score": 70.0,
+      "reason": "Where every on-target shot crossed the goal line, and who stopped it.",
+      "best_for": "Goalkeeping performances and finishing quality.",
+      "avoid_when": "Few shots reached the frame."
+    },
+    {
+      "id": "pass_network",
+      "title": "Pass Network",
+      "available": true,
+      "score": 62.8,
+      "reason": "Average positions and the strongest passing links.",
+      "best_for": "Build-up identity and control stories.",
+      "avoid_when": "Goals and shots explain the result more directly."
+    },
+    {
+      "id": "sterile_domination",
+      "title": "Control vs Threat",
+      "available": true,
+      "score": 72.8,
+      "reason": "Tests whether the team with the ball turned it into shots.",
+      "best_for": "One-sided pass share that did not become chances.",
+      "avoid_when": "The pass-share edge is small."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "title",
+      "visualization": "title",
+      "kicker": "UEFA SUPER CUP",
+      "title": "PSG FOUND A WAY",
+      "subtitle": "",
+      "insight": "6 shots on target turned into the win.",
+      "narration": "PSG 2, Aston Villa 1. 6 shots on target turned into the win.",
+      "on_screen": 6.216667,
+      "clip": 6.666667,
+      "frames": 160,
+      "clip_start": 0.0,
+      "clip_end": 6.667,
+      "visible_start": 0.225,
+      "visible_end": 6.442
+    },
+    {
+      "id": "standard_stats",
+      "visualization": "standard_stats",
+      "kicker": "THE BASELINE",
+      "title": "THE NUMBERS SPLIT DOWN THE MIDDLE",
+      "subtitle": "",
+      "insight": "Neither side could claim the baseline counts.",
+      "stat_keys": [
+        "goals",
+        "corners",
+        "shots_on_target",
+        "shots_blocked",
+        "offsides"
+      ],
+      "narration": "Start with the baseline. Neither side could claim the baseline counts. Pass share was 59 to 41.",
+      "on_screen": 7.758333,
+      "clip": 8.208333,
+      "frames": 197,
+      "clip_start": 6.217,
+      "clip_end": 14.425,
+      "visible_start": 6.442,
+      "visible_end": 14.2
+    },
+    {
+      "id": "goal_timeline",
+      "visualization": "goal_timeline",
+      "kicker": "EVERY GOAL",
+      "title": "3 GOALS, ONE RUNNING SCORE",
+      "subtitle": "",
+      "insight": "PSG had the last word in the 60th minute.",
+      "narration": "Kvaratskhelia opened it in the 19th minute. 3 goals later it finished 2-1, Doué having the final say in the 60th.",
+      "on_screen": 9.341667,
+      "clip": 9.791667,
+      "frames": 235,
+      "clip_start": 13.975,
+      "clip_end": 23.767,
+      "visible_start": 14.2,
+      "visible_end": 23.542
+    },
+    {
+      "id": "shot_map",
+      "visualization": "shot_map",
+      "kicker": "SHOT MAP",
+      "title": "PSG KEPT TESTING THE KEEPER",
+      "subtitle": "Every attempt, by outcome",
+      "insight": "12 against 15 shots, 6 against 4 on target.",
+      "narration": "PSG took 12 shots and put 6 on target. Aston Villa took 15 and hit the target 4 times. Blocked efforts are marked separately, because a block is not a save.",
+      "on_screen": 13.008333,
+      "clip": 13.458333,
+      "frames": 323,
+      "clip_start": 23.317,
+      "clip_end": 36.775,
+      "visible_start": 23.542,
+      "visible_end": 36.55
+    },
+    {
+      "id": "momentum",
+      "visualization": "momentum",
+      "kicker": "PRESSURE",
+      "title": "THE FIRST HALF SET THE TONE",
+      "subtitle": "PSG above the line, Aston Villa below",
+      "insight": "The heaviest spell fell to Aston Villa between minutes 40-44.",
+      "narration": "This is attacking pressure in five minute blocks, built from final-third passes, box entries, shots and goals. The biggest surge belongs to Aston Villa in the 40-44 minute window.",
+      "on_screen": 12.466667,
+      "clip": 12.916667,
+      "frames": 310,
+      "clip_start": 36.325,
+      "clip_end": 49.242,
+      "visible_start": 36.55,
+      "visible_end": 49.017
+    },
+    {
+      "id": "close",
+      "visualization": "close",
+      "stat_keys": [
+        "goals",
+        "corners",
+        "shots_on_target",
+        "shots_blocked"
+      ],
+      "kicker": "FULL TIME",
+      "title": "PSG 2-1 ASTON VILLA",
+      "subtitle": "",
+      "insight": "PSG took the result and the numbers.",
+      "narration": "PSG win it 2-1. 6 shots on target, 3 big chances, and a result that matches the map.",
+      "on_screen": 8.175,
+      "clip": 8.625,
+      "frames": 207,
+      "clip_start": 48.792,
+      "clip_end": 57.417,
+      "visible_start": 49.017,
+      "visible_end": 57.192
+    }
+  ],
+  "subtitles": [
+    {
+      "start": 0.225,
+      "end": 2.438,
+      "text": "PSG 2, Aston Villa 1."
+    },
+    {
+      "start": 2.438,
+      "end": 6.442,
+      "text": "6 shots on target turned into the win."
+    },
+    {
+      "start": 6.442,
+      "end": 8.444,
+      "text": "Start with the baseline."
+    },
+    {
+      "start": 8.444,
+      "end": 12.198,
+      "text": "Neither side could claim the\nbaseline counts."
+    },
+    {
+      "start": 12.198,
+      "end": 14.2,
+      "text": "Pass share was 59 to 41."
+    },
+    {
+      "start": 14.2,
+      "end": 17.787,
+      "text": "Kvaratskhelia opened it in\nthe 19th minute."
+    },
+    {
+      "start": 17.787,
+      "end": 23.542,
+      "text": "3 goals later it finished 2-1, Doué\nhaving the final say in the 60th."
+    },
+    {
+      "start": 23.542,
+      "end": 26.752,
+      "text": "PSG took 12 shots and put 6 on target."
+    },
+    {
+      "start": 26.752,
+      "end": 30.722,
+      "text": "Aston Villa took 15 and hit\nthe target 4 times."
+    },
+    {
+      "start": 30.722,
+      "end": 36.55,
+      "text": "Blocked efforts are marked separately,\nbecause a block is not a save."
+    },
+    {
+      "start": 36.55,
+      "end": 42.185,
+      "text": "This is attacking pressure in five minute\nblocks, built from final-third passes,"
+    },
+    {
+      "start": 42.185,
+      "end": 44.227,
+      "text": "box entries, shots and goals."
+    },
+    {
+      "start": 44.227,
+      "end": 49.017,
+      "text": "The biggest surge belongs to Aston Villa\nin the 40-44 minute window."
+    },
+    {
+      "start": 49.017,
+      "end": 50.494,
+      "text": "PSG win it 2-1."
+    },
+    {
+      "start": 50.494,
+      "end": 57.192,
+      "text": "6 shots on target, 3 big chances, and a\nresult that matches the map."
+    }
+  ]
+}

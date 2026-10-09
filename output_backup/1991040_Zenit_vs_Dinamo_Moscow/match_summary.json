@@ -1,0 +1,421 @@
+{
+  "matchId": 1991040,
+  "startDate": "2026-08-16T00:00:00",
+  "startTime": "2026-08-16T12:30:00",
+  "score": "3 : 0",
+  "ftScore": "3 : 0",
+  "htScore": "2 : 0",
+  "etScore": "",
+  "venueName": "Gazprom Arena",
+  "attendance": 34793,
+  "referee": {
+    "officialId": 936,
+    "firstName": "Artem",
+    "lastName": "Chistyakov",
+    "hasParticipatedMatches": false,
+    "name": "Artem Chistyakov"
+  },
+  "maxMinute": 94,
+  "home": {
+    "teamId": 560,
+    "name": "Zenit",
+    "countryName": "Russia",
+    "averageAge": 26.2,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 51
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 51,
+        "endMinuteExpanded": 76
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 76,
+        "endMinuteExpanded": 76
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 76,
+        "endMinuteExpanded": 83
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 83,
+        "endMinuteExpanded": 88
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 88,
+        "endMinuteExpanded": 94
+      }
+    ],
+    "players": [
+      {
+        "playerId": 321380,
+        "name": "Denis Adamov",
+        "shirtNo": 16,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 400652,
+        "name": "Gustavo Mantuan",
+        "shirtNo": 31,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 373523,
+        "name": "Nino",
+        "shirtNo": 33,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 362031,
+        "name": "Igor Diveev",
+        "shirtNo": 78,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 412011,
+        "name": "Román Vega",
+        "shirtNo": 66,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 337841,
+        "name": "Wendel",
+        "shirtNo": 8,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 126539,
+        "name": "Wílmar Barrios",
+        "shirtNo": 5,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 371088,
+        "name": "Maksim Glushenkov",
+        "shirtNo": 10,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 445427,
+        "name": "Pedro Henrique",
+        "shirtNo": 20,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 429475,
+        "name": "Jhon Jhon",
+        "shirtNo": 14,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 330714,
+        "name": "Aleksandr Sobolev",
+        "shirtNo": 7,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 115097,
+        "name": "Douglas Santos",
+        "shirtNo": 3,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 418155,
+        "name": "Felipe Augusto",
+        "shirtNo": 9,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 432682,
+        "name": "Kevin Andrade",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 364703,
+        "name": "Nuraly Alip",
+        "shirtNo": 28,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 585717,
+        "name": "Daniil Kondakov",
+        "shirtNo": 61,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 397587,
+        "name": "Luiz Henrique",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 132573,
+        "name": "Vyacheslav Karavaev",
+        "shirtNo": 15,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 42226,
+        "name": "Aleksandr Erokhin",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 379203,
+        "name": "Andrey Mostovoy",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 425426,
+        "name": "Sergey Volkov",
+        "shirtNo": 82,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 396285,
+        "name": "Daniil Odoevskiy",
+        "shirtNo": 71,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 482360,
+        "name": "Bogdan Moskvichev",
+        "shirtNo": 57,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 846,
+    "name": "Dinamo Moscow",
+    "countryName": "Russia",
+    "averageAge": 24.3,
+    "formations": [
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 65
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 65,
+        "endMinuteExpanded": 78
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 78,
+        "endMinuteExpanded": 78
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 78,
+        "endMinuteExpanded": 90
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 90,
+        "endMinuteExpanded": 94
+      }
+    ],
+    "players": [
+      {
+        "playerId": 494077,
+        "name": "Kurban Rasulov",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 392316,
+        "name": "Juan José Cáceres",
+        "shirtNo": 4,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 439813,
+        "name": "David Ricardo",
+        "shirtNo": 57,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 378567,
+        "name": "Maksim Osipenko",
+        "shirtNo": 55,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 407747,
+        "name": "Rubens",
+        "shirtNo": 8,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 322649,
+        "name": "Daniil Fomin",
+        "shirtNo": 74,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 450872,
+        "name": "Bitello",
+        "shirtNo": 10,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 595293,
+        "name": "Timofey Marinkin",
+        "shirtNo": 60,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 419901,
+        "name": "Yaroslav Gladyshev",
+        "shirtNo": 91,
+        "position": "FWR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 404327,
+        "name": "Konstantin Tyukavin",
+        "shirtNo": 70,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 329403,
+        "name": "Arthur Gomes",
+        "shirtNo": 11,
+        "position": "FWL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 143799,
+        "name": "Anton Miranchuk",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 521594,
+        "name": "Viktor Okishor",
+        "shirtNo": 88,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 420368,
+        "name": "Ivan Sergeev",
+        "shirtNo": 33,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 326350,
+        "name": "Dmitri Skopintsev",
+        "shirtNo": 7,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 447642,
+        "name": "Luis Chávez",
+        "shirtNo": 24,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 455523,
+        "name": "Ulvi Babaev",
+        "shirtNo": 17,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 353898,
+        "name": "Danil Glebov",
+        "shirtNo": 15,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 254686,
+        "name": "Igor Leshchuk",
+        "shirtNo": 31,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 475304,
+        "name": "Milan Majstorovic",
+        "shirtNo": 5,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 510512,
+        "name": "Leon Zaydenzal",
+        "shirtNo": 56,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 443304,
+        "name": "Roberto Fernández",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 644020,
+        "name": "Ruslan Dzhioev",
+        "shirtNo": 51,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "Russia",
+  "league": "Premier League",
+  "season": "2026/2027",
+  "competitionType": "League",
+  "competitionStage": ""
+}

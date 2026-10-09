@@ -1,0 +1,420 @@
+{
+  "matchId": 1980554,
+  "startDate": "2026-08-12T00:00:00",
+  "startTime": "2026-08-12T20:00:00",
+  "score": "2 : 1",
+  "ftScore": "2 : 1",
+  "htScore": "1 : 1",
+  "etScore": "",
+  "venueName": "Red Bull Arena Salzburg",
+  "attendance": 0,
+  "referee": null,
+  "maxMinute": 95,
+  "home": {
+    "teamId": 304,
+    "name": "PSG",
+    "countryName": "France",
+    "averageAge": 24.3,
+    "formations": [
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 48
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 48,
+        "endMinuteExpanded": 77
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 77,
+        "endMinuteExpanded": 77
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 77,
+        "endMinuteExpanded": 89
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 89,
+        "endMinuteExpanded": 90
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 90,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 329019,
+        "name": "Matvey Safonov",
+        "shirtNo": 39,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 320834,
+        "name": "Achraf Hakimi",
+        "shirtNo": 2,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 101949,
+        "name": "Marquinhos",
+        "shirtNo": 5,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 432378,
+        "name": "Willian Pacho",
+        "shirtNo": 51,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 395221,
+        "name": "Nuno Mendes",
+        "shirtNo": 25,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 444679,
+        "name": "Warren Zaïre-Emery",
+        "shirtNo": 33,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 465388,
+        "name": "João Neves",
+        "shirtNo": 87,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 384887,
+        "name": "Vitinha",
+        "shirtNo": 17,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 433183,
+        "name": "Désiré Doué",
+        "shirtNo": 14,
+        "position": "FWR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 426648,
+        "name": "Maghnes Akliouche",
+        "shirtNo": 11,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 370984,
+        "name": "Khvicha Kvaratskhelia",
+        "shirtNo": 7,
+        "position": "FWL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 513665,
+        "name": "Senny Mayulu",
+        "shirtNo": 24,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 139186,
+        "name": "Lucas Hernández",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 299513,
+        "name": "Ousmane Dembélé",
+        "shirtNo": 10,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 294193,
+        "name": "Fabián Ruiz",
+        "shirtNo": 8,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 440085,
+        "name": "Beraldo",
+        "shirtNo": 4,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 425366,
+        "name": "Bradley Barcola",
+        "shirtNo": 29,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 535536,
+        "name": "Ibrahim Mbaye",
+        "shirtNo": 49,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 560493,
+        "name": "Quentin Ndjantou",
+        "shirtNo": 47,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 398299,
+        "name": "Lucas Chevalier",
+        "shirtNo": 30,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 89925,
+        "name": "Lucas Digne",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 572375,
+        "name": "Dro Fernández",
+        "shirtNo": 27,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 399826,
+        "name": "Illia Zabarnyi",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 24,
+    "name": "Aston Villa",
+    "countryName": "England",
+    "averageAge": 24.7,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 74
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 74,
+        "endMinuteExpanded": 74
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 74,
+        "endMinuteExpanded": 75
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 75,
+        "endMinuteExpanded": 81
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 81,
+        "endMinuteExpanded": 81
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 81,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 83824,
+        "name": "Marco Bizot",
+        "shirtNo": 40,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 322043,
+        "name": "Matty Cash",
+        "shirtNo": 2,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 344259,
+        "name": "Pau Torres",
+        "shirtNo": 14,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 100008,
+        "name": "Victor Lindelöf",
+        "shirtNo": 3,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 384134,
+        "name": "Ian Maatsen",
+        "shirtNo": 22,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 403693,
+        "name": "João Gomes",
+        "shirtNo": 35,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 331790,
+        "name": "Boubacar Kamara",
+        "shirtNo": 8,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 318449,
+        "name": "John McGinn",
+        "shirtNo": 7,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 260592,
+        "name": "Emiliano Buendía",
+        "shirtNo": 10,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 576066,
+        "name": "George Hemmings",
+        "shirtNo": 53,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 555332,
+        "name": "Brian Madjo",
+        "shirtNo": 39,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 520919,
+        "name": "Alysson Edward",
+        "shirtNo": 47,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 408946,
+        "name": "Lamare Bogarde",
+        "shirtNo": 26,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 123167,
+        "name": "Tyrone Mings",
+        "shirtNo": 5,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 317506,
+        "name": "Tammy Abraham",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 92547,
+        "name": "Ross Barkley",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 492955,
+        "name": "Kosta Nedeljkovic",
+        "shirtNo": 32,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 478019,
+        "name": "James Wright",
+        "shirtNo": 42,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 540464,
+        "name": "Triston Rowe",
+        "shirtNo": 45,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 550064,
+        "name": "Bradley Burrowes",
+        "shirtNo": 49,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 631057,
+        "name": "Modou Kéba Cissé",
+        "shirtNo": 48,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 642113,
+        "name": "Owen Asemota",
+        "shirtNo": 60,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 642114,
+        "name": "Luka Lynch",
+        "shirtNo": 74,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "Europe",
+  "league": "UEFA Super Cup",
+  "season": "2025/2026",
+  "competitionType": "League",
+  "competitionStage": ""
+}

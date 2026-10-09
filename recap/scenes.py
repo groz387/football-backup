@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 import numpy as np
-from matplotlib.patches import FancyArrowPatch, Polygon, Rectangle
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Polygon
 
 from . import draw, graphs, i18n, theme
 from .audit import GOAL_Y_MAX, GOAL_Y_MIN, GOAL_Z_MAX, best_goal_chain, build_pass_network, dominant_team
@@ -33,11 +33,11 @@ Renderer = Callable[[MatchBundle, dict[str, Any], dict[str, Any], Path, float], 
 
 # Shot outcome styling, shared by the shot map and its legend.
 OUTCOME_STYLE = {
-    "goal": {"label_key": "outcome_goal", "marker": "dot", "size": 240},
-    "saved": {"label_key": "outcome_saved", "marker": "dot", "size": 120},
-    "off_target": {"label_key": "outcome_off_target", "marker": "ring", "size": 110},
-    "blocked": {"label_key": "outcome_blocked", "marker": "cross", "size": 105},
-    "woodwork": {"label_key": "outcome_woodwork", "marker": "ring", "size": 140},
+    "goal": {"label_key": "outcome_goal", "marker": "dot", "size": 200},
+    "saved": {"label_key": "outcome_saved", "marker": "dot", "size": 88},
+    "off_target": {"label_key": "outcome_off_target", "marker": "ring", "size": 72},
+    "blocked": {"label_key": "outcome_blocked", "marker": "cross", "size": 62},
+    "woodwork": {"label_key": "outcome_woodwork", "marker": "ring", "size": 90},
 }
 
 
@@ -599,61 +599,48 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
     fig = draw.new_figure(design)
     tl = Timeline(progress)
     stats = audit["team_stats"]
-    home, away = stats[bundle.home], stats[bundle.away]
 
     content_top = _chrome(fig, bundle, scene, tl)
 
-    rect = Layout.fitted_rect(draw.PITCH_ASPECT, top=content_top - 0.032, bottom=0.168)
-    draw.fig_panel(fig, rect[0] - 0.012, rect[1] - draw.y_of(0.012),
-                   rect[2] + 0.024, rect[3] + 2 * draw.y_of(0.012),
+    rect = Layout.fitted_rect(draw.PITCH_ASPECT, top=content_top - 0.036, bottom=0.142)
+    draw.fig_panel(fig, rect[0] - 0.010, rect[1] - draw.y_of(0.010),
+                   rect[2] + 0.020, rect[3] + 2 * draw.y_of(0.010),
                    color="#080b09", alpha=0.80 * tl.cue(0.04, 0.24),
                    edge=design["hairline"], radius=0.012, zorder=2)
     ax = draw.vertical_pitch(fig, rect, face=design["pitch"], line=design["pitch_line"],
                              alpha=tl.cue(0.06, 0.26))
-    draw.pitch_grid_fade(ax, alpha=0.045 * tl.cue(0.06, 0.26))
+    ax.set_zorder(3)
 
     left = rect[0]
     right = rect[0] + rect[2]
-    ax.set_zorder(3)
-    alpha = tl.cue(0.08, 0.26)
-
-    # Home attacks the top of the frame, away attacks the bottom, so the two
-    # sets of shots are aimed at different goals as they were in the match.
-    for side, y, arrow in (
-        ("h", rect[1] + rect[3] + 0.020, i18n.t("attacking_up")),
-        ("a", rect[1] - 0.032, i18n.t("attacking_down")),
+    label_alpha = tl.cue(0.08, 0.26)
+    # Home attacks the top of the frame, away the bottom — one quiet line each.
+    for side, y in (
+        ("h", rect[1] + rect[3] + 0.018),
+        ("a", rect[1] - 0.022),
     ):
         name = bundle.team(side)
         team_stats = stats[name]
         colour = theme.side_color(design, side)
         draw.fit_text(
-            fig, left, y, name.upper(), fontsize=24, max_width=0.40, max_lines=1,
-            min_fontsize=12, ha="left", va="center", color=colour,
-            family=theme.DISPLAY_FONT, fontweight="bold", alpha=alpha, zorder=20,
+            fig, left, y, name.upper(), fontsize=20, max_width=0.42, max_lines=1,
+            min_fontsize=11, ha="left", va="center", color=colour,
+            family=theme.DISPLAY_FONT, fontweight="bold", alpha=label_alpha, zorder=20,
         )
-        fig.text(right, y + 0.008,
-                 i18n.t("shots_on_target_line", shots=team_stats["shots"], on_target=team_stats["shots_on_target"]),
-                 color=TEXT_DIM, fontsize=theme.label_size(11), family=theme.LABEL_FONT, fontweight="bold",
-                 ha="right", va="center",
-                 alpha=alpha, zorder=20)
-        fig.text(right, y - 0.010, arrow, color=TEXT_FAINT, fontsize=theme.label_size(8.5),
-                 family=theme.LABEL_FONT, fontweight="bold",
-                 ha="right", va="center", alpha=alpha * 0.85, zorder=20)
+        fig.text(
+            right, y,
+            f"{int(team_stats['shots'])}  ·  {int(team_stats['shots_on_target'])} SOT",
+            color=TEXT_FAINT, fontsize=theme.label_size(11), family=theme.MONO_FONT,
+            fontweight="bold", ha="right", va="center", alpha=label_alpha, zorder=20,
+        )
 
     shots = sorted(audit["shots"], key=lambda s: (s["minute"] or 0))
     visible = tl.reveal_count(len(shots), start=0.14, span=0.52)
-
-    # Markers are collected by shape and drawn as three collections rather than
-    # one scatter call per shot, which is far cheaper per frame.
     batches: dict[str, dict[str, list]] = {
         key: {"x": [], "y": [], "s": [], "c": [], "a": []}
-        for key in ("dot", "ring", "cross", "big_chance")
+        for key in ("dot", "ring", "cross")
     }
-    # Two goals from nearly the same spot would otherwise print their scorers
-    # on top of each other; the second label is dropped instead.
     scorer_labels: list[tuple[float, float]] = []
-    badges: list[tuple[float, float, int, str, float, bool]] = []
-    last_visible = visible - 1
     for index, shot in enumerate(shots):
         if index >= visible:
             break
@@ -665,13 +652,9 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
         px, py = draw.to_pitch(shot["x"], shot["y"], flip=flip)
         style = OUTCOME_STYLE.get(shot["outcome"], OUTCOME_STYLE["off_target"])
         colour = design["goal"] if shot["outcome"] == "goal" else theme.side_color(design, shot["h_a"])
-        # `local` overshoots past 1 so markers pop and settle; sizes use it raw
-        # while opacities are clamped.
-        size = style["size"] * (0.6 + 0.4 * local) * local
+        size = style["size"] * (0.72 + 0.28 * local)
         if shot.get("big_chance"):
-            size *= 1.5
-        if shot["outcome"] in {"goal", "saved"}:
-            size *= 1.22
+            size *= 1.18
         fade = draw.opacity(local)
 
         batch = batches[style["marker"]]
@@ -679,65 +662,52 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
         batch["y"].append(py)
         batch["s"].append(size)
         batch["c"].append(colour)
-        batch["a"].append(fade * (1.0 if style["marker"] == "dot" else 0.9))
+        batch["a"].append(fade * (1.0 if style["marker"] == "dot" else 0.88))
 
-        if shot["big_chance"] and shot["outcome"] != "goal" and local > 0.4:
-            big = batches["big_chance"]
-            big["x"].append(px)
-            big["y"].append(py)
-            big["s"].append(size * 2.4)
-            big["c"].append(theme.WARNING)
-            big["a"].append(draw.opacity((local - 0.4) * 1.2))
-
-        if shot["outcome"] == "goal":
-            draw.impact_burst(ax, px, py, design["goal"], fade, base_radius=3.2, zorder=15)
-            if fade > 0.7:
-                draw.particle_burst(ax, px, py, design["goal"], min(1.0, fade), count=5, radius=3.2, zorder=16)
+        if shot["outcome"] == "goal" and fade > 0.45:
+            draw.glow_ring(
+                ax, px, py, design["goal"], radius=2.4,
+                x_radius=2.4 / draw.PITCH_ASPECT,
+                alpha=0.32 * fade, zorder=11,
+            )
             surname = (shot["player"] or "").split()[-1][:12]
-            offset = 4.8 if not flip else -4.8
+            offset = 4.4 if not flip else -4.4
             label_at = (px, py + offset)
             crowded = any(
                 abs(px - other_x) < 16 and abs(label_at[1] - other_y) < 4.0
                 for other_x, other_y in scorer_labels
             )
-            if surname and local > 0.5 and not crowded:
+            name_alpha = draw.opacity((local - 0.5) * 2)
+            if surname and name_alpha > 0.15 and not crowded:
                 scorer_labels.append(label_at)
-                ax.text(label_at[0], label_at[1], surname.upper(), color=TEXT,
-                        fontsize=8.5, family=theme.MONO_FONT, ha="center",
-                        va="bottom" if not flip else "top", path_effects=draw.outline(draw.opacity((local - 0.5) * 2)),
-                        alpha=draw.opacity((local - 0.5) * 2), zorder=16)
-        badges.append((px, py, index + 1, colour, fade, index == last_visible))
+                ax.text(
+                    label_at[0], label_at[1], surname.upper(), color=TEXT,
+                    fontsize=8.5, family=theme.MONO_FONT, ha="center",
+                    va="bottom" if not flip else "top",
+                    path_effects=draw.outline(name_alpha),
+                    alpha=name_alpha, zorder=16,
+                )
 
-    draw.scatter_batch(ax, batches["big_chance"]["x"], batches["big_chance"]["y"],
-                       sizes=batches["big_chance"]["s"], colors=batches["big_chance"]["c"],
-                       alphas=batches["big_chance"]["a"], filled=False, linewidth=1.2, zorder=10)
     draw.scatter_batch(ax, batches["ring"]["x"], batches["ring"]["y"],
                        sizes=batches["ring"]["s"], colors=batches["ring"]["c"],
-                       alphas=batches["ring"]["a"], filled=False, linewidth=1.9, zorder=11)
+                       alphas=batches["ring"]["a"], filled=False, linewidth=1.7, zorder=11)
     draw.scatter_batch(ax, batches["cross"]["x"], batches["cross"]["y"],
                        sizes=batches["cross"]["s"], colors=batches["cross"]["c"],
                        alphas=batches["cross"]["a"], marker="x", filled=False,
-                       linewidth=1.9, zorder=11)
+                       linewidth=1.7, zorder=11)
     draw.scatter_batch(ax, batches["dot"]["x"], batches["dot"]["y"],
                        sizes=batches["dot"]["s"], colors=batches["dot"]["c"],
-                       alphas=batches["dot"]["a"], linewidth=1.0, zorder=12)
-    for px, py, number, colour, fade, latest in badges:
-        if fade <= 0.35:
-            continue
-        draw.freeze_frame_badge(ax, px, py, number, colour, alpha=min(1.0, fade), latest=latest)
+                       alphas=batches["dot"]["a"], linewidth=1.15, zorder=12)
 
     present = {shot["outcome"] for shot in shots}
     entries = [
-        (OUTCOME_STYLE[key]["marker"], design["goal"] if key == "goal" else TEXT_DIM,
+        (OUTCOME_STYLE[key]["marker"],
+         design["goal"] if key == "goal" else theme.WARNING if key == "woodwork" else TEXT_DIM,
          i18n.t(OUTCOME_STYLE[key]["label_key"]))
         for key in ("goal", "saved", "off_target", "blocked", "woodwork")
         if key in present
     ]
-    legend_alpha = tl.cue(0.52, 0.26)
-    draw.legend_row(fig, 0.118, entries, alpha=legend_alpha, fontsize=theme.label_size(10))
-    fig.text(0.5, 0.096, i18n.t("markers_team_colour"), color=TEXT_FAINT,
-             fontsize=theme.label_size(8.5), family=theme.LABEL_FONT, fontweight="bold",
-             ha="center", va="center", alpha=legend_alpha * 0.9, zorder=20)
+    draw.legend_row(fig, 0.108, entries, alpha=tl.cue(0.52, 0.26), fontsize=theme.label_size(10))
     draw.save_figure(fig, path)
 
 
@@ -1152,105 +1122,70 @@ def render_goalmouth(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str
         draw.save_figure(fig, path)
         return
 
-    # A real goal is 7.32m x 2.44m. Showing it square, as the old renderer did,
-    # squashed every shot into a corner of a meaningless box.
-    view_y_min, view_y_max = GOAL_Y_MIN - 1.4, GOAL_Y_MAX + 1.4
-    view_z_max = GOAL_Z_MAX * 1.18
-    metres_wide = (view_y_max - view_y_min) / (GOAL_Y_MAX - GOAL_Y_MIN) * 7.32
-    metres_tall = view_z_max / GOAL_Z_MAX * 2.44
-
     key_row_y = content_top - KEY_ROW_HEIGHT / 2
-    frame_top = key_row_y - KEY_ROW_HEIGHT / 2 - 0.032
-    rect = Layout.fitted_rect(metres_wide / metres_tall, top=frame_top, bottom=0.470, align="top")
-    ax = fig.add_axes(rect, zorder=4)
-    ax.set_xlim(view_y_min, view_y_max)
-    ax.set_ylim(0, view_z_max)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_facecolor("#000000")
-    for spine in ax.spines.values():
-        spine.set_visible(False)
-
+    frame_top = key_row_y - KEY_ROW_HEIGHT / 2 - 0.028
+    rect = draw.goal_frame_rect(frame_top, 0.455)
+    ax = draw.goal_frame_axes(fig, rect)
     frame_alpha = tl.cue(0.06, 0.26)
-    ax.plot([view_y_min, view_y_max], [0, 0], color=design["pitch_line"], lw=2.0,
-            alpha=frame_alpha, zorder=6)
+    draw.paint_goal_frame(ax, design, alpha=frame_alpha)
 
     # Counts per zone rather than a dot per shot: WhoScored quantises a lot of
     # saved-shot heights to the same value, which would draw a fake straight row.
-    third = (GOAL_Y_MAX - GOAL_Y_MIN) / 3
-    half = GOAL_Z_MAX / 2
+    gap = 0.06
+    third_w = (draw.GOAL_WIDTH_M - 2 * gap) / 3
+    half_h = (draw.GOAL_HEIGHT_M - gap) / 2
     for col in range(3):
         for row in range(2):
-            y0 = GOAL_Y_MIN + third * col
-            z0 = half * row
-            inside = [
-                shot for shot in on_target
-                if y0 <= shot["goal_mouth_y"] < y0 + third and z0 <= shot["goal_mouth_z"] < z0 + half
-            ]
+            x0 = col * (third_w + gap)
+            z0 = row * (half_h + gap)
+            y0 = GOAL_Y_MIN + (GOAL_Y_MAX - GOAL_Y_MIN) * col / 3
+            y1 = GOAL_Y_MIN + (GOAL_Y_MAX - GOAL_Y_MIN) * (col + 1) / 3
+            z_lo = GOAL_Z_MAX * row / 2
+            z_hi = GOAL_Z_MAX * (row + 1) / 2
+            inside = []
+            for shot in on_target:
+                gy, gz = shot["goal_mouth_y"], shot["goal_mouth_z"]
+                on_y = y0 <= gy <= y1 if col == 2 else y0 <= gy < y1
+                on_z = z_lo <= gz <= z_hi if row == 1 else z_lo <= gz < z_hi
+                if on_y and on_z:
+                    inside.append(shot)
             local = tl.stagger(col + row * 3, 6, start=0.12, span=0.40, duration=0.26)
             if local <= 0.02:
                 continue
-            if not inside:
-                # An untested corner of the goal still needs to read as part of the frame.
-                draw.add_shape(
-                    ax,
-                    Rectangle((y0, z0), third, half, facecolor="#121814", edgecolor="none",
-                              alpha=draw.opacity(0.55 * local), zorder=7),
-                )
-                continue
             goals_here = sum(1 for shot in inside if shot["outcome"] == "goal")
-            weight = min(0.62, 0.16 + 0.13 * len(inside))
-            colour = design["goal"] if goals_here else "#6f7d75"
+            if inside:
+                weight = min(0.48, 0.16 + 0.09 * len(inside))
+                colour = design["goal"] if goals_here else "#4f5b55"
+            else:
+                weight, colour = 0.40, "#1c2420"
+            pad = 0.05
             draw.add_shape(
                 ax,
-                Rectangle((y0, z0), third, half, facecolor=colour, edgecolor="none",
-                          alpha=draw.opacity(weight * local), zorder=7),
+                FancyBboxPatch(
+                    (x0 + pad, z0 + pad),
+                    max(0.08, third_w - 2 * pad),
+                    max(0.08, half_h - 2 * pad),
+                    boxstyle="round,pad=0.03,rounding_size=0.08",
+                    facecolor=colour, edgecolor="none",
+                    alpha=draw.opacity(weight * local), zorder=7,
+                ),
             )
-            ax.text(y0 + third / 2, z0 + half * 0.60, str(len(inside)), color=TEXT,
-                    fontsize=26, fontweight="bold", family=theme.DISPLAY_FONT, ha="center",
-                    va="center", path_effects=draw.outline(local), alpha=local, zorder=12)
-            ax.text(y0 + third / 2, z0 + half * 0.26,
-                    i18n.t("scored_n", n=goals_here) if goals_here else i18n.t("all_stopped"),
-                    color=design["goal"] if goals_here else TEXT_DIM, fontsize=9.5,
-                    family=theme.MONO_FONT, fontweight="bold", ha="center", va="center",
-                    path_effects=draw.outline(local), alpha=local, zorder=12)
+            if inside:
+                ax.text(
+                    x0 + third_w / 2, z0 + half_h / 2, str(len(inside)), color=TEXT,
+                    fontsize=20, fontweight="bold", family=theme.DISPLAY_FONT,
+                    ha="center", va="center", path_effects=draw.outline(local),
+                    alpha=local, zorder=12,
+                )
 
-    # Net over the fills, then posts and bar on top of everything.
-    for step in range(1, 6):
-        z = GOAL_Z_MAX * step / 6
-        ax.plot([GOAL_Y_MIN, GOAL_Y_MAX], [z, z], color="#8d9a92", lw=0.6,
-                alpha=0.30 * frame_alpha, zorder=9)
-    for step in range(1, 9):
-        y = GOAL_Y_MIN + (GOAL_Y_MAX - GOAL_Y_MIN) * step / 9
-        ax.plot([y, y], [0, GOAL_Z_MAX], color="#8d9a92", lw=0.6,
-                alpha=0.30 * frame_alpha, zorder=9)
-    ax.plot([GOAL_Y_MIN, GOAL_Y_MIN, GOAL_Y_MAX, GOAL_Y_MAX], [0, GOAL_Z_MAX, GOAL_Z_MAX, 0],
-            color=TEXT, lw=4.5, alpha=frame_alpha, zorder=13, solid_capstyle="round")
-
-    for shot in on_target:
-        if shot["outcome"] != "goal":
-            continue
-        local = tl.cue(0.44, 0.30, ease=draw.ease_out_back)
-        if local <= 0.02:
-            continue
-        ax.scatter([shot["goal_mouth_y"]], [shot["goal_mouth_z"]], s=190 * local,
-                   color=design["goal"], edgecolor=TEXT, linewidth=1.6, zorder=15,
-                   alpha=draw.opacity(local))
-
-    fig.text(rect[0], rect[1] + rect[3] + 0.019, i18n.t("shots_reached_target"),
-             color=TEXT_FAINT, fontsize=theme.label_size(10), family=theme.LABEL_FONT, fontweight="bold",
-             ha="left", va="center",
-             alpha=tl.cue(0.10, 0.24), zorder=20)
-    fig.text(rect[0] + rect[2], rect[1] + rect[3] + 0.019, i18n.t("count_per_zones"),
+    fig.text(rect[0], rect[1] + rect[3] + 0.016, i18n.t("shots_reached_target"),
              color=TEXT_FAINT, fontsize=theme.label_size(10), family=theme.LABEL_FONT,
-             fontweight="bold", ha="right", va="center",
+             fontweight="bold", ha="left", va="center",
              alpha=tl.cue(0.10, 0.24), zorder=20)
 
     stats = audit["team_stats"]
     keys = ["shots_on_target", "saves", "goals"]
-    # A goal is wide and short, so the frame never fills the stage; the bars
-    # start immediately beneath it instead of at a fixed height.
-    top = rect[1] - 0.048
+    top = rect[1] - 0.046
     step = (top - (STAGE_FLOOR + 0.036)) / len(keys)
     for index, key in enumerate(keys):
         local = tl.stagger(index, len(keys), start=0.12, span=0.40, duration=0.30,
