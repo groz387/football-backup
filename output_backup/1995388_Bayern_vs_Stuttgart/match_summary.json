@@ -1,0 +1,369 @@
+{
+  "matchId": 1995388,
+  "startDate": "2026-08-28T00:00:00",
+  "startTime": "2026-08-28T19:30:00",
+  "score": "5 : 1",
+  "ftScore": "5 : 1",
+  "htScore": "1 : 0",
+  "etScore": "",
+  "venueName": "Allianz Arena",
+  "attendance": 75000,
+  "referee": {
+    "officialId": 1443,
+    "firstName": "Sören",
+    "lastName": "Storks",
+    "hasParticipatedMatches": false,
+    "name": "Sören Storks"
+  },
+  "maxMinute": 95,
+  "home": {
+    "teamId": 37,
+    "name": "Bayern",
+    "countryName": "Germany",
+    "averageAge": 26.0,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 62
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 62,
+        "endMinuteExpanded": 75
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 75,
+        "endMinuteExpanded": 85
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 85,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 13754,
+        "name": "Manuel Neuer",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 248010,
+        "name": "Konrad Laimer",
+        "shirtNo": 27,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 327721,
+        "name": "Dayot Upamecano",
+        "shirtNo": 2,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 370912,
+        "name": "Kim Min-Jae",
+        "shirtNo": 3,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 320040,
+        "name": "Alphonso Davies",
+        "shirtNo": 19,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 283323,
+        "name": "Joshua Kimmich",
+        "shirtNo": 6,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 481079,
+        "name": "Aleksandar Pavlovic",
+        "shirtNo": 45,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 371281,
+        "name": "Michael Olise",
+        "shirtNo": 17,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 445354,
+        "name": "Nathaniel Brown",
+        "shirtNo": 11,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 377168,
+        "name": "Luis Díaz",
+        "shirtNo": 14,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 83532,
+        "name": "Harry Kane",
+        "shirtNo": 9,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 413272,
+        "name": "Josip Stanisic",
+        "shirtNo": 44,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 134946,
+        "name": "Jonathan Tah",
+        "shirtNo": 4,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 431282,
+        "name": "Tom Bischof",
+        "shirtNo": 8,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 404776,
+        "name": "Ismael Saibari",
+        "shirtNo": 34,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 557706,
+        "name": "Lennart Karl",
+        "shirtNo": 42,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 423491,
+        "name": "Jonas Urbig",
+        "shirtNo": 40,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 430704,
+        "name": "Arijon Ibrahimovic",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 422717,
+        "name": "Hiroki Ito",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 605422,
+        "name": "Bara Sapoko Ndiaye",
+        "shirtNo": 39,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 41,
+    "name": "Stuttgart",
+    "countryName": "Germany",
+    "averageAge": 25.6,
+    "formations": [
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 63
+      },
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 63,
+        "endMinuteExpanded": 64
+      },
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 64,
+        "endMinuteExpanded": 75
+      },
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 75,
+        "endMinuteExpanded": 89
+      },
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 89,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 142529,
+        "name": "Fabian Bredlow",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 507717,
+        "name": "Finn Jeltsch",
+        "shirtNo": 29,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 343317,
+        "name": "Jeff Chabot",
+        "shirtNo": 24,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 422909,
+        "name": "Ramon Hendriks",
+        "shirtNo": 3,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 354241,
+        "name": "Josha Vagnoman",
+        "shirtNo": 4,
+        "position": "DMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 261020,
+        "name": "Maximilian Mittelstädt",
+        "shirtNo": 7,
+        "position": "DML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 407476,
+        "name": "Angelo Stiller",
+        "shirtNo": 6,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 278125,
+        "name": "Grischa Prömel",
+        "shirtNo": 21,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 444298,
+        "name": "Dzenan Pejcinovic",
+        "shirtNo": 17,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 357091,
+        "name": "Deniz Undav",
+        "shirtNo": 26,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 395850,
+        "name": "Tiago Tomás",
+        "shirtNo": 8,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 351339,
+        "name": "Ermedin Demirovic",
+        "shirtNo": 9,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 379252,
+        "name": "Jamie Leweling",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 433572,
+        "name": "Bilal El Khannouss",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 539663,
+        "name": "Chema Andrés",
+        "shirtNo": 30,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 401742,
+        "name": "Leonidas Stergiou",
+        "shirtNo": 20,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 419917,
+        "name": "Ameen Al-Dakhil",
+        "shirtNo": 2,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 454467,
+        "name": "Badredine Bouanani",
+        "shirtNo": 27,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 285989,
+        "name": "Marius Funk",
+        "shirtNo": 33,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 347884,
+        "name": "Atakan Karazor",
+        "shirtNo": 16,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "Germany",
+  "league": "Bundesliga",
+  "season": "2026/2027",
+  "competitionType": "League",
+  "competitionStage": ""
+}

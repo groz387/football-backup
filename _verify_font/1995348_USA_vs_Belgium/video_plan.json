@@ -1,0 +1,326 @@
+{
+  "match": {
+    "match_dir": "output\\1995348_USA_vs_Belgium",
+    "home": "USA",
+    "away": "Belgium",
+    "score": {
+      "home": 1,
+      "away": 4,
+      "display": "1-4",
+      "after_extra_time": false,
+      "after_shootout": false,
+      "ninety_minute": null
+    },
+    "score_display": "1-4",
+    "score_qualifier": "",
+    "kickoff": "2026-07-07",
+    "league": "FIFA World Cup",
+    "stage": "World Cup Final Stage",
+    "venue": "Seattle Stadium",
+    "last_minute": 94
+  },
+  "generation": {
+    "language": "en",
+    "language_name": "English",
+    "team_kind": "national",
+    "badge_shape": "rect",
+    "gemini_used": false,
+    "gemini_model": null,
+    "gemini_error": null,
+    "fps": 24,
+    "transition_seconds": 0.45,
+    "target_seconds": 48.0,
+    "total_seconds": 56.458
+  },
+  "selected_visualizations": [
+    {
+      "id": "goal_timeline",
+      "title": "Goal Timeline",
+      "available": true,
+      "score": 98.0,
+      "reason": "Every goal in order with the running scoreline.",
+      "best_for": "Matches where the scoreline itself is the story.",
+      "avoid_when": "One-goal games, where a single tactical pattern says more."
+    },
+    {
+      "id": "shot_map",
+      "title": "Shot Map",
+      "available": true,
+      "score": 93.2,
+      "reason": "Where both teams shot from and what happened to each attempt.",
+      "best_for": "Volume mismatches, wasteful finishing, or a goal glut.",
+      "avoid_when": "Too few shots to fill the pitch."
+    },
+    {
+      "id": "momentum",
+      "title": "Momentum Swing",
+      "available": true,
+      "score": 78.4,
+      "reason": "Attacking pressure per five minutes, so the turning point is visible.",
+      "best_for": "Comebacks, late sieges, and games that changed character.",
+      "avoid_when": "The curve is flat and no swing actually happened."
+    }
+  ],
+  "all_candidates": [
+    {
+      "id": "goal_timeline",
+      "title": "Goal Timeline",
+      "available": true,
+      "score": 98.0,
+      "reason": "Every goal in order with the running scoreline.",
+      "best_for": "Matches where the scoreline itself is the story.",
+      "avoid_when": "One-goal games, where a single tactical pattern says more."
+    },
+    {
+      "id": "shot_map",
+      "title": "Shot Map",
+      "available": true,
+      "score": 93.2,
+      "reason": "Where both teams shot from and what happened to each attempt.",
+      "best_for": "Volume mismatches, wasteful finishing, or a goal glut.",
+      "avoid_when": "Too few shots to fill the pitch."
+    },
+    {
+      "id": "momentum",
+      "title": "Momentum Swing",
+      "available": true,
+      "score": 78.4,
+      "reason": "Attacking pressure per five minutes, so the turning point is visible.",
+      "best_for": "Comebacks, late sieges, and games that changed character.",
+      "avoid_when": "The curve is flat and no swing actually happened."
+    },
+    {
+      "id": "zone_control",
+      "title": "Territory Map",
+      "available": true,
+      "score": 76.0,
+      "reason": "Touch volume across eighteen zones shows who owned which areas.",
+      "best_for": "Territorial stories where one side was pinned back.",
+      "avoid_when": "Territory was even and the scoreline was not."
+    },
+    {
+      "id": "goal_chain",
+      "title": "Goal Build-up",
+      "available": true,
+      "score": 60.0,
+      "reason": "One verified possession traced pass by pass to the finish.",
+      "best_for": "A single constructed goal worth slowing down for.",
+      "avoid_when": "High-scoring games, where one chain cannot carry the story."
+    },
+    {
+      "id": "goalmouth",
+      "title": "Goalmouth Placement",
+      "available": true,
+      "score": 66.5,
+      "reason": "Where every on-target shot crossed the goal line, and who stopped it.",
+      "best_for": "Goalkeeping performances and finishing quality.",
+      "avoid_when": "Few shots reached the frame."
+    },
+    {
+      "id": "pass_network",
+      "title": "Pass Network",
+      "available": true,
+      "score": 56.0,
+      "reason": "Average positions and the strongest passing links.",
+      "best_for": "Build-up identity and control stories.",
+      "avoid_when": "Goals and shots explain the result more directly."
+    },
+    {
+      "id": "sterile_domination",
+      "title": "Control vs Threat",
+      "available": true,
+      "score": 66.0,
+      "reason": "Tests whether the team with the ball turned it into shots.",
+      "best_for": "One-sided pass share that did not become chances.",
+      "avoid_when": "The pass-share edge is small."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "title",
+      "visualization": "title",
+      "kicker": "FIFA WORLD CUP / WORLD CUP FINAL STAGE",
+      "title": "BELGIUM RAN RIOT",
+      "subtitle": "",
+      "insight": "3 goals of daylight by the final whistle.",
+      "narration": "USA 1, Belgium 4. 3 goals of daylight by the final whistle.",
+      "on_screen": 5.8,
+      "clip": 6.25,
+      "frames": 150,
+      "clip_start": 0.0,
+      "clip_end": 6.25,
+      "visible_start": 0.225,
+      "visible_end": 6.025
+    },
+    {
+      "id": "standard_stats",
+      "visualization": "standard_stats",
+      "kicker": "THE BASELINE",
+      "title": "THE NUMBERS SPLIT DOWN THE MIDDLE",
+      "subtitle": "",
+      "insight": "Neither side could claim the baseline counts.",
+      "stat_keys": [
+        "goals",
+        "big_chances",
+        "shots_on_target",
+        "shots",
+        "shots_blocked"
+      ],
+      "narration": "Start with the baseline. Neither side could claim the baseline counts. Pass share was 56 to 44.",
+      "on_screen": 7.758333,
+      "clip": 8.208333,
+      "frames": 197,
+      "clip_start": 5.8,
+      "clip_end": 14.008,
+      "visible_start": 6.025,
+      "visible_end": 13.783
+    },
+    {
+      "id": "goal_timeline",
+      "visualization": "goal_timeline",
+      "kicker": "EVERY GOAL",
+      "title": "5 GOALS, ONE RUNNING SCORE",
+      "subtitle": "",
+      "insight": "Belgium had the last word in the 92nd minute.",
+      "narration": "Ketelaere opened it in the 8th minute. 5 goals later it finished 1-4, Lukaku having the final say in the 92nd.",
+      "on_screen": 9.341667,
+      "clip": 9.791667,
+      "frames": 235,
+      "clip_start": 13.558,
+      "clip_end": 23.35,
+      "visible_start": 13.783,
+      "visible_end": 23.125
+    },
+    {
+      "id": "shot_map",
+      "visualization": "shot_map",
+      "kicker": "SHOT MAP",
+      "title": "BELGIUM KEPT TESTING THE KEEPER",
+      "subtitle": "Every attempt, by outcome",
+      "insight": "7 against 15 shots, 2 against 7 on target.",
+      "narration": "USA took 7 shots and put 2 on target. Belgium took 15 and hit the target 7 times. Blocked efforts are marked separately, because a block is not a save.",
+      "on_screen": 12.841667,
+      "clip": 13.291667,
+      "frames": 319,
+      "clip_start": 22.9,
+      "clip_end": 36.192,
+      "visible_start": 23.125,
+      "visible_end": 35.967
+    },
+    {
+      "id": "momentum",
+      "visualization": "momentum",
+      "kicker": "PRESSURE",
+      "title": "THEY CAME OUT SWINGING",
+      "subtitle": "USA above the line, Belgium below",
+      "insight": "The heaviest spell fell to Belgium between minutes 5-9.",
+      "narration": "This is attacking pressure in five minute blocks, built from final-third passes, box entries, shots and goals. The biggest surge belongs to Belgium in the 5-9 minute window.",
+      "on_screen": 12.091667,
+      "clip": 12.541667,
+      "frames": 301,
+      "clip_start": 35.742,
+      "clip_end": 48.283,
+      "visible_start": 35.967,
+      "visible_end": 48.058
+    },
+    {
+      "id": "close",
+      "visualization": "close",
+      "stat_keys": [
+        "goals",
+        "big_chances",
+        "shots_on_target",
+        "shots"
+      ],
+      "kicker": "FULL TIME",
+      "title": "USA 1-4 BELGIUM",
+      "subtitle": "",
+      "insight": "Belgium took the result and the numbers.",
+      "narration": "Belgium win it 1-4. 7 shots on target, 4 big chances, and a result that matches the map.",
+      "on_screen": 8.175,
+      "clip": 8.625,
+      "frames": 207,
+      "clip_start": 47.833,
+      "clip_end": 56.458,
+      "visible_start": 48.058,
+      "visible_end": 56.233
+    }
+  ],
+  "subtitles": [
+    {
+      "start": 0.225,
+      "end": 1.925,
+      "text": "USA 1, Belgium 4."
+    },
+    {
+      "start": 1.925,
+      "end": 6.025,
+      "text": "3 goals of daylight by the\nfinal whistle."
+    },
+    {
+      "start": 6.025,
+      "end": 8.027,
+      "text": "Start with the baseline."
+    },
+    {
+      "start": 8.027,
+      "end": 11.781,
+      "text": "Neither side could claim the\nbaseline counts."
+    },
+    {
+      "start": 11.781,
+      "end": 13.783,
+      "text": "Pass share was 56 to 44."
+    },
+    {
+      "start": 13.783,
+      "end": 17.04,
+      "text": "Ketelaere opened it in the 8th minute."
+    },
+    {
+      "start": 17.04,
+      "end": 23.125,
+      "text": "5 goals later it finished 1-4, Lukaku\nhaving the final say in the 92nd."
+    },
+    {
+      "start": 23.125,
+      "end": 26.314,
+      "text": "USA took 7 shots and put 2 on target."
+    },
+    {
+      "start": 26.314,
+      "end": 30.02,
+      "text": "Belgium took 15 and hit the\ntarget 7 times."
+    },
+    {
+      "start": 30.02,
+      "end": 35.967,
+      "text": "Blocked efforts are marked separately,\nbecause a block is not a save."
+    },
+    {
+      "start": 35.967,
+      "end": 41.624,
+      "text": "This is attacking pressure in five minute\nblocks, built from final-third passes,"
+    },
+    {
+      "start": 41.624,
+      "end": 43.674,
+      "text": "box entries, shots and goals."
+    },
+    {
+      "start": 43.674,
+      "end": 48.058,
+      "text": "The biggest surge belongs to Belgium\nin the 5-9 minute window."
+    },
+    {
+      "start": 48.058,
+      "end": 49.843,
+      "text": "Belgium win it 1-4."
+    },
+    {
+      "start": 49.843,
+      "end": 56.233,
+      "text": "7 shots on target, 4 big chances, and a\nresult that matches the map."
+    }
+  ]
+}

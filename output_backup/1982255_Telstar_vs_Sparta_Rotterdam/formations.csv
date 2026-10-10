@@ -1,0 +1,111 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Telstar,home,0,4231,566829,Ronald Koeman,0,0.0,5.0,0,59
+Telstar,home,0,4231,391012,Gabi Caschili,1,2.5,1.0,0,59
+Telstar,home,0,4231,142242,Jeff Hardeveld,2,2.5,9.0,0,59
+Telstar,home,0,4231,566840,Tyrone Owusu,3,5.0,6.5,0,59
+Telstar,home,0,4231,470097,Abdelnour Soualhia,4,2.5,3.5,0,59
+Telstar,home,0,4231,78353,Marvin Peersman,5,2.5,6.5,0,59
+Telstar,home,0,4231,444652,Rui Mendes,6,7.0,2.0,0,59
+Telstar,home,0,4231,431307,Nils Rossen,7,5.0,3.5,0,59
+Telstar,home,0,4231,596291,Jelani Seedorf,8,9.0,5.0,0,59
+Telstar,home,0,4231,445063,Patrick Brouwer,9,7.0,5.0,0,59
+Telstar,home,0,4231,566842,Soufiane Hetli,10,7.0,8.0,0,59
+Telstar,home,1,4231,566829,Ronald Koeman,0,0.0,5.0,59,59
+Telstar,home,1,4231,391012,Gabi Caschili,1,2.5,1.0,59,59
+Telstar,home,1,4231,142242,Jeff Hardeveld,2,2.5,9.0,59,59
+Telstar,home,1,4231,566840,Tyrone Owusu,3,5.0,6.5,59,59
+Telstar,home,1,4231,470097,Abdelnour Soualhia,4,2.5,3.5,59,59
+Telstar,home,1,4231,78353,Marvin Peersman,5,2.5,6.5,59,59
+Telstar,home,1,4231,568284,Emirhan Demircan,6,7.0,2.0,59,59
+Telstar,home,1,4231,431307,Nils Rossen,7,5.0,3.5,59,59
+Telstar,home,1,4231,596291,Jelani Seedorf,8,9.0,5.0,59,59
+Telstar,home,1,4231,445063,Patrick Brouwer,9,7.0,5.0,59,59
+Telstar,home,1,4231,566842,Soufiane Hetli,10,7.0,8.0,59,59
+Telstar,home,2,4231,566829,Ronald Koeman,0,0.0,5.0,59,66
+Telstar,home,2,4231,575829,Rojendro Oudsten,1,2.5,1.0,59,66
+Telstar,home,2,4231,142242,Jeff Hardeveld,2,2.5,9.0,59,66
+Telstar,home,2,4231,566840,Tyrone Owusu,3,5.0,6.5,59,66
+Telstar,home,2,4231,470097,Abdelnour Soualhia,4,2.5,3.5,59,66
+Telstar,home,2,4231,78353,Marvin Peersman,5,2.5,6.5,59,66
+Telstar,home,2,4231,568284,Emirhan Demircan,6,7.0,2.0,59,66
+Telstar,home,2,4231,431307,Nils Rossen,7,5.0,3.5,59,66
+Telstar,home,2,4231,596291,Jelani Seedorf,8,9.0,5.0,59,66
+Telstar,home,2,4231,445063,Patrick Brouwer,9,7.0,5.0,59,66
+Telstar,home,2,4231,566842,Soufiane Hetli,10,7.0,8.0,59,66
+Telstar,home,3,4231,566829,Ronald Koeman,0,0.0,5.0,66,66
+Telstar,home,3,4231,575829,Rojendro Oudsten,1,2.5,1.0,66,66
+Telstar,home,3,4231,444273,Prince Aning,2,2.5,9.0,66,66
+Telstar,home,3,4231,566840,Tyrone Owusu,3,5.0,6.5,66,66
+Telstar,home,3,4231,470097,Abdelnour Soualhia,4,2.5,3.5,66,66
+Telstar,home,3,4231,78353,Marvin Peersman,5,2.5,6.5,66,66
+Telstar,home,3,4231,568284,Emirhan Demircan,6,7.0,2.0,66,66
+Telstar,home,3,4231,431307,Nils Rossen,7,5.0,3.5,66,66
+Telstar,home,3,4231,596291,Jelani Seedorf,8,9.0,5.0,66,66
+Telstar,home,3,4231,445063,Patrick Brouwer,9,7.0,5.0,66,66
+Telstar,home,3,4231,566842,Soufiane Hetli,10,7.0,8.0,66,66
+Telstar,home,4,4231,566829,Ronald Koeman,0,0.0,5.0,66,67
+Telstar,home,4,4231,575829,Rojendro Oudsten,1,2.5,1.0,66,67
+Telstar,home,4,4231,444273,Prince Aning,2,2.5,9.0,66,67
+Telstar,home,4,4231,566840,Tyrone Owusu,3,5.0,6.5,66,67
+Telstar,home,4,4231,470097,Abdelnour Soualhia,4,2.5,3.5,66,67
+Telstar,home,4,4231,78353,Marvin Peersman,5,2.5,6.5,66,67
+Telstar,home,4,4231,568284,Emirhan Demircan,6,7.0,2.0,66,67
+Telstar,home,4,4231,431307,Nils Rossen,7,5.0,3.5,66,67
+Telstar,home,4,4231,630892,Noach Shenkman,8,9.0,5.0,66,67
+Telstar,home,4,4231,445063,Patrick Brouwer,9,7.0,5.0,66,67
+Telstar,home,4,4231,566842,Soufiane Hetli,10,7.0,8.0,66,67
+Telstar,home,5,4231,566829,Ronald Koeman,0,0.0,5.0,67,97
+Telstar,home,5,4231,575829,Rojendro Oudsten,1,2.5,1.0,67,97
+Telstar,home,5,4231,444273,Prince Aning,2,2.5,9.0,67,97
+Telstar,home,5,4231,431307,Nils Rossen,3,5.0,6.5,67,97
+Telstar,home,5,4231,470097,Abdelnour Soualhia,4,2.5,3.5,67,97
+Telstar,home,5,4231,78353,Marvin Peersman,5,2.5,6.5,67,97
+Telstar,home,5,4231,568284,Emirhan Demircan,6,7.0,2.0,67,97
+Telstar,home,5,4231,630892,Noach Shenkman,7,5.0,3.5,67,97
+Telstar,home,5,4231,445063,Patrick Brouwer,8,9.0,5.0,67,97
+Telstar,home,5,4231,566840,Tyrone Owusu,9,7.0,5.0,67,97
+Telstar,home,5,4231,566842,Soufiane Hetli,10,7.0,8.0,67,97
+Sparta Rotterdam,away,0,4231,96632,Filip Bednarek,0,0.0,5.0,0,64
+Sparta Rotterdam,away,0,4231,601809,Lushendry Martes,1,2.5,1.0,0,64
+Sparta Rotterdam,away,0,4231,134722,Bas Kuipers,2,2.5,9.0,0,64
+Sparta Rotterdam,away,0,4231,82401,Jens Toornstra,3,5.0,6.5,0,64
+Sparta Rotterdam,away,0,4231,535931,Marvin Young,4,2.5,3.5,0,64
+Sparta Rotterdam,away,0,4231,497763,Nick Verschuren,5,2.5,6.5,0,64
+Sparta Rotterdam,away,0,4231,423834,Casper Terho,6,7.0,2.0,0,64
+Sparta Rotterdam,away,0,4231,444623,Julian Baas,7,5.0,3.5,0,64
+Sparta Rotterdam,away,0,4231,470487,Nökkvi Thórisson,8,9.0,5.0,0,64
+Sparta Rotterdam,away,0,4231,513252,Shunsuke Mito,9,7.0,5.0,0,64
+Sparta Rotterdam,away,0,4231,566827,Ayoni Santos,10,7.0,8.0,0,64
+Sparta Rotterdam,away,1,4231,96632,Filip Bednarek,0,0.0,5.0,64,78
+Sparta Rotterdam,away,1,4231,601809,Lushendry Martes,1,2.5,1.0,64,78
+Sparta Rotterdam,away,1,4231,134722,Bas Kuipers,2,2.5,9.0,64,78
+Sparta Rotterdam,away,1,4231,82401,Jens Toornstra,3,5.0,6.5,64,78
+Sparta Rotterdam,away,1,4231,535931,Marvin Young,4,2.5,3.5,64,78
+Sparta Rotterdam,away,1,4231,497763,Nick Verschuren,5,2.5,6.5,64,78
+Sparta Rotterdam,away,1,4231,301423,Mitchell van Bergen,6,7.0,2.0,64,78
+Sparta Rotterdam,away,1,4231,444623,Julian Baas,7,5.0,3.5,64,78
+Sparta Rotterdam,away,1,4231,470487,Nökkvi Thórisson,8,9.0,5.0,64,78
+Sparta Rotterdam,away,1,4231,513252,Shunsuke Mito,9,7.0,5.0,64,78
+Sparta Rotterdam,away,1,4231,566827,Ayoni Santos,10,7.0,8.0,64,78
+Sparta Rotterdam,away,2,4231,96632,Filip Bednarek,0,0.0,5.0,78,87
+Sparta Rotterdam,away,2,4231,601809,Lushendry Martes,1,2.5,1.0,78,87
+Sparta Rotterdam,away,2,4231,134722,Bas Kuipers,2,2.5,9.0,78,87
+Sparta Rotterdam,away,2,4231,505569,Alwande Roaldsøy,3,5.0,6.5,78,87
+Sparta Rotterdam,away,2,4231,535931,Marvin Young,4,2.5,3.5,78,87
+Sparta Rotterdam,away,2,4231,497763,Nick Verschuren,5,2.5,6.5,78,87
+Sparta Rotterdam,away,2,4231,301423,Mitchell van Bergen,6,7.0,2.0,78,87
+Sparta Rotterdam,away,2,4231,444623,Julian Baas,7,5.0,3.5,78,87
+Sparta Rotterdam,away,2,4231,470487,Nökkvi Thórisson,8,9.0,5.0,78,87
+Sparta Rotterdam,away,2,4231,566827,Ayoni Santos,9,7.0,5.0,78,87
+Sparta Rotterdam,away,2,4231,576498,Robin van Cruijsen,10,7.0,8.0,78,87
+Sparta Rotterdam,away,3,541,96632,Filip Bednarek,0,0.0,5.0,87,97
+Sparta Rotterdam,away,3,541,601809,Lushendry Martes,1,3.0,1.0,87,97
+Sparta Rotterdam,away,3,541,134722,Bas Kuipers,2,3.0,9.0,87,97
+Sparta Rotterdam,away,3,541,457153,Teo Quintero,3,3.0,7.0,87,97
+Sparta Rotterdam,away,3,541,497763,Nick Verschuren,4,3.0,5.0,87,97
+Sparta Rotterdam,away,3,541,535931,Marvin Young,5,3.0,3.0,87,97
+Sparta Rotterdam,away,3,541,301423,Mitchell van Bergen,6,6.0,2.0,87,97
+Sparta Rotterdam,away,3,541,576498,Robin van Cruijsen,7,6.0,4.0,87,97
+Sparta Rotterdam,away,3,541,567653,Milan Zonneveld,8,9.0,5.0,87,97
+Sparta Rotterdam,away,3,541,505569,Alwande Roaldsøy,9,6.0,6.0,87,97
+Sparta Rotterdam,away,3,541,566827,Ayoni Santos,10,6.0,8.0,87,97

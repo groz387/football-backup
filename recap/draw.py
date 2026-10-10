@@ -15,8 +15,11 @@ Two ideas keep the output consistent:
 
 from __future__ import annotations
 
+import json
 import math
 import textwrap
+import urllib.error
+import urllib.request
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Iterable
@@ -193,8 +196,12 @@ class Layout:
     MARGIN = 0.062
     CONTENT_W = 1.0 - 2 * MARGIN
 
-    KICKER_Y = 0.938
-    TITLE_TOP = 0.938
+    # The headline used to begin in the same slot as the kicker, which meant
+    # most analysis cards quietly dropped the useful context line.  The extra
+    # band gives the deck a proper broadcast hierarchy: what we are looking
+    # at, then the claim, then the picture.
+    KICKER_Y = 0.958
+    TITLE_TOP = 0.916
     SUBTITLE_GAP = 0.026
 
     STAGE_TOP = 0.830
@@ -270,10 +277,41 @@ def y_of(x_length: float) -> float:
 
 @lru_cache(maxsize=8)
 def _background_pixels(ink: str, home: str, away: str, width: int, height: int) -> np.ndarray:
-    """Permanent pitch-black canvas; no muddy team-colour wash."""
-    pixel = np.array(theme.hex_to_rgb("#000000"), dtype=float)
-    rgb = np.clip(pixel * 255.0, 0, 255).astype(np.uint8)
-    return np.broadcast_to(rgb, (height, width, 3)).copy()
+    """Near-black stadium depth field shared by every card.
+
+    It deliberately stays almost black: the story colours remain the two
+    teams and the data, not a generic gradient.  A faint overhead glow,
+    vignette and low-energy team spill stop the negative space from looking
+    like a flat PowerPoint export while keeping first-frame hook cards black.
+    """
+    base = np.asarray(theme.hex_to_rgb(ink), dtype=float) * 255.0
+    home_rgb = np.asarray(theme.hex_to_rgb(home), dtype=float) * 255.0
+    away_rgb = np.asarray(theme.hex_to_rgb(away), dtype=float) * 255.0
+    yy = np.linspace(0.0, 1.0, height, dtype=np.float32)[:, None]
+    xx = np.linspace(0.0, 1.0, width, dtype=np.float32)[None, :]
+
+    # A restrained light cone behind the title, with a vignette that makes
+    # bright data objects feel lifted off the canvas.
+    horizon = np.exp(-((yy - 0.28) / 0.24) ** 2) * 2.1
+    centre = np.exp(-(((xx - 0.50) / 0.48) ** 2 + ((yy - 0.46) / 0.62) ** 2)) * 1.15
+    vignette = np.clip(((xx - 0.50) / 0.72) ** 2 + ((yy - 0.48) / 0.95) ** 2, 0.0, 1.0)
+    neutral = np.maximum(0.0, horizon + centre - vignette * 1.5)
+
+    # Team colour only appears as a sub-perceptual sidelight at the bottom.
+    # This reads as depth on a phone, never as a coloured background wash.
+    floor = np.clip((yy - 0.46) / 0.54, 0.0, 1.0) ** 1.7
+    home_spill = np.exp(-((xx - 0.10) / 0.44) ** 2) * floor * 0.050
+    away_spill = np.exp(-((xx - 0.90) / 0.44) ** 2) * floor * 0.050
+
+    image = np.empty((height, width, 3), dtype=np.float32)
+    for channel in range(3):
+        image[..., channel] = (
+            base[channel]
+            + neutral
+            + home_rgb[channel] * home_spill
+            + away_rgb[channel] * away_spill
+        )
+    return np.clip(image, 0, 255).astype(np.uint8)
 
 
 def _paint_background(fig: plt.Figure, design: dict[str, Any]) -> None:
@@ -406,11 +444,11 @@ def outline(alpha: float = 1.0) -> list[Any]:
 
 
 def soft_shadow(alpha: float = 1.0) -> list[Any]:
-    """Soft display-type shadow. Empty at low alpha so frame 1 is not a ghost."""
+    """A restrained separation shadow for type over moving picture."""
     alpha = opacity(alpha)
     if alpha < EFFECT_ALPHA:
         return []
-    return [pe.withStroke(linewidth=5.0, foreground="#040605", alpha=opacity(0.55 * alpha))]
+    return [pe.withStroke(linewidth=2.0, foreground="#040605", alpha=opacity(0.30 * alpha))]
 
 
 def fade_effects(effects: list[Any] | None, alpha: float) -> list[Any]:
@@ -542,7 +580,7 @@ def kicker(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT_
 
 
 def headline(fig: plt.Figure, text: str, subtitle: str = "", *, alpha: float = 1.0,
-             fontsize: float = 52.0, color: str = TEXT) -> float:
+             fontsize: float = 46.0, color: str = TEXT) -> float:
     """Title (and optional subtitle). Returns the y the block ends at.
 
     The returned value is measured, not estimated, so callers can place content
@@ -582,9 +620,9 @@ def insight(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT
              "#040605", 0.30 * alpha, zorder=17)
     fit_text(
         fig, 0.5, Layout.INSIGHT_Y, str(text),
-        fontsize=25.0, max_width=Layout.CONTENT_W - 0.02, max_lines=2, min_fontsize=15.0,
-        ha="center", va="center", color=color, family=theme.DISPLAY_FONT, fontweight="bold",
-        linespacing=1.05, alpha=alpha, zorder=20, path_effects=soft_shadow(),
+        fontsize=18.5, max_width=Layout.CONTENT_W - 0.04, max_lines=2, min_fontsize=13.0,
+        ha="center", va="center", color=color, family=theme.BODY_FONT, fontweight="bold",
+        linespacing=1.12, alpha=alpha, zorder=20,
     )
 
 
@@ -671,16 +709,43 @@ def to_pitch(x: float, y: float, flip: bool = False) -> tuple[float, float]:
 
     With ``flip=False`` the team attacks the top of the frame; with
     ``flip=True`` it attacks the bottom, which is how two teams are shown on
-    one pitch without pretending they shot at the same goal.
+    one pitch without pretending they shot at the same goal. WhoScored ``y``
+    grows toward the attacker's left touchline, so a left winger lands on the
+    left of the frame when attacking up.
     """
     if flip:
-        return 100.0 - y, 100.0 - x
-    return y, x
+        return y, 100.0 - x
+    return 100.0 - y, x
+
+
+def pitch_column(y_bin: int, y_bins: int) -> float:
+    """Screen-x centre (0-100) of a shared-frame y bin, home attacking up."""
+    return 100.0 - (y_bin + 0.5) * 100.0 / max(1, y_bins)
+
+
+PITCH_STRIPES = 12
+
+
+@lru_cache(maxsize=8)
+def _stripe_texture(face: str, stripes: int) -> np.ndarray:
+    """Mown-grass bands plus a soft centre lift, as a tiny RGBA image."""
+    rows = stripes * 8
+    light = np.array(theme.hex_to_rgb(theme.mix(face, "#2a3a30", 0.30)))
+    dark = np.array(theme.hex_to_rgb(theme.mix(face, "#000000", 0.10)))
+    band = (np.arange(rows) // 8) % 2
+    colours = np.where(band[:, None] == 0, light[None, :], dark[None, :])
+    texture = np.ones((rows, 24, 4))
+    texture[..., :3] = colours[:, None, :]
+    across = np.linspace(-1, 1, 24)[None, :]
+    along = np.linspace(-1, 1, rows)[:, None]
+    lift = np.clip(1.0 - 0.55 * (across ** 2) - 0.35 * (along ** 2), 0, 1)
+    texture[..., :3] = np.clip(texture[..., :3] * (0.82 + 0.30 * lift[..., None]), 0, 1)
+    return texture
 
 
 def vertical_pitch(fig: plt.Figure, rect: list[float], *, face: str = PITCH,
                    line: str = PITCH_LINE, alpha: float = 1.0, lw: float = 1.6,
-                   zorder: int = 3) -> plt.Axes:
+                   zorder: int = 3, stripes: bool = True) -> plt.Axes:
     ax = fig.add_axes(rect, zorder=zorder)
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
@@ -690,8 +755,17 @@ def vertical_pitch(fig: plt.Figure, rect: list[float], *, face: str = PITCH,
     ax.set_yticks([])
     for spine in ax.spines.values():
         spine.set_visible(False)
+    if stripes and opacity(alpha) >= VISIBLE_ALPHA:
+        ax.imshow(_stripe_texture(face, PITCH_STRIPES), extent=(0, 100, 0, 100), origin="lower",
+                  aspect="auto", interpolation="bilinear", alpha=opacity(alpha), zorder=1)
     draw_pitch_markings(ax, line=line, alpha=alpha, lw=lw)
     return ax
+
+
+def pixel_of(ax: plt.Axes, x: float, y: float) -> tuple[float, float]:
+    """Data point on *ax* in output pixels, for drawing true circles on a stretched axes."""
+    px, py = ax.transData.transform((x, y))
+    return float(px), float(py)
 
 
 def draw_pitch_markings(ax: plt.Axes, *, line: str = PITCH_LINE, alpha: float = 1.0,
@@ -751,11 +825,275 @@ def pitch_grid_fade(ax: plt.Axes, alpha: float = 0.05) -> None:
 
 
 # ---------------------------------------------------------------------------
+# keeper's-view goal (metres)
+# ---------------------------------------------------------------------------
+# WhoScored goal-mouth y/z is a local frame, not pitch 0-100. These bounds
+# match audit.GOAL_Y_MIN / GOAL_Y_MAX / GOAL_Z_MAX so a saved shot lands in
+# the same place on every card that uses this helper.
+GOAL_MOUTH_Y_MIN, GOAL_MOUTH_Y_MAX = 45.2, 54.8
+GOAL_MOUTH_Z_MAX = 38.0
+GOAL_WIDTH_M = 7.32
+GOAL_HEIGHT_M = 2.44
+GOAL_VIEW_PAD_X = 0.70
+GOAL_VIEW_PAD_Z = 0.36
+GOAL_VIEW_TURF = 0.26
+
+
+def goal_mouth_metres(goal_mouth_y: float, goal_mouth_z: float) -> tuple[float, float]:
+    """Map WhoScored goal-mouth (y, z) onto a 7.32 × 2.44 m frame."""
+    span = GOAL_MOUTH_Y_MAX - GOAL_MOUTH_Y_MIN
+    x = (float(goal_mouth_y) - GOAL_MOUTH_Y_MIN) / span * GOAL_WIDTH_M
+    z = float(goal_mouth_z) / GOAL_MOUTH_Z_MAX * GOAL_HEIGHT_M
+    return x, z
+
+
+def goal_frame_rect(top: float, bottom: float) -> list[float]:
+    """Largest true-proportion goal that fits between *top* and *bottom*."""
+    metres_w = GOAL_WIDTH_M + 2 * GOAL_VIEW_PAD_X
+    metres_h = GOAL_HEIGHT_M + GOAL_VIEW_PAD_Z + GOAL_VIEW_TURF
+    return Layout.fitted_rect(metres_w / metres_h, top=top, bottom=bottom, align="top")
+
+
+def goal_frame_axes(fig: plt.Figure, rect: list[float]) -> plt.Axes:
+    """Axes in metres. Posts sit at x=0 / 7.32, the bar at z=2.44."""
+    ax = fig.add_axes(rect, zorder=4)
+    ax.set_xlim(-GOAL_VIEW_PAD_X, GOAL_WIDTH_M + GOAL_VIEW_PAD_X)
+    ax.set_ylim(-GOAL_VIEW_TURF, GOAL_HEIGHT_M + GOAL_VIEW_PAD_Z)
+    ax.set_aspect("equal", adjustable="box")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_facecolor("none")
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    return ax
+
+
+def paint_goal_frame(ax: plt.Axes, design: dict[str, Any], *, alpha: float = 1.0) -> None:
+    """Turf strip, net, posts. Callers draw shots on top of this."""
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA:
+        return
+    turf = design.get("pitch") or PITCH
+    line = design.get("pitch_line") or PITCH_LINE
+    add_shape(
+        ax,
+        Rectangle(
+            (-GOAL_VIEW_PAD_X, -GOAL_VIEW_TURF),
+            GOAL_WIDTH_M + 2 * GOAL_VIEW_PAD_X, GOAL_VIEW_TURF,
+            facecolor=turf, edgecolor="none", alpha=alpha, zorder=5,
+        ),
+    )
+    add_shape(
+        ax,
+        Rectangle(
+            (-GOAL_VIEW_PAD_X, -0.045),
+            GOAL_WIDTH_M + 2 * GOAL_VIEW_PAD_X, 0.045,
+            facecolor="#070c09", edgecolor="none", alpha=opacity(0.7 * alpha), zorder=6,
+        ),
+    )
+    add_shape(
+        ax,
+        Rectangle(
+            (0.0, 0.0), GOAL_WIDTH_M, GOAL_HEIGHT_M,
+            facecolor="#0b100d", edgecolor="none", alpha=opacity(0.92 * alpha), zorder=6,
+        ),
+    )
+    net = "#6f7b74"
+    for step in range(1, 5):
+        z = GOAL_HEIGHT_M * step / 5
+        ax.plot([0.0, GOAL_WIDTH_M], [z, z], color=net, lw=0.65,
+                alpha=0.26 * alpha, zorder=8, solid_capstyle="butt")
+    for step in range(1, 10):
+        x = GOAL_WIDTH_M * step / 10
+        ax.plot([x, x], [0.0, GOAL_HEIGHT_M], color=net, lw=0.65,
+                alpha=0.20 * alpha, zorder=8, solid_capstyle="butt")
+    ax.plot(
+        [-0.12, GOAL_WIDTH_M + 0.12], [0.0, 0.0],
+        color=line, lw=2.2, alpha=alpha, zorder=13, solid_capstyle="butt",
+    )
+    post = dict(color=TEXT, lw=5.2, alpha=alpha, zorder=14, solid_capstyle="round")
+    ax.plot([0.0, 0.0], [0.0, GOAL_HEIGHT_M], **post)
+    ax.plot([GOAL_WIDTH_M, GOAL_WIDTH_M], [0.0, GOAL_HEIGHT_M], **post)
+    ax.plot([0.0, GOAL_WIDTH_M], [GOAL_HEIGHT_M, GOAL_HEIGHT_M], **post)
+
+
+# ---------------------------------------------------------------------------
 # team badges
 # ---------------------------------------------------------------------------
 
 def _flag_painter(key: str):
     return _FLAGS.get(key)
+
+
+# Football names that do not match flagcdn's English label exactly.
+# Home nations are not ISO countries.
+_FLAG_ALIASES = {
+    "england": "gb-eng",
+    "scotland": "gb-sct",
+    "wales": "gb-wls",
+    "northern ireland": "gb-nir",
+    "ivory coast": "ci",
+    "cote d ivoire": "ci",
+    "czech republic": "cz",
+    "czechia": "cz",
+    "usa": "us",
+    "united states of america": "us",
+    "holland": "nl",
+    "korea republic": "kr",
+    "republic of korea": "kr",
+    "korea dpr": "kp",
+    "dpr korea": "kp",
+    "turkiye": "tr",
+    "republic of ireland": "ie",
+    "bosnia": "ba",
+    "bosnia herzegovina": "ba",
+    "macedonia": "mk",
+    "fyrom": "mk",
+    "dr congo": "cd",
+    "congo dr": "cd",
+    "democratic republic of congo": "cd",
+    "democratic republic of the congo": "cd",
+    "congo": "cg",
+    "china pr": "cn",
+    "chinese taipei": "tw",
+    "cape verde": "cv",
+    "cabo verde": "cv",
+    "curacao": "cw",
+    "swaziland": "sz",
+    "uae": "ae",
+    "kosovo": "xk",
+    "lithuania": "lt",
+    "azerbaijan": "az",
+}
+_FLAG_ASSET = Path(__file__).resolve().parent.parent / "assets" / "flags"
+_FLAG_CACHE = Path(__file__).resolve().parent.parent / ".cache" / "flags"
+
+
+def _load_flag_catalog() -> dict[str, str]:
+    """flagcdn code → English name. Cached on disk after the first download."""
+    path = _FLAG_CACHE / "codes.json"
+    if path.exists() and path.stat().st_size > 64:
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(payload, dict) and payload:
+                return {str(code): str(name) for code, name in payload.items()}
+        except (OSError, json.JSONDecodeError, TypeError):
+            pass
+    request = urllib.request.Request(
+        "https://flagcdn.com/en/codes.json",
+        headers={"User-Agent": "Mozilla/5.0 (compatible; MatchRecap/1.0)"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=12) as response:
+            data = response.read()
+        payload = json.loads(data.decode("utf-8"))
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError, json.JSONDecodeError):
+        return {}
+    if not isinstance(payload, dict) or not payload:
+        return {}
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload), encoding="utf-8")
+    except OSError:
+        pass
+    return {str(code): str(name) for code, name in payload.items()}
+
+
+@lru_cache(maxsize=1)
+def _flag_name_index() -> dict[str, str]:
+    """Normalized country name → flagcdn code. Aliases win over the catalog."""
+    index: dict[str, str] = {}
+    for code, name in _load_flag_catalog().items():
+        raw = str(name)
+        main, _, paren = raw.partition("(")
+        parts = (raw, main, paren.rstrip(")"))
+        for part in parts:
+            token = theme.normalize_team_key(part)
+            if not token:
+                continue
+            current = index.get(token)
+            # "Georgia" is both the country (ge) and a US state (us-ga).
+            if current is None or (len(code) == 2 and len(current) != 2):
+                index[token] = code
+    index.update(_FLAG_ALIASES)
+    return index
+
+
+def _flag_code(key: str) -> str | None:
+    token = theme.normalize_team_key(key)
+    if not token:
+        return None
+    return _flag_name_index().get(token) or _FLAG_ALIASES.get(token)
+
+
+def _flag_candidates(key: str) -> list[Path]:
+    code = _flag_code(key) or ""
+    slug = key.replace(" ", "_")
+    names = [f"{slug}.png", f"{key}.png"]
+    if code:
+        names = [f"{code}.png", *names]
+    out: list[Path] = []
+    for folder in (_FLAG_ASSET, _FLAG_CACHE):
+        for name in names:
+            out.append(folder / name)
+    return out
+
+
+@lru_cache(maxsize=64)
+def _resolve_flag(key: str) -> str | None:
+    """Local flag PNG, otherwise one download into .cache/flags."""
+    for path in _flag_candidates(key):
+        if path.exists() and path.stat().st_size > 64:
+            return str(path)
+    code = _flag_code(key)
+    if not code:
+        return None
+    request = urllib.request.Request(
+        f"https://flagcdn.com/w640/{code}.png",
+        headers={"User-Agent": "Mozilla/5.0 (compatible; MatchRecap/1.0)"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=12) as response:
+            data = response.read()
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError):
+        return None
+    if not data or not data.startswith(b"\x89PNG"):
+        return None
+    dest = _FLAG_CACHE / f"{code}.png"
+    try:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(data)
+    except OSError:
+        return None
+    return str(dest)
+
+
+def _draw_flag_image(fig: plt.Figure, key: str, x0: float, y0: float,
+                     width: float, height: float, alpha: float, zorder: int) -> bool:
+    path = _resolve_flag(key)
+    if not path:
+        return False
+    try:
+        image = plt.imread(path)
+    except Exception:
+        return False
+    if image is None or getattr(image, "size", 0) == 0:
+        return False
+    ax = fig.add_axes([x0, y0, width, height])
+    ax.set_zorder(zorder)
+    ax.set_facecolor("none")
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.patch.set_alpha(0.0)
+    ax.imshow(
+        image, extent=(0, 1, 0, 1), origin="upper", interpolation="bilinear",
+        alpha=alpha, zorder=1, aspect="auto",
+    )
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    return True
 
 
 def team_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, *,
@@ -783,11 +1121,12 @@ def team_badge(fig: plt.Figure, team: str, cx: float, cy: float, width: float, *
               color="#0c100e", alpha=0.92 * alpha, edge=identity["chart"], radius=0.006,
               zorder=zorder - 1, lw=1.4)
 
-    painter = _flag_painter(identity["key"])
-    if painter is not None:
-        painter(fig, x0, y0, width, height, alpha, zorder)
-    else:
-        _crest_fallback(fig, identity, x0, y0, width, height, alpha, zorder)
+    if not _draw_flag_image(fig, identity["key"], x0, y0, width, height, alpha, zorder):
+        painter = _flag_painter(identity["key"])
+        if painter is not None:
+            painter(fig, x0, y0, width, height, alpha, zorder)
+        else:
+            _crest_fallback(fig, identity, x0, y0, width, height, alpha, zorder)
 
     # Border on top of the flag, so the tile stays crisp against the panel.
     fig.patches.append(
@@ -1109,14 +1448,18 @@ def comparison_bar(
     away_color: str,
     *,
     progress: float = 1.0,
-    height: float = 0.0165,
-    left: float = 0.215,
-    right: float = 0.785,
+    height: float = 0.024,
+    left: float = 0.180,
+    right: float = 0.820,
     decimals: int = 0,
     suffix: str = "",
     zorder: int = 12,
 ) -> None:
-    """One diverging bar: the split point is the two teams' share of the total."""
+    """One diverging bar: the split point is the two teams' share of the total.
+
+    The bar carries the comparison; the numbers at either end are quiet
+    neutral labels so the eye reads the split first.
+    """
     total = home_value + away_value
     home_share = 0.5 if total <= 0 else home_value / total
     width = right - left
@@ -1130,24 +1473,30 @@ def comparison_bar(
              ha="center", va="center", alpha=ink,
              zorder=zorder)
 
-    fig_rect(fig, left, y, width, height, "#171d19", 0.95 * min(1.0, grown * 3), zorder=zorder - 2)
+    fig_panel(fig, left, y, width, height, color="#141a17", alpha=0.95 * min(1.0, grown * 3),
+              edge="none", radius=height * 0.5, zorder=zorder - 2)
 
     split = left + width * home_share
     grown_home = (split - left) * grown
     grown_away = (right - split) * grown
-    fig_rect(fig, split - grown_home, y, grown_home, height, home_color, 0.95, zorder=zorder)
-    fig_rect(fig, split, y, grown_away, height, away_color, 0.95, zorder=zorder)
+    gap = 0.003 if grown_home > 0.01 and grown_away > 0.01 else 0.0
+    for x0, w, colour in ((split - grown_home, grown_home - gap, home_color), (split + gap, grown_away - gap, away_color)):
+        if w <= 0.002:
+            continue
+        fig_rect(fig, x0, y - y_of(0.006), w, height + 2 * y_of(0.006), colour, 0.10 * ink, zorder=zorder - 1)
+        fig_panel(fig, x0, y, w, height, color=colour, alpha=0.96, edge="none",
+                  radius=min(height * 0.5, w / 2), zorder=zorder)
+        fig_rect(fig, x0 + min(0.006, w / 4), y + height * 0.62, max(0.0, w - min(0.012, w / 2)),
+                 height * 0.20, theme.mix(colour, "#ffffff", 0.45), 0.35 * ink, zorder=zorder + 1)
 
     shown_home = hold_count(home_value, grown)
     shown_away = hold_count(away_value, grown)
-    fig.text(left - 0.022, y + height / 2, number_text(shown_home, decimals=decimals, suffix=suffix),
-             color=home_color, fontsize=38, fontweight="bold", family=theme.DISPLAY_FONT,
-             ha="right", va="center", alpha=ink, zorder=zorder,
-             path_effects=soft_shadow(ink))
-    fig.text(right + 0.022, y + height / 2, number_text(shown_away, decimals=decimals, suffix=suffix),
-             color=away_color, fontsize=38, fontweight="bold", family=theme.DISPLAY_FONT,
-             ha="left", va="center", alpha=ink, zorder=zorder,
-             path_effects=soft_shadow(ink))
+    fig.text(left - 0.020, y + height / 2, number_text(shown_home, decimals=decimals, suffix=suffix),
+             color=theme.NUMBER_INK, fontsize=26, fontweight="bold", family=theme.LABEL_FONT,
+             ha="right", va="center", alpha=ink, zorder=zorder)
+    fig.text(right + 0.020, y + height / 2, number_text(shown_away, decimals=decimals, suffix=suffix),
+             color=theme.NUMBER_INK, fontsize=26, fontweight="bold", family=theme.LABEL_FONT,
+             ha="left", va="center", alpha=ink, zorder=zorder)
 
 
 def impact_burst(ax: plt.Axes, x: float, y: float, color: str, progress: float,
@@ -1232,6 +1581,48 @@ def scatter_batch(
     ax.scatter(xs, ys, **kwargs)
 
 
+def glow_plot(ax: plt.Axes, xs: Any, ys: Any, color: str, *, lw: float = 2.0,
+              alpha: float = 1.0, zorder: float = 8, capstyle: str = "round") -> None:
+    """A line with two soft halo passes under it."""
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA:
+        return
+    for width, weight in ((lw * 4.0, 0.08), (lw * 2.2, 0.18)):
+        ax.plot(xs, ys, color=color, lw=width, alpha=opacity(alpha * weight),
+                zorder=zorder - 0.2, solid_capstyle=capstyle)
+    ax.plot(xs, ys, color=color, lw=lw, alpha=alpha, zorder=zorder, solid_capstyle=capstyle)
+
+
+def data_label(target: Any, x: float, y: float, text: str, *, size: float = 15.0,
+               alpha: float = 1.0, ha: str = "center", va: str = "center",
+               color: str = theme.NUMBER_INK, zorder: float = 20, **kwargs: Any) -> None:
+    """A supporting number: present and legible, never the accent."""
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA or text in (None, ""):
+        return
+    target.text(x, y, str(text), color=color, fontsize=size, family=theme.LABEL_FONT,
+                fontweight="bold", ha=ha, va=va, alpha=alpha, zorder=zorder, **kwargs)
+
+
+def team_key_row(fig: plt.Figure, design: dict[str, Any], home: str, away: str,
+                 y: float, alpha: float) -> None:
+    """Quiet fixture lock-up; it identifies the sides without becoming the card."""
+    if opacity(alpha) < VISIBLE_ALPHA:
+        return
+    for name, identity, side in ((home, design["home"], -1), (away, design["away"], 1)):
+        badge_x = 0.31 if side < 0 else 0.69
+        team_badge(fig, name, badge_x, y, 0.056, identity=identity, alpha=alpha)
+        fit_text(
+            fig, badge_x - side * 0.040, y, name.upper(), fontsize=13,
+            max_width=0.145, max_lines=1, min_fontsize=8.5,
+            ha="left" if side < 0 else "right", va="center",
+            color=identity["chart"], family=theme.LABEL_FONT, fontweight="bold",
+            alpha=alpha, zorder=20,
+        )
+    fig.text(0.5, y, "×", color=TEXT_FAINT, fontsize=13, family=theme.LABEL_FONT,
+             ha="center", va="center", alpha=opacity(alpha * 0.72), zorder=20)
+
+
 def hero_number(fig: plt.Figure, x: float, y: float, value: Any, *,
                 color: str = TEXT, alpha: float = 1.0, fontsize: float = 160.0,
                 ha: str = "center", va: str = "center") -> None:
@@ -1279,14 +1670,25 @@ def stamp_insight(fig: plt.Figure, scene: dict[str, Any], tl: Timeline,
 
 
 def scene_chrome(fig: plt.Figure, scene: dict[str, Any], tl: Timeline,
-                 *, headline_size: float = 50.0) -> float:
-    """Headline plus a late insight stamp. Shared by scenes and graphs."""
+                 *, headline_size: float = 44.0) -> float:
+    """Broadcast frame shared by scenes, graphs and 3D infographics.
+
+    The kicker and subtitle are deliberately part of the frame rather than
+    optional renderer details.  That makes a territory city or trajectory
+    sculpture understandable before any supporting number appears.
+    """
+    chrome_alpha = tl.cue(0.0, 0.22, ease=ease_out_cubic)
+    if chrome_alpha >= VISIBLE_ALPHA:
+        fig_rect(fig, Layout.MARGIN, Layout.KICKER_Y - 0.016, 0.026, 0.0022,
+                 TEXT_DIM, 0.82 * chrome_alpha, zorder=20)
+        kicker(fig, scene.get("kicker", ""), alpha=chrome_alpha)
     header_bottom = headline(
-        fig, scene.get("title", ""), "",
-        alpha=tl.cue(0.0, 0.28, ease=ease_out_cubic),
+        fig, scene.get("title", ""), scene.get("subtitle", ""),
+        alpha=tl.cue(0.04, 0.28, ease=ease_out_cubic),
         fontsize=headline_size,
     )
     stamp_insight(fig, scene, tl)
+    footer(fig, alpha=tl.cue(0.34, 0.28))
     return header_bottom - 0.016
 
 
@@ -1337,7 +1739,9 @@ def radar_polygon(ax, values: list[float], color: str, *, progress: float = 1.0,
     xs.append(xs[0])
     ys.append(ys[0])
     ax.fill(xs, ys, color=color, alpha=opacity(fill_alpha * progress), zorder=zorder, linewidth=0)
-    ax.plot(xs, ys, color=color, lw=lw, alpha=opacity(0.95 * progress), zorder=zorder + 1)
+    glow_plot(ax, xs, ys, color, lw=lw, alpha=opacity(0.95 * progress), zorder=zorder + 1)
+    ax.scatter(xs[:-1], ys[:-1], s=34, color=color, edgecolor="#050706", linewidth=1.0,
+               alpha=opacity(progress), zorder=zorder + 2)
 
 
 def ring_gauge(ax, cx: float, cy: float, value: float, maximum: float, color: str, *,
@@ -1390,29 +1794,48 @@ def heat_pitch(ax, grid: list[list[float]], color: str, *, progress: float = 1.0
 
 def funnel_stage(fig: plt.Figure, y: float, label: str, home_value: float, away_value: float,
                  home_color: str, away_color: str, *, progress: float = 1.0,
-                 inset: float = 0.0, height: float = 0.055) -> None:
-    """A trapezoid row that narrows toward the goal. Not a comparison bar."""
-    left = 0.18 + inset
-    right = 0.82 - inset
+                 inset: float = 0.0, height: float = 0.055, percent: bool = False,
+                 home_ink: str | None = None, away_ink: str | None = None) -> None:
+    """One rounded funnel pill. Width tapers via *inset*; the split is share."""
+    left = 0.168 + inset
+    right = 0.832 - inset
     width = right - left
     total = home_value + away_value
     home_share = 0.5 if total <= 0 else home_value / total
     grown = ease_in_out(clamp01(progress))
     if grown < VISIBLE_ALPHA:
         return
-    split = left + width * home_share
-    fig_rect(fig, left, y, (split - left) * grown, height, home_color, 0.92, zorder=12)
-    fig_rect(fig, split, y, (right - split) * grown, height, away_color, 0.92, zorder=12)
     ink = min(1.0, grown * 2.2)
-    fig.text(0.5, y + height + 0.016, str(label).upper(), color=TEXT_DIM,
-             fontsize=theme.label_size(12), family=theme.LABEL_FONT, fontweight="bold",
+    home_ink = home_ink or home_color
+    away_ink = away_ink or away_color
+
+    fig_panel(
+        fig, left, y, width, height,
+        color="#121816", alpha=0.96 * grown, edge="none", radius=0.013, zorder=11,
+    )
+    pad = 0.007
+    inner_left = left + pad
+    inner_width = max(1e-4, width - 2 * pad)
+    inner_y = y + y_of(0.005)
+    inner_h = max(1e-4, height - 2 * y_of(0.005))
+    split = inner_left + inner_width * home_share
+    fig_rect(fig, inner_left, inner_y, (split - inner_left) * grown, inner_h,
+             home_color, 0.94, zorder=12)
+    fig_rect(fig, split, inner_y, (inner_left + inner_width - split) * grown, inner_h,
+             away_color, 0.94, zorder=12)
+
+    fig.text(0.5, y + height + 0.015, str(label).upper(), color=TEXT_DIM,
+             fontsize=theme.label_size(11), family=theme.LABEL_FONT, fontweight="bold",
              ha="center", va="center", alpha=ink, zorder=14)
-    fig.text(left - 0.018, y + height / 2, number_text(hold_count(home_value, grown)),
-             color=home_color, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
+    suffix = "%" if percent else ""
+    fig.text(left - 0.016, y + height / 2,
+             number_text(hold_count(home_value, grown), suffix=suffix),
+             color=home_ink, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
              ha="right", va="center", alpha=ink, zorder=14,
              path_effects=soft_shadow(ink))
-    fig.text(right + 0.018, y + height / 2, number_text(hold_count(away_value, grown)),
-             color=away_color, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
+    fig.text(right + 0.016, y + height / 2,
+             number_text(hold_count(away_value, grown), suffix=suffix),
+             color=away_ink, fontsize=28, fontweight="bold", family=theme.DISPLAY_FONT,
              ha="left", va="center", alpha=ink, zorder=14,
              path_effects=soft_shadow(ink))
 
@@ -1426,14 +1849,20 @@ def glow_ring(
     radius: float = 3.0,
     alpha: float = 0.28,
     zorder: int = 7,
+    x_radius: float | None = None,
 ) -> None:
-    """One restrained halo. Not a particle storm."""
+    """One restrained halo. Not a particle storm.
+
+    On a vertical pitch the x and y units are not equal in pixels, so pass
+    ``x_radius=radius / PITCH_ASPECT`` to keep the ring round.
+    """
     if alpha <= 0:
         return
+    rx = radius if x_radius is None else x_radius
     add_shape(
         ax,
-        Circle((x, y), radius, fill=False, ec=color, lw=2.0,
-               alpha=opacity(alpha), zorder=zorder),
+        Ellipse((x, y), rx * 2, radius * 2, fill=False, ec=color, lw=2.0,
+                alpha=opacity(alpha), zorder=zorder),
     )
 
 

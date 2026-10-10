@@ -1,0 +1,359 @@
+{
+  "matchId": 1983560,
+  "startDate": "2026-08-29T00:00:00",
+  "startTime": "2026-08-29T12:30:00",
+  "score": "2 : 2",
+  "ftScore": "2 : 2",
+  "htScore": "0 : 1",
+  "etScore": "",
+  "venueName": "Anfield",
+  "attendance": 60415,
+  "referee": {
+    "officialId": 3446,
+    "firstName": "Samuel",
+    "lastName": "Barrott",
+    "hasParticipatedMatches": false,
+    "name": "Samuel Barrott"
+  },
+  "maxMinute": 95,
+  "home": {
+    "teamId": 26,
+    "name": "Liverpool",
+    "countryName": "England",
+    "averageAge": 25.2,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 74
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 74,
+        "endMinuteExpanded": 80
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 80,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 114147,
+        "name": "Alisson Becker",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 392644,
+        "name": "Jeremie Frimpong",
+        "shirtNo": 30,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 468827,
+        "name": "Jérémy Jacquet",
+        "shirtNo": 5,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 95408,
+        "name": "Virgil van Dijk",
+        "shirtNo": 4,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 424273,
+        "name": "Milos Kerkez",
+        "shirtNo": 6,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 345319,
+        "name": "Alexis Mac Allister",
+        "shirtNo": 10,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 369875,
+        "name": "Dominik Szoboszlai",
+        "shirtNo": 8,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 352825,
+        "name": "Cody Gakpo",
+        "shirtNo": 18,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 394786,
+        "name": "Florian Wirtz",
+        "shirtNo": 7,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 548106,
+        "name": "Víctor Muñoz",
+        "shirtNo": 23,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 299254,
+        "name": "Alexander Isak",
+        "shirtNo": 9,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 301455,
+        "name": "Kostas Tsimikas",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 363884,
+        "name": "Ryan Gravenberch",
+        "shirtNo": 38,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 384711,
+        "name": "Ronald Araujo",
+        "shirtNo": 33,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 548566,
+        "name": "Rio Ngumoha",
+        "shirtNo": 73,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 509423,
+        "name": "Trey Nyoni",
+        "shirtNo": 42,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 401633,
+        "name": "Giorgi Mamardashvili",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 86829,
+        "name": "Wataru Endo",
+        "shirtNo": 3,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 492375,
+        "name": "James McConnell",
+        "shirtNo": 53,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 492374,
+        "name": "Lewis Koumas",
+        "shirtNo": 67,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 174,
+    "name": "Nottingham Forest",
+    "countryName": "England",
+    "averageAge": 26.0,
+    "formations": [
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 69
+      },
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 69,
+        "endMinuteExpanded": 89
+      },
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 89,
+        "endMinuteExpanded": 95
+      },
+      {
+        "formationName": "3421",
+        "startMinuteExpanded": 95,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 78386,
+        "name": "Matz Sels",
+        "shirtNo": 26,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 443545,
+        "name": "Jair Cunha",
+        "shirtNo": 23,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 445424,
+        "name": "Murillo",
+        "shirtNo": 5,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 319785,
+        "name": "Nikola Milenkovic",
+        "shirtNo": 31,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 315543,
+        "name": "Ola Aina",
+        "shirtNo": 34,
+        "position": "DMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 386969,
+        "name": "Neco Williams",
+        "shirtNo": 3,
+        "position": "DML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 262856,
+        "name": "Xaver Schlager",
+        "shirtNo": 21,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 425576,
+        "name": "James McAtee",
+        "shirtNo": 24,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 398414,
+        "name": "Dan Ndoye",
+        "shirtNo": 14,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 332867,
+        "name": "Morgan Gibbs-White",
+        "shirtNo": 10,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 397497,
+        "name": "Igor Jesus",
+        "shirtNo": 11,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 334653,
+        "name": "Nicolás Domínguez",
+        "shirtNo": 8,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 394888,
+        "name": "Luca Netz",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 401254,
+        "name": "Liam Delap",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 350088,
+        "name": "Callum Hudson-Odoi",
+        "shirtNo": 7,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 318689,
+        "name": "John Victor",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 73380,
+        "name": "Chris Wood",
+        "shirtNo": 9,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 342830,
+        "name": "Ryan Yates",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 454750,
+        "name": "Zach Abbott",
+        "shirtNo": 44,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 443663,
+        "name": "Ousmane Diomande",
+        "shirtNo": 2,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "England",
+  "league": "Premier League",
+  "season": "2026/2027",
+  "competitionType": "League",
+  "competitionStage": ""
+}

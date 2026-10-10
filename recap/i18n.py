@@ -1,11 +1,8 @@
 """UI and script localization for match-recap videos.
 
-English remains the source of truth for deterministic copy. Non-English runs:
-
-1. Swap every chrome / stat / legend label from the catalogs below.
-2. Rewrite free-form titles, insights and narration into the target language
-   (Gemini when available; otherwise a conservative offline pass that keeps
-   numbers and proper nouns intact and translates known template lines).
+Gemini authors titles and narration in the picked language. This module
+supplies chrome / stat / legend catalogs and a leftover-English scrub so a
+native script cannot keep an English subtitle under an Azerbaijani headline.
 
 Supported codes: ``en``, ``az``, ``es``, ``ru``.
 """
@@ -54,6 +51,24 @@ def normalize_language(value: str | None) -> str:
     return code
 
 
+def parse_languages(value: str | list[str] | None) -> list[str]:
+    """Accept ``az,en,es`` or a list. Order is preserved; duplicates drop."""
+    if value is None:
+        return []
+    if isinstance(value, str):
+        parts = [part.strip() for part in value.replace(";", ",").split(",")]
+    else:
+        parts = [str(part).strip() for part in value]
+    out: list[str] = []
+    for part in parts:
+        if not part:
+            continue
+        code = normalize_language(part)
+        if code not in out:
+            out.append(code)
+    return out
+
+
 def set_language(code: str) -> str:
     global _current
     _current = normalize_language(code)
@@ -98,6 +113,9 @@ STAT_LABELS: dict[str, dict[str, str]] = {
         "offsides": "Offsides",
         "xg": "xG",
         "xgot": "xGOT",
+        "dribbles_won": "Dribbles won",
+        "dispossessed": "Dispossessed",
+        "assists": "Assists",
     },
     "az": {
         "goals": "Qollar",
@@ -122,6 +140,9 @@ STAT_LABELS: dict[str, dict[str, str]] = {
         "offsides": "Ofsaydlar",
         "xg": "xG",
         "xgot": "xGOT",
+        "dribbles_won": "Driblinqlər",
+        "dispossessed": "Top itirmə",
+        "assists": "Assistlər",
     },
     "es": {
         "goals": "Goles",
@@ -146,6 +167,9 @@ STAT_LABELS: dict[str, dict[str, str]] = {
         "offsides": "Fueras de juego",
         "xg": "xG",
         "xgot": "xGOT",
+        "dribbles_won": "Regates",
+        "dispossessed": "Pérdidas",
+        "assists": "Asistencias",
     },
     "ru": {
         "goals": "Голы",
@@ -170,6 +194,9 @@ STAT_LABELS: dict[str, dict[str, str]] = {
         "offsides": "Офсайды",
         "xg": "xG",
         "xgot": "xGOT",
+        "dribbles_won": "Обводки",
+        "dispossessed": "Потери",
+        "assists": "Голевые передачи",
     },
 }
 
@@ -465,6 +492,178 @@ UI: dict[str, dict[str, str]] = {
         "bridge_aerial_1": "HEADERS. COUNT THEM.",
         "bridge_split_0": "IT WAS TWO DIFFERENT HALVES.",
         "bridge_split_1": "STAMP THE SPLIT.",
+        "kicker_every_goal": "EVERY GOAL",
+        "kicker_shot_map": "SHOT MAP",
+        "kicker_pressure": "PRESSURE",
+        "kicker_territory": "TERRITORY",
+        "kicker_one_goal": "ONE GOAL, TRACED",
+        "kicker_buildup": "BUILD-UP",
+        "kicker_frame": "THE FRAME",
+        "kicker_pass_network": "PASS NETWORK",
+        "kicker_control": "CONTROL VS THREAT",
+        "kicker_profile": "PROFILE",
+        "kicker_touch": "TOUCH TERRITORY",
+        "kicker_tilt": "TILT",
+        "kicker_conversion": "CONVERSION",
+        "kicker_funnel": "FUNNEL",
+        "kicker_wall": "THE WALL",
+        "kicker_xg_race": "xG RACE",
+        "kicker_three_slices": "THREE SLICES",
+        "kicker_spike": "THE SPIKE",
+        "kicker_shot_clock": "SHOT CLOCK",
+        "kicker_trap": "THE TRAP",
+        "kicker_lanes": "LANES",
+        "kicker_bench": "THE BENCH",
+        "kicker_duels": "DUELS",
+        "kicker_air": "THE AIR",
+        "kicker_two_halves": "TWO HALVES",
+        "kicker_event_data": "EVENT DATA",
+        "title_saves_for": "{n} SAVES FOR {team}",
+        "title_shots_clock": "{n} SHOTS ON THE CLOCK",
+        "title_had_work": "{team} HAD WORK TO DO",
+        "title_how_moved": "HOW {team} MOVED THE BALL",
+        "title_had_the_ball": "{team} HAD THE BALL",
+        "title_shape": "THE SHAPE OF THE MATCH",
+        "title_n_touches": "{n} TOUCHES",
+        "title_tilt_window": "{n}% TILT IN THE {window}",
+        "title_then_drop": "{n}% THEN THE DROP",
+        "title_race_ignored": "THE RACE THE SCORE IGNORED",
+        "title_map_changed": "THE MAP CHANGED",
+        "title_player_had": "{name} HAD {n}",
+        "title_at_ppda": "{team} AT {n} PPDA",
+        "title_how_moved_it": "HOW {team} MOVED IT",
+        "title_off_bench": "{n} CAME OFF THE BENCH",
+        "title_duels_for": "{n} DUELS FOR {team}",
+        "title_owned_air": "{team} OWNED THE AIR",
+        "title_then": "{a} THEN {b}",
+        "title_goals_running": "{n} GOALS, ONE RUNNING SCORE",
+        "title_goal_timeline": "THE GOAL TIMELINE",
+        "title_on_the_map": "{home}-{away} ON THE MAP",
+        "title_passes_finish": "{n} PASSES TO THE FINISH",
+        "title_move_before": "THE MOVE BEFORE THE GOAL",
+        "title_n_stat": "{n} {stat}",
+        "insight_saves_stopped": "{faced} shots at the frame. {saves} of them stopped.",
+        "insight_shots_order": "{home} against {away}. Watch them land in order.",
+        "insight_shots_split": "{home} against {away} shots, {home_on} against {away_on} on target.",
+        "insight_slam": "{team} led {stat} {a} to {b}.",
+        "insight_close_result": "{team} took the result. The numbers tell you how.",
+        "insight_close_goalless": "Nothing on the board. Plenty on the tape.",
+        "insight_close_level": "Level on the board. Split on the map.",
+        "insight_close_shots": "{a}-{b} shots; result {score}.",
+        "insight_close_shots_xg": "{a}-{b} shots; xG {xg_a}-{xg_b}; result {score}.",
+        "layer_tackles": "TACKLES",
+        "layer_aerials": "AERIALS",
+        "layer_take_ons": "TAKE-ONS",
+        "lanes_label": "{n} LANES  ·  {team}",
+        "vs_other": "vs {team}  {value}",
+        "pressure_short": "PRESSURE",
+        "title_pressure_match": "PRESSURE THROUGH THE MATCH",
+        "title_et_deadlock": "EXTRA TIME BROKE THE DEADLOCK",
+        "title_minute_tone": "MINUTE {n} SET THE TONE",
+        "title_nth_tone": "THE {n}TH MINUTE SET THE TONE",
+        "title_turned_after": "IT TURNED AFTER {n}",
+        "title_settled_nth": "SETTLED IN THE {n}TH",
+        "title_where_played": "WHERE THE MATCH WAS PLAYED",
+        "title_owned_map": "{team} OWNED THE MAP",
+        "title_every_zone": "EVERY ZONE WAS CONTESTED",
+        "title_standard": "THE BASELINE",
+        "insight_last_word": "{team} had the last word in the {n}th minute.",
+        "insight_every_finish": "Every finish moved the board.",
+        "insight_heavy_spell": "The heaviest spell fell to {team} between minutes {block}.",
+        "insight_pressure_level": "Pressure stayed level throughout.",
+        "insight_owned_grid": "{team} touched the ball in more of the dangerous grid than anyone else.",
+        "insight_chain_metres": "{metres} metres of passing in {seconds} seconds.",
+        "insight_pass_acc": "{n} completed passes at {pct}% accuracy.",
+        "insight_control_threat": "{pct}% {control}, {n} {threat} to show for it.",
+        "insight_radar": "{hs}-{ashots} shots; {hc}-{ac} {control}.",
+        "insight_touches": "{home} touches against {away}; each hex is a real event bin.",
+        "insight_tilt_owned": "{team} owned the dangerous third in that window.",
+        "insight_gauges": "{hs}-{ashots} shots; {ho}-{ao} {stat}.{xg}",
+        "insight_funnel": "{pct}% {control} became {shots} shots, {big} big chances and {goals} goals.",
+        "insight_xg_race": "xG {home} against {away}. The board ignored the race.",
+        "insight_three_windows": "Three windows. The colour says who owned each one.",
+        "insight_spike": "{player} led {action} with {n}.",
+        "insight_ppda": "{team} pressed at {n} passes per defensive action.",
+        "insight_lanes": "{team} — only the thickest passing lanes.",
+        "insight_bench": "{n} substitutions. Watch what followed each arrival.",
+        "insight_duels": "{home} against {away}. Tackles, headers, take-ons stacked.",
+        "insight_headers": "{home} headers won against {away}.",
+        "insight_split": "{first} shots before the break, {second} after.",
+        "insight_event_feed": "Built directly from the match event feed.",
+        "dot_equals": "One dot = {n} {stat}",
+        "square_equals": "One square = 1%",
+        "attacks_here": "{team} ATTACK THIS END",
+        "busiest_zone": "BUSIEST ZONE",
+        "shoots_here": "{team} SHOOT HERE",
+        "touches_label": "Touches",
+        "shots_label": "Shots",
+        "legend_skyline": "Height = touches  ·  colour = who owned the zone",
+        "legend_shot_towers": "Tower height: goal, on target, off target, blocked",
+        "legend_shot_xg": "Tower height = xG of the chance",
+        "legend_trajectories": "Straight line from boot to where it crossed the goal line",
+        "too_few_shots_3d": "TOO FEW SHOTS",
+        "empty_podium": "NO PLAYER RATINGS",
+        "rating_through_match": "Rating through the match",
+        "podium_line": "{shots} SHOTS  ·  {kp} CHANCES",
+        "assists_label": "Assists",
+        "empty_lineup": "NO LINEUP DATA",
+        "below_label": "Below",
+        "legend_lineup": "Ring = WhoScored rating  ·  glow = best rated",
+        "n_shots_label": "{n} SHOTS",
+        "shot_how": "How they came",
+        "shot_with": "Struck with",
+        "sit_open_play": "Open play",
+        "sit_counter": "Counter",
+        "sit_corner": "Corner",
+        "sit_set_piece": "Set piece",
+        "sit_free_kick": "Free kick",
+        "sit_penalty": "Penalty",
+        "body_right_foot": "Right foot",
+        "body_left_foot": "Left foot",
+        "body_head": "Head",
+        "body_other": "Other",
+        "forward_label": "Forward",
+        "backward_label": "Backward",
+        "avg_length_label": "Average length",
+        "long_label": "Long balls 30 m+",
+        "legend_sonar": "Petal = passes that way  ·  brighter = more completed  ·  arrow = toward goal",
+        "empty_block": "TOO FEW DEFENSIVE ACTIONS",
+        "won_high_label": "Won back in the opponent half",
+        "legend_block": "Shape = central 80% of ball wins  ·  dashed = average line height",
+        "kicker_skyline": "TERRITORY IN 3D",
+        "kicker_shot_skyline": "SHOTS IN 3D",
+        "kicker_trajectories": "INTO THE FRAME",
+        "kicker_podium": "TOP RATED",
+        "kicker_lineup": "THE SHAPES",
+        "kicker_shot_dna": "SHOT DNA",
+        "kicker_sonar": "PASS SONAR",
+        "kicker_block": "THE BLOCK",
+        "title_skyline": "{team} BUILT THE CITY",
+        "title_shot_skyline": "{n} SHOTS FOR {team}",
+        "title_trajectories": "{n} SHOTS AT ONE GOAL",
+        "title_podium": "{name} TOPS THE RATINGS",
+        "title_lineup": "{a} AGAINST {b}",
+        "title_shot_dna": "{n} SHOTS, TAKEN APART",
+        "title_sonar_forward": "{team} PLAYED FORWARD",
+        "title_sonar_even": "THE SAME COMPASS",
+        "title_block_high": "{team} DEFENDED HIGHER",
+        "title_block_even": "TWO BLOCKS, ONE LINE",
+        "sub_skyline": "Touch volume as height, owner as colour",
+        "sub_shot_skyline": "Every shot, standing where it was struck",
+        "sub_trajectories": "Every shot to the line it crossed",
+        "sub_podium": "WhoScored match ratings, top three",
+        "sub_lineup": "Starting formations, rated",
+        "sub_shot_dna": "Outcome, situation and body part",
+        "sub_sonar": "Direction, volume and completion",
+        "sub_block": "Where each side won the ball back",
+        "insight_skyline": "{home} touches against {away}. The tallest block is the busiest zone.",
+        "insight_shot_skyline": "{home} shots against {away}. Taller towers tested the keeper.",
+        "insight_trajectories": "{on} on target, {off} off it, {goals} in.",
+        "insight_podium": "{first} {r1}, {second} {r2}, {third} {r3}.",
+        "insight_lineup": "{name} was the best rated on the pitch at {rating}.",
+        "insight_shot_dna": "{home} shots against {away}. {pct}% of {team}'s came from the box.",
+        "insight_sonar": "{team} sent {pct}% of passes forward, {other} {pct2}%.",
+        "insight_block": "Average line: {home} {hm} m, {away} {am} m from their own goal.",
     },
     "az": {
         "watermark": "",
@@ -721,6 +920,214 @@ UI: dict[str, dict[str, str]] = {
         "sub_zones_time": "Üç dilimdə ərazi",
         "sub_player": "Lentdə sıçrayan oyunçu",
         "sub_keeper_frame": "Çərçivəyə çatan hər zərbə",
+        "sub_spiral": "Hər zərbə matç saatında",
+        "sub_trap": "Audit olunmuş PPDA ilə press",
+        "sub_lanes": "Ən güclü pas xətləri",
+        "sub_bench": "Kim çıxdı, sonra nə oldu",
+        "sub_duel": "Mübarizə, hava, dribling",
+        "sub_aerial": "Qazanılan hava topları",
+        "sub_split": "Birinci hissə ikinciyə qarşı",
+        "empty_xg_race": "VENDOR xG YOXDUR",
+        "empty_spike": "SİÇRAYIŞ YOXDUR",
+        "empty_spiral": "SAAT ÜÇÜN AZ ZƏRBƏ",
+        "empty_trap": "AUDİT OLUNMUŞ PPDA YOX",
+        "empty_lanes": "GÜCLÜ PAS XƏTTİ YOX",
+        "empty_bench": "LENTDƏ ƏVƏZETMƏ YOX",
+        "empty_duel": "AZ MÜBARİZƏ",
+        "empty_aerial": "AZ HAVA TOPU",
+        "empty_split": "HİSSƏ BÖLGÜSÜ YOX",
+        "vs_the_rest": "{n} qalan komandanın {rest}-nə qarşı",
+        "ppda_actions": "{n} PRESS HƏRƏKƏTİ",
+        "shots_after": "sonra zərbələr",
+        "bench_axis": "{n} dəqiqəlik lentdə əvəzetmələr",
+        "aerials_won": "Qazanılan hava topları",
+        "halftime_stamp": "İki fərqli hissə",
+        "bridge_spiral_0": "SAATDA HƏR ZƏRBƏ.",
+        "bridge_spiral_1": "SIRA İLƏ DÜŞMƏLƏRİNƏ BAX.",
+        "bridge_trap_0": "BUDUR PRESS.",
+        "bridge_trap_1": "TƏLƏ Sıxıldı.",
+        "bridge_lanes_0": "YALNIZ GÜCLÜ XƏTTLƏR.",
+        "bridge_lanes_1": "QALIN XƏTTLƏRİ İZLƏ.",
+        "bridge_bench_0": "SONRA EHTİYAT GƏLDİ.",
+        "bridge_bench_1": "KİM ÇIXDI. SONRA NƏ OLDU.",
+        "bridge_duel_0": "MÜBARİZƏLƏR BƏRABƏR DEYİLDİ.",
+        "bridge_duel_1": "YIĞIN YIĞINA QARŞI.",
+        "bridge_aerial_0": "HAVA BİR TƏRƏFİN İDİ.",
+        "bridge_aerial_1": "HAVA TOPLARI. SAY.",
+        "bridge_split_0": "İKİ FƏRQLİ HİSSƏ İDİ.",
+        "bridge_split_1": "BÖLGÜNÜ VURĞULA.",
+        "kicker_every_goal": "HƏR QOL",
+        "kicker_shot_map": "ZƏRBƏ XƏRİTƏSİ",
+        "kicker_pressure": "TƏZYİQ",
+        "kicker_territory": "ƏRAZİ",
+        "kicker_one_goal": "BİR QOL, İZİ İLƏ",
+        "kicker_buildup": "QURULUŞ",
+        "kicker_frame": "ÇƏRÇİVƏ",
+        "kicker_pass_network": "PAS ŞƏBƏKƏSİ",
+        "kicker_control": "NƏZARƏT VƏ TƏHLÜKƏ",
+        "kicker_profile": "PROFİL",
+        "kicker_touch": "TOXUNUŞ ƏRAZİSİ",
+        "kicker_tilt": "TİLT",
+        "kicker_conversion": "ÇEVİRMƏ",
+        "kicker_funnel": "HUNİ",
+        "kicker_wall": "DİVAR",
+        "kicker_xg_race": "xG YARIŞI",
+        "kicker_three_slices": "ÜÇ DİLİM",
+        "kicker_spike": "SİÇRAYIŞ",
+        "kicker_shot_clock": "ZƏRBƏ SAATI",
+        "kicker_trap": "TƏLƏ",
+        "kicker_lanes": "XƏTTLƏR",
+        "kicker_bench": "EHTİYAT",
+        "kicker_duels": "MÜBARİZƏ",
+        "kicker_air": "HAVA",
+        "kicker_two_halves": "İKİ HİSSƏ",
+        "kicker_event_data": "HADİSƏ VERİLƏRİ",
+        "title_saves_for": "{team} ÜÇÜN {n} SEYV",
+        "title_shots_clock": "SAATDA {n} ZƏRBƏ",
+        "title_had_work": "{team} İŞİ VAR İDİ",
+        "title_how_moved": "{team} TOPU BELƏ APARDI",
+        "title_had_the_ball": "{team} TOPA SAHİB İDİ",
+        "title_shape": "OYUNUN FORMASI",
+        "title_n_touches": "{n} TOXUNUŞ",
+        "title_tilt_window": "{window} PƏNCƏRƏSİNDƏ {n}% TİLT",
+        "title_then_drop": "{n}% SONRA DÜŞÜŞ",
+        "title_race_ignored": "HESABIN SAYMADIĞI YARIŞ",
+        "title_map_changed": "XƏRİTƏ DƏYİŞDİ",
+        "title_player_had": "{name} {n} ETDİ",
+        "title_at_ppda": "{team} — {n} PPDA",
+        "title_how_moved_it": "{team} TOPU BELƏ APARDI",
+        "title_off_bench": "EHTİYATDAN {n} NƏFƏR",
+        "title_duels_for": "{team} ÜÇÜN {n} MÜBARİZƏ",
+        "title_owned_air": "{team} HAVANI ALDI",
+        "title_then": "{a} SONRA {b}",
+        "title_goals_running": "{n} QOL, BİR CANLI HESAB",
+        "title_goal_timeline": "QOL XRONOLOGİYASI",
+        "title_on_the_map": "XƏRİTƏDƏ {home}-{away}",
+        "title_passes_finish": "FİNİŞƏ {n} PAS",
+        "title_move_before": "QOLDAN ƏVVƏLKİ HƏRƏKƏT",
+        "title_n_stat": "{n} {stat}",
+        "insight_saves_stopped": "Çərçivəyə {faced} zərbə. {saves} seyvlə dayandırıldı.",
+        "insight_shots_order": "{home} qarşı {away}. Sıra ilə düşmələrinə bax.",
+        "insight_shots_split": "{home} zərbəyə qarşı {away}, çərçivəyə {home_on}–{away_on}.",
+        "insight_slam": "{team} {stat} üzrə {a}–{b} öndə idi.",
+        "insight_close_result": "{team} nəticəni götürdü. Rəqəmlər necə olduğunu deyir.",
+        "insight_close_goalless": "Hesabda heç nə. Lentdə çox şey.",
+        "insight_close_level": "Hesabda bərabər. Xəritədə bölünmüş.",
+        "insight_close_shots": "{a}-{b} zərbə; nəticə {score}.",
+        "insight_close_shots_xg": "{a}-{b} zərbə; xG {xg_a}-{xg_b}; nəticə {score}.",
+        "layer_tackles": "MÜBARİZƏ",
+        "layer_aerials": "HAVA",
+        "layer_take_ons": "DRİBLİNQ",
+        "lanes_label": "{n} XƏTT  ·  {team}",
+        "vs_other": "QARŞI {team}  {value}",
+        "pressure_short": "TƏZYİQ",
+        "title_pressure_match": "MATÇ BOYU TƏZYİQ",
+        "title_et_deadlock": "ƏLAVƏ VAXT DALANI AÇDI",
+        "title_minute_tone": "{n}-Cİ DƏQİQƏ TONU VERDİ",
+        "title_nth_tone": "{n}-Cİ DƏQİQƏ TONU VERDİ",
+        "title_turned_after": "{n}-DƏN SONRA DÖNDÜ",
+        "title_settled_nth": "{n}-Cİ DƏQİQƏDƏ HƏLL OLUNDU",
+        "title_where_played": "OYUN HARADA GEDİB",
+        "title_owned_map": "{team} XƏRİTƏYƏ SAHİB OLDU",
+        "title_every_zone": "HƏR ZONA MÜBARİZƏLİ İDİ",
+        "title_standard": "ƏSAS GÖSTƏRİCİLƏR",
+        "insight_last_word": "{team} {n}-ci dəqiqədə son sözü dedi.",
+        "insight_every_finish": "Hər bitirmə hesabı dəyişdi.",
+        "insight_heavy_spell": "Ən ağır dalğa {team} üçün {block} dəqiqələrində idi.",
+        "insight_pressure_level": "Təzyiq bütün matç boyu bərabər qaldı.",
+        "insight_owned_grid": "{team} təhlükəli zonada daha çox toxundu.",
+        "insight_chain_metres": "{metres} metr pas, {seconds} saniyəyə.",
+        "insight_pass_acc": "{n} uğurlu pas, {pct}% dəqiqlik.",
+        "insight_control_threat": "{pct}% {control}, qarşılığında {n} {threat}.",
+        "insight_radar": "{hs}-{ashots} zərbə; {hc}-{ac} {control}.",
+        "insight_touches": "{home} toxunuşa qarşı {away}; hər hex real hadisədir.",
+        "insight_tilt_owned": "{team} o pəncərədə təhlükəli üçdə birə sahib idi.",
+        "insight_gauges": "{hs}-{ashots} zərbə; {ho}-{ao} {stat}.{xg}",
+        "insight_funnel": "{pct}% {control} {shots} zərbə, {big} böyük şans və {goals} qol oldu.",
+        "insight_xg_race": "xG {home} qarşı {away}. Hesab yarışı saymadı.",
+        "insight_three_windows": "Üç pəncərə. Rəng deyir kim sahib idi.",
+        "insight_spike": "{player} {action} üzrə {n} ilə öndə.",
+        "insight_ppda": "{team} {n} PPDA ilə press etdi.",
+        "insight_lanes": "{team} — yalnız ən qalın pas xətləri.",
+        "insight_bench": "{n} əvəzetmə. Hər gəlişdən sonra nə oldu.",
+        "insight_duels": "{home} qarşı {away}. Mübarizə, hava, dribling.",
+        "insight_headers": "{home} hava topu qarşı {away}.",
+        "insight_split": "Fasilədən əvvəl {first} zərbə, sonra {second}.",
+        "insight_event_feed": "Birbaşa matç hadisə axınından qurulub.",
+        "dot_equals": "Bir nöqtə = {n} {stat}",
+        "square_equals": "Bir kvadrat = 1%",
+        "attacks_here": "{team} BU TƏRƏFƏ HÜCUM EDİR",
+        "busiest_zone": "ƏN SIX ZONA",
+        "shoots_here": "{team} BURAYA VURUR",
+        "touches_label": "Toxunuşlar",
+        "shots_label": "Zərbələr",
+        "legend_skyline": "Hündürlük = toxunuş  ·  rəng = zonanın sahibi",
+        "legend_shot_towers": "Qüllə hündürlüyü: qol, çərçivəyə, kənara, blok",
+        "legend_shot_xg": "Qüllə hündürlüyü = şansın xG-si",
+        "legend_trajectories": "Ayaqdan qapı xəttini keçdiyi nöqtəyə düz xətt",
+        "too_few_shots_3d": "ZƏRBƏ AZDIR",
+        "empty_podium": "OYUNÇU REYTİNQİ YOXDUR",
+        "rating_through_match": "Matç boyu reytinq",
+        "podium_line": "{shots} ZƏRBƏ  ·  {kp} ŞANS",
+        "assists_label": "Assistlər",
+        "empty_lineup": "HEYƏT MƏLUMATI YOXDUR",
+        "below_label": "Aşağı",
+        "legend_lineup": "Halqa = WhoScored reytinqi  ·  parıltı = ən yüksək reytinq",
+        "n_shots_label": "{n} ZƏRBƏ",
+        "shot_how": "Necə gəldi",
+        "shot_with": "Nə ilə vuruldu",
+        "sit_open_play": "Açıq oyun",
+        "sit_counter": "Əks-hücum",
+        "sit_corner": "Künc",
+        "sit_set_piece": "Standart",
+        "sit_free_kick": "Cərimə zərbəsi",
+        "sit_penalty": "Penalti",
+        "body_right_foot": "Sağ ayaq",
+        "body_left_foot": "Sol ayaq",
+        "body_head": "Baş",
+        "body_other": "Digər",
+        "forward_label": "İrəli",
+        "backward_label": "Geri",
+        "avg_length_label": "Orta uzunluq",
+        "long_label": "Uzun paslar 30 m+",
+        "legend_sonar": "Ləçək = o tərəfə paslar  ·  parlaq = daha dəqiq  ·  ox = qapıya",
+        "empty_block": "MÜDAFİƏ HƏRƏKƏTİ AZDIR",
+        "won_high_label": "Rəqib yarısında geri alınan",
+        "legend_block": "Forma = topun 80%-nin geri alındığı mərkəz  ·  qırıq xətt = orta xətt",
+        "kicker_skyline": "3D ƏRAZİ",
+        "kicker_shot_skyline": "3D ZƏRBƏLƏR",
+        "kicker_trajectories": "ÇƏRÇİVƏYƏ",
+        "kicker_podium": "ƏN YÜKSƏK REYTİNQ",
+        "kicker_lineup": "SXEMLƏR",
+        "kicker_shot_dna": "ZƏRBƏ DNT-si",
+        "kicker_sonar": "PAS SONARI",
+        "kicker_block": "MÜDAFİƏ BLOKU",
+        "title_skyline": "{team} ŞƏHƏRİ QURDU",
+        "title_shot_skyline": "{team} ÜÇÜN {n} ZƏRBƏ",
+        "title_trajectories": "BİR QAPIYA {n} ZƏRBƏ",
+        "title_podium": "{name} REYTİNQDƏ BİRİNCİ",
+        "title_lineup": "{a} QARŞI {b}",
+        "title_shot_dna": "{n} ZƏRBƏ, HİSSƏ-HİSSƏ",
+        "title_sonar_forward": "{team} İRƏLİ OYNADI",
+        "title_sonar_even": "EYNİ KOMPAS",
+        "title_block_high": "{team} DAHA YUXARIDA MÜDAFİƏ ETDİ",
+        "title_block_even": "İKİ BLOK, BİR XƏTT",
+        "sub_skyline": "Toxunuş həcmi hündürlük, sahibi rəng kimi",
+        "sub_shot_skyline": "Hər zərbə vurulduğu yerdə dayanır",
+        "sub_trajectories": "Hər zərbə keçdiyi xəttə qədər",
+        "sub_podium": "WhoScored matç reytinqi, ilk üçlük",
+        "sub_lineup": "Başlanğıc sxemləri, reytinqlə",
+        "sub_shot_dna": "Nəticə, vəziyyət və bədən hissəsi",
+        "sub_sonar": "İstiqamət, həcm və dəqiqlik",
+        "sub_block": "Hər tərəf topu harada geri aldı",
+        "insight_skyline": "{home} qarşı {away} toxunuş. Ən hündür blok ən sıx zonadır.",
+        "insight_shot_skyline": "{home} qarşı {away} zərbə. Hündür qüllələr qapıçını yoxladı.",
+        "insight_trajectories": "{on} çərçivəyə, {off} kənara, {goals} qol.",
+        "insight_podium": "{first} {r1}, {second} {r2}, {third} {r3}.",
+        "insight_lineup": "{name} {rating} ilə meydanın ən yüksək reytinqli oyunçusu oldu.",
+        "insight_shot_dna": "{home} qarşı {away} zərbə. {team} zərbələrinin {pct}%-i cərimə meydançasından.",
+        "insight_sonar": "{team} pasların {pct}%-ni irəli ötürdü, {other} {pct2}%.",
+        "insight_block": "Orta xətt: {home} {hm} m, {away} {am} m öz qapısından.",
     },
     "es": {
         "watermark": "",
@@ -977,6 +1384,214 @@ UI: dict[str, dict[str, str]] = {
         "sub_zones_time": "Territorio en tres cortes",
         "sub_player": "El jugador que disparó la cinta",
         "sub_keeper_frame": "Cada tiro a puerta en el marco",
+        "sub_spiral": "Cada tiro en el reloj del partido",
+        "sub_trap": "Intensidad de presión con PPDA auditado",
+        "sub_lanes": "Los pases más fuertes",
+        "sub_bench": "Quién entró y qué siguió",
+        "sub_duel": "Entradas, cabezazos y regates",
+        "sub_aerial": "Cabezazos ganados, ambos lados",
+        "sub_split": "Primera parte contra la segunda",
+        "empty_xg_race": "SIN xG DEL PROVEEDOR",
+        "empty_spike": "SIN PICO",
+        "empty_spiral": "POCOS TIROS PARA UN RELOJ",
+        "empty_trap": "SIN PPDA AUDITADO",
+        "empty_lanes": "SIN CARRILES FUERTES",
+        "empty_bench": "SIN CAMBIOS EN LA CINTA",
+        "empty_duel": "POCOS DUELOS",
+        "empty_aerial": "POCOS AÉREOS",
+        "empty_split": "SIN REPARTO POR MITADES",
+        "vs_the_rest": "{n} frente a {rest} del resto del equipo",
+        "ppda_actions": "{n} ACCIONES DE PRESIÓN",
+        "shots_after": "tiros después",
+        "bench_axis": "cambios en una cinta de {n} minutos",
+        "aerials_won": "Aéreos ganados",
+        "halftime_stamp": "Historia de dos mitades",
+        "bridge_spiral_0": "CADA TIRO EN EL RELOJ.",
+        "bridge_spiral_1": "MÍRALOS CAER EN ORDEN.",
+        "bridge_trap_0": "ESTA ES LA PRESIÓN.",
+        "bridge_trap_1": "LA TRAMPA SE CERRÓ.",
+        "bridge_lanes_0": "SOLO LOS CARRILES FUERTES.",
+        "bridge_lanes_1": "SIGUE LAS LÍNEAS GRUESAS.",
+        "bridge_bench_0": "LUEGO LLEGÓ EL BANQUILLO.",
+        "bridge_bench_1": "QUIÉN ENTRÓ. QUÉ SIGUIÓ.",
+        "bridge_duel_0": "LOS DUELOS NO FUERON PARES.",
+        "bridge_duel_1": "PILA CONTRA PILA.",
+        "bridge_aerial_0": "EL AIRE FUE DE UN LADO.",
+        "bridge_aerial_1": "CABEZAZOS. CUÉNTALOS.",
+        "bridge_split_0": "FUERON DOS MITADES DISTINTAS.",
+        "bridge_split_1": "SELLA EL REPARTO.",
+        "kicker_every_goal": "CADA GOL",
+        "kicker_shot_map": "MAPA DE TIROS",
+        "kicker_pressure": "PRESIÓN",
+        "kicker_territory": "TERRITORIO",
+        "kicker_one_goal": "UN GOL, TRAZADO",
+        "kicker_buildup": "JUGADA PREVIA",
+        "kicker_frame": "EL MARCO",
+        "kicker_pass_network": "RED DE PASES",
+        "kicker_control": "CONTROL VS AMENAZA",
+        "kicker_profile": "PERFIL",
+        "kicker_touch": "TERRITORIO DE TOQUES",
+        "kicker_tilt": "INCLINACIÓN",
+        "kicker_conversion": "CONVERSIÓN",
+        "kicker_funnel": "EMBUDO",
+        "kicker_wall": "EL MURO",
+        "kicker_xg_race": "CARRERA xG",
+        "kicker_three_slices": "TRES CORTES",
+        "kicker_spike": "EL PICO",
+        "kicker_shot_clock": "RELOJ DE TIROS",
+        "kicker_trap": "LA TRAMPA",
+        "kicker_lanes": "CARRILES",
+        "kicker_bench": "EL BANQUILLO",
+        "kicker_duels": "DUELOS",
+        "kicker_air": "EL AIRE",
+        "kicker_two_halves": "DOS MITADES",
+        "kicker_event_data": "DATOS DE EVENTOS",
+        "title_saves_for": "{n} PARADAS DE {team}",
+        "title_shots_clock": "{n} TIROS EN EL RELOJ",
+        "title_had_work": "{team} TUVO TRABAJO",
+        "title_how_moved": "CÓMO {team} MOVIÓ EL BALÓN",
+        "title_had_the_ball": "{team} TUVO EL BALÓN",
+        "title_shape": "LA FORMA DEL PARTIDO",
+        "title_n_touches": "{n} TOQUES",
+        "title_tilt_window": "{n}% DE INCLINACIÓN EN {window}",
+        "title_then_drop": "{n}% Y LUEGO LA CAÍDA",
+        "title_race_ignored": "LA CARRERA QUE EL MARCADOR IGNORÓ",
+        "title_map_changed": "EL MAPA CAMBIÓ",
+        "title_player_had": "{name} TUVO {n}",
+        "title_at_ppda": "{team} A {n} PPDA",
+        "title_how_moved_it": "CÓMO LO MOVIÓ {team}",
+        "title_off_bench": "{n} SALIERON DEL BANQUILLO",
+        "title_duels_for": "{n} DUELOS PARA {team}",
+        "title_owned_air": "{team} DOMINÓ EL AIRE",
+        "title_then": "{a} LUEGO {b}",
+        "title_goals_running": "{n} GOLES, UN MARCADOR CORRIENTE",
+        "title_goal_timeline": "CRONOLOGÍA DE GOLES",
+        "title_on_the_map": "{home}-{away} EN EL MAPA",
+        "title_passes_finish": "{n} PASES HASTA EL REMATE",
+        "title_move_before": "LA JUGADA ANTES DEL GOL",
+        "title_n_stat": "{n} {stat}",
+        "insight_saves_stopped": "{faced} tiros al marco. {saves} detenidos.",
+        "insight_shots_order": "{home} frente a {away}. Míralos caer en orden.",
+        "insight_shots_split": "{home} tiros frente a {away}, {home_on} a puerta frente a {away_on}.",
+        "insight_slam": "{team} lideró {stat} {a} a {b}.",
+        "insight_close_result": "{team} se llevó el resultado. Los números dicen cómo.",
+        "insight_close_goalless": "Nada en el marcador. Mucho en la cinta.",
+        "insight_close_level": "Empate en el marcador. Reparto en el mapa.",
+        "insight_close_shots": "{a}-{b} tiros; resultado {score}.",
+        "insight_close_shots_xg": "{a}-{b} tiros; xG {xg_a}-{xg_b}; resultado {score}.",
+        "layer_tackles": "ENTRADAS",
+        "layer_aerials": "AÉREOS",
+        "layer_take_ons": "REGATES",
+        "lanes_label": "{n} CARRILES  ·  {team}",
+        "vs_other": "vs {team}  {value}",
+        "pressure_short": "PRESIÓN",
+        "title_pressure_match": "PRESIÓN DURANTE EL PARTIDO",
+        "title_et_deadlock": "LA PRÓRROGA ROMPIÓ EL EMPATE",
+        "title_minute_tone": "EL MINUTO {n} MARCÓ EL TONO",
+        "title_nth_tone": "EL MINUTO {n} MARCÓ EL TONO",
+        "title_turned_after": "GIRÓ DESPUÉS DEL {n}",
+        "title_settled_nth": "SE DECIDIÓ EN EL {n}",
+        "title_where_played": "DÓNDE SE JUGÓ EL PARTIDO",
+        "title_owned_map": "{team} DOMINÓ EL MAPA",
+        "title_every_zone": "CADA ZONA FUE DISPUTADA",
+        "title_standard": "LA BASE",
+        "insight_last_word": "{team} tuvo la última palabra en el minuto {n}.",
+        "insight_every_finish": "Cada remate movió el marcador.",
+        "insight_heavy_spell": "El tramo más fuerte fue de {team} entre los minutos {block}.",
+        "insight_pressure_level": "La presión se mantuvo pareja todo el partido.",
+        "insight_owned_grid": "{team} tocó más en la zona peligrosa.",
+        "insight_chain_metres": "{metres} metros de pases en {seconds} segundos.",
+        "insight_pass_acc": "{n} pases completados al {pct}% de precisión.",
+        "insight_control_threat": "{pct}% {control}, {n} {threat} a cambio.",
+        "insight_radar": "{hs}-{ashots} tiros; {hc}-{ac} {control}.",
+        "insight_touches": "{home} toques frente a {away}; cada hexágono es un evento real.",
+        "insight_tilt_owned": "{team} dominó el tercio peligroso en esa ventana.",
+        "insight_gauges": "{hs}-{ashots} tiros; {ho}-{ao} {stat}.{xg}",
+        "insight_funnel": "{pct}% {control} fueron {shots} tiros, {big} grandes ocasiones y {goals} goles.",
+        "insight_xg_race": "xG {home} frente a {away}. El marcador ignoró la carrera.",
+        "insight_three_windows": "Tres ventanas. El color dice quién mandó en cada una.",
+        "insight_spike": "{player} lideró {action} con {n}.",
+        "insight_ppda": "{team} presionó a {n} pases por acción defensiva.",
+        "insight_lanes": "{team} — solo los carriles más gruesos.",
+        "insight_bench": "{n} cambios. Mira lo que siguió a cada entrada.",
+        "insight_duels": "{home} frente a {away}. Entradas, cabezazos, regates.",
+        "insight_headers": "{home} aéreos ganados frente a {away}.",
+        "insight_split": "{first} tiros antes del descanso, {second} después.",
+        "insight_event_feed": "Construido directamente del feed de eventos.",
+        "dot_equals": "Un punto = {n} {stat}",
+        "square_equals": "Un cuadro = 1%",
+        "attacks_here": "{team} ATACA AQUÍ",
+        "busiest_zone": "ZONA MÁS USADA",
+        "shoots_here": "{team} TIRA AQUÍ",
+        "touches_label": "Toques",
+        "shots_label": "Tiros",
+        "legend_skyline": "Altura = toques  ·  color = dueño de la zona",
+        "legend_shot_towers": "Altura de la torre: gol, a puerta, fuera, bloqueado",
+        "legend_shot_xg": "Altura de la torre = xG de la ocasión",
+        "legend_trajectories": "Línea recta desde la bota hasta donde cruzó la línea de gol",
+        "too_few_shots_3d": "POCOS TIROS",
+        "empty_podium": "SIN VALORACIONES",
+        "rating_through_match": "Valoración durante el partido",
+        "podium_line": "{shots} TIROS  ·  {kp} OCASIONES",
+        "assists_label": "Asistencias",
+        "empty_lineup": "SIN DATOS DE ALINEACIÓN",
+        "below_label": "Menos",
+        "legend_lineup": "Anillo = valoración WhoScored  ·  brillo = mejor valorado",
+        "n_shots_label": "{n} TIROS",
+        "shot_how": "Cómo llegaron",
+        "shot_with": "Con qué",
+        "sit_open_play": "Juego abierto",
+        "sit_counter": "Contra",
+        "sit_corner": "Córner",
+        "sit_set_piece": "Balón parado",
+        "sit_free_kick": "Falta directa",
+        "sit_penalty": "Penalti",
+        "body_right_foot": "Pie derecho",
+        "body_left_foot": "Pie izquierdo",
+        "body_head": "Cabeza",
+        "body_other": "Otro",
+        "forward_label": "Adelante",
+        "backward_label": "Atrás",
+        "avg_length_label": "Longitud media",
+        "long_label": "Pases largos 30 m+",
+        "legend_sonar": "Pétalo = pases en esa dirección  ·  más brillo = más completados  ·  flecha = hacia la portería",
+        "empty_block": "POCAS ACCIONES DEFENSIVAS",
+        "won_high_label": "Recuperado en campo rival",
+        "legend_block": "Forma = 80% central de recuperaciones  ·  discontinua = altura media de la línea",
+        "kicker_skyline": "TERRITORIO EN 3D",
+        "kicker_shot_skyline": "TIROS EN 3D",
+        "kicker_trajectories": "A LA PORTERÍA",
+        "kicker_podium": "MEJOR VALORADOS",
+        "kicker_lineup": "LOS DIBUJOS",
+        "kicker_shot_dna": "ADN DE TIRO",
+        "kicker_sonar": "SONAR DE PASES",
+        "kicker_block": "EL BLOQUE",
+        "title_skyline": "{team} CONSTRUYÓ LA CIUDAD",
+        "title_shot_skyline": "{n} TIROS DE {team}",
+        "title_trajectories": "{n} TIROS A UNA PORTERÍA",
+        "title_podium": "{name} LIDERA LAS VALORACIONES",
+        "title_lineup": "{a} CONTRA {b}",
+        "title_shot_dna": "{n} TIROS, DESMONTADOS",
+        "title_sonar_forward": "{team} JUGÓ HACIA ADELANTE",
+        "title_sonar_even": "LA MISMA BRÚJULA",
+        "title_block_high": "{team} DEFENDIÓ MÁS ARRIBA",
+        "title_block_even": "DOS BLOQUES, UNA LÍNEA",
+        "sub_skyline": "Volumen de toques como altura, dueño como color",
+        "sub_shot_skyline": "Cada tiro, de pie donde se ejecutó",
+        "sub_trajectories": "Cada tiro hasta la línea que cruzó",
+        "sub_podium": "Valoraciones WhoScored, los tres primeros",
+        "sub_lineup": "Alineaciones iniciales, valoradas",
+        "sub_shot_dna": "Resultado, situación y parte del cuerpo",
+        "sub_sonar": "Dirección, volumen y precisión",
+        "sub_block": "Dónde recuperó cada equipo",
+        "insight_skyline": "{home} toques frente a {away}. El bloque más alto es la zona más usada.",
+        "insight_shot_skyline": "{home} tiros frente a {away}. Las torres altas exigieron al portero.",
+        "insight_trajectories": "{on} a puerta, {off} fuera, {goals} dentro.",
+        "insight_podium": "{first} {r1}, {second} {r2}, {third} {r3}.",
+        "insight_lineup": "{name} fue el mejor valorado del campo con {rating}.",
+        "insight_shot_dna": "{home} tiros frente a {away}. El {pct}% de los de {team} llegó desde el área.",
+        "insight_sonar": "{team} envió el {pct}% de sus pases hacia adelante, {other} el {pct2}%.",
+        "insight_block": "Línea media: {home} {hm} m, {away} {am} m desde su portería.",
     },
     "ru": {
         "watermark": "",
@@ -1233,6 +1848,214 @@ UI: dict[str, dict[str, str]] = {
         "sub_zones_time": "Территория в трёх срезах",
         "sub_player": "Игрок, который взорвал ленту",
         "sub_keeper_frame": "Каждый удар в створ на рамке",
+        "sub_spiral": "Каждый удар на часах матча",
+        "sub_trap": "Прессинг по проверенному PPDA",
+        "sub_lanes": "Самые сильные пасовые линии",
+        "sub_bench": "Кто вышел и что последовало",
+        "sub_duel": "Отборы, верховые, обводки",
+        "sub_aerial": "Выигранные верховые, обе стороны",
+        "sub_split": "Первый тайм против второго",
+        "empty_xg_race": "НЕТ xG ОТ ПОСТАВЩИКА",
+        "empty_spike": "НЕТ ВСПЛЕСКА",
+        "empty_spiral": "МАЛО УДАРОВ ДЛЯ ЧАСОВ",
+        "empty_trap": "НЕТ ПРОВЕРЕННОГО PPDA",
+        "empty_lanes": "НЕТ СИЛЬНЫХ ЛИНИЙ",
+        "empty_bench": "НЕТ ЗАМЕН НА ЛЕНТЕ",
+        "empty_duel": "МАЛО ЕДИНОБОРСТВ",
+        "empty_aerial": "МАЛО ВЕРХОВЫХ",
+        "empty_split": "НЕТ РАЗБИВКИ ПО ТАЙМАМ",
+        "vs_the_rest": "{n} против {rest} у остальной команды",
+        "ppda_actions": "{n} ДЕЙСТВИЙ ПРЕССИНГА",
+        "shots_after": "удары после",
+        "bench_axis": "замены на {n}-минутной ленте",
+        "aerials_won": "Выигранные верховые",
+        "halftime_stamp": "История двух таймов",
+        "bridge_spiral_0": "КАЖДЫЙ УДАР НА ЧАСАХ.",
+        "bridge_spiral_1": "СМОТРИ, КАК ОНИ ЛОЖАТСЯ ПО ПОРЯДКУ.",
+        "bridge_trap_0": "ВОТ ПРЕССИНГ.",
+        "bridge_trap_1": "ЛОВУШКА СОЖАЛАСЬ.",
+        "bridge_lanes_0": "ТОЛЬКО СИЛЬНЫЕ ЛИНИИ.",
+        "bridge_lanes_1": "СЛЕДИ ЗА ТОЛСТЫМИ ЛИНИЯМИ.",
+        "bridge_bench_0": "ПОТОМ ПРИШЛА СКАМЕЙКА.",
+        "bridge_bench_1": "КТО ВЫШЕЛ. ЧТО ДАЛЬШЕ.",
+        "bridge_duel_0": "ЕДИНОБОРСТВА БЫЛИ НЕРАВНЫ.",
+        "bridge_duel_1": "СТОЛБ НА СТОЛБ.",
+        "bridge_aerial_0": "ВОЗДУХ ПРИНАДЛЕЖАЛ ОДНОЙ СТОРОНЕ.",
+        "bridge_aerial_1": "ВЕРХОВЫЕ. СЧИТАЙ.",
+        "bridge_split_0": "ЭТО БЫЛИ ДВА РАЗНЫХ ТАЙМА.",
+        "bridge_split_1": "ЗАПЕЧАТАЙ РАЗБИВКУ.",
+        "kicker_every_goal": "КАЖДЫЙ ГОЛ",
+        "kicker_shot_map": "КАРТА УДАРОВ",
+        "kicker_pressure": "ДАВЛЕНИЕ",
+        "kicker_territory": "ТЕРРИТОРИЯ",
+        "kicker_one_goal": "ОДИН ГОЛ, ПО ШАГАМ",
+        "kicker_buildup": "РОЗЫГРЫШ",
+        "kicker_frame": "РАМКА",
+        "kicker_pass_network": "ПАССОВАЯ СЕТЬ",
+        "kicker_control": "КОНТРОЛЬ И УГРОЗА",
+        "kicker_profile": "ПРОФИЛЬ",
+        "kicker_touch": "ЗОНЫ КАСАНИЙ",
+        "kicker_tilt": "НАКЛОН",
+        "kicker_conversion": "РЕАЛИЗАЦИЯ",
+        "kicker_funnel": "ВОРОНКА",
+        "kicker_wall": "СТЕНА",
+        "kicker_xg_race": "ГОНКА xG",
+        "kicker_three_slices": "ТРИ СРЕЗА",
+        "kicker_spike": "ВСПЛЕСК",
+        "kicker_shot_clock": "ЧАСЫ УДАРОВ",
+        "kicker_trap": "ЛОВУШКА",
+        "kicker_lanes": "ЛИНИИ",
+        "kicker_bench": "СКАМЕЙКА",
+        "kicker_duels": "ЕДИНОБОРСТВА",
+        "kicker_air": "ВОЗДУХ",
+        "kicker_two_halves": "ДВА ТАЙМА",
+        "kicker_event_data": "СОБЫТИЙНЫЕ ДАННЫЕ",
+        "title_saves_for": "{n} СЕЙВОВ — {team}",
+        "title_shots_clock": "{n} УДАРОВ НА ЧАСАХ",
+        "title_had_work": "{team} ПРИШЛОСЬ РАБОТАТЬ",
+        "title_how_moved": "КАК {team} ДВИГАЛИ МЯЧ",
+        "title_had_the_ball": "{team} ВЛАДЕЛИ МЯЧОМ",
+        "title_shape": "ФОРМА МАТЧА",
+        "title_n_touches": "{n} КАСАНИЙ",
+        "title_tilt_window": "{n}% НАКЛОНА В ОКНЕ {window}",
+        "title_then_drop": "{n}% — ПОТОМ СПАД",
+        "title_race_ignored": "ГОНКА, КОТОРУЮ ТАБЛО ИГНОРИРОВАЛО",
+        "title_map_changed": "КАРТА СМЕНИЛАСЬ",
+        "title_player_had": "У {name} — {n}",
+        "title_at_ppda": "{team} — {n} PPDA",
+        "title_how_moved_it": "КАК {team} ДВИГАЛИ",
+        "title_off_bench": "{n} ВЫШЛИ СО СКАМЕЙКИ",
+        "title_duels_for": "{n} ЕДИНОБОРСТВ — {team}",
+        "title_owned_air": "{team} ЗАБРАЛИ ВОЗДУХ",
+        "title_then": "{a} ПОТОМ {b}",
+        "title_goals_running": "{n} ГОЛОВ, ОДИН ТЕКУЩИЙ СЧЁТ",
+        "title_goal_timeline": "ХРОНОЛОГИЯ ГОЛОВ",
+        "title_on_the_map": "{home}-{away} НА КАРТЕ",
+        "title_passes_finish": "{n} ПАСОВ ДО УДАРА",
+        "title_move_before": "АТАКА ПЕРЕД ГОЛОМ",
+        "title_n_stat": "{n} {stat}",
+        "insight_saves_stopped": "{faced} ударов в рамку. {saves} отражены.",
+        "insight_shots_order": "{home} против {away}. Смотри, как они ложатся по порядку.",
+        "insight_shots_split": "{home} ударов против {away}, в створ {home_on}–{away_on}.",
+        "insight_slam": "{team} вели в {stat} {a} против {b}.",
+        "insight_close_result": "{team} взяли результат. Цифры говорят как.",
+        "insight_close_goalless": "На табло пусто. На ленте — много.",
+        "insight_close_level": "Ничья на табло. Расклад на карте.",
+        "insight_close_shots": "{a}-{b} ударов; итог {score}.",
+        "insight_close_shots_xg": "{a}-{b} ударов; xG {xg_a}-{xg_b}; итог {score}.",
+        "layer_tackles": "ОТБОРЫ",
+        "layer_aerials": "ВЕРХОВЫЕ",
+        "layer_take_ons": "ОБВОДКИ",
+        "lanes_label": "{n} ЛИНИЙ  ·  {team}",
+        "vs_other": "против {team}  {value}",
+        "pressure_short": "ДАВЛЕНИЕ",
+        "title_pressure_match": "ДАВЛЕНИЕ НА ПРОТЯЖЕНИИ МАТЧА",
+        "title_et_deadlock": "ДОП. ВРЕМЯ СЛОМАЛО НИЧЬЮ",
+        "title_minute_tone": "МИНУТА {n} ЗАДАЛА ТОН",
+        "title_nth_tone": "{n}-Я МИНУТА ЗАДАЛА ТОН",
+        "title_turned_after": "ПЕРЕЛОМ ПОСЛЕ {n}",
+        "title_settled_nth": "РЕШИЛОСЬ НА {n}-Й",
+        "title_where_played": "ГДЕ ШЁЛ МАТЧ",
+        "title_owned_map": "{team} ЗАБРАЛИ КАРТУ",
+        "title_every_zone": "КАЖДАЯ ЗОНА БЫЛА СПОРНОЙ",
+        "title_standard": "БАЗОВЫЕ ПОКАЗАТЕЛИ",
+        "insight_last_word": "{team} сказали последнее слово на {n}-й минуте.",
+        "insight_every_finish": "Каждый удар менял счёт.",
+        "insight_heavy_spell": "Самый тяжёлый отрезок был у {team} в минутах {block}.",
+        "insight_pressure_level": "Давление оставалось равным всю игру.",
+        "insight_owned_grid": "{team} чаще касались мяча в опасной зоне.",
+        "insight_chain_metres": "{metres} метров передач за {seconds} секунд.",
+        "insight_pass_acc": "{n} точных пасов при {pct}% точности.",
+        "insight_control_threat": "{pct}% {control}, взамен {n} {threat}.",
+        "insight_radar": "{hs}-{ashots} ударов; {hc}-{ac} {control}.",
+        "insight_touches": "{home} касаний против {away}; каждый hex — реальное событие.",
+        "insight_tilt_owned": "{team} забрали опасную треть в этом окне.",
+        "insight_gauges": "{hs}-{ashots} ударов; {ho}-{ao} {stat}.{xg}",
+        "insight_funnel": "{pct}% {control} стали {shots} ударами, {big} острыми моментами и {goals} голами.",
+        "insight_xg_race": "xG {home} против {away}. Табло гонку проигнорировало.",
+        "insight_three_windows": "Три окна. Цвет говорит, кто владел каждым.",
+        "insight_spike": "{player} лидировал в {action} с {n}.",
+        "insight_ppda": "{team} прессинговали при {n} PPDA.",
+        "insight_lanes": "{team} — только самые толстые линии.",
+        "insight_bench": "{n} замен. Смотри, что следовало за каждым выходом.",
+        "insight_duels": "{home} против {away}. Отборы, верховые, обводки.",
+        "insight_headers": "{home} выигранных верховых против {away}.",
+        "insight_split": "{first} ударов до перерыва, {second} после.",
+        "insight_event_feed": "Собрано напрямую из ленты событий матча.",
+        "dot_equals": "Одна точка = {n} {stat}",
+        "square_equals": "Один квадрат = 1%",
+        "attacks_here": "{team} АТАКУЮТ СЮДА",
+        "busiest_zone": "САМАЯ ЗАНЯТАЯ ЗОНА",
+        "shoots_here": "{team} БЬЮТ СЮДА",
+        "touches_label": "Касания",
+        "shots_label": "Удары",
+        "legend_skyline": "Высота = касания  ·  цвет = хозяин зоны",
+        "legend_shot_towers": "Высота башни: гол, в створ, мимо, блок",
+        "legend_shot_xg": "Высота башни = xG момента",
+        "legend_trajectories": "Прямая от удара до точки, где мяч пересёк линию ворот",
+        "too_few_shots_3d": "МАЛО УДАРОВ",
+        "empty_podium": "НЕТ РЕЙТИНГОВ ИГРОКОВ",
+        "rating_through_match": "Рейтинг по ходу матча",
+        "podium_line": "{shots} УДАРОВ  ·  {kp} МОМЕНТОВ",
+        "assists_label": "Голевые передачи",
+        "empty_lineup": "НЕТ ДАННЫХ О СОСТАВАХ",
+        "below_label": "Ниже",
+        "legend_lineup": "Кольцо = рейтинг WhoScored  ·  свечение = лучший",
+        "n_shots_label": "{n} УДАРОВ",
+        "shot_how": "Откуда пришли",
+        "shot_with": "Чем пробили",
+        "sit_open_play": "С игры",
+        "sit_counter": "Контратака",
+        "sit_corner": "Угловой",
+        "sit_set_piece": "Стандарт",
+        "sit_free_kick": "Штрафной",
+        "sit_penalty": "Пенальти",
+        "body_right_foot": "Правая",
+        "body_left_foot": "Левая",
+        "body_head": "Голова",
+        "body_other": "Другое",
+        "forward_label": "Вперёд",
+        "backward_label": "Назад",
+        "avg_length_label": "Средняя длина",
+        "long_label": "Длинные 30 м+",
+        "legend_sonar": "Лепесток = передачи в эту сторону  ·  ярче = точнее  ·  стрелка = к воротам",
+        "empty_block": "МАЛО ОБОРОНИТЕЛЬНЫХ ДЕЙСТВИЙ",
+        "won_high_label": "Отбор на чужой половине",
+        "legend_block": "Фигура = центральные 80% отборов  ·  пунктир = средняя высота линии",
+        "kicker_skyline": "ТЕРРИТОРИЯ В 3D",
+        "kicker_shot_skyline": "УДАРЫ В 3D",
+        "kicker_trajectories": "В СТВОР",
+        "kicker_podium": "ЛУЧШИЕ ПО РЕЙТИНГУ",
+        "kicker_lineup": "СХЕМЫ",
+        "kicker_shot_dna": "ДНК УДАРОВ",
+        "kicker_sonar": "СОНАР ПЕРЕДАЧ",
+        "kicker_block": "БЛОК",
+        "title_skyline": "{team} ПОСТРОИЛИ ГОРОД",
+        "title_shot_skyline": "{n} УДАРОВ — {team}",
+        "title_trajectories": "{n} УДАРОВ ПО ОДНИМ ВОРОТАМ",
+        "title_podium": "{name} — ЛУЧШИЙ ПО РЕЙТИНГУ",
+        "title_lineup": "{a} ПРОТИВ {b}",
+        "title_shot_dna": "{n} УДАРОВ ПО ЧАСТЯМ",
+        "title_sonar_forward": "{team} ИГРАЛИ ВПЕРЁД",
+        "title_sonar_even": "ОДИН И ТОТ ЖЕ КОМПАС",
+        "title_block_high": "{team} ОБОРОНЯЛИСЬ ВЫШЕ",
+        "title_block_even": "ДВА БЛОКА, ОДНА ЛИНИЯ",
+        "sub_skyline": "Объём касаний — высота, хозяин — цвет",
+        "sub_shot_skyline": "Каждый удар стоит там, где был нанесён",
+        "sub_trajectories": "Каждый удар до линии, которую пересёк",
+        "sub_podium": "Рейтинги WhoScored, тройка лучших",
+        "sub_lineup": "Стартовые схемы с рейтингами",
+        "sub_shot_dna": "Исход, ситуация и часть тела",
+        "sub_sonar": "Направление, объём и точность",
+        "sub_block": "Где каждая команда возвращала мяч",
+        "insight_skyline": "{home} касаний против {away}. Самый высокий блок — самая занятая зона.",
+        "insight_shot_skyline": "{home} ударов против {away}. Высокие башни проверяли вратаря.",
+        "insight_trajectories": "{on} в створ, {off} мимо, {goals} в сетке.",
+        "insight_podium": "{first} {r1}, {second} {r2}, {third} {r3}.",
+        "insight_lineup": "{name} — лучший рейтинг на поле: {rating}.",
+        "insight_shot_dna": "{home} ударов против {away}. {pct}% ударов {team} — из штрафной.",
+        "insight_sonar": "{team} отдали вперёд {pct}% передач, {other} — {pct2}%.",
+        "insight_block": "Средняя линия: {home} {hm} м, {away} {am} м от своих ворот.",
     },
 }
 
@@ -1250,6 +2073,13 @@ _OFFLINE_LINES: dict[str, dict[str, str]] = {
         "ONE GOAL, TRACED": "BİR QOL, İZİ İLƏ",
         "BUILD-UP": "HÜCUM QURULUŞU",
         "THE FRAME": "ÇƏRÇİVƏ",
+        "THE WALL": "DİVAR",
+        "SHOT CLOCK": "ZƏRBƏ SAATI",
+        "THE SHAPE OF THE MATCH": "OYUNUN FORMASI",
+        "THE RACE THE SCORE IGNORED": "HESABIN SAYMADIĞI YARIŞ",
+        "THE MAP CHANGED": "XƏRİTƏ DƏYİŞDİ",
+        "BIG CHANCES": "BÖYÜK ŞANSLAR",
+        "DRIBBLES WON": "DRİBLİNQLƏR",
         "PASS NETWORK": "PAS ŞƏBƏKƏSİ",
         "CONTROL VS THREAT": "NƏZARƏT VƏ TƏHLÜKƏ",
         "EVENT DATA": "HADİSƏ VERİLƏRİ",
@@ -1296,6 +2126,13 @@ _OFFLINE_LINES: dict[str, dict[str, str]] = {
         "ONE GOAL, TRACED": "UN GOL, TRAZADO",
         "BUILD-UP": "JUGADA PREVIA",
         "THE FRAME": "EL MARCO",
+        "THE WALL": "EL MURO",
+        "SHOT CLOCK": "RELOJ DE TIROS",
+        "THE SHAPE OF THE MATCH": "LA FORMA DEL PARTIDO",
+        "THE RACE THE SCORE IGNORED": "LA CARRERA QUE EL MARCADOR IGNORÓ",
+        "THE MAP CHANGED": "EL MAPA CAMBIÓ",
+        "BIG CHANCES": "GRANDES OCASIONES",
+        "DRIBBLES WON": "REGATES",
         "PASS NETWORK": "RED DE PASES",
         "CONTROL VS THREAT": "CONTROL VS AMENAZA",
         "EVENT DATA": "DATOS DE EVENTOS",
@@ -1341,6 +2178,13 @@ _OFFLINE_LINES: dict[str, dict[str, str]] = {
         "ONE GOAL, TRACED": "ОДИН ГОЛ, ПО ШАГАМ",
         "BUILD-UP": "РОЗЫГРЫШ",
         "THE FRAME": "РАМКА",
+        "THE WALL": "СТЕНА",
+        "SHOT CLOCK": "ЧАСЫ УДАРОВ",
+        "THE SHAPE OF THE MATCH": "ФОРМА МАТЧА",
+        "THE RACE THE SCORE IGNORED": "ГОНКА, КОТОРУЮ ТАБЛО ИГНОРИРОВАЛО",
+        "THE MAP CHANGED": "КАРТА СМЕНИЛАСЬ",
+        "BIG CHANCES": "ОСТРЫЕ МОМЕНТЫ",
+        "DRIBBLES WON": "ОБВОДКИ",
         "PASS NETWORK": "ПАССОВАЯ СЕТЬ",
         "CONTROL VS THREAT": "КОНТРОЛЬ И УГРОЗА",
         "EVENT DATA": "СОБЫТИЙНЫЕ ДАННЫЕ",
@@ -1391,13 +2235,36 @@ _PERIOD_KEYS = {
 def t(key: str, *, lang: str | None = None, **kwargs: Any) -> str:
     code = lang or _current
     catalog = UI.get(code) or UI["en"]
-    template = catalog.get(key) or UI["en"].get(key) or key
+    # An empty string is intentional for optional chrome such as the
+    # watermark.  Treating it as missing leaked the literal key ("watermark")
+    # into every footer once the shared broadcast frame started drawing one.
+    template = catalog.get(key)
+    if template is None:
+        template = UI["en"].get(key)
+    if template is None:
+        template = key
     if kwargs:
         try:
             return template.format(**kwargs)
         except (KeyError, ValueError):
             return template
     return template
+
+
+_SPIKE_ACTIONS = {
+    "shots": "shots",
+    "tackles": "tackles_won",
+    "dribbles": "dribbles_won",
+    "goals": "goals",
+    "saves": "saves",
+    "key_passes": "key_passes",
+    "assists": "assists",
+}
+
+
+def spike_action_label(action: str, *, lang: str | None = None) -> str:
+    key = _SPIKE_ACTIONS.get(str(action or "").strip().lower())
+    return stat_label(key, lang=lang) if key else str(action or "")
 
 
 def stat_label(key: str, *, lang: str | None = None) -> str:
@@ -1520,6 +2387,21 @@ def offline_line(text: str, *, lang: str | None = None) -> str:
             "es": "{name} LO CERRÓ EN {n} MINUTOS",
             "ru": "{name} РЕШИЛИ ЗА {n} МИНУТ",
         }),
+        (r"^(\d+) SAVES FOR (.+)$", {
+            "az": "{name} ÜÇÜN {n} SEYV",
+            "es": "{n} PARADAS DE {name}",
+            "ru": "{n} СЕЙВОВ — {name}",
+        }),
+        (r"^(\d+) SHOTS ON THE CLOCK$", {
+            "az": "SAATDA {name} ZƏRBƏ",
+            "es": "{name} TIROS EN EL RELOJ",
+            "ru": "{name} УДАРОВ НА ЧАСАХ",
+        }),
+        (r"^(\d+) GOALS FROM (\d+) SHOTS$", {
+            "az": "{n} QOL, {name} ZƏRBƏDƏN",
+            "es": "{n} GOLES DE {name} TIROS",
+            "ru": "{n} ГОЛОВ С {name} УДАРОВ",
+        }),
     ]
     for pattern, by_lang in patterns:
         match = re.match(pattern, text, flags=re.IGNORECASE)
@@ -1529,13 +2411,21 @@ def offline_line(text: str, *, lang: str | None = None) -> str:
         if not template:
             return text
         groups = match.groups()
-        mapping = {"name": groups[0]}
-        if len(groups) >= 2:
-            mapping["other"] = groups[1]
-            mapping["n"] = groups[1]
-        if "{n}" in template and len(groups) >= 2:
+        if groups and str(groups[0]).isdigit():
+            mapping = {
+                "n": groups[0],
+                "name": groups[1] if len(groups) >= 2 else groups[0],
+            }
+            if len(groups) >= 2:
+                mapping["other"] = groups[1]
+        else:
+            mapping = {"name": groups[0]}
+            if len(groups) >= 2:
+                mapping["other"] = groups[1]
+                mapping["n"] = groups[1]
+        if "{n}" in template and "n" in mapping:
             return template.format(**mapping)
-        if "{other}" in template and len(groups) >= 2:
+        if "{other}" in template and "other" in mapping:
             return template.format(**mapping)
         return template.format(name=groups[0])
     return text
@@ -1545,8 +2435,34 @@ _ENGLISH_LEFTOVER = re.compile(
     r"\b(against|above the line|pass share|every attempt|touch volume|"
     r"average positions|what it produced|on.target|eighteen zones|"
     r"strongest links|the keeper|match result|match recap|full time|"
-    r"the baseline|every goal|shot map|where on-target)\b",
+    r"the baseline|every goal|shot map|where on-target|big chances|"
+    r"dribbles won|on the clock|on target|brick wall)\b",
     re.IGNORECASE,
+)
+_AZ_CHARS = re.compile(r"[əğıöüçşƏĞİÖÜÇŞı]")
+_RU_CHARS = re.compile(r"[\u0400-\u04ff]")
+_EN_TELL = re.compile(
+    r"\b("
+    r"the|and|from|with|that|this|they|their|against|every|still|"
+    r"shots?|saves?|goals?|target|masterclass|outshot|proved|decisive|"
+    r"watch|clock|match|lost|won|dribbles?|chances?|"
+    r"full time|pass share|conversion|keeper|brick|"
+    r"big chances|on the clock|on target|for the|from the|"
+    r"stopped|delivering|true|performance|none of them|"
+    r"shape of|race the score|owned the|came off|"
+    r"take-ons|tackles|aerials|led|produced|attempts|outshot"
+    r")\b",
+    re.IGNORECASE,
+)
+_EN_ONLY_ES = re.compile(
+    r"\b(the|from|saves?|shots?|goals?|masterclass|outshot|proved|"
+    r"dribbles?|on target|full time|pass share|keeper|brick wall|"
+    r"big chances|stopped|watch them|on the clock)\b",
+    re.IGNORECASE,
+)
+_COPY_FIELDS = (
+    "kicker", "title", "subtitle", "insight", "narration",
+    "hero_label", "comment_bait", "hook_stat",
 )
 
 
@@ -1555,6 +2471,69 @@ def looks_english(text: str) -> bool:
     if not text:
         return False
     return bool(_ENGLISH_LEFTOVER.search(text))
+
+
+def leftover_english(text: str, language: str | None = None) -> bool:
+    """True when target-language copy is still an English sentence or chrome line."""
+    code = language or _current
+    raw = str(text or "").strip()
+    if not raw or code == "en":
+        return False
+    if looks_english(raw):
+        return True
+    if not _EN_TELL.search(raw):
+        return False
+    if code in {"az", "ru"}:
+        return True
+    if code == "es":
+        return bool(_EN_ONLY_ES.search(raw))
+    return False
+
+
+def catalog_missing(language: str) -> list[str]:
+    return sorted(set(UI["en"]) - set(UI.get(normalize_language(language)) or {}))
+
+
+def patch_leftover_copy(
+    scenes: list[dict[str, Any]],
+    fallback_by_id: dict[str, dict[str, Any]],
+    language: str,
+) -> list[dict[str, Any]]:
+    """Replace leftover English fields with a storyboard rebuilt in ``language``."""
+    code = normalize_language(language)
+    if code == "en":
+        return scenes
+    by_viz: dict[str, dict[str, Any]] = {}
+    for row in fallback_by_id.values():
+        viz = str(row.get("visualization") or "")
+        if viz and viz not in by_viz:
+            by_viz[viz] = row
+    out: list[dict[str, Any]] = []
+    for scene in scenes:
+        updated = dict(scene)
+        fallback = fallback_by_id.get(str(scene.get("id"))) or by_viz.get(
+            str(scene.get("visualization") or "")
+        ) or {}
+        for field in _COPY_FIELDS:
+            value = str(updated.get(field) or "")
+            replacement = str(fallback.get(field) or "")
+            clean_fallback = replacement and not leftover_english(replacement, code)
+            if leftover_english(value, code) or (not value and field == "hero_label" and clean_fallback):
+                if clean_fallback:
+                    updated[field] = replacement
+                else:
+                    offline = offline_line(value, lang=code) if value else ""
+                    if offline and offline != value and not leftover_english(offline, code):
+                        updated[field] = offline
+                    elif field in ("subtitle", "kicker", "insight", "hero_label"):
+                        updated[field] = ""
+        lines = updated.get("lines")
+        fallback_lines = fallback.get("lines")
+        if isinstance(lines, list) and isinstance(fallback_lines, list) and fallback_lines:
+            if any(leftover_english(str(item), code) for item in lines):
+                updated["lines"] = [str(item) for item in fallback_lines]
+        out.append(updated)
+    return out
 
 
 def scrub_english_leftovers(scenes: list[dict[str, Any]], language: str) -> list[dict[str, Any]]:
@@ -1578,8 +2557,15 @@ def scrub_english_leftovers(scenes: list[dict[str, Any]], language: str) -> list
             if translated != value:
                 updated[field] = translated
                 continue
-            if looks_english(value) and not hook:
-                updated[field] = "" if field in ("subtitle", "kicker", "hook_stat") else value
+            if leftover_english(value, code) and not hook:
+                if field == "narration":
+                    # Deterministic visual-first scenes may have English narration
+                    # when no remote translator is available.  A localized insight
+                    # is a concise, truthful voiceover fallback; English is not.
+                    fallback = str(updated.get("insight") or "")
+                    updated[field] = fallback if fallback and not leftover_english(fallback, code) else ""
+                elif field in ("subtitle", "kicker", "hook_stat", "hero_label"):
+                    updated[field] = ""
         if isinstance(updated.get("lines"), list):
             updated["lines"] = [offline_line(str(item), lang=code) for item in updated["lines"]]
         out.append(updated)

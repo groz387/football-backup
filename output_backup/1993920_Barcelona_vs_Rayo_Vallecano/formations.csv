@@ -1,0 +1,122 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Barcelona,home,0,4231,422824,Joan García,0,0.0,5.0,0,68
+Barcelona,home,0,4231,301019,Jules Koundé,1,2.5,1.0,0,68
+Barcelona,home,0,4231,591617,Xavi Espart,2,2.5,9.0,0,68
+Barcelona,home,0,4231,402197,Pedri,3,5.0,6.5,0,68
+Barcelona,home,0,4231,498386,Pau Cubarsí,4,2.5,3.5,0,68
+Barcelona,home,0,4231,130331,Andreas Christensen,5,2.5,6.5,0,68
+Barcelona,home,0,4231,480249,Lamine Yamal,6,7.0,2.0,0,68
+Barcelona,home,0,4231,534796,Marc Bernal,7,5.0,3.5,0,68
+Barcelona,home,0,4231,300447,Raphinha,8,9.0,5.0,0,68
+Barcelona,home,0,4231,261212,Dani Olmo,9,7.0,5.0,0,68
+Barcelona,home,0,4231,349669,Anthony Gordon,10,7.0,8.0,0,68
+Barcelona,home,1,4231,422824,Joan García,0,0.0,5.0,68,68
+Barcelona,home,1,4231,301019,Jules Koundé,1,2.5,1.0,68,68
+Barcelona,home,1,4231,591617,Xavi Espart,2,2.5,9.0,68,68
+Barcelona,home,1,4231,402197,Pedri,3,5.0,6.5,68,68
+Barcelona,home,1,4231,498386,Pau Cubarsí,4,2.5,3.5,68,68
+Barcelona,home,1,4231,130331,Andreas Christensen,5,2.5,6.5,68,68
+Barcelona,home,1,4231,480249,Lamine Yamal,6,7.0,2.0,68,68
+Barcelona,home,1,4231,534796,Marc Bernal,7,5.0,3.5,68,68
+Barcelona,home,1,4231,300447,Raphinha,8,9.0,5.0,68,68
+Barcelona,home,1,4231,463838,Fermín López,9,7.0,5.0,68,68
+Barcelona,home,1,4231,349669,Anthony Gordon,10,7.0,8.0,68,68
+Barcelona,home,2,4231,422824,Joan García,0,0.0,5.0,68,81
+Barcelona,home,2,4231,301019,Jules Koundé,1,2.5,1.0,68,81
+Barcelona,home,2,4231,591617,Xavi Espart,2,2.5,9.0,68,81
+Barcelona,home,2,4231,402197,Pedri,3,5.0,6.5,68,81
+Barcelona,home,2,4231,498386,Pau Cubarsí,4,2.5,3.5,68,81
+Barcelona,home,2,4231,130331,Andreas Christensen,5,2.5,6.5,68,81
+Barcelona,home,2,4231,480249,Lamine Yamal,6,7.0,2.0,68,81
+Barcelona,home,2,4231,303139,Rodri,7,5.0,3.5,68,81
+Barcelona,home,2,4231,300447,Raphinha,8,9.0,5.0,68,81
+Barcelona,home,2,4231,463838,Fermín López,9,7.0,5.0,68,81
+Barcelona,home,2,4231,349669,Anthony Gordon,10,7.0,8.0,68,81
+Barcelona,home,3,4231,422824,Joan García,0,0.0,5.0,81,90
+Barcelona,home,3,4231,301019,Jules Koundé,1,2.5,1.0,81,90
+Barcelona,home,3,4231,128967,João Cancelo,2,2.5,9.0,81,90
+Barcelona,home,3,4231,591617,Xavi Espart,3,5.0,6.5,81,90
+Barcelona,home,3,4231,498386,Pau Cubarsí,4,2.5,3.5,81,90
+Barcelona,home,3,4231,130331,Andreas Christensen,5,2.5,6.5,81,90
+Barcelona,home,3,4231,480249,Lamine Yamal,6,7.0,2.0,81,90
+Barcelona,home,3,4231,303139,Rodri,7,5.0,3.5,81,90
+Barcelona,home,3,4231,300447,Raphinha,8,9.0,5.0,81,90
+Barcelona,home,3,4231,463838,Fermín López,9,7.0,5.0,81,90
+Barcelona,home,3,4231,392646,Karim Adeyemi,10,7.0,8.0,81,90
+Barcelona,home,4,4231,422824,Joan García,0,0.0,5.0,90,94
+Barcelona,home,4,4231,301019,Jules Koundé,1,2.5,1.0,90,94
+Barcelona,home,4,4231,128967,João Cancelo,2,2.5,9.0,90,94
+Barcelona,home,4,4231,591617,Xavi Espart,3,5.0,6.5,90,94
+Barcelona,home,4,4231,498386,Pau Cubarsí,4,2.5,3.5,90,94
+Barcelona,home,4,4231,130331,Andreas Christensen,5,2.5,6.5,90,94
+Barcelona,home,4,4231,480249,Lamine Yamal,6,7.0,2.0,90,94
+Barcelona,home,4,4231,303139,Rodri,7,5.0,3.5,90,94
+Barcelona,home,4,4231,559489,Hamza Abdelkarim,8,9.0,5.0,90,94
+Barcelona,home,4,4231,463838,Fermín López,9,7.0,5.0,90,94
+Barcelona,home,4,4231,392646,Karim Adeyemi,10,7.0,8.0,90,94
+Rayo Vallecano,away,0,4231,386261,Dani Cárdenas,0,0.0,5.0,0,31
+Rayo Vallecano,away,0,4231,101613,Iván Balliu,1,2.5,1.0,0,31
+Rayo Vallecano,away,0,4231,505924,Jozhua Vertrouwd,2,2.5,9.0,0,31
+Rayo Vallecano,away,0,4231,641813,Gnangoro,3,5.0,6.5,0,31
+Rayo Vallecano,away,0,4231,80758,Florian Lejeune,4,2.5,3.5,0,31
+Rayo Vallecano,away,0,4231,422963,Pathé Ciss,5,2.5,6.5,0,31
+Rayo Vallecano,away,0,4231,386230,Jorge de Frutos,6,7.0,2.0,0,31
+Rayo Vallecano,away,0,4231,422958,Óscar Valentín,7,5.0,3.5,0,31
+Rayo Vallecano,away,0,4231,372469,Sergio Camello,8,9.0,5.0,0,31
+Rayo Vallecano,away,0,4231,236575,Unai López,9,7.0,5.0,0,31
+Rayo Vallecano,away,0,4231,135345,Álvaro García,10,7.0,8.0,0,31
+Rayo Vallecano,away,1,4231,386261,Dani Cárdenas,0,0.0,5.0,31,61
+Rayo Vallecano,away,1,4231,101613,Iván Balliu,1,2.5,1.0,31,61
+Rayo Vallecano,away,1,4231,363966,Adrià Pedrosa,2,2.5,9.0,31,61
+Rayo Vallecano,away,1,4231,641813,Gnangoro,3,5.0,6.5,31,61
+Rayo Vallecano,away,1,4231,80758,Florian Lejeune,4,2.5,3.5,31,61
+Rayo Vallecano,away,1,4231,422963,Pathé Ciss,5,2.5,6.5,31,61
+Rayo Vallecano,away,1,4231,386230,Jorge de Frutos,6,7.0,2.0,31,61
+Rayo Vallecano,away,1,4231,422958,Óscar Valentín,7,5.0,3.5,31,61
+Rayo Vallecano,away,1,4231,372469,Sergio Camello,8,9.0,5.0,31,61
+Rayo Vallecano,away,1,4231,236575,Unai López,9,7.0,5.0,31,61
+Rayo Vallecano,away,1,4231,135345,Álvaro García,10,7.0,8.0,31,61
+Rayo Vallecano,away,2,4231,386261,Dani Cárdenas,0,0.0,5.0,61,61
+Rayo Vallecano,away,2,4231,101613,Iván Balliu,1,2.5,1.0,61,61
+Rayo Vallecano,away,2,4231,363966,Adrià Pedrosa,2,2.5,9.0,61,61
+Rayo Vallecano,away,2,4231,448514,Pedro Díaz,3,5.0,6.5,61,61
+Rayo Vallecano,away,2,4231,80758,Florian Lejeune,4,2.5,3.5,61,61
+Rayo Vallecano,away,2,4231,422963,Pathé Ciss,5,2.5,6.5,61,61
+Rayo Vallecano,away,2,4231,386230,Jorge de Frutos,6,7.0,2.0,61,61
+Rayo Vallecano,away,2,4231,422958,Óscar Valentín,7,5.0,3.5,61,61
+Rayo Vallecano,away,2,4231,372469,Sergio Camello,8,9.0,5.0,61,61
+Rayo Vallecano,away,2,4231,236575,Unai López,9,7.0,5.0,61,61
+Rayo Vallecano,away,2,4231,135345,Álvaro García,10,7.0,8.0,61,61
+Rayo Vallecano,away,3,4231,386261,Dani Cárdenas,0,0.0,5.0,61,62
+Rayo Vallecano,away,3,4231,101613,Iván Balliu,1,2.5,1.0,61,62
+Rayo Vallecano,away,3,4231,363966,Adrià Pedrosa,2,2.5,9.0,61,62
+Rayo Vallecano,away,3,4231,448514,Pedro Díaz,3,5.0,6.5,61,62
+Rayo Vallecano,away,3,4231,80758,Florian Lejeune,4,2.5,3.5,61,62
+Rayo Vallecano,away,3,4231,422963,Pathé Ciss,5,2.5,6.5,61,62
+Rayo Vallecano,away,3,4231,444265,Fran Pérez,6,7.0,2.0,61,62
+Rayo Vallecano,away,3,4231,422958,Óscar Valentín,7,5.0,3.5,61,62
+Rayo Vallecano,away,3,4231,372469,Sergio Camello,8,9.0,5.0,61,62
+Rayo Vallecano,away,3,4231,236575,Unai López,9,7.0,5.0,61,62
+Rayo Vallecano,away,3,4231,135345,Álvaro García,10,7.0,8.0,61,62
+Rayo Vallecano,away,4,4231,386261,Dani Cárdenas,0,0.0,5.0,62,79
+Rayo Vallecano,away,4,4231,101613,Iván Balliu,1,2.5,1.0,62,79
+Rayo Vallecano,away,4,4231,363966,Adrià Pedrosa,2,2.5,9.0,62,79
+Rayo Vallecano,away,4,4231,422958,Óscar Valentín,3,5.0,6.5,62,79
+Rayo Vallecano,away,4,4231,80758,Florian Lejeune,4,2.5,3.5,62,79
+Rayo Vallecano,away,4,4231,422963,Pathé Ciss,5,2.5,6.5,62,79
+Rayo Vallecano,away,4,4231,444265,Fran Pérez,6,7.0,2.0,62,79
+Rayo Vallecano,away,4,4231,236575,Unai López,7,5.0,3.5,62,79
+Rayo Vallecano,away,4,4231,372469,Sergio Camello,8,9.0,5.0,62,79
+Rayo Vallecano,away,4,4231,448514,Pedro Díaz,9,7.0,5.0,62,79
+Rayo Vallecano,away,4,4231,135345,Álvaro García,10,7.0,8.0,62,79
+Rayo Vallecano,away,5,442,386261,Dani Cárdenas,0,0.0,5.0,79,94
+Rayo Vallecano,away,5,442,101613,Iván Balliu,1,2.5,1.0,79,94
+Rayo Vallecano,away,5,442,363966,Adrià Pedrosa,2,2.5,9.0,79,94
+Rayo Vallecano,away,5,442,448514,Pedro Díaz,3,6.0,3.5,79,94
+Rayo Vallecano,away,5,442,80758,Florian Lejeune,4,2.5,3.5,79,94
+Rayo Vallecano,away,5,442,422963,Pathé Ciss,5,2.5,6.5,79,94
+Rayo Vallecano,away,5,442,444265,Fran Pérez,6,6.0,1.0,79,94
+Rayo Vallecano,away,5,442,422958,Óscar Valentín,7,6.0,6.5,79,94
+Rayo Vallecano,away,5,442,422960,Randy Nteka,8,9.0,6.5,79,94
+Rayo Vallecano,away,5,442,436617,Alemão,9,9.0,3.5,79,94
+Rayo Vallecano,away,5,442,135345,Álvaro García,10,6.0,9.0,79,94

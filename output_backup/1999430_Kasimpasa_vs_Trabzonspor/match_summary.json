@@ -1,0 +1,383 @@
+{
+  "matchId": 1999430,
+  "startDate": "2026-08-15T00:00:00",
+  "startTime": "2026-08-15T17:00:00",
+  "score": "1 : 1",
+  "ftScore": "1 : 1",
+  "htScore": "0 : 1",
+  "etScore": "",
+  "venueName": "Recep Tayyip Erdogan Stadyumu",
+  "attendance": 0,
+  "referee": {
+    "officialId": 4707,
+    "firstName": "Gurcan",
+    "lastName": "Hasova",
+    "hasParticipatedMatches": false,
+    "name": "Gurcan Hasova"
+  },
+  "maxMinute": 95,
+  "home": {
+    "teamId": 3475,
+    "name": "Kasimpasa",
+    "countryName": "Turkey",
+    "averageAge": 24.9,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 47
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 47,
+        "endMinuteExpanded": 79
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 79,
+        "endMinuteExpanded": 83
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 83,
+        "endMinuteExpanded": 93
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 93,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 119102,
+        "name": "Andreas Gianniotis",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 101952,
+        "name": "Cláudio Winck",
+        "shirtNo": 2,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 582505,
+        "name": "Adem Arous",
+        "shirtNo": 4,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 404046,
+        "name": "Matei Ilie",
+        "shirtNo": 27,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 582663,
+        "name": "Jakob Jessen",
+        "shirtNo": 5,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 386625,
+        "name": "Andri Baldursson",
+        "shirtNo": 16,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 512184,
+        "name": "Elson Mendes",
+        "shirtNo": 51,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 422798,
+        "name": "Mortadha Ben Ouanes",
+        "shirtNo": 12,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 332135,
+        "name": "Fousseni Diabaté",
+        "shirtNo": 34,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 362509,
+        "name": "Güven Yalçin",
+        "shirtNo": 50,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 424468,
+        "name": "Adrian Benedyczak",
+        "shirtNo": 9,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 119165,
+        "name": "Haris Hajradinovic",
+        "shirtNo": 10,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 499003,
+        "name": "Ayberk Karapo",
+        "shirtNo": 45,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 503842,
+        "name": "Sinan Alkas",
+        "shirtNo": 23,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 586668,
+        "name": "Marcus Rafferty",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 512102,
+        "name": "Thiemoko Diarra",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 423064,
+        "name": "Atakan Müjde",
+        "shirtNo": 8,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 495162,
+        "name": "Ali Emre Yanar",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 367514,
+        "name": "Ali Yavuz Kol",
+        "shirtNo": 7,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 608108,
+        "name": "Ahmet Taha Dagbasi",
+        "shirtNo": 30,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 630904,
+        "name": "Emirhan Boz",
+        "shirtNo": 66,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 226,
+    "name": "Trabzonspor",
+    "countryName": "Turkey",
+    "averageAge": 27.2,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 59
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 59,
+        "endMinuteExpanded": 68
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 68,
+        "endMinuteExpanded": 85
+      },
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 85,
+        "endMinuteExpanded": 95
+      }
+    ],
+    "players": [
+      {
+        "playerId": 260843,
+        "name": "André Onana",
+        "shirtNo": 24,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 492313,
+        "name": "Wagner Pina",
+        "shirtNo": 20,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 77564,
+        "name": "Stefan Savic",
+        "shirtNo": 15,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 571253,
+        "name": "Chibuike Nwaiwu",
+        "shirtNo": 27,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 351519,
+        "name": "Mustafa Eskihellaç",
+        "shirtNo": 19,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 461485,
+        "name": "Benjamin Bouchouari",
+        "shirtNo": 8,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 295456,
+        "name": "Ruslan Malinovskyi",
+        "shirtNo": 17,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 583512,
+        "name": "Noah Saviolo",
+        "shirtNo": 70,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 425339,
+        "name": "Aral Simsir",
+        "shirtNo": 58,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 423870,
+        "name": "Metehan Mimaroglu",
+        "shirtNo": 77,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 122182,
+        "name": "Paul Onuachu",
+        "shirtNo": 30,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 108226,
+        "name": "Mohamed Salah",
+        "shirtNo": 10,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 505284,
+        "name": "Sidny Cabral",
+        "shirtNo": 55,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 115639,
+        "name": "Ozan Tufan",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 313474,
+        "name": "Melih Kabasakal",
+        "shirtNo": 57,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 292145,
+        "name": "Umut Nayir",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 535402,
+        "name": "Ahmet Yildirim",
+        "shirtNo": 1,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 383091,
+        "name": "Cenk Özkacar",
+        "shirtNo": 39,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 422941,
+        "name": "Samet Akaydin",
+        "shirtNo": 4,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 559966,
+        "name": "René Mitongo",
+        "shirtNo": 49,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 490227,
+        "name": "Onuralp Çevikkan",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "Turkey",
+  "league": "Super Lig",
+  "season": "2026/2027",
+  "competitionType": "League",
+  "competitionStage": ""
+}

@@ -1,0 +1,35 @@
+{
+  "matchId": "flashscore_Qgd3eSin_dhOKTHGA",
+  "startDate": "2026-08-27T20:00:00",
+  "startTime": "2026-08-27T20:00:00",
+  "score": "1 : 4",
+  "ftScore": "1 : 2",
+  "htScore": "",
+  "etScore": "1 : 4",
+  "venueName": "",
+  "attendance": null,
+  "referee": null,
+  "maxMinute": 114,
+  "home": {
+    "teamId": "Qgd3eSin",
+    "name": "Qarabag",
+    "countryName": "",
+    "averageAge": null,
+    "formations": [],
+    "players": []
+  },
+  "away": {
+    "teamId": "dhOKTHGA",
+    "name": "Twente",
+    "countryName": "",
+    "averageAge": null,
+    "formations": [],
+    "players": []
+  },
+  "region": "",
+  "league": "FOOTBALLEUROPECONFERENCE LEAGUE - QUALIFICATION - FINAL",
+  "season": "",
+  "competitionType": "",
+  "competitionStage": "",
+  "provider": "flashscore"
+}

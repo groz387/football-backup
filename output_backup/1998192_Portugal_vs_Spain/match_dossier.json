@@ -1,0 +1,245 @@
+{
+  "match_info": {
+    "teams": "Portugal vs Spain",
+    "score": "0 : 1",
+    "home_formation": "4231",
+    "away_formation": "4231"
+  },
+  "team_stats": {
+    "Portugal": {
+      "possession_pct": 44.9,
+      "total_passes": 466,
+      "shots": 10
+    },
+    "Spain": {
+      "possession_pct": 55.1,
+      "total_passes": 572,
+      "shots": 15
+    }
+  },
+  "momentum_curve": [
+    {
+      "minute_block": "0-4",
+      "home_score": 7,
+      "away_score": 16
+    },
+    {
+      "minute_block": "5-9",
+      "home_score": 16,
+      "away_score": 3
+    },
+    {
+      "minute_block": "10-14",
+      "home_score": 8,
+      "away_score": 5
+    },
+    {
+      "minute_block": "15-19",
+      "home_score": 4,
+      "away_score": 18
+    },
+    {
+      "minute_block": "20-24",
+      "home_score": 3,
+      "away_score": 6
+    },
+    {
+      "minute_block": "25-29",
+      "home_score": 10,
+      "away_score": 7
+    },
+    {
+      "minute_block": "30-34",
+      "home_score": 0,
+      "away_score": 22
+    },
+    {
+      "minute_block": "35-39",
+      "home_score": 8,
+      "away_score": 1
+    },
+    {
+      "minute_block": "40-44",
+      "home_score": 12,
+      "away_score": 10
+    },
+    {
+      "minute_block": "45-49",
+      "home_score": 14,
+      "away_score": 6
+    },
+    {
+      "minute_block": "50-54",
+      "home_score": 0,
+      "away_score": 9
+    },
+    {
+      "minute_block": "55-59",
+      "home_score": 9,
+      "away_score": 12
+    },
+    {
+      "minute_block": "60-64",
+      "home_score": 14,
+      "away_score": 27
+    },
+    {
+      "minute_block": "65-69",
+      "home_score": 0,
+      "away_score": 17
+    },
+    {
+      "minute_block": "70-74",
+      "home_score": 1,
+      "away_score": 9
+    },
+    {
+      "minute_block": "75-79",
+      "home_score": 12,
+      "away_score": 31
+    },
+    {
+      "minute_block": "80-84",
+      "home_score": 11,
+      "away_score": 8
+    },
+    {
+      "minute_block": "85-89",
+      "home_score": 1,
+      "away_score": 13
+    },
+    {
+      "minute_block": "90-94",
+      "home_score": 14,
+      "away_score": 6
+    },
+    {
+      "minute_block": "95-99",
+      "home_score": 15,
+      "away_score": 0
+    },
+    {
+      "minute_block": "100-104",
+      "home_score": 0,
+      "away_score": 0
+    }
+  ],
+  "ppda": [
+    {
+      "minute_block": "0-14",
+      "home_ppda": 23.0,
+      "away_ppda": 37.0
+    },
+    {
+      "minute_block": "15-29",
+      "home_ppda": 19.0,
+      "away_ppda": 10.5
+    },
+    {
+      "minute_block": "30-44",
+      "home_ppda": 11.0,
+      "away_ppda": 10.0
+    },
+    {
+      "minute_block": "45-59",
+      "home_ppda": 17.7,
+      "away_ppda": 12.7
+    },
+    {
+      "minute_block": "60-74",
+      "home_ppda": 11.5,
+      "away_ppda": 8.3
+    },
+    {
+      "minute_block": "75-89",
+      "home_ppda": 33.0,
+      "away_ppda": 7.7
+    },
+    {
+      "minute_block": "90-104",
+      "home_ppda": 6.0,
+      "away_ppda": 50.0
+    },
+    {
+      "minute_block": "105-119",
+      "home_ppda": 50.0,
+      "away_ppda": 50.0
+    }
+  ],
+  "field_tilt": [
+    {
+      "minute_block": "0-9",
+      "home_tilt_pct": 66.7,
+      "away_tilt_pct": 33.3
+    },
+    {
+      "minute_block": "10-19",
+      "home_tilt_pct": 28.6,
+      "away_tilt_pct": 71.4
+    },
+    {
+      "minute_block": "20-29",
+      "home_tilt_pct": 52.4,
+      "away_tilt_pct": 47.6
+    },
+    {
+      "minute_block": "30-39",
+      "home_tilt_pct": 12.0,
+      "away_tilt_pct": 88.0
+    },
+    {
+      "minute_block": "40-49",
+      "home_tilt_pct": 54.5,
+      "away_tilt_pct": 45.5
+    },
+    {
+      "minute_block": "50-59",
+      "home_tilt_pct": 26.9,
+      "away_tilt_pct": 73.1
+    },
+    {
+      "minute_block": "60-69",
+      "home_tilt_pct": 41.2,
+      "away_tilt_pct": 58.8
+    },
+    {
+      "minute_block": "70-79",
+      "home_tilt_pct": 7.4,
+      "away_tilt_pct": 92.6
+    },
+    {
+      "minute_block": "80-89",
+      "home_tilt_pct": 32.3,
+      "away_tilt_pct": 67.7
+    },
+    {
+      "minute_block": "90-99",
+      "home_tilt_pct": 84.0,
+      "away_tilt_pct": 16.0
+    },
+    {
+      "minute_block": "100-109",
+      "home_tilt_pct": 50.0,
+      "away_tilt_pct": 50.0
+    }
+  ],
+  "goal_chains": [
+    {
+      "minute": 90,
+      "scorer": "Mikel Merino",
+      "buildup": "Mikel Merino (Pass) -> Fabián Ruiz (Pass) -> Rodri (Pass) -> Ferran Torres (Pass) -> Mikel Merino (Goal)"
+    }
+  ],
+  "progressive_passers": {
+    "Portugal": {
+      "Diogo Costa": 12,
+      "Rúben Dias": 12,
+      "Bruno Fernandes": 11
+    },
+    "Spain": {
+      "Unai Simón": 14,
+      "Pau Cubarsí": 9,
+      "Pedri": 4
+    }
+  }
+}

@@ -1,0 +1,388 @@
+{
+  "matchId": 1982774,
+  "startDate": "2026-08-16T00:00:00",
+  "startTime": "2026-08-16T15:00:00",
+  "score": "3 : 0",
+  "ftScore": "3 : 0",
+  "htScore": "2 : 0",
+  "etScore": "",
+  "venueName": "Principality Stadium",
+  "attendance": 58056,
+  "referee": null,
+  "maxMinute": 93,
+  "home": {
+    "teamId": 13,
+    "name": "Arsenal",
+    "countryName": "England",
+    "averageAge": 25.8,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 47
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 47,
+        "endMinuteExpanded": 61
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 61,
+        "endMinuteExpanded": 61
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 61,
+        "endMinuteExpanded": 76
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 76,
+        "endMinuteExpanded": 76
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 76,
+        "endMinuteExpanded": 85
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 85,
+        "endMinuteExpanded": 93
+      }
+    ],
+    "players": [
+      {
+        "playerId": 276366,
+        "name": "David Raya",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 322036,
+        "name": "Ben White",
+        "shirtNo": 4,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 334087,
+        "name": "Gabriel Magalhães",
+        "shirtNo": 6,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 425591,
+        "name": "Cristhian Mosquera",
+        "shirtNo": 3,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 386519,
+        "name": "Riccardo Calafiori",
+        "shirtNo": 33,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 338780,
+        "name": "Bruno Guimarães",
+        "shirtNo": 39,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 467918,
+        "name": "Myles Lewis-Skelly",
+        "shirtNo": 49,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 389935,
+        "name": "Noni Madueke",
+        "shirtNo": 20,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 247454,
+        "name": "Martin Ødegaard",
+        "shirtNo": 8,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 399296,
+        "name": "Christos Tzolis",
+        "shirtNo": 17,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 326413,
+        "name": "Kai Havertz",
+        "shirtNo": 29,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 404832,
+        "name": "Piero Hincapié",
+        "shirtNo": 5,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 372424,
+        "name": "Martín Zubimendi",
+        "shirtNo": 36,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 362815,
+        "name": "Viktor Gyökeres",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 367185,
+        "name": "Bukayo Saka",
+        "shirtNo": 7,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 332325,
+        "name": "Declan Rice",
+        "shirtNo": 41,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 332403,
+        "name": "Eberechi Eze",
+        "shirtNo": 10,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 113880,
+        "name": "Kepa Arrizabalaga",
+        "shirtNo": 13,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 238916,
+        "name": "Mikel Merino",
+        "shirtNo": 23,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 571994,
+        "name": "Max Dowman",
+        "shirtNo": 56,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 167,
+    "name": "Man City",
+    "countryName": "England",
+    "averageAge": 25.4,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 47
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 47,
+        "endMinuteExpanded": 54
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 54,
+        "endMinuteExpanded": 55
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 55,
+        "endMinuteExpanded": 61
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 61,
+        "endMinuteExpanded": 61
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 61,
+        "endMinuteExpanded": 80
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 80,
+        "endMinuteExpanded": 93
+      }
+    ],
+    "players": [
+      {
+        "playerId": 262515,
+        "name": "Gianluigi Donnarumma",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 493206,
+        "name": "Abdukodir Khusanov",
+        "shirtNo": 45,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 402664,
+        "name": "Josko Gvardiol",
+        "shirtNo": 24,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 313171,
+        "name": "Rúben Dias",
+        "shirtNo": 3,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 468847,
+        "name": "Nico O'Reilly",
+        "shirtNo": 33,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 93894,
+        "name": "Mateo Kovacic",
+        "shirtNo": 8,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 402596,
+        "name": "Elliot Anderson",
+        "shirtNo": 5,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 357073,
+        "name": "Antoine Semenyo",
+        "shirtNo": 42,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 331254,
+        "name": "Phil Foden",
+        "shirtNo": 47,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 388098,
+        "name": "Jérémy Doku",
+        "shirtNo": 11,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 315227,
+        "name": "Erling Haaland",
+        "shirtNo": 9,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 394749,
+        "name": "Omar Marmoush",
+        "shirtNo": 7,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 386153,
+        "name": "Rayan Cherki",
+        "shirtNo": 10,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 422939,
+        "name": "Nico González",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 444791,
+        "name": "Rico Lewis",
+        "shirtNo": 82,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 374631,
+        "name": "Marc Guéhi",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 113069,
+        "name": "Jack Grealish",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 355401,
+        "name": "Rayan Aït-Nouri",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 125375,
+        "name": "Gerónimo Rulli",
+        "shirtNo": 28,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 478314,
+        "name": "Vitor Reis",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "England",
+  "league": "Community Shield",
+  "season": "2025/2026",
+  "competitionType": "League",
+  "competitionStage": ""
+}

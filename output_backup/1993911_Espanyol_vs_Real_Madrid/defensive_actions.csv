@@ -1,0 +1,191 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2958267223.0,0,13.0,FirstHalf,Arda Güler,415181,52,a,74.6,18.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""8""}, {""type"": ""Offensive""}]"
+2958267231.0,0,14.0,FirstHalf,Arda Güler,415181,52,a,86.1,17.5,BallRecovery,Successful,[]
+2958267373.0,0,23.0,FirstHalf,Tyrhys Dolan,398922,70,h,19.4,95.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958268421.0,1,15.0,FirstHalf,Unai Núñez,344200,70,h,43.2,59.2,BallRecovery,Successful,[]
+2958269215.0,1,55.0,FirstHalf,Federico Valverde,344644,52,a,39.7,37.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""23""}, {""type"": ""Defensive""}]"
+2958269225.0,1,57.0,FirstHalf,Ibrahima Konaté,345957,52,a,33.9,38.7,BallRecovery,Successful,[]
+2958269615.0,2,17.0,FirstHalf,Clemens Riedel,419935,70,h,35.2,15.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""36""}, {""type"": ""Defensive""}]"
+2958271523.0,3,46.0,FirstHalf,Denzel Dumfries,322153,52,a,61.8,26.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""30""}, {""type"": ""Defensive""}]"
+2958271557.0,3,49.0,FirstHalf,Javi Hernández,506010,70,h,46.9,73.8,BallRecovery,Successful,[]
+2958271739.0,3,58.0,FirstHalf,Denzel Dumfries,322153,52,a,25.1,7.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""33""}, {""type"": ""Defensive""}]"
+2958273179.0,5,14.0,FirstHalf,Roberto Fernández,448296,70,h,53.8,55.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""72""}, {""type"": ""Defensive""}]"
+2958273255.0,5,19.0,FirstHalf,Roger Hinojo,555136,70,h,30.0,84.6,BallRecovery,Successful,[]
+2958273537.0,5,34.0,FirstHalf,Federico Valverde,344644,52,a,32.0,6.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""40""}, {""type"": ""Defensive""}]"
+2958274059.0,5,58.0,FirstHalf,Álvaro Carreras,437583,52,a,21.4,85.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""45""}, {""type"": ""Defensive""}]"
+2958275747.0,7,14.0,FirstHalf,Edu Expósito,335696,70,h,27.8,24.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""90""}, {""type"": ""Defensive""}]"
+2958277799.0,7,30.0,FirstHalf,Edu Expósito,335696,70,h,21.4,54.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""104""}, {""type"": ""Defensive""}]"
+2958276237.0,7,35.0,FirstHalf,Clemens Riedel,419935,70,h,11.9,56.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.4""}, {""type"": ""PassEndY"", ""value"": ""60.6""}, {""type"": ""Length"", ""value"": ""5.5""}, {""type"": ""Angle"", ""value"": ""0.53""}]"
+2958282473.0,12,39.0,FirstHalf,Omar El Hilali,449410,70,h,19.1,7.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""127""}, {""type"": ""Defensive""}]"
+2958282549.0,12,42.0,FirstHalf,Cala,468761,70,h,24.8,9.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""128""}, {""type"": ""Defensive""}]"
+2958282555.0,12,44.0,FirstHalf,Omar El Hilali,449410,70,h,30.4,12.9,BallRecovery,Successful,[]
+2958283247.0,13,17.0,FirstHalf,Federico Valverde,344644,52,a,30.0,63.4,BallRecovery,Successful,[]
+2958283547.0,13,28.0,FirstHalf,Edu Expósito,335696,70,h,15.4,52.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""34.1""}, {""type"": ""PassEndY"", ""value"": ""59.7""}, {""type"": ""Length"", ""value"": ""20.2""}, {""type"": ""Angle"", ""value"": ""0.24""}]"
+2958283557.0,13,31.0,FirstHalf,Javi Hernández,506010,70,h,33.7,54.4,BallRecovery,Successful,[]
+2958284667.0,14,18.0,FirstHalf,Bernardo Silva,136741,52,a,35.0,60.1,BallRecovery,Successful,[]
+2958284865.0,14,29.0,FirstHalf,Roger Hinojo,555136,70,h,40.4,65.8,BallRecovery,Successful,[]
+2958284921.0,14,29.0,FirstHalf,Denzel Dumfries,322153,52,a,58.7,26.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""102""}, {""type"": ""Defensive""}]"
+2958284931.0,14,31.0,FirstHalf,Arda Güler,415181,52,a,66.9,10.0,BallRecovery,Successful,[]
+2958285183.0,14,37.0,FirstHalf,Clemens Riedel,419935,70,h,4.8,48.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""21.3""}, {""type"": ""PassEndY"", ""value"": ""61.1""}, {""type"": ""Length"", ""value"": ""19.4""}, {""type"": ""Angle"", ""value"": ""0.47""}]"
+2958517687.0,14,40.0,FirstHalf,Javi Hernández,506010,70,h,25.9,55.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""962""}, {""type"": ""Defensive""}]"
+2958285357.0,14,52.0,FirstHalf,Marko Dmitrovic,259393,70,h,1.9,48.0,KeeperPickup,Successful,[]
+2958285991.0,15,19.0,FirstHalf,Federico Valverde,344644,52,a,41.1,85.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""113""}, {""type"": ""Defensive""}]"
+2958287071.0,16,14.0,FirstHalf,Unai Núñez,344200,70,h,54.9,67.6,BallRecovery,Successful,[]
+2958287157.0,16,18.0,FirstHalf,Federico Valverde,344644,52,a,36.2,54.0,BallRecovery,Successful,[]
+2958287415.0,16,31.0,FirstHalf,Clemens Riedel,419935,70,h,3.0,3.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""6.3""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""4.4""}, {""type"": ""Angle"", ""value"": ""5.63""}]"
+2958288907.0,17,37.0,FirstHalf,Dean Huijsen,468852,52,a,42.8,74.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""PassEndX"", ""value"": ""58.6""}, {""type"": ""PassEndY"", ""value"": ""93.3""}, {""type"": ""Length"", ""value"": ""20.9""}, {""type"": ""Angle"", ""value"": ""0.66""}]"
+2958288983.0,17,41.0,FirstHalf,Álvaro Carreras,437583,52,a,57.5,94.2,BallRecovery,Successful,[]
+2958289859.0,18,24.0,FirstHalf,Unai Núñez,344200,70,h,8.3,65.3,BallRecovery,Successful,[]
+2958290105.0,18,32.0,FirstHalf,Arda Güler,415181,52,a,32.5,14.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""147""}, {""type"": ""Defensive""}]"
+2958290115.0,18,34.0,FirstHalf,Federico Valverde,344644,52,a,31.1,23.1,BallRecovery,Successful,[]
+2958292637.0,21,0.0,FirstHalf,Edu Expósito,335696,70,h,32.4,74.1,BallRecovery,Successful,[]
+2958292889.0,21,15.0,FirstHalf,Ibrahima Konaté,345957,52,a,4.1,46.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""7.9""}, {""type"": ""PassEndY"", ""value"": ""28.2""}, {""type"": ""Length"", ""value"": ""13.3""}, {""type"": ""Angle"", ""value"": ""5.02""}]"
+2958296171.0,24,49.0,FirstHalf,Unai Núñez,344200,70,h,33.2,46.2,BallRecovery,Successful,[]
+2958296623.0,25,21.0,FirstHalf,Arda Güler,415181,52,a,23.0,50.9,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""178""}]"
+2958296725.0,25,32.0,FirstHalf,Jude Bellingham,379868,52,a,6.2,62.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.5""}, {""type"": ""PassEndY"", ""value"": ""62.1""}, {""type"": ""Length"", ""value"": ""15.0""}, {""type"": ""Angle"", ""value"": ""6.27""}]"
+2958297295.0,26,14.0,FirstHalf,Unai Núñez,344200,70,h,43.1,65.9,BallRecovery,Successful,[]
+2958297829.0,26,48.0,FirstHalf,Dean Huijsen,468852,52,a,3.7,51.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""13.7""}, {""type"": ""PassEndY"", ""value"": ""60.4""}, {""type"": ""Length"", ""value"": ""12.2""}, {""type"": ""Angle"", ""value"": ""0.53""}]"
+2958297869.0,26,50.0,FirstHalf,Federico Valverde,344644,52,a,13.7,60.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""11.3""}, {""type"": ""PassEndY"", ""value"": ""96.7""}, {""type"": ""Length"", ""value"": ""24.8""}, {""type"": ""Angle"", ""value"": ""1.67""}]"
+2958297957.0,26,55.0,FirstHalf,Vinícius Júnior,337782,52,a,8.1,91.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""199""}, {""type"": ""Defensive""}]"
+2958298301.0,27,18.0,FirstHalf,Jude Bellingham,379868,52,a,12.8,92.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""202""}, {""type"": ""Defensive""}]"
+2958519229.0,27,28.0,FirstHalf,Jude Bellingham,379868,52,a,22.3,77.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""205""}]"
+2958299579.0,28,44.0,FirstHalf,Roger Hinojo,555136,70,h,14.4,70.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""280""}, {""type"": ""Defensive""}]"
+2958299617.0,28,48.0,FirstHalf,Edu Expósito,335696,70,h,22.2,67.0,BallRecovery,Successful,[]
+2958299691.0,28,53.0,FirstHalf,Jude Bellingham,379868,52,a,76.1,24.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""214""}, {""type"": ""Defensive""}]"
+2958302589.0,32,13.0,FirstHalf,Roberto Fernández,448296,70,h,12.5,49.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""34.2""}, {""type"": ""PassEndY"", ""value"": ""82.7""}, {""type"": ""Length"", ""value"": ""32.2""}, {""type"": ""Angle"", ""value"": ""0.79""}]"
+2958304029.0,33,34.0,FirstHalf,Jude Bellingham,379868,52,a,64.0,21.9,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""233""}, {""type"": ""Defensive""}]"
+2958304197.0,33,43.0,FirstHalf,Ibrahima Konaté,345957,52,a,43.9,8.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""46.1""}, {""type"": ""PassEndY"", ""value"": ""13.8""}, {""type"": ""Length"", ""value"": ""4.3""}, {""type"": ""Angle"", ""value"": ""1.01""}]"
+2958305061.0,33,47.0,FirstHalf,Ibrahima Konaté,345957,52,a,46.8,4.3,BallRecovery,Successful,[]
+2958304319.0,33,50.0,FirstHalf,Roger Hinojo,555136,70,h,47.0,96.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""315""}, {""type"": ""Defensive""}]"
+2958304919.0,34,17.0,FirstHalf,Álvaro Carreras,437583,52,a,71.8,88.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""239""}, {""type"": ""Offensive""}]"
+2958305303.0,34,37.0,FirstHalf,Dean Huijsen,468852,52,a,42.1,85.0,BallRecovery,Successful,[]
+2958305751.0,34,58.0,FirstHalf,Cala,468761,70,h,30.3,12.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""331""}, {""type"": ""Defensive""}]"
+2958305755.0,35,0.0,FirstHalf,Cala,468761,70,h,35.8,21.2,BallRecovery,Successful,[]
+2958305951.0,35,10.0,FirstHalf,Vinícius Júnior,337782,52,a,64.9,95.4,BallRecovery,Successful,[]
+2958307887.0,36,31.0,FirstHalf,Unai Núñez,344200,70,h,20.2,44.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""11.4""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""32.4""}, {""type"": ""Angle"", ""value"": ""4.42""}]"
+2958308875.0,37,15.0,FirstHalf,Bernardo Silva,136741,52,a,46.2,34.0,BallRecovery,Successful,[]
+2958309125.0,37,25.0,FirstHalf,Omar El Hilali,449410,70,h,8.5,55.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.4""}, {""type"": ""PassEndY"", ""value"": ""62.4""}, {""type"": ""Length"", ""value"": ""7.9""}, {""type"": ""Angle"", ""value"": ""0.67""}]"
+2958309133.0,37,26.0,FirstHalf,Roger Hinojo,555136,70,h,12.9,67.7,BallRecovery,Successful,[]
+2958310931.0,38,36.0,FirstHalf,Federico Valverde,344644,52,a,27.7,27.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""278""}, {""type"": ""Defensive""}]"
+2958310983.0,38,40.0,FirstHalf,Arda Güler,415181,52,a,36.6,5.8,BallRecovery,Successful,[]
+2958314133.0,40,55.0,FirstHalf,Thibaut Courtois,73798,52,a,14.5,53.4,KeeperPickup,Successful,[]
+2958318107.0,43,53.0,FirstHalf,Roberto Fernández,448296,70,h,19.5,47.4,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""415""}]"
+2958318839.0,44,27.0,FirstHalf,Unai Núñez,344200,70,h,4.7,51.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""13.1""}, {""type"": ""PassEndY"", ""value"": ""38.9""}, {""type"": ""Length"", ""value"": ""12.3""}, {""type"": ""Angle"", ""value"": ""5.51""}]"
+2958318861.0,44,30.0,FirstHalf,Cala,468761,70,h,13.3,39.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.9""}, {""type"": ""PassEndY"", ""value"": ""45.9""}, {""type"": ""Length"", ""value"": ""15.0""}, {""type"": ""Angle"", ""value"": ""0.31""}]"
+2958318993.0,44,32.0,FirstHalf,Javi Hernández,506010,70,h,24.1,40.0,BallRecovery,Successful,[]
+2958319913.0,45,17.0,FirstHalf,Ibrahima Konaté,345957,52,a,19.8,64.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""315""}, {""type"": ""Defensive""}]"
+2958320219.0,45,31.0,FirstHalf,Federico Valverde,344644,52,a,14.1,85.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""321""}, {""type"": ""Defensive""}]"
+2958320497.0,45,42.0,FirstHalf,Dean Huijsen,468852,52,a,10.9,54.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.8""}, {""type"": ""PassEndY"", ""value"": ""66.6""}, {""type"": ""Length"", ""value"": ""30.4""}, {""type"": ""Angle"", ""value"": ""0.27""}]"
+2958320793.0,46,1.0,FirstHalf,Dean Huijsen,468852,52,a,5.9,58.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""6.8""}, {""type"": ""PassEndY"", ""value"": ""39.7""}, {""type"": ""Length"", ""value"": ""13.0""}, {""type"": ""Angle"", ""value"": ""4.79""}]"
+2958320959.0,46,8.0,FirstHalf,Thibaut Courtois,73798,52,a,2.0,46.3,KeeperPickup,Successful,[]
+2958323401.0,48,1.0,FirstHalf,Roger Hinojo,555136,70,h,50.6,85.8,BallRecovery,Successful,[]
+2958338245.0,48,5.0,FirstHalf,Bernardo Silva,136741,52,a,30.4,8.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""343""}, {""type"": ""Defensive""}]"
+2958342309.0,46,3.0,SecondHalf,Omar El Hilali,449410,70,h,22.1,18.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""5.1""}, {""type"": ""PassEndY"", ""value"": ""35.0""}, {""type"": ""Length"", ""value"": ""20.9""}, {""type"": ""Angle"", ""value"": ""2.59""}]"
+2958342317.0,46,5.0,SecondHalf,Marko Dmitrovic,259393,70,h,3.9,35.0,KeeperPickup,Successful,[]
+2958343201.0,46,58.0,SecondHalf,Omar El Hilali,449410,70,h,1.4,32.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""21.0""}, {""type"": ""Length"", ""value"": ""8.4""}, {""type"": ""Angle"", ""value"": ""4.37""}]"
+2958343611.0,47,26.0,SecondHalf,Roberto Fernández,448296,70,h,3.5,38.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""18.4""}, {""type"": ""PassEndY"", ""value"": ""20.4""}, {""type"": ""Length"", ""value"": ""20.0""}, {""type"": ""Angle"", ""value"": ""5.61""}]"
+2958343669.0,47,30.0,SecondHalf,Tyrhys Dolan,398922,70,h,13.9,15.6,BallRecovery,Successful,[]
+2958343811.0,47,38.0,SecondHalf,Marko Dmitrovic,259393,70,h,7.8,46.8,KeeperPickup,Successful,[]
+2958344853.0,48,30.0,SecondHalf,Álvaro Carreras,437583,52,a,13.0,72.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""31.2""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""27.7""}, {""type"": ""Angle"", ""value"": ""0.81""}]"
+2958346265.0,49,53.0,SecondHalf,Bernardo Silva,136741,52,a,13.6,41.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.5""}, {""type"": ""PassEndY"", ""value"": ""45.3""}, {""type"": ""Length"", ""value"": ""11.8""}, {""type"": ""Angle"", ""value"": ""0.24""}]"
+2958355119.0,49,54.0,SecondHalf,Roger Hinojo,555136,70,h,75.6,52.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""493""}, {""type"": ""Offensive""}]"
+2958347145.0,50,45.0,SecondHalf,Clemens Riedel,419935,70,h,29.9,26.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""34.7""}, {""type"": ""PassEndY"", ""value"": ""14.4""}, {""type"": ""Length"", ""value"": ""9.4""}, {""type"": ""Angle"", ""value"": ""5.28""}]"
+2958347227.0,50,52.0,SecondHalf,Omar El Hilali,449410,70,h,9.5,21.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""11.1""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""15.9""}, {""type"": ""Angle"", ""value"": ""4.82""}]"
+2958347715.0,51,8.0,SecondHalf,Álvaro Carreras,437583,52,a,93.2,92.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""390""}, {""type"": ""Offensive""}]"
+2958347953.0,51,36.0,SecondHalf,Bernardo Silva,136741,52,a,60.4,75.3,BallRecovery,Successful,[]
+2958348429.0,52,6.0,SecondHalf,Unai Núñez,344200,70,h,14.8,59.9,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""527""}]"
+2958349289.0,53,9.0,SecondHalf,Federico Valverde,344644,52,a,59.2,79.0,BallRecovery,Successful,[]
+2958349387.0,53,14.0,SecondHalf,Marko Dmitrovic,259393,70,h,3.8,45.6,KeeperPickup,Successful,[]
+2958349671.0,53,34.0,SecondHalf,Thibaut Courtois,73798,52,a,11.6,45.9,BallRecovery,Successful,[]
+2958349829.0,53,44.0,SecondHalf,Marko Dmitrovic,259393,70,h,22.5,23.9,BallRecovery,Successful,[]
+2958350147.0,54,2.0,SecondHalf,Federico Valverde,344644,52,a,69.0,81.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2958351057.0,55,0.0,SecondHalf,Denzel Dumfries,322153,52,a,10.7,24.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""423""}]"
+2958351197.0,55,10.0,SecondHalf,Denzel Dumfries,322153,52,a,10.0,16.5,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""426""}, {""type"": ""Defensive""}]"
+2958351203.0,55,12.0,SecondHalf,Denzel Dumfries,322153,52,a,8.2,20.8,BallRecovery,Successful,[]
+2958351783.0,55,49.0,SecondHalf,Roger Hinojo,555136,70,h,18.0,72.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""558""}, {""type"": ""Defensive""}]"
+2958353443.0,57,36.0,SecondHalf,Unai Núñez,344200,70,h,9.8,48.4,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""569""}]"
+2958353827.0,58,4.0,SecondHalf,Marko Dmitrovic,259393,70,h,1.6,49.4,KeeperPickup,Successful,[]
+2958354017.0,58,22.0,SecondHalf,Federico Valverde,344644,52,a,42.1,81.3,BallRecovery,Successful,[]
+2958354285.0,58,41.0,SecondHalf,Cala,468761,70,h,29.6,20.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""584""}, {""type"": ""Defensive""}]"
+2958355647.0,60,20.0,SecondHalf,Ibrahima Konaté,345957,52,a,26.4,50.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""448""}, {""type"": ""Defensive""}]"
+2958355723.0,60,23.0,SecondHalf,Thibaut Courtois,73798,52,a,4.9,58.5,BallRecovery,Successful,[]
+2958355773.0,60,27.0,SecondHalf,Cala,468761,70,h,59.3,22.9,BallRecovery,Successful,[]
+2958356787.0,61,38.0,SecondHalf,Thibaut Courtois,73798,52,a,7.9,45.6,KeeperPickup,Successful,[]
+2958357007.0,61,55.0,SecondHalf,Omar El Hilali,449410,70,h,23.2,19.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958357023.0,61,57.0,SecondHalf,Marko Dmitrovic,259393,70,h,5.6,52.0,BallRecovery,Successful,[]
+2958357651.0,62,43.0,SecondHalf,Ibrahima Konaté,345957,52,a,32.0,49.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""475""}, {""type"": ""Defensive""}]"
+2958357659.0,62,45.0,SecondHalf,Jude Bellingham,379868,52,a,24.2,44.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.9""}, {""type"": ""PassEndY"", ""value"": ""35.4""}, {""type"": ""Length"", ""value"": ""6.6""}, {""type"": ""Angle"", ""value"": ""5.15""}]"
+2958357683.0,62,47.0,SecondHalf,Bernardo Silva,136741,52,a,28.1,26.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""43.8""}, {""type"": ""PassEndY"", ""value"": ""49.3""}, {""type"": ""Length"", ""value"": ""22.5""}, {""type"": ""Angle"", ""value"": ""0.75""}]"
+2958358733.0,64,17.0,SecondHalf,Cala,468761,70,h,61.7,70.8,BallRecovery,Successful,[]
+2958359093.0,64,43.0,SecondHalf,Ibrahima Konaté,345957,52,a,8.9,43.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""4.3""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""30.2""}, {""type"": ""Angle"", ""value"": ""4.55""}]"
+2958359667.0,65,35.0,SecondHalf,Rafel Bauzà,531460,70,h,92.6,86.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""623""}, {""type"": ""Offensive""}]"
+2958361745.0,66,12.0,SecondHalf,Tyrhys Dolan,398922,70,h,47.4,95.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""630""}, {""type"": ""Defensive""}]"
+2958360283.0,66,30.0,SecondHalf,Unai Núñez,344200,70,h,14.9,91.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""13.0""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""7.3""}, {""type"": ""Angle"", ""value"": ""1.85""}]"
+2958360609.0,67,3.0,SecondHalf,Vanja Drkusic,361696,70,h,18.3,32.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""21.2""}, {""type"": ""PassEndY"", ""value"": ""38.2""}, {""type"": ""Length"", ""value"": ""4.8""}, {""type"": ""Angle"", ""value"": ""0.89""}]"
+2958360619.0,67,4.0,SecondHalf,Edu Expósito,335696,70,h,22.2,38.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""644""}, {""type"": ""Defensive""}]"
+2958360813.0,67,26.0,SecondHalf,Tyrhys Dolan,398922,70,h,19.3,83.0,BallRecovery,Successful,[]
+2958361121.0,68,13.0,SecondHalf,Urko González de Zárate,401173,70,h,21.3,34.7,BallRecovery,Successful,[]
+2958361275.0,68,36.0,SecondHalf,Denzel Dumfries,322153,52,a,10.1,37.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""26.3""}, {""type"": ""PassEndY"", ""value"": ""74.5""}, {""type"": ""Length"", ""value"": ""30.4""}, {""type"": ""Angle"", ""value"": ""0.98""}]"
+2958361619.0,69,28.0,SecondHalf,Edu Expósito,335696,70,h,15.5,37.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""673""}]"
+2958361649.0,69,33.0,SecondHalf,Roger Hinojo,555136,70,h,32.0,59.7,BallRecovery,Successful,[]
+2958361705.0,69,42.0,SecondHalf,Ibrahima Konaté,345957,52,a,43.5,15.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""540""}, {""type"": ""Defensive""}]"
+2958361711.0,69,45.0,SecondHalf,Yan Diomande,557000,52,a,39.4,9.3,BallRecovery,Successful,[]
+2958361973.0,70,29.0,SecondHalf,Ibrahima Konaté,345957,52,a,24.9,58.5,BallRecovery,Successful,[]
+2958362561.0,71,48.0,SecondHalf,Vanja Drkusic,361696,70,h,8.5,33.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""702""}, {""type"": ""Defensive""}]"
+2958362581.0,71,51.0,SecondHalf,Vanja Drkusic,361696,70,h,1.8,20.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""11.9""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""18.4""}, {""type"": ""Angle"", ""value"": ""5.33""}]"
+2958363013.0,73,0.0,SecondHalf,Unai Núñez,344200,70,h,6.3,66.6,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""722""}]"
+2958363211.0,73,23.0,SecondHalf,Marko Dmitrovic,259393,70,h,5.5,48.3,Punch,Unsuccessful,"[{""type"": ""PassEndX"", ""value"": ""11.4""}, {""type"": ""PassEndY"", ""value"": ""7.6""}, {""type"": ""Length"", ""value"": ""28.4""}, {""type"": ""Angle"", ""value"": ""4.93""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""724""}]"
+2958363269.0,73,35.0,SecondHalf,Rafel Bauzà,531460,70,h,28.0,26.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""726""}]"
+2958363627.0,74,14.0,SecondHalf,Javi Hernández,506010,70,h,38.6,7.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""736""}, {""type"": ""Defensive""}]"
+2958364039.0,75,30.0,SecondHalf,Tyrhys Dolan,398922,70,h,36.8,81.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958364045.0,75,31.0,SecondHalf,Edu Expósito,335696,70,h,27.8,75.3,BallRecovery,Successful,[]
+2958364083.0,75,37.0,SecondHalf,Bernardo Silva,136741,52,a,64.8,17.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2958364089.0,75,38.0,SecondHalf,Bernardo Silva,136741,52,a,62.9,16.5,BallRecovery,Successful,[]
+2958364373.0,75,44.0,SecondHalf,Omar El Hilali,449410,70,h,14.5,44.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.6""}, {""type"": ""PassEndY"", ""value"": ""33.0""}, {""type"": ""Length"", ""value"": ""30.5""}, {""type"": ""Angle"", ""value"": ""6.02""}]"
+2958364377.0,76,14.0,SecondHalf,Vanja Drkusic,361696,70,h,8.5,22.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""760""}, {""type"": ""Defensive""}]"
+2958364649.0,76,43.0,SecondHalf,Roberto Fernández,448296,70,h,6.0,41.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.0""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""35.1""}, {""type"": ""Angle"", ""value"": ""5.32""}]"
+2958364835.0,77,8.0,SecondHalf,Edu Expósito,335696,70,h,9.9,71.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""770""}]"
+2958365077.0,77,40.0,SecondHalf,Jude Bellingham,379868,52,a,46.1,33.3,BallRecovery,Successful,[]
+2958365163.0,77,47.0,SecondHalf,Omar El Hilali,449410,70,h,14.0,41.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""776""}]"
+2958365191.0,77,51.0,SecondHalf,Rafel Bauzà,531460,70,h,33.7,51.2,BallRecovery,Successful,[]
+2958365257.0,77,57.0,SecondHalf,Jude Bellingham,379868,52,a,62.5,42.0,BallRecovery,Successful,[]
+2958365319.0,78,5.0,SecondHalf,Vanja Drkusic,361696,70,h,13.6,77.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""783""}, {""type"": ""Defensive""}]"
+2958365499.0,78,28.0,SecondHalf,Pol Lozano,382157,70,h,16.2,53.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.5""}, {""type"": ""PassEndY"", ""value"": ""61.8""}, {""type"": ""Length"", ""value"": ""7.1""}, {""type"": ""Angle"", ""value"": ""0.88""}]"
+2958365503.0,78,29.0,SecondHalf,Roberto Fernández,448296,70,h,25.6,63.0,BallRecovery,Successful,[]
+2958374431.0,78,31.0,SecondHalf,Ibrahima Konaté,345957,52,a,54.0,42.1,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""594""}, {""type"": ""Defensive""}]"
+2958365553.0,78,37.0,SecondHalf,Ibrahima Konaté,345957,52,a,53.6,31.8,BallRecovery,Successful,[]
+2958367413.0,81,30.0,SecondHalf,Ibrahima Konaté,345957,52,a,30.0,49.5,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2958368105.0,82,48.0,SecondHalf,Edu Expósito,335696,70,h,44.4,37.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""834""}, {""type"": ""Defensive""}]"
+2958368107.0,82,49.0,SecondHalf,Edu Expósito,335696,70,h,42.3,40.4,BallRecovery,Successful,[]
+2958368213.0,83,2.0,SecondHalf,Ibrahima Konaté,345957,52,a,11.6,52.0,BallRecovery,Successful,[]
+2958368281.0,83,7.0,SecondHalf,Rafel Bauzà,531460,70,h,58.4,36.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""838""}, {""type"": ""Defensive""}]"
+2958375469.0,83,11.0,SecondHalf,Rafel Bauzà,531460,70,h,60.8,48.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""839""}, {""type"": ""Defensive""}]"
+2958368307.0,83,13.0,SecondHalf,Roberto Fernández,448296,70,h,66.3,54.5,BallRecovery,Successful,[]
+2958368429.0,83,21.0,SecondHalf,Federico Valverde,344644,52,a,9.6,67.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.9""}, {""type"": ""PassEndY"", ""value"": ""94.9""}, {""type"": ""Length"", ""value"": ""19.6""}, {""type"": ""Angle"", ""value"": ""1.23""}]"
+2958368431.0,83,24.0,SecondHalf,Marc Cucurella,363496,52,a,15.9,94.9,BallRecovery,Successful,[]
+2958368855.0,84,23.0,SecondHalf,Marko Dmitrovic,259393,70,h,4.3,50.9,KeeperPickup,Successful,[]
+2958369215.0,84,56.0,SecondHalf,Trent Alexander-Arnold,318871,52,a,9.8,16.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""629""}, {""type"": ""Defensive""}]"
+2958369675.0,85,45.0,SecondHalf,Unai Núñez,344200,70,h,5.0,55.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.0""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""33.7""}, {""type"": ""Angle"", ""value"": ""1.22""}]"
+2958370055.0,86,18.0,SecondHalf,Tyrhys Dolan,398922,70,h,25.3,67.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""33.1""}, {""type"": ""PassEndY"", ""value"": ""91.8""}, {""type"": ""Length"", ""value"": ""18.3""}, {""type"": ""Angle"", ""value"": ""1.11""}]"
+2958370509.0,87,25.0,SecondHalf,Marc Cucurella,363496,52,a,47.3,86.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958370527.0,87,26.0,SecondHalf,Marc Cucurella,363496,52,a,42.0,89.7,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""638""}, {""type"": ""Defensive""}]"
+2958370559.0,87,29.0,SecondHalf,Eduardo Camavinga,369109,52,a,35.5,79.5,BallRecovery,Successful,[]
+2958370863.0,88,1.0,SecondHalf,Pol Lozano,382157,70,h,33.3,39.2,BallRecovery,Successful,[]
+2958370965.0,88,13.0,SecondHalf,Ibrahima Konaté,345957,52,a,10.6,47.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""30.7""}, {""type"": ""PassEndY"", ""value"": ""53.4""}, {""type"": ""Length"", ""value"": ""21.4""}, {""type"": ""Angle"", ""value"": ""0.18""}]"
+2958371143.0,88,31.0,SecondHalf,Marc Cucurella,363496,52,a,29.5,72.9,BallRecovery,Successful,[]
+2958371207.0,88,41.0,SecondHalf,Vanja Drkusic,361696,70,h,19.6,41.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.6""}, {""type"": ""PassEndY"", ""value"": ""44.7""}, {""type"": ""Length"", ""value"": ""10.7""}, {""type"": ""Angle"", ""value"": ""0.19""}]"
+2958371223.0,88,44.0,SecondHalf,Pol Lozano,382157,70,h,29.7,41.8,BallRecovery,Successful,[]
+2958371341.0,88,57.0,SecondHalf,Dean Huijsen,468852,52,a,42.8,73.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958371361.0,89,0.0,SecondHalf,Eduardo Camavinga,369109,52,a,38.0,63.4,BallRecovery,Successful,[]
+2958371461.0,89,12.0,SecondHalf,Vanja Drkusic,361696,70,h,18.4,47.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""22.8""}, {""type"": ""PassEndY"", ""value"": ""55.6""}, {""type"": ""Length"", ""value"": ""7.5""}, {""type"": ""Angle"", ""value"": ""0.90""}]"
+2958371471.0,89,17.0,SecondHalf,Tyrhys Dolan,398922,70,h,29.3,64.4,BallRecovery,Successful,[]
+2958371499.0,89,22.0,SecondHalf,Eduardo Camavinga,369109,52,a,47.4,34.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""660""}, {""type"": ""Defensive""}]"
+2958371523.0,89,26.0,SecondHalf,Federico Valverde,344644,52,a,48.6,35.5,BallRecovery,Successful,[]
+2958371581.0,89,32.0,SecondHalf,Unai Núñez,344200,70,h,22.9,64.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""916""}, {""type"": ""Defensive""}]"
+2958376377.0,89,34.0,SecondHalf,Pol Lozano,382157,70,h,23.4,57.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""917""}, {""type"": ""Defensive""}]"
+2958371627.0,89,36.0,SecondHalf,Unai Núñez,344200,70,h,19.5,50.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""36.9""}, {""type"": ""PassEndY"", ""value"": ""44.4""}, {""type"": ""Length"", ""value"": ""18.7""}, {""type"": ""Angle"", ""value"": ""6.07""}]"
+2958372665.0,91,43.0,SecondHalf,Ibrahima Konaté,345957,52,a,7.1,21.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""40.1""}, {""type"": ""PassEndY"", ""value"": ""13.8""}, {""type"": ""Length"", ""value"": ""35.0""}, {""type"": ""Angle"", ""value"": ""6.14""}]"
+2958372763.0,91,58.0,SecondHalf,Pol Lozano,382157,70,h,54.4,70.2,BallRecovery,Successful,[]
+2958373149.0,92,47.0,SecondHalf,Dean Huijsen,468852,52,a,8.8,63.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""1.9""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""26.4""}, {""type"": ""Angle"", ""value"": ""1.85""}]"
+2958373573.0,93,58.0,SecondHalf,Unai Núñez,344200,70,h,31.0,62.3,BallRecovery,Successful,[]
+2958373627.0,94,5.0,SecondHalf,Carlos Espí,516341,52,a,72.3,28.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""705""}, {""type"": ""Defensive""}]"

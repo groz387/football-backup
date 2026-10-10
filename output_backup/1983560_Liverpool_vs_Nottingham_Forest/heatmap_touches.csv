@@ -1,0 +1,1376 @@
+playerName,playerId,teamId,h_a,x,y,minute,second,type,period
+James McAtee,425576,174,a,50.0,50.0,0,0.0,Pass,FirstHalf
+Matz Sels,78386,174,a,27.8,53.7,0,3.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,22.9,0.0,0,23.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,24.0,8.8,0,24.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,55.1,77.7,0,28.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,30.4,15.7,0,29.0,BallTouch,FirstHalf
+Alexis Mac Allister,345319,26,h,34.0,13.3,0,30.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,43.0,34.9,0,32.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,32.6,61.5,0,35.0,Pass,FirstHalf
+Matz Sels,78386,174,a,11.5,42.1,0,39.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,49.0,76.0,0,41.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,54.1,68.7,0,43.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,42.2,70.3,0,45.0,Pass,FirstHalf
+Ola Aina,315543,174,a,37.4,25.8,0,46.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,44.1,58.2,0,49.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,53.6,76.5,0,50.0,BallTouch,FirstHalf
+Xaver Schlager,262856,174,a,44.4,34.3,0,51.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,53.0,77.7,0,51.0,BallTouch,FirstHalf
+Ola Aina,315543,174,a,42.0,25.3,0,51.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,53.7,74.7,0,51.0,BlockedPass,FirstHalf
+Jair Cunha,443545,174,a,28.2,4.4,0,58.0,Foul,FirstHalf
+Matz Sels,78386,174,a,27.7,7.6,1,29.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,28.6,65.7,1,33.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,38.3,64.2,1,34.0,BallTouch,FirstHalf
+Ola Aina,315543,174,a,53.8,29.8,1,36.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,59.2,32.5,1,36.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,54.9,18.4,1,38.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,42.3,19.5,1,42.0,Pass,FirstHalf
+Murillo,445424,174,a,32.9,31.2,1,44.0,Pass,FirstHalf
+Ola Aina,315543,174,a,57.1,9.3,1,45.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,54.9,15.7,1,46.0,Pass,FirstHalf
+Ola Aina,315543,174,a,38.1,15.6,1,51.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,26.2,7.3,1,53.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,37.7,73.8,1,55.0,Pass,FirstHalf
+James McAtee,425576,174,a,39.7,50.3,1,59.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,37.6,0.0,2,6.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,43.8,2.7,2,7.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,37.4,1.3,2,10.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,35.5,15.1,2,14.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,20.6,12.7,2,17.0,Pass,FirstHalf
+Alisson Becker,114147,26,h,11.2,42.4,2,21.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,30.6,56.4,2,22.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,37.5,38.5,2,26.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,43.7,55.9,2,28.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,34.4,58.9,2,32.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,39.6,27.0,2,36.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,56.8,3.1,2,38.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,64.6,18.4,2,40.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,87.3,20.4,2,43.0,Pass,FirstHalf
+Ola Aina,315543,174,a,21.8,0.0,3,10.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,41.0,22.3,3,13.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,52.9,77.2,3,14.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,66.2,79.6,3,17.0,Pass,FirstHalf
+Ola Aina,315543,174,a,45.5,0.0,3,31.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,44.4,16.4,3,32.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,39.2,15.0,3,34.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,43.2,85.5,3,37.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,26.4,23.8,3,38.0,BallTouch,FirstHalf
+Jair Cunha,443545,174,a,25.6,21.7,3,38.0,BallTouch,FirstHalf
+Nikola Milenkovic,319785,174,a,19.1,9.6,3,41.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,72.2,93.6,3,41.0,BlockedPass,FirstHalf
+Ola Aina,315543,174,a,26.0,0.0,3,56.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,42.5,10.6,3,57.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,49.4,24.4,3,58.0,Foul,FirstHalf
+Neco Williams,386969,174,a,52.4,26.7,4,35.0,Pass,FirstHalf
+James McAtee,425576,174,a,55.2,53.1,4,37.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,70.2,26.1,4,39.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,21.9,53.7,4,41.0,Clearance,FirstHalf
+Neco Williams,386969,174,a,38.6,28.0,4,46.0,Pass,FirstHalf
+Matz Sels,78386,174,a,20.8,49.3,4,48.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,85.9,78.4,4,52.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,79.0,76.2,4,54.0,Pass,FirstHalf
+James McAtee,425576,174,a,78.7,60.9,4,54.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,9.4,33.6,4,58.0,Clearance,FirstHalf
+Igor Jesus,397497,174,a,92.4,66.3,4,58.0,BallTouch,FirstHalf
+Alexis Mac Allister,345319,26,h,13.8,41.7,5,0.0,Clearance,FirstHalf
+Nikola Milenkovic,319785,174,a,42.5,46.8,5,4.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,39.0,54.3,5,7.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,47.0,34.9,5,10.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,42.6,5.8,5,15.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,30.9,28.2,5,18.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,32.4,59.7,5,21.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,40.1,90.0,5,23.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,39.6,84.4,5,27.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,38.2,61.3,5,29.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,42.3,43.3,5,31.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,61.4,3.9,5,35.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,57.7,26.5,5,38.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,45.0,36.1,5,41.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,66.3,36.4,5,43.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,56.2,48.7,5,45.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,70.7,60.9,5,46.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,29.1,44.5,5,47.0,BallTouch,FirstHalf
+Víctor Muñoz,548106,26,h,74.8,60.6,5,48.0,TakeOn,FirstHalf
+Ola Aina,315543,174,a,25.2,39.4,5,48.0,Tackle,FirstHalf
+Ola Aina,315543,174,a,18.6,37.3,5,50.0,Pass,FirstHalf
+Murillo,445424,174,a,22.5,50.4,5,51.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,33.7,53.8,5,52.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,41.9,46.2,5,54.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,70.2,71.4,5,58.0,BallTouch,FirstHalf
+Jérémy Jacquet,468827,26,h,24.3,26.8,6,9.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,30.9,60.6,6,12.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,37.7,40.9,6,16.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,40.6,64.3,6,20.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,39.2,39.7,6,27.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,36.8,60.4,6,34.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,39.6,39.0,6,35.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,49.5,56.4,6,37.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,47.4,50.2,6,38.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,70.0,79.3,6,42.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,82.5,88.9,6,45.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,67.6,76.5,6,47.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,68.4,56.1,6,49.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,93.4,52.2,6,52.0,Dispossessed,FirstHalf
+Neco Williams,386969,174,a,6.6,47.8,6,52.0,Tackle,FirstHalf
+Jair Cunha,443545,174,a,5.2,26.7,6,55.0,Clearance,FirstHalf
+Virgil van Dijk,95408,26,h,45.0,85.9,6,58.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,57.0,89.8,7,0.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,38.7,69.0,7,4.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,45.4,57.4,7,7.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,55.4,66.9,7,11.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,53.1,49.3,7,14.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,76.2,14.2,7,20.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,66.7,24.6,7,22.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,63.7,35.5,7,25.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,64.9,23.7,7,27.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,74.2,11.4,7,29.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,8.8,55.2,7,31.0,Clearance,FirstHalf
+Jérémy Jacquet,468827,26,h,62.1,40.5,7,34.0,Pass,FirstHalf
+James McAtee,425576,174,a,26.4,46.9,7,37.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,39.9,44.8,7,38.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,57.8,53.2,7,40.0,Pass,FirstHalf
+Ola Aina,315543,174,a,29.2,36.4,7,41.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,59.1,77.2,7,45.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,53.8,73.0,7,47.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,79.0,96.1,7,51.0,Pass,FirstHalf
+Neco Williams,386969,174,a,61.8,92.2,7,54.0,Pass,FirstHalf
+Murillo,445424,174,a,45.9,81.0,7,56.0,Pass,FirstHalf
+James McAtee,425576,174,a,54.9,72.4,7,57.0,Pass,FirstHalf
+Neco Williams,386969,174,a,65.7,87.4,8,1.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,79.4,91.9,8,5.0,Pass,FirstHalf
+Neco Williams,386969,174,a,69.7,90.7,8,7.0,Pass,FirstHalf
+James McAtee,425576,174,a,73.7,54.9,8,12.0,BallTouch,FirstHalf
+Virgil van Dijk,95408,26,h,29.0,55.8,8,15.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,8.3,19.0,8,24.0,Pass,FirstHalf
+Alexander Isak,299254,26,h,88.8,81.7,8,24.0,BlockedPass,FirstHalf
+Matz Sels,78386,174,a,3.7,45.1,9,0.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,59.4,84.4,9,5.0,Pass,FirstHalf
+James McAtee,425576,174,a,57.8,75.4,9,9.0,Foul,FirstHalf
+Neco Williams,386969,174,a,56.8,84.9,9,24.0,Pass,FirstHalf
+Murillo,445424,174,a,32.9,73.2,9,26.0,Pass,FirstHalf
+Neco Williams,386969,174,a,46.5,90.9,9,30.0,Pass,FirstHalf
+Murillo,445424,174,a,34.8,81.3,9,32.0,Pass,FirstHalf
+Neco Williams,386969,174,a,43.5,91.5,9,37.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,28.1,52.2,9,41.0,Pass,FirstHalf
+Murillo,445424,174,a,28.9,79.8,9,43.0,Pass,FirstHalf
+James McAtee,425576,174,a,35.7,67.3,9,44.0,Dispossessed,FirstHalf
+Alexis Mac Allister,345319,26,h,64.3,32.7,9,44.0,Tackle,FirstHalf
+James McAtee,425576,174,a,33.9,72.6,9,46.0,BallTouch,FirstHalf
+Alexis Mac Allister,345319,26,h,63.5,28.2,9,47.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,74.0,30.1,9,48.0,BallTouch,FirstHalf
+Matz Sels,78386,174,a,9.9,52.6,9,51.0,Pass,FirstHalf
+Neco Williams,386969,174,a,20.4,88.5,9,55.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,40.6,67.8,9,57.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,45.0,14.7,9,58.0,Clearance,FirstHalf
+Neco Williams,386969,174,a,62.7,100.0,10,25.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,55.3,85.2,10,27.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,36.2,59.8,10,30.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,61.4,26.1,10,36.0,Pass,FirstHalf
+Ola Aina,315543,174,a,88.0,12.0,10,38.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,95.3,52.6,10,40.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,97.7,51.1,10,42.0,SavedShot,FirstHalf
+Jérémy Jacquet,468827,26,h,1.3,49.5,10,42.0,Save,FirstHalf
+Neco Williams,386969,174,a,99.5,99.5,11,21.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,3.9,57.1,11,36.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,18.6,31.5,11,41.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,28.5,65.7,11,50.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,40.9,3.7,11,53.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,36.5,31.8,12,1.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,39.8,63.3,12,6.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,36.1,48.0,12,13.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,37.6,28.6,12,17.0,Pass,FirstHalf
+Alexander Isak,299254,26,h,52.4,66.9,12,19.0,Pass,FirstHalf
+Ola Aina,315543,174,a,28.8,13.3,12,21.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,23.7,87.7,12,25.0,Pass,FirstHalf
+Alisson Becker,114147,26,h,9.1,65.8,12,28.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,30.8,28.5,12,36.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,34.4,49.0,12,40.0,Pass,FirstHalf
+Ola Aina,315543,174,a,24.4,18.2,12,43.0,Foul,FirstHalf
+Matz Sels,78386,174,a,19.9,19.6,13,29.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,35.9,75.3,13,32.0,Interception,FirstHalf
+Xaver Schlager,262856,174,a,58.1,16.2,13,35.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,66.7,8.5,13,37.0,TakeOn,FirstHalf
+Virgil van Dijk,95408,26,h,33.8,80.8,13,38.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,66.4,9.0,13,39.0,BallTouch,FirstHalf
+Ola Aina,315543,174,a,57.3,7.2,13,40.0,Pass,FirstHalf
+James McAtee,425576,174,a,57.6,30.0,13,41.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,55.6,13.5,13,44.0,Pass,FirstHalf
+Ola Aina,315543,174,a,58.1,21.3,13,45.0,Pass,FirstHalf
+James McAtee,425576,174,a,52.8,38.7,13,47.0,Pass,FirstHalf
+Murillo,445424,174,a,39.7,60.6,13,51.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,37.9,46.8,13,53.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,43.7,37.8,13,54.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,52.4,74.7,13,56.0,Interception,FirstHalf
+Víctor Muñoz,548106,26,h,64.0,78.0,13,58.0,Dispossessed,FirstHalf
+Jair Cunha,443545,174,a,36.0,22.0,13,58.0,Tackle,FirstHalf
+Víctor Muñoz,548106,26,h,63.6,82.6,14,0.0,BallTouch,FirstHalf
+Ola Aina,315543,174,a,35.6,18.6,14,1.0,Foul,FirstHalf
+Ola Aina,315543,174,a,33.8,14.1,14,10.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,23.1,13.3,14,11.0,Pass,FirstHalf
+Matz Sels,78386,174,a,4.8,31.6,14,15.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,53.1,73.5,14,19.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,38.5,26.7,14,21.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,35.4,28.3,14,23.0,Pass,FirstHalf
+James McAtee,425576,174,a,57.6,61.0,14,26.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,26.5,22.3,14,29.0,Pass,FirstHalf
+Alisson Becker,114147,26,h,9.9,38.1,14,33.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,19.1,10.9,14,36.0,Pass,FirstHalf
+Neco Williams,386969,174,a,66.3,100.0,14,43.0,Pass,FirstHalf
+James McAtee,425576,174,a,51.4,90.6,14,45.0,Pass,FirstHalf
+Murillo,445424,174,a,27.0,89.7,14,49.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,23.1,55.2,14,51.0,Pass,FirstHalf
+Matz Sels,78386,174,a,7.7,43.2,14,53.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,43.4,85.2,15,0.0,Foul,FirstHalf
+Dominik Szoboszlai,369875,26,h,41.8,82.8,15,14.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,34.1,75.9,15,17.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,35.7,35.1,15,20.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,46.6,3.9,15,22.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,37.6,34.5,15,26.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,42.3,50.7,15,29.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,47.4,51.2,15,29.0,BallTouch,FirstHalf
+James McAtee,425576,174,a,54.6,52.7,15,30.0,TakeOn,FirstHalf
+Alexis Mac Allister,345319,26,h,45.4,47.3,15,30.0,Tackle,FirstHalf
+Morgan Gibbs-White,332867,174,a,53.0,40.3,15,32.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,68.1,65.1,15,37.0,TakeOn,FirstHalf
+Jérémy Jacquet,468827,26,h,31.9,34.9,15,37.0,Tackle,FirstHalf
+Dan Ndoye,398414,174,a,65.9,64.3,15,38.0,BallTouch,FirstHalf
+Jérémy Jacquet,468827,26,h,23.3,35.5,15,38.0,BallTouch,FirstHalf
+Xaver Schlager,262856,174,a,65.9,64.2,15,40.0,BallTouch,FirstHalf
+Dan Ndoye,398414,174,a,76.4,60.2,15,40.0,Dispossessed,FirstHalf
+Jérémy Jacquet,468827,26,h,23.5,39.8,15,40.0,Tackle,FirstHalf
+James McAtee,425576,174,a,66.4,52.6,15,42.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,76.3,28.9,15,44.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,79.5,39.0,15,45.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,72.6,37.6,15,46.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,78.7,34.3,15,47.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,84.8,38.8,15,48.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,89.3,35.1,15,49.0,SavedShot,FirstHalf
+Milos Kerkez,424273,26,h,9.3,62.5,15,49.0,Save,FirstHalf
+James McAtee,425576,174,a,99.5,0.5,16,28.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,8.5,56.4,16,29.0,Clearance,FirstHalf
+Xaver Schlager,262856,174,a,79.9,43.8,16,30.0,SavedShot,FirstHalf
+Víctor Muñoz,548106,26,h,18.0,55.4,16,30.0,Save,FirstHalf
+Alexis Mac Allister,345319,26,h,17.7,28.2,16,33.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,41.0,24.2,16,36.0,TakeOn,FirstHalf
+Florian Wirtz,394786,26,h,36.0,31.3,16,39.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,34.8,32.7,16,42.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,53.0,16.8,16,44.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,68.5,40.2,16,46.0,TakeOn,FirstHalf
+Dominik Szoboszlai,369875,26,h,71.4,42.1,16,48.0,OffsidePass,FirstHalf
+Matz Sels,78386,174,a,4.2,49.2,17,31.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,36.3,24.8,17,33.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,63.9,74.1,17,33.0,BallTouch,FirstHalf
+Neco Williams,386969,174,a,52.5,88.3,17,36.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,10.5,12.9,17,43.0,Pass,FirstHalf
+Neco Williams,386969,174,a,57.2,100.0,17,59.0,Pass,FirstHalf
+James McAtee,425576,174,a,65.8,85.3,18,0.0,Pass,FirstHalf
+Neco Williams,386969,174,a,61.9,92.2,18,1.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,64.3,78.7,18,2.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,58.2,57.0,18,3.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,58.7,27.9,18,7.0,Pass,FirstHalf
+Ola Aina,315543,174,a,79.6,12.0,18,15.0,Pass,FirstHalf
+James McAtee,425576,174,a,78.4,34.6,18,18.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,94.9,58.3,18,20.0,MissedShots,FirstHalf
+Alisson Becker,114147,26,h,4.6,47.1,18,46.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,10.7,28.6,18,48.0,Pass,FirstHalf
+Alisson Becker,114147,26,h,8.6,52.8,18,50.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,22.4,76.8,18,52.0,Pass,FirstHalf
+Alisson Becker,114147,26,h,10.4,50.1,18,55.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,16.3,29.1,18,57.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,40.7,4.2,19,2.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,34.3,26.8,19,6.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,45.7,42.4,19,7.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,35.2,55.0,19,9.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,48.3,87.9,19,11.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,70.1,87.3,19,19.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,63.6,78.1,19,21.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,62.0,53.5,19,23.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,63.7,31.8,19,26.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,73.6,51.0,19,28.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,62.2,64.2,19,29.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,62.6,49.8,19,31.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,60.4,70.9,19,33.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,70.9,86.4,19,37.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,90.6,88.9,19,43.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,9.4,16.6,19,45.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,17.6,7.3,19,48.0,Pass,FirstHalf
+Ola Aina,315543,174,a,24.4,11.7,19,50.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,52.3,100.0,19,55.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,44.4,77.8,20,2.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,52.9,56.1,20,4.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,64.6,15.4,20,8.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,64.9,12.7,20,13.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,53.2,36.3,20,17.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,68.7,8.5,20,21.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,64.1,12.7,20,23.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,58.3,28.2,20,26.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,52.5,48.3,20,29.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,57.2,35.7,20,33.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,49.6,47.5,20,36.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,53.6,30.4,20,39.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,57.7,51.6,20,43.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,63.1,86.8,20,46.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,69.4,93.4,20,48.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,61.6,78.9,20,51.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,61.0,39.6,20,55.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,73.8,22.0,21,0.0,TakeOn,FirstHalf
+Xaver Schlager,262856,174,a,26.2,78.1,21,0.0,Tackle,FirstHalf
+Cody Gakpo,352825,26,h,75.5,17.4,21,1.0,BallTouch,FirstHalf
+Alexis Mac Allister,345319,26,h,68.1,34.6,21,7.0,Pass,FirstHalf
+Alexander Isak,299254,26,h,76.7,60.3,21,9.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,78.7,85.2,21,11.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,70.2,81.7,21,13.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,77.2,78.9,21,16.0,MissedShots,FirstHalf
+Nikola Milenkovic,319785,174,a,8.1,48.9,21,17.0,Clearance,FirstHalf
+Jair Cunha,443545,174,a,15.5,33.6,21,20.0,Clearance,FirstHalf
+Florian Wirtz,394786,26,h,76.1,68.1,21,21.0,BallTouch,FirstHalf
+Igor Jesus,397497,174,a,28.4,37.0,21,22.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,20.8,26.2,21,23.0,BallTouch,FirstHalf
+Milos Kerkez,424273,26,h,73.7,67.6,21,25.0,BallTouch,FirstHalf
+Florian Wirtz,394786,26,h,74.4,85.8,21,26.0,Pass,FirstHalf
+Matz Sels,78386,174,a,3.7,46.8,22,1.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,31.8,29.4,22,6.0,Interception,FirstHalf
+Dan Ndoye,398414,174,a,69.8,94.8,22,8.0,Dispossessed,FirstHalf
+Jeremie Frimpong,392644,26,h,30.2,5.2,22,8.0,Tackle,FirstHalf
+Neco Williams,386969,174,a,70.2,100.0,22,25.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,75.2,84.6,22,27.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,60.2,71.2,22,29.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,65.1,36.7,22,32.0,Pass,FirstHalf
+Ola Aina,315543,174,a,90.4,10.6,22,35.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,8.6,84.1,22,35.0,Clearance,FirstHalf
+Ola Aina,315543,174,a,89.1,0.0,22,57.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,11.3,54.4,23,0.0,Clearance,FirstHalf
+Ola Aina,315543,174,a,92.6,0.0,23,16.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,9.3,65.4,23,20.0,Clearance,FirstHalf
+Xaver Schlager,262856,174,a,87.0,29.1,23,20.0,SavedShot,FirstHalf
+Milos Kerkez,424273,26,h,8.1,63.5,23,21.0,Save,FirstHalf
+Ola Aina,315543,174,a,70.4,31.3,23,25.0,Pass,FirstHalf
+Neco Williams,386969,174,a,39.7,54.7,23,28.0,Pass,FirstHalf
+Matz Sels,78386,174,a,20.1,52.2,23,31.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,83.6,57.7,23,36.0,Dispossessed,FirstHalf
+Alexis Mac Allister,345319,26,h,16.5,42.2,23,36.0,Tackle,FirstHalf
+Igor Jesus,397497,174,a,78.6,49.3,23,37.0,BallTouch,FirstHalf
+Morgan Gibbs-White,332867,174,a,79.4,55.5,23,37.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,89.3,66.4,23,39.0,Goal,FirstHalf
+Florian Wirtz,394786,26,h,50.2,49.6,24,57.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,33.9,53.1,25,2.0,Pass,FirstHalf
+Murillo,445424,174,a,31.2,83.5,25,4.0,Interception,FirstHalf
+Jeremie Frimpong,392644,26,h,63.8,23.4,25,5.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,61.5,33.0,25,8.0,Pass,FirstHalf
+Neco Williams,386969,174,a,36.5,89.2,25,14.0,Pass,FirstHalf
+James McAtee,425576,174,a,43.8,79.2,25,15.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,31.6,9.0,25,18.0,Interception,FirstHalf
+Neco Williams,386969,174,a,64.6,100.0,25,27.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,89.6,84.9,25,29.0,BallTouch,FirstHalf
+Alexis Mac Allister,345319,26,h,9.1,8.1,25,31.0,Pass,FirstHalf
+Neco Williams,386969,174,a,88.1,84.7,25,31.0,BallTouch,FirstHalf
+Cody Gakpo,352825,26,h,31.4,20.1,25,36.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,67.4,51.4,25,43.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,85.2,80.8,25,45.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,11.1,31.2,25,46.0,Clearance,FirstHalf
+Ola Aina,315543,174,a,4.3,16.3,25,50.0,BallTouch,FirstHalf
+Milos Kerkez,424273,26,h,76.8,100.0,26,2.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,54.0,87.1,26,4.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,57.8,59.2,26,5.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,71.3,71.4,26,7.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,28.1,33.4,26,7.0,BlockedPass,FirstHalf
+James McAtee,425576,174,a,30.9,47.8,26,11.0,TakeOn,FirstHalf
+James McAtee,425576,174,a,41.2,47.2,26,13.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,33.6,49.2,26,15.0,Pass,FirstHalf
+Neco Williams,386969,174,a,61.5,83.4,26,21.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,74.0,94.0,26,24.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,60.9,78.6,26,26.0,Pass,FirstHalf
+Murillo,445424,174,a,53.9,86.4,26,27.0,Pass,FirstHalf
+James McAtee,425576,174,a,64.1,72.1,26,29.0,Pass,FirstHalf
+Alisson Becker,114147,26,h,11.7,49.6,26,38.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,34.3,33.0,26,43.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,52.1,14.1,26,44.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,58.7,27.0,26,45.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,53.5,28.9,26,48.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,89.6,96.5,26,54.0,TakeOn,FirstHalf
+Víctor Muñoz,548106,26,h,93.8,91.6,26,56.0,Foul,FirstHalf
+Dominik Szoboszlai,369875,26,h,91.7,96.3,27,44.0,Pass,FirstHalf
+Matz Sels,78386,174,a,3.1,49.5,27,47.0,Punch,FirstHalf
+Xaver Schlager,262856,174,a,11.0,42.3,27,49.0,Clearance,FirstHalf
+Jérémy Jacquet,468827,26,h,82.1,66.1,27,50.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,8.4,42.6,27,51.0,Clearance,FirstHalf
+Alexis Mac Allister,345319,26,h,81.6,58.0,27,53.0,TakeOn,FirstHalf
+James McAtee,425576,174,a,18.4,42.0,27,53.0,Tackle,FirstHalf
+James McAtee,425576,174,a,20.7,47.8,27,55.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,53.7,79.5,27,58.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,33.3,50.8,28,3.0,Pass,FirstHalf
+Alisson Becker,114147,26,h,23.1,51.0,28,4.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,41.3,23.5,28,9.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,48.3,43.6,28,16.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,47.5,73.0,28,18.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,58.3,86.8,28,20.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,61.8,95.8,28,22.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,42.9,63.0,28,29.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,47.3,39.1,28,33.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,48.6,58.8,28,39.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,69.6,4.8,28,43.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,67.1,22.6,28,45.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,60.5,35.2,28,48.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,64.7,22.3,28,50.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,74.7,20.7,28,52.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,90.0,9.6,28,55.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,81.8,38.8,28,57.0,SavedShot,FirstHalf
+Xaver Schlager,262856,174,a,14.2,59.0,28,57.0,Save,FirstHalf
+Alexis Mac Allister,345319,26,h,73.3,29.1,28,58.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,78.5,35.2,28,59.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,69.0,27.3,29,1.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,60.1,51.6,29,3.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,70.0,80.4,29,6.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,84.9,90.0,29,11.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,7.4,33.0,29,13.0,Clearance,FirstHalf
+Virgil van Dijk,95408,26,h,53.5,71.2,29,16.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,61.8,70.5,29,17.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,62.4,54.4,29,20.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,59.7,89.7,29,28.0,Pass,FirstHalf
+Murillo,445424,174,a,38.4,78.4,29,31.0,Pass,FirstHalf
+Ola Aina,315543,174,a,43.5,88.6,29,33.0,Pass,FirstHalf
+Murillo,445424,174,a,34.4,75.1,29,39.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,41.6,54.4,29,41.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,22.7,58.0,29,43.0,Pass,FirstHalf
+Murillo,445424,174,a,34.4,72.9,29,46.0,TakeOn,FirstHalf
+Florian Wirtz,394786,26,h,65.6,27.1,29,46.0,Tackle,FirstHalf
+Cody Gakpo,352825,26,h,77.0,26.7,29,49.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,73.2,49.9,29,51.0,Pass,FirstHalf
+Alexander Isak,299254,26,h,88.0,64.6,29,54.0,Dispossessed,FirstHalf
+Neco Williams,386969,174,a,12.0,35.4,29,54.0,Tackle,FirstHalf
+Dominik Szoboszlai,369875,26,h,99.6,99.8,30,35.0,Pass,FirstHalf
+Murillo,445424,174,a,5.3,49.9,30,40.0,Clearance,FirstHalf
+Florian Wirtz,394786,26,h,73.8,68.3,30,40.0,Pass,FirstHalf
+James McAtee,425576,174,a,18.5,34.8,30,41.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,68.9,70.2,30,43.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,24.4,31.8,30,44.0,BallTouch,FirstHalf
+James McAtee,425576,174,a,38.2,11.4,30,46.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,57.8,89.5,30,46.0,BlockedPass,FirstHalf
+Ola Aina,315543,174,a,47.2,0.0,31,11.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,38.8,79.9,31,14.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,28.7,25.0,31,17.0,Pass,FirstHalf
+Ola Aina,315543,174,a,35.2,8.4,31,19.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,64.7,100.0,31,28.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,39.6,85.8,31,32.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,45.0,48.3,31,36.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,72.7,12.3,31,43.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,27.1,73.0,31,43.0,Interception,FirstHalf
+James McAtee,425576,174,a,18.9,68.5,31,44.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,82.1,43.4,31,46.0,OffsidePass,FirstHalf
+Matz Sels,78386,174,a,13.5,62.5,34,17.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,69.7,79.8,34,23.0,Pass,FirstHalf
+Neco Williams,386969,174,a,45.7,96.3,34,25.0,Pass,FirstHalf
+Matz Sels,78386,174,a,25.2,56.8,34,31.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,66.6,13.2,34,36.0,Pass,FirstHalf
+Ola Aina,315543,174,a,86.4,7.2,34,39.0,TakeOn,FirstHalf
+Milos Kerkez,424273,26,h,13.6,92.8,34,39.0,Tackle,FirstHalf
+Ola Aina,315543,174,a,83.0,0.0,34,59.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,9.6,58.5,35,2.0,Clearance,FirstHalf
+Florian Wirtz,394786,26,h,30.0,69.7,35,5.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,86.8,64.8,35,12.0,BallTouch,FirstHalf
+Matz Sels,78386,174,a,4.1,46.9,35,44.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,64.6,80.4,35,48.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,17.9,19.0,35,50.0,BallTouch,FirstHalf
+Alisson Becker,114147,26,h,10.7,35.4,35,52.0,Clearance,FirstHalf
+James McAtee,425576,174,a,70.1,66.6,35,53.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,36.1,71.2,35,59.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,44.9,92.2,36,1.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,52.7,13.7,36,1.0,BallTouch,FirstHalf
+Dominik Szoboszlai,369875,26,h,38.2,100.0,36,9.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,34.0,77.4,36,11.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,67.9,13.9,36,14.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,47.2,77.2,36,16.0,TakeOn,FirstHalf
+Dan Ndoye,398414,174,a,42.8,75.6,36,17.0,Foul,FirstHalf
+Neco Williams,386969,174,a,55.0,77.2,36,59.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,5.0,57.3,37,14.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,13.7,37.3,37,20.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,39.5,86.4,37,26.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,42.0,64.2,37,30.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,47.7,29.5,37,33.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,64.6,3.7,37,36.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,56.2,19.0,37,40.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,57.0,29.7,37,42.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,56.9,52.3,37,44.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,62.9,84.7,37,47.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,59.3,69.4,37,49.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,62.6,59.2,37,51.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,59.4,67.9,37,53.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,60.8,36.6,37,56.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,89.3,8.1,38,1.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,91.1,55.6,38,4.0,SavedShot,FirstHalf
+Matz Sels,78386,174,a,1.5,48.7,38,4.0,Save,FirstHalf
+Dominik Szoboszlai,369875,26,h,99.5,0.5,38,28.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,84.4,14.1,38,29.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,87.9,10.5,38,31.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,4.6,45.4,38,34.0,Clearance,FirstHalf
+James McAtee,425576,174,a,6.4,17.8,38,37.0,Foul,FirstHalf
+Matz Sels,78386,174,a,9.5,26.7,39,4.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,32.6,39.2,39,8.0,Foul,FirstHalf
+Alexis Mac Allister,345319,26,h,35.6,38.2,39,16.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,33.4,49.3,39,17.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,36.8,36.1,39,20.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,55.5,4.8,39,24.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,54.1,45.4,39,30.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,62.9,62.8,39,31.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,55.2,65.1,39,33.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,59.3,94.5,39,36.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,67.6,96.7,39,37.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,31.5,3.7,39,37.0,BlockedPass,FirstHalf
+Víctor Muñoz,548106,26,h,65.3,88.6,39,38.0,BallTouch,FirstHalf
+Ola Aina,315543,174,a,28.1,12.1,39,41.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,37.1,90.7,39,42.0,Clearance,FirstHalf
+Ola Aina,315543,174,a,57.0,0.0,39,52.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,55.2,11.1,39,55.0,Pass,FirstHalf
+Ola Aina,315543,174,a,45.5,3.6,39,56.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,62.3,10.3,40,2.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,41.4,78.3,40,4.0,Interception,FirstHalf
+Alexis Mac Allister,345319,26,h,32.2,72.3,40,6.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,47.5,60.0,40,8.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,64.8,30.0,40,11.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,72.8,19.2,40,19.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,63.2,28.5,40,21.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,77.8,93.3,40,27.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,65.9,88.3,40,29.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,59.3,71.4,40,31.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,62.9,39.9,40,33.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,83.7,8.1,40,37.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,74.2,24.1,40,39.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,24.6,75.9,40,39.0,Clearance,FirstHalf
+Cody Gakpo,352825,26,h,80.2,0.0,40,46.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,66.6,15.0,40,49.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,59.3,25.8,40,50.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,67.8,25.2,40,51.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,65.9,13.0,40,53.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,76.5,17.5,41,1.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,65.7,30.9,41,3.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,23.8,76.1,41,5.0,Interception,FirstHalf
+Jérémy Jacquet,468827,26,h,64.3,32.1,41,11.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,77.1,3.7,41,16.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,76.8,10.6,41,20.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,78.4,15.3,41,23.0,Dispossessed,FirstHalf
+Neco Williams,386969,174,a,21.6,84.7,41,23.0,Tackle,FirstHalf
+Jérémy Jacquet,468827,26,h,68.3,19.5,41,25.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,69.5,39.1,41,27.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,74.0,47.8,41,28.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,61.3,50.5,41,32.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,66.8,57.9,41,33.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,62.7,51.9,41,35.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,67.4,35.4,41,37.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,71.6,16.3,41,39.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,79.4,11.1,41,45.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,73.7,24.1,41,47.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,68.5,36.0,41,49.0,Pass,FirstHalf
+Ola Aina,315543,174,a,16.6,31.9,41,52.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,31.5,50.4,41,54.0,BallTouch,FirstHalf
+James McAtee,425576,174,a,26.4,52.2,41,56.0,Pass,FirstHalf
+Dan Ndoye,398414,174,a,39.5,72.0,41,57.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,30.5,82.5,42,1.0,Clearance,FirstHalf
+Ola Aina,315543,174,a,65.7,0.0,42,15.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,20.4,73.3,42,17.0,Pass,FirstHalf
+Alisson Becker,114147,26,h,9.9,45.7,42,23.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,32.2,45.0,42,27.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,39.2,60.4,42,28.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,64.6,69.6,42,31.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,60.3,92.1,42,34.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,56.7,69.4,42,37.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,67.7,70.8,42,40.0,TakeOn,FirstHalf
+Ola Aina,315543,174,a,32.3,29.2,42,40.0,Tackle,FirstHalf
+Víctor Muñoz,548106,26,h,69.7,69.7,42,41.0,BallTouch,FirstHalf
+James McAtee,425576,174,a,41.4,28.5,42,43.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,44.3,20.6,42,44.0,Dispossessed,FirstHalf
+Alexander Isak,299254,26,h,55.7,79.4,42,44.0,Tackle,FirstHalf
+Morgan Gibbs-White,332867,174,a,48.4,17.5,42,45.0,BallTouch,FirstHalf
+Virgil van Dijk,95408,26,h,43.9,84.0,42,46.0,Clearance,FirstHalf
+Ola Aina,315543,174,a,60.1,0.0,43,6.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,9.1,79.8,43,10.0,Clearance,FirstHalf
+Virgil van Dijk,95408,26,h,14.1,77.4,43,13.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,22.1,93.1,43,16.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,12.8,83.7,43,18.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,27.3,82.7,43,21.0,TakeOn,FirstHalf
+Alexis Mac Allister,345319,26,h,29.2,82.6,43,23.0,Foul,FirstHalf
+Alexis Mac Allister,345319,26,h,37.2,82.4,43,35.0,Pass,FirstHalf
+Alisson Becker,114147,26,h,26.6,57.0,43,39.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,53.0,57.9,43,47.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,57.8,94.0,43,52.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,40.7,67.3,43,53.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,53.7,52.9,43,54.0,TakeOn,FirstHalf
+Alexis Mac Allister,345319,26,h,61.7,52.0,43,57.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,76.9,22.3,44,1.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,94.0,17.8,44,3.0,TakeOn,FirstHalf
+Cody Gakpo,352825,26,h,91.7,26.7,44,4.0,Pass,FirstHalf
+Murillo,445424,174,a,2.2,72.3,44,5.0,BallTouch,FirstHalf
+Alexander Isak,299254,26,h,85.9,50.8,44,8.0,BallTouch,FirstHalf
+Víctor Muñoz,548106,26,h,89.9,58.1,44,9.0,MissedShots,FirstHalf
+Matz Sels,78386,174,a,4.7,49.2,44,36.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,40.7,0.0,44,45.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,23.8,20.1,44,50.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,37.9,46.0,44,58.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,45.3,60.7,45,2.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,43.5,53.1,45,3.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,45.4,61.6,45,3.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,64.5,89.2,45,4.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,28.9,21.4,45,5.0,BallTouch,FirstHalf
+Jair Cunha,443545,174,a,24.5,23.4,45,5.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,32.8,14.4,45,6.0,GoodSkill,FirstHalf
+Morgan Gibbs-White,332867,174,a,36.1,15.6,45,7.0,TakeOn,FirstHalf
+Morgan Gibbs-White,332867,174,a,34.0,12.0,45,9.0,Pass,FirstHalf
+Ola Aina,315543,174,a,28.5,14.8,45,10.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,44.5,83.7,45,15.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,36.6,56.8,45,21.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,51.1,77.2,45,24.0,Pass,FirstHalf
+Alexis Mac Allister,345319,26,h,49.7,63.1,45,27.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,55.3,34.3,45,29.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,69.5,23.8,45,36.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,57.4,30.1,45,39.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,59.4,53.7,45,43.0,Pass,FirstHalf
+Milos Kerkez,424273,26,h,66.3,80.5,45,46.0,Pass,FirstHalf
+Florian Wirtz,394786,26,h,63.0,63.6,45,48.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,64.3,35.1,45,51.0,Pass,FirstHalf
+Dominik Szoboszlai,369875,26,h,72.3,62.2,45,53.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,25.9,35.5,45,54.0,BallTouch,FirstHalf
+Murillo,445424,174,a,23.1,49.6,45,55.0,Clearance,FirstHalf
+Virgil van Dijk,95408,26,h,58.8,50.2,45,59.0,Pass,FirstHalf
+Jérémy Jacquet,468827,26,h,66.3,30.9,46,0.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,77.0,4.3,46,6.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,79.0,1.2,46,7.0,Pass,FirstHalf
+Cody Gakpo,352825,26,h,92.5,13.5,46,9.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,6.3,57.7,46,10.0,Clearance,FirstHalf
+Jeremie Frimpong,392644,26,h,86.2,30.9,46,14.0,TakeOn,FirstHalf
+Murillo,445424,174,a,11.4,65.9,46,14.0,TakeOn,FirstHalf
+Jeremie Frimpong,392644,26,h,88.6,34.1,46,14.0,Tackle,FirstHalf
+Murillo,445424,174,a,10.4,63.1,46,16.0,BallTouch,FirstHalf
+Dan Ndoye,398414,174,a,24.8,76.3,46,19.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,41.5,93.1,46,21.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,33.8,71.8,46,23.0,Pass,FirstHalf
+Neco Williams,386969,174,a,30.8,91.6,46,27.0,Pass,FirstHalf
+Jeremie Frimpong,392644,26,h,67.3,11.5,46,27.0,BlockedPass,FirstHalf
+Jérémy Jacquet,468827,26,h,48.9,10.9,46,31.0,Clearance,FirstHalf
+Neco Williams,386969,174,a,47.9,100.0,46,49.0,Pass,FirstHalf
+Morgan Gibbs-White,332867,174,a,60.9,86.4,46,51.0,Pass,FirstHalf
+Xaver Schlager,262856,174,a,57.4,80.1,46,52.0,Pass,FirstHalf
+Víctor Muñoz,548106,26,h,50.0,58.7,46,54.0,TakeOn,FirstHalf
+Jair Cunha,443545,174,a,50.0,41.3,46,54.0,Tackle,FirstHalf
+Jair Cunha,443545,174,a,45.3,37.9,46,55.0,Pass,FirstHalf
+Ola Aina,315543,174,a,66.8,16.8,47,2.0,Pass,FirstHalf
+Jair Cunha,443545,174,a,55.4,26.7,47,4.0,Pass,FirstHalf
+Nikola Milenkovic,319785,174,a,48.1,46.3,47,9.0,Pass,FirstHalf
+Murillo,445424,174,a,48.6,57.7,47,12.0,Pass,FirstHalf
+Ola Aina,315543,174,a,87.3,25.8,47,17.0,TakeOn,FirstHalf
+Ola Aina,315543,174,a,95.0,27.2,47,18.0,Pass,FirstHalf
+Igor Jesus,397497,174,a,89.8,42.3,47,19.0,SavedShot,FirstHalf
+Alisson Becker,114147,26,h,2.3,52.8,47,19.0,Save,FirstHalf
+Neco Williams,386969,174,a,99.5,99.5,47,57.0,Pass,FirstHalf
+Murillo,445424,174,a,95.3,46.6,48,0.0,SavedShot,FirstHalf
+Dominik Szoboszlai,369875,26,h,3.2,52.4,48,0.0,Save,FirstHalf
+James McAtee,425576,174,a,99.5,0.5,48,26.0,Pass,FirstHalf
+Virgil van Dijk,95408,26,h,8.3,54.0,48,29.0,Clearance,FirstHalf
+Dominik Szoboszlai,369875,26,h,50.2,50.2,45,0.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,37.6,55.5,45,5.0,Pass,SecondHalf
+Murillo,445424,174,a,27.0,85.5,45,8.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,70.1,45.0,45,9.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,67.3,32.2,45,11.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,34.0,18.8,45,15.0,Foul,SecondHalf
+Jérémy Jacquet,468827,26,h,37.5,17.1,45,29.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,39.4,40.0,45,31.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,35.0,61.0,45,33.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,44.1,34.6,45,38.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,65.2,5.2,45,39.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,82.0,22.2,45,42.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,96.7,19.3,45,44.0,Pass,SecondHalf
+Murillo,445424,174,a,3.7,77.8,45,44.0,Clearance,SecondHalf
+Dominik Szoboszlai,369875,26,h,99.5,0.5,46,9.0,Pass,SecondHalf
+Alexander Isak,299254,26,h,92.7,40.3,46,12.0,SavedShot,SecondHalf
+Neco Williams,386969,174,a,8.6,61.6,46,12.0,Save,SecondHalf
+Virgil van Dijk,95408,26,h,88.0,51.1,46,13.0,Pass,SecondHalf
+Matz Sels,78386,174,a,6.8,49.1,46,14.0,Clearance,SecondHalf
+Igor Jesus,397497,174,a,12.3,60.1,46,15.0,Clearance,SecondHalf
+Florian Wirtz,394786,26,h,91.0,16.5,46,19.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,9.2,67.5,46,21.0,Clearance,SecondHalf
+Dominik Szoboszlai,369875,26,h,77.0,18.3,46,23.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,12.3,64.5,46,24.0,Pass,SecondHalf
+Morgan Gibbs-White,332867,174,a,34.4,55.6,46,28.0,BallTouch,SecondHalf
+Xaver Schlager,262856,174,a,44.7,52.8,46,29.0,Pass,SecondHalf
+James McAtee,425576,174,a,68.3,28.6,46,32.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,33.3,48.4,46,34.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,15.2,40.5,46,43.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,29.8,18.6,46,45.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,33.9,14.1,46,46.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,28.5,36.3,46,47.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,44.1,61.2,46,53.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,42.6,43.6,46,55.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,63.4,11.5,47,1.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,69.8,7.3,47,3.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,63.4,15.4,47,4.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,56.5,7.6,47,5.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,58.3,37.5,47,8.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,63.5,81.4,47,11.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,80.3,79.6,47,16.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,92.6,51.9,47,18.0,SavedShot,SecondHalf
+Neco Williams,386969,174,a,6.0,50.4,47,18.0,Save,SecondHalf
+Ola Aina,315543,174,a,13.7,22.8,47,21.0,Clearance,SecondHalf
+Alexis Mac Allister,345319,26,h,70.7,87.3,47,24.0,Pass,SecondHalf
+Xaver Schlager,262856,174,a,27.7,11.8,47,26.0,BallTouch,SecondHalf
+Virgil van Dijk,95408,26,h,63.1,79.2,47,27.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,68.6,96.6,47,28.0,Pass,SecondHalf
+Morgan Gibbs-White,332867,174,a,24.9,3.4,47,29.0,Pass,SecondHalf
+Ola Aina,315543,174,a,10.3,1.3,47,34.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,72.7,90.4,47,36.0,BallTouch,SecondHalf
+Xaver Schlager,262856,174,a,32.2,14.4,47,38.0,TakeOn,SecondHalf
+Xaver Schlager,262856,174,a,30.0,20.8,47,42.0,Pass,SecondHalf
+Dan Ndoye,398414,174,a,44.0,43.5,47,43.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,55.1,24.9,47,44.0,Pass,SecondHalf
+Dan Ndoye,398414,174,a,88.7,37.6,47,49.0,TakeOn,SecondHalf
+Dan Ndoye,398414,174,a,86.3,37.5,47,50.0,MissedShots,SecondHalf
+Alisson Becker,114147,26,h,3.4,57.7,48,0.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,39.9,81.0,48,10.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,41.0,68.0,48,12.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,53.6,41.8,48,20.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,53.0,57.3,48,23.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,61.0,35.2,48,25.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,70.4,7.9,48,28.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,76.4,19.6,48,31.0,OffsidePass,SecondHalf
+Matz Sels,78386,174,a,12.3,64.8,49,6.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,36.5,34.5,49,8.0,Pass,SecondHalf
+Jair Cunha,443545,174,a,29.5,47.5,49,10.0,Pass,SecondHalf
+Matz Sels,78386,174,a,10.0,54.0,49,19.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,33.2,52.2,49,22.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,59.8,39.3,49,26.0,BallTouch,SecondHalf
+Florian Wirtz,394786,26,h,58.5,41.8,49,27.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,61.0,42.6,49,29.0,TakeOn,SecondHalf
+Nikola Milenkovic,319785,174,a,39.0,57.4,49,29.0,Tackle,SecondHalf
+Alexis Mac Allister,345319,26,h,58.6,45.4,49,31.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,65.3,65.7,49,33.0,TakeOn,SecondHalf
+Xaver Schlager,262856,174,a,34.7,34.3,49,33.0,Tackle,SecondHalf
+Dominik Szoboszlai,369875,26,h,68.1,73.0,49,34.0,BallTouch,SecondHalf
+Xaver Schlager,262856,174,a,37.1,22.5,49,37.0,Pass,SecondHalf
+Morgan Gibbs-White,332867,174,a,39.1,33.3,49,38.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,54.9,66.3,49,42.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,57.4,80.5,49,43.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,67.6,94.4,49,46.0,Foul,SecondHalf
+Dominik Szoboszlai,369875,26,h,70.0,90.7,50,24.0,Pass,SecondHalf
+Matz Sels,78386,174,a,11.7,49.5,50,28.0,Clearance,SecondHalf
+Xaver Schlager,262856,174,a,23.0,65.7,50,31.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,38.8,43.6,50,35.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,69.4,33.3,50,38.0,Pass,SecondHalf
+Neco Williams,386969,174,a,5.1,87.1,50,46.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,47.7,66.9,50,49.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,34.9,5.7,50,55.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,26.3,50.1,51,1.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,38.4,85.3,51,3.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,51.4,94.9,51,8.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,42.6,63.6,51,12.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,77.9,8.8,51,16.0,Pass,SecondHalf
+Murillo,445424,174,a,11.4,70.5,51,19.0,Clearance,SecondHalf
+Jeremie Frimpong,392644,26,h,78.7,10.5,51,20.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,70.9,20.8,51,22.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,92.6,14.1,51,25.0,Pass,SecondHalf
+Neco Williams,386969,174,a,8.8,83.7,51,25.0,BlockedPass,SecondHalf
+Dan Ndoye,398414,174,a,12.1,90.5,51,29.0,TakeOn,SecondHalf
+Dan Ndoye,398414,174,a,10.9,86.2,51,31.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,83.5,16.2,51,31.0,BlockedPass,SecondHalf
+Florian Wirtz,394786,26,h,84.6,17.8,51,32.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,78.5,27.1,51,35.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,68.2,56.5,51,37.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,74.2,39.1,51,41.0,Pass,SecondHalf
+Xaver Schlager,262856,174,a,20.0,51.1,51,42.0,Clearance,SecondHalf
+Jérémy Jacquet,468827,26,h,69.0,39.4,51,43.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,66.4,55.3,51,46.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,62.3,39.1,51,49.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,68.1,78.1,51,52.0,Pass,SecondHalf
+Ola Aina,315543,174,a,27.8,0.0,52,14.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,53.4,72.3,52,16.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,59.7,55.2,52,20.0,Pass,SecondHalf
+James McAtee,425576,174,a,51.1,43.8,52,20.0,BlockedPass,SecondHalf
+James McAtee,425576,174,a,51.0,58.9,52,22.0,BallTouch,SecondHalf
+Jérémy Jacquet,468827,26,h,42.9,56.2,52,23.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,36.1,74.2,52,24.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,21.7,52.2,52,28.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,36.8,31.9,52,33.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,55.7,6.1,52,34.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,41.4,27.4,52,36.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,31.8,48.7,52,44.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,45.1,59.4,52,50.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,45.0,36.9,52,51.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,71.3,19.0,52,56.0,BallTouch,SecondHalf
+Dan Ndoye,398414,174,a,32.8,85.6,53,1.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,44.9,90.6,53,2.0,Pass,SecondHalf
+Neco Williams,386969,174,a,29.8,86.1,53,6.0,Pass,SecondHalf
+James McAtee,425576,174,a,31.7,71.5,53,8.0,Pass,SecondHalf
+Murillo,445424,174,a,19.5,77.5,53,9.0,Pass,SecondHalf
+Nikola Milenkovic,319785,174,a,13.1,52.9,53,11.0,Pass,SecondHalf
+Ola Aina,315543,174,a,65.4,12.3,53,14.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,47.9,83.8,53,16.0,Interception,SecondHalf
+Milos Kerkez,424273,26,h,46.8,93.9,53,18.0,Pass,SecondHalf
+Jair Cunha,443545,174,a,40.7,16.5,53,19.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,41.8,79.5,53,20.0,Interception,SecondHalf
+Víctor Muñoz,548106,26,h,42.4,79.0,53,21.0,TakeOn,SecondHalf
+Xaver Schlager,262856,174,a,57.6,21.0,53,21.0,Tackle,SecondHalf
+Morgan Gibbs-White,332867,174,a,57.0,18.1,53,21.0,BallTouch,SecondHalf
+Xaver Schlager,262856,174,a,52.9,23.1,53,22.0,BallTouch,SecondHalf
+Víctor Muñoz,548106,26,h,41.9,76.0,53,22.0,BallTouch,SecondHalf
+Morgan Gibbs-White,332867,174,a,55.1,32.7,53,23.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,42.0,76.0,53,23.0,BallTouch,SecondHalf
+Dominik Szoboszlai,369875,26,h,54.7,75.0,53,25.0,BallTouch,SecondHalf
+Florian Wirtz,394786,26,h,58.2,87.4,53,25.0,Pass,SecondHalf
+Alexander Isak,299254,26,h,81.9,84.3,53,27.0,Pass,SecondHalf
+Jair Cunha,443545,174,a,5.2,31.2,53,33.0,Foul,SecondHalf
+Matz Sels,78386,174,a,5.5,31.2,54,14.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,35.8,42.6,54,16.0,Pass,SecondHalf
+Murillo,445424,174,a,37.7,58.3,54,18.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,48.7,74.1,54,19.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,63.5,80.4,54,21.0,Pass,SecondHalf
+Jair Cunha,443545,174,a,40.0,28.9,54,21.0,BallTouch,SecondHalf
+Ola Aina,315543,174,a,35.7,12.4,54,24.0,Pass,SecondHalf
+Morgan Gibbs-White,332867,174,a,46.4,15.6,54,26.0,BallTouch,SecondHalf
+Dominik Szoboszlai,369875,26,h,59.3,100.0,54,30.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,46.9,93.4,54,34.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,41.5,65.1,54,35.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,45.1,34.3,54,37.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,66.0,7.2,54,41.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,64.3,14.2,54,43.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,61.4,24.4,54,46.0,TakeOn,SecondHalf
+Jérémy Jacquet,468827,26,h,60.4,22.5,54,48.0,Pass,SecondHalf
+Dan Ndoye,398414,174,a,39.8,79.9,54,48.0,BlockedPass,SecondHalf
+James McAtee,425576,174,a,43.6,74.2,54,51.0,Pass,SecondHalf
+Dan Ndoye,398414,174,a,96.6,69.6,54,56.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,9.1,64.6,54,58.0,Clearance,SecondHalf
+Ola Aina,315543,174,a,74.9,0.0,55,24.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,90.6,26.4,55,25.0,BallTouch,SecondHalf
+Alisson Becker,114147,26,h,3.0,51.5,55,30.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,28.2,41.1,55,35.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,48.6,85.6,55,40.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,40.9,91.3,55,44.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,41.7,62.5,55,46.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,61.4,15.0,55,52.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,53.3,35.8,55,54.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,56.3,57.6,55,57.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,61.0,37.6,56,3.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,56.2,59.1,56,5.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,58.2,92.7,56,11.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,52.7,66.0,56,16.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,61.9,36.7,56,19.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,61.3,61.6,56,21.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,68.4,92.7,56,24.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,69.7,75.0,56,30.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,69.4,39.6,56,32.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,89.3,11.5,56,35.0,Pass,SecondHalf
+Ola Aina,315543,174,a,15.7,0.0,56,59.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,79.9,78.0,57,2.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,77.7,77.6,57,3.0,Dispossessed,SecondHalf
+Nikola Milenkovic,319785,174,a,22.2,22.4,57,3.0,Tackle,SecondHalf
+Virgil van Dijk,95408,26,h,73.6,73.8,57,5.0,BallTouch,SecondHalf
+Jérémy Jacquet,468827,26,h,62.4,76.9,57,7.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,71.9,87.0,57,8.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,72.3,96.0,57,10.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,77.7,87.9,57,11.0,BallTouch,SecondHalf
+Xaver Schlager,262856,174,a,27.3,26.8,57,13.0,Pass,SecondHalf
+Morgan Gibbs-White,332867,174,a,33.0,9.9,57,15.0,Pass,SecondHalf
+Ola Aina,315543,174,a,16.0,12.1,57,16.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,58.8,81.7,57,17.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,64.2,89.5,57,20.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,72.4,89.2,57,21.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,66.1,91.6,57,23.0,Pass,SecondHalf
+Morgan Gibbs-White,332867,174,a,32.2,9.4,57,23.0,BlockedPass,SecondHalf
+Milos Kerkez,424273,26,h,69.4,93.2,57,27.0,TakeOn,SecondHalf
+Morgan Gibbs-White,332867,174,a,30.6,6.8,57,27.0,Tackle,SecondHalf
+Ola Aina,315543,174,a,29.5,2.5,57,30.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,69.1,96.0,57,30.0,BlockedPass,SecondHalf
+Ola Aina,315543,174,a,34.6,0.0,57,38.0,Pass,SecondHalf
+James McAtee,425576,174,a,32.7,36.3,57,41.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,61.6,33.7,57,41.0,Interception,SecondHalf
+Jeremie Frimpong,392644,26,h,61.3,34.2,57,43.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,64.7,38.2,57,45.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,70.6,34.6,57,47.0,BallTouch,SecondHalf
+Murillo,445424,174,a,35.8,55.2,57,50.0,Foul,SecondHalf
+Matz Sels,78386,174,a,35.3,66.3,58,33.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,76.3,75.6,58,35.0,BallTouch,SecondHalf
+Jérémy Jacquet,468827,26,h,29.5,8.5,58,36.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,36.0,18.0,58,38.0,Dispossessed,SecondHalf
+Neco Williams,386969,174,a,64.0,82.0,58,38.0,Tackle,SecondHalf
+Cody Gakpo,352825,26,h,38.6,15.9,58,38.0,BallTouch,SecondHalf
+Jérémy Jacquet,468827,26,h,34.6,14.1,58,40.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,10.5,32.1,58,43.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,13.4,55.6,58,47.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,39.3,44.4,58,55.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,48.9,35.1,58,56.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,43.8,26.7,58,58.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,83.7,9.6,59,5.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,70.0,8.2,59,7.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,64.8,34.8,59,13.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,67.1,49.2,59,14.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,66.9,34.5,59,16.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,71.2,25.8,59,17.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,94.1,24.4,59,19.0,Pass,SecondHalf
+Alexander Isak,299254,26,h,96.5,53.6,59,21.0,Goal,SecondHalf
+James McAtee,425576,174,a,49.9,49.9,60,7.0,Pass,SecondHalf
+Matz Sels,78386,174,a,27.3,51.0,60,7.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,17.7,10.7,60,13.0,Clearance,SecondHalf
+James McAtee,425576,174,a,69.1,78.1,60,16.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,20.5,28.8,60,18.0,Clearance,SecondHalf
+Dan Ndoye,398414,174,a,76.1,88.2,60,19.0,Pass,SecondHalf
+Neco Williams,386969,174,a,74.9,94.5,60,24.0,BallTouch,SecondHalf
+Alexis Mac Allister,345319,26,h,11.9,6.0,60,27.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,12.1,15.6,60,32.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,9.1,29.8,60,33.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,13.7,77.8,60,34.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,27.3,70.5,60,38.0,Pass,SecondHalf
+Ola Aina,315543,174,a,53.1,10.9,60,40.0,Interception,SecondHalf
+Milos Kerkez,424273,26,h,49.0,65.5,60,42.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,92.1,15.9,60,47.0,TakeOn,SecondHalf
+Matz Sels,78386,174,a,2.8,54.6,61,15.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,32.3,27.7,61,18.0,Clearance,SecondHalf
+Dan Ndoye,398414,174,a,61.2,78.7,61,18.0,BlockedPass,SecondHalf
+James McAtee,425576,174,a,53.8,72.6,61,19.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,36.5,21.3,61,19.0,Clearance,SecondHalf
+Jeremie Frimpong,392644,26,h,48.9,0.0,61,28.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,34.1,16.5,61,30.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,42.0,39.9,61,34.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,51.2,27.7,61,39.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,49.4,53.1,61,45.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,61.3,33.0,61,49.0,Pass,SecondHalf
+Nikola Milenkovic,319785,174,a,27.8,54.9,61,52.0,Interception,SecondHalf
+Dan Ndoye,398414,174,a,35.4,70.4,61,52.0,TakeOn,SecondHalf
+Florian Wirtz,394786,26,h,64.6,29.6,61,52.0,Tackle,SecondHalf
+Cody Gakpo,352825,26,h,65.0,28.6,61,54.0,Pass,SecondHalf
+Jair Cunha,443545,174,a,19.4,50.7,61,56.0,Clearance,SecondHalf
+Dominik Szoboszlai,369875,26,h,72.7,58.3,61,57.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,82.8,77.7,62,1.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,68.6,81.7,62,2.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,70.6,71.5,62,4.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,61.5,62.1,62,6.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,62.9,70.2,62,9.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,64.4,52.3,62,12.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,67.9,68.4,62,15.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,80.0,94.5,62,18.0,Pass,SecondHalf
+Murillo,445424,174,a,9.2,37.6,62,20.0,Clearance,SecondHalf
+Milos Kerkez,424273,26,h,83.4,100.0,62,28.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,66.8,80.8,62,34.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,60.0,69.9,62,36.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,64.8,47.7,62,40.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,66.0,29.2,62,42.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,69.4,48.6,62,47.0,MissedShots,SecondHalf
+Matz Sels,78386,174,a,3.3,46.0,63,14.0,Pass,SecondHalf
+Dan Ndoye,398414,174,a,57.1,94.8,63,19.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,43.6,10.9,63,19.0,BallTouch,SecondHalf
+Alexis Mac Allister,345319,26,h,44.1,12.9,63,21.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,49.1,22.9,63,22.0,Pass,SecondHalf
+Alexander Isak,299254,26,h,55.1,33.4,63,23.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,61.3,56.5,63,26.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,79.9,84.4,63,31.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,78.1,66.3,63,32.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,70.5,61.9,63,35.0,TakeOn,SecondHalf
+Jair Cunha,443545,174,a,27.7,31.4,63,35.0,BallTouch,SecondHalf
+Dominik Szoboszlai,369875,26,h,72.3,68.6,63,36.0,BallTouch,SecondHalf
+Jair Cunha,443545,174,a,55.4,22.5,63,41.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,85.6,8.2,63,45.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,27.7,91.3,63,47.0,BallTouch,SecondHalf
+Morgan Gibbs-White,332867,174,a,69.1,0.0,63,50.0,Pass,SecondHalf
+Ola Aina,315543,174,a,58.3,17.8,63,53.0,Pass,SecondHalf
+James McAtee,425576,174,a,61.7,42.1,63,55.0,Pass,SecondHalf
+Ola Aina,315543,174,a,53.6,18.1,63,59.0,Pass,SecondHalf
+Morgan Gibbs-White,332867,174,a,71.4,21.1,64,2.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,12.7,41.4,64,4.0,Clearance,SecondHalf
+Virgil van Dijk,95408,26,h,14.0,48.3,64,7.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,13.1,46.5,64,14.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,32.5,44.2,64,16.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,42.0,20.5,64,18.0,TakeOn,SecondHalf
+Neco Williams,386969,174,a,58.0,79.5,64,18.0,Tackle,SecondHalf
+Morgan Gibbs-White,332867,174,a,63.6,45.9,64,22.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,73.3,49.0,64,23.0,Pass,SecondHalf
+Jeremie Frimpong,392644,26,h,41.4,35.8,64,23.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,37.2,42.6,64,24.0,Pass,SecondHalf
+Murillo,445424,174,a,37.6,77.7,64,27.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,46.0,0.0,64,41.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,33.3,24.3,64,44.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,45.0,83.8,64,45.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,60.4,81.2,64,49.0,Pass,SecondHalf
+Alexander Isak,299254,26,h,89.2,37.5,64,51.0,BallTouch,SecondHalf
+Matz Sels,78386,174,a,3.2,49.0,65,41.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,34.6,37.9,65,46.0,BallTouch,SecondHalf
+Alexis Mac Allister,345319,26,h,36.5,35.1,65,48.0,Pass,SecondHalf
+Nikola Milenkovic,319785,174,a,39.4,72.3,65,51.0,Pass,SecondHalf
+James McAtee,425576,174,a,41.5,78.3,65,51.0,Pass,SecondHalf
+Neco Williams,386969,174,a,31.5,92.1,65,53.0,Pass,SecondHalf
+Murillo,445424,174,a,20.2,84.9,65,54.0,Pass,SecondHalf
+Liam Delap,401254,174,a,60.3,82.2,65,58.0,Dispossessed,SecondHalf
+Jérémy Jacquet,468827,26,h,39.7,17.8,65,58.0,Tackle,SecondHalf
+Jeremie Frimpong,392644,26,h,43.2,18.4,66,2.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,36.0,37.0,66,3.0,Pass,SecondHalf
+Milos Kerkez,424273,26,h,45.3,84.0,66,5.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,65.2,81.1,66,13.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,63.0,61.3,66,15.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,78.7,15.6,66,18.0,Pass,SecondHalf
+Ola Aina,315543,174,a,13.8,0.0,66,40.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,64.7,75.3,66,45.0,BallTouch,SecondHalf
+Milos Kerkez,424273,26,h,56.1,89.2,66,48.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,25.4,68.5,66,53.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,45.2,36.0,67,1.0,Pass,SecondHalf
+Cody Gakpo,352825,26,h,57.1,18.9,67,4.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,53.3,33.0,67,8.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,70.8,95.1,67,12.0,BallTouch,SecondHalf
+Ola Aina,315543,174,a,29.7,0.0,67,23.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,48.6,19.6,67,25.0,Pass,SecondHalf
+Liam Delap,401254,174,a,45.9,19.8,67,28.0,Pass,SecondHalf
+Xaver Schlager,262856,174,a,39.9,17.1,67,29.0,Pass,SecondHalf
+Neco Williams,386969,174,a,37.7,90.6,67,33.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,27.8,12.4,67,35.0,Interception,SecondHalf
+Liam Delap,401254,174,a,74.7,100.0,67,39.0,Pass,SecondHalf
+Neco Williams,386969,174,a,91.5,67.9,67,42.0,MissedShots,SecondHalf
+Neco Williams,386969,174,a,91.2,68.0,67,45.0,Foul,SecondHalf
+Morgan Gibbs-White,332867,174,a,88.5,50.0,69,51.0,Goal,SecondHalf
+Florian Wirtz,394786,26,h,50.3,49.9,71,7.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,34.8,54.8,71,15.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,45.3,28.5,71,15.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,58.6,39.1,71,17.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,47.6,31.9,71,18.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,50.8,62.2,71,20.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,54.2,40.0,71,23.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,61.7,16.5,71,26.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,57.9,59.1,71,29.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,64.6,35.7,71,32.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,76.7,49.9,71,34.0,Pass,SecondHalf
+Jair Cunha,443545,174,a,8.4,35.8,71,39.0,Clearance,SecondHalf
+Dominik Szoboszlai,369875,26,h,49.1,11.5,71,46.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,54.1,60.6,71,52.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,61.8,33.7,71,54.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,69.6,12.3,71,57.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,59.6,32.8,71,59.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,62.7,54.3,72,3.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,68.0,92.5,72,6.0,Pass,SecondHalf
+Ola Aina,315543,174,a,30.9,9.7,72,6.0,BlockedPass,SecondHalf
+Kostas Tsimikas,301455,26,h,66.4,100.0,72,14.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,53.8,91.2,72,15.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,70.8,85.7,72,17.0,Dispossessed,SecondHalf
+Xaver Schlager,262856,174,a,29.2,14.2,72,17.0,Tackle,SecondHalf
+Jair Cunha,443545,174,a,20.8,19.0,72,18.0,Pass,SecondHalf
+Xaver Schlager,262856,174,a,28.9,15.4,72,18.0,BallTouch,SecondHalf
+Morgan Gibbs-White,332867,174,a,31.3,9.7,72,20.0,Pass,SecondHalf
+Ola Aina,315543,174,a,20.7,11.4,72,22.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,71.0,67.6,72,24.0,BallTouch,SecondHalf
+James McAtee,425576,174,a,21.8,29.7,72,25.0,Pass,SecondHalf
+Xaver Schlager,262856,174,a,21.6,24.4,72,25.0,BallTouch,SecondHalf
+Ryan Gravenberch,363884,26,h,70.8,70.9,72,28.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,69.5,65.5,72,29.0,Pass,SecondHalf
+Nikola Milenkovic,319785,174,a,27.8,42.4,72,30.0,Interception,SecondHalf
+Igor Jesus,397497,174,a,27.4,64.5,72,33.0,Pass,SecondHalf
+Neco Williams,386969,174,a,30.5,93.6,72,35.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,44.2,93.6,72,37.0,TakeOn,SecondHalf
+Dominik Szoboszlai,369875,26,h,55.8,6.4,72,37.0,Tackle,SecondHalf
+Dominik Szoboszlai,369875,26,h,58.5,9.6,72,39.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,60.7,4.5,72,40.0,TakeOn,SecondHalf
+Rio Ngumoha,548566,26,h,64.3,6.0,72,43.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,58.0,27.6,72,48.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,63.4,44.2,72,49.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,58.0,54.9,72,53.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,73.0,83.5,72,58.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,67.2,70.6,73,0.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,66.7,39.0,73,1.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,91.9,18.4,73,6.0,Pass,SecondHalf
+James McAtee,425576,174,a,10.6,62.8,73,8.0,BallTouch,SecondHalf
+Igor Jesus,397497,174,a,10.8,66.1,73,9.0,BallTouch,SecondHalf
+Jérémy Jacquet,468827,26,h,84.9,32.5,73,9.0,Pass,SecondHalf
+Alexis Mac Allister,345319,26,h,79.2,36.1,73,11.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,79.2,22.3,73,12.0,Pass,SecondHalf
+Ola Aina,315543,174,a,4.8,45.4,73,14.0,Clearance,SecondHalf
+Kostas Tsimikas,301455,26,h,81.6,52.3,73,17.0,SavedShot,SecondHalf
+Matz Sels,78386,174,a,2.2,46.9,73,17.0,Save,SecondHalf
+Matz Sels,78386,174,a,13.0,58.2,73,29.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,34.2,30.1,73,33.0,BallTouch,SecondHalf
+Igor Jesus,397497,174,a,68.0,70.6,73,34.0,Pass,SecondHalf
+Liam Delap,401254,174,a,73.9,74.1,73,35.0,BallTouch,SecondHalf
+Dominik Szoboszlai,369875,26,h,22.1,12.9,73,37.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,12.0,48.0,73,41.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,31.1,88.2,73,45.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,35.4,61.9,73,50.0,Pass,SecondHalf
+Alexander Isak,299254,26,h,89.2,90.0,73,56.0,BallTouch,SecondHalf
+Matz Sels,78386,174,a,3.2,48.3,74,25.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,61.2,67.5,74,29.0,Pass,SecondHalf
+Liam Delap,401254,174,a,68.8,67.3,74,31.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,34.8,27.3,74,31.0,BlockedPass,SecondHalf
+Dominik Szoboszlai,369875,26,h,32.0,17.2,74,33.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,31.2,44.4,74,37.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,41.0,24.3,74,41.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,57.3,39.8,74,43.0,TakeOn,SecondHalf
+Nikola Milenkovic,319785,174,a,42.7,60.2,74,43.0,Tackle,SecondHalf
+Morgan Gibbs-White,332867,174,a,46.5,37.8,74,47.0,Pass,SecondHalf
+Xaver Schlager,262856,174,a,40.7,47.5,74,48.0,Pass,SecondHalf
+Ola Aina,315543,174,a,33.4,37.2,74,49.0,Dispossessed,SecondHalf
+Víctor Muñoz,548106,26,h,66.6,62.8,74,49.0,Tackle,SecondHalf
+Ola Aina,315543,174,a,26.5,34.0,74,50.0,Pass,SecondHalf
+Matz Sels,78386,174,a,8.1,51.0,74,53.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,40.7,39.8,74,57.0,Foul,SecondHalf
+Virgil van Dijk,95408,26,h,34.4,46.3,75,0.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,48.2,16.0,75,2.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,45.7,7.0,75,7.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,39.5,26.2,75,9.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,39.5,56.4,75,12.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,55.1,92.4,75,15.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,74.9,88.0,75,18.0,TakeOn,SecondHalf
+Xaver Schlager,262856,174,a,13.0,27.7,75,26.0,Pass,SecondHalf
+Morgan Gibbs-White,332867,174,a,45.8,7.5,75,27.0,BallTouch,SecondHalf
+Kostas Tsimikas,301455,26,h,49.9,100.0,75,39.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,47.9,77.5,75,41.0,Pass,SecondHalf
+Jérémy Jacquet,468827,26,h,54.6,40.6,75,43.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,62.0,15.6,75,44.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,81.9,12.2,75,48.0,Dispossessed,SecondHalf
+Igor Jesus,397497,174,a,18.1,87.8,75,48.0,Tackle,SecondHalf
+Igor Jesus,397497,174,a,13.7,89.7,75,49.0,BallTouch,SecondHalf
+Neco Williams,386969,174,a,13.2,92.2,75,50.0,BallTouch,SecondHalf
+Ronald Araujo,384711,26,h,85.2,0.0,76,26.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,12.2,68.7,76,28.0,Clearance,SecondHalf
+Ronald Araujo,384711,26,h,82.6,14.1,76,31.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,85.5,12.7,76,35.0,Pass,SecondHalf
+Matz Sels,78386,174,a,3.6,44.7,77,3.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,25.6,33.9,77,9.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,22.9,54.7,77,13.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,35.4,84.9,77,16.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,49.7,84.7,77,19.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,49.7,94.9,77,22.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,37.6,87.6,77,24.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,48.5,92.5,77,30.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,43.1,74.7,77,32.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,42.8,52.5,77,33.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,51.8,37.2,77,34.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,69.8,2.9,77,36.0,Pass,SecondHalf
+Alexander Isak,299254,26,h,91.4,45.8,77,37.0,MissedShots,SecondHalf
+Matz Sels,78386,174,a,2.4,44.8,78,7.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,63.0,71.1,78,8.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,30.5,41.2,78,9.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,27.4,19.6,78,10.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,28.1,28.8,78,12.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,14.5,55.6,78,16.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,27.8,44.7,78,17.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,16.1,31.5,78,19.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,28.7,46.5,78,21.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,38.3,65.1,78,22.0,Dispossessed,SecondHalf
+Xaver Schlager,262856,174,a,61.7,34.9,78,22.0,Tackle,SecondHalf
+Ryan Gravenberch,363884,26,h,40.7,66.3,78,23.0,BallTouch,SecondHalf
+Morgan Gibbs-White,332867,174,a,63.2,37.3,78,24.0,TakeOn,SecondHalf
+Ryan Gravenberch,363884,26,h,36.8,62.8,78,24.0,Tackle,SecondHalf
+Ryan Gravenberch,363884,26,h,37.7,48.0,78,28.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,84.6,37.0,78,35.0,SavedShot,SecondHalf
+Neco Williams,386969,174,a,12.5,69.1,78,36.0,Save,SecondHalf
+James McAtee,425576,174,a,14.2,62.4,78,39.0,Clearance,SecondHalf
+Igor Jesus,397497,174,a,35.4,92.0,78,43.0,TakeOn,SecondHalf
+Igor Jesus,397497,174,a,52.8,91.6,78,45.0,TakeOn,SecondHalf
+Igor Jesus,397497,174,a,50.3,88.7,78,45.0,Foul,SecondHalf
+James McAtee,425576,174,a,57.2,88.3,79,20.0,Pass,SecondHalf
+Liam Delap,401254,174,a,94.2,88.7,79,23.0,Dispossessed,SecondHalf
+Dominik Szoboszlai,369875,26,h,5.8,11.4,79,23.0,Tackle,SecondHalf
+Neco Williams,386969,174,a,94.0,100.0,79,43.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,95.6,86.7,79,45.0,Pass,SecondHalf
+Neco Williams,386969,174,a,91.8,93.1,79,48.0,Pass,SecondHalf
+James McAtee,425576,174,a,84.1,90.1,79,50.0,Pass,SecondHalf
+Murillo,445424,174,a,69.8,83.8,79,52.0,Pass,SecondHalf
+Jair Cunha,443545,174,a,64.7,18.7,79,55.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,4.1,49.6,80,11.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,41.6,32.8,80,13.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,40.2,64.2,80,14.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,61.0,81.3,80,20.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,54.5,77.7,80,22.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,60.6,55.0,80,26.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,62.8,32.2,80,28.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,80.6,6.0,80,32.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,66.0,27.6,80,35.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,67.0,56.4,80,37.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,75.4,86.4,80,39.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,77.9,88.9,80,44.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,68.3,72.4,80,45.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,58.4,80.7,80,50.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,40.5,44.5,80,55.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,38.2,65.8,80,57.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,45.7,70.2,80,59.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,45.9,72.9,81,3.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,62.1,89.8,81,6.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,53.0,76.5,81,8.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,57.2,37.2,81,11.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,68.7,16.6,81,14.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,62.9,30.9,81,19.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,69.4,44.8,81,22.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,88.7,33.6,81,24.0,Goal,SecondHalf
+Morgan Gibbs-White,332867,174,a,50.1,50.1,82,5.0,Pass,SecondHalf
+Matz Sels,78386,174,a,27.9,51.9,82,10.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,65.1,73.8,82,13.0,BallTouch,SecondHalf
+Neco Williams,386969,174,a,53.5,83.8,82,14.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,30.4,20.7,82,17.0,Interception,SecondHalf
+Igor Jesus,397497,174,a,61.9,85.0,82,18.0,Pass,SecondHalf
+Neco Williams,386969,174,a,71.7,78.3,82,20.0,Pass,SecondHalf
+Liam Delap,401254,174,a,85.9,64.1,82,23.0,SavedShot,SecondHalf
+Ronald Araujo,384711,26,h,11.6,38.1,82,23.0,Save,SecondHalf
+Neco Williams,386969,174,a,99.5,99.5,82,59.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,6.7,50.4,83,2.0,Punch,SecondHalf
+Xaver Schlager,262856,174,a,80.4,55.2,83,4.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,16.6,42.4,83,10.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,65.8,14.5,83,14.0,BallTouch,SecondHalf
+Ola Aina,315543,174,a,24.8,88.6,83,17.0,Pass,SecondHalf
+Neco Williams,386969,174,a,48.4,89.5,83,19.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,50.3,19.8,83,20.0,Interception,SecondHalf
+Trey Nyoni,509423,26,h,66.1,8.1,83,23.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,64.8,13.5,83,24.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,69.8,22.9,83,27.0,Pass,SecondHalf
+James McAtee,425576,174,a,33.4,55.0,83,30.0,Pass,SecondHalf
+Liam Delap,401254,174,a,61.4,59.5,83,34.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,22.5,35.2,83,36.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,8.7,39.7,83,38.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,20.1,12.0,83,42.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,38.3,74.5,83,46.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,64.1,79.0,83,49.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,71.8,89.6,83,53.0,TakeOn,SecondHalf
+Rio Ngumoha,548566,26,h,75.9,87.1,83,54.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,75.5,68.0,83,56.0,TakeOn,SecondHalf
+Ryan Gravenberch,363884,26,h,75.2,70.0,83,57.0,Foul,SecondHalf
+Dominik Szoboszlai,369875,26,h,77.5,69.3,85,3.0,MissedShots,SecondHalf
+Matz Sels,78386,174,a,4.0,55.8,85,51.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,64.1,73.8,85,54.0,Pass,SecondHalf
+Luca Netz,394888,174,a,55.7,84.9,85,57.0,BallTouch,SecondHalf
+James McAtee,425576,174,a,58.1,89.5,85,59.0,Pass,SecondHalf
+Liam Delap,401254,174,a,84.1,79.5,86,1.0,TakeOn,SecondHalf
+Liam Delap,401254,174,a,93.4,73.0,86,2.0,TakeOn,SecondHalf
+Dominik Szoboszlai,369875,26,h,6.6,27.0,86,2.0,Tackle,SecondHalf
+Dominik Szoboszlai,369875,26,h,6.4,30.0,86,4.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,10.9,19.2,86,5.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,21.6,11.4,86,8.0,TakeOn,SecondHalf
+Luca Netz,394888,174,a,78.4,88.5,86,8.0,Tackle,SecondHalf
+Dominik Szoboszlai,369875,26,h,19.9,0.0,86,25.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,23.1,10.6,86,26.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,18.9,6.3,86,28.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,24.9,4.3,86,31.0,Pass,SecondHalf
+Luca Netz,394888,174,a,73.9,95.4,86,31.0,BlockedPass,SecondHalf
+Dominik Szoboszlai,369875,26,h,19.3,0.0,86,40.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,26.9,7.2,86,41.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,17.0,12.3,86,43.0,Pass,SecondHalf
+Matz Sels,78386,174,a,25.3,63.7,86,50.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,29.9,52.6,86,52.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,39.1,78.3,86,56.0,BallTouch,SecondHalf
+Neco Williams,386969,174,a,62.5,19.2,86,59.0,Pass,SecondHalf
+Morgan Gibbs-White,332867,174,a,68.7,28.6,87,0.0,BallTouch,SecondHalf
+Kostas Tsimikas,301455,26,h,26.2,79.2,87,1.0,BallTouch,SecondHalf
+Neco Williams,386969,174,a,73.2,28.8,87,3.0,TakeOn,SecondHalf
+Trey Nyoni,509423,26,h,26.8,71.2,87,3.0,Tackle,SecondHalf
+Neco Williams,386969,174,a,73.3,31.2,87,4.0,BallTouch,SecondHalf
+Virgil van Dijk,95408,26,h,25.1,69.1,87,5.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,14.0,81.4,87,8.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,7.5,54.4,87,10.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,36.9,28.0,87,19.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,60.2,73.0,87,21.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,59.6,85.6,87,22.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,86.5,82.5,87,26.0,Pass,SecondHalf
+Nikola Milenkovic,319785,174,a,7.5,42.6,87,27.0,Clearance,SecondHalf
+Virgil van Dijk,95408,26,h,51.2,79.8,87,34.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,59.0,63.1,87,41.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,57.8,39.4,87,44.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,67.8,15.3,87,45.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,57.9,36.4,87,46.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,60.3,63.6,87,51.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,61.3,32.4,87,54.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,77.0,4.3,87,57.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,66.1,26.1,88,1.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,79.4,91.6,88,7.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,73.6,70.8,88,10.0,BallTouch,SecondHalf
+James McAtee,425576,174,a,27.2,35.8,88,13.0,Pass,SecondHalf
+Matz Sels,78386,174,a,5.9,41.4,88,15.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,28.6,6.9,88,20.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,24.5,33.4,88,23.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,42.3,61.6,88,29.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,45.8,46.2,88,31.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,50.5,30.0,88,35.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,59.9,7.5,88,37.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,54.6,25.9,88,39.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,54.1,60.4,88,43.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,79.4,81.9,88,49.0,TakeOn,SecondHalf
+Morgan Gibbs-White,332867,174,a,20.6,18.0,88,49.0,Tackle,SecondHalf
+Rio Ngumoha,548566,26,h,80.6,86.2,88,50.0,BallTouch,SecondHalf
+Morgan Gibbs-White,332867,174,a,6.3,14.8,88,53.0,Clearance,SecondHalf
+Alisson Becker,114147,26,h,22.2,100.0,88,59.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,37.1,81.7,89,6.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,80.1,85.4,89,9.0,TakeOn,SecondHalf
+Neco Williams,386969,174,a,19.9,14.6,89,9.0,Tackle,SecondHalf
+Neco Williams,386969,174,a,1.6,14.1,89,12.0,Clearance,SecondHalf
+Kostas Tsimikas,301455,26,h,86.5,100.0,89,19.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,85.1,89.5,89,21.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,80.5,94.5,89,23.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,57.7,89.5,89,27.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,58.0,70.0,89,29.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,64.5,82.6,89,31.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,74.7,79.9,89,33.0,Pass,SecondHalf
+Florian Wirtz,394786,26,h,73.1,58.3,89,36.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,79.1,31.9,89,41.0,TakeOn,SecondHalf
+James McAtee,425576,174,a,22.0,63.0,89,43.0,Clearance,SecondHalf
+Alisson Becker,114147,26,h,38.5,33.6,89,46.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,54.9,31.9,89,48.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,62.2,18.0,89,51.0,Pass,SecondHalf
+Igor Jesus,397497,174,a,29.1,69.4,89,52.0,BallTouch,SecondHalf
+Xaver Schlager,262856,174,a,30.5,48.6,89,55.0,Pass,SecondHalf
+James McAtee,425576,174,a,33.0,74.5,89,57.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,66.9,29.2,90,0.0,Foul,SecondHalf
+Dominik Szoboszlai,369875,26,h,63.1,22.9,90,39.0,Pass,SecondHalf
+Jair Cunha,443545,174,a,13.6,47.2,90,42.0,Foul,SecondHalf
+Matz Sels,78386,174,a,9.8,47.8,91,36.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,27.6,70.8,91,39.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,37.8,82.5,91,41.0,Pass,SecondHalf
+Alexander Isak,299254,26,h,38.7,68.5,91,43.0,BallTouch,SecondHalf
+Florian Wirtz,394786,26,h,41.6,58.8,91,45.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,62.8,8.5,91,51.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,58.4,30.7,91,53.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,60.8,60.7,91,56.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,79.7,92.5,91,59.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,81.4,85.5,92,4.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,77.1,62.1,92,5.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,65.4,64.8,92,7.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,68.1,40.5,92,9.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,81.4,14.2,92,12.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,66.6,29.5,92,15.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,59.1,76.8,92,23.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,59.6,39.0,92,27.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,72.9,14.2,92,29.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,72.4,7.3,92,33.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,57.9,48.3,92,38.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,62.8,34.9,92,40.0,Pass,SecondHalf
+Víctor Muñoz,548106,26,h,75.5,11.7,92,43.0,TakeOn,SecondHalf
+Víctor Muñoz,548106,26,h,93.6,12.6,92,45.0,Pass,SecondHalf
+Nikola Milenkovic,319785,174,a,4.1,57.4,92,47.0,Clearance,SecondHalf
+Dominik Szoboszlai,369875,26,h,82.6,7.0,92,50.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,94.1,76.3,92,53.0,Pass,SecondHalf
+Neco Williams,386969,174,a,4.8,34.2,92,54.0,Clearance,SecondHalf
+Rio Ngumoha,548566,26,h,88.0,66.1,92,55.0,Pass,SecondHalf
+Ryan Gravenberch,363884,26,h,78.0,49.8,92,57.0,BallTouch,SecondHalf
+Xaver Schlager,262856,174,a,24.2,70.9,93,0.0,Pass,SecondHalf
+Callum Hudson-Odoi,350088,174,a,30.8,89.2,93,8.0,Dispossessed,SecondHalf
+Trey Nyoni,509423,26,h,69.2,10.8,93,8.0,Tackle,SecondHalf
+Callum Hudson-Odoi,350088,174,a,30.9,93.7,93,10.0,Pass,SecondHalf
+Luca Netz,394888,174,a,19.1,95.2,93,13.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,41.7,29.8,93,20.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,46.4,21.6,93,23.0,Pass,SecondHalf
+Murillo,445424,174,a,11.3,79.9,93,27.0,Pass,SecondHalf
+Matz Sels,78386,174,a,6.6,66.6,93,30.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,63.1,0.0,93,35.0,Pass,SecondHalf
+Trey Nyoni,509423,26,h,57.3,11.7,93,37.0,Pass,SecondHalf
+Virgil van Dijk,95408,26,h,61.2,55.6,93,41.0,Pass,SecondHalf
+Kostas Tsimikas,301455,26,h,72.4,85.9,93,43.0,Pass,SecondHalf
+Rio Ngumoha,548566,26,h,77.2,82.6,93,49.0,Pass,SecondHalf
+Murillo,445424,174,a,4.1,57.7,93,52.0,Clearance,SecondHalf
+Matz Sels,78386,174,a,5.8,65.1,93,54.0,Claim,SecondHalf
+Matz Sels,78386,174,a,12.7,54.7,94,3.0,Pass,SecondHalf
+Nicolás Domínguez,334653,174,a,48.8,59.8,94,8.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,42.1,30.7,94,10.0,Pass,SecondHalf
+Nicolás Domínguez,334653,174,a,52.4,73.5,94,12.0,Dispossessed,SecondHalf
+Florian Wirtz,394786,26,h,47.6,26.5,94,12.0,Tackle,SecondHalf
+Liam Delap,401254,174,a,55.6,68.4,94,13.0,TakeOn,SecondHalf
+Liam Delap,401254,174,a,53.6,75.8,94,14.0,Pass,SecondHalf
+Nicolás Domínguez,334653,174,a,44.8,75.8,94,15.0,Pass,SecondHalf
+Callum Hudson-Odoi,350088,174,a,55.7,78.4,94,15.0,TakeOn,SecondHalf
+Víctor Muñoz,548106,26,h,44.3,21.6,94,15.0,Tackle,SecondHalf
+Callum Hudson-Odoi,350088,174,a,66.9,89.1,94,20.0,BallTouch,SecondHalf
+Víctor Muñoz,548106,26,h,31.1,9.8,94,21.0,Foul,SecondHalf
+Dominik Szoboszlai,369875,26,h,25.6,1.9,94,30.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,21.7,29.7,94,33.0,Pass,SecondHalf
+Alisson Becker,114147,26,h,35.9,56.4,94,38.0,Pass,SecondHalf
+Ronald Araujo,384711,26,h,53.3,32.7,94,44.0,Pass,SecondHalf
+Neco Williams,386969,174,a,19.6,19.9,94,48.0,Clearance,SecondHalf
+Ryan Gravenberch,363884,26,h,70.4,80.1,94,50.0,BallTouch,SecondHalf
+Xaver Schlager,262856,174,a,38.2,17.6,94,53.0,Foul,SecondHalf
+Matz Sels,78386,174,a,34.7,17.5,95,24.0,Pass,SecondHalf
+Dominik Szoboszlai,369875,26,h,13.3,17.5,95,28.0,Clearance,SecondHalf
+Callum Hudson-Odoi,350088,174,a,77.0,81.7,95,29.0,Pass,SecondHalf

@@ -1,0 +1,16 @@
+{
+  "provider": "flashscore",
+  "url": "https://www.flashscore.com/match/football/qarabag-agdam-Qgd3eSin/twente-dhOKTHGA/summary/stats/overall/",
+  "stats_url": "https://www.flashscore.com/match/football/qarabag-agdam-Qgd3eSin/twente-dhOKTHGA/summary/stats/overall/",
+  "summary_url": "https://www.flashscore.com/match/football/qarabag-agdam-Qgd3eSin/twente-dhOKTHGA/summary/",
+  "event_id": "Qgd3eSin_dhOKTHGA",
+  "home_slug": "qarabag-agdam-Qgd3eSin",
+  "away_slug": "twente-dhOKTHGA",
+  "scraped_at": "2026-08-27T20:33:29Z",
+  "has_coordinates": false,
+  "has_vendor_xg": true,
+  "has_vendor_xgot": true,
+  "has_vendor_possession": true,
+  "stat_rows": 35,
+  "incident_rows": 28
+}

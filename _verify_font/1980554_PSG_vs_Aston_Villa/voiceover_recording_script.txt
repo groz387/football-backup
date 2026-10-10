@@ -1,0 +1,11 @@
+# Narration recording script
+
+Read each line straight through. The target time is in brackets; staying
+close to it keeps the captions and the animation in sync.
+
+1. [6.2s] PSG 2, Aston Villa 1. 6 shots on target turned into the win.
+2. [7.8s] Start with the baseline. Neither side could claim the baseline counts. Pass share was 59 to 41.
+3. [9.3s] Kvaratskhelia opened it in the 19th minute. 3 goals later it finished 2-1, Doué having the final say in the 60th.
+4. [13.0s] PSG took 12 shots and put 6 on target. Aston Villa took 15 and hit the target 4 times. Blocked efforts are marked separately, because a block is not a save.
+5. [12.5s] This is attacking pressure in five minute blocks, built from final-third passes, box entries, shots and goals. The biggest surge belongs to Aston Villa in the 40-44 minute window.
+6. [8.2s] PSG win it 2-1. 6 shots on target, 3 big chances, and a result that matches the map.

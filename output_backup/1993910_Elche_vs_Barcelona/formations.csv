@@ -1,0 +1,89 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Elche,home,0,541,422916,Matías Dituro,0,0.0,5.0,0,69
+Elche,home,0,541,510360,Buba Sangaré,1,3.0,1.0,0,69
+Elche,home,0,541,390240,Germán Valera,2,3.0,9.0,0,69
+Elche,home,0,541,402862,Víctor Chust,3,3.0,7.0,0,69
+Elche,home,0,541,419616,Federico Redondo,4,3.0,5.0,0,69
+Elche,home,0,541,423282,David Affengruber,5,3.0,3.0,0,69
+Elche,home,0,541,402087,Tete Morente,6,6.0,2.0,0,69
+Elche,home,0,541,357388,Gonzalo Villar,7,6.0,4.0,0,69
+Elche,home,0,541,391082,Fer Niño,8,9.0,5.0,0,69
+Elche,home,0,541,448050,Marc Aguado,9,6.0,6.0,0,69
+Elche,home,0,541,508339,Ali Houary,10,6.0,8.0,0,69
+Elche,home,1,541,422916,Matías Dituro,0,0.0,5.0,69,74
+Elche,home,1,541,510360,Buba Sangaré,1,3.0,1.0,69,74
+Elche,home,1,541,390240,Germán Valera,2,3.0,9.0,69,74
+Elche,home,1,541,402862,Víctor Chust,3,3.0,7.0,69,74
+Elche,home,1,541,419616,Federico Redondo,4,3.0,5.0,69,74
+Elche,home,1,541,423282,David Affengruber,5,3.0,3.0,69,74
+Elche,home,1,541,432384,Facundo Buonanotte,6,6.0,2.0,69,74
+Elche,home,1,541,357388,Gonzalo Villar,7,6.0,4.0,69,74
+Elche,home,1,541,391082,Fer Niño,8,9.0,5.0,69,74
+Elche,home,1,541,438351,Martim Neto,9,6.0,6.0,69,74
+Elche,home,1,541,516414,Lucas Cepeda,10,6.0,8.0,69,74
+Elche,home,2,541,422916,Matías Dituro,0,0.0,5.0,74,86
+Elche,home,2,541,510360,Buba Sangaré,1,3.0,1.0,74,86
+Elche,home,2,541,390240,Germán Valera,2,3.0,9.0,74,86
+Elche,home,2,541,402862,Víctor Chust,3,3.0,7.0,74,86
+Elche,home,2,541,419616,Federico Redondo,4,3.0,5.0,74,86
+Elche,home,2,541,423282,David Affengruber,5,3.0,3.0,74,86
+Elche,home,2,541,432384,Facundo Buonanotte,6,6.0,2.0,74,86
+Elche,home,2,541,357388,Gonzalo Villar,7,6.0,4.0,74,86
+Elche,home,2,541,137031,Ezequiel Ponce,8,9.0,5.0,74,86
+Elche,home,2,541,438351,Martim Neto,9,6.0,6.0,74,86
+Elche,home,2,541,516414,Lucas Cepeda,10,6.0,8.0,74,86
+Elche,home,3,541,422916,Matías Dituro,0,0.0,5.0,86,93
+Elche,home,3,541,510360,Buba Sangaré,1,3.0,1.0,86,93
+Elche,home,3,541,390240,Germán Valera,2,3.0,9.0,86,93
+Elche,home,3,541,108100,Pedro Bigas,3,3.0,7.0,86,93
+Elche,home,3,541,423282,David Affengruber,4,3.0,5.0,86,93
+Elche,home,3,541,402862,Víctor Chust,5,3.0,3.0,86,93
+Elche,home,3,541,432384,Facundo Buonanotte,6,6.0,2.0,86,93
+Elche,home,3,541,357388,Gonzalo Villar,7,6.0,4.0,86,93
+Elche,home,3,541,137031,Ezequiel Ponce,8,9.0,5.0,86,93
+Elche,home,3,541,438351,Martim Neto,9,6.0,6.0,86,93
+Elche,home,3,541,516414,Lucas Cepeda,10,6.0,8.0,86,93
+Barcelona,away,0,4231,422824,Joan García,0,0.0,5.0,0,44
+Barcelona,away,0,4231,368091,Eric García,1,2.5,1.0,0,44
+Barcelona,away,0,4231,591617,Xavi Espart,2,2.5,9.0,0,44
+Barcelona,away,0,4231,422937,Gavi,3,5.0,6.5,0,44
+Barcelona,away,0,4231,130331,Andreas Christensen,4,2.5,3.5,0,44
+Barcelona,away,0,4231,512879,Gerard Martín,5,2.5,6.5,0,44
+Barcelona,away,0,4231,480249,Lamine Yamal,6,7.0,2.0,0,44
+Barcelona,away,0,4231,534796,Marc Bernal,7,5.0,3.5,0,44
+Barcelona,away,0,4231,300447,Raphinha,8,9.0,5.0,0,44
+Barcelona,away,0,4231,463838,Fermín López,9,7.0,5.0,0,44
+Barcelona,away,0,4231,392646,Karim Adeyemi,10,7.0,8.0,0,44
+Barcelona,away,1,4231,422824,Joan García,0,0.0,5.0,44,70
+Barcelona,away,1,4231,368091,Eric García,1,2.5,1.0,44,70
+Barcelona,away,1,4231,591617,Xavi Espart,2,2.5,9.0,44,70
+Barcelona,away,1,4231,402197,Pedri,3,5.0,6.5,44,70
+Barcelona,away,1,4231,130331,Andreas Christensen,4,2.5,3.5,44,70
+Barcelona,away,1,4231,512879,Gerard Martín,5,2.5,6.5,44,70
+Barcelona,away,1,4231,480249,Lamine Yamal,6,7.0,2.0,44,70
+Barcelona,away,1,4231,534796,Marc Bernal,7,5.0,3.5,44,70
+Barcelona,away,1,4231,300447,Raphinha,8,9.0,5.0,44,70
+Barcelona,away,1,4231,463838,Fermín López,9,7.0,5.0,44,70
+Barcelona,away,1,4231,392646,Karim Adeyemi,10,7.0,8.0,44,70
+Barcelona,away,2,4231,422824,Joan García,0,0.0,5.0,70,85
+Barcelona,away,2,4231,368091,Eric García,1,2.5,1.0,70,85
+Barcelona,away,2,4231,591617,Xavi Espart,2,2.5,9.0,70,85
+Barcelona,away,2,4231,402197,Pedri,3,5.0,6.5,70,85
+Barcelona,away,2,4231,130331,Andreas Christensen,4,2.5,3.5,70,85
+Barcelona,away,2,4231,512879,Gerard Martín,5,2.5,6.5,70,85
+Barcelona,away,2,4231,300447,Raphinha,6,7.0,2.0,70,85
+Barcelona,away,2,4231,534796,Marc Bernal,7,5.0,3.5,70,85
+Barcelona,away,2,4231,463838,Fermín López,8,9.0,5.0,70,85
+Barcelona,away,2,4231,261212,Dani Olmo,9,7.0,5.0,70,85
+Barcelona,away,2,4231,349669,Anthony Gordon,10,7.0,8.0,70,85
+Barcelona,away,3,4231,422824,Joan García,0,0.0,5.0,85,93
+Barcelona,away,3,4231,301019,Jules Koundé,1,2.5,1.0,85,93
+Barcelona,away,3,4231,591617,Xavi Espart,2,2.5,9.0,85,93
+Barcelona,away,3,4231,402197,Pedri,3,5.0,6.5,85,93
+Barcelona,away,3,4231,130331,Andreas Christensen,4,2.5,3.5,85,93
+Barcelona,away,3,4231,512879,Gerard Martín,5,2.5,6.5,85,93
+Barcelona,away,3,4231,128967,João Cancelo,6,7.0,2.0,85,93
+Barcelona,away,3,4231,368091,Eric García,7,5.0,3.5,85,93
+Barcelona,away,3,4231,463838,Fermín López,8,9.0,5.0,85,93
+Barcelona,away,3,4231,261212,Dani Olmo,9,7.0,5.0,85,93
+Barcelona,away,3,4231,349669,Anthony Gordon,10,7.0,8.0,85,93

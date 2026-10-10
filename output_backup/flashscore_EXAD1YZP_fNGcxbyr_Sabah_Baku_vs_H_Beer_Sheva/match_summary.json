@@ -1,0 +1,35 @@
+{
+  "matchId": "flashscore_EXAD1YZP_fNGcxbyr",
+  "startDate": "2026-08-25T20:45:00",
+  "startTime": "2026-08-25T20:45:00",
+  "score": "5 : 2",
+  "ftScore": "3 : 2",
+  "htScore": "1 : 2",
+  "etScore": "5 : 2",
+  "venueName": "",
+  "attendance": null,
+  "referee": null,
+  "maxMinute": 117,
+  "home": {
+    "teamId": "EXAD1YZP",
+    "name": "Sabah Baku",
+    "countryName": "",
+    "averageAge": null,
+    "formations": [],
+    "players": []
+  },
+  "away": {
+    "teamId": "fNGcxbyr",
+    "name": "H. Beer Sheva",
+    "countryName": "",
+    "averageAge": null,
+    "formations": [],
+    "players": []
+  },
+  "region": "",
+  "league": "FOOTBALLEUROPECHAMPIONS LEAGUE - QUALIFICATION - FINAL",
+  "season": "",
+  "competitionType": "",
+  "competitionStage": "",
+  "provider": "flashscore"
+}

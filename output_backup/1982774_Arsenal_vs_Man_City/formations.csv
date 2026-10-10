@@ -1,0 +1,155 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Arsenal,home,0,4231,276366,David Raya,0,0.0,5.0,0,47
+Arsenal,home,0,4231,322036,Ben White,1,2.5,1.0,0,47
+Arsenal,home,0,4231,386519,Riccardo Calafiori,2,2.5,9.0,0,47
+Arsenal,home,0,4231,467918,Myles Lewis-Skelly,3,5.0,6.5,0,47
+Arsenal,home,0,4231,425591,Cristhian Mosquera,4,2.5,3.5,0,47
+Arsenal,home,0,4231,334087,Gabriel Magalhães,5,2.5,6.5,0,47
+Arsenal,home,0,4231,389935,Noni Madueke,6,7.0,2.0,0,47
+Arsenal,home,0,4231,338780,Bruno Guimarães,7,5.0,3.5,0,47
+Arsenal,home,0,4231,326413,Kai Havertz,8,9.0,5.0,0,47
+Arsenal,home,0,4231,247454,Martin Ødegaard,9,7.0,5.0,0,47
+Arsenal,home,0,4231,399296,Christos Tzolis,10,7.0,8.0,0,47
+Arsenal,home,1,4231,276366,David Raya,0,0.0,5.0,47,61
+Arsenal,home,1,4231,322036,Ben White,1,2.5,1.0,47,61
+Arsenal,home,1,4231,386519,Riccardo Calafiori,2,2.5,9.0,47,61
+Arsenal,home,1,4231,467918,Myles Lewis-Skelly,3,5.0,6.5,47,61
+Arsenal,home,1,4231,425591,Cristhian Mosquera,4,2.5,3.5,47,61
+Arsenal,home,1,4231,334087,Gabriel Magalhães,5,2.5,6.5,47,61
+Arsenal,home,1,4231,389935,Noni Madueke,6,7.0,2.0,47,61
+Arsenal,home,1,4231,332325,Declan Rice,7,5.0,3.5,47,61
+Arsenal,home,1,4231,326413,Kai Havertz,8,9.0,5.0,47,61
+Arsenal,home,1,4231,247454,Martin Ødegaard,9,7.0,5.0,47,61
+Arsenal,home,1,4231,399296,Christos Tzolis,10,7.0,8.0,47,61
+Arsenal,home,2,4231,276366,David Raya,0,0.0,5.0,61,61
+Arsenal,home,2,4231,322036,Ben White,1,2.5,1.0,61,61
+Arsenal,home,2,4231,386519,Riccardo Calafiori,2,2.5,9.0,61,61
+Arsenal,home,2,4231,467918,Myles Lewis-Skelly,3,5.0,6.5,61,61
+Arsenal,home,2,4231,425591,Cristhian Mosquera,4,2.5,3.5,61,61
+Arsenal,home,2,4231,334087,Gabriel Magalhães,5,2.5,6.5,61,61
+Arsenal,home,2,4231,367185,Bukayo Saka,6,7.0,2.0,61,61
+Arsenal,home,2,4231,332325,Declan Rice,7,5.0,3.5,61,61
+Arsenal,home,2,4231,326413,Kai Havertz,8,9.0,5.0,61,61
+Arsenal,home,2,4231,247454,Martin Ødegaard,9,7.0,5.0,61,61
+Arsenal,home,2,4231,399296,Christos Tzolis,10,7.0,8.0,61,61
+Arsenal,home,3,4231,276366,David Raya,0,0.0,5.0,61,76
+Arsenal,home,3,4231,322036,Ben White,1,2.5,1.0,61,76
+Arsenal,home,3,4231,404832,Piero Hincapié,2,2.5,9.0,61,76
+Arsenal,home,3,4231,467918,Myles Lewis-Skelly,3,5.0,6.5,61,76
+Arsenal,home,3,4231,425591,Cristhian Mosquera,4,2.5,3.5,61,76
+Arsenal,home,3,4231,334087,Gabriel Magalhães,5,2.5,6.5,61,76
+Arsenal,home,3,4231,367185,Bukayo Saka,6,7.0,2.0,61,76
+Arsenal,home,3,4231,332325,Declan Rice,7,5.0,3.5,61,76
+Arsenal,home,3,4231,326413,Kai Havertz,8,9.0,5.0,61,76
+Arsenal,home,3,4231,247454,Martin Ødegaard,9,7.0,5.0,61,76
+Arsenal,home,3,4231,399296,Christos Tzolis,10,7.0,8.0,61,76
+Arsenal,home,4,4231,276366,David Raya,0,0.0,5.0,76,76
+Arsenal,home,4,4231,322036,Ben White,1,2.5,1.0,76,76
+Arsenal,home,4,4231,404832,Piero Hincapié,2,2.5,9.0,76,76
+Arsenal,home,4,4231,467918,Myles Lewis-Skelly,3,5.0,6.5,76,76
+Arsenal,home,4,4231,425591,Cristhian Mosquera,4,2.5,3.5,76,76
+Arsenal,home,4,4231,334087,Gabriel Magalhães,5,2.5,6.5,76,76
+Arsenal,home,4,4231,367185,Bukayo Saka,6,7.0,2.0,76,76
+Arsenal,home,4,4231,332325,Declan Rice,7,5.0,3.5,76,76
+Arsenal,home,4,4231,362815,Viktor Gyökeres,8,9.0,5.0,76,76
+Arsenal,home,4,4231,247454,Martin Ødegaard,9,7.0,5.0,76,76
+Arsenal,home,4,4231,399296,Christos Tzolis,10,7.0,8.0,76,76
+Arsenal,home,5,4231,276366,David Raya,0,0.0,5.0,76,85
+Arsenal,home,5,4231,322036,Ben White,1,2.5,1.0,76,85
+Arsenal,home,5,4231,404832,Piero Hincapié,2,2.5,9.0,76,85
+Arsenal,home,5,4231,372424,Martín Zubimendi,3,5.0,6.5,76,85
+Arsenal,home,5,4231,425591,Cristhian Mosquera,4,2.5,3.5,76,85
+Arsenal,home,5,4231,334087,Gabriel Magalhães,5,2.5,6.5,76,85
+Arsenal,home,5,4231,367185,Bukayo Saka,6,7.0,2.0,76,85
+Arsenal,home,5,4231,332325,Declan Rice,7,5.0,3.5,76,85
+Arsenal,home,5,4231,362815,Viktor Gyökeres,8,9.0,5.0,76,85
+Arsenal,home,5,4231,247454,Martin Ødegaard,9,7.0,5.0,76,85
+Arsenal,home,5,4231,399296,Christos Tzolis,10,7.0,8.0,76,85
+Arsenal,home,6,4231,276366,David Raya,0,0.0,5.0,85,93
+Arsenal,home,6,4231,322036,Ben White,1,2.5,1.0,85,93
+Arsenal,home,6,4231,404832,Piero Hincapié,2,2.5,9.0,85,93
+Arsenal,home,6,4231,372424,Martín Zubimendi,3,5.0,6.5,85,93
+Arsenal,home,6,4231,425591,Cristhian Mosquera,4,2.5,3.5,85,93
+Arsenal,home,6,4231,334087,Gabriel Magalhães,5,2.5,6.5,85,93
+Arsenal,home,6,4231,367185,Bukayo Saka,6,7.0,2.0,85,93
+Arsenal,home,6,4231,332325,Declan Rice,7,5.0,3.5,85,93
+Arsenal,home,6,4231,362815,Viktor Gyökeres,8,9.0,5.0,85,93
+Arsenal,home,6,4231,332403,Eberechi Eze,9,7.0,5.0,85,93
+Arsenal,home,6,4231,399296,Christos Tzolis,10,7.0,8.0,85,93
+Man City,away,0,4231,262515,Gianluigi Donnarumma,0,0.0,5.0,0,47
+Man City,away,0,4231,493206,Abdukodir Khusanov,1,2.5,1.0,0,47
+Man City,away,0,4231,468847,Nico O'Reilly,2,2.5,9.0,0,47
+Man City,away,0,4231,93894,Mateo Kovacic,3,5.0,6.5,0,47
+Man City,away,0,4231,313171,Rúben Dias,4,2.5,3.5,0,47
+Man City,away,0,4231,402664,Josko Gvardiol,5,2.5,6.5,0,47
+Man City,away,0,4231,357073,Antoine Semenyo,6,7.0,2.0,0,47
+Man City,away,0,4231,402596,Elliot Anderson,7,5.0,3.5,0,47
+Man City,away,0,4231,315227,Erling Haaland,8,9.0,5.0,0,47
+Man City,away,0,4231,331254,Phil Foden,9,7.0,5.0,0,47
+Man City,away,0,4231,388098,Jérémy Doku,10,7.0,8.0,0,47
+Man City,away,1,4231,262515,Gianluigi Donnarumma,0,0.0,5.0,47,54
+Man City,away,1,4231,493206,Abdukodir Khusanov,1,2.5,1.0,47,54
+Man City,away,1,4231,468847,Nico O'Reilly,2,2.5,9.0,47,54
+Man City,away,1,4231,93894,Mateo Kovacic,3,5.0,6.5,47,54
+Man City,away,1,4231,313171,Rúben Dias,4,2.5,3.5,47,54
+Man City,away,1,4231,402664,Josko Gvardiol,5,2.5,6.5,47,54
+Man City,away,1,4231,357073,Antoine Semenyo,6,7.0,2.0,47,54
+Man City,away,1,4231,402596,Elliot Anderson,7,5.0,3.5,47,54
+Man City,away,1,4231,315227,Erling Haaland,8,9.0,5.0,47,54
+Man City,away,1,4231,331254,Phil Foden,9,7.0,5.0,47,54
+Man City,away,1,4231,113069,Jack Grealish,10,7.0,8.0,47,54
+Man City,away,2,4231,262515,Gianluigi Donnarumma,0,0.0,5.0,54,55
+Man City,away,2,4231,493206,Abdukodir Khusanov,1,2.5,1.0,54,55
+Man City,away,2,4231,468847,Nico O'Reilly,2,2.5,9.0,54,55
+Man City,away,2,4231,93894,Mateo Kovacic,3,5.0,6.5,54,55
+Man City,away,2,4231,313171,Rúben Dias,4,2.5,3.5,54,55
+Man City,away,2,4231,402664,Josko Gvardiol,5,2.5,6.5,54,55
+Man City,away,2,4231,357073,Antoine Semenyo,6,7.0,2.0,54,55
+Man City,away,2,4231,402596,Elliot Anderson,7,5.0,3.5,54,55
+Man City,away,2,4231,394749,Omar Marmoush,8,9.0,5.0,54,55
+Man City,away,2,4231,331254,Phil Foden,9,7.0,5.0,54,55
+Man City,away,2,4231,113069,Jack Grealish,10,7.0,8.0,54,55
+Man City,away,3,4231,262515,Gianluigi Donnarumma,0,0.0,5.0,55,61
+Man City,away,3,4231,493206,Abdukodir Khusanov,1,2.5,1.0,55,61
+Man City,away,3,4231,402664,Josko Gvardiol,2,2.5,9.0,55,61
+Man City,away,3,4231,93894,Mateo Kovacic,3,5.0,6.5,55,61
+Man City,away,3,4231,313171,Rúben Dias,4,2.5,3.5,55,61
+Man City,away,3,4231,374631,Marc Guéhi,5,2.5,6.5,55,61
+Man City,away,3,4231,357073,Antoine Semenyo,6,7.0,2.0,55,61
+Man City,away,3,4231,402596,Elliot Anderson,7,5.0,3.5,55,61
+Man City,away,3,4231,394749,Omar Marmoush,8,9.0,5.0,55,61
+Man City,away,3,4231,331254,Phil Foden,9,7.0,5.0,55,61
+Man City,away,3,4231,113069,Jack Grealish,10,7.0,8.0,55,61
+Man City,away,4,4231,262515,Gianluigi Donnarumma,0,0.0,5.0,61,61
+Man City,away,4,4231,493206,Abdukodir Khusanov,1,2.5,1.0,61,61
+Man City,away,4,4231,402664,Josko Gvardiol,2,2.5,9.0,61,61
+Man City,away,4,4231,93894,Mateo Kovacic,3,5.0,6.5,61,61
+Man City,away,4,4231,313171,Rúben Dias,4,2.5,3.5,61,61
+Man City,away,4,4231,374631,Marc Guéhi,5,2.5,6.5,61,61
+Man City,away,4,4231,357073,Antoine Semenyo,6,7.0,2.0,61,61
+Man City,away,4,4231,444791,Rico Lewis,7,5.0,3.5,61,61
+Man City,away,4,4231,394749,Omar Marmoush,8,9.0,5.0,61,61
+Man City,away,4,4231,331254,Phil Foden,9,7.0,5.0,61,61
+Man City,away,4,4231,113069,Jack Grealish,10,7.0,8.0,61,61
+Man City,away,5,4231,262515,Gianluigi Donnarumma,0,0.0,5.0,61,80
+Man City,away,5,4231,493206,Abdukodir Khusanov,1,2.5,1.0,61,80
+Man City,away,5,4231,402664,Josko Gvardiol,2,2.5,9.0,61,80
+Man City,away,5,4231,93894,Mateo Kovacic,3,5.0,6.5,61,80
+Man City,away,5,4231,313171,Rúben Dias,4,2.5,3.5,61,80
+Man City,away,5,4231,374631,Marc Guéhi,5,2.5,6.5,61,80
+Man City,away,5,4231,357073,Antoine Semenyo,6,7.0,2.0,61,80
+Man City,away,5,4231,444791,Rico Lewis,7,5.0,3.5,61,80
+Man City,away,5,4231,394749,Omar Marmoush,8,9.0,5.0,61,80
+Man City,away,5,4231,386153,Rayan Cherki,9,7.0,5.0,61,80
+Man City,away,5,4231,113069,Jack Grealish,10,7.0,8.0,61,80
+Man City,away,6,4231,262515,Gianluigi Donnarumma,0,0.0,5.0,80,93
+Man City,away,6,4231,493206,Abdukodir Khusanov,1,2.5,1.0,80,93
+Man City,away,6,4231,402664,Josko Gvardiol,2,2.5,9.0,80,93
+Man City,away,6,4231,422939,Nico González,3,5.0,6.5,80,93
+Man City,away,6,4231,313171,Rúben Dias,4,2.5,3.5,80,93
+Man City,away,6,4231,374631,Marc Guéhi,5,2.5,6.5,80,93
+Man City,away,6,4231,357073,Antoine Semenyo,6,7.0,2.0,80,93
+Man City,away,6,4231,444791,Rico Lewis,7,5.0,3.5,80,93
+Man City,away,6,4231,394749,Omar Marmoush,8,9.0,5.0,80,93
+Man City,away,6,4231,386153,Rayan Cherki,9,7.0,5.0,80,93
+Man City,away,6,4231,113069,Jack Grealish,10,7.0,8.0,80,93

@@ -1,0 +1,446 @@
+{
+  "matchId": 1995348,
+  "startDate": "2026-07-07T00:00:00",
+  "startTime": "2026-07-07T01:00:00",
+  "score": "1 : 4",
+  "ftScore": "1 : 4",
+  "htScore": "1 : 2",
+  "etScore": "",
+  "venueName": "Seattle Stadium",
+  "attendance": 66925,
+  "referee": {
+    "officialId": 7584,
+    "firstName": "Adham Mohammad Tumah",
+    "lastName": "Makhadmeh",
+    "hasParticipatedMatches": false,
+    "name": "Adham Mohammad Tumah Makhadmeh"
+  },
+  "maxMinute": 94,
+  "home": {
+    "teamId": 461,
+    "name": "USA",
+    "countryName": "USA",
+    "averageAge": 26.3,
+    "formations": [
+      {
+        "formationName": "433",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 52
+      },
+      {
+        "formationName": "4141",
+        "startMinuteExpanded": 52,
+        "endMinuteExpanded": 65
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 65,
+        "endMinuteExpanded": 78
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 78,
+        "endMinuteExpanded": 79
+      },
+      {
+        "formationName": "4312",
+        "startMinuteExpanded": 79,
+        "endMinuteExpanded": 98
+      },
+      {
+        "formationName": "442",
+        "startMinuteExpanded": 98,
+        "endMinuteExpanded": 94
+      }
+    ],
+    "players": [
+      {
+        "playerId": 371610,
+        "name": "Matt Freese",
+        "shirtNo": 24,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 440159,
+        "name": "Alex Freeman",
+        "shirtNo": 16,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 395401,
+        "name": "Chris Richards",
+        "shirtNo": 3,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 85006,
+        "name": "Tim Ream",
+        "shirtNo": 13,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 306581,
+        "name": "Antonee Robinson",
+        "shirtNo": 5,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 397465,
+        "name": "Malik Tillman",
+        "shirtNo": 17,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 315275,
+        "name": "Tyler Adams",
+        "shirtNo": 4,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 338275,
+        "name": "Weston McKennie",
+        "shirtNo": 8,
+        "position": "MC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 379205,
+        "name": "Sergiño Dest",
+        "shirtNo": 2,
+        "position": "FWR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 384065,
+        "name": "Folarin Balogun",
+        "shirtNo": 20,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 302692,
+        "name": "Christian Pulisic",
+        "shirtNo": 10,
+        "position": "FWL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 475303,
+        "name": "Max Arfsten",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 389087,
+        "name": "Giovanni Reyna",
+        "shirtNo": 7,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 393132,
+        "name": "Sebastian Berhalter",
+        "shirtNo": 14,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 377466,
+        "name": "Ricardo Pepi",
+        "shirtNo": 9,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 338274,
+        "name": "Haji Wright",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 414483,
+        "name": "Chris Brady",
+        "shirtNo": 25,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 371012,
+        "name": "Brenden Aaronson",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 319712,
+        "name": "Matt Turner",
+        "shirtNo": 1,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 333962,
+        "name": "Miles Robinson",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 353991,
+        "name": "Timothy Weah",
+        "shirtNo": 21,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 355122,
+        "name": "Mark McKenzie",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 363069,
+        "name": "Joe Scally",
+        "shirtNo": 23,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 275858,
+        "name": "Álex Zendejas",
+        "shirtNo": 26,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 298687,
+        "name": "Auston Trusty",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "away": {
+    "teamId": 339,
+    "name": "Belgium",
+    "countryName": "Belgium",
+    "averageAge": 27.3,
+    "formations": [
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 0,
+        "endMinuteExpanded": 20
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 20,
+        "endMinuteExpanded": 73
+      },
+      {
+        "formationName": "4231",
+        "startMinuteExpanded": 73,
+        "endMinuteExpanded": 94
+      }
+    ],
+    "players": [
+      {
+        "playerId": 73798,
+        "name": "Thibaut Courtois",
+        "shirtNo": 1,
+        "position": "GK",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 141169,
+        "name": "Timothy Castagne",
+        "shirtNo": 21,
+        "position": "DR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 129832,
+        "name": "Brandon Mechele",
+        "shirtNo": 4,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 414495,
+        "name": "Nathan Ngoy",
+        "shirtNo": 25,
+        "position": "DC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 392647,
+        "name": "Maxim De Cuyper",
+        "shirtNo": 5,
+        "position": "DL",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 399999,
+        "name": "Nicolas Raskin",
+        "shirtNo": 23,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 400815,
+        "name": "Amadou Onana",
+        "shirtNo": 24,
+        "position": "DMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 299490,
+        "name": "Dodi Lukébakio",
+        "shirtNo": 14,
+        "position": "AMR",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 136345,
+        "name": "Youri Tielemans",
+        "shirtNo": 8,
+        "position": "AMC",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 113994,
+        "name": "Leandro Trossard",
+        "shirtNo": 10,
+        "position": "AML",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 386390,
+        "name": "Charles De Ketelaere",
+        "shirtNo": 17,
+        "position": "FW",
+        "isFirstEleven": true
+      },
+      {
+        "playerId": 243567,
+        "name": "Hans Vanaken",
+        "shirtNo": 20,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 25191,
+        "name": "Axel Witsel",
+        "shirtNo": 6,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 78498,
+        "name": "Romelu Lukaku",
+        "shirtNo": 9,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 365308,
+        "name": "Alexis Saelemaekers",
+        "shirtNo": 22,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 388098,
+        "name": "Jérémy Doku",
+        "shirtNo": 11,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 104376,
+        "name": "Thomas Meunier",
+        "shirtNo": 15,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 73084,
+        "name": "Kevin De Bruyne",
+        "shirtNo": 7,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 399961,
+        "name": "Arthur Theate",
+        "shirtNo": 3,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 402184,
+        "name": "Senne Lammens",
+        "shirtNo": 12,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 404623,
+        "name": "Koni De Winter",
+        "shirtNo": 16,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 410633,
+        "name": "Zeno Debast",
+        "shirtNo": 2,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 429427,
+        "name": "Mike Penders",
+        "shirtNo": 13,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 483461,
+        "name": "Joaquin Seys",
+        "shirtNo": 18,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 438349,
+        "name": "Diego Moreira",
+        "shirtNo": 19,
+        "position": "Sub",
+        "isFirstEleven": false
+      },
+      {
+        "playerId": 475462,
+        "name": "Matias Fernandez-Pardo",
+        "shirtNo": 26,
+        "position": "Sub",
+        "isFirstEleven": false
+      }
+    ]
+  },
+  "region": "International",
+  "league": "FIFA World Cup",
+  "season": "2026",
+  "competitionType": "Knock Out",
+  "competitionStage": "World Cup Final Stage"
+}

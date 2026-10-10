@@ -1,0 +1,300 @@
+{
+  "provider": "flashscore",
+  "event_id": "EXAD1YZP_fNGcxbyr",
+  "home": "Sabah Baku",
+  "away": "H. Beer Sheva",
+  "overall": {
+    "xg": {
+      "h": 4.22,
+      "a": 1.35
+    },
+    "possession_pct": {
+      "h": 54.0,
+      "a": 46.0
+    },
+    "shots": {
+      "h": 35.0,
+      "a": 14.0
+    },
+    "shots_on_target": {
+      "h": 13.0,
+      "a": 5.0
+    },
+    "big_chances": {
+      "h": 9.0,
+      "a": 1.0
+    },
+    "corners": {
+      "h": 11.0,
+      "a": 3.0
+    },
+    "pass_accuracy_pct": {
+      "h": 84.0,
+      "a": 83.0
+    },
+    "passes_completed": {
+      "h": 494.0,
+      "a": 432.0
+    },
+    "pass_attempts": {
+      "h": 590.0,
+      "a": 520.0
+    },
+    "yellow_cards": {
+      "h": 2.0,
+      "a": 5.0
+    },
+    "red_cards": {
+      "h": 0.0,
+      "a": 2.0
+    },
+    "xgot": {
+      "h": 3.91,
+      "a": 1.39
+    },
+    "shots_off_target": {
+      "h": 17.0,
+      "a": 5.0
+    },
+    "shots_blocked": {
+      "h": 5.0,
+      "a": 4.0
+    },
+    "woodwork": {
+      "h": 2.0,
+      "a": 0.0
+    },
+    "penalty_box_touches": {
+      "h": 61.0,
+      "a": 25.0
+    },
+    "offsides": {
+      "h": 5.0,
+      "a": 4.0
+    },
+    "free_kicks": {
+      "h": 13.0,
+      "a": 21.0
+    },
+    "final_third_passes": {
+      "h": 139.0,
+      "a": 94.0
+    },
+    "throw_ins": {
+      "h": 32.0,
+      "a": 25.0
+    },
+    "fouls": {
+      "h": 21.0,
+      "a": 13.0
+    },
+    "tackles_won": {
+      "h": 15.0,
+      "a": 18.0
+    },
+    "tackles_attempted": {
+      "h": 30.0,
+      "a": 26.0
+    },
+    "duels_won": {
+      "h": 82.0,
+      "a": 61.0
+    },
+    "clearances": {
+      "h": 15.0,
+      "a": 32.0
+    },
+    "interceptions": {
+      "h": 9.0,
+      "a": 19.0
+    },
+    "saves": {
+      "h": 3.0,
+      "a": 8.0
+    }
+  },
+  "periods": {},
+  "raw_rows": [
+    {
+      "name": "Expected goals (xG)",
+      "home": "4.22",
+      "away": "1.35"
+    },
+    {
+      "name": "Ball possession",
+      "home": "54%",
+      "away": "46%"
+    },
+    {
+      "name": "Total shots",
+      "home": "35",
+      "away": "14"
+    },
+    {
+      "name": "Shots on target",
+      "home": "13",
+      "away": "5"
+    },
+    {
+      "name": "Big chances",
+      "home": "9",
+      "away": "1"
+    },
+    {
+      "name": "Corner kicks",
+      "home": "11",
+      "away": "3"
+    },
+    {
+      "name": "Passes",
+      "home": "84% (494/590)",
+      "away": "83% (432/520)"
+    },
+    {
+      "name": "Yellow cards",
+      "home": "2",
+      "away": "5"
+    },
+    {
+      "name": "Red cards",
+      "home": "0",
+      "away": "2"
+    },
+    {
+      "name": "xG on target (xGOT)",
+      "home": "3.91",
+      "away": "1.39"
+    },
+    {
+      "name": "Shots off target",
+      "home": "17",
+      "away": "5"
+    },
+    {
+      "name": "Blocked shots",
+      "home": "5",
+      "away": "4"
+    },
+    {
+      "name": "Shots inside the box",
+      "home": "31",
+      "away": "9"
+    },
+    {
+      "name": "Shots outside the box",
+      "home": "4",
+      "away": "5"
+    },
+    {
+      "name": "Hit the woodwork",
+      "home": "2",
+      "away": "0"
+    },
+    {
+      "name": "Headed goals",
+      "home": "1",
+      "away": "0"
+    },
+    {
+      "name": "Touches in opposition box",
+      "home": "61",
+      "away": "25"
+    },
+    {
+      "name": "Accurate through passes",
+      "home": "0",
+      "away": "0"
+    },
+    {
+      "name": "Offsides",
+      "home": "5",
+      "away": "4"
+    },
+    {
+      "name": "Free kicks",
+      "home": "13",
+      "away": "21"
+    },
+    {
+      "name": "Long passes",
+      "home": "68% (41/60)",
+      "away": "44% (27/61)"
+    },
+    {
+      "name": "Passes in final third",
+      "home": "78% (139/178)",
+      "away": "68% (94/138)"
+    },
+    {
+      "name": "Crosses",
+      "home": "47% (17/36)",
+      "away": "20% (2/10)"
+    },
+    {
+      "name": "Expected assists (xA)",
+      "home": "2.53",
+      "away": "1.04"
+    },
+    {
+      "name": "Throw ins",
+      "home": "32",
+      "away": "25"
+    },
+    {
+      "name": "Fouls",
+      "home": "21",
+      "away": "13"
+    },
+    {
+      "name": "Tackles",
+      "home": "50% (15/30)",
+      "away": "69% (18/26)"
+    },
+    {
+      "name": "Duels won",
+      "home": "82",
+      "away": "61"
+    },
+    {
+      "name": "Clearances",
+      "home": "15",
+      "away": "32"
+    },
+    {
+      "name": "Interceptions",
+      "home": "9",
+      "away": "19"
+    },
+    {
+      "name": "Errors leading to shot",
+      "home": "1",
+      "away": "0"
+    },
+    {
+      "name": "Errors leading to goal",
+      "home": "2",
+      "away": "0"
+    },
+    {
+      "name": "Goalkeeper saves",
+      "home": "3",
+      "away": "8"
+    },
+    {
+      "name": "xGOT faced",
+      "home": "1.39",
+      "away": "3.91"
+    },
+    {
+      "name": "Goals prevented",
+      "home": "-0.61",
+      "away": "-1.09"
+    },
+    {
+      "name": "Goal kicks",
+      "home": "9",
+      "away": "14"
+    }
+  ],
+  "status": "AFTER EXTRA TIME"
+}

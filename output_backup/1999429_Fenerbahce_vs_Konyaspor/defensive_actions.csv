@@ -1,0 +1,170 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2958190979.0,0,32.0,FirstHalf,Chidozie Awaziem,290842,2006,a,25.2,42.6,BallRecovery,Successful,[]
+2958191341.0,0,50.0,FirstHalf,Adil Demirbag,400871,2006,a,4.7,19.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""16""}, {""type"": ""Defensive""}]"
+2958265231.0,1,16.0,FirstHalf,Chidozie Awaziem,290842,2006,a,6.7,47.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.1""}, {""type"": ""PassEndY"", ""value"": ""38.2""}, {""type"": ""Length"", ""value"": ""15.4""}, {""type"": ""Angle"", ""value"": ""5.86""}]"
+2958192023.0,1,21.0,FirstHalf,Melih Ibrahimoglu,403495,2006,a,9.1,45.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""5.7""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""38.1""}, {""type"": ""Angle"", ""value"": ""1.66""}]"
+2958192387.0,1,40.0,FirstHalf,Ebrima Colley,388482,2006,a,16.8,85.5,BallRecovery,Successful,[]
+2958192425.0,1,40.0,FirstHalf,N'Golo Kanté,114075,223,h,79.1,12.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""15""}, {""type"": ""Offensive""}]"
+2958192721.0,1,54.0,FirstHalf,Ederson,121774,223,h,3.9,47.6,KeeperPickup,Successful,[]
+2958194207.0,3,11.0,FirstHalf,Ederson,121774,223,h,12.7,39.5,BallRecovery,Successful,[]
+2958195713.0,4,29.0,FirstHalf,Chidozie Awaziem,290842,2006,a,11.4,44.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""12.9""}, {""type"": ""PassEndY"", ""value"": ""39.8""}, {""type"": ""Length"", ""value"": ""3.7""}, {""type"": ""Angle"", ""value"": ""5.15""}]"
+2958195791.0,4,33.0,FirstHalf,Diogo Gonçalves,343029,2006,a,20.6,51.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.2""}, {""type"": ""PassEndY"", ""value"": ""90.3""}, {""type"": ""Length"", ""value"": ""34.7""}, {""type"": ""Angle"", ""value"": ""0.86""}]"
+2958195797.0,4,34.0,FirstHalf,Ebrima Colley,388482,2006,a,42.2,90.3,BallRecovery,Successful,[]
+2958201167.0,9,5.0,FirstHalf,Yhoan Andzouana,299467,2006,a,23.7,76.2,BallRecovery,Successful,[]
+2958201721.0,9,30.0,FirstHalf,Archie Brown,497183,223,h,34.6,93.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""54""}, {""type"": ""Defensive""}]"
+2958205365.0,12,33.0,FirstHalf,Deniz Türüç,115681,2006,a,10.0,36.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.4""}, {""type"": ""PassEndY"", ""value"": ""44.1""}, {""type"": ""Length"", ""value"": ""19.9""}, {""type"": ""Angle"", ""value"": ""0.25""}]"
+2958206853.0,13,53.0,FirstHalf,Deniz Türüç,115681,2006,a,28.7,26.5,BallRecovery,Successful,[]
+2958206959.0,13,58.0,FirstHalf,Ederson,121774,223,h,11.2,47.8,KeeperPickup,Successful,[]
+2958214889.0,20,22.0,FirstHalf,Nélson Semedo,296363,223,h,30.5,18.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958214923.0,20,23.0,FirstHalf,N'Golo Kanté,114075,223,h,37.4,25.3,BallRecovery,Successful,[]
+2958215289.0,20,43.0,FirstHalf,Jackson Muleka,401116,2006,a,43.8,89.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""152""}, {""type"": ""Defensive""}]"
+2958215323.0,20,47.0,FirstHalf,Diogo Gonçalves,343029,2006,a,63.4,90.9,BallRecovery,Successful,[]
+2958215873.0,21,17.0,FirstHalf,Ebrima Colley,388482,2006,a,56.7,93.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2958215875.0,21,18.0,FirstHalf,Ebrima Colley,388482,2006,a,56.5,81.1,BallRecovery,Successful,[]
+2958215963.0,21,20.0,FirstHalf,Mason Greenwood,367782,223,h,31.4,23.9,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""97""}, {""type"": ""Defensive""}]"
+2958217637.0,22,48.0,FirstHalf,Yhoan Andzouana,299467,2006,a,62.7,92.0,BallRecovery,Successful,[]
+2958217835.0,22,56.0,FirstHalf,Ederson,121774,223,h,4.4,49.3,KeeperPickup,Successful,[]
+2958218451.0,23,27.0,FirstHalf,Rajmund Tóth,546116,2006,a,10.1,28.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""179""}, {""type"": ""Defensive""}]"
+2958218459.0,23,29.0,FirstHalf,Ugurcan Yazgili,361799,2006,a,12.0,28.8,BallRecovery,Successful,[]
+2958218701.0,23,39.0,FirstHalf,Nélson Semedo,296363,223,h,61.8,30.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""119""}, {""type"": ""Defensive""}]"
+2958218709.0,23,40.0,FirstHalf,Nélson Semedo,296363,223,h,66.4,30.7,BallRecovery,Successful,[]
+2958219561.0,24,28.0,FirstHalf,Kerem Aktürkoglu,402880,223,h,62.2,84.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2958219571.0,24,29.0,FirstHalf,Kerem Aktürkoglu,402880,223,h,67.4,83.6,BallRecovery,Successful,[]
+2958219975.0,24,40.0,FirstHalf,Ugurcan Yazgili,361799,2006,a,4.5,37.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""49.3""}, {""type"": ""PassEndY"", ""value"": ""63.8""}, {""type"": ""Length"", ""value"": ""50.2""}, {""type"": ""Angle"", ""value"": ""0.36""}]"
+2958220837.0,25,22.0,FirstHalf,Melih Ibrahimoglu,403495,2006,a,5.8,23.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""206""}]"
+2958221013.0,25,34.0,FirstHalf,Deniz Türüç,115681,2006,a,13.3,15.1,BallRecovery,Successful,[]
+2958223301.0,27,51.0,FirstHalf,Archie Brown,497183,223,h,43.3,93.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""147""}, {""type"": ""Defensive""}]"
+2958223329.0,27,54.0,FirstHalf,Mattéo Guendouzi,328983,223,h,41.2,80.5,BallRecovery,Successful,[]
+2958223707.0,28,18.0,FirstHalf,Ugurcan Yazgili,361799,2006,a,11.9,38.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""22.0""}, {""type"": ""PassEndY"", ""value"": ""19.8""}, {""type"": ""Length"", ""value"": ""16.6""}, {""type"": ""Angle"", ""value"": ""5.40""}]"
+2958223755.0,28,22.0,FirstHalf,Ugurcan Yazgili,361799,2006,a,12.9,31.5,BallRecovery,Successful,[]
+2958223833.0,28,23.0,FirstHalf,Deniz Türüç,115681,2006,a,15.2,13.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""237""}, {""type"": ""Defensive""}]"
+2958223809.0,28,24.0,FirstHalf,Archie Brown,497183,223,h,88.1,85.9,BallRecovery,Successful,[]
+2958223871.0,28,25.0,FirstHalf,Ugurcan Yazgili,361799,2006,a,9.5,20.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""239""}]"
+2958224873.0,29,33.0,FirstHalf,Marco Asensio,137467,223,h,37.6,17.1,BallRecovery,Successful,[]
+2958225025.0,29,40.0,FirstHalf,Ugurcan Yazgili,361799,2006,a,27.6,25.5,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""250""}, {""type"": ""Defensive""}]"
+2958225035.0,29,42.0,FirstHalf,Ugurcan Yazgili,361799,2006,a,26.2,27.6,BallRecovery,Successful,[]
+2958226827.0,31,9.0,FirstHalf,Nathan Aké,122945,223,h,38.3,74.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958227379.0,31,32.0,FirstHalf,Ederson,121774,223,h,13.1,62.7,KeeperPickup,Successful,[]
+2958228575.0,32,18.0,FirstHalf,Chidozie Awaziem,290842,2006,a,10.9,24.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""265""}]"
+2958228621.0,32,20.0,FirstHalf,Chidozie Awaziem,290842,2006,a,10.8,18.9,BallRecovery,Successful,[]
+2958228823.0,32,26.0,FirstHalf,Archie Brown,497183,223,h,71.6,90.6,BallRecovery,Successful,[]
+2958231205.0,34,5.0,FirstHalf,Kerem Aktürkoglu,402880,223,h,69.8,59.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""204""}, {""type"": ""Offensive""}]"
+2958232249.0,34,47.0,FirstHalf,Nathan Aké,122945,223,h,47.3,41.2,BallRecovery,Successful,[]
+2958232493.0,34,55.0,FirstHalf,Adil Demirbag,400871,2006,a,7.0,80.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""278""}, {""type"": ""Defensive""}]"
+2958232505.0,34,57.0,FirstHalf,Yhoan Andzouana,299467,2006,a,10.7,94.1,BallRecovery,Successful,[]
+2958236025.0,35,19.0,FirstHalf,Kerem Aktürkoglu,402880,223,h,37.4,85.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""220""}, {""type"": ""Defensive""}]"
+2958233089.0,35,20.0,FirstHalf,Mattéo Guendouzi,328983,223,h,31.6,82.6,BallRecovery,Successful,[]
+2958234387.0,36,14.0,FirstHalf,Chidozie Awaziem,290842,2006,a,16.8,27.7,BallRecovery,Successful,[]
+2958235423.0,36,22.0,FirstHalf,N'Golo Kanté,114075,223,h,42.9,83.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""229""}, {""type"": ""Defensive""}]"
+2958234753.0,36,27.0,FirstHalf,Kerem Aktürkoglu,402880,223,h,55.6,88.9,BallRecovery,Successful,[]
+2958234921.0,36,33.0,FirstHalf,Ugurcan Yazgili,361799,2006,a,22.0,28.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958234929.0,36,34.0,FirstHalf,Ugurcan Yazgili,361799,2006,a,22.2,30.1,BallRecovery,Successful,[]
+2958236921.0,37,47.0,FirstHalf,Milan Skriniar,302918,223,h,15.5,51.3,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2958237023.0,37,48.0,FirstHalf,Archie Brown,497183,223,h,15.6,65.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""31.1""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""29.0""}, {""type"": ""Angle"", ""value"": ""0.97""}]"
+2958237627.0,38,14.0,FirstHalf,Mattéo Guendouzi,328983,223,h,9.2,85.0,BallRecovery,Successful,[]
+2958237737.0,38,17.0,FirstHalf,Rajmund Tóth,546116,2006,a,94.4,8.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""313""}, {""type"": ""Defensive""}]"
+2958238537.0,38,50.0,FirstHalf,Rajmund Tóth,546116,2006,a,73.9,16.6,BallRecovery,Successful,[]
+2958238655.0,38,53.0,FirstHalf,Milan Skriniar,302918,223,h,6.7,62.6,BallRecovery,Successful,[]
+2958238735.0,38,56.0,FirstHalf,Deniz Türüç,115681,2006,a,95.1,15.0,BallRecovery,Successful,[]
+2958240671.0,40,18.0,FirstHalf,Chidozie Awaziem,290842,2006,a,50.5,20.1,BallRecovery,Successful,[]
+2958241923.0,40,34.0,FirstHalf,Milan Skriniar,302918,223,h,12.0,40.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""48.9""}, {""type"": ""PassEndY"", ""value"": ""39.8""}, {""type"": ""Length"", ""value"": ""38.7""}, {""type"": ""Angle"", ""value"": ""6.27""}]"
+2958242159.0,41,13.0,FirstHalf,Nélson Semedo,296363,223,h,33.8,14.9,BallRecovery,Successful,[]
+2958243975.0,42,19.0,FirstHalf,Archie Brown,497183,223,h,29.2,93.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""297""}, {""type"": ""Defensive""}]"
+2958245665.0,43,27.0,FirstHalf,Ebrima Colley,388482,2006,a,65.4,96.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""344""}, {""type"": ""Defensive""}]"
+2958246415.0,44,3.0,FirstHalf,N'Golo Kanté,114075,223,h,32.0,58.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958246465.0,44,5.0,FirstHalf,N'Golo Kanté,114075,223,h,29.9,58.1,BallRecovery,Successful,[]
+2958246623.0,44,9.0,FirstHalf,Deniz Türüç,115681,2006,a,68.2,38.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""352""}, {""type"": ""Defensive""}]"
+2958246655.0,44,12.0,FirstHalf,Jackson Muleka,401116,2006,a,70.5,33.2,BallRecovery,Successful,[]
+2958246739.0,44,16.0,FirstHalf,Nélson Semedo,296363,223,h,14.4,43.3,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""324""}]"
+2958248381.0,45,31.0,FirstHalf,Melih Ibrahimoglu,403495,2006,a,33.9,77.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958249529.0,46,22.0,FirstHalf,Deniz Ertas,469463,2006,a,0.4,49.8,KeeperPickup,Successful,[]
+2958249767.0,46,31.0,FirstHalf,N'Golo Kanté,114075,223,h,62.6,8.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""339""}, {""type"": ""Defensive""}]"
+2958249771.0,46,32.0,FirstHalf,Kerem Aktürkoglu,402880,223,h,67.9,21.2,BallRecovery,Successful,[]
+2958249929.0,46,35.0,FirstHalf,Ebrima Colley,388482,2006,a,31.8,68.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""370""}, {""type"": ""Defensive""}]"
+2958249935.0,46,40.0,FirstHalf,Ebrima Colley,388482,2006,a,43.8,58.3,BallRecovery,Successful,[]
+2958256667.0,46,41.0,FirstHalf,Milan Skriniar,302918,223,h,38.2,30.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""344""}, {""type"": ""Defensive""}]"
+2958250073.0,46,45.0,FirstHalf,Milan Skriniar,302918,223,h,31.5,31.2,BallRecovery,Successful,[]
+2958254683.0,50,20.0,FirstHalf,Jackson Muleka,401116,2006,a,5.0,40.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""8.5""}, {""type"": ""PassEndY"", ""value"": ""9.5""}, {""type"": ""Length"", ""value"": ""21.3""}, {""type"": ""Angle"", ""value"": ""4.89""}]"
+2958254693.0,50,24.0,FirstHalf,Deniz Türüç,115681,2006,a,9.7,9.5,BallRecovery,Successful,[]
+2958275245.0,45,10.0,SecondHalf,N'Golo Kanté,114075,223,h,57.0,9.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""366""}, {""type"": ""Defensive""}]"
+2958276155.0,45,56.0,SecondHalf,Nélson Semedo,296363,223,h,1.5,28.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""373""}, {""type"": ""Defensive""}]"
+2958276781.0,46,26.0,SecondHalf,Marco Asensio,137467,223,h,5.5,43.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""6.1""}, {""type"": ""PassEndY"", ""value"": ""53.7""}, {""type"": ""Length"", ""value"": ""7.0""}, {""type"": ""Angle"", ""value"": ""1.48""}]"
+2958276915.0,46,29.0,SecondHalf,Ederson,121774,223,h,6.1,53.7,Punch,Unsuccessful,"[{""type"": ""PassEndX"", ""value"": ""33.5""}, {""type"": ""PassEndY"", ""value"": ""85.3""}, {""type"": ""Length"", ""value"": ""35.9""}, {""type"": ""Angle"", ""value"": ""0.64""}]"
+2958279499.0,48,38.0,SecondHalf,Milan Skriniar,302918,223,h,60.5,46.1,BallRecovery,Successful,[]
+2958281367.0,50,12.0,SecondHalf,Milan Skriniar,302918,223,h,24.1,49.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958281475.0,50,14.0,SecondHalf,Nathan Aké,122945,223,h,23.2,56.3,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""416""}, {""type"": ""Defensive""}]"
+2958281589.0,50,16.0,SecondHalf,Milan Skriniar,302918,223,h,23.6,57.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""36.2""}, {""type"": ""PassEndY"", ""value"": ""90.8""}, {""type"": ""Length"", ""value"": ""26.2""}, {""type"": ""Angle"", ""value"": ""1.04""}]"
+2958288219.0,55,29.0,SecondHalf,Ugurcan Yazgili,361799,2006,a,16.7,26.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958288289.0,55,31.0,SecondHalf,Ugurcan Yazgili,361799,2006,a,9.7,32.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.0""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""24.3""}, {""type"": ""Angle"", ""value"": ""4.99""}]"
+2958289339.0,56,18.0,SecondHalf,Chidozie Awaziem,290842,2006,a,8.6,47.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.7""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""34.1""}, {""type"": ""Angle"", ""value"": ""4.96""}]"
+2958289865.0,56,47.0,SecondHalf,Ugurcan Yazgili,361799,2006,a,26.5,19.2,BallRecovery,Successful,[]
+2958290957.0,57,42.0,SecondHalf,Mattéo Guendouzi,328983,223,h,21.0,41.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958290981.0,57,44.0,SecondHalf,Mattéo Guendouzi,328983,223,h,30.5,34.5,BallRecovery,Successful,[]
+2958291221.0,57,55.0,SecondHalf,Ugurcan Yazgili,361799,2006,a,21.0,6.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""478""}, {""type"": ""Defensive""}]"
+2958291319.0,57,57.0,SecondHalf,Ugurcan Yazgili,361799,2006,a,22.6,4.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""479""}, {""type"": ""Defensive""}]"
+2958292583.0,59,19.0,SecondHalf,Ugurcan Yazgili,361799,2006,a,7.9,16.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""505""}]"
+2958293409.0,60,14.0,SecondHalf,Nélson Semedo,296363,223,h,36.1,60.2,BallRecovery,Successful,[]
+2958294383.0,61,12.0,SecondHalf,Jackson Muleka,401116,2006,a,58.0,81.4,BallRecovery,Successful,[]
+2958295887.0,62,54.0,SecondHalf,Chidozie Awaziem,290842,2006,a,64.4,4.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""529""}, {""type"": ""Defensive""}]"
+2958296177.0,63,12.0,SecondHalf,Yhoan Andzouana,299467,2006,a,28.3,91.5,BallRecovery,Successful,[]
+2958296245.0,63,17.0,SecondHalf,Nélson Semedo,296363,223,h,63.6,8.0,BallRecovery,Successful,[]
+2958296307.0,63,18.0,SecondHalf,Chidozie Awaziem,290842,2006,a,21.8,54.9,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""538""}]"
+2958296393.0,63,25.0,SecondHalf,Adil Demirbag,400871,2006,a,11.2,67.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.6""}, {""type"": ""PassEndY"", ""value"": ""77.6""}, {""type"": ""Length"", ""value"": ""12.2""}, {""type"": ""Angle"", ""value"": ""0.63""}]"
+2958296439.0,63,28.0,SecondHalf,Enis Bardhi,275687,2006,a,14.6,72.9,BallRecovery,Successful,[]
+2958296745.0,63,56.0,SecondHalf,Nélson Semedo,296363,223,h,8.3,24.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""490""}, {""type"": ""Defensive""}]"
+2958296953.0,64,12.0,SecondHalf,Nélson Semedo,296363,223,h,7.6,26.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""7.5""}, {""type"": ""PassEndY"", ""value"": ""23.9""}, {""type"": ""Length"", ""value"": ""1.6""}, {""type"": ""Angle"", ""value"": ""4.65""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""495""}]"
+2958296965.0,64,12.0,SecondHalf,Rajmund Tóth,546116,2006,a,89.5,72.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""542""}, {""type"": ""Defensive""}]"
+2958297517.0,64,49.0,SecondHalf,Melih Ibrahimoglu,403495,2006,a,55.6,19.5,BallRecovery,Successful,[]
+2958299111.0,66,26.0,SecondHalf,Mattéo Guendouzi,328983,223,h,13.0,66.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""39.6""}, {""type"": ""PassEndY"", ""value"": ""66.3""}, {""type"": ""Length"", ""value"": ""27.9""}, {""type"": ""Angle"", ""value"": ""0.00""}]"
+2958299119.0,66,40.0,SecondHalf,Dorgeles Nene,444758,223,h,13.0,17.0,BallRecovery,Successful,[]
+2958299173.0,66,44.0,SecondHalf,Dorgeles Nene,444758,223,h,7.4,15.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""525""}, {""type"": ""Defensive""}]"
+2958299337.0,66,52.0,SecondHalf,Marko Jevtovic,296562,2006,a,71.4,79.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""561""}, {""type"": ""Defensive""}]"
+2958299889.0,67,30.0,SecondHalf,Chidozie Awaziem,290842,2006,a,7.5,40.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958300917.0,68,49.0,SecondHalf,Levent Mercan,381621,223,h,60.8,82.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""538""}, {""type"": ""Defensive""}]"
+2958301105.0,69,2.0,SecondHalf,Oguz Aydin,422929,223,h,70.6,78.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""543""}, {""type"": ""Offensive""}]"
+2958301117.0,69,3.0,SecondHalf,Levent Mercan,381621,223,h,63.4,87.4,BallRecovery,Successful,[]
+2958301465.0,69,22.0,SecondHalf,Adil Demirbag,400871,2006,a,8.1,54.3,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""595""}]"
+2958301489.0,69,26.0,SecondHalf,Melih Ibrahimoglu,403495,2006,a,18.4,49.8,BallRecovery,Successful,[]
+2958302691.0,70,42.0,SecondHalf,Milan Skriniar,302918,223,h,42.4,22.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""563""}, {""type"": ""Defensive""}]"
+2958303063.0,71,3.0,SecondHalf,Oguz Aydin,422929,223,h,85.5,96.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""569""}, {""type"": ""Defensive""}]"
+2958303075.0,71,5.0,SecondHalf,Oguz Aydin,422929,223,h,87.7,88.0,BallRecovery,Successful,[]
+2958337497.0,71,6.0,SecondHalf,Marko Jevtovic,296562,2006,a,5.1,23.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""603""}, {""type"": ""Defensive""}]"
+2958303113.0,71,8.0,SecondHalf,Melih Ibrahimoglu,403495,2006,a,29.1,43.5,BallRecovery,Successful,[]
+2958303383.0,71,21.0,SecondHalf,Milan Skriniar,302918,223,h,7.5,16.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""574""}, {""type"": ""Defensive""}]"
+2958304423.0,72,17.0,SecondHalf,Ederson,121774,223,h,4.6,49.3,KeeperPickup,Successful,[]
+2958305907.0,73,30.0,SecondHalf,Mattéo Guendouzi,328983,223,h,59.8,71.2,BallRecovery,Successful,[]
+2958306063.0,73,37.0,SecondHalf,Adil Demirbag,400871,2006,a,8.4,44.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""18.2""}, {""type"": ""PassEndY"", ""value"": ""17.6""}, {""type"": ""Length"", ""value"": ""21.1""}, {""type"": ""Angle"", ""value"": ""5.22""}]"
+2958306069.0,73,39.0,SecondHalf,Melih Ibrahimoglu,403495,2006,a,18.2,17.6,BallRecovery,Successful,[]
+2958306439.0,73,54.0,SecondHalf,Ederson,121774,223,h,31.6,32.4,BallRecovery,Successful,[]
+2958307911.0,74,50.0,SecondHalf,Marko Jevtovic,296562,2006,a,75.8,34.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""634""}, {""type"": ""Offensive""}]"
+2958308465.0,75,21.0,SecondHalf,Deniz Ertas,469463,2006,a,10.3,58.3,KeeperPickup,Successful,[]
+2958310385.0,76,4.0,SecondHalf,Nathan Aké,122945,223,h,14.0,66.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958309605.0,76,8.0,SecondHalf,Nathan Aké,122945,223,h,9.6,55.1,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""632""}]"
+2958312967.0,78,29.0,SecondHalf,Romelu Lukaku,78498,223,h,46.6,44.2,BallRecovery,Successful,[]
+2958313203.0,78,34.0,SecondHalf,Chidozie Awaziem,290842,2006,a,7.7,54.9,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""656""}]"
+2958315293.0,80,12.0,SecondHalf,Levent Mercan,381621,223,h,28.5,91.1,BallRecovery,Successful,[]
+2958316493.0,81,7.0,SecondHalf,Arthur Masuaku,122980,2006,a,13.4,56.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.5""}, {""type"": ""PassEndY"", ""value"": ""56.8""}, {""type"": ""Length"", ""value"": ""2.2""}, {""type"": ""Angle"", ""value"": ""0.06""}]"
+2958318523.0,81,8.0,SecondHalf,Blaz Kramer,399295,2006,a,11.1,55.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""7.9""}, {""type"": ""PassEndY"", ""value"": ""39.1""}, {""type"": ""Length"", ""value"": ""11.7""}, {""type"": ""Angle"", ""value"": ""4.42""}]"
+2958316589.0,81,9.0,SecondHalf,Marko Jevtovic,296562,2006,a,6.1,42.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.9""}, {""type"": ""PassEndY"", ""value"": ""50.2""}, {""type"": ""Length"", ""value"": ""34.8""}, {""type"": ""Angle"", ""value"": ""0.15""}]"
+2958316629.0,81,13.0,SecondHalf,Melih Ibrahimoglu,403495,2006,a,30.0,59.7,BallRecovery,Successful,[]
+2958316877.0,81,24.0,SecondHalf,Levent Mercan,381621,223,h,26.6,72.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""674""}, {""type"": ""Defensive""}]"
+2958316911.0,81,25.0,SecondHalf,Deniz Türüç,115681,2006,a,75.7,27.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""686""}, {""type"": ""Offensive""}]"
+2958317997.0,82,13.0,SecondHalf,Rayyan Baniya,428525,2006,a,38.8,10.3,BallRecovery,Successful,[]
+2958318775.0,82,47.0,SecondHalf,Adil Demirbag,400871,2006,a,29.1,89.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.9""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""8.3""}, {""type"": ""Angle"", ""value"": ""1.47""}]"
+2958319133.0,83,2.0,SecondHalf,Adil Demirbag,400871,2006,a,16.3,62.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""701""}]"
+2958320735.0,84,20.0,SecondHalf,Ederson,121774,223,h,4.1,45.7,KeeperPickup,Successful,[]
+2958323547.0,86,28.0,SecondHalf,Ismail Yüksek,409291,223,h,40.6,77.1,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""726""}, {""type"": ""Defensive""}]"
+2958323551.0,86,30.0,SecondHalf,Ismail Yüksek,409291,223,h,39.7,87.1,BallRecovery,Successful,[]
+2958324061.0,86,51.0,SecondHalf,Deniz Ertas,469463,2006,a,5.5,35.6,KeeperPickup,Successful,[]
+2958327907.0,90,11.0,SecondHalf,Milan Skriniar,302918,223,h,8.1,54.3,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.2""}, {""type"": ""PassEndY"", ""value"": ""65.2""}, {""type"": ""Length"", ""value"": ""10.5""}, {""type"": ""Angle"", ""value"": ""0.78""}]"
+2958327981.0,90,14.0,SecondHalf,Levent Mercan,381621,223,h,12.9,65.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""45.8""}, {""type"": ""PassEndY"", ""value"": ""60.2""}, {""type"": ""Length"", ""value"": ""34.7""}, {""type"": ""Angle"", ""value"": ""6.19""}]"
+2958329091.0,91,7.0,SecondHalf,Milan Skriniar,302918,223,h,14.0,11.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""763""}, {""type"": ""Defensive""}]"
+2958329097.0,91,10.0,SecondHalf,Bartug Elmaz,408437,223,h,14.1,9.2,BallRecovery,Successful,[]
+2958329365.0,91,26.0,SecondHalf,Yhoan Andzouana,299467,2006,a,24.3,25.3,BallRecovery,Successful,[]
+2958330005.0,92,3.0,SecondHalf,Ismail Yüksek,409291,223,h,29.1,35.8,BallRecovery,Successful,[]
+2958330069.0,92,5.0,SecondHalf,Yhoan Andzouana,299467,2006,a,39.1,31.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2958330109.0,92,8.0,SecondHalf,Deniz Ertas,469463,2006,a,7.1,29.2,BallRecovery,Successful,[]
+2958330259.0,92,17.0,SecondHalf,Dorgeles Nene,444758,223,h,66.4,23.9,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""781""}, {""type"": ""Defensive""}]"
+2958330291.0,92,19.0,SecondHalf,Mattéo Guendouzi,328983,223,h,66.2,22.2,BallRecovery,Successful,[]
+2958330425.0,92,25.0,SecondHalf,Adil Demirbag,400871,2006,a,6.4,69.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""768""}, {""type"": ""Defensive""}]"
+2958330847.0,92,56.0,SecondHalf,Deniz Ertas,469463,2006,a,2.2,54.9,KeeperPickup,Successful,[]

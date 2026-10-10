@@ -1,0 +1,223 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2955118895.0,0,42.0,FirstHalf,Elson Mendes,512184,3475,h,61.9,30.0,BallRecovery,Successful,[]
+2955119455.0,1,18.0,FirstHalf,Adem Arous,582505,3475,h,32.7,33.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""41.6""}, {""type"": ""PassEndY"", ""value"": ""34.8""}, {""type"": ""Length"", ""value"": ""9.4""}, {""type"": ""Angle"", ""value"": ""0.13""}]"
+2955157085.0,1,27.0,FirstHalf,Jakob Jessen,582663,3475,h,8.4,69.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""14""}, {""type"": ""Defensive""}]"
+2955119581.0,1,28.0,FirstHalf,Andreas Gianniotis,119102,3475,h,1.6,51.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""50.5""}, {""type"": ""Length"", ""value"": ""2.9""}, {""type"": ""Angle"", ""value"": ""3.33""}]"
+2955119997.0,1,54.0,FirstHalf,Andri Baldursson,386625,3475,h,7.8,59.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""36.6""}, {""type"": ""PassEndY"", ""value"": ""36.0""}, {""type"": ""Length"", ""value"": ""34.0""}, {""type"": ""Angle"", ""value"": ""5.81""}]"
+2955120409.0,2,35.0,FirstHalf,Adem Arous,582505,3475,h,9.2,52.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""11.9""}, {""type"": ""PassEndY"", ""value"": ""48.8""}, {""type"": ""Length"", ""value"": ""3.9""}, {""type"": ""Angle"", ""value"": ""5.53""}]"
+2955120485.0,2,38.0,FirstHalf,Chibuike Nwaiwu,571253,226,a,88.8,78.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""30""}, {""type"": ""Defensive""}]"
+2955120581.0,2,43.0,FirstHalf,Andri Baldursson,386625,3475,h,4.2,12.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""25""}, {""type"": ""Defensive""}]"
+2955121067.0,3,24.0,FirstHalf,Andri Baldursson,386625,3475,h,4.2,40.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""18.0""}, {""type"": ""Length"", ""value"": ""16.3""}, {""type"": ""Angle"", ""value"": ""4.36""}]"
+2955121333.0,3,40.0,FirstHalf,Andri Baldursson,386625,3475,h,4.3,42.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.8""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""40.4""}, {""type"": ""Angle"", ""value"": ""5.44""}]"
+2955121391.0,3,49.0,FirstHalf,Cláudio Winck,101952,3475,h,8.0,6.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955121481.0,3,51.0,FirstHalf,Metehan Mimaroglu,423870,226,a,89.8,97.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""38""}, {""type"": ""Defensive""}]"
+2955121759.0,4,10.0,FirstHalf,Elson Mendes,512184,3475,h,28.9,6.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955122199.0,4,42.0,FirstHalf,Andri Baldursson,386625,3475,h,61.5,97.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2955123079.0,5,29.0,FirstHalf,Benjamin Bouchouari,461485,226,a,31.7,65.1,BallRecovery,Successful,[]
+2955123363.0,5,44.0,FirstHalf,Andreas Gianniotis,119102,3475,h,3.8,46.4,KeeperPickup,Successful,[]
+2955124347.0,6,38.0,FirstHalf,Wagner Pina,492313,226,a,14.6,6.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""73""}, {""type"": ""Defensive""}]"
+2955164671.0,7,48.0,FirstHalf,Metehan Mimaroglu,423870,226,a,41.1,94.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""80""}, {""type"": ""Defensive""}]"
+2955167523.0,7,51.0,FirstHalf,Metehan Mimaroglu,423870,226,a,37.6,93.9,BallRecovery,Successful,[]
+2955168553.0,8,13.0,FirstHalf,Ruslan Malinovskyi,295456,226,a,29.0,92.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""84""}, {""type"": ""Defensive""}]"
+2955169259.0,8,23.0,FirstHalf,Stefan Savic,77564,226,a,17.9,83.8,BallRecovery,Successful,[]
+2955165703.0,8,29.0,FirstHalf,Elson Mendes,512184,3475,h,63.5,33.6,BallRecovery,Successful,[]
+2955126329.0,8,40.0,FirstHalf,Metehan Mimaroglu,423870,226,a,39.6,89.7,BallRecovery,Successful,[]
+2955127929.0,10,31.0,FirstHalf,Metehan Mimaroglu,423870,226,a,73.4,73.9,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""100""}, {""type"": ""Offensive""}]"
+2955127993.0,10,33.0,FirstHalf,Cláudio Winck,101952,3475,h,27.6,27.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""81""}, {""type"": ""Defensive""}]"
+2955128029.0,10,37.0,FirstHalf,Cláudio Winck,101952,3475,h,27.1,19.1,BallRecovery,Successful,[]
+2955129449.0,12,9.0,FirstHalf,Adem Arous,582505,3475,h,17.4,8.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""PassEndX"", ""value"": ""55.6""}, {""type"": ""PassEndY"", ""value"": ""8.3""}, {""type"": ""Length"", ""value"": ""40.1""}, {""type"": ""Angle"", ""value"": ""0.00""}]"
+2955129533.0,12,17.0,FirstHalf,Mortadha Ben Ouanes,422798,3475,h,47.0,5.2,BallRecovery,Successful,[]
+2955130769.0,13,39.0,FirstHalf,Jakob Jessen,582663,3475,h,7.2,85.6,BallRecovery,Successful,[]
+2955130941.0,13,48.0,FirstHalf,Paul Onuachu,122182,226,a,93.4,9.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""125""}, {""type"": ""Defensive""}]"
+2955131331.0,14,11.0,FirstHalf,Benjamin Bouchouari,461485,226,a,55.7,32.5,BallRecovery,Successful,[]
+2955131711.0,14,34.0,FirstHalf,Cláudio Winck,101952,3475,h,23.1,5.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""27.3""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""6.6""}, {""type"": ""Angle"", ""value"": ""5.45""}]"
+2955132911.0,15,57.0,FirstHalf,Mortadha Ben Ouanes,422798,3475,h,58.7,13.7,BallRecovery,Successful,[]
+2955133025.0,16,2.0,FirstHalf,Stefan Savic,77564,226,a,9.0,95.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""31.1""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""23.5""}, {""type"": ""Angle"", ""value"": ""0.17""}]"
+2955133245.0,16,16.0,FirstHalf,Wagner Pina,492313,226,a,13.5,51.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.2""}, {""type"": ""PassEndY"", ""value"": ""74.1""}, {""type"": ""Length"", ""value"": ""22.5""}, {""type"": ""Angle"", ""value"": ""0.75""}]"
+2955133301.0,16,20.0,FirstHalf,Metehan Mimaroglu,423870,226,a,31.4,88.7,BallRecovery,Successful,[]
+2955133389.0,16,27.0,FirstHalf,Andri Baldursson,386625,3475,h,9.8,15.0,BallRecovery,Successful,[]
+2955133541.0,16,36.0,FirstHalf,Ruslan Malinovskyi,295456,226,a,66.6,75.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2955133551.0,16,37.0,FirstHalf,Ruslan Malinovskyi,295456,226,a,65.3,74.7,BallRecovery,Successful,[]
+2955134385.0,17,8.0,FirstHalf,Adem Arous,582505,3475,h,23.5,30.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.3""}, {""type"": ""PassEndY"", ""value"": ""51.2""}, {""type"": ""Length"", ""value"": ""24.1""}, {""type"": ""Angle"", ""value"": ""0.61""}]"
+2955134819.0,17,52.0,FirstHalf,Andri Baldursson,386625,3475,h,26.8,26.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""169""}, {""type"": ""Defensive""}]"
+2955134837.0,17,53.0,FirstHalf,Andri Baldursson,386625,3475,h,28.8,26.7,BallRecovery,Successful,[]
+2955135215.0,18,11.0,FirstHalf,Chibuike Nwaiwu,571253,226,a,27.7,31.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955135225.0,18,12.0,FirstHalf,Chibuike Nwaiwu,571253,226,a,32.1,27.9,BallRecovery,Successful,[]
+2955135295.0,18,15.0,FirstHalf,Jakob Jessen,582663,3475,h,56.4,87.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""173""}, {""type"": ""Defensive""}]"
+2955135329.0,18,18.0,FirstHalf,Jakob Jessen,582663,3475,h,57.0,95.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""174""}, {""type"": ""Defensive""}]"
+2955135371.0,18,21.0,FirstHalf,Jakob Jessen,582663,3475,h,55.0,95.7,BallRecovery,Successful,[]
+2955136713.0,19,55.0,FirstHalf,Mustafa Eskihellaç,351519,226,a,3.3,49.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""21.9""}, {""type"": ""PassEndY"", ""value"": ""39.5""}, {""type"": ""Length"", ""value"": ""20.6""}, {""type"": ""Angle"", ""value"": ""5.96""}]"
+2955136783.0,20,1.0,FirstHalf,Benjamin Bouchouari,461485,226,a,19.7,37.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""27.7""}, {""type"": ""PassEndY"", ""value"": ""54.0""}, {""type"": ""Length"", ""value"": ""14.0""}, {""type"": ""Angle"", ""value"": ""0.93""}]"
+2955136789.0,20,5.0,FirstHalf,Cláudio Winck,101952,3475,h,55.8,35.5,BallRecovery,Successful,[]
+2955137841.0,21,14.0,FirstHalf,Elson Mendes,512184,3475,h,49.3,31.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955137859.0,21,15.0,FirstHalf,Mortadha Ben Ouanes,422798,3475,h,56.9,12.0,BallRecovery,Successful,[]
+2955137891.0,21,17.0,FirstHalf,Benjamin Bouchouari,461485,226,a,43.0,76.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""192""}, {""type"": ""Defensive""}]"
+2955139063.0,22,21.0,FirstHalf,Noah Saviolo,583512,226,a,13.5,38.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""44.6""}, {""type"": ""Length"", ""value"": ""16.1""}, {""type"": ""Angle"", ""value"": ""2.88""}]"
+2955139553.0,23,5.0,FirstHalf,Aral Simsir,425339,226,a,1.8,41.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""1.2""}, {""type"": ""PassEndY"", ""value"": ""51.6""}, {""type"": ""Length"", ""value"": ""6.9""}, {""type"": ""Angle"", ""value"": ""1.66""}]"
+2955140179.0,24,5.0,FirstHalf,Wagner Pina,492313,226,a,62.0,12.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2955140187.0,24,6.0,FirstHalf,Wagner Pina,492313,226,a,55.8,15.0,BallRecovery,Successful,[]
+2955140475.0,24,31.0,FirstHalf,Andri Baldursson,386625,3475,h,37.5,13.1,BallRecovery,Successful,[]
+2955140509.0,24,34.0,FirstHalf,Benjamin Bouchouari,461485,226,a,45.4,71.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955140523.0,24,35.0,FirstHalf,Ruslan Malinovskyi,295456,226,a,40.1,89.6,BallRecovery,Successful,[]
+2955140913.0,24,57.0,FirstHalf,Elson Mendes,512184,3475,h,2.7,71.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""1.8""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""20.2""}, {""type"": ""Angle"", ""value"": ""1.62""}]"
+2955141245.0,25,23.0,FirstHalf,Andri Baldursson,386625,3475,h,11.2,54.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""222""}, {""type"": ""Defensive""}]"
+2955141295.0,25,27.0,FirstHalf,Cláudio Winck,101952,3475,h,10.7,47.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""62.5""}, {""type"": ""PassEndY"", ""value"": ""34.5""}, {""type"": ""Length"", ""value"": ""55.1""}, {""type"": ""Angle"", ""value"": ""6.12""}]"
+2955142897.0,27,21.0,FirstHalf,Andri Baldursson,386625,3475,h,14.3,38.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""4.4""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""44.1""}, {""type"": ""Angle"", ""value"": ""1.81""}]"
+2955143519.0,27,44.0,FirstHalf,Andri Baldursson,386625,3475,h,19.8,26.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""253""}, {""type"": ""Defensive""}]"
+2955143645.0,28,18.0,FirstHalf,Elson Mendes,512184,3475,h,8.6,86.0,BallRecovery,Successful,[]
+2955143785.0,28,28.0,FirstHalf,Benjamin Bouchouari,461485,226,a,52.3,25.9,BallRecovery,Successful,[]
+2955143853.0,28,32.0,FirstHalf,Elson Mendes,512184,3475,h,29.4,91.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""261""}, {""type"": ""Defensive""}]"
+2955144099.0,28,46.0,FirstHalf,Adem Arous,582505,3475,h,9.8,32.5,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.1""}, {""type"": ""PassEndY"", ""value"": ""6.2""}, {""type"": ""Length"", ""value"": ""38.3""}, {""type"": ""Angle"", ""value"": ""5.80""}]"
+2955144173.0,28,58.0,FirstHalf,Güven Yalçin,362509,3475,h,38.9,7.7,BallRecovery,Successful,[]
+2955144285.0,29,3.0,FirstHalf,Mustafa Eskihellaç,351519,226,a,59.2,97.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""233""}, {""type"": ""Defensive""}]"
+2955144509.0,29,27.0,FirstHalf,André Onana,260843,226,a,3.7,46.3,KeeperPickup,Successful,[]
+2955145247.0,30,31.0,FirstHalf,Andreas Gianniotis,119102,3475,h,4.3,39.2,KeeperPickup,Successful,[]
+2955145947.0,31,27.0,FirstHalf,Mustafa Eskihellaç,351519,226,a,21.1,88.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955145957.0,31,28.0,FirstHalf,Mustafa Eskihellaç,351519,226,a,25.2,93.6,BallRecovery,Successful,[]
+2955146107.0,31,37.0,FirstHalf,Jakob Jessen,582663,3475,h,27.7,63.3,BallRecovery,Successful,[]
+2955146167.0,31,43.0,FirstHalf,Benjamin Bouchouari,461485,226,a,45.4,43.7,BallRecovery,Successful,[]
+2955146369.0,31,57.0,FirstHalf,Matei Ilie,404046,3475,h,6.0,64.3,BallRecovery,Successful,[]
+2955146655.0,32,15.0,FirstHalf,Stefan Savic,77564,226,a,29.4,69.1,BallRecovery,Successful,[]
+2955147481.0,33,24.0,FirstHalf,Chibuike Nwaiwu,571253,226,a,37.8,65.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""271""}, {""type"": ""Defensive""}]"
+2955147485.0,33,26.0,FirstHalf,Chibuike Nwaiwu,571253,226,a,38.2,59.0,BallRecovery,Successful,[]
+2955148475.0,34,54.0,FirstHalf,Chibuike Nwaiwu,571253,226,a,54.2,32.5,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Center""}]"
+2955148569.0,34,59.0,FirstHalf,Cláudio Winck,101952,3475,h,36.0,31.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955148631.0,35,4.0,FirstHalf,Mustafa Eskihellaç,351519,226,a,48.3,85.1,BallRecovery,Successful,[]
+2955148783.0,35,18.0,FirstHalf,Matei Ilie,404046,3475,h,3.8,69.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""336""}]"
+2955149199.0,35,48.0,FirstHalf,Elson Mendes,512184,3475,h,17.1,52.5,BallRecovery,Successful,[]
+2955149375.0,35,58.0,FirstHalf,Wagner Pina,492313,226,a,32.3,5.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""287""}, {""type"": ""Defensive""}]"
+2955149811.0,36,35.0,FirstHalf,Mustafa Eskihellaç,351519,226,a,47.4,77.2,BallRecovery,Successful,[]
+2955150289.0,37,8.0,FirstHalf,Matei Ilie,404046,3475,h,22.8,56.5,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""352""}]"
+2955150911.0,37,52.0,FirstHalf,Andreas Gianniotis,119102,3475,h,2.2,53.0,KeeperPickup,Successful,[]
+2955151627.0,38,47.0,FirstHalf,André Onana,260843,226,a,2.4,42.4,KeeperPickup,Successful,[]
+2955153069.0,40,6.0,FirstHalf,Matei Ilie,404046,3475,h,39.5,91.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""40.5""}, {""type"": ""PassEndY"", ""value"": ""93.0""}, {""type"": ""Length"", ""value"": ""1.7""}, {""type"": ""Angle"", ""value"": ""0.91""}]"
+2955153791.0,40,54.0,FirstHalf,Cláudio Winck,101952,3475,h,42.9,28.5,BallRecovery,Successful,[]
+2955154131.0,41,10.0,FirstHalf,Mustafa Eskihellaç,351519,226,a,39.7,91.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""41.4""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""6.8""}, {""type"": ""Angle"", ""value"": ""1.31""}]"
+2955154771.0,41,39.0,FirstHalf,Matei Ilie,404046,3475,h,10.4,43.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.0""}, {""type"": ""PassEndY"", ""value"": ""22.2""}, {""type"": ""Length"", ""value"": ""23.3""}, {""type"": ""Angle"", ""value"": ""5.63""}]"
+2955156791.0,44,40.0,FirstHalf,Elson Mendes,512184,3475,h,34.8,66.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""409""}, {""type"": ""Defensive""}]"
+2955156821.0,44,42.0,FirstHalf,Elson Mendes,512184,3475,h,38.9,63.6,BallRecovery,Successful,[]
+2955156833.0,44,43.0,FirstHalf,Ruslan Malinovskyi,295456,226,a,56.0,37.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""352""}, {""type"": ""Defensive""}]"
+2955157239.0,45,7.0,FirstHalf,Wagner Pina,492313,226,a,14.4,30.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.4""}, {""type"": ""PassEndY"", ""value"": ""5.3""}, {""type"": ""Length"", ""value"": ""22.7""}, {""type"": ""Angle"", ""value"": ""5.42""}]"
+2955157271.0,45,11.0,FirstHalf,Noah Saviolo,583512,226,a,28.0,6.5,BallRecovery,Successful,[]
+2955170657.0,46,6.0,SecondHalf,Wagner Pina,492313,226,a,44.3,7.1,BallRecovery,Successful,[]
+2955170867.0,46,19.0,SecondHalf,Güven Yalçin,362509,3475,h,78.8,8.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""451""}, {""type"": ""Offensive""}]"
+2955171437.0,47,11.0,SecondHalf,André Onana,260843,226,a,2.9,52.4,KeeperPickup,Successful,[]
+2955171599.0,47,24.0,SecondHalf,Elson Mendes,512184,3475,h,25.9,89.9,BallRecovery,Successful,[]
+2955171821.0,47,39.0,SecondHalf,Mustafa Eskihellaç,351519,226,a,60.6,90.5,BallRecovery,Successful,[]
+2955172717.0,48,40.0,SecondHalf,Ruslan Malinovskyi,295456,226,a,47.8,90.5,BallRecovery,Successful,[]
+2955173197.0,49,6.0,SecondHalf,Metehan Mimaroglu,423870,226,a,34.5,95.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""406""}, {""type"": ""Defensive""}]"
+2955174099.0,50,2.0,SecondHalf,Güven Yalçin,362509,3475,h,70.2,67.3,BallRecovery,Successful,[]
+2955174153.0,50,4.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,11.1,42.6,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""414""}]"
+2955174177.0,50,6.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,4.8,31.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.7""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""25.5""}, {""type"": ""Angle"", ""value"": ""5.22""}]"
+2955174437.0,50,20.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,14.2,39.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""40.2""}, {""type"": ""PassEndY"", ""value"": ""29.7""}, {""type"": ""Length"", ""value"": ""28.1""}, {""type"": ""Angle"", ""value"": ""6.04""}]"
+2955176037.0,52,6.0,SecondHalf,André Onana,260843,226,a,5.1,44.3,Claim,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""HighClaim""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""429""}]"
+2955176431.0,52,30.0,SecondHalf,Adem Arous,582505,3475,h,9.6,40.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""32.9""}, {""type"": ""PassEndY"", ""value"": ""48.2""}, {""type"": ""Length"", ""value"": ""25.1""}, {""type"": ""Angle"", ""value"": ""0.22""}]"
+2955176505.0,52,34.0,SecondHalf,Güven Yalçin,362509,3475,h,29.8,46.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""491""}, {""type"": ""Defensive""}]"
+2955176751.0,52,52.0,SecondHalf,Matei Ilie,404046,3475,h,23.3,23.9,BallRecovery,Successful,[]
+2955176901.0,52,58.0,SecondHalf,Paul Onuachu,122182,226,a,76.2,66.7,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""435""}, {""type"": ""Offensive""}]"
+2955177053.0,53,7.0,SecondHalf,Stefan Savic,77564,226,a,25.7,82.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955179653.0,56,5.0,SecondHalf,Adem Arous,582505,3475,h,29.3,19.5,BallRecovery,Successful,[]
+2955179715.0,56,8.0,SecondHalf,Ruslan Malinovskyi,295456,226,a,64.8,93.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""448""}, {""type"": ""Defensive""}]"
+2955179721.0,56,9.0,SecondHalf,Ruslan Malinovskyi,295456,226,a,65.5,93.0,BallRecovery,Successful,[]
+2955179865.0,56,17.0,SecondHalf,Andri Baldursson,386625,3475,h,3.2,94.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""514""}, {""type"": ""Defensive""}]"
+2955179869.0,56,19.0,SecondHalf,Jakob Jessen,582663,3475,h,3.4,84.7,BallRecovery,Successful,[]
+2955180339.0,56,49.0,SecondHalf,Mortadha Ben Ouanes,422798,3475,h,47.9,20.4,BallRecovery,Successful,[]
+2955180415.0,56,52.0,SecondHalf,Ruslan Malinovskyi,295456,226,a,33.7,79.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955180515.0,56,57.0,SecondHalf,Benjamin Bouchouari,461485,226,a,22.1,56.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""2.5""}, {""type"": ""PassEndY"", ""value"": ""15.8""}, {""type"": ""Length"", ""value"": ""34.6""}, {""type"": ""Angle"", ""value"": ""4.08""}]"
+2955180625.0,57,5.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,18.8,27.1,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""463""}, {""type"": ""Defensive""}]"
+2955180891.0,57,14.0,SecondHalf,Wagner Pina,492313,226,a,7.9,7.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""466""}, {""type"": ""Defensive""}]"
+2955181647.0,58,21.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,32.5,92.9,BallRecovery,Successful,[]
+2955181831.0,58,33.0,SecondHalf,Jakob Jessen,582663,3475,h,57.1,87.1,BallRecovery,Successful,[]
+2955181935.0,58,39.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,10.4,9.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""475""}, {""type"": ""Defensive""}]"
+2955182189.0,58,50.0,SecondHalf,Stefan Savic,77564,226,a,8.6,47.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.1""}, {""type"": ""PassEndY"", ""value"": ""58.7""}, {""type"": ""Length"", ""value"": ""21.8""}, {""type"": ""Angle"", ""value"": ""0.35""}]"
+2955182233.0,58,57.0,SecondHalf,André Onana,260843,226,a,2.0,51.6,KeeperPickup,Successful,[]
+2955183371.0,59,13.0,SecondHalf,Andri Baldursson,386625,3475,h,53.0,92.9,BallRecovery,Successful,[]
+2955193837.0,59,18.0,SecondHalf,Mohamed Salah,108226,226,a,57.6,6.8,BallRecovery,Successful,[]
+2955183971.0,60,57.0,SecondHalf,Cláudio Winck,101952,3475,h,26.0,13.1,BallRecovery,Successful,[]
+2955184277.0,61,19.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,17.1,54.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""502""}, {""type"": ""Defensive""}]"
+2955184307.0,61,22.0,SecondHalf,Wagner Pina,492313,226,a,23.3,39.1,BallRecovery,Successful,[]
+2955184401.0,61,26.0,SecondHalf,Adem Arous,582505,3475,h,33.6,39.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955184395.0,61,27.0,SecondHalf,Adem Arous,582505,3475,h,32.7,34.2,BallRecovery,Successful,[]
+2955184645.0,61,46.0,SecondHalf,Wagner Pina,492313,226,a,23.9,16.1,BallRecovery,Successful,[]
+2955185139.0,62,20.0,SecondHalf,Matei Ilie,404046,3475,h,17.0,94.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""578""}, {""type"": ""Defensive""}]"
+2955185157.0,62,22.0,SecondHalf,Jakob Jessen,582663,3475,h,23.8,91.1,BallRecovery,Successful,[]
+2955185613.0,62,51.0,SecondHalf,Mustafa Eskihellaç,351519,226,a,29.8,68.4,BallRecovery,Successful,[]
+2955185883.0,63,9.0,SecondHalf,Adem Arous,582505,3475,h,60.7,5.5,BallRecovery,Successful,[]
+2955185957.0,63,13.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,22.1,56.9,BallRecovery,Successful,[]
+2955186973.0,64,22.0,SecondHalf,Andri Baldursson,386625,3475,h,8.0,41.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""17.1""}, {""type"": ""PassEndY"", ""value"": ""56.7""}, {""type"": ""Length"", ""value"": ""14.2""}, {""type"": ""Angle"", ""value"": ""0.83""}]"
+2955187237.0,64,51.0,SecondHalf,Mustafa Eskihellaç,351519,226,a,46.2,77.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955187239.0,64,53.0,SecondHalf,Mustafa Eskihellaç,351519,226,a,52.3,89.4,BallRecovery,Successful,[]
+2955198767.0,65,1.0,SecondHalf,Matei Ilie,404046,3475,h,5.4,45.7,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""601""}]"
+2955187799.0,65,33.0,SecondHalf,Wagner Pina,492313,226,a,56.0,10.9,BallRecovery,Successful,[]
+2955188217.0,65,58.0,SecondHalf,Adem Arous,582505,3475,h,11.1,50.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.7""}, {""type"": ""PassEndY"", ""value"": ""24.0""}, {""type"": ""Length"", ""value"": ""19.0""}, {""type"": ""Angle"", ""value"": ""5.03""}]"
+2955188323.0,66,2.0,SecondHalf,Andreas Gianniotis,119102,3475,h,2.9,50.7,KeeperPickup,Successful,[]
+2955188609.0,66,22.0,SecondHalf,Benjamin Bouchouari,461485,226,a,57.8,3.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""544""}, {""type"": ""Defensive""}]"
+2955189261.0,67,15.0,SecondHalf,Sidny Cabral,505284,226,a,40.4,64.5,BallRecovery,Successful,[]
+2955191269.0,69,47.0,SecondHalf,Mustafa Eskihellaç,351519,226,a,28.7,94.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955191571.0,70,6.0,SecondHalf,Ruslan Malinovskyi,295456,226,a,60.0,93.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""562""}, {""type"": ""Defensive""}]"
+2955191561.0,70,8.0,SecondHalf,Adem Arous,582505,3475,h,38.8,3.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""644""}, {""type"": ""Defensive""}]"
+2955192173.0,70,53.0,SecondHalf,Adem Arous,582505,3475,h,11.2,56.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.1""}, {""type"": ""PassEndY"", ""value"": ""77.8""}, {""type"": ""Length"", ""value"": ""19.2""}, {""type"": ""Angle"", ""value"": ""0.86""}]"
+2955192201.0,70,56.0,SecondHalf,Matei Ilie,404046,3475,h,23.2,77.9,BallRecovery,Successful,[]
+2955192355.0,71,8.0,SecondHalf,Melih Kabasakal,313474,226,a,12.8,31.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955192367.0,71,9.0,SecondHalf,Melih Kabasakal,313474,226,a,9.0,27.4,BallRecovery,Successful,[]
+2955192483.0,71,20.0,SecondHalf,Mortadha Ben Ouanes,422798,3475,h,77.7,29.1,BallRecovery,Successful,[]
+2955192499.0,71,22.0,SecondHalf,André Onana,260843,226,a,4.2,56.3,KeeperPickup,Successful,[]
+2955193035.0,72,5.0,SecondHalf,Adem Arous,582505,3475,h,8.5,47.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""10.1""}, {""type"": ""PassEndY"", ""value"": ""33.4""}, {""type"": ""Length"", ""value"": ""9.9""}, {""type"": ""Angle"", ""value"": ""4.88""}]"
+2955193069.0,72,7.0,SecondHalf,Mortadha Ben Ouanes,422798,3475,h,10.1,33.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""18.0""}, {""type"": ""PassEndY"", ""value"": ""35.4""}, {""type"": ""Length"", ""value"": ""8.4""}, {""type"": ""Angle"", ""value"": ""0.16""}]"
+2955193091.0,72,9.0,SecondHalf,Haris Hajradinovic,119165,3475,h,19.1,35.5,BallRecovery,Successful,[]
+2955194467.0,73,41.0,SecondHalf,Güven Yalçin,362509,3475,h,68.0,95.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""683""}, {""type"": ""Defensive""}]"
+2955194825.0,74,3.0,SecondHalf,Cláudio Winck,101952,3475,h,32.6,5.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""41.2""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""10.2""}, {""type"": ""Angle"", ""value"": ""5.80""}]"
+2955195231.0,74,34.0,SecondHalf,Andreas Gianniotis,119102,3475,h,4.8,50.7,KeeperPickup,Successful,[]
+2955195543.0,74,53.0,SecondHalf,Sidny Cabral,505284,226,a,57.0,82.7,BallRecovery,Successful,[]
+2955196041.0,75,20.0,SecondHalf,Güven Yalçin,362509,3475,h,32.1,84.5,BallRecovery,Successful,[]
+2955196165.0,75,26.0,SecondHalf,Wagner Pina,492313,226,a,69.4,3.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""601""}, {""type"": ""Offensive""}]"
+2955196227.0,75,27.0,SecondHalf,Wagner Pina,492313,226,a,73.6,8.3,BallRecovery,Successful,[]
+2955196289.0,75,31.0,SecondHalf,Jakob Jessen,582663,3475,h,12.4,85.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""713""}, {""type"": ""Defensive""}]"
+2955197411.0,76,40.0,SecondHalf,Melih Kabasakal,313474,226,a,7.1,83.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""611""}]"
+2955197431.0,76,46.0,SecondHalf,André Onana,260843,226,a,7.0,56.6,KeeperPickup,Successful,[]
+2955197673.0,76,57.0,SecondHalf,Adem Arous,582505,3475,h,9.1,50.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""37.4""}, {""type"": ""PassEndY"", ""value"": ""73.6""}, {""type"": ""Length"", ""value"": ""33.5""}, {""type"": ""Angle"", ""value"": ""0.48""}]"
+2955197681.0,77,1.0,SecondHalf,Güven Yalçin,362509,3475,h,37.4,73.8,BallRecovery,Successful,[]
+2955197883.0,77,16.0,SecondHalf,Mustafa Eskihellaç,351519,226,a,64.4,68.1,BallRecovery,Successful,[]
+2955198877.0,78,5.0,SecondHalf,Ruslan Malinovskyi,295456,226,a,44.7,70.9,BallRecovery,Successful,[]
+2955199387.0,78,20.0,SecondHalf,Andri Baldursson,386625,3475,h,38.5,70.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""63.9""}, {""type"": ""PassEndY"", ""value"": ""77.0""}, {""type"": ""Length"", ""value"": ""27.0""}, {""type"": ""Angle"", ""value"": ""0.16""}]"
+2955200007.0,79,12.0,SecondHalf,Andri Baldursson,386625,3475,h,59.6,13.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""PassEndX"", ""value"": ""53.6""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""12.0""}, {""type"": ""Angle"", ""value"": ""4.16""}]"
+2955200549.0,79,46.0,SecondHalf,Güven Yalçin,362509,3475,h,47.3,78.5,BallRecovery,Successful,[]
+2955200941.0,80,14.0,SecondHalf,Jakob Jessen,582663,3475,h,58.5,86.0,BallRecovery,Successful,[]
+2955201105.0,80,25.0,SecondHalf,Ruslan Malinovskyi,295456,226,a,28.4,38.6,BallRecovery,Successful,[]
+2955201147.0,80,29.0,SecondHalf,Jakob Jessen,582663,3475,h,50.7,67.1,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""759""}, {""type"": ""Defensive""}]"
+2955201257.0,80,35.0,SecondHalf,Andri Baldursson,386625,3475,h,22.2,92.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""760""}, {""type"": ""Defensive""}]"
+2955202771.0,82,14.0,SecondHalf,Cláudio Winck,101952,3475,h,20.4,17.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""19.0""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""12.3""}, {""type"": ""Angle"", ""value"": ""4.59""}]"
+2955203619.0,83,11.0,SecondHalf,Matei Ilie,404046,3475,h,5.6,71.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.2""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""32.0""}, {""type"": ""Angle"", ""value"": ""0.69""}]"
+2955204415.0,84,10.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,32.3,25.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""39.8""}, {""type"": ""PassEndY"", ""value"": ""29.2""}, {""type"": ""Length"", ""value"": ""8.3""}, {""type"": ""Angle"", ""value"": ""0.31""}]"
+2955204469.0,84,14.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,21.8,25.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2955204487.0,84,15.0,SecondHalf,André Onana,260843,226,a,7.3,43.7,KeeperPickup,Successful,[]
+2955204801.0,84,37.0,SecondHalf,Jakob Jessen,582663,3475,h,9.4,91.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""809""}]"
+2955205149.0,84,58.0,SecondHalf,Andri Baldursson,386625,3475,h,4.7,63.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""33.6""}, {""type"": ""PassEndY"", ""value"": ""79.4""}, {""type"": ""Length"", ""value"": ""32.2""}, {""type"": ""Angle"", ""value"": ""0.34""}]"
+2955206151.0,86,6.0,SecondHalf,André Onana,260843,226,a,14.7,54.9,KeeperPickup,Successful,[]
+2955206273.0,86,14.0,SecondHalf,Cláudio Winck,101952,3475,h,40.0,9.8,BallRecovery,Successful,[]
+2955206861.0,86,53.0,SecondHalf,Stefan Savic,77564,226,a,8.1,85.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""686""}]"
+2955208321.0,88,34.0,SecondHalf,Ayberk Karapo,499003,3475,h,8.1,31.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""59.1""}, {""type"": ""Length"", ""value"": ""20.7""}, {""type"": ""Angle"", ""value"": ""2.01""}]"
+2955209055.0,89,29.0,SecondHalf,Adrian Benedyczak,424468,3475,h,6.6,60.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""2.9""}, {""type"": ""PassEndY"", ""value"": ""86.8""}, {""type"": ""Length"", ""value"": ""18.0""}, {""type"": ""Angle"", ""value"": ""1.79""}]"
+2955209099.0,89,31.0,SecondHalf,Andri Baldursson,386625,3475,h,2.4,86.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""849""}]"
+2955209243.0,89,46.0,SecondHalf,Andreas Gianniotis,119102,3475,h,8.7,32.7,KeeperPickup,Successful,[]
+2955209611.0,90,11.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,19.2,64.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""704""}, {""type"": ""Defensive""}]"
+2955209621.0,90,14.0,SecondHalf,Melih Kabasakal,313474,226,a,30.4,76.7,BallRecovery,Successful,[]
+2955209693.0,90,17.0,SecondHalf,Ayberk Karapo,499003,3475,h,68.3,24.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""856""}, {""type"": ""Offensive""}]"
+2955209703.0,90,19.0,SecondHalf,Andri Baldursson,386625,3475,h,62.6,28.8,BallRecovery,Successful,[]
+2955210043.0,90,43.0,SecondHalf,Stefan Savic,77564,226,a,31.5,67.6,BallRecovery,Successful,[]
+2955210041.0,90,46.0,SecondHalf,Marcus Rafferty,586668,3475,h,57.7,28.6,BallRecovery,Successful,[]
+2955210119.0,90,50.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,27.0,42.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""716""}, {""type"": ""Defensive""}]"
+2955210193.0,90,58.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,24.3,36.4,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2955210229.0,91,0.0,SecondHalf,Ozan Tufan,115639,226,a,22.8,56.3,BallRecovery,Successful,[]
+2955210793.0,91,46.0,SecondHalf,Stefan Savic,77564,226,a,8.8,52.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.4""}, {""type"": ""PassEndY"", ""value"": ""38.0""}, {""type"": ""Length"", ""value"": ""22.9""}, {""type"": ""Angle"", ""value"": ""5.83""}]"
+2955210857.0,91,52.0,SecondHalf,Paul Onuachu,122182,226,a,39.1,7.7,BallRecovery,Successful,[]
+2955210907.0,91,54.0,SecondHalf,Andri Baldursson,386625,3475,h,57.4,96.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""869""}, {""type"": ""Defensive""}]"
+2955210915.0,91,55.0,SecondHalf,Andri Baldursson,386625,3475,h,55.4,93.9,BallRecovery,Successful,[]
+2955211079.0,92,2.0,SecondHalf,Chibuike Nwaiwu,571253,226,a,10.4,28.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""18.5""}, {""type"": ""PassEndY"", ""value"": ""53.9""}, {""type"": ""Length"", ""value"": ""19.1""}, {""type"": ""Angle"", ""value"": ""1.11""}]"
+2955211075.0,92,4.0,SecondHalf,Haris Hajradinovic,119165,3475,h,80.7,46.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""871""}, {""type"": ""Offensive""}]"
+2955211111.0,92,7.0,SecondHalf,Ozan Tufan,115639,226,a,24.6,54.8,BallRecovery,Successful,[]
+2955211351.0,92,24.0,SecondHalf,Adem Arous,582505,3475,h,19.7,32.3,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""877""}]"
+2955211603.0,92,50.0,SecondHalf,Andri Baldursson,386625,3475,h,4.5,63.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""21.8""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""31.8""}, {""type"": ""Angle"", ""value"": ""0.96""}]"
+2955211897.0,93,10.0,SecondHalf,Jakob Jessen,582663,3475,h,9.9,56.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""49.0""}, {""type"": ""PassEndY"", ""value"": ""81.4""}, {""type"": ""Length"", ""value"": ""44.4""}, {""type"": ""Angle"", ""value"": ""0.39""}]"
+2955212773.0,94,38.0,SecondHalf,Cláudio Winck,101952,3475,h,44.2,12.5,BallRecovery,Successful,[]
+2955212797.0,94,41.0,SecondHalf,Ozan Tufan,115639,226,a,46.1,92.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"

@@ -1,0 +1,100 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Barcelona,home,0,433,422824,Joan García,0,0.0,5.0,0,67
+Barcelona,home,0,433,368091,Eric García,1,2.5,1.0,0,67
+Barcelona,home,0,433,591617,Xavi Espart,2,2.5,9.0,0,67
+Barcelona,home,0,433,534796,Marc Bernal,3,5.5,5.0,0,67
+Barcelona,home,0,433,498386,Pau Cubarsí,4,2.5,3.5,0,67
+Barcelona,home,0,433,512879,Gerard Martín,5,2.5,6.5,0,67
+Barcelona,home,0,433,463838,Fermín López,6,5.5,2.0,0,67
+Barcelona,home,0,433,402197,Pedri,7,5.5,8.0,0,67
+Barcelona,home,0,433,300447,Raphinha,8,8.5,5.0,0,67
+Barcelona,home,0,433,480249,Lamine Yamal,9,8.5,2.0,0,67
+Barcelona,home,0,433,349669,Anthony Gordon,10,8.5,8.0,0,67
+Barcelona,home,1,433,422824,Joan García,0,0.0,5.0,67,84
+Barcelona,home,1,433,368091,Eric García,1,2.5,1.0,67,84
+Barcelona,home,1,433,591617,Xavi Espart,2,2.5,9.0,67,84
+Barcelona,home,1,433,303139,Rodri,3,5.5,5.0,67,84
+Barcelona,home,1,433,498386,Pau Cubarsí,4,2.5,3.5,67,84
+Barcelona,home,1,433,512879,Gerard Martín,5,2.5,6.5,67,84
+Barcelona,home,1,433,463838,Fermín López,6,5.5,2.0,67,84
+Barcelona,home,1,433,402197,Pedri,7,5.5,8.0,67,84
+Barcelona,home,1,433,261212,Dani Olmo,8,8.5,5.0,67,84
+Barcelona,home,1,433,480249,Lamine Yamal,9,8.5,2.0,67,84
+Barcelona,home,1,433,349669,Anthony Gordon,10,8.5,8.0,67,84
+Barcelona,home,2,433,422824,Joan García,0,0.0,5.0,84,89
+Barcelona,home,2,433,301019,Jules Koundé,1,2.5,1.0,84,89
+Barcelona,home,2,433,591617,Xavi Espart,2,2.5,9.0,84,89
+Barcelona,home,2,433,303139,Rodri,3,5.5,5.0,84,89
+Barcelona,home,2,433,498386,Pau Cubarsí,4,2.5,3.5,84,89
+Barcelona,home,2,433,512879,Gerard Martín,5,2.5,6.5,84,89
+Barcelona,home,2,433,463838,Fermín López,6,5.5,2.0,84,89
+Barcelona,home,2,433,402197,Pedri,7,5.5,8.0,84,89
+Barcelona,home,2,433,261212,Dani Olmo,8,8.5,5.0,84,89
+Barcelona,home,2,433,480249,Lamine Yamal,9,8.5,2.0,84,89
+Barcelona,home,2,433,392646,Karim Adeyemi,10,8.5,8.0,84,89
+Barcelona,home,3,433,422824,Joan García,0,0.0,5.0,89,93
+Barcelona,home,3,433,301019,Jules Koundé,1,2.5,1.0,89,93
+Barcelona,home,3,433,128967,João Cancelo,2,2.5,9.0,89,93
+Barcelona,home,3,433,303139,Rodri,3,5.5,5.0,89,93
+Barcelona,home,3,433,498386,Pau Cubarsí,4,2.5,3.5,89,93
+Barcelona,home,3,433,512879,Gerard Martín,5,2.5,6.5,89,93
+Barcelona,home,3,433,463838,Fermín López,6,5.5,2.0,89,93
+Barcelona,home,3,433,591617,Xavi Espart,7,5.5,8.0,89,93
+Barcelona,home,3,433,261212,Dani Olmo,8,8.5,5.0,89,93
+Barcelona,home,3,433,480249,Lamine Yamal,9,8.5,2.0,89,93
+Barcelona,home,3,433,392646,Karim Adeyemi,10,8.5,8.0,89,93
+Athletic Club,away,0,4231,332823,Unai Simón,0,0.0,5.0,0,64
+Athletic Club,away,0,4231,481851,Hugo Rincón,1,2.5,1.0,0,64
+Athletic Club,away,0,4231,431668,Johaneko Louis-Jean,2,2.5,9.0,0,64
+Athletic Club,away,0,4231,536242,Peio Canales,3,5.0,6.5,0,64
+Athletic Club,away,0,4231,279839,Yeray Álvarez,4,2.5,3.5,0,64
+Athletic Club,away,0,4231,122117,Aymeric Laporte,5,2.5,6.5,0,64
+Athletic Club,away,0,4231,255182,Iñaki Williams,6,7.0,2.0,0,64
+Athletic Club,away,0,4231,511120,Mikel Jauregizar,7,5.0,3.5,0,64
+Athletic Club,away,0,4231,362602,Gorka Guruzeta,8,9.0,5.0,0,64
+Athletic Club,away,0,4231,381510,Oihan Sancet,9,7.0,5.0,0,64
+Athletic Club,away,0,4231,408449,Nico Williams,10,7.0,8.0,0,64
+Athletic Club,away,1,4231,332823,Unai Simón,0,0.0,5.0,64,74
+Athletic Club,away,1,4231,481851,Hugo Rincón,1,2.5,1.0,64,74
+Athletic Club,away,1,4231,431668,Johaneko Louis-Jean,2,2.5,9.0,64,74
+Athletic Club,away,1,4231,536242,Peio Canales,3,5.0,6.5,64,74
+Athletic Club,away,1,4231,279839,Yeray Álvarez,4,2.5,3.5,64,74
+Athletic Club,away,1,4231,122117,Aymeric Laporte,5,2.5,6.5,64,74
+Athletic Club,away,1,4231,400237,Robert Navarro,6,7.0,2.0,64,74
+Athletic Club,away,1,4231,511120,Mikel Jauregizar,7,5.0,3.5,64,74
+Athletic Club,away,1,4231,362602,Gorka Guruzeta,8,9.0,5.0,64,74
+Athletic Club,away,1,4231,381510,Oihan Sancet,9,7.0,5.0,64,74
+Athletic Club,away,1,4231,238899,Alex Berenguer,10,7.0,8.0,64,74
+Athletic Club,away,2,4231,332823,Unai Simón,0,0.0,5.0,74,74
+Athletic Club,away,2,4231,481851,Hugo Rincón,1,2.5,1.0,74,74
+Athletic Club,away,2,4231,515307,Adama Boiro,2,2.5,9.0,74,74
+Athletic Club,away,2,4231,536242,Peio Canales,3,5.0,6.5,74,74
+Athletic Club,away,2,4231,279839,Yeray Álvarez,4,2.5,3.5,74,74
+Athletic Club,away,2,4231,122117,Aymeric Laporte,5,2.5,6.5,74,74
+Athletic Club,away,2,4231,400237,Robert Navarro,6,7.0,2.0,74,74
+Athletic Club,away,2,4231,511120,Mikel Jauregizar,7,5.0,3.5,74,74
+Athletic Club,away,2,4231,362602,Gorka Guruzeta,8,9.0,5.0,74,74
+Athletic Club,away,2,4231,381510,Oihan Sancet,9,7.0,5.0,74,74
+Athletic Club,away,2,4231,238899,Alex Berenguer,10,7.0,8.0,74,74
+Athletic Club,away,3,4231,332823,Unai Simón,0,0.0,5.0,74,85
+Athletic Club,away,3,4231,481851,Hugo Rincón,1,2.5,1.0,74,85
+Athletic Club,away,3,4231,515307,Adama Boiro,2,2.5,9.0,74,85
+Athletic Club,away,3,4231,536242,Peio Canales,3,5.0,6.5,74,85
+Athletic Club,away,3,4231,279839,Yeray Álvarez,4,2.5,3.5,74,85
+Athletic Club,away,3,4231,122117,Aymeric Laporte,5,2.5,6.5,74,85
+Athletic Club,away,3,4231,400237,Robert Navarro,6,7.0,2.0,74,85
+Athletic Club,away,3,4231,536243,Beñat Gerenabarrena,7,5.0,3.5,74,85
+Athletic Club,away,3,4231,362602,Gorka Guruzeta,8,9.0,5.0,74,85
+Athletic Club,away,3,4231,381510,Oihan Sancet,9,7.0,5.0,74,85
+Athletic Club,away,3,4231,238899,Alex Berenguer,10,7.0,8.0,74,85
+Athletic Club,away,4,4231,332823,Unai Simón,0,0.0,5.0,85,93
+Athletic Club,away,4,4231,481851,Hugo Rincón,1,2.5,1.0,85,93
+Athletic Club,away,4,4231,515307,Adama Boiro,2,2.5,9.0,85,93
+Athletic Club,away,4,4231,536242,Peio Canales,3,5.0,6.5,85,93
+Athletic Club,away,4,4231,279839,Yeray Álvarez,4,2.5,3.5,85,93
+Athletic Club,away,4,4231,122117,Aymeric Laporte,5,2.5,6.5,85,93
+Athletic Club,away,4,4231,444806,Álvaro Djaló,6,7.0,2.0,85,93
+Athletic Club,away,4,4231,536243,Beñat Gerenabarrena,7,5.0,3.5,85,93
+Athletic Club,away,4,4231,400237,Robert Navarro,8,9.0,5.0,85,93
+Athletic Club,away,4,4231,381510,Oihan Sancet,9,7.0,5.0,85,93
+Athletic Club,away,4,4231,238899,Alex Berenguer,10,7.0,8.0,85,93

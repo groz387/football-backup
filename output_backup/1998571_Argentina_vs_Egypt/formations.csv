@@ -1,0 +1,100 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Argentina,home,0,4132,102248,Emiliano Martínez,0,0.0,5.0,0,72
+Argentina,home,0,4132,303728,Nahuel Molina,1,2.0,1.0,0,72
+Argentina,home,0,4132,83809,Nicolás Tagliafico,2,2.0,9.0,0,72
+Argentina,home,0,4132,93700,Leandro Paredes,3,4.5,5.0,0,72
+Argentina,home,0,4132,323663,Cristian Romero,4,2.0,3.5,0,72
+Argentina,home,0,4132,340105,Lisandro Martínez,5,2.0,6.5,0,72
+Argentina,home,0,4132,125547,Rodrigo De Paul,6,6.5,3.0,0,72
+Argentina,home,0,4132,345319,Alexis Mac Allister,7,6.5,5.0,0,72
+Argentina,home,0,4132,11119,Lionel Messi,8,9.0,4.0,0,72
+Argentina,home,0,4132,365409,Julián Alvarez,9,9.0,6.0,0,72
+Argentina,home,0,4132,369430,Enzo Fernández,10,6.5,7.0,0,72
+Argentina,home,1,4132,102248,Emiliano Martínez,0,0.0,5.0,72,79
+Argentina,home,1,4132,303728,Nahuel Molina,1,2.0,1.0,72,79
+Argentina,home,1,4132,345322,Nico González,2,2.0,9.0,72,79
+Argentina,home,1,4132,93700,Leandro Paredes,3,4.5,5.0,72,79
+Argentina,home,1,4132,323663,Cristian Romero,4,2.0,3.5,72,79
+Argentina,home,1,4132,340105,Lisandro Martínez,5,2.0,6.5,72,79
+Argentina,home,1,4132,11119,Lionel Messi,6,6.5,3.0,72,79
+Argentina,home,1,4132,345319,Alexis Mac Allister,7,6.5,5.0,72,79
+Argentina,home,1,4132,299344,Lautaro Martínez,8,9.0,4.0,72,79
+Argentina,home,1,4132,365409,Julián Alvarez,9,9.0,6.0,72,79
+Argentina,home,1,4132,369430,Enzo Fernández,10,6.5,7.0,72,79
+Argentina,home,2,4132,102248,Emiliano Martínez,0,0.0,5.0,79,101
+Argentina,home,2,4132,316883,Gonzalo Montiel,1,2.0,1.0,79,101
+Argentina,home,2,4132,345322,Nico González,2,2.0,9.0,79,101
+Argentina,home,2,4132,93700,Leandro Paredes,3,4.5,5.0,79,101
+Argentina,home,2,4132,323663,Cristian Romero,4,2.0,3.5,79,101
+Argentina,home,2,4132,340105,Lisandro Martínez,5,2.0,6.5,79,101
+Argentina,home,2,4132,11119,Lionel Messi,6,6.5,3.0,79,101
+Argentina,home,2,4132,345319,Alexis Mac Allister,7,6.5,5.0,79,101
+Argentina,home,2,4132,299344,Lautaro Martínez,8,9.0,4.0,79,101
+Argentina,home,2,4132,365409,Julián Alvarez,9,9.0,6.0,79,101
+Argentina,home,2,4132,369430,Enzo Fernández,10,6.5,7.0,79,101
+Argentina,home,3,4132,102248,Emiliano Martínez,0,0.0,5.0,101,101
+Argentina,home,3,4132,316883,Gonzalo Montiel,1,2.0,1.0,101,101
+Argentina,home,3,4132,330672,Facundo Medina,2,2.0,9.0,101,101
+Argentina,home,3,4132,93700,Leandro Paredes,3,4.5,5.0,101,101
+Argentina,home,3,4132,75691,Nicolás Otamendi,4,2.0,3.5,101,101
+Argentina,home,3,4132,340105,Lisandro Martínez,5,2.0,6.5,101,101
+Argentina,home,3,4132,345319,Alexis Mac Allister,6,6.5,3.0,101,101
+Argentina,home,3,4132,369430,Enzo Fernández,7,6.5,5.0,101,101
+Argentina,home,3,4132,11119,Lionel Messi,8,9.0,4.0,101,101
+Argentina,home,3,4132,299344,Lautaro Martínez,9,9.0,6.0,101,101
+Argentina,home,3,4132,345322,Nico González,10,6.5,7.0,101,101
+Egypt,away,0,442,519797,Mostafa Shobeir,0,0.0,5.0,0,52
+Egypt,away,0,442,450471,Mohamed Hany,1,2.5,1.0,0,52
+Egypt,away,0,442,228655,Karim Hafez,2,2.5,9.0,0,52
+Egypt,away,0,442,431069,Mohanad Lasheen,3,6.0,3.5,0,52
+Egypt,away,0,442,450472,Yasser Ibrahim,4,2.5,3.5,0,52
+Egypt,away,0,442,139468,Ramy Rabia,5,2.5,6.5,0,52
+Egypt,away,0,442,475046,Haissem Hassan,6,6.0,1.0,0,52
+Egypt,away,0,442,476815,Marwan Attia,7,6.0,6.5,0,52
+Egypt,away,0,442,512753,Mostafa Zico,8,9.0,6.5,0,52
+Egypt,away,0,442,108226,Mohamed Salah,9,9.0,3.5,0,52
+Egypt,away,0,442,431068,Emam Ashour,10,6.0,9.0,0,52
+Egypt,away,1,451,519797,Mostafa Shobeir,0,0.0,5.0,52,79
+Egypt,away,1,451,450471,Mohamed Hany,1,2.5,1.0,52,79
+Egypt,away,1,451,228655,Karim Hafez,2,2.5,9.0,52,79
+Egypt,away,1,451,476815,Marwan Attia,3,6.0,3.0,52,79
+Egypt,away,1,451,450472,Yasser Ibrahim,4,2.5,3.5,52,79
+Egypt,away,1,451,139468,Ramy Rabia,5,2.5,6.5,52,79
+Egypt,away,1,451,475046,Haissem Hassan,6,6.0,1.0,52,79
+Egypt,away,1,451,431063,Hamdi Fathy,7,6.0,7.0,52,79
+Egypt,away,1,451,108226,Mohamed Salah,8,9.0,5.0,52,79
+Egypt,away,1,451,431069,Mohanad Lasheen,9,6.0,5.0,52,79
+Egypt,away,1,451,512753,Mostafa Zico,10,6.0,9.0,52,79
+Egypt,away,2,451,519797,Mostafa Shobeir,0,0.0,5.0,79,86
+Egypt,away,2,451,450471,Mohamed Hany,1,2.5,1.0,79,86
+Egypt,away,2,451,228655,Karim Hafez,2,2.5,9.0,79,86
+Egypt,away,2,451,476815,Marwan Attia,3,6.0,3.0,79,86
+Egypt,away,2,451,450472,Yasser Ibrahim,4,2.5,3.5,79,86
+Egypt,away,2,451,139468,Ramy Rabia,5,2.5,6.5,79,86
+Egypt,away,2,451,512753,Mostafa Zico,6,6.0,1.0,79,86
+Egypt,away,2,451,431063,Hamdi Fathy,7,6.0,7.0,79,86
+Egypt,away,2,451,108226,Mohamed Salah,8,9.0,5.0,79,86
+Egypt,away,2,451,431069,Mohanad Lasheen,9,6.0,5.0,79,86
+Egypt,away,2,451,313545,Trezeguet,10,6.0,9.0,79,86
+Egypt,away,3,451,519797,Mostafa Shobeir,0,0.0,5.0,86,102
+Egypt,away,3,451,450471,Mohamed Hany,1,2.5,1.0,86,102
+Egypt,away,3,451,228655,Karim Hafez,2,2.5,9.0,86,102
+Egypt,away,3,451,476815,Marwan Attia,3,6.0,3.0,86,102
+Egypt,away,3,451,450472,Yasser Ibrahim,4,2.5,3.5,86,102
+Egypt,away,3,451,139468,Ramy Rabia,5,2.5,6.5,86,102
+Egypt,away,3,451,394749,Omar Marmoush,6,6.0,1.0,86,102
+Egypt,away,3,451,431063,Hamdi Fathy,7,6.0,7.0,86,102
+Egypt,away,3,451,108226,Mohamed Salah,8,9.0,5.0,86,102
+Egypt,away,3,451,431069,Mohanad Lasheen,9,6.0,5.0,86,102
+Egypt,away,3,451,313545,Trezeguet,10,6.0,9.0,86,102
+Egypt,away,4,442,519797,Mostafa Shobeir,0,0.0,5.0,102,101
+Egypt,away,4,442,450471,Mohamed Hany,1,2.5,1.0,102,101
+Egypt,away,4,442,228655,Karim Hafez,2,2.5,9.0,102,101
+Egypt,away,4,442,476815,Marwan Attia,3,6.0,3.5,102,101
+Egypt,away,4,442,450472,Yasser Ibrahim,4,2.5,3.5,102,101
+Egypt,away,4,442,139468,Ramy Rabia,5,2.5,6.5,102,101
+Egypt,away,4,442,333238,Zizo,6,6.0,1.0,102,101
+Egypt,away,4,442,431063,Hamdi Fathy,7,6.0,6.5,102,101
+Egypt,away,4,442,108226,Mohamed Salah,8,9.0,6.5,102,101
+Egypt,away,4,442,394749,Omar Marmoush,9,9.0,3.5,102,101
+Egypt,away,4,442,313545,Trezeguet,10,6.0,9.0,102,101

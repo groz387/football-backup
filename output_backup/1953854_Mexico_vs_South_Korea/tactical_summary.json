@@ -1,0 +1,127 @@
+{
+  "match_info": {
+    "teams": "Mexico vs South Korea",
+    "score": "1 : 0",
+    "competition": "World Cup Grp. A",
+    "home_formation": "433",
+    "away_formation": "3421"
+  },
+  "team_stats": {
+    "Mexico": {
+      "total_passes": 453,
+      "pass_accuracy": 81.9,
+      "total_shots": 8,
+      "goals": 1,
+      "possession_proxy": 42.3
+    },
+    "South Korea": {
+      "total_passes": 618,
+      "pass_accuracy": 84.1,
+      "total_shots": 9,
+      "goals": 0,
+      "possession_proxy": 57.7
+    }
+  },
+  "zone_dominance": {
+    "Mexico": {
+      "defensive_third": 36.8,
+      "middle_third": 51.4,
+      "final_third": 11.7
+    },
+    "South Korea": {
+      "defensive_third": 29.5,
+      "middle_third": 55.2,
+      "final_third": 15.3
+    }
+  },
+  "standout_players": {
+    "Mexico": {
+      "top_passers": [
+        {
+          "player": "Edson Álvarez",
+          "passes": 77
+        },
+        {
+          "player": "Johan Vásquez",
+          "passes": 55
+        },
+        {
+          "player": "Jesús Gallardo",
+          "passes": 53
+        }
+      ],
+      "top_shooters": [
+        {
+          "player": "Raúl Jiménez",
+          "shots": 2
+        },
+        {
+          "player": "Jesús Gallardo",
+          "shots": 1
+        },
+        {
+          "player": "Brian Gutiérrez",
+          "shots": 1
+        }
+      ],
+      "top_defenders": [
+        {
+          "player": "Edson Álvarez",
+          "actions": 15
+        },
+        {
+          "player": "Raúl Rangel",
+          "actions": 13
+        },
+        {
+          "player": "Jesús Gallardo",
+          "actions": 12
+        }
+      ]
+    },
+    "South Korea": {
+      "top_passers": [
+        {
+          "player": "Kim Min-Jae",
+          "passes": 97
+        },
+        {
+          "player": "Lee Gi-Hyuk",
+          "passes": 88
+        },
+        {
+          "player": "Lee Han-Beom",
+          "passes": 68
+        }
+      ],
+      "top_shooters": [
+        {
+          "player": "Cho Gue-Sung",
+          "shots": 2
+        },
+        {
+          "player": "Lee Kang-In",
+          "shots": 2
+        },
+        {
+          "player": "Hwang In-Beom",
+          "shots": 1
+        }
+      ],
+      "top_defenders": [
+        {
+          "player": "Kim Seung-Gyu",
+          "actions": 14
+        },
+        {
+          "player": "Lee Han-Beom",
+          "actions": 11
+        },
+        {
+          "player": "Lee Jae-Sung",
+          "actions": 10
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,213 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2959124979.0,0,7.0,FirstHalf,Gerard Martín,512879,65,a,27.5,70.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""40.4""}, {""type"": ""PassEndY"", ""value"": ""71.6""}, {""type"": ""Length"", ""value"": ""13.6""}, {""type"": ""Angle"", ""value"": ""0.04""}]"
+2959125199.0,0,21.0,FirstHalf,Eric García,368091,65,a,34.1,11.7,BallRecovery,Successful,[]
+2959125759.0,0,49.0,FirstHalf,Fer Niño,391082,833,h,62.0,35.8,BallRecovery,Successful,[]
+2959125989.0,1,5.0,FirstHalf,Marc Bernal,534796,65,a,21.8,64.5,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2959125999.0,1,7.0,FirstHalf,Andreas Christensen,130331,65,a,22.5,68.1,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2959126059.0,1,8.0,FirstHalf,Eric García,368091,65,a,21.5,47.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""52.0""}, {""type"": ""PassEndY"", ""value"": ""47.0""}, {""type"": ""Length"", ""value"": ""32.0""}, {""type"": ""Angle"", ""value"": ""6.26""}]"
+2959127935.0,2,55.0,FirstHalf,David Affengruber,423282,833,h,57.2,6.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""51""}, {""type"": ""Defensive""}]"
+2959127949.0,2,56.0,FirstHalf,David Affengruber,423282,833,h,63.7,7.0,BallRecovery,Successful,[]
+2959128021.0,2,59.0,FirstHalf,Xavi Espart,591617,65,a,25.4,81.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""26""}, {""type"": ""Defensive""}]"
+2959128127.0,3,3.0,FirstHalf,Xavi Espart,591617,65,a,21.1,78.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""18.0""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""15.5""}, {""type"": ""Angle"", ""value"": ""1.78""}]"
+2959128471.0,3,25.0,FirstHalf,Gavi,422937,65,a,27.5,94.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""34""}, {""type"": ""Defensive""}]"
+2959128533.0,3,26.0,FirstHalf,Xavi Espart,591617,65,a,29.4,92.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""35""}, {""type"": ""Defensive""}]"
+2959128801.0,3,44.0,FirstHalf,Gavi,422937,65,a,25.9,91.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""38""}, {""type"": ""Defensive""}]"
+2959128823.0,3,46.0,FirstHalf,Gonzalo Villar,357388,833,h,73.4,8.8,BallRecovery,Successful,[]
+2959129387.0,4,7.0,FirstHalf,Gerard Martín,512879,65,a,12.6,66.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.2""}, {""type"": ""PassEndY"", ""value"": ""89.1""}, {""type"": ""Length"", ""value"": ""17.4""}, {""type"": ""Angle"", ""value"": ""1.09""}]"
+2959129403.0,4,11.0,FirstHalf,Xavi Espart,591617,65,a,26.2,86.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""48""}, {""type"": ""Defensive""}]"
+2959132581.0,6,42.0,FirstHalf,Marc Bernal,534796,65,a,65.8,5.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""62""}, {""type"": ""Defensive""}]"
+2959133755.0,7,31.0,FirstHalf,Matías Dituro,422916,833,h,13.5,31.5,KeeperPickup,Successful,[]
+2959134247.0,7,53.0,FirstHalf,Andreas Christensen,130331,65,a,35.3,44.7,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2959134387.0,7,57.0,FirstHalf,Joan García,422824,65,a,23.8,22.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""PassEndX"", ""value"": ""63.5""}, {""type"": ""PassEndY"", ""value"": ""2.7""}, {""type"": ""Length"", ""value"": ""43.9""}, {""type"": ""Angle"", ""value"": ""5.96""}]"
+2959135445.0,8,44.0,FirstHalf,Gonzalo Villar,357388,833,h,27.0,25.9,BallRecovery,Successful,[]
+2959135711.0,8,55.0,FirstHalf,Andreas Christensen,130331,65,a,31.3,42.0,BallRecovery,Successful,[]
+2959136499.0,9,27.0,FirstHalf,Matías Dituro,422916,833,h,4.1,51.1,BallRecovery,Successful,[]
+2959136679.0,9,34.0,FirstHalf,Marc Bernal,534796,65,a,63.4,35.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""87""}, {""type"": ""Defensive""}]"
+2959136731.0,9,36.0,FirstHalf,Marc Bernal,534796,65,a,61.5,29.3,BallRecovery,Successful,[]
+2959136747.0,9,38.0,FirstHalf,Víctor Chust,402862,833,h,27.3,79.9,BallRecovery,Successful,[]
+2959137099.0,9,51.0,FirstHalf,Gerard Martín,512879,65,a,20.3,84.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.1""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""11.0""}, {""type"": ""Angle"", ""value"": ""1.59""}]"
+2959137535.0,10,10.0,FirstHalf,Karim Adeyemi,392646,65,a,27.2,91.0,BallRecovery,Successful,[]
+2959137771.0,10,22.0,FirstHalf,Matías Dituro,422916,833,h,12.1,51.0,KeeperPickup,Successful,[]
+2959260409.0,11,57.0,FirstHalf,Ali Houary,508339,833,h,56.7,35.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2959140151.0,12,3.0,FirstHalf,Gonzalo Villar,357388,833,h,62.8,23.7,BallRecovery,Successful,[]
+2959140321.0,12,12.0,FirstHalf,Eric García,368091,65,a,21.8,24.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""28.3""}, {""type"": ""PassEndY"", ""value"": ""19.8""}, {""type"": ""Length"", ""value"": ""7.5""}, {""type"": ""Angle"", ""value"": ""5.87""}]"
+2959140979.0,12,37.0,FirstHalf,Xavi Espart,591617,65,a,67.8,87.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""127""}, {""type"": ""Defensive""}]"
+2959141003.0,12,41.0,FirstHalf,Fermín López,463838,65,a,68.1,83.4,BallRecovery,Successful,[]
+2959144121.0,15,19.0,FirstHalf,Gerard Martín,512879,65,a,31.1,77.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""36.4""}, {""type"": ""PassEndY"", ""value"": ""86.7""}, {""type"": ""Length"", ""value"": ""8.6""}, {""type"": ""Angle"", ""value"": ""0.86""}]"
+2959144221.0,15,25.0,FirstHalf,Gerard Martín,512879,65,a,11.4,96.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.2""}, {""type"": ""PassEndY"", ""value"": ""95.2""}, {""type"": ""Length"", ""value"": ""13.5""}, {""type"": ""Angle"", ""value"": ""6.21""}]"
+2959144561.0,15,40.0,FirstHalf,Xavi Espart,591617,65,a,29.6,92.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""147""}, {""type"": ""Defensive""}]"
+2959145377.0,16,23.0,FirstHalf,Eric García,368091,65,a,8.0,21.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""144""}]"
+2959145491.0,16,30.0,FirstHalf,Marc Bernal,534796,65,a,3.2,4.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""145""}, {""type"": ""Defensive""}]"
+2959146147.0,17,9.0,FirstHalf,Joan García,422824,65,a,1.8,40.4,KeeperPickup,Successful,[]
+2959146933.0,17,53.0,FirstHalf,Federico Redondo,419616,833,h,29.6,58.6,BallRecovery,Successful,[]
+2959146957.0,17,55.0,FirstHalf,Fermín López,463838,65,a,68.0,46.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""151""}, {""type"": ""Offensive""}]"
+2959148237.0,19,12.0,FirstHalf,Gerard Martín,512879,65,a,15.1,43.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2959148275.0,19,16.0,FirstHalf,Gavi,422937,65,a,25.5,39.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""162""}, {""type"": ""Defensive""}]"
+2959148385.0,19,22.0,FirstHalf,Xavi Espart,591617,65,a,13.1,57.8,BallRecovery,Successful,[]
+2959148555.0,19,27.0,FirstHalf,Marc Aguado,448050,833,h,64.8,46.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""195""}, {""type"": ""Defensive""}]"
+2959148961.0,20,5.0,FirstHalf,Matías Dituro,422916,833,h,13.8,42.0,KeeperPickup,Successful,[]
+2959149761.0,20,59.0,FirstHalf,Gerard Martín,512879,65,a,41.4,88.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""47.0""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""10.7""}, {""type"": ""Angle"", ""value"": ""0.99""}]"
+2959150205.0,21,25.0,FirstHalf,Marc Bernal,534796,65,a,54.6,43.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2959150231.0,21,26.0,FirstHalf,Marc Bernal,534796,65,a,54.1,54.5,BallRecovery,Successful,[]
+2959150707.0,22,2.0,FirstHalf,Víctor Chust,402862,833,h,28.9,92.4,BallRecovery,Successful,[]
+2959150827.0,22,8.0,FirstHalf,Joan García,422824,65,a,16.9,4.9,BallRecovery,Successful,[]
+2959151107.0,22,37.0,FirstHalf,Víctor Chust,402862,833,h,15.5,89.1,BallRecovery,Successful,[]
+2959151415.0,23,6.0,FirstHalf,Eric García,368091,65,a,11.8,64.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""88.5""}, {""type"": ""Length"", ""value"": ""21.4""}, {""type"": ""Angle"", ""value"": ""2.27""}]"
+2959152055.0,23,55.0,FirstHalf,Andreas Christensen,130331,65,a,11.6,48.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""45.3""}, {""type"": ""PassEndY"", ""value"": ""54.7""}, {""type"": ""Length"", ""value"": ""35.6""}, {""type"": ""Angle"", ""value"": ""0.11""}]"
+2959152225.0,24,10.0,FirstHalf,Gavi,422937,65,a,34.1,42.7,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2959152645.0,24,42.0,FirstHalf,David Affengruber,423282,833,h,29.0,9.0,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2959152981.0,25,6.0,FirstHalf,Víctor Chust,402862,833,h,26.3,71.8,BallRecovery,Successful,[]
+2959153185.0,25,21.0,FirstHalf,Xavi Espart,591617,65,a,38.4,74.8,BallRecovery,Successful,[]
+2959153231.0,25,24.0,FirstHalf,Gonzalo Villar,357388,833,h,44.7,34.1,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""250""}, {""type"": ""Defensive""}]"
+2959153263.0,25,28.0,FirstHalf,David Affengruber,423282,833,h,37.3,28.9,BallRecovery,Successful,[]
+2959153427.0,25,36.0,FirstHalf,Karim Adeyemi,392646,65,a,65.3,66.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""235""}, {""type"": ""Defensive""}]"
+2959153443.0,25,38.0,FirstHalf,Fermín López,463838,65,a,73.7,71.3,BallRecovery,Successful,[]
+2959153593.0,25,47.0,FirstHalf,Federico Redondo,419616,833,h,4.6,33.6,BallRecovery,Successful,[]
+2959153735.0,25,55.0,FirstHalf,Fer Niño,391082,833,h,32.0,50.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""257""}, {""type"": ""Defensive""}]"
+2959153715.0,25,56.0,FirstHalf,Marc Bernal,534796,65,a,65.0,38.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""243""}, {""type"": ""Defensive""}]"
+2959153831.0,26,7.0,FirstHalf,Eric García,368091,65,a,29.1,22.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""247""}, {""type"": ""Defensive""}]"
+2959154301.0,26,43.0,FirstHalf,Eric García,368091,65,a,12.4,21.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""261""}]"
+2959154443.0,26,57.0,FirstHalf,Xavi Espart,591617,65,a,9.6,67.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.3""}, {""type"": ""PassEndY"", ""value"": ""80.2""}, {""type"": ""Length"", ""value"": ""18.5""}, {""type"": ""Angle"", ""value"": ""0.48""}]"
+2959154471.0,26,59.0,FirstHalf,Karim Adeyemi,392646,65,a,24.6,76.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""265""}, {""type"": ""Defensive""}]"
+2959154545.0,27,7.0,FirstHalf,Buba Sangaré,510360,833,h,71.5,6.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""266""}, {""type"": ""Defensive""}]"
+2959154813.0,27,27.0,FirstHalf,Víctor Chust,402862,833,h,35.5,61.0,BallRecovery,Successful,[]
+2959154863.0,27,36.0,FirstHalf,Fermín López,463838,65,a,74.8,67.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""274""}, {""type"": ""Defensive""}]"
+2959154973.0,27,49.0,FirstHalf,Joan García,422824,65,a,30.5,19.5,BallRecovery,Successful,[]
+2959157873.0,31,54.0,FirstHalf,Eric García,368091,65,a,9.5,46.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2959157921.0,31,57.0,FirstHalf,Andreas Christensen,130331,65,a,4.2,27.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""12.8""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""21.6""}, {""type"": ""Angle"", ""value"": ""5.14""}]"
+2959158219.0,32,15.0,FirstHalf,Lamine Yamal,480249,65,a,20.4,5.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""290""}, {""type"": ""Defensive""}]"
+2959158889.0,32,57.0,FirstHalf,Marc Aguado,448050,833,h,48.0,52.9,BallRecovery,Successful,[]
+2959158931.0,33,1.0,FirstHalf,Lamine Yamal,480249,65,a,55.4,25.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2959159023.0,33,6.0,FirstHalf,Marc Bernal,534796,65,a,41.0,6.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""299""}, {""type"": ""Defensive""}]"
+2959159611.0,33,35.0,FirstHalf,Ali Houary,508339,833,h,62.8,40.2,BallRecovery,Successful,[]
+2959159999.0,33,52.0,FirstHalf,Federico Redondo,419616,833,h,38.2,35.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""308""}, {""type"": ""Defensive""}]"
+2959161549.0,35,28.0,FirstHalf,Xavi Espart,591617,65,a,29.5,66.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""331""}, {""type"": ""Defensive""}]"
+2959161553.0,35,29.0,FirstHalf,Gavi,422937,65,a,28.6,66.2,BallRecovery,Successful,[]
+2959161609.0,35,33.0,FirstHalf,Federico Redondo,419616,833,h,40.8,31.5,BallRecovery,Successful,[]
+2959162263.0,36,12.0,FirstHalf,Gerard Martín,512879,65,a,15.9,93.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""24.4""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""10.4""}, {""type"": ""Angle"", ""value"": ""0.54""}]"
+2959163435.0,37,17.0,FirstHalf,Andreas Christensen,130331,65,a,3.1,42.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""27.0""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""39.2""}, {""type"": ""Angle"", ""value"": ""5.41""}]"
+2959163913.0,37,39.0,FirstHalf,Andreas Christensen,130331,65,a,10.4,28.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.2""}, {""type"": ""PassEndY"", ""value"": ""33.5""}, {""type"": ""Length"", ""value"": ""13.8""}, {""type"": ""Angle"", ""value"": ""0.23""}]"
+2959165779.0,39,15.0,FirstHalf,Marc Bernal,534796,65,a,43.9,31.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""45.3""}, {""type"": ""PassEndY"", ""value"": ""30.0""}, {""type"": ""Length"", ""value"": ""1.8""}, {""type"": ""Angle"", ""value"": ""5.68""}]"
+2959165839.0,39,19.0,FirstHalf,Gerard Martín,512879,65,a,35.6,62.9,BallRecovery,Successful,[]
+2959166189.0,39,36.0,FirstHalf,Gonzalo Villar,357388,833,h,62.0,74.2,BallRecovery,Successful,[]
+2959167289.0,40,25.0,FirstHalf,Gerard Martín,512879,65,a,11.3,64.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.8""}, {""type"": ""PassEndY"", ""value"": ""77.2""}, {""type"": ""Length"", ""value"": ""21.3""}, {""type"": ""Angle"", ""value"": ""0.42""}]"
+2959167829.0,40,55.0,FirstHalf,Federico Redondo,419616,833,h,54.1,61.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2959168453.0,41,19.0,FirstHalf,Federico Redondo,419616,833,h,53.5,59.7,BallRecovery,Successful,[]
+2959168661.0,41,32.0,FirstHalf,Joan García,422824,65,a,14.5,32.4,BallRecovery,Successful,[]
+2959169139.0,41,56.0,FirstHalf,Víctor Chust,402862,833,h,37.2,93.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""367""}, {""type"": ""Defensive""}]"
+2959169147.0,41,59.0,FirstHalf,Germán Valera,390240,833,h,30.5,94.2,BallRecovery,Successful,[]
+2959169207.0,42,2.0,FirstHalf,Eric García,368091,65,a,53.2,11.1,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Right""}]"
+2959169247.0,42,4.0,FirstHalf,Marc Bernal,534796,65,a,60.2,12.4,BallRecovery,Successful,[]
+2959173333.0,45,4.0,FirstHalf,Raphinha,300447,65,a,7.2,57.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""37.9""}, {""type"": ""PassEndY"", ""value"": ""51.8""}, {""type"": ""Length"", ""value"": ""32.5""}, {""type"": ""Angle"", ""value"": ""6.17""}]"
+2959173741.0,45,11.0,FirstHalf,Gerard Martín,512879,65,a,13.2,45.3,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""30.6""}, {""type"": ""PassEndY"", ""value"": ""44.4""}, {""type"": ""Length"", ""value"": ""18.3""}, {""type"": ""Angle"", ""value"": ""6.25""}]"
+2959173749.0,45,24.0,FirstHalf,Eric García,368091,65,a,6.6,41.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.5""}, {""type"": ""PassEndY"", ""value"": ""10.6""}, {""type"": ""Length"", ""value"": ""31.9""}, {""type"": ""Angle"", ""value"": ""5.57""}]"
+2959173791.0,45,27.0,FirstHalf,Lamine Yamal,480249,65,a,30.6,10.0,BallRecovery,Successful,[]
+2959175115.0,46,24.0,FirstHalf,Federico Redondo,419616,833,h,6.3,63.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""10.5""}, {""type"": ""PassEndY"", ""value"": ""75.9""}, {""type"": ""Length"", ""value"": ""9.6""}, {""type"": ""Angle"", ""value"": ""1.09""}]"
+2959175265.0,46,26.0,FirstHalf,Germán Valera,390240,833,h,10.6,75.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.7""}, {""type"": ""PassEndY"", ""value"": ""84.4""}, {""type"": ""Length"", ""value"": ""30.1""}, {""type"": ""Angle"", ""value"": ""0.19""}]"
+2959176295.0,47,25.0,FirstHalf,Gerard Martín,512879,65,a,30.1,71.3,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""42.3""}, {""type"": ""PassEndY"", ""value"": ""76.9""}, {""type"": ""Length"", ""value"": ""13.4""}, {""type"": ""Angle"", ""value"": ""0.29""}]"
+2959176433.0,47,29.0,FirstHalf,Xavi Espart,591617,65,a,36.6,92.2,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""46.6""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""12.3""}, {""type"": ""Angle"", ""value"": ""0.55""}]"
+2959176693.0,47,43.0,FirstHalf,Raphinha,300447,65,a,71.8,56.0,BallRecovery,Successful,[]
+2959178281.0,48,57.0,FirstHalf,Xavi Espart,591617,65,a,34.2,92.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""35.7""}, {""type"": ""PassEndY"", ""value"": ""98.1""}, {""type"": ""Length"", ""value"": ""3.9""}, {""type"": ""Angle"", ""value"": ""1.16""}]"
+2959178401.0,49,0.0,FirstHalf,Fermín López,463838,65,a,35.4,92.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""428""}, {""type"": ""Defensive""}]"
+2959178387.0,49,2.0,FirstHalf,Fer Niño,391082,833,h,63.2,8.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2959178555.0,49,9.0,FirstHalf,Lamine Yamal,480249,65,a,31.3,39.8,BallRecovery,Successful,[]
+2959178677.0,49,12.0,FirstHalf,Gonzalo Villar,357388,833,h,65.0,57.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""423""}, {""type"": ""Defensive""}]"
+2959178689.0,49,14.0,FirstHalf,Gonzalo Villar,357388,833,h,62.9,75.0,BallRecovery,Successful,[]
+2959198045.0,45,18.0,SecondHalf,Federico Redondo,419616,833,h,28.3,32.5,BallRecovery,Successful,[]
+2959198127.0,45,22.0,SecondHalf,Marc Bernal,534796,65,a,57.1,60.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""479""}, {""type"": ""Defensive""}]"
+2959198133.0,45,23.0,SecondHalf,Marc Bernal,534796,65,a,51.1,57.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""535""}, {""type"": ""Defensive""}]"
+2959198275.0,45,32.0,SecondHalf,Eric García,368091,65,a,27.4,28.7,BallRecovery,Successful,[]
+2959198877.0,46,9.0,SecondHalf,Marc Bernal,534796,65,a,67.1,34.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""491""}, {""type"": ""Defensive""}]"
+2959199343.0,46,41.0,SecondHalf,Joan García,422824,65,a,10.0,47.3,KeeperPickup,Successful,[]
+2959199599.0,46,59.0,SecondHalf,Matías Dituro,422916,833,h,4.6,51.9,KeeperPickup,Successful,[]
+2959200057.0,47,25.0,SecondHalf,Xavi Espart,591617,65,a,32.7,95.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""504""}, {""type"": ""Defensive""}]"
+2959201195.0,48,30.0,SecondHalf,Víctor Chust,402862,833,h,13.3,80.2,BallRecovery,Successful,[]
+2959201259.0,48,34.0,SecondHalf,Pedri,402197,65,a,62.3,14.1,BallRecovery,Successful,[]
+2959201915.0,49,8.0,SecondHalf,Federico Redondo,419616,833,h,23.7,68.9,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2959201951.0,49,10.0,SecondHalf,David Affengruber,423282,833,h,22.2,61.5,BallRecovery,Successful,[]
+2959202139.0,49,22.0,SecondHalf,Gerard Martín,512879,65,a,20.4,32.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""17.2""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""22.6""}, {""type"": ""Angle"", ""value"": ""4.56""}]"
+2959202743.0,50,8.0,SecondHalf,Tete Morente,402087,833,h,68.4,45.0,BallRecovery,Successful,[]
+2959203395.0,50,47.0,SecondHalf,Gerard Martín,512879,65,a,13.4,35.2,Tackle,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""549""}, {""type"": ""Defensive""}]"
+2959203403.0,50,48.0,SecondHalf,Andreas Christensen,130331,65,a,12.3,27.3,BallRecovery,Successful,[]
+2959203481.0,50,51.0,SecondHalf,Ali Houary,508339,833,h,84.9,93.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""502""}, {""type"": ""Defensive""}]"
+2959203827.0,51,10.0,SecondHalf,Eric García,368091,65,a,7.3,15.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""553""}, {""type"": ""Defensive""}]"
+2959203867.0,51,14.0,SecondHalf,Pedri,402197,65,a,5.0,18.9,BallRecovery,Successful,[]
+2959203945.0,51,19.0,SecondHalf,Gonzalo Villar,357388,833,h,79.8,87.3,BallRecovery,Successful,[]
+2959204031.0,51,23.0,SecondHalf,Eric García,368091,65,a,4.2,5.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""556""}, {""type"": ""Defensive""}]"
+2959204367.0,51,40.0,SecondHalf,Andreas Christensen,130331,65,a,3.1,24.9,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.5""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""25.5""}, {""type"": ""Angle"", ""value"": ""5.51""}]"
+2959205181.0,52,28.0,SecondHalf,David Affengruber,423282,833,h,43.7,51.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.2""}, {""type"": ""PassEndY"", ""value"": ""67.8""}, {""type"": ""Length"", ""value"": ""12.8""}, {""type"": ""Angle"", ""value"": ""2.04""}]"
+2959206469.0,53,45.0,SecondHalf,Federico Redondo,419616,833,h,15.5,29.6,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2959206497.0,53,46.0,SecondHalf,Federico Redondo,419616,833,h,13.4,14.8,BallRecovery,Successful,[]
+2959206549.0,53,50.0,SecondHalf,Xavi Espart,591617,65,a,69.7,91.9,BallRecovery,Successful,[]
+2959206961.0,54,15.0,SecondHalf,Andreas Christensen,130331,65,a,42.9,71.6,BallRecovery,Successful,[]
+2959207319.0,54,38.0,SecondHalf,David Affengruber,423282,833,h,38.9,66.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2959207367.0,54,40.0,SecondHalf,Víctor Chust,402862,833,h,26.5,65.1,BallRecovery,Successful,[]
+2959208497.0,55,49.0,SecondHalf,David Affengruber,423282,833,h,61.2,10.2,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Right""}]"
+2959209115.0,56,32.0,SecondHalf,Matías Dituro,422916,833,h,11.5,65.2,KeeperPickup,Successful,[]
+2959209583.0,57,0.0,SecondHalf,Xavi Espart,591617,65,a,49.9,76.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2959209599.0,57,1.0,SecondHalf,Xavi Espart,591617,65,a,55.5,72.1,BallRecovery,Successful,[]
+2959209717.0,57,4.0,SecondHalf,Marc Aguado,448050,833,h,22.7,50.1,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""25.1""}, {""type"": ""PassEndY"", ""value"": ""45.6""}, {""type"": ""Length"", ""value"": ""4.0""}, {""type"": ""Angle"", ""value"": ""5.40""}]"
+2959209749.0,57,5.0,SecondHalf,Federico Redondo,419616,833,h,25.0,45.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""575""}, {""type"": ""Defensive""}]"
+2959209759.0,57,9.0,SecondHalf,Marc Aguado,448050,833,h,22.8,57.6,BallRecovery,Successful,[]
+2959212573.0,60,9.0,SecondHalf,Germán Valera,390240,833,h,8.2,85.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""599""}, {""type"": ""Defensive""}]"
+2959212591.0,60,11.0,SecondHalf,Federico Redondo,419616,833,h,12.5,98.2,BallRecovery,Successful,[]
+2959212975.0,60,32.0,SecondHalf,Joan García,422824,65,a,12.0,45.4,Claim,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""HighClaim""}]"
+2959213653.0,61,26.0,SecondHalf,Germán Valera,390240,833,h,18.4,54.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""619""}, {""type"": ""Defensive""}]"
+2959213665.0,61,28.0,SecondHalf,Ali Houary,508339,833,h,24.1,68.4,BallRecovery,Successful,[]
+2959213769.0,61,41.0,SecondHalf,Marc Bernal,534796,65,a,64.7,66.1,BallRecovery,Successful,[]
+2959214217.0,62,23.0,SecondHalf,Matías Dituro,422916,833,h,3.4,42.5,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""640""}, {""type"": ""Defensive""}]"
+2959214241.0,62,26.0,SecondHalf,David Affengruber,423282,833,h,8.2,25.0,BallRecovery,Successful,[]
+2959214309.0,62,30.0,SecondHalf,Andreas Christensen,130331,65,a,43.6,67.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""56.9""}, {""type"": ""PassEndY"", ""value"": ""69.1""}, {""type"": ""Length"", ""value"": ""14.0""}, {""type"": ""Angle"", ""value"": ""0.10""}]"
+2959214337.0,62,37.0,SecondHalf,Eric García,368091,65,a,54.6,28.1,BallRecovery,Successful,[]
+2959214695.0,63,14.0,SecondHalf,Víctor Chust,402862,833,h,18.8,63.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.6""}, {""type"": ""PassEndY"", ""value"": ""66.1""}, {""type"": ""Length"", ""value"": ""2.5""}, {""type"": ""Angle"", ""value"": ""0.71""}]"
+2959214713.0,63,18.0,SecondHalf,Federico Redondo,419616,833,h,3.9,71.4,BallRecovery,Successful,[]
+2959215407.0,64,49.0,SecondHalf,Eric García,368091,65,a,4.6,32.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""649""}, {""type"": ""Defensive""}]"
+2959215689.0,65,23.0,SecondHalf,Lucas Cepeda,516414,833,h,78.6,66.7,BallRecovery,Successful,[]
+2959216905.0,68,28.0,SecondHalf,Víctor Chust,402862,833,h,61.4,96.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2959216919.0,68,30.0,SecondHalf,Germán Valera,390240,833,h,71.2,82.6,BallRecovery,Successful,[]
+2959217181.0,69,4.0,SecondHalf,Pedri,402197,65,a,38.7,87.3,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""681""}, {""type"": ""Defensive""}]"
+2959217329.0,69,30.0,SecondHalf,Xavi Espart,591617,65,a,10.2,88.0,BallRecovery,Successful,[]
+2959217555.0,70,5.0,SecondHalf,Marc Bernal,534796,65,a,57.9,17.8,BallRecovery,Successful,[]
+2959218281.0,71,58.0,SecondHalf,Joan García,422824,65,a,14.5,52.1,KeeperPickup,Successful,[]
+2959218501.0,72,36.0,SecondHalf,Marc Bernal,534796,65,a,19.9,83.1,BallRecovery,Successful,[]
+2959218705.0,73,5.0,SecondHalf,Germán Valera,390240,833,h,64.8,92.2,BallRecovery,Successful,[]
+2959218957.0,73,51.0,SecondHalf,Buba Sangaré,510360,833,h,41.5,33.9,BallRecovery,Successful,[]
+2959219095.0,74,8.0,SecondHalf,Eric García,368091,65,a,30.7,10.8,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""709""}, {""type"": ""Defensive""}]"
+2959219167.0,74,18.0,SecondHalf,Xavi Espart,591617,65,a,27.8,87.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2959219305.0,74,35.0,SecondHalf,Andreas Christensen,130331,65,a,14.1,63.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""20.1""}, {""type"": ""PassEndY"", ""value"": ""68.5""}, {""type"": ""Length"", ""value"": ""7.1""}, {""type"": ""Angle"", ""value"": ""0.48""}]"
+2959219329.0,74,39.0,SecondHalf,Fermín López,463838,65,a,40.1,51.5,BallRecovery,Successful,[]
+2959220515.0,77,30.0,SecondHalf,Marc Bernal,534796,65,a,45.6,11.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""727""}, {""type"": ""Defensive""}]"
+2959220625.0,77,50.0,SecondHalf,Pedri,402197,65,a,56.4,92.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""732""}, {""type"": ""Defensive""}]"
+2959220627.0,77,53.0,SecondHalf,Anthony Gordon,349669,65,a,54.1,93.7,BallRecovery,Successful,[]
+2959221809.0,80,58.0,SecondHalf,Ezequiel Ponce,137031,833,h,39.6,23.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""793""}, {""type"": ""Defensive""}]"
+2959221815.0,80,59.0,SecondHalf,Ezequiel Ponce,137031,833,h,47.2,33.0,BallRecovery,Successful,[]
+2959222167.0,81,35.0,SecondHalf,Eric García,368091,65,a,32.6,57.5,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""46.3""}, {""type"": ""PassEndY"", ""value"": ""50.0""}, {""type"": ""Length"", ""value"": ""15.3""}, {""type"": ""Angle"", ""value"": ""5.94""}]"
+2959222471.0,82,13.0,SecondHalf,Gonzalo Villar,357388,833,h,65.4,5.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2959223201.0,83,56.0,SecondHalf,David Affengruber,423282,833,h,14.0,66.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""27.7""}, {""type"": ""PassEndY"", ""value"": ""100.0""}, {""type"": ""Length"", ""value"": ""27.8""}, {""type"": ""Angle"", ""value"": ""1.03""}]"
+2959223375.0,84,20.0,SecondHalf,Matías Dituro,422916,833,h,3.9,46.2,KeeperPickup,Successful,[]
+2959223511.0,84,33.0,SecondHalf,Andreas Christensen,130331,65,a,37.7,11.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.5""}, {""type"": ""PassEndY"", ""value"": ""0.0""}, {""type"": ""Length"", ""value"": ""8.9""}, {""type"": ""Angle"", ""value"": ""4.81""}]"
+2959223633.0,84,50.0,SecondHalf,Jules Koundé,301019,65,a,27.6,10.2,BallRecovery,Successful,[]
+2959223743.0,85,1.0,SecondHalf,Gonzalo Villar,357388,833,h,39.3,37.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""854""}, {""type"": ""Defensive""}]"
+2959223791.0,85,5.0,SecondHalf,Víctor Chust,402862,833,h,40.7,28.2,BallRecovery,Successful,[]
+2959223869.0,85,14.0,SecondHalf,Joan García,422824,65,a,2.1,55.0,KeeperPickup,Successful,[]
+2959224289.0,86,8.0,SecondHalf,Matías Dituro,422916,833,h,13.1,46.8,KeeperPickup,Successful,[]
+2959224447.0,86,22.0,SecondHalf,Gerard Martín,512879,65,a,30.1,69.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""34.1""}, {""type"": ""PassEndY"", ""value"": ""64.0""}, {""type"": ""Length"", ""value"": ""5.8""}, {""type"": ""Angle"", ""value"": ""5.53""}]"
+2959224449.0,86,23.0,SecondHalf,Eric García,368091,65,a,34.1,64.0,BallRecovery,Successful,[]
+2959224519.0,86,32.0,SecondHalf,Matías Dituro,422916,833,h,13.4,58.6,KeeperPickup,Successful,[]
+2959224641.0,86,56.0,SecondHalf,João Cancelo,128967,65,a,88.2,18.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""785""}, {""type"": ""Defensive""}]"
+2959224801.0,87,18.0,SecondHalf,Jules Koundé,301019,65,a,52.0,29.9,BallRecovery,Successful,[]
+2959225065.0,87,49.0,SecondHalf,Matías Dituro,422916,833,h,13.1,62.0,KeeperPickup,Successful,[]
+2959225165.0,88,1.0,SecondHalf,Andreas Christensen,130331,65,a,32.7,30.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""30.7""}, {""type"": ""PassEndY"", ""value"": ""25.5""}, {""type"": ""Length"", ""value"": ""3.7""}, {""type"": ""Angle"", ""value"": ""4.11""}]"
+2959225191.0,88,4.0,SecondHalf,Joan García,422824,65,a,12.7,39.3,KeeperPickup,Successful,[]
+2959225289.0,88,13.0,SecondHalf,Víctor Chust,402862,833,h,40.6,31.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""900""}, {""type"": ""Defensive""}]"
+2959225337.0,88,19.0,SecondHalf,Lucas Cepeda,516414,833,h,42.2,12.0,BallRecovery,Successful,[]
+2959225619.0,88,49.0,SecondHalf,Eric García,368091,65,a,57.8,8.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""812""}, {""type"": ""Defensive""}]"
+2959225957.0,89,29.0,SecondHalf,Andreas Christensen,130331,65,a,7.4,54.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""16.7""}, {""type"": ""PassEndY"", ""value"": ""38.9""}, {""type"": ""Length"", ""value"": ""14.2""}, {""type"": ""Angle"", ""value"": ""5.47""}]"
+2959226059.0,89,31.0,SecondHalf,João Cancelo,128967,65,a,16.7,38.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""44.8""}, {""type"": ""PassEndY"", ""value"": ""68.5""}, {""type"": ""Length"", ""value"": ""35.7""}, {""type"": ""Angle"", ""value"": ""0.60""}]"
+2959226571.0,90,30.0,SecondHalf,Xavi Espart,591617,65,a,11.5,52.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""53.8""}, {""type"": ""PassEndY"", ""value"": ""31.2""}, {""type"": ""Length"", ""value"": ""46.6""}, {""type"": ""Angle"", ""value"": ""5.97""}]"
+2959226573.0,90,53.0,SecondHalf,Pedri,402197,65,a,3.9,71.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""842""}, {""type"": ""Defensive""}]"
+2959226599.0,90,55.0,SecondHalf,Pedri,402197,65,a,1.5,70.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""37.3""}, {""type"": ""PassEndY"", ""value"": ""70.4""}, {""type"": ""Length"", ""value"": ""37.6""}, {""type"": ""Angle"", ""value"": ""0.01""}]"
+2959226617.0,91,0.0,SecondHalf,Xavi Espart,591617,65,a,19.9,59.5,BallRecovery,Successful,[]
+2959227435.0,92,47.0,SecondHalf,Ezequiel Ponce,137031,833,h,58.0,72.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2959227465.0,92,51.0,SecondHalf,David Affengruber,423282,833,h,40.2,69.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2959227483.0,92,53.0,SecondHalf,Germán Valera,390240,833,h,28.9,67.8,BallRecovery,Successful,[]

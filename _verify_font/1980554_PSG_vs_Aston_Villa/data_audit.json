@@ -1,0 +1,1231 @@
+{
+  "match": {
+    "match_dir": "output\\1980554_PSG_vs_Aston_Villa",
+    "home": "PSG",
+    "away": "Aston Villa",
+    "score": {
+      "home": 2,
+      "away": 1,
+      "display": "2-1",
+      "after_extra_time": false,
+      "after_shootout": false,
+      "ninety_minute": null
+    },
+    "score_display": "2-1",
+    "score_qualifier": "",
+    "kickoff": "2026-08-12",
+    "league": "UEFA Super Cup",
+    "stage": "",
+    "venue": "Red Bull Arena Salzburg",
+    "last_minute": 95
+  },
+  "data_health": {
+    "event_rows": 1560,
+    "pass_rows": 1028,
+    "shot_rows": 27,
+    "touch_rows": 1334,
+    "goal_mouth_rows": 27,
+    "has_coordinates": true,
+    "has_pass_end_coordinates": true,
+    "has_goal_mouth_coordinates": true,
+    "has_vendor_xg": false,
+    "has_vendor_xgot": false,
+    "blocked_claims": [
+      "xG",
+      "xGOT"
+    ]
+  },
+  "team_stats": {
+    "PSG": {
+      "h_a": "h",
+      "goals": 2,
+      "shots": 12,
+      "shots_on_target": 6,
+      "shots_blocked": 0,
+      "shots_off_target": 6,
+      "woodwork": 0,
+      "big_chances": 3,
+      "big_chances_created": 1,
+      "pass_attempts": 611,
+      "passes_completed": 540,
+      "pass_accuracy_pct": 88.4,
+      "pass_share_pct": 59.4,
+      "key_passes": 9,
+      "touches": 785,
+      "touch_share_pct": 58.8,
+      "final_third_passes": 92,
+      "box_entry_passes": 9,
+      "penalty_box_touches": 29,
+      "corners": 0,
+      "corners_taken": 0,
+      "fouls": 11,
+      "offsides": 2,
+      "saves": 3,
+      "blocks": 3,
+      "tackles_won": 17,
+      "interceptions": 9,
+      "yellow_cards": 0,
+      "red_cards": 0
+    },
+    "Aston Villa": {
+      "h_a": "a",
+      "goals": 1,
+      "shots": 15,
+      "shots_on_target": 4,
+      "shots_blocked": 3,
+      "shots_off_target": 8,
+      "woodwork": 1,
+      "big_chances": 5,
+      "big_chances_created": 4,
+      "pass_attempts": 417,
+      "passes_completed": 319,
+      "pass_accuracy_pct": 76.5,
+      "pass_share_pct": 40.6,
+      "key_passes": 11,
+      "touches": 549,
+      "touch_share_pct": 41.2,
+      "final_third_passes": 71,
+      "box_entry_passes": 15,
+      "penalty_box_touches": 34,
+      "corners": 2,
+      "corners_taken": 2,
+      "fouls": 13,
+      "offsides": 0,
+      "saves": 4,
+      "blocks": 0,
+      "tackles_won": 10,
+      "interceptions": 4,
+      "yellow_cards": 3,
+      "red_cards": 0
+    }
+  },
+  "clock_axis": {
+    "end": 98.0,
+    "ticks": [
+      {
+        "at": 0.0,
+        "label": "0'"
+      },
+      {
+        "at": 15.0,
+        "label": "15'"
+      },
+      {
+        "at": 30.0,
+        "label": "30'"
+      },
+      {
+        "at": 46.0,
+        "label": "45'"
+      },
+      {
+        "at": 63.0,
+        "label": "60'"
+      },
+      {
+        "at": 78.0,
+        "label": "75'"
+      },
+      {
+        "at": 93.0,
+        "label": "90'"
+      },
+      {
+        "at": 98.0,
+        "label": "95'"
+      }
+    ],
+    "boundaries": [
+      {
+        "at": 48.0,
+        "label": "HT"
+      }
+    ]
+  },
+  "momentum": [
+    {
+      "start": 0.0,
+      "end": 5.0,
+      "minute_block": "0-4",
+      "period": "FirstHalf",
+      "home_pressure": 0.8,
+      "away_pressure": 6.5,
+      "swing": -5.7
+    },
+    {
+      "start": 5.0,
+      "end": 10.0,
+      "minute_block": "5-9",
+      "period": "FirstHalf",
+      "home_pressure": 11.2,
+      "away_pressure": 0.0,
+      "swing": 11.2
+    },
+    {
+      "start": 10.0,
+      "end": 15.0,
+      "minute_block": "10-14",
+      "period": "FirstHalf",
+      "home_pressure": 6.6,
+      "away_pressure": 5.6,
+      "swing": 1.0
+    },
+    {
+      "start": 15.0,
+      "end": 20.0,
+      "minute_block": "15-19",
+      "period": "FirstHalf",
+      "home_pressure": 36.8,
+      "away_pressure": 5.0,
+      "swing": 31.8
+    },
+    {
+      "start": 20.0,
+      "end": 25.0,
+      "minute_block": "21-24",
+      "period": "FirstHalf",
+      "home_pressure": 10.6,
+      "away_pressure": 0.0,
+      "swing": 10.6
+    },
+    {
+      "start": 25.0,
+      "end": 30.0,
+      "minute_block": "25-29",
+      "period": "FirstHalf",
+      "home_pressure": 3.8,
+      "away_pressure": 7.0,
+      "swing": -3.2
+    },
+    {
+      "start": 30.0,
+      "end": 35.0,
+      "minute_block": "30-34",
+      "period": "FirstHalf",
+      "home_pressure": 0.0,
+      "away_pressure": 9.2,
+      "swing": -9.2
+    },
+    {
+      "start": 35.0,
+      "end": 40.0,
+      "minute_block": "35-39",
+      "period": "FirstHalf",
+      "home_pressure": 9.8,
+      "away_pressure": 6.9,
+      "swing": 2.9
+    },
+    {
+      "start": 40.0,
+      "end": 45.0,
+      "minute_block": "40-44",
+      "period": "FirstHalf",
+      "home_pressure": 0.0,
+      "away_pressure": 42.6,
+      "swing": -42.6
+    },
+    {
+      "start": 45.0,
+      "end": 50.0,
+      "minute_block": "45-47",
+      "period": "SecondHalf",
+      "home_pressure": 0.0,
+      "away_pressure": 5.0,
+      "swing": -5.0
+    },
+    {
+      "start": 50.0,
+      "end": 55.0,
+      "minute_block": "47-51",
+      "period": "SecondHalf",
+      "home_pressure": 15.8,
+      "away_pressure": 5.5,
+      "swing": 10.3
+    },
+    {
+      "start": 55.0,
+      "end": 60.0,
+      "minute_block": "52-56",
+      "period": "SecondHalf",
+      "home_pressure": 28.1,
+      "away_pressure": 3.0,
+      "swing": 25.1
+    },
+    {
+      "start": 60.0,
+      "end": 65.0,
+      "minute_block": "57-60",
+      "period": "SecondHalf",
+      "home_pressure": 16.5,
+      "away_pressure": 7.2,
+      "swing": 9.3
+    },
+    {
+      "start": 65.0,
+      "end": 70.0,
+      "minute_block": "62-66",
+      "period": "SecondHalf",
+      "home_pressure": 4.8,
+      "away_pressure": 6.7,
+      "swing": -1.9
+    },
+    {
+      "start": 70.0,
+      "end": 75.0,
+      "minute_block": "67-71",
+      "period": "SecondHalf",
+      "home_pressure": 13.3,
+      "away_pressure": 0.0,
+      "swing": 13.3
+    },
+    {
+      "start": 75.0,
+      "end": 80.0,
+      "minute_block": "72-76",
+      "period": "SecondHalf",
+      "home_pressure": 1.8,
+      "away_pressure": 11.8,
+      "swing": -10.0
+    },
+    {
+      "start": 80.0,
+      "end": 85.0,
+      "minute_block": "77-81",
+      "period": "SecondHalf",
+      "home_pressure": 6.8,
+      "away_pressure": 7.2,
+      "swing": -0.4
+    },
+    {
+      "start": 85.0,
+      "end": 90.0,
+      "minute_block": "82-86",
+      "period": "SecondHalf",
+      "home_pressure": 4.8,
+      "away_pressure": 10.2,
+      "swing": -5.4
+    },
+    {
+      "start": 90.0,
+      "end": 95.0,
+      "minute_block": "87-91",
+      "period": "SecondHalf",
+      "home_pressure": 9.1,
+      "away_pressure": 14.8,
+      "swing": -5.7
+    },
+    {
+      "start": 95.0,
+      "end": 98.0,
+      "minute_block": "92-95",
+      "period": "SecondHalf",
+      "home_pressure": 4.8,
+      "away_pressure": 13.2,
+      "swing": -8.4
+    }
+  ],
+  "phase_pressure": [
+    {
+      "period": "FirstHalf",
+      "label": "First half",
+      "home_pressure": 79.6,
+      "away_pressure": 87.8,
+      "home_share_pct": 47.6
+    },
+    {
+      "period": "SecondHalf",
+      "label": "Second half",
+      "home_pressure": 105.8,
+      "away_pressure": 79.6,
+      "home_share_pct": 57.1
+    }
+  ],
+  "field_tilt": [
+    {
+      "start": 0.0,
+      "end": 10.0,
+      "minute_block": "0-9",
+      "home_final_third_passes": 7,
+      "away_final_third_passes": 6,
+      "home_tilt_pct": 53.8,
+      "away_tilt_pct": 46.2
+    },
+    {
+      "start": 10.0,
+      "end": 20.0,
+      "minute_block": "10-19",
+      "home_final_third_passes": 14,
+      "away_final_third_passes": 9,
+      "home_tilt_pct": 60.9,
+      "away_tilt_pct": 39.1
+    },
+    {
+      "start": 20.0,
+      "end": 30.0,
+      "minute_block": "21-29",
+      "home_final_third_passes": 11,
+      "away_final_third_passes": 2,
+      "home_tilt_pct": 84.6,
+      "away_tilt_pct": 15.4
+    },
+    {
+      "start": 30.0,
+      "end": 40.0,
+      "minute_block": "30-39",
+      "home_final_third_passes": 10,
+      "away_final_third_passes": 3,
+      "home_tilt_pct": 76.9,
+      "away_tilt_pct": 23.1
+    },
+    {
+      "start": 40.0,
+      "end": 50.0,
+      "minute_block": "40-47",
+      "home_final_third_passes": 0,
+      "away_final_third_passes": 17,
+      "home_tilt_pct": 0.0,
+      "away_tilt_pct": 100.0
+    },
+    {
+      "start": 50.0,
+      "end": 60.0,
+      "minute_block": "47-56",
+      "home_final_third_passes": 39,
+      "away_final_third_passes": 4,
+      "home_tilt_pct": 90.7,
+      "away_tilt_pct": 9.3
+    },
+    {
+      "start": 60.0,
+      "end": 70.0,
+      "minute_block": "57-66",
+      "home_final_third_passes": 11,
+      "away_final_third_passes": 6,
+      "home_tilt_pct": 64.7,
+      "away_tilt_pct": 35.3
+    },
+    {
+      "start": 70.0,
+      "end": 80.0,
+      "minute_block": "67-76",
+      "home_final_third_passes": 7,
+      "away_final_third_passes": 12,
+      "home_tilt_pct": 36.8,
+      "away_tilt_pct": 63.2
+    },
+    {
+      "start": 80.0,
+      "end": 90.0,
+      "minute_block": "77-86",
+      "home_final_third_passes": 7,
+      "away_final_third_passes": 17,
+      "home_tilt_pct": 29.2,
+      "away_tilt_pct": 70.8
+    },
+    {
+      "start": 90.0,
+      "end": 98.0,
+      "minute_block": "87-95",
+      "home_final_third_passes": 9,
+      "away_final_third_passes": 23,
+      "home_tilt_pct": 28.1,
+      "away_tilt_pct": 71.9
+    }
+  ],
+  "zone_control": [
+    {
+      "xbin": 0,
+      "ybin": 0,
+      "home_touches": 18,
+      "away_touches": 18,
+      "total_touches": 36,
+      "home_share_pct": 50.0
+    },
+    {
+      "xbin": 0,
+      "ybin": 1,
+      "home_touches": 66,
+      "away_touches": 58,
+      "total_touches": 124,
+      "home_share_pct": 53.2
+    },
+    {
+      "xbin": 0,
+      "ybin": 2,
+      "home_touches": 17,
+      "away_touches": 16,
+      "total_touches": 33,
+      "home_share_pct": 51.5
+    },
+    {
+      "xbin": 1,
+      "ybin": 0,
+      "home_touches": 52,
+      "away_touches": 30,
+      "total_touches": 82,
+      "home_share_pct": 63.4
+    },
+    {
+      "xbin": 1,
+      "ybin": 1,
+      "home_touches": 62,
+      "away_touches": 40,
+      "total_touches": 102,
+      "home_share_pct": 60.8
+    },
+    {
+      "xbin": 1,
+      "ybin": 2,
+      "home_touches": 53,
+      "away_touches": 41,
+      "total_touches": 94,
+      "home_share_pct": 56.4
+    },
+    {
+      "xbin": 2,
+      "ybin": 0,
+      "home_touches": 64,
+      "away_touches": 48,
+      "total_touches": 112,
+      "home_share_pct": 57.1
+    },
+    {
+      "xbin": 2,
+      "ybin": 1,
+      "home_touches": 58,
+      "away_touches": 30,
+      "total_touches": 88,
+      "home_share_pct": 65.9
+    },
+    {
+      "xbin": 2,
+      "ybin": 2,
+      "home_touches": 60,
+      "away_touches": 42,
+      "total_touches": 102,
+      "home_share_pct": 58.8
+    },
+    {
+      "xbin": 3,
+      "ybin": 0,
+      "home_touches": 56,
+      "away_touches": 36,
+      "total_touches": 92,
+      "home_share_pct": 60.9
+    },
+    {
+      "xbin": 3,
+      "ybin": 1,
+      "home_touches": 53,
+      "away_touches": 22,
+      "total_touches": 75,
+      "home_share_pct": 70.7
+    },
+    {
+      "xbin": 3,
+      "ybin": 2,
+      "home_touches": 63,
+      "away_touches": 28,
+      "total_touches": 91,
+      "home_share_pct": 69.2
+    },
+    {
+      "xbin": 4,
+      "ybin": 0,
+      "home_touches": 53,
+      "away_touches": 30,
+      "total_touches": 83,
+      "home_share_pct": 63.9
+    },
+    {
+      "xbin": 4,
+      "ybin": 1,
+      "home_touches": 40,
+      "away_touches": 24,
+      "total_touches": 64,
+      "home_share_pct": 62.5
+    },
+    {
+      "xbin": 4,
+      "ybin": 2,
+      "home_touches": 26,
+      "away_touches": 27,
+      "total_touches": 53,
+      "home_share_pct": 49.1
+    },
+    {
+      "xbin": 5,
+      "ybin": 0,
+      "home_touches": 21,
+      "away_touches": 16,
+      "total_touches": 37,
+      "home_share_pct": 56.8
+    },
+    {
+      "xbin": 5,
+      "ybin": 1,
+      "home_touches": 13,
+      "away_touches": 16,
+      "total_touches": 29,
+      "home_share_pct": 44.8
+    },
+    {
+      "xbin": 5,
+      "ybin": 2,
+      "home_touches": 10,
+      "away_touches": 27,
+      "total_touches": 37,
+      "home_share_pct": 27.0
+    }
+  ],
+  "shots": [
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Achraf Hakimi",
+      "minute": 8,
+      "x": 93.2,
+      "y": 29.7,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 62.7,
+      "goal_mouth_z": 9.7
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Vitinha",
+      "minute": 10,
+      "x": 70.1,
+      "y": 54.8,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 43.5,
+      "goal_mouth_z": 80.6
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Boubacar Kamara",
+      "minute": 12,
+      "x": 72.3,
+      "y": 54.6,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 57.1,
+      "goal_mouth_z": 1.4
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Maghnes Akliouche",
+      "minute": 19,
+      "x": 91.0,
+      "y": 47.1,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 95.5,
+      "goal_mouth_z": 29.2
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Désiré Doué",
+      "minute": 19,
+      "x": 86.8,
+      "y": 56.8,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 49.9,
+      "goal_mouth_z": 12.0
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Khvicha Kvaratskhelia",
+      "minute": 19,
+      "x": 86.4,
+      "y": 65.8,
+      "outcome": "goal",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 51.3,
+      "goal_mouth_z": 24.7
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Nuno Mendes",
+      "minute": 22,
+      "x": 71.6,
+      "y": 56.8,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "SetPiece",
+      "goal_mouth_y": 34.6,
+      "goal_mouth_z": 4.2
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Brian Madjo",
+      "minute": 27,
+      "x": 91.2,
+      "y": 50.5,
+      "outcome": "off_target",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 58.5,
+      "goal_mouth_z": 18.1
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "George Hemmings",
+      "minute": 30,
+      "x": 86.7,
+      "y": 39.5,
+      "outcome": "blocked",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 47.5,
+      "goal_mouth_z": 19.0
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Brian Madjo",
+      "minute": 34,
+      "x": 89.2,
+      "y": 69.5,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 42.7,
+      "goal_mouth_z": 25.0
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Brian Madjo",
+      "minute": 39,
+      "x": 87.8,
+      "y": 61.5,
+      "outcome": "blocked",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 48.2,
+      "goal_mouth_z": 19.0
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Brian Madjo",
+      "minute": 40,
+      "x": 95.9,
+      "y": 55.8,
+      "outcome": "off_target",
+      "big_chance": true,
+      "situation": "FromCorner",
+      "goal_mouth_y": 51.4,
+      "goal_mouth_z": 61.1
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Victor Lindelöf",
+      "minute": 42,
+      "x": 92.3,
+      "y": 55.8,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "SetPiece",
+      "goal_mouth_y": 39.0,
+      "goal_mouth_z": 13.9
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Boubacar Kamara",
+      "minute": 42,
+      "x": 95.2,
+      "y": 43.8,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "SetPiece",
+      "goal_mouth_y": 50.5,
+      "goal_mouth_z": 18.4
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Brian Madjo",
+      "minute": 43,
+      "x": 94.0,
+      "y": 55.4,
+      "outcome": "woodwork",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 55.5,
+      "goal_mouth_z": 2.5
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Brian Madjo",
+      "minute": 44,
+      "x": 94.6,
+      "y": 56.1,
+      "outcome": "goal",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 52.4,
+      "goal_mouth_z": 30.4
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "John McGinn",
+      "minute": 49,
+      "x": 85.8,
+      "y": 40.8,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 51.9,
+      "goal_mouth_z": 20.2
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Warren Zaïre-Emery",
+      "minute": 55,
+      "x": 74.1,
+      "y": 47.9,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 54.1,
+      "goal_mouth_z": 9.5
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Emiliano Buendía",
+      "minute": 59,
+      "x": 90.9,
+      "y": 41.7,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 48.2,
+      "goal_mouth_z": 72.2
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Désiré Doué",
+      "minute": 60,
+      "x": 92.4,
+      "y": 33.6,
+      "outcome": "goal",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 54.0,
+      "goal_mouth_z": 17.1
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "George Hemmings",
+      "minute": 62,
+      "x": 89.2,
+      "y": 45.8,
+      "outcome": "saved",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 48.9,
+      "goal_mouth_z": 19.0
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Nuno Mendes",
+      "minute": 70,
+      "x": 74.9,
+      "y": 56.6,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 51.7,
+      "goal_mouth_z": 15.8
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Khvicha Kvaratskhelia",
+      "minute": 70,
+      "x": 89.6,
+      "y": 52.5,
+      "outcome": "off_target",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 38.7,
+      "goal_mouth_z": 6.9
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "João Gomes",
+      "minute": 73,
+      "x": 85.9,
+      "y": 53.4,
+      "outcome": "blocked",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 49.1,
+      "goal_mouth_z": 19.0
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Khvicha Kvaratskhelia",
+      "minute": 81,
+      "x": 94.0,
+      "y": 34.6,
+      "outcome": "off_target",
+      "big_chance": true,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 62.7,
+      "goal_mouth_z": 45.8
+    },
+    {
+      "h_a": "h",
+      "team": "PSG",
+      "player": "Ousmane Dembélé",
+      "minute": 89,
+      "x": 79.4,
+      "y": 47.7,
+      "outcome": "saved",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 54.0,
+      "goal_mouth_z": 1.9
+    },
+    {
+      "h_a": "a",
+      "team": "Aston Villa",
+      "player": "Emiliano Buendía",
+      "minute": 94,
+      "x": 92.7,
+      "y": 58.1,
+      "outcome": "off_target",
+      "big_chance": false,
+      "situation": "OpenPlay",
+      "goal_mouth_y": 59.8,
+      "goal_mouth_z": 25.0
+    }
+  ],
+  "goal_chains": [
+    {
+      "team": "PSG",
+      "h_a": "h",
+      "minute": 19,
+      "second": 51,
+      "clock": 19.0,
+      "scorer": "Khvicha Kvaratskhelia",
+      "own_goal": false,
+      "penalty": false,
+      "situation": "OpenPlay",
+      "passes": 2,
+      "events": [
+        {
+          "eventId": "239",
+          "type": "Pass",
+          "player": "Vitinha",
+          "minute": 19,
+          "second": 48,
+          "x": 64.0,
+          "y": 57.0,
+          "endX": 74.6,
+          "endY": 63.6
+        },
+        {
+          "eventId": "240",
+          "type": "Pass",
+          "player": "Désiré Doué",
+          "minute": 19,
+          "second": 49,
+          "x": 74.6,
+          "y": 63.6,
+          "endX": 86.2,
+          "endY": 72.3
+        },
+        {
+          "eventId": "241",
+          "type": "Goal",
+          "player": "Khvicha Kvaratskhelia",
+          "minute": 19,
+          "second": 51,
+          "x": 86.4,
+          "y": 65.8,
+          "endX": null,
+          "endY": null
+        }
+      ],
+      "pass_distance_m": 25.5,
+      "duration_seconds": 3.0,
+      "assist_event_id": "240",
+      "assist_player": "Désiré Doué"
+    },
+    {
+      "team": "Aston Villa",
+      "h_a": "a",
+      "minute": 44,
+      "second": 52,
+      "clock": 44.0,
+      "scorer": "Brian Madjo",
+      "own_goal": false,
+      "penalty": false,
+      "situation": "OpenPlay",
+      "passes": 6,
+      "events": [
+        {
+          "eventId": "301",
+          "type": "Pass",
+          "player": "Victor Lindelöf",
+          "minute": 44,
+          "second": 32,
+          "x": 30.8,
+          "y": 31.5,
+          "endX": 46.4,
+          "endY": 30.1
+        },
+        {
+          "eventId": "302",
+          "type": "Pass",
+          "player": "Emiliano Buendía",
+          "minute": 44,
+          "second": 36,
+          "x": 52.4,
+          "y": 37.3,
+          "endX": 69.2,
+          "endY": 39.7
+        },
+        {
+          "eventId": "303",
+          "type": "Pass",
+          "player": "George Hemmings",
+          "minute": 44,
+          "second": 42,
+          "x": 78.0,
+          "y": 26.2,
+          "endX": 77.8,
+          "endY": 10.0
+        },
+        {
+          "eventId": "304",
+          "type": "Pass",
+          "player": "John McGinn",
+          "minute": 44,
+          "second": 43,
+          "x": 74.7,
+          "y": 10.2,
+          "endX": 94.8,
+          "endY": 7.2
+        },
+        {
+          "eventId": "305",
+          "type": "Pass",
+          "player": "George Hemmings",
+          "minute": 44,
+          "second": 47,
+          "x": 90.2,
+          "y": 10.5,
+          "endX": 79.4,
+          "endY": 9.6
+        },
+        {
+          "eventId": "306",
+          "type": "Pass",
+          "player": "John McGinn",
+          "minute": 44,
+          "second": 49,
+          "x": 76.8,
+          "y": 10.0,
+          "endX": 94.6,
+          "endY": 56.1
+        },
+        {
+          "eventId": "307",
+          "type": "Goal",
+          "player": "Brian Madjo",
+          "minute": 44,
+          "second": 52,
+          "x": 94.6,
+          "y": 56.1,
+          "endX": null,
+          "endY": null
+        }
+      ],
+      "pass_distance_m": 114.2,
+      "duration_seconds": 20.0,
+      "assist_event_id": "306",
+      "assist_player": "John McGinn"
+    },
+    {
+      "team": "PSG",
+      "h_a": "h",
+      "minute": 60,
+      "second": 14,
+      "clock": 63.0,
+      "scorer": "Désiré Doué",
+      "own_goal": false,
+      "penalty": false,
+      "situation": "OpenPlay",
+      "passes": 5,
+      "events": [
+        {
+          "eventId": "678",
+          "type": "Pass",
+          "player": "Willian Pacho",
+          "minute": 59,
+          "second": 51,
+          "x": 25.1,
+          "y": 89.2,
+          "endX": 32.7,
+          "endY": 90.6
+        },
+        {
+          "eventId": "680",
+          "type": "Pass",
+          "player": "João Neves",
+          "minute": 59,
+          "second": 52,
+          "x": 32.7,
+          "y": 90.6,
+          "endX": 33.7,
+          "endY": 61.2
+        },
+        {
+          "eventId": "682",
+          "type": "Pass",
+          "player": "João Neves",
+          "minute": 60,
+          "second": 3,
+          "x": 45.2,
+          "y": 64.8,
+          "endX": 46.2,
+          "endY": 22.3
+        },
+        {
+          "eventId": "683",
+          "type": "Pass",
+          "player": "Achraf Hakimi",
+          "minute": 60,
+          "second": 6,
+          "x": 58.4,
+          "y": 13.6,
+          "endX": 58.4,
+          "endY": 25.3
+        },
+        {
+          "eventId": "688",
+          "type": "Pass",
+          "player": "Ousmane Dembélé",
+          "minute": 60,
+          "second": 9,
+          "x": 54.8,
+          "y": 22.0,
+          "endX": 75.9,
+          "endY": 24.0
+        },
+        {
+          "eventId": "689",
+          "type": "Goal",
+          "player": "Désiré Doué",
+          "minute": 60,
+          "second": 14,
+          "x": 92.4,
+          "y": 33.6,
+          "endX": null,
+          "endY": null
+        }
+      ],
+      "pass_distance_m": 87.1,
+      "duration_seconds": 23.0,
+      "assist_event_id": "688",
+      "assist_player": "Ousmane Dembélé"
+    }
+  ],
+  "definitions": {
+    "pass_share_pct": "Share of all pass attempts in the export. A proxy for territory of the ball, not broadcast possession.",
+    "shots_on_target": "WhoScored shotOnTarget flag. Shots blocked by an outfield player are counted separately and are not on target.",
+    "saves": "Save events flagged keeperSaveTotal, which is goalkeeper saves only. Outfield blocks are reported as blocks.",
+    "pressure_index": "Weighted count of attacking events per five minutes: final_third_pass=1.0, box_entry_pass=1.2, shot=3.0, shot_on_target_bonus=1.5, goal_bonus=8.0, corner=1.5, successful_take_on=1.0, attacking_recovery=0.8",
+    "match_clock": "Time buckets use expandedMinute, which runs continuously. Plain minute restarts each period, so stoppage time overlaps the next period.",
+    "field_tilt": "Share of successful final-third passes in each ten-minute window.",
+    "goal_chain": "Uninterrupted possession immediately before a goal, capped at 75 seconds and 18 events."
+  },
+  "goal_timeline": [
+    {
+      "index": 1,
+      "team": "PSG",
+      "h_a": "h",
+      "minute": 19,
+      "second": 51,
+      "clock": 19.0,
+      "scorer": "Khvicha Kvaratskhelia",
+      "own_goal": false,
+      "penalty": false,
+      "score_after": "1-0",
+      "passes": 2,
+      "duration_seconds": 3.0,
+      "pass_distance_m": 25.5
+    },
+    {
+      "index": 2,
+      "team": "Aston Villa",
+      "h_a": "a",
+      "minute": 44,
+      "second": 52,
+      "clock": 44.0,
+      "scorer": "Brian Madjo",
+      "own_goal": false,
+      "penalty": false,
+      "score_after": "1-1",
+      "passes": 6,
+      "duration_seconds": 20.0,
+      "pass_distance_m": 114.2
+    },
+    {
+      "index": 3,
+      "team": "PSG",
+      "h_a": "h",
+      "minute": 60,
+      "second": 14,
+      "clock": 63.0,
+      "scorer": "Désiré Doué",
+      "own_goal": false,
+      "penalty": false,
+      "score_after": "2-1",
+      "passes": 5,
+      "duration_seconds": 23.0,
+      "pass_distance_m": 87.1
+    }
+  ],
+  "facts": [
+    "PSG 2-1 Aston Villa.",
+    "Pass share: PSG 59.4%, Aston Villa 40.6%.",
+    "Shots: PSG 12 (6 on target, 0 blocked), Aston Villa 15 (4 on target, 3 blocked).",
+    "Final-third passes: PSG 92, Aston Villa 71.",
+    "Big chances: PSG 3, Aston Villa 5.",
+    "Longest build-up to a goal: Aston Villa, 6 passes over 114.2 metres, finished by Brian Madjo in the 44th minute.",
+    "Not in this export, so never claimed: xG, xGOT."
+  ]
+}

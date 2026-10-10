@@ -374,24 +374,29 @@ def _volume_edges(bundle: MatchBundle, context: dict[str, Any], audit: dict[str,
     loser_stats = context["loser_stats"]
     winner_stats = context["winner_stats"]
     mapping = [
-        ("shots", "shots", "SHOTS"),
-        ("corners", "corners", "CORNERS"),
-        ("shots_blocked", "blocked", "BLOCKED"),
-        ("big_chances", "chances", "BIG CHANCES"),
-        ("penalty_box_touches", "box", "BOX TOUCHES"),
+        ("shots", "shots"),
+        ("corners", "corners"),
+        ("shots_blocked", "blocked"),
+        ("big_chances", "chances"),
+        ("penalty_box_touches", "box"),
     ]
     edges = []
-    for key, pool, label in mapping:
+    for key, pool in mapping:
         loser_n = int(loser_stats.get(key) or 0)
         winner_n = int(winner_stats.get(key) or 0)
         if loser_n > winner_n:
-            edges.append({"key": key, "pool": pool, "label": label, "n": loser_n, "other": winner_n})
+            edges.append({
+                "key": key, "pool": pool, "label": i18n.stat_label(key).upper(),
+                "n": loser_n, "other": winner_n,
+            })
     home_p, away_p = _pressure_totals(audit)
     loser = context["loser"]
     if loser == bundle.home and home_p > away_p * 1.05:
-        edges.append({"key": "pressure", "pool": "pressure", "label": "PRESSURE", "n": round(home_p, 1), "other": round(away_p, 1)})
+        edges.append({"key": "pressure", "pool": "pressure", "label": i18n.t("pressure_short"),
+                      "n": round(home_p, 1), "other": round(away_p, 1)})
     elif loser == bundle.away and away_p > home_p * 1.05:
-        edges.append({"key": "pressure", "pool": "pressure", "label": "PRESSURE", "n": round(away_p, 1), "other": round(home_p, 1)})
+        edges.append({"key": "pressure", "pool": "pressure", "label": i18n.t("pressure_short"),
+                      "n": round(away_p, 1), "other": round(home_p, 1)})
     return edges
 
 
@@ -494,13 +499,19 @@ def build_hook(bundle: MatchBundle, audit: dict[str, Any]) -> dict[str, Any]:
                 }.get(key, "hook_more_shots")
                 lines.append(i18n.t(more_key) if key != "pressure" else i18n.t("hook_more_pressure"))
             numbers.extend([edge["n"], edge["other"]])
-        hero = edges[0] if edges else {"n": int(loser_stats.get("shots") or 0), "label": "SHOTS", "other": 0}
+        hero = edges[0] if edges else {
+            "n": int(loser_stats.get("shots") or 0),
+            "label": i18n.stat_label("shots").upper(),
+            "other": 0,
+        }
         split = {
             "home": int(home_stats.get(edges[0]["key"], 0) if edges else home_stats.get("shots") or 0),
             "away": int(away_stats.get(edges[0]["key"], 0) if edges else away_stats.get("shots") or 0),
-            "label": hero.get("label") or "SHOTS",
+            "label": hero.get("label") or i18n.stat_label("shots").upper(),
         }
-        return pack(lines, punch_lost, numbers, hero_number=hero["n"], hero_label=str(hero.get("label") or "SHOTS"),
+        return pack(
+            lines, punch_lost, numbers, hero_number=hero["n"],
+            hero_label=str(hero.get("label") or i18n.stat_label("shots").upper()),
                     split=split, team=short_loser)
 
     if kind == "sterile_upset":

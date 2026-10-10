@@ -1,0 +1,111 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Erzurumspor FK,home,0,4141,630558,Matija Orbanic,0,0.0,5.0,0,56
+Erzurumspor FK,home,0,4141,119550,Orhan Ovacikli,1,2.5,1.0,0,56
+Erzurumspor FK,home,0,4141,385060,Nihad Mujakic,2,2.5,9.0,0,56
+Erzurumspor FK,home,0,4141,444677,Brandon Baiye,3,4.5,5.0,0,56
+Erzurumspor FK,home,0,4141,454393,Amar Gërxhaliu,4,2.5,3.5,0,56
+Erzurumspor FK,home,0,4141,630559,Yakup Kirtay,5,2.5,6.5,0,56
+Erzurumspor FK,home,0,4141,451269,Mustafa Fettahoglu,6,7.0,1.0,0,56
+Erzurumspor FK,home,0,4141,345988,Elisha Owusu,7,7.0,3.5,0,56
+Erzurumspor FK,home,0,4141,110535,Eren Tozlu,8,9.0,5.0,0,56
+Erzurumspor FK,home,0,4141,101584,Martín Rodríguez,9,7.0,6.5,0,56
+Erzurumspor FK,home,0,4141,141875,Gyrano Kerk,10,7.0,9.0,0,56
+Erzurumspor FK,home,1,4141,630558,Matija Orbanic,0,0.0,5.0,56,71
+Erzurumspor FK,home,1,4141,119550,Orhan Ovacikli,1,2.5,1.0,56,71
+Erzurumspor FK,home,1,4141,385060,Nihad Mujakic,2,2.5,9.0,56,71
+Erzurumspor FK,home,1,4141,444677,Brandon Baiye,3,4.5,5.0,56,71
+Erzurumspor FK,home,1,4141,454393,Amar Gërxhaliu,4,2.5,3.5,56,71
+Erzurumspor FK,home,1,4141,630559,Yakup Kirtay,5,2.5,6.5,56,71
+Erzurumspor FK,home,1,4141,443691,Nariman Akhundzada,6,7.0,1.0,56,71
+Erzurumspor FK,home,1,4141,345988,Elisha Owusu,7,7.0,3.5,56,71
+Erzurumspor FK,home,1,4141,110535,Eren Tozlu,8,9.0,5.0,56,71
+Erzurumspor FK,home,1,4141,101584,Martín Rodríguez,9,7.0,6.5,56,71
+Erzurumspor FK,home,1,4141,451269,Mustafa Fettahoglu,10,7.0,9.0,56,71
+Erzurumspor FK,home,2,4141,630558,Matija Orbanic,0,0.0,5.0,71,77
+Erzurumspor FK,home,2,4141,408984,Festy Ebosele,1,2.5,1.0,71,77
+Erzurumspor FK,home,2,4141,385060,Nihad Mujakic,2,2.5,9.0,71,77
+Erzurumspor FK,home,2,4141,444677,Brandon Baiye,3,4.5,5.0,71,77
+Erzurumspor FK,home,2,4141,454393,Amar Gërxhaliu,4,2.5,3.5,71,77
+Erzurumspor FK,home,2,4141,630559,Yakup Kirtay,5,2.5,6.5,71,77
+Erzurumspor FK,home,2,4141,443691,Nariman Akhundzada,6,7.0,1.0,71,77
+Erzurumspor FK,home,2,4141,345988,Elisha Owusu,7,7.0,3.5,71,77
+Erzurumspor FK,home,2,4141,362559,Fernando Andrade,8,9.0,5.0,71,77
+Erzurumspor FK,home,2,4141,101584,Martín Rodríguez,9,7.0,6.5,71,77
+Erzurumspor FK,home,2,4141,451269,Mustafa Fettahoglu,10,7.0,9.0,71,77
+Erzurumspor FK,home,3,4141,630558,Matija Orbanic,0,0.0,5.0,77,92
+Erzurumspor FK,home,3,4141,408984,Festy Ebosele,1,2.5,1.0,77,92
+Erzurumspor FK,home,3,4141,385060,Nihad Mujakic,2,2.5,9.0,77,92
+Erzurumspor FK,home,3,4141,444677,Brandon Baiye,3,4.5,5.0,77,92
+Erzurumspor FK,home,3,4141,454393,Amar Gërxhaliu,4,2.5,3.5,77,92
+Erzurumspor FK,home,3,4141,630559,Yakup Kirtay,5,2.5,6.5,77,92
+Erzurumspor FK,home,3,4141,443691,Nariman Akhundzada,6,7.0,1.0,77,92
+Erzurumspor FK,home,3,4141,345988,Elisha Owusu,7,7.0,3.5,77,92
+Erzurumspor FK,home,3,4141,362559,Fernando Andrade,8,9.0,5.0,77,92
+Erzurumspor FK,home,3,4141,361953,Sefa Akgün,9,7.0,6.5,77,92
+Erzurumspor FK,home,3,4141,295002,Miguel Cardoso,10,7.0,9.0,77,92
+Galatasaray,away,0,4231,258840,Ugurcan Çakir,0,0.0,5.0,0,67
+Galatasaray,away,0,4231,243889,Roland Sallai,1,2.5,1.0,0,67
+Galatasaray,away,0,4231,349699,Ismail Jakobs,2,2.5,9.0,0,67
+Galatasaray,away,0,4231,123481,Mario Lemina,3,5.0,6.5,0,67
+Galatasaray,away,0,4231,322655,Davinson Sánchez,4,2.5,3.5,0,67
+Galatasaray,away,0,4231,108073,Abdülkerim Bardakci,5,2.5,6.5,0,67
+Galatasaray,away,0,4231,361709,Yunus Akgün,6,7.0,2.0,0,67
+Galatasaray,away,0,4231,248109,Lucas Torreira,7,5.0,3.5,0,67
+Galatasaray,away,0,4231,298510,Victor Osimhen,8,9.0,5.0,0,67
+Galatasaray,away,0,4231,349218,Gabriel Sara,9,7.0,5.0,0,67
+Galatasaray,away,0,4231,421779,Baris Alper Yilmaz,10,7.0,8.0,0,67
+Galatasaray,away,1,4231,258840,Ugurcan Çakir,0,0.0,5.0,67,67
+Galatasaray,away,1,4231,243889,Roland Sallai,1,2.5,1.0,67,67
+Galatasaray,away,1,4231,349699,Ismail Jakobs,2,2.5,9.0,67,67
+Galatasaray,away,1,4231,404616,Lesley Ugochukwu,3,5.0,6.5,67,67
+Galatasaray,away,1,4231,322655,Davinson Sánchez,4,2.5,3.5,67,67
+Galatasaray,away,1,4231,108073,Abdülkerim Bardakci,5,2.5,6.5,67,67
+Galatasaray,away,1,4231,361709,Yunus Akgün,6,7.0,2.0,67,67
+Galatasaray,away,1,4231,248109,Lucas Torreira,7,5.0,3.5,67,67
+Galatasaray,away,1,4231,298510,Victor Osimhen,8,9.0,5.0,67,67
+Galatasaray,away,1,4231,349218,Gabriel Sara,9,7.0,5.0,67,67
+Galatasaray,away,1,4231,421779,Baris Alper Yilmaz,10,7.0,8.0,67,67
+Galatasaray,away,2,4231,258840,Ugurcan Çakir,0,0.0,5.0,67,67
+Galatasaray,away,2,4231,243889,Roland Sallai,1,2.5,1.0,67,67
+Galatasaray,away,2,4231,373036,Eren Elmali,2,2.5,9.0,67,67
+Galatasaray,away,2,4231,404616,Lesley Ugochukwu,3,5.0,6.5,67,67
+Galatasaray,away,2,4231,322655,Davinson Sánchez,4,2.5,3.5,67,67
+Galatasaray,away,2,4231,108073,Abdülkerim Bardakci,5,2.5,6.5,67,67
+Galatasaray,away,2,4231,361709,Yunus Akgün,6,7.0,2.0,67,67
+Galatasaray,away,2,4231,248109,Lucas Torreira,7,5.0,3.5,67,67
+Galatasaray,away,2,4231,298510,Victor Osimhen,8,9.0,5.0,67,67
+Galatasaray,away,2,4231,349218,Gabriel Sara,9,7.0,5.0,67,67
+Galatasaray,away,2,4231,421779,Baris Alper Yilmaz,10,7.0,8.0,67,67
+Galatasaray,away,3,4231,258840,Ugurcan Çakir,0,0.0,5.0,67,67
+Galatasaray,away,3,4231,243889,Roland Sallai,1,2.5,1.0,67,67
+Galatasaray,away,3,4231,373036,Eren Elmali,2,2.5,9.0,67,67
+Galatasaray,away,3,4231,404616,Lesley Ugochukwu,3,5.0,6.5,67,67
+Galatasaray,away,3,4231,322655,Davinson Sánchez,4,2.5,3.5,67,67
+Galatasaray,away,3,4231,108073,Abdülkerim Bardakci,5,2.5,6.5,67,67
+Galatasaray,away,3,4231,144711,Leroy Sané,6,7.0,2.0,67,67
+Galatasaray,away,3,4231,248109,Lucas Torreira,7,5.0,3.5,67,67
+Galatasaray,away,3,4231,298510,Victor Osimhen,8,9.0,5.0,67,67
+Galatasaray,away,3,4231,349218,Gabriel Sara,9,7.0,5.0,67,67
+Galatasaray,away,3,4231,421779,Baris Alper Yilmaz,10,7.0,8.0,67,67
+Galatasaray,away,4,4231,258840,Ugurcan Çakir,0,0.0,5.0,67,82
+Galatasaray,away,4,4231,371063,Wilfried Singo,1,2.5,1.0,67,82
+Galatasaray,away,4,4231,373036,Eren Elmali,2,2.5,9.0,67,82
+Galatasaray,away,4,4231,404616,Lesley Ugochukwu,3,5.0,6.5,67,82
+Galatasaray,away,4,4231,322655,Davinson Sánchez,4,2.5,3.5,67,82
+Galatasaray,away,4,4231,108073,Abdülkerim Bardakci,5,2.5,6.5,67,82
+Galatasaray,away,4,4231,144711,Leroy Sané,6,7.0,2.0,67,82
+Galatasaray,away,4,4231,248109,Lucas Torreira,7,5.0,3.5,67,82
+Galatasaray,away,4,4231,298510,Victor Osimhen,8,9.0,5.0,67,82
+Galatasaray,away,4,4231,349218,Gabriel Sara,9,7.0,5.0,67,82
+Galatasaray,away,4,4231,421779,Baris Alper Yilmaz,10,7.0,8.0,67,82
+Galatasaray,away,5,4231,258840,Ugurcan Çakir,0,0.0,5.0,82,92
+Galatasaray,away,5,4231,371063,Wilfried Singo,1,2.5,1.0,82,92
+Galatasaray,away,5,4231,373036,Eren Elmali,2,2.5,9.0,82,92
+Galatasaray,away,5,4231,404616,Lesley Ugochukwu,3,5.0,6.5,82,92
+Galatasaray,away,5,4231,322655,Davinson Sánchez,4,2.5,3.5,82,92
+Galatasaray,away,5,4231,108073,Abdülkerim Bardakci,5,2.5,6.5,82,92
+Galatasaray,away,5,4231,144711,Leroy Sané,6,7.0,2.0,82,92
+Galatasaray,away,5,4231,558471,Renato Nhaga,7,5.0,3.5,82,92
+Galatasaray,away,5,4231,298510,Victor Osimhen,8,9.0,5.0,82,92
+Galatasaray,away,5,4231,349218,Gabriel Sara,9,7.0,5.0,82,92
+Galatasaray,away,5,4231,421779,Baris Alper Yilmaz,10,7.0,8.0,82,92

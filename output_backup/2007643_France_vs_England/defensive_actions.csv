@@ -1,0 +1,206 @@
+id,minute,second,period,playerName,playerId,teamId,h_a,x,y,type,outcomeType,qualifiers
+2947779201.0,0,52.0,FirstHalf,Michael Olise,371281,341,h,31.0,18.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""17""}, {""type"": ""Defensive""}]"
+2947779483.0,1,32.0,FirstHalf,Maxence Lacroix,401130,341,h,9.3,46.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""14.0""}, {""type"": ""PassEndY"", ""value"": ""73.8""}, {""type"": ""Length"", ""value"": ""19.5""}, {""type"": ""Angle"", ""value"": ""1.31""}]"
+2947779509.0,1,35.0,FirstHalf,Théo Hernández,303115,341,h,13.3,80.0,BallRecovery,Successful,[]
+2947779561.0,1,45.0,FirstHalf,Bukayo Saka,367185,345,a,80.5,5.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""15""}, {""type"": ""Defensive""}]"
+2947779719.0,2,11.0,FirstHalf,Declan Rice,332325,345,a,56.7,66.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2947779733.0,2,12.0,FirstHalf,Declan Rice,332325,345,a,60.0,73.6,BallRecovery,Successful,[]
+2947780271.0,4,36.0,FirstHalf,Declan Rice,332325,345,a,9.4,30.7,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""45""}]"
+2947780281.0,4,38.0,FirstHalf,Jarell Quansah,430019,345,a,12.5,23.1,BallRecovery,Successful,[]
+2947780287.0,4,39.0,FirstHalf,Théo Hernández,303115,341,h,73.1,69.4,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2947780293.0,4,40.0,FirstHalf,Maxence Lacroix,401130,341,h,69.1,81.9,BallRecovery,Successful,[]
+2947780349.0,4,55.0,FirstHalf,Dean Henderson,304008,345,a,9.3,40.4,BallRecovery,Successful,[]
+2947780521.0,5,35.0,FirstHalf,Ibrahima Konaté,345957,341,h,25.5,69.2,BallRecovery,Successful,[]
+2947780597.0,5,59.0,FirstHalf,Ezri Konsa,301440,345,a,37.0,20.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2947780605.0,6,0.0,FirstHalf,Ezri Konsa,301440,345,a,41.4,30.6,BallRecovery,Successful,[]
+2947780643.0,6,10.0,FirstHalf,Malo Gusto,403850,341,h,9.2,43.0,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""61""}]"
+2947780807.0,7,16.0,FirstHalf,Théo Hernández,303115,341,h,9.2,60.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""68""}]"
+2947780811.0,7,19.0,FirstHalf,Désiré Doué,433183,341,h,23.8,80.2,BallRecovery,Successful,[]
+2947780843.0,7,23.0,FirstHalf,Djed Spence,362219,345,a,33.8,39.2,Tackle,Unsuccessful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""71""}, {""type"": ""Defensive""}]"
+2947780851.0,7,27.0,FirstHalf,Ezri Konsa,301440,345,a,31.7,44.2,BallRecovery,Successful,[]
+2947781111.0,8,57.0,FirstHalf,Ibrahima Konaté,345957,341,h,4.4,42.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""11.1""}, {""type"": ""PassEndY"", ""value"": ""34.3""}, {""type"": ""Length"", ""value"": ""9.1""}, {""type"": ""Angle"", ""value"": ""5.60""}]"
+2947781119.0,9,1.0,FirstHalf,Rayan Cherki,386153,341,h,14.3,20.3,BallRecovery,Successful,[]
+2947781127.0,9,4.0,FirstHalf,Declan Rice,332325,345,a,54.0,86.2,BallRecovery,Successful,[]
+2947826151.0,9,51.0,FirstHalf,Malo Gusto,403850,341,h,28.7,48.1,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2947781253.0,9,53.0,FirstHalf,Malo Gusto,403850,341,h,30.3,38.4,BallRecovery,Successful,[]
+2947781317.0,10,6.0,FirstHalf,Marc Guéhi,374631,345,a,14.4,44.2,Tackle,Unsuccessful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""83""}, {""type"": ""Defensive""}]"
+2947781329.0,10,9.0,FirstHalf,Djed Spence,362219,345,a,8.1,53.4,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.8""}, {""type"": ""PassEndY"", ""value"": ""53.6""}, {""type"": ""Length"", ""value"": ""22.8""}, {""type"": ""Angle"", ""value"": ""0.01""}]"
+2947781355.0,10,12.0,FirstHalf,Declan Rice,332325,345,a,21.9,46.8,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""86""}]"
+2947781387.0,10,15.0,FirstHalf,Dean Henderson,304008,345,a,4.2,43.0,BallRecovery,Successful,[]
+2947781649.0,11,30.0,FirstHalf,Marc Guéhi,374631,345,a,13.5,52.7,BallRecovery,Successful,[]
+2947781691.0,11,38.0,FirstHalf,Marc Guéhi,374631,345,a,14.5,18.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""18.8""}, {""type"": ""PassEndY"", ""value"": ""11.1""}, {""type"": ""Length"", ""value"": ""6.9""}, {""type"": ""Angle"", ""value"": ""5.42""}]"
+2947781705.0,11,42.0,FirstHalf,Désiré Doué,433183,341,h,89.1,95.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""120""}, {""type"": ""Defensive""}]"
+2947781737.0,11,51.0,FirstHalf,Adrien Rabiot,116609,341,h,70.3,72.9,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Center""}]"
+2947781747.0,11,53.0,FirstHalf,Warren Zaïre-Emery,444679,341,h,66.9,69.2,BallRecovery,Successful,[]
+2947782033.0,12,58.0,FirstHalf,Djed Spence,362219,345,a,20.8,62.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""33.4""}, {""type"": ""PassEndY"", ""value"": ""62.6""}, {""type"": ""Length"", ""value"": ""13.2""}, {""type"": ""Angle"", ""value"": ""6.28""}]"
+2947782193.0,13,40.0,FirstHalf,Adrien Rabiot,116609,341,h,31.0,64.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""136""}, {""type"": ""Defensive""}]"
+2947782213.0,13,43.0,FirstHalf,Warren Zaïre-Emery,444679,341,h,31.4,70.3,BallRecovery,Successful,[]
+2947782323.0,14,4.0,FirstHalf,Marc Guéhi,374631,345,a,4.3,49.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""0.0""}, {""type"": ""PassEndY"", ""value"": ""30.7""}, {""type"": ""Length"", ""value"": ""14.4""}, {""type"": ""Angle"", ""value"": ""4.26""}]"
+2947782387.0,14,24.0,FirstHalf,Ivan Toney,134240,345,a,4.5,41.6,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.8""}, {""type"": ""PassEndY"", ""value"": ""10.3""}, {""type"": ""Length"", ""value"": ""41.8""}, {""type"": ""Angle"", ""value"": ""5.75""}]"
+2947782589.0,15,22.0,FirstHalf,Djed Spence,362219,345,a,33.2,90.4,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""150""}, {""type"": ""Defensive""}]"
+2947782609.0,15,23.0,FirstHalf,Djed Spence,362219,345,a,34.8,84.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""152""}, {""type"": ""Defensive""}]"
+2947782613.0,15,31.0,FirstHalf,Marcus Rashford,300299,345,a,9.2,93.3,BallRecovery,Successful,[]
+2947782727.0,16,17.0,FirstHalf,Mike Maignan,141646,341,h,12.4,26.7,KeeperPickup,Successful,[]
+2947782783.0,16,35.0,FirstHalf,Ivan Toney,134240,345,a,60.4,76.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""160""}, {""type"": ""Defensive""}]"
+2947782849.0,16,58.0,FirstHalf,Marc Guéhi,374631,345,a,27.0,62.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2947782851.0,16,59.0,FirstHalf,Ivan Toney,134240,345,a,37.3,66.6,BallRecovery,Successful,[]
+2947782879.0,17,8.0,FirstHalf,Maxence Lacroix,401130,341,h,10.8,61.4,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""162""}]"
+2947783253.0,19,14.0,FirstHalf,Declan Rice,332325,345,a,66.2,86.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}]"
+2947784409.0,19,16.0,FirstHalf,Morgan Rogers,362824,345,a,68.8,63.4,BallRecovery,Successful,[]
+2947783333.0,19,44.0,FirstHalf,Dean Henderson,304008,345,a,14.2,26.7,KeeperPickup,Successful,[]
+2947784629.0,25,53.0,FirstHalf,Théo Hernández,303115,341,h,10.3,93.2,BallRecovery,Successful,[]
+2947784945.0,27,7.0,FirstHalf,Adrien Rabiot,116609,341,h,58.6,23.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""227""}, {""type"": ""Defensive""}]"
+2947784947.0,27,9.0,FirstHalf,Adrien Rabiot,116609,341,h,55.4,25.1,BallRecovery,Successful,[]
+2947785081.0,27,57.0,FirstHalf,Mike Maignan,141646,341,h,22.7,38.6,BallRecovery,Successful,[]
+2947785213.0,28,30.0,FirstHalf,Djed Spence,362219,345,a,44.5,93.9,BallRecovery,Successful,[]
+2947785215.0,28,30.0,FirstHalf,Michael Olise,371281,341,h,54.0,7.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""236""}, {""type"": ""Defensive""}]"
+2947785225.0,28,33.0,FirstHalf,Rayan Cherki,386153,341,h,43.9,26.8,BallRecovery,Successful,[]
+2947785333.0,29,15.0,FirstHalf,Marc Guéhi,374631,345,a,7.2,49.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""6.4""}, {""type"": ""PassEndY"", ""value"": ""13.8""}, {""type"": ""Length"", ""value"": ""24.0""}, {""type"": ""Angle"", ""value"": ""4.68""}]"
+2947785339.0,29,18.0,FirstHalf,Jarell Quansah,430019,345,a,6.7,12.5,BallRecovery,Successful,[]
+2947785431.0,29,52.0,FirstHalf,Michael Olise,371281,341,h,58.8,19.7,BallRecovery,Successful,[]
+2947785457.0,29,59.0,FirstHalf,Declan Rice,332325,345,a,11.0,70.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""248""}, {""type"": ""Defensive""}]"
+2947785459.0,30,2.0,FirstHalf,Declan Rice,332325,345,a,8.8,75.3,BallRecovery,Successful,[]
+2947785465.0,30,6.0,FirstHalf,Malo Gusto,403850,341,h,75.1,6.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""249""}, {""type"": ""Offensive""}]"
+2947785609.0,30,47.0,FirstHalf,Adrien Rabiot,116609,341,h,52.6,73.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2947785947.0,32,13.0,FirstHalf,Michael Olise,371281,341,h,26.7,14.9,BallRecovery,Successful,[]
+2947786057.0,32,37.0,FirstHalf,Ezri Konsa,301440,345,a,34.5,55.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""262""}, {""type"": ""Defensive""}]"
+2947786065.0,32,41.0,FirstHalf,Morgan Rogers,362824,345,a,43.9,51.6,BallRecovery,Successful,[]
+2947786217.0,33,26.0,FirstHalf,Declan Rice,332325,345,a,42.6,38.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""271""}, {""type"": ""Defensive""}]"
+2947786235.0,33,30.0,FirstHalf,Morgan Rogers,362824,345,a,56.9,41.0,BallRecovery,Successful,[]
+2947786313.0,33,42.0,FirstHalf,Rayan Cherki,386153,341,h,33.8,8.0,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""301""}, {""type"": ""Defensive""}]"
+2947786535.0,34,37.0,FirstHalf,Bukayo Saka,367185,345,a,15.0,89.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""284""}, {""type"": ""Defensive""}]"
+2947786555.0,34,38.0,FirstHalf,Michael Olise,371281,341,h,81.4,12.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""306""}, {""type"": ""Offensive""}]"
+2947786557.0,34,39.0,FirstHalf,Bukayo Saka,367185,345,a,25.9,77.9,BallRecovery,Successful,[]
+2947786621.0,34,59.0,FirstHalf,Rayan Cherki,386153,341,h,24.4,31.7,BallRecovery,Successful,[]
+2947786657.0,35,11.0,FirstHalf,Declan Rice,332325,345,a,28.0,82.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""291""}, {""type"": ""Defensive""}]"
+2947786675.0,35,15.0,FirstHalf,Declan Rice,332325,345,a,21.6,62.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""293""}, {""type"": ""Defensive""}]"
+2947786679.0,35,19.0,FirstHalf,Jarell Quansah,430019,345,a,21.7,34.9,BallRecovery,Successful,[]
+2947786705.0,35,29.0,FirstHalf,Michael Olise,371281,341,h,61.6,7.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""321""}, {""type"": ""Defensive""}]"
+2947786707.0,35,32.0,FirstHalf,Malo Gusto,403850,341,h,56.4,15.2,BallRecovery,Successful,[]
+2947786725.0,35,36.0,FirstHalf,Djed Spence,362219,345,a,17.8,71.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2947786801.0,35,52.0,FirstHalf,Dean Henderson,304008,345,a,7.1,50.5,Interception,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2947786805.0,35,56.0,FirstHalf,Désiré Doué,433183,341,h,79.8,42.2,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""324""}, {""type"": ""Offensive""}]"
+2947786817.0,35,58.0,FirstHalf,Bukayo Saka,367185,345,a,37.3,47.0,BallRecovery,Successful,[]
+2947786861.0,36,6.0,FirstHalf,Maxence Lacroix,401130,341,h,6.7,42.6,Save,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""329""}]"
+2947787225.0,37,56.0,FirstHalf,Ezri Konsa,301440,345,a,35.9,27.6,BallRecovery,Successful,[]
+2947787381.0,38,24.0,FirstHalf,Maxence Lacroix,401130,341,h,6.0,76.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.7""}, {""type"": ""PassEndY"", ""value"": ""97.4""}, {""type"": ""Length"", ""value"": ""37.1""}, {""type"": ""Angle"", ""value"": ""0.39""}]"
+2947787507.0,39,7.0,FirstHalf,Mike Maignan,141646,341,h,4.6,41.9,KeeperPickup,Successful,[]
+2947787909.0,40,58.0,FirstHalf,Declan Rice,332325,345,a,32.0,80.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""334""}, {""type"": ""Defensive""}]"
+2947787915.0,41,2.0,FirstHalf,Jarell Quansah,430019,345,a,22.5,31.2,BallRecovery,Successful,[]
+2947787961.0,41,17.0,FirstHalf,Théo Hernández,303115,341,h,15.1,82.0,BallRecovery,Successful,[]
+2947788035.0,41,44.0,FirstHalf,Ezri Konsa,301440,345,a,11.2,44.5,BallRecovery,Successful,[]
+2947788419.0,43,10.0,FirstHalf,Djed Spence,362219,345,a,61.4,86.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""349""}, {""type"": ""Defensive""}]"
+2947788543.0,43,49.0,FirstHalf,Jarell Quansah,430019,345,a,12.2,29.2,BallRecovery,Successful,[]
+2947789469.0,47,44.0,FirstHalf,Declan Rice,332325,345,a,44.3,74.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2947789475.0,47,44.0,FirstHalf,Declan Rice,332325,345,a,45.1,73.0,BallRecovery,Successful,[]
+2947789665.0,48,19.0,FirstHalf,Ezri Konsa,301440,345,a,65.4,5.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""383""}, {""type"": ""Defensive""}]"
+2947789669.0,48,24.0,FirstHalf,Bukayo Saka,367185,345,a,71.2,12.5,BallRecovery,Successful,[]
+2947789699.0,48,28.0,FirstHalf,Maxence Lacroix,401130,341,h,6.0,69.3,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""452""}]"
+2947793901.0,45,46.0,SecondHalf,Malo Gusto,403850,341,h,13.2,12.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""469""}, {""type"": ""Defensive""}]"
+2947794023.0,46,30.0,SecondHalf,Malo Gusto,403850,341,h,70.6,9.6,BallRecovery,Successful,[]
+2947794027.0,46,31.0,SecondHalf,Ezri Konsa,301440,345,a,21.3,68.1,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2947794051.0,46,36.0,SecondHalf,Ollie Watkins,148503,345,a,27.0,72.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""408""}, {""type"": ""Defensive""}]"
+2947794053.0,46,39.0,SecondHalf,Declan Rice,332325,345,a,30.2,66.0,BallRecovery,Successful,[]
+2947794161.0,47,10.0,SecondHalf,Malo Gusto,403850,341,h,58.8,38.1,BallRecovery,Successful,[]
+2947794179.0,47,16.0,SecondHalf,Ivan Toney,134240,345,a,36.4,73.8,BallRecovery,Successful,[]
+2947794215.0,47,23.0,SecondHalf,Dayot Upamecano,327721,341,h,49.4,7.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""493""}, {""type"": ""Defensive""}]"
+2947794219.0,47,24.0,SecondHalf,Dayot Upamecano,327721,341,h,53.7,13.4,BallRecovery,Successful,[]
+2947794381.0,48,25.0,SecondHalf,Ousmane Dembélé,299513,341,h,62.4,23.9,BallRecovery,Successful,[]
+2947794445.0,48,44.0,SecondHalf,Morgan Rogers,362824,345,a,19.4,62.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""428""}, {""type"": ""Defensive""}]"
+2947794537.0,49,8.0,SecondHalf,Ezri Konsa,301440,345,a,18.4,51.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2947794545.0,49,9.0,SecondHalf,Declan Rice,332325,345,a,20.9,60.1,BallRecovery,Successful,[]
+2947794757.0,49,57.0,SecondHalf,Declan Rice,332325,345,a,12.4,68.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""447""}, {""type"": ""Defensive""}]"
+2947794773.0,49,59.0,SecondHalf,Dean Henderson,304008,345,a,3.4,50.0,KeeperPickup,Successful,[]
+2947794861.0,50,34.0,SecondHalf,Adrien Rabiot,116609,341,h,54.5,63.3,BallRecovery,Successful,[]
+2947794877.0,50,40.0,SecondHalf,Ezri Konsa,301440,345,a,14.1,53.0,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.7""}, {""type"": ""PassEndY"", ""value"": ""43.9""}, {""type"": ""Length"", ""value"": ""6.4""}, {""type"": ""Angle"", ""value"": ""4.98""}]"
+2947794977.0,51,32.0,SecondHalf,Michael Olise,371281,341,h,60.9,68.3,BallRecovery,Successful,[]
+2947828355.0,51,37.0,SecondHalf,Ezri Konsa,301440,345,a,2.8,24.8,BallRecovery,Successful,[]
+2947795063.0,51,55.0,SecondHalf,Dayot Upamecano,327721,341,h,10.8,11.9,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""540""}, {""type"": ""Defensive""}]"
+2947795155.0,52,25.0,SecondHalf,Adrien Rabiot,116609,341,h,23.7,35.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""548""}, {""type"": ""Defensive""}]"
+2947795153.0,52,27.0,SecondHalf,Ivan Toney,134240,345,a,74.8,71.4,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""488""}, {""type"": ""Offensive""}]"
+2947795157.0,52,30.0,SecondHalf,Ivan Toney,134240,345,a,72.8,63.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""464""}, {""type"": ""Defensive""}]"
+2947795167.0,52,31.0,SecondHalf,Warren Zaïre-Emery,444679,341,h,33.5,26.0,BallRecovery,Successful,[]
+2947795233.0,52,58.0,SecondHalf,Marc Guéhi,374631,345,a,13.6,60.8,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""KeyPass""}]"
+2947795255.0,53,0.0,SecondHalf,Eberechi Eze,332403,345,a,25.4,64.8,BallRecovery,Successful,[]
+2947795605.0,54,48.0,SecondHalf,Adrien Rabiot,116609,341,h,53.3,71.2,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""565""}, {""type"": ""Defensive""}]"
+2947795735.0,55,49.0,SecondHalf,Mike Maignan,141646,341,h,4.1,46.0,Claim,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""HighClaim""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""574""}]"
+2947795871.0,56,48.0,SecondHalf,Lucas Digne,89925,341,h,36.4,89.6,Interception,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}]"
+2947795877.0,56,49.0,SecondHalf,Bradley Barcola,425366,341,h,39.4,82.0,BallRecovery,Successful,[]
+2947795921.0,57,0.0,SecondHalf,Bukayo Saka,367185,345,a,34.2,13.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""503""}, {""type"": ""Defensive""}]"
+2947796211.0,57,53.0,SecondHalf,Malo Gusto,403850,341,h,57.1,5.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Right""}]"
+2947796097.0,58,0.0,SecondHalf,Dayot Upamecano,327721,341,h,18.1,24.6,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""588""}, {""type"": ""Defensive""}]"
+2947796249.0,58,54.0,SecondHalf,Warren Zaïre-Emery,444679,341,h,9.6,85.7,BallRecovery,Successful,[]
+2947796263.0,58,59.0,SecondHalf,Eberechi Eze,332403,345,a,76.5,7.6,BallRecovery,Successful,[]
+2947796335.0,59,32.0,SecondHalf,Declan Rice,332325,345,a,26.9,60.6,BallRecovery,Successful,[]
+2947796365.0,59,48.0,SecondHalf,Malo Gusto,403850,341,h,29.0,18.9,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""604""}, {""type"": ""Defensive""}]"
+2947796369.0,59,50.0,SecondHalf,Malo Gusto,403850,341,h,27.0,20.3,BallRecovery,Successful,[]
+2947796401.0,60,5.0,SecondHalf,Jarell Quansah,430019,345,a,14.0,22.6,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""528""}, {""type"": ""Defensive""}]"
+2947796431.0,60,8.0,SecondHalf,Ezri Konsa,301440,345,a,9.6,31.0,BallRecovery,Successful,[]
+2947796453.0,60,21.0,SecondHalf,Michael Olise,371281,341,h,62.1,76.8,BallRecovery,Successful,[]
+2947796627.0,61,58.0,SecondHalf,Adrien Rabiot,116609,341,h,19.8,31.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""21.6""}, {""type"": ""PassEndY"", ""value"": ""35.2""}, {""type"": ""Length"", ""value"": ""2.9""}, {""type"": ""Angle"", ""value"": ""0.87""}]"
+2947796631.0,62,2.0,SecondHalf,Maxence Lacroix,401130,341,h,9.0,48.0,Tackle,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""639""}, {""type"": ""Defensive""}]"
+2947796639.0,62,3.0,SecondHalf,Dayot Upamecano,327721,341,h,12.0,46.2,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.2""}, {""type"": ""PassEndY"", ""value"": ""53.4""}, {""type"": ""Length"", ""value"": ""5.9""}, {""type"": ""Angle"", ""value"": ""0.97""}]"
+2947796643.0,62,4.0,SecondHalf,Warren Zaïre-Emery,444679,341,h,15.1,53.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""23.6""}, {""type"": ""PassEndY"", ""value"": ""48.9""}, {""type"": ""Length"", ""value"": ""9.4""}, {""type"": ""Angle"", ""value"": ""5.95""}]"
+2947796705.0,62,37.0,SecondHalf,Djed Spence,362219,345,a,26.1,73.7,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""547""}, {""type"": ""Defensive""}]"
+2947796709.0,62,38.0,SecondHalf,Djed Spence,362219,345,a,25.9,70.5,BallRecovery,Successful,[]
+2947796751.0,63,2.0,SecondHalf,Malo Gusto,403850,341,h,10.7,35.9,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""651""}]"
+2947796759.0,63,3.0,SecondHalf,Lucas Digne,89925,341,h,8.8,54.8,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""29.9""}, {""type"": ""PassEndY"", ""value"": ""39.1""}, {""type"": ""Length"", ""value"": ""24.6""}, {""type"": ""Angle"", ""value"": ""5.83""}]"
+2947796773.0,63,15.0,SecondHalf,Lucas Digne,89925,341,h,8.4,61.1,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""15.8""}, {""type"": ""PassEndY"", ""value"": ""56.0""}, {""type"": ""Length"", ""value"": ""8.5""}, {""type"": ""Angle"", ""value"": ""5.86""}]"
+2947796777.0,63,16.0,SecondHalf,Warren Zaïre-Emery,444679,341,h,16.4,57.0,BallRecovery,Successful,[]
+2947796815.0,63,46.0,SecondHalf,Dean Henderson,304008,345,a,3.4,52.4,KeeperPickup,Successful,[]
+2947797041.0,65,20.0,SecondHalf,Morgan Rogers,362824,345,a,23.3,51.3,BallRecovery,Successful,[]
+2947797063.0,65,33.0,SecondHalf,Maxence Lacroix,401130,341,h,20.1,29.9,BallRecovery,Successful,[]
+2947797201.0,66,52.0,SecondHalf,Bradley Barcola,425366,341,h,42.3,78.4,BallRecovery,Successful,[]
+2947798387.0,73,34.0,SecondHalf,Malo Gusto,403850,341,h,29.5,20.5,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""704""}, {""type"": ""Defensive""}]"
+2947798389.0,73,36.0,SecondHalf,Malo Gusto,403850,341,h,32.3,13.9,BallRecovery,Successful,[]
+2947798563.0,74,42.0,SecondHalf,Ousmane Dembélé,299513,341,h,77.1,28.7,BallRecovery,Successful,[]
+2947798667.0,75,10.0,SecondHalf,Jarell Quansah,430019,345,a,7.6,22.6,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""BlockedCross""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""639""}]"
+2947798707.0,75,21.0,SecondHalf,Bukayo Saka,367185,345,a,12.0,27.3,BallRecovery,Successful,[]
+2947798905.0,76,22.0,SecondHalf,Adrien Rabiot,116609,341,h,67.2,60.5,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""722""}, {""type"": ""Offensive""}]"
+2947798907.0,76,23.0,SecondHalf,Dayot Upamecano,327721,341,h,62.0,64.0,BallRecovery,Successful,[]
+2947798939.0,76,31.0,SecondHalf,Marc Guéhi,374631,345,a,9.7,41.0,Tackle,Successful,"[{""type"": ""LastMan""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""651""}, {""type"": ""Defensive""}]"
+2947799185.0,77,43.0,SecondHalf,Jarell Quansah,430019,345,a,9.0,55.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""9.1""}, {""type"": ""PassEndY"", ""value"": ""50.3""}, {""type"": ""Length"", ""value"": ""3.7""}, {""type"": ""Angle"", ""value"": ""4.74""}]"
+2947799191.0,77,44.0,SecondHalf,Eberechi Eze,332403,345,a,14.0,50.7,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""46.3""}, {""type"": ""PassEndY"", ""value"": ""74.4""}, {""type"": ""Length"", ""value"": ""37.5""}, {""type"": ""Angle"", ""value"": ""0.44""}]"
+2947799257.0,78,5.0,SecondHalf,Declan Rice,332325,345,a,9.4,40.5,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""670""}, {""type"": ""Defensive""}]"
+2947799271.0,78,7.0,SecondHalf,Ezri Konsa,301440,345,a,4.4,36.1,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""667""}]"
+2947799289.0,78,12.0,SecondHalf,Morgan Rogers,362824,345,a,25.0,15.5,BallRecovery,Successful,[]
+2947799509.0,79,17.0,SecondHalf,Lucas Digne,89925,341,h,41.8,94.1,BallRecovery,Successful,[]
+2947799567.0,79,35.0,SecondHalf,Djed Spence,362219,345,a,13.2,73.6,BallRecovery,Successful,[]
+2947799683.0,79,55.0,SecondHalf,Maxence Lacroix,401130,341,h,6.3,41.9,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""749""}]"
+2947799695.0,79,57.0,SecondHalf,Warren Zaïre-Emery,444679,341,h,24.7,58.1,BallRecovery,Successful,[]
+2947800251.0,82,57.0,SecondHalf,Maxence Lacroix,401130,341,h,29.7,42.7,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""38.2""}, {""type"": ""PassEndY"", ""value"": ""33.1""}, {""type"": ""Length"", ""value"": ""11.1""}, {""type"": ""Angle"", ""value"": ""5.65""}]"
+2947800265.0,83,0.0,SecondHalf,Michael Olise,371281,341,h,48.1,33.7,BallRecovery,Successful,[]
+2947800351.0,83,30.0,SecondHalf,Dean Henderson,304008,345,a,4.4,50.1,KeeperPickup,Successful,[]
+2947801169.0,88,7.0,SecondHalf,Bukayo Saka,367185,345,a,37.8,8.0,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""719""}, {""type"": ""Defensive""}]"
+2947856813.0,88,8.0,SecondHalf,Bukayo Saka,367185,345,a,32.3,13.6,BallRecovery,Successful,[]
+2947801385.0,89,20.0,SecondHalf,Dayot Upamecano,327721,341,h,52.2,21.9,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""805""}, {""type"": ""Defensive""}]"
+2947801395.0,89,22.0,SecondHalf,Jude Bellingham,379868,345,a,47.4,76.8,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""722""}, {""type"": ""Defensive""}]"
+2947801415.0,89,26.0,SecondHalf,Maxence Lacroix,401130,341,h,26.4,49.3,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2947801417.0,89,27.0,SecondHalf,Lucas Digne,89925,341,h,30.0,72.3,BallRecovery,Successful,[]
+2947801535.0,90,3.0,SecondHalf,Ezri Konsa,301440,345,a,24.5,55.9,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2947801541.0,90,4.0,SecondHalf,Ezri Konsa,301440,345,a,29.0,46.3,BallRecovery,Successful,[]
+2947801547.0,90,7.0,SecondHalf,Michael Olise,371281,341,h,71.4,45.9,BallRecovery,Successful,[]
+2947801567.0,90,11.0,SecondHalf,Reece James,361330,345,a,15.2,36.6,Save,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OutfielderBlock""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""739""}]"
+2947801687.0,91,21.0,SecondHalf,Maxence Lacroix,401130,341,h,29.3,73.4,Clearance,Successful,"[{""type"": ""Head""}, {""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""31.5""}, {""type"": ""PassEndY"", ""value"": ""74.4""}, {""type"": ""Length"", ""value"": ""2.4""}, {""type"": ""Angle"", ""value"": ""0.29""}]"
+2947801707.0,91,27.0,SecondHalf,Adrien Rabiot,116609,341,h,33.8,79.9,BallRecovery,Successful,[]
+2947801727.0,91,40.0,SecondHalf,Declan Rice,332325,345,a,21.9,66.1,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""755""}, {""type"": ""Defensive""}]"
+2947801733.0,91,41.0,SecondHalf,Morgan Rogers,362824,345,a,27.3,62.7,BallRecovery,Successful,[]
+2947801875.0,92,40.0,SecondHalf,Warren Zaïre-Emery,444679,341,h,42.9,33.5,BallRecovery,Successful,[]
+2947801919.0,92,53.0,SecondHalf,Trevoh Chalobah,353292,345,a,7.1,57.0,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""12.6""}, {""type"": ""PassEndY"", ""value"": ""87.2""}, {""type"": ""Length"", ""value"": ""21.3""}, {""type"": ""Angle"", ""value"": ""1.30""}]"
+2947801949.0,93,2.0,SecondHalf,Ollie Watkins,148503,345,a,19.2,66.8,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""767""}, {""type"": ""Defensive""}]"
+2947801953.0,93,3.0,SecondHalf,Elliot Anderson,402596,345,a,14.8,63.7,BallRecovery,Successful,[]
+2947801981.0,93,11.0,SecondHalf,Jules Koundé,301019,341,h,55.9,10.7,BallRecovery,Successful,[]
+2947802019.0,93,26.0,SecondHalf,Djed Spence,362219,345,a,10.6,68.0,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""775""}, {""type"": ""Defensive""}]"
+2947802035.0,93,27.0,SecondHalf,Djed Spence,362219,345,a,10.7,65.8,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""PassEndX"", ""value"": ""66.2""}, {""type"": ""PassEndY"", ""value"": ""66.0""}, {""type"": ""Length"", ""value"": ""58.3""}, {""type"": ""Angle"", ""value"": ""0.00""}]"
+2947802199.0,94,52.0,SecondHalf,Elliot Anderson,402596,345,a,25.6,72.4,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""783""}, {""type"": ""Defensive""}]"
+2947802201.0,94,54.0,SecondHalf,Michael Olise,371281,341,h,75.2,31.3,Tackle,Unsuccessful,"[{""type"": ""Zone"", ""value"": ""Center""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""845""}, {""type"": ""Offensive""}]"
+2947802217.0,94,58.0,SecondHalf,Declan Rice,332325,345,a,26.2,63.7,BallRecovery,Successful,[]
+2947802245.0,95,4.0,SecondHalf,Dayot Upamecano,327721,341,h,38.6,27.7,BlockedPass,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""850""}, {""type"": ""Defensive""}]"
+2947802267.0,95,16.0,SecondHalf,Dayot Upamecano,327721,341,h,37.6,38.2,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}]"
+2947802271.0,95,17.0,SecondHalf,Dayot Upamecano,327721,341,h,39.7,40.1,BallRecovery,Successful,[]
+2947802401.0,96,46.0,SecondHalf,Bradley Barcola,425366,341,h,74.9,87.2,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Left""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""869""}, {""type"": ""Offensive""}]"
+2947802425.0,96,54.0,SecondHalf,Adrien Rabiot,116609,341,h,79.0,87.5,BallRecovery,Successful,[]
+2947802439.0,96,57.0,SecondHalf,Reece James,361330,345,a,12.6,12.6,Tackle,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""StandingSave""}, {""type"": ""OppositeRelatedEvent"", ""value"": ""808""}, {""type"": ""Defensive""}]"
+2947802445.0,97,1.0,SecondHalf,Reece James,361330,345,a,0.9,27.9,Clearance,Successful,"[{""type"": ""Zone"", ""value"": ""Back""}, {""type"": ""PassEndX"", ""value"": ""27.4""}, {""type"": ""PassEndY"", ""value"": ""15.8""}, {""type"": ""Length"", ""value"": ""29.0""}, {""type"": ""Angle"", ""value"": ""6.00""}]"
+2947802457.0,97,6.0,SecondHalf,Dayot Upamecano,327721,341,h,55.6,50.0,Interception,Successful,"[{""type"": ""Zone"", ""value"": ""Center""}]"
+2947802459.0,97,8.0,SecondHalf,Jude Bellingham,379868,345,a,44.7,47.8,BallRecovery,Successful,[]

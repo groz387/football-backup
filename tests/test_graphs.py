@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from recap import director, draw, graphs, theme
+from recap import director, draw, graphs, infographics, theme
 from recap.draw import Timeline
 from recap.data import MatchBundle, Score
 from recap.director import ANGLE_VIZ, SHAPE_FAMILY, unique_shape_pack
@@ -22,6 +22,17 @@ NEW_VIZ = (
     "duel_tower",
     "aerial_war",
     "halftime_split",
+)
+
+PICTURE_VIZ = (
+    "touch_skyline",
+    "shot_skyline",
+    "shot_trajectories",
+    "player_podium",
+    "lineup_board",
+    "shot_dna",
+    "pass_sonar",
+    "defensive_block",
 )
 
 
@@ -89,6 +100,12 @@ def _minimal_audit(bundle: MatchBundle) -> dict:
                        "home_pressure": 0.0, "away_pressure": 0.0},
             "ready": False,
         },
+        "phase_pressure": [],
+        "player_ratings": {"players": [], "top": [], "available": False},
+        "lineups": {"available": False},
+        "shot_profile": {"available": False},
+        "pass_sonar": {"available": False},
+        "defensive_shape": {"available": False},
     }
 
 
@@ -106,6 +123,15 @@ class GraphEmptyAuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             folder = Path(tmp)
             for name, renderer in graphs.GRAPH_RENDERERS.items():
+                for progress in (0.0, 0.5, 1.0):
+                    path = folder / f"{name}_{progress}.png"
+                    renderer(self.bundle, self.audit, self.scene, path, progress)
+                    self.assertTrue(path.exists(), f"{name} at {progress} wrote nothing")
+
+    def test_infographic_renderers_survive_empty_audit(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            for name, renderer in infographics.INFOGRAPHIC_RENDERERS.items():
                 for progress in (0.0, 0.5, 1.0):
                     path = folder / f"{name}_{progress}.png"
                     renderer(self.bundle, self.audit, self.scene, path, progress)
@@ -164,6 +190,13 @@ class UniquenessTests(unittest.TestCase):
         families = [SHAPE_FAMILY[vid] for vid in NEW_VIZ]
         self.assertEqual(len(families), len(set(families)))
 
+    def test_picture_viz_have_distinct_shape_families(self) -> None:
+        for vid in PICTURE_VIZ:
+            self.assertIn(vid, SHAPE_FAMILY, vid)
+            self.assertIn(vid, infographics.INFOGRAPHIC_RENDERERS, vid)
+        families = [SHAPE_FAMILY[vid] for vid in PICTURE_VIZ]
+        self.assertEqual(len(families), len(set(families)))
+
     def test_player_spike_is_poster(self) -> None:
         self.assertEqual(SHAPE_FAMILY["player_spike"], "poster")
 
@@ -173,6 +206,18 @@ class UniquenessTests(unittest.TestCase):
                 unique_shape_pack(ids),
                 f"{angle} collides: {director.pack_shape_families(ids)}",
             )
+
+    def test_visual_first_selection_reserves_picture_led_scenes(self) -> None:
+        available = {
+            "stat_slam": {"id": "stat_slam", "available": True, "score": 99, "shape": "slam"},
+            "momentum": {"id": "momentum", "available": True, "score": 98, "shape": "time"},
+            "shot_skyline": {"id": "shot_skyline", "available": True, "score": 70, "shape": "towers"},
+            "player_podium": {"id": "player_podium", "available": True, "score": 69, "shape": "podium"},
+        }
+        visual = {vid: item for vid, item in available.items() if vid in director.VISUAL_FIRST_IDS}
+        seeds = director._diverse_pick(visual, 2, ["shot_skyline", "player_podium"])
+        picked = director._diverse_pick(available, 4, seeds + ["stat_slam", "momentum"])
+        self.assertEqual(picked[:2], ["shot_skyline", "player_podium"])
 
     def test_graphs_module_does_not_import_scenes(self) -> None:
         import ast

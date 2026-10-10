@@ -1,0 +1,78 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Liverpool,home,0,4231,114147,Alisson Becker,0,0.0,5.0,0,74
+Liverpool,home,0,4231,392644,Jeremie Frimpong,1,2.5,1.0,0,74
+Liverpool,home,0,4231,424273,Milos Kerkez,2,2.5,9.0,0,74
+Liverpool,home,0,4231,345319,Alexis Mac Allister,3,5.0,6.5,0,74
+Liverpool,home,0,4231,468827,Jérémy Jacquet,4,2.5,3.5,0,74
+Liverpool,home,0,4231,95408,Virgil van Dijk,5,2.5,6.5,0,74
+Liverpool,home,0,4231,352825,Cody Gakpo,6,7.0,2.0,0,74
+Liverpool,home,0,4231,369875,Dominik Szoboszlai,7,5.0,3.5,0,74
+Liverpool,home,0,4231,299254,Alexander Isak,8,9.0,5.0,0,74
+Liverpool,home,0,4231,394786,Florian Wirtz,9,7.0,5.0,0,74
+Liverpool,home,0,4231,548106,Víctor Muñoz,10,7.0,8.0,0,74
+Liverpool,home,1,4231,114147,Alisson Becker,0,0.0,5.0,74,80
+Liverpool,home,1,4231,369875,Dominik Szoboszlai,1,2.5,1.0,74,80
+Liverpool,home,1,4231,301455,Kostas Tsimikas,2,2.5,9.0,74,80
+Liverpool,home,1,4231,345319,Alexis Mac Allister,3,5.0,6.5,74,80
+Liverpool,home,1,4231,468827,Jérémy Jacquet,4,2.5,3.5,74,80
+Liverpool,home,1,4231,95408,Virgil van Dijk,5,2.5,6.5,74,80
+Liverpool,home,1,4231,548566,Rio Ngumoha,6,7.0,2.0,74,80
+Liverpool,home,1,4231,363884,Ryan Gravenberch,7,5.0,3.5,74,80
+Liverpool,home,1,4231,299254,Alexander Isak,8,9.0,5.0,74,80
+Liverpool,home,1,4231,394786,Florian Wirtz,9,7.0,5.0,74,80
+Liverpool,home,1,4231,548106,Víctor Muñoz,10,7.0,8.0,74,80
+Liverpool,home,2,4231,114147,Alisson Becker,0,0.0,5.0,80,95
+Liverpool,home,2,4231,369875,Dominik Szoboszlai,1,2.5,1.0,80,95
+Liverpool,home,2,4231,301455,Kostas Tsimikas,2,2.5,9.0,80,95
+Liverpool,home,2,4231,509423,Trey Nyoni,3,5.0,6.5,80,95
+Liverpool,home,2,4231,384711,Ronald Araujo,4,2.5,3.5,80,95
+Liverpool,home,2,4231,95408,Virgil van Dijk,5,2.5,6.5,80,95
+Liverpool,home,2,4231,548106,Víctor Muñoz,6,7.0,2.0,80,95
+Liverpool,home,2,4231,363884,Ryan Gravenberch,7,5.0,3.5,80,95
+Liverpool,home,2,4231,299254,Alexander Isak,8,9.0,5.0,80,95
+Liverpool,home,2,4231,394786,Florian Wirtz,9,7.0,5.0,80,95
+Liverpool,home,2,4231,548566,Rio Ngumoha,10,7.0,8.0,80,95
+Nottingham Forest,away,0,3421,78386,Matz Sels,0,0.0,5.0,0,69
+Nottingham Forest,away,0,3421,315543,Ola Aina,1,5.0,1.0,0,69
+Nottingham Forest,away,0,3421,386969,Neco Williams,2,5.0,9.0,0,69
+Nottingham Forest,away,0,3421,445424,Murillo,3,2.5,8.0,0,69
+Nottingham Forest,away,0,3421,319785,Nikola Milenkovic,4,2.5,5.0,0,69
+Nottingham Forest,away,0,3421,443545,Jair Cunha,5,2.5,2.0,0,69
+Nottingham Forest,away,0,3421,262856,Xaver Schlager,6,5.0,3.5,0,69
+Nottingham Forest,away,0,3421,425576,James McAtee,7,5.0,6.5,0,69
+Nottingham Forest,away,0,3421,397497,Igor Jesus,8,9.0,5.0,0,69
+Nottingham Forest,away,0,3421,332867,Morgan Gibbs-White,9,7.5,3.5,0,69
+Nottingham Forest,away,0,3421,398414,Dan Ndoye,10,7.5,6.5,0,69
+Nottingham Forest,away,1,3421,78386,Matz Sels,0,0.0,5.0,69,89
+Nottingham Forest,away,1,3421,315543,Ola Aina,1,5.0,1.0,69,89
+Nottingham Forest,away,1,3421,386969,Neco Williams,2,5.0,9.0,69,89
+Nottingham Forest,away,1,3421,445424,Murillo,3,2.5,8.0,69,89
+Nottingham Forest,away,1,3421,319785,Nikola Milenkovic,4,2.5,5.0,69,89
+Nottingham Forest,away,1,3421,443545,Jair Cunha,5,2.5,2.0,69,89
+Nottingham Forest,away,1,3421,262856,Xaver Schlager,6,5.0,3.5,69,89
+Nottingham Forest,away,1,3421,425576,James McAtee,7,5.0,6.5,69,89
+Nottingham Forest,away,1,3421,401254,Liam Delap,8,9.0,5.0,69,89
+Nottingham Forest,away,1,3421,332867,Morgan Gibbs-White,9,7.5,3.5,69,89
+Nottingham Forest,away,1,3421,397497,Igor Jesus,10,7.5,6.5,69,89
+Nottingham Forest,away,2,3421,78386,Matz Sels,0,0.0,5.0,89,95
+Nottingham Forest,away,2,3421,386969,Neco Williams,1,5.0,1.0,89,95
+Nottingham Forest,away,2,3421,394888,Luca Netz,2,5.0,9.0,89,95
+Nottingham Forest,away,2,3421,445424,Murillo,3,2.5,8.0,89,95
+Nottingham Forest,away,2,3421,319785,Nikola Milenkovic,4,2.5,5.0,89,95
+Nottingham Forest,away,2,3421,443545,Jair Cunha,5,2.5,2.0,89,95
+Nottingham Forest,away,2,3421,262856,Xaver Schlager,6,5.0,3.5,89,95
+Nottingham Forest,away,2,3421,425576,James McAtee,7,5.0,6.5,89,95
+Nottingham Forest,away,2,3421,401254,Liam Delap,8,9.0,5.0,89,95
+Nottingham Forest,away,2,3421,332867,Morgan Gibbs-White,9,7.5,3.5,89,95
+Nottingham Forest,away,2,3421,397497,Igor Jesus,10,7.5,6.5,89,95
+Nottingham Forest,away,3,3421,78386,Matz Sels,0,0.0,5.0,95,95
+Nottingham Forest,away,3,3421,386969,Neco Williams,1,5.0,1.0,95,95
+Nottingham Forest,away,3,3421,394888,Luca Netz,2,5.0,9.0,95,95
+Nottingham Forest,away,3,3421,445424,Murillo,3,2.5,8.0,95,95
+Nottingham Forest,away,3,3421,319785,Nikola Milenkovic,4,2.5,5.0,95,95
+Nottingham Forest,away,3,3421,443545,Jair Cunha,5,2.5,2.0,95,95
+Nottingham Forest,away,3,3421,262856,Xaver Schlager,6,5.0,3.5,95,95
+Nottingham Forest,away,3,3421,334653,Nicolás Domínguez,7,5.0,6.5,95,95
+Nottingham Forest,away,3,3421,401254,Liam Delap,8,9.0,5.0,95,95
+Nottingham Forest,away,3,3421,332867,Morgan Gibbs-White,9,7.5,3.5,95,95
+Nottingham Forest,away,3,3421,350088,Callum Hudson-Odoi,10,7.5,6.5,95,95

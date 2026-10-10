@@ -1,0 +1,122 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Zenit,home,0,4231,321380,Denis Adamov,0,0.0,5.0,0,51
+Zenit,home,0,4231,400652,Gustavo Mantuan,1,2.5,1.0,0,51
+Zenit,home,0,4231,412011,Román Vega,2,2.5,9.0,0,51
+Zenit,home,0,4231,337841,Wendel,3,5.0,6.5,0,51
+Zenit,home,0,4231,362031,Igor Diveev,4,2.5,3.5,0,51
+Zenit,home,0,4231,373523,Nino,5,2.5,6.5,0,51
+Zenit,home,0,4231,371088,Maksim Glushenkov,6,7.0,2.0,0,51
+Zenit,home,0,4231,126539,Wílmar Barrios,7,5.0,3.5,0,51
+Zenit,home,0,4231,330714,Aleksandr Sobolev,8,9.0,5.0,0,51
+Zenit,home,0,4231,445427,Pedro Henrique,9,7.0,5.0,0,51
+Zenit,home,0,4231,429475,Jhon Jhon,10,7.0,8.0,0,51
+Zenit,home,1,4231,321380,Denis Adamov,0,0.0,5.0,51,76
+Zenit,home,1,4231,400652,Gustavo Mantuan,1,2.5,1.0,51,76
+Zenit,home,1,4231,412011,Román Vega,2,2.5,9.0,51,76
+Zenit,home,1,4231,337841,Wendel,3,5.0,6.5,51,76
+Zenit,home,1,4231,362031,Igor Diveev,4,2.5,3.5,51,76
+Zenit,home,1,4231,432682,Kevin Andrade,5,2.5,6.5,51,76
+Zenit,home,1,4231,371088,Maksim Glushenkov,6,7.0,2.0,51,76
+Zenit,home,1,4231,126539,Wílmar Barrios,7,5.0,3.5,51,76
+Zenit,home,1,4231,330714,Aleksandr Sobolev,8,9.0,5.0,51,76
+Zenit,home,1,4231,445427,Pedro Henrique,9,7.0,5.0,51,76
+Zenit,home,1,4231,429475,Jhon Jhon,10,7.0,8.0,51,76
+Zenit,home,2,4231,321380,Denis Adamov,0,0.0,5.0,76,76
+Zenit,home,2,4231,400652,Gustavo Mantuan,1,2.5,1.0,76,76
+Zenit,home,2,4231,412011,Román Vega,2,2.5,9.0,76,76
+Zenit,home,2,4231,337841,Wendel,3,5.0,6.5,76,76
+Zenit,home,2,4231,362031,Igor Diveev,4,2.5,3.5,76,76
+Zenit,home,2,4231,432682,Kevin Andrade,5,2.5,6.5,76,76
+Zenit,home,2,4231,371088,Maksim Glushenkov,6,7.0,2.0,76,76
+Zenit,home,2,4231,126539,Wílmar Barrios,7,5.0,3.5,76,76
+Zenit,home,2,4231,364703,Nuraly Alip,8,9.0,5.0,76,76
+Zenit,home,2,4231,445427,Pedro Henrique,9,7.0,5.0,76,76
+Zenit,home,2,4231,429475,Jhon Jhon,10,7.0,8.0,76,76
+Zenit,home,3,4231,321380,Denis Adamov,0,0.0,5.0,76,83
+Zenit,home,3,4231,400652,Gustavo Mantuan,1,2.5,1.0,76,83
+Zenit,home,3,4231,412011,Román Vega,2,2.5,9.0,76,83
+Zenit,home,3,4231,337841,Wendel,3,5.0,6.5,76,83
+Zenit,home,3,4231,362031,Igor Diveev,4,2.5,3.5,76,83
+Zenit,home,3,4231,432682,Kevin Andrade,5,2.5,6.5,76,83
+Zenit,home,3,4231,371088,Maksim Glushenkov,6,7.0,2.0,76,83
+Zenit,home,3,4231,126539,Wílmar Barrios,7,5.0,3.5,76,83
+Zenit,home,3,4231,364703,Nuraly Alip,8,9.0,5.0,76,83
+Zenit,home,3,4231,445427,Pedro Henrique,9,7.0,5.0,76,83
+Zenit,home,3,4231,418155,Felipe Augusto,10,7.0,8.0,76,83
+Zenit,home,4,4231,321380,Denis Adamov,0,0.0,5.0,83,88
+Zenit,home,4,4231,400652,Gustavo Mantuan,1,2.5,1.0,83,88
+Zenit,home,4,4231,412011,Román Vega,2,2.5,9.0,83,88
+Zenit,home,4,4231,337841,Wendel,3,5.0,6.5,83,88
+Zenit,home,4,4231,362031,Igor Diveev,4,2.5,3.5,83,88
+Zenit,home,4,4231,432682,Kevin Andrade,5,2.5,6.5,83,88
+Zenit,home,4,4231,371088,Maksim Glushenkov,6,7.0,2.0,83,88
+Zenit,home,4,4231,126539,Wílmar Barrios,7,5.0,3.5,83,88
+Zenit,home,4,4231,364703,Nuraly Alip,8,9.0,5.0,83,88
+Zenit,home,4,4231,115097,Douglas Santos,9,7.0,5.0,83,88
+Zenit,home,4,4231,418155,Felipe Augusto,10,7.0,8.0,83,88
+Zenit,home,5,4231,321380,Denis Adamov,0,0.0,5.0,88,94
+Zenit,home,5,4231,400652,Gustavo Mantuan,1,2.5,1.0,88,94
+Zenit,home,5,4231,412011,Román Vega,2,2.5,9.0,88,94
+Zenit,home,5,4231,585717,Daniil Kondakov,3,5.0,6.5,88,94
+Zenit,home,5,4231,362031,Igor Diveev,4,2.5,3.5,88,94
+Zenit,home,5,4231,432682,Kevin Andrade,5,2.5,6.5,88,94
+Zenit,home,5,4231,371088,Maksim Glushenkov,6,7.0,2.0,88,94
+Zenit,home,5,4231,126539,Wílmar Barrios,7,5.0,3.5,88,94
+Zenit,home,5,4231,364703,Nuraly Alip,8,9.0,5.0,88,94
+Zenit,home,5,4231,115097,Douglas Santos,9,7.0,5.0,88,94
+Zenit,home,5,4231,418155,Felipe Augusto,10,7.0,8.0,88,94
+Dinamo Moscow,away,0,433,494077,Kurban Rasulov,0,0.0,5.0,0,65
+Dinamo Moscow,away,0,433,392316,Juan José Cáceres,1,2.5,1.0,0,65
+Dinamo Moscow,away,0,433,407747,Rubens,2,2.5,9.0,0,65
+Dinamo Moscow,away,0,433,595293,Timofey Marinkin,3,5.5,5.0,0,65
+Dinamo Moscow,away,0,433,378567,Maksim Osipenko,4,2.5,3.5,0,65
+Dinamo Moscow,away,0,433,439813,David Ricardo,5,2.5,6.5,0,65
+Dinamo Moscow,away,0,433,322649,Daniil Fomin,6,5.5,2.0,0,65
+Dinamo Moscow,away,0,433,450872,Bitello,7,5.5,8.0,0,65
+Dinamo Moscow,away,0,433,404327,Konstantin Tyukavin,8,8.5,5.0,0,65
+Dinamo Moscow,away,0,433,419901,Yaroslav Gladyshev,9,8.5,2.0,0,65
+Dinamo Moscow,away,0,433,329403,Arthur Gomes,10,8.5,8.0,0,65
+Dinamo Moscow,away,1,433,494077,Kurban Rasulov,0,0.0,5.0,65,78
+Dinamo Moscow,away,1,433,392316,Juan José Cáceres,1,2.5,1.0,65,78
+Dinamo Moscow,away,1,433,407747,Rubens,2,2.5,9.0,65,78
+Dinamo Moscow,away,1,433,595293,Timofey Marinkin,3,5.5,5.0,65,78
+Dinamo Moscow,away,1,433,378567,Maksim Osipenko,4,2.5,3.5,65,78
+Dinamo Moscow,away,1,433,439813,David Ricardo,5,2.5,6.5,65,78
+Dinamo Moscow,away,1,433,322649,Daniil Fomin,6,5.5,2.0,65,78
+Dinamo Moscow,away,1,433,450872,Bitello,7,5.5,8.0,65,78
+Dinamo Moscow,away,1,433,404327,Konstantin Tyukavin,8,8.5,5.0,65,78
+Dinamo Moscow,away,1,433,420368,Ivan Sergeev,9,8.5,2.0,65,78
+Dinamo Moscow,away,1,433,329403,Arthur Gomes,10,8.5,8.0,65,78
+Dinamo Moscow,away,2,433,494077,Kurban Rasulov,0,0.0,5.0,78,78
+Dinamo Moscow,away,2,433,392316,Juan José Cáceres,1,2.5,1.0,78,78
+Dinamo Moscow,away,2,433,407747,Rubens,2,2.5,9.0,78,78
+Dinamo Moscow,away,2,433,595293,Timofey Marinkin,3,5.5,5.0,78,78
+Dinamo Moscow,away,2,433,378567,Maksim Osipenko,4,2.5,3.5,78,78
+Dinamo Moscow,away,2,433,439813,David Ricardo,5,2.5,6.5,78,78
+Dinamo Moscow,away,2,433,322649,Daniil Fomin,6,5.5,2.0,78,78
+Dinamo Moscow,away,2,433,450872,Bitello,7,5.5,8.0,78,78
+Dinamo Moscow,away,2,433,404327,Konstantin Tyukavin,8,8.5,5.0,78,78
+Dinamo Moscow,away,2,433,420368,Ivan Sergeev,9,8.5,2.0,78,78
+Dinamo Moscow,away,2,433,521594,Viktor Okishor,10,8.5,8.0,78,78
+Dinamo Moscow,away,3,433,494077,Kurban Rasulov,0,0.0,5.0,78,90
+Dinamo Moscow,away,3,433,392316,Juan José Cáceres,1,2.5,1.0,78,90
+Dinamo Moscow,away,3,433,407747,Rubens,2,2.5,9.0,78,90
+Dinamo Moscow,away,3,433,595293,Timofey Marinkin,3,5.5,5.0,78,90
+Dinamo Moscow,away,3,433,378567,Maksim Osipenko,4,2.5,3.5,78,90
+Dinamo Moscow,away,3,433,439813,David Ricardo,5,2.5,6.5,78,90
+Dinamo Moscow,away,3,433,143799,Anton Miranchuk,6,5.5,2.0,78,90
+Dinamo Moscow,away,3,433,450872,Bitello,7,5.5,8.0,78,90
+Dinamo Moscow,away,3,433,404327,Konstantin Tyukavin,8,8.5,5.0,78,90
+Dinamo Moscow,away,3,433,420368,Ivan Sergeev,9,8.5,2.0,78,90
+Dinamo Moscow,away,3,433,521594,Viktor Okishor,10,8.5,8.0,78,90
+Dinamo Moscow,away,4,433,494077,Kurban Rasulov,0,0.0,5.0,90,94
+Dinamo Moscow,away,4,433,326350,Dmitri Skopintsev,1,2.5,1.0,90,94
+Dinamo Moscow,away,4,433,407747,Rubens,2,2.5,9.0,90,94
+Dinamo Moscow,away,4,433,595293,Timofey Marinkin,3,5.5,5.0,90,94
+Dinamo Moscow,away,4,433,378567,Maksim Osipenko,4,2.5,3.5,90,94
+Dinamo Moscow,away,4,433,439813,David Ricardo,5,2.5,6.5,90,94
+Dinamo Moscow,away,4,433,143799,Anton Miranchuk,6,5.5,2.0,90,94
+Dinamo Moscow,away,4,433,450872,Bitello,7,5.5,8.0,90,94
+Dinamo Moscow,away,4,433,404327,Konstantin Tyukavin,8,8.5,5.0,90,94
+Dinamo Moscow,away,4,433,420368,Ivan Sergeev,9,8.5,2.0,90,94
+Dinamo Moscow,away,4,433,521594,Viktor Okishor,10,8.5,8.0,90,94

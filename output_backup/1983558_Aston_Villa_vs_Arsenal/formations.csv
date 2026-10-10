@@ -1,0 +1,89 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Aston Villa,home,0,4231,447570,Zion Suzuki,0,0.0,5.0,0,72
+Aston Villa,home,0,4231,322043,Matty Cash,1,2.5,1.0,0,72
+Aston Villa,home,0,4231,384134,Ian Maatsen,2,2.5,9.0,0,72
+Aston Villa,home,0,4231,92547,Ross Barkley,3,5.0,6.5,0,72
+Aston Villa,home,0,4231,100008,Victor Lindelöf,4,2.5,3.5,0,72
+Aston Villa,home,0,4231,344259,Pau Torres,5,2.5,6.5,0,72
+Aston Villa,home,0,4231,318449,John McGinn,6,7.0,2.0,0,72
+Aston Villa,home,0,4231,331790,Boubacar Kamara,7,5.0,3.5,0,72
+Aston Villa,home,0,4231,426050,Nicolas Jackson,8,9.0,5.0,0,72
+Aston Villa,home,0,4231,260592,Emiliano Buendía,9,7.0,5.0,0,72
+Aston Villa,home,0,4231,576066,George Hemmings,10,7.0,8.0,0,72
+Aston Villa,home,1,4231,447570,Zion Suzuki,0,0.0,5.0,72,79
+Aston Villa,home,1,4231,322043,Matty Cash,1,2.5,1.0,72,79
+Aston Villa,home,1,4231,384134,Ian Maatsen,2,2.5,9.0,72,79
+Aston Villa,home,1,4231,92547,Ross Barkley,3,5.0,6.5,72,79
+Aston Villa,home,1,4231,100008,Victor Lindelöf,4,2.5,3.5,72,79
+Aston Villa,home,1,4231,344259,Pau Torres,5,2.5,6.5,72,79
+Aston Villa,home,1,4231,520919,Alysson,6,7.0,2.0,72,79
+Aston Villa,home,1,4231,331790,Boubacar Kamara,7,5.0,3.5,72,79
+Aston Villa,home,1,4231,317506,Tammy Abraham,8,9.0,5.0,72,79
+Aston Villa,home,1,4231,318449,John McGinn,9,7.0,5.0,72,79
+Aston Villa,home,1,4231,260592,Emiliano Buendía,10,7.0,8.0,72,79
+Aston Villa,home,2,4231,447570,Zion Suzuki,0,0.0,5.0,79,99
+Aston Villa,home,2,4231,331924,Aaron Wan-Bissaka,1,2.5,1.0,79,99
+Aston Villa,home,2,4231,384134,Ian Maatsen,2,2.5,9.0,79,99
+Aston Villa,home,2,4231,331790,Boubacar Kamara,3,5.0,6.5,79,99
+Aston Villa,home,2,4231,100008,Victor Lindelöf,4,2.5,3.5,79,99
+Aston Villa,home,2,4231,344259,Pau Torres,5,2.5,6.5,79,99
+Aston Villa,home,2,4231,520919,Alysson,6,7.0,2.0,79,99
+Aston Villa,home,2,4231,318449,John McGinn,7,5.0,3.5,79,99
+Aston Villa,home,2,4231,317506,Tammy Abraham,8,9.0,5.0,79,99
+Aston Villa,home,2,4231,260592,Emiliano Buendía,9,7.0,5.0,79,99
+Aston Villa,home,2,4231,437022,Alejandro Garnacho,10,7.0,8.0,79,99
+Arsenal,away,0,4231,276366,David Raya,0,0.0,5.0,0,47
+Arsenal,away,0,4231,322036,Ben White,1,2.5,1.0,0,47
+Arsenal,away,0,4231,386519,Riccardo Calafiori,2,2.5,9.0,0,47
+Arsenal,away,0,4231,467918,Myles Lewis-Skelly,3,5.0,6.5,0,47
+Arsenal,away,0,4231,425591,Cristhian Mosquera,4,2.5,3.5,0,47
+Arsenal,away,0,4231,334087,Gabriel Magalhães,5,2.5,6.5,0,47
+Arsenal,away,0,4231,367185,Bukayo Saka,6,7.0,2.0,0,47
+Arsenal,away,0,4231,332325,Declan Rice,7,5.0,3.5,0,47
+Arsenal,away,0,4231,326413,Kai Havertz,8,9.0,5.0,0,47
+Arsenal,away,0,4231,247454,Martin Ødegaard,9,7.0,5.0,0,47
+Arsenal,away,0,4231,399296,Christos Tzolis,10,7.0,8.0,0,47
+Arsenal,away,1,4231,276366,David Raya,0,0.0,5.0,47,72
+Arsenal,away,1,4231,322036,Ben White,1,2.5,1.0,47,72
+Arsenal,away,1,4231,386519,Riccardo Calafiori,2,2.5,9.0,47,72
+Arsenal,away,1,4231,467918,Myles Lewis-Skelly,3,5.0,6.5,47,72
+Arsenal,away,1,4231,425591,Cristhian Mosquera,4,2.5,3.5,47,72
+Arsenal,away,1,4231,334087,Gabriel Magalhães,5,2.5,6.5,47,72
+Arsenal,away,1,4231,367185,Bukayo Saka,6,7.0,2.0,47,72
+Arsenal,away,1,4231,332325,Declan Rice,7,5.0,3.5,47,72
+Arsenal,away,1,4231,326413,Kai Havertz,8,9.0,5.0,47,72
+Arsenal,away,1,4231,247454,Martin Ødegaard,9,7.0,5.0,47,72
+Arsenal,away,1,4231,332403,Eberechi Eze,10,7.0,8.0,47,72
+Arsenal,away,2,4231,276366,David Raya,0,0.0,5.0,72,80
+Arsenal,away,2,4231,322036,Ben White,1,2.5,1.0,72,80
+Arsenal,away,2,4231,386519,Riccardo Calafiori,2,2.5,9.0,72,80
+Arsenal,away,2,4231,338780,Bruno Guimarães,3,5.0,6.5,72,80
+Arsenal,away,2,4231,425591,Cristhian Mosquera,4,2.5,3.5,72,80
+Arsenal,away,2,4231,334087,Gabriel Magalhães,5,2.5,6.5,72,80
+Arsenal,away,2,4231,367185,Bukayo Saka,6,7.0,2.0,72,80
+Arsenal,away,2,4231,332325,Declan Rice,7,5.0,3.5,72,80
+Arsenal,away,2,4231,326413,Kai Havertz,8,9.0,5.0,72,80
+Arsenal,away,2,4231,238916,Mikel Merino,9,7.0,5.0,72,80
+Arsenal,away,2,4231,332403,Eberechi Eze,10,7.0,8.0,72,80
+Arsenal,away,3,4231,276366,David Raya,0,0.0,5.0,80,86
+Arsenal,away,3,4231,322036,Ben White,1,2.5,1.0,80,86
+Arsenal,away,3,4231,386519,Riccardo Calafiori,2,2.5,9.0,80,86
+Arsenal,away,3,4231,338780,Bruno Guimarães,3,5.0,6.5,80,86
+Arsenal,away,3,4231,301440,Ezri Konsa,4,2.5,3.5,80,86
+Arsenal,away,3,4231,334087,Gabriel Magalhães,5,2.5,6.5,80,86
+Arsenal,away,3,4231,367185,Bukayo Saka,6,7.0,2.0,80,86
+Arsenal,away,3,4231,332325,Declan Rice,7,5.0,3.5,80,86
+Arsenal,away,3,4231,326413,Kai Havertz,8,9.0,5.0,80,86
+Arsenal,away,3,4231,238916,Mikel Merino,9,7.0,5.0,80,86
+Arsenal,away,3,4231,332403,Eberechi Eze,10,7.0,8.0,80,86
+Arsenal,away,4,4231,276366,David Raya,0,0.0,5.0,86,99
+Arsenal,away,4,4231,322036,Ben White,1,2.5,1.0,86,99
+Arsenal,away,4,4231,386519,Riccardo Calafiori,2,2.5,9.0,86,99
+Arsenal,away,4,4231,338780,Bruno Guimarães,3,5.0,6.5,86,99
+Arsenal,away,4,4231,301440,Ezri Konsa,4,2.5,3.5,86,99
+Arsenal,away,4,4231,334087,Gabriel Magalhães,5,2.5,6.5,86,99
+Arsenal,away,4,4231,367185,Bukayo Saka,6,7.0,2.0,86,99
+Arsenal,away,4,4231,372424,Martín Zubimendi,7,5.0,3.5,86,99
+Arsenal,away,4,4231,326413,Kai Havertz,8,9.0,5.0,86,99
+Arsenal,away,4,4231,238916,Mikel Merino,9,7.0,5.0,86,99
+Arsenal,away,4,4231,332403,Eberechi Eze,10,7.0,8.0,86,99

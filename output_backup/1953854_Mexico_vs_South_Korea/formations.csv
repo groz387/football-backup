@@ -1,0 +1,111 @@
+team,venue,formationIndex,formationName,playerId,playerName,slotIndex,vertical,horizontal,startMinuteExpanded,endMinuteExpanded
+Mexico,home,0,433,527319,Raúl Rangel,0,0.0,5.0,0,75
+Mexico,home,0,433,447643,Jorge Sánchez,1,2.5,1.0,0,75
+Mexico,home,0,433,252248,Jesús Gallardo,2,2.5,9.0,0,75
+Mexico,home,0,433,447638,Érik Lira,3,5.5,5.0,0,75
+Mexico,home,0,433,322696,Edson Álvarez,4,2.5,3.5,0,75
+Mexico,home,0,433,425115,Johan Vásquez,5,2.5,6.5,0,75
+Mexico,home,0,433,396565,Brian Gutiérrez,6,5.5,2.0,0,75
+Mexico,home,0,433,447635,Luis Romo,7,5.5,8.0,0,75
+Mexico,home,0,433,108186,Raúl Jiménez,8,8.5,5.0,0,75
+Mexico,home,0,433,447636,Roberto Alvarado,9,8.5,2.0,0,75
+Mexico,home,0,433,509557,Julián Quiñones,10,8.5,8.0,0,75
+Mexico,home,1,433,527319,Raúl Rangel,0,0.0,5.0,75,75
+Mexico,home,1,433,447643,Jorge Sánchez,1,2.5,1.0,75,75
+Mexico,home,1,433,252248,Jesús Gallardo,2,2.5,9.0,75,75
+Mexico,home,1,433,447638,Érik Lira,3,5.5,5.0,75,75
+Mexico,home,1,433,322696,Edson Álvarez,4,2.5,3.5,75,75
+Mexico,home,1,433,425115,Johan Vásquez,5,2.5,6.5,75,75
+Mexico,home,1,433,228547,Orbelín Pineda,6,5.5,2.0,75,75
+Mexico,home,1,433,447635,Luis Romo,7,5.5,8.0,75,75
+Mexico,home,1,433,108186,Raúl Jiménez,8,8.5,5.0,75,75
+Mexico,home,1,433,447636,Roberto Alvarado,9,8.5,2.0,75,75
+Mexico,home,1,433,509557,Julián Quiñones,10,8.5,8.0,75,75
+Mexico,home,2,433,527319,Raúl Rangel,0,0.0,5.0,75,84
+Mexico,home,2,433,447643,Jorge Sánchez,1,2.5,1.0,75,84
+Mexico,home,2,433,252248,Jesús Gallardo,2,2.5,9.0,75,84
+Mexico,home,2,433,447638,Érik Lira,3,5.5,5.0,75,84
+Mexico,home,2,433,322696,Edson Álvarez,4,2.5,3.5,75,84
+Mexico,home,2,433,425115,Johan Vásquez,5,2.5,6.5,75,84
+Mexico,home,2,433,228547,Orbelín Pineda,6,5.5,2.0,75,84
+Mexico,home,2,433,419580,Obed Vargas,7,5.5,8.0,75,84
+Mexico,home,2,433,108186,Raúl Jiménez,8,8.5,5.0,75,84
+Mexico,home,2,433,447636,Roberto Alvarado,9,8.5,2.0,75,84
+Mexico,home,2,433,509557,Julián Quiñones,10,8.5,8.0,75,84
+Mexico,home,3,541,527319,Raúl Rangel,0,0.0,5.0,84,88
+Mexico,home,3,541,447643,Jorge Sánchez,1,3.0,1.0,84,88
+Mexico,home,3,541,252248,Jesús Gallardo,2,3.0,9.0,84,88
+Mexico,home,3,541,425115,Johan Vásquez,3,3.0,7.0,84,88
+Mexico,home,3,541,322696,Edson Álvarez,4,3.0,5.0,84,88
+Mexico,home,3,541,447634,Israel Reyes,5,3.0,3.0,84,88
+Mexico,home,3,541,228547,Orbelín Pineda,6,6.0,2.0,84,88
+Mexico,home,3,541,447638,Érik Lira,7,6.0,4.0,84,88
+Mexico,home,3,541,445061,Santiago Giménez,8,9.0,5.0,84,88
+Mexico,home,3,541,419580,Obed Vargas,9,6.0,6.0,84,88
+Mexico,home,3,541,509557,Julián Quiñones,10,6.0,8.0,84,88
+Mexico,home,4,541,527319,Raúl Rangel,0,0.0,5.0,88,96
+Mexico,home,4,541,447643,Jorge Sánchez,1,3.0,1.0,88,96
+Mexico,home,4,541,252248,Jesús Gallardo,2,3.0,9.0,88,96
+Mexico,home,4,541,425115,Johan Vásquez,3,3.0,7.0,88,96
+Mexico,home,4,541,322696,Edson Álvarez,4,3.0,5.0,88,96
+Mexico,home,4,541,447634,Israel Reyes,5,3.0,3.0,88,96
+Mexico,home,4,541,228547,Orbelín Pineda,6,6.0,2.0,88,96
+Mexico,home,4,541,447638,Érik Lira,7,6.0,4.0,88,96
+Mexico,home,4,541,445061,Santiago Giménez,8,9.0,5.0,88,96
+Mexico,home,4,541,419580,Obed Vargas,9,6.0,6.0,88,96
+Mexico,home,4,541,498764,César Huerta,10,6.0,8.0,88,96
+South Korea,away,0,3421,71968,Kim Seung-Gyu,0,0.0,5.0,0,61
+South Korea,away,0,3421,414214,Kim Moon-Hwan,1,5.0,1.0,0,61
+South Korea,away,0,3421,477549,Seol Young-Woo,2,5.0,9.0,0,61
+South Korea,away,0,3421,447593,Lee Gi-Hyuk,3,2.5,8.0,0,61
+South Korea,away,0,3421,370912,Kim Min-Jae,4,2.5,5.0,0,61
+South Korea,away,0,3421,531031,Lee Han-Beom,5,2.5,2.0,0,61
+South Korea,away,0,3421,371030,Hwang In-Beom,6,5.0,3.5,0,61
+South Korea,away,0,3421,362786,Paik Seung-Ho,7,5.0,6.5,0,61
+South Korea,away,0,3421,91909,Son Heung-Min,8,9.0,5.0,0,61
+South Korea,away,0,3421,367780,Lee Kang-In,9,7.5,3.5,0,61
+South Korea,away,0,3421,142959,Lee Jae-Sung,10,7.5,6.5,0,61
+South Korea,away,1,3421,71968,Kim Seung-Gyu,0,0.0,5.0,61,75
+South Korea,away,1,3421,414214,Kim Moon-Hwan,1,5.0,1.0,61,75
+South Korea,away,1,3421,477549,Seol Young-Woo,2,5.0,9.0,61,75
+South Korea,away,1,3421,447593,Lee Gi-Hyuk,3,2.5,8.0,61,75
+South Korea,away,1,3421,370912,Kim Min-Jae,4,2.5,5.0,61,75
+South Korea,away,1,3421,531031,Lee Han-Beom,5,2.5,2.0,61,75
+South Korea,away,1,3421,371030,Hwang In-Beom,6,5.0,3.5,61,75
+South Korea,away,1,3421,362786,Paik Seung-Ho,7,5.0,6.5,61,75
+South Korea,away,1,3421,461463,Oh Hyeon-Gyu,8,9.0,5.0,61,75
+South Korea,away,1,3421,367780,Lee Kang-In,9,7.5,3.5,61,75
+South Korea,away,1,3421,262854,Hwang Hee-Chan,10,7.5,6.5,61,75
+South Korea,away,2,3421,71968,Kim Seung-Gyu,0,0.0,5.0,75,81
+South Korea,away,2,3421,457093,Yang Hyun-Jun,1,5.0,1.0,75,81
+South Korea,away,2,3421,458184,Eom Ji-Sung,2,5.0,9.0,75,81
+South Korea,away,2,3421,447593,Lee Gi-Hyuk,3,2.5,8.0,75,81
+South Korea,away,2,3421,370912,Kim Min-Jae,4,2.5,5.0,75,81
+South Korea,away,2,3421,531031,Lee Han-Beom,5,2.5,2.0,75,81
+South Korea,away,2,3421,371030,Hwang In-Beom,6,5.0,3.5,75,81
+South Korea,away,2,3421,362786,Paik Seung-Ho,7,5.0,6.5,75,81
+South Korea,away,2,3421,461463,Oh Hyeon-Gyu,8,9.0,5.0,75,81
+South Korea,away,2,3421,367780,Lee Kang-In,9,7.5,3.5,75,81
+South Korea,away,2,3421,262854,Hwang Hee-Chan,10,7.5,6.5,75,81
+South Korea,away,3,352,71968,Kim Seung-Gyu,0,0.0,5.0,81,86
+South Korea,away,3,352,457093,Yang Hyun-Jun,1,6.0,1.0,81,86
+South Korea,away,3,352,458184,Eom Ji-Sung,2,6.0,9.0,81,86
+South Korea,away,3,352,447593,Lee Gi-Hyuk,3,2.5,8.0,81,86
+South Korea,away,3,352,370912,Kim Min-Jae,4,2.5,5.0,81,86
+South Korea,away,3,352,531031,Lee Han-Beom,5,2.5,2.0,81,86
+South Korea,away,3,352,367780,Lee Kang-In,6,6.0,3.0,81,86
+South Korea,away,3,352,262854,Hwang Hee-Chan,7,6.0,7.0,81,86
+South Korea,away,3,352,461463,Oh Hyeon-Gyu,8,9.0,3.5,81,86
+South Korea,away,3,352,447605,Cho Gue-Sung,9,9.0,6.5,81,86
+South Korea,away,3,352,371030,Hwang In-Beom,10,6.0,5.0,81,86
+South Korea,away,4,352,71968,Kim Seung-Gyu,0,0.0,5.0,86,96
+South Korea,away,4,352,457093,Yang Hyun-Jun,1,6.0,1.0,86,96
+South Korea,away,4,352,458184,Eom Ji-Sung,2,6.0,9.0,86,96
+South Korea,away,4,352,447593,Lee Gi-Hyuk,3,2.5,8.0,86,96
+South Korea,away,4,352,370912,Kim Min-Jae,4,2.5,5.0,86,96
+South Korea,away,4,352,531031,Lee Han-Beom,5,2.5,2.0,86,96
+South Korea,away,4,352,262854,Hwang Hee-Chan,6,6.0,3.0,86,96
+South Korea,away,4,352,367780,Lee Kang-In,7,6.0,7.0,86,96
+South Korea,away,4,352,461463,Oh Hyeon-Gyu,8,9.0,3.5,86,96
+South Korea,away,4,352,447605,Cho Gue-Sung,9,9.0,6.5,86,96
+South Korea,away,4,352,371030,Hwang In-Beom,10,6.0,5.0,86,96
