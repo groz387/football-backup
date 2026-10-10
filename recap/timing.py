@@ -54,6 +54,14 @@ MINIMUM_ON_SCREEN = {
     "duel_tower": 5.0,
     "aerial_war": 4.8,
     "halftime_split": 4.6,
+    "touch_skyline": 5.6,
+    "shot_skyline": 5.6,
+    "shot_trajectories": 5.8,
+    "player_podium": 5.4,
+    "lineup_board": 5.6,
+    "shot_dna": 5.4,
+    "pass_sonar": 5.2,
+    "defensive_block": 5.4,
     "close": 4.4,
 }
 DEFAULT_MINIMUM = 5.0

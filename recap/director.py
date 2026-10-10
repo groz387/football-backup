@@ -351,18 +351,41 @@ SHAPE_FAMILY = {
     "duel_tower": "tower",
     "aerial_war": "aerial",
     "halftime_split": "split",
+    "touch_skyline": "skyline",
+    "shot_skyline": "towers",
+    "shot_trajectories": "trajectory",
+    "player_podium": "podium",
+    "lineup_board": "lineup",
+    "shot_dna": "waffle",
+    "pass_sonar": "sonar",
+    "defensive_block": "block",
 }
 
 ANGLE_VIZ = {
-    "upset": ["stat_slam", "shot_clock_spiral", "touch_heatmap", "duel_tower", "player_spike"],
-    "robbery": ["conversion_gauges", "xg_race", "shot_clock_spiral", "player_spike", "keeper_frame"],
-    "siege": ["press_trap", "touch_heatmap", "aerial_war", "momentum", "pass_lanes"],
-    "blowout": ["goal_timeline", "stat_slam", "shot_clock_spiral", "duel_tower", "pass_lanes"],
-    "comeback": ["momentum", "halftime_split", "bench_impact", "shot_map", "stat_slam"],
-    "stalemate": ["shot_map", "chance_funnel", "aerial_war", "zone_control", "duel_tower"],
-    "two_halves": ["halftime_split", "field_tilt_wave", "time_zones", "shot_clock_spiral", "match_radar"],
-    "keeper": ["keeper_frame", "conversion_gauges", "shot_clock_spiral", "xg_race", "player_spike"],
+    "upset": ["stat_slam", "shot_skyline", "touch_skyline", "duel_tower", "player_podium"],
+    "robbery": ["conversion_gauges", "xg_race", "shot_trajectories", "player_podium", "keeper_frame"],
+    "siege": ["press_trap", "touch_skyline", "defensive_block", "momentum", "pass_lanes"],
+    "blowout": ["goal_timeline", "shot_skyline", "player_podium", "lineup_board", "pass_lanes"],
+    "comeback": ["momentum", "halftime_split", "bench_impact", "shot_trajectories", "player_podium"],
+    "stalemate": ["shot_trajectories", "chance_funnel", "defensive_block", "pass_sonar", "duel_tower"],
+    "two_halves": ["halftime_split", "field_tilt_wave", "time_zones", "shot_skyline", "pass_sonar"],
+    "keeper": ["keeper_frame", "shot_trajectories", "player_podium", "conversion_gauges", "xg_race"],
 }
+
+# These are the scenes where the viewer reads a physical picture first:
+# height, territory, path, formation or shape carries the claim.  They are
+# intentionally not just an alternate chart skin.  A short-form deck should
+# make room for them whenever the audited event feed supports it.
+VISUAL_FIRST_IDS = frozenset({
+    "touch_skyline",
+    "shot_skyline",
+    "shot_trajectories",
+    "player_podium",
+    "lineup_board",
+    "shot_dna",
+    "pass_sonar",
+    "defensive_block",
+})
 
 
 def pack_shape_families(ids: list[str]) -> list[str]:
@@ -683,10 +706,110 @@ def visualization_candidates(bundle: MatchBundle, audit: dict[str, Any]) -> list
             "avoid_when": "Both halves look the same.",
         },
     ]
+    candidates.extend(_picture_candidates(bundle, audit, total_shots=total_shots, shot_gap=shot_gap,
+                                          on_target_total=on_target_total, max_tilt=max_tilt))
     for candidate in candidates:
         candidate["shape"] = SHAPE_FAMILY.get(candidate["id"], "other")
         candidate["score"] = round(float(candidate["score"]), 1)
     return candidates
+
+
+def _trajectory_shots(audit: dict[str, Any]) -> list[dict[str, Any]]:
+    return [
+        shot for shot in audit.get("shots") or []
+        if shot.get("outcome") != "blocked"
+        and shot.get("goal_mouth_y") is not None and shot.get("goal_mouth_z") is not None
+    ]
+
+
+def _picture_candidates(bundle: MatchBundle, audit: dict[str, Any], *, total_shots: int, shot_gap: int,
+                        on_target_total: int, max_tilt: float) -> list[dict[str, Any]]:
+    """3D scenes and infographics. Each one is only offered when its audit block is complete."""
+    health = audit.get("data_health") or {}
+    precise = bool(health.get("has_precise_coordinates"))
+    ratings = audit.get("player_ratings") or {}
+    top = ratings.get("top") or []
+    sonar = audit.get("pass_sonar") or {}
+    shape = audit.get("defensive_shape") or {}
+    forward_gap = abs(float((sonar.get("home") or {}).get("forward_pct") or 0)
+                      - float((sonar.get("away") or {}).get("forward_pct") or 0))
+    line_gap = abs(float((shape.get("home") or {}).get("line_height_m") or 0)
+                   - float((shape.get("away") or {}).get("line_height_m") or 0))
+    best_rating = float(top[0]["rating"]) if top else 0.0
+    return [
+        {
+            "id": "touch_skyline",
+            "title": "Territory Skyline (3D)",
+            "available": bool((audit.get("touch_heatmap") or {}).get("home")) and precise,
+            "score": 67 + min(14, max(0.0, max_tilt - 50) * 0.4),
+            "reason": "Every touch bin as a 3D column: height is volume, colour is who owned it.",
+            "best_for": "Territorial stories where one side lived in the other's half.",
+            "avoid_when": "Coordinates are reconstructed rather than real.",
+        },
+        {
+            "id": "shot_skyline",
+            "title": "Shot Skyline (3D)",
+            "available": total_shots >= 8 and precise,
+            "score": 73 + min(10, shot_gap),
+            "reason": "Every shot as a tower where it was struck; taller means it tested the keeper.",
+            "best_for": "Shooting galleries and volume mismatches.",
+            "avoid_when": "Too few shots to build a skyline.",
+        },
+        {
+            "id": "shot_trajectories",
+            "title": "Into the Frame (3D)",
+            "available": bool(health.get("has_goal_mouth_coordinates")) and len(_trajectory_shots(audit)) >= 6,
+            "score": 71 + min(12, on_target_total),
+            "reason": "Every shot from boot to where it crossed the goal line, folded onto one goal.",
+            "best_for": "Finishing stories: wasteful, clinical or a keeper under fire.",
+            "avoid_when": "Few shots reached the goal line.",
+        },
+        {
+            "id": "player_podium",
+            "title": "Top Rated Podium (3D)",
+            "available": bool(ratings.get("available")) and len(top) >= 3,
+            "score": 64 + min(14, max(0.0, best_rating - 7.0) * 8),
+            "reason": "The three best WhoScored ratings on a podium, with each rating curve.",
+            "best_for": "A standout individual night.",
+            "avoid_when": "The export has no player ratings.",
+        },
+        {
+            "id": "lineup_board",
+            "title": "Lineup Board",
+            "available": bool((audit.get("lineups") or {}).get("available")),
+            "score": 59 + min(10, max(0.0, best_rating - 7.0) * 5),
+            "reason": "Both starting shapes on one pitch, every shirt ringed by its rating.",
+            "best_for": "Shape-versus-shape stories and who carried each XI.",
+            "avoid_when": "No formation slots in the export.",
+        },
+        {
+            "id": "shot_dna",
+            "title": "Shot DNA",
+            "available": bool((audit.get("shot_profile") or {}).get("available")) and total_shots >= 8,
+            "score": 61 + min(10, total_shots / 3),
+            "reason": "One tile per shot by outcome, then how each side's shots arrived and what struck them.",
+            "best_for": "Set-piece reliance, counter-attacking threat, wasteful volume.",
+            "avoid_when": "Too few shots for a unit chart.",
+        },
+        {
+            "id": "pass_sonar",
+            "title": "Pass Sonar",
+            "available": bool(sonar.get("available")),
+            "score": 58 + min(14, forward_gap * 0.8),
+            "reason": "Which way each side passed, how often, and how often it arrived.",
+            "best_for": "Direct versus patient styles.",
+            "avoid_when": "Both sides passed the same way.",
+        },
+        {
+            "id": "defensive_block",
+            "title": "Defensive Block",
+            "available": bool(shape.get("available")) and precise,
+            "score": 60 + min(14, line_gap * 0.8),
+            "reason": "Where each side won the ball back, the shape of its block, and its line height.",
+            "best_for": "High press against low block.",
+            "avoid_when": "Too few defensive actions.",
+        },
+    ]
 
 
 def _diverse_pick(available: dict[str, dict[str, Any]], count: int, preferred: list[str]) -> list[str]:
@@ -741,13 +864,23 @@ def select_visualizations(
             bundle, audit, candidates, count, instruction, angle=angle
         )
         chosen_ids = [vid for vid in chosen_ids if vid in available]
-        # Re-apply diversity: drop later ids that collide on shape when a substitute exists.
-        chosen_ids = _diverse_pick(
-            available, count, chosen_ids + preferred
-        )
 
-    if not chosen_ids:
-        chosen_ids = _diverse_pick(available, count, preferred)
+    # Reserve the visual centre of the deck before adding a model's chart
+    # choices.  Without this, a plausible Gemini selection can fill all four
+    # slots with conventional metrics even when the feed supports a 3D pitch,
+    # trajectory or lineup scene.  One slot is protected in a two-card deck;
+    # two are protected once there is room for a real story arc.
+    visual_target = 2 if count >= 3 else 1
+    visual_available = {vid: item for vid, item in available.items() if vid in VISUAL_FIRST_IDS}
+    visual_ranked = [
+        item["id"] for item in sorted(visual_available.values(), key=lambda item: item["score"], reverse=True)
+    ]
+    visual_seeds = _diverse_pick(
+        visual_available,
+        min(visual_target, len(visual_available)),
+        [vid for vid in chosen_ids + preferred if vid in visual_available] + visual_ranked,
+    )
+    chosen_ids = _diverse_pick(available, count, visual_seeds + chosen_ids + preferred)
 
     seen: set[str] = set()
     selected = []
@@ -1325,6 +1458,10 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
             "narration": f"{first_shots} shots before the break, {second_shots} after. Two different halves.",
         }
 
+    picture = _picture_copy(bundle, audit, viz_id)
+    if picture is not None:
+        return picture
+
     if viz_id == "standard_stats":
         return {
             "kicker": i18n.t("the_baseline"),
@@ -1341,6 +1478,151 @@ def _visual_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dic
         "insight": i18n.t("insight_event_feed"),
         "narration": i18n.t("insight_event_feed"),
     }
+
+
+def _touch_totals(audit: dict[str, Any]) -> tuple[int, int]:
+    heat = audit.get("touch_heatmap") or {}
+    return (
+        int(sum(sum(row) for row in heat.get("home") or [])),
+        int(sum(sum(row) for row in heat.get("away") or [])),
+    )
+
+
+def _trajectory_counts(audit: dict[str, Any]) -> tuple[int, int, int, int]:
+    shots = _trajectory_shots(audit)
+    goals = sum(1 for shot in shots if shot.get("outcome") == "goal")
+    on = sum(1 for shot in shots if shot.get("outcome") in {"goal", "saved"})
+    return len(shots), on, len(shots) - on, goals
+
+
+def _picture_copy(bundle: MatchBundle, audit: dict[str, Any], viz_id: str) -> dict[str, str] | None:
+    stats = audit["team_stats"]
+    home, away = stats[bundle.home], stats[bundle.away]
+
+    if viz_id == "touch_skyline":
+        home_t, away_t = _touch_totals(audit)
+        leader = bundle.home if home_t >= away_t else bundle.away
+        return {
+            "kicker": i18n.t("kicker_skyline"),
+            "title": i18n.t("title_skyline", team=leader.upper()),
+            "subtitle": i18n.t("sub_skyline"),
+            "insight": i18n.t("insight_skyline", home=home_t, away=away_t),
+            "narration": f"{home_t} touches against {away_t}. {leader} built the taller city.",
+        }
+
+    if viz_id == "shot_skyline":
+        hs, as_ = int(home.get("shots") or 0), int(away.get("shots") or 0)
+        leader = bundle.home if hs >= as_ else bundle.away
+        return {
+            "kicker": i18n.t("kicker_shot_skyline"),
+            "title": i18n.t("title_shot_skyline", n=max(hs, as_), team=leader.upper()),
+            "subtitle": i18n.t("sub_shot_skyline"),
+            "insight": i18n.t("insight_shot_skyline", home=hs, away=as_),
+            "narration": f"{hs} shots against {as_}, each one standing where it was struck.",
+        }
+
+    if viz_id == "shot_trajectories":
+        total, on, off, goals = _trajectory_counts(audit)
+        return {
+            "kicker": i18n.t("kicker_trajectories"),
+            "title": i18n.t("title_trajectories", n=total),
+            "subtitle": i18n.t("sub_trajectories"),
+            "insight": i18n.t("insight_trajectories", on=on, off=off, goals=goals),
+            "narration": f"{total} shots reached the goal line. {on} were on target and {goals} went in.",
+        }
+
+    if viz_id == "player_podium":
+        top = (audit.get("player_ratings") or {}).get("top") or []
+        if len(top) < 3:
+            return None
+        first, second, third = top[:3]
+        return {
+            "kicker": i18n.t("kicker_podium"),
+            "title": i18n.t("title_podium", name=str(first["surname"]).upper()),
+            "subtitle": i18n.t("sub_podium"),
+            "insight": i18n.t(
+                "insight_podium",
+                first=first["surname"], r1=f"{first['rating']:.2f}",
+                second=second["surname"], r2=f"{second['rating']:.2f}",
+                third=third["surname"], r3=f"{third['rating']:.2f}",
+            ),
+            "narration": (
+                f"{first['player']} topped the ratings at {first['rating']:.2f}, "
+                f"ahead of {second['surname']} and {third['surname']}."
+            ),
+        }
+
+    if viz_id == "lineup_board":
+        lineups = audit.get("lineups") or {}
+        home_shape = str((lineups.get("home") or {}).get("formation") or "")
+        away_shape = str((lineups.get("away") or {}).get("formation") or "")
+        best = ((audit.get("player_ratings") or {}).get("top") or [None])[0] or {}
+        return {
+            "kicker": i18n.t("kicker_lineup"),
+            "title": i18n.t("title_lineup", a=home_shape, b=away_shape),
+            "subtitle": i18n.t("sub_lineup"),
+            "insight": (
+                i18n.t("insight_lineup", name=best.get("surname"), rating=f"{best.get('rating', 0):.2f}")
+                if best else i18n.t("insight_event_feed")
+            ),
+            "narration": (
+                f"{bundle.home} lined up {home_shape}, {bundle.away} {away_shape}."
+                + (f" {best['player']} was the best rated on the pitch." if best else "")
+            ),
+        }
+
+    if viz_id == "shot_dna":
+        profile = audit.get("shot_profile") or {}
+        hs, as_ = int((profile.get("home") or {}).get("total") or 0), int((profile.get("away") or {}).get("total") or 0)
+        side_key, team = ("home", bundle.home) if hs >= as_ else ("away", bundle.away)
+        pct = int(round(float((profile.get(side_key) or {}).get("box_pct") or 0)))
+        return {
+            "kicker": i18n.t("kicker_shot_dna"),
+            "title": i18n.t("title_shot_dna", n=hs + as_),
+            "subtitle": i18n.t("sub_shot_dna"),
+            "insight": i18n.t("insight_shot_dna", home=hs, away=as_, pct=pct, team=team),
+            "narration": f"{hs + as_} shots, taken apart. {pct} percent of {team}'s came from inside the box.",
+        }
+
+    if viz_id == "pass_sonar":
+        sonar = audit.get("pass_sonar") or {}
+        hf = float((sonar.get("home") or {}).get("forward_pct") or 0)
+        af = float((sonar.get("away") or {}).get("forward_pct") or 0)
+        team, other, pct, pct2 = (
+            (bundle.home, bundle.away, hf, af) if hf >= af else (bundle.away, bundle.home, af, hf)
+        )
+        title = (
+            i18n.t("title_sonar_forward", team=team.upper()) if abs(hf - af) >= 3
+            else i18n.t("title_sonar_even")
+        )
+        return {
+            "kicker": i18n.t("kicker_sonar"),
+            "title": title,
+            "subtitle": i18n.t("sub_sonar"),
+            "insight": i18n.t("insight_sonar", team=team, pct=f"{pct:.0f}", other=other, pct2=f"{pct2:.0f}"),
+            "narration": f"{team} sent {pct:.0f} percent of their passes forward. {other} managed {pct2:.0f}.",
+        }
+
+    if viz_id == "defensive_block":
+        shape = audit.get("defensive_shape") or {}
+        hm = float((shape.get("home") or {}).get("line_height_m") or 0)
+        am = float((shape.get("away") or {}).get("line_height_m") or 0)
+        team = bundle.home if hm >= am else bundle.away
+        title = (
+            i18n.t("title_block_high", team=team.upper()) if abs(hm - am) >= 3
+            else i18n.t("title_block_even")
+        )
+        return {
+            "kicker": i18n.t("kicker_block"),
+            "title": title,
+            "subtitle": i18n.t("sub_block"),
+            "insight": i18n.t("insight_block", home=bundle.home, hm=f"{hm:.0f}", away=bundle.away, am=f"{am:.0f}"),
+            "narration": (
+                f"{team} won the ball back higher. Their average line sat {max(hm, am):.0f} metres "
+                f"from their own goal, against {min(hm, am):.0f}."
+            ),
+        }
+    return None
 
 
 def _block_minute(row: dict[str, Any]) -> int:
@@ -1707,6 +1989,39 @@ def scene_fact_pack(bundle: MatchBundle, audit: dict[str, Any], viz_id: str, cop
     elif viz_id == "momentum":
         peak = max(audit.get("momentum") or [{"swing": 0}], key=lambda row: abs(row.get("swing") or 0))
         numbers.append(_block_minute(peak))
+    elif viz_id == "touch_skyline":
+        numbers.extend(_touch_totals(audit))
+    elif viz_id == "shot_skyline":
+        add_stat("shots", "shots_on_target", "goals")
+    elif viz_id == "shot_trajectories":
+        numbers.extend(_trajectory_counts(audit))
+    elif viz_id in {"player_podium", "lineup_board"}:
+        for player in ((audit.get("player_ratings") or {}).get("top") or [])[:3]:
+            numbers.extend([player.get("rating"), f"{float(player.get('rating') or 0):.2f}", player.get("shirt")])
+            surnames.append(str(player.get("surname") or ""))
+        lineups = audit.get("lineups") or {}
+        for key in ("home", "away"):
+            numbers.extend(re.findall(r"\d", str((lineups.get(key) or {}).get("formation") or "")))
+    elif viz_id == "shot_dna":
+        profile = audit.get("shot_profile") or {}
+        for key in ("home", "away"):
+            side = profile.get(key) or {}
+            numbers.extend([side.get("total"), int(round(float(side.get("box_pct") or 0)))])
+            numbers.extend((side.get("situation") or {}).values())
+            numbers.extend((side.get("body") or {}).values())
+    elif viz_id == "pass_sonar":
+        sonar = audit.get("pass_sonar") or {}
+        for key in ("home", "away"):
+            side = sonar.get(key) or {}
+            numbers.extend([f"{float(side.get(field) or 0):.0f}" for field in
+                            ("forward_pct", "backward_pct", "avg_length_m", "long_pct")])
+            numbers.append(side.get("total"))
+    elif viz_id == "defensive_block":
+        shape = audit.get("defensive_shape") or {}
+        for key in ("home", "away"):
+            side = shape.get(key) or {}
+            numbers.extend([f"{float(side.get('line_height_m') or 0):.0f}",
+                            f"{float(side.get('high_pct') or 0):.0f}", side.get("count")])
     elif viz_id == "close":
         score = bundle.score
         numbers.extend([score.home, score.away])

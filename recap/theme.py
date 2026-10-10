@@ -28,6 +28,9 @@ HAIRLINE = "#232b27"
 TEXT = "#f7faf6"
 TEXT_DIM = "#c5d0c8"
 TEXT_FAINT = "#8d9a93"
+# Supporting numbers on analysis cards. Shape and colour carry the read;
+# the figure is there to check, so it never takes a team accent.
+NUMBER_INK = "#d6ded8"
 
 # --- accents ----------------------------------------------------------------
 GOAL = "#ff3b5c"         # goals / decisive moments

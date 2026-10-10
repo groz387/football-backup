@@ -22,7 +22,7 @@ from typing import Any, Callable
 import numpy as np
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Polygon
 
-from . import draw, graphs, i18n, theme
+from . import draw, graphs, i18n, infographics, theme
 from .audit import GOAL_Y_MAX, GOAL_Y_MIN, GOAL_Z_MAX, best_goal_chain, build_pass_network, dominant_team
 from .data import MatchBundle
 from .director import format_stat, stat_label
@@ -602,7 +602,7 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
 
     content_top = _chrome(fig, bundle, scene, tl)
 
-    rect = Layout.fitted_rect(draw.PITCH_ASPECT, top=content_top - 0.036, bottom=0.142)
+    rect = Layout.fitted_rect(draw.PITCH_ASPECT, top=content_top - 0.036, bottom=0.228)
     draw.fig_panel(fig, rect[0] - 0.010, rect[1] - draw.y_of(0.010),
                    rect[2] + 0.020, rect[3] + 2 * draw.y_of(0.010),
                    color="#080b09", alpha=0.80 * tl.cue(0.04, 0.24),
@@ -707,7 +707,7 @@ def render_shot_map(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str,
         for key in ("goal", "saved", "off_target", "blocked", "woodwork")
         if key in present
     ]
-    draw.legend_row(fig, 0.108, entries, alpha=tl.cue(0.52, 0.26), fontsize=theme.label_size(10))
+    draw.legend_row(fig, 0.166, entries, alpha=tl.cue(0.52, 0.26), fontsize=theme.label_size(9.5))
     draw.save_figure(fig, path)
 
 
@@ -883,9 +883,9 @@ def render_zone_control(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
 
     content_top = _chrome(fig, bundle, scene, tl)
 
-    rect = Layout.fitted_rect(draw.PITCH_ASPECT, top=content_top - 0.026, bottom=0.140)
+    rect = Layout.fitted_rect(draw.PITCH_ASPECT, top=content_top - 0.040, bottom=0.232)
     ax = draw.vertical_pitch(fig, rect, face=design["pitch"], line=design["pitch_line"],
-                             alpha=0.0)
+                             alpha=0.0, stripes=False)
     if not zones:
         draw.empty_stage(fig, i18n.t("no_touch_coords"), tl)
         draw.save_figure(fig, path)
@@ -911,7 +911,7 @@ def render_zone_control(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
         grid[zone["xbin"], zone["ybin"], 1] = g
         grid[zone["xbin"], zone["ybin"], 2] = b
         grid[zone["xbin"], zone["ybin"], 3] = weight * grown
-    ax.imshow(grid, origin="lower", extent=(0, 100, 0, 100), interpolation="bilinear",
+    ax.imshow(grid[:, ::-1], origin="lower", extent=(0, 100, 0, 100), interpolation="bilinear",
               aspect="auto", zorder=4)
 
     cell_w = 100 / y_bins
@@ -921,17 +921,17 @@ def render_zone_control(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
         local = tl.stagger(row, x_bins, start=0.10, span=0.48, duration=0.30)
         if zone["total_touches"] > 0 and local > 0.55:
             label_alpha = min(1.0, (local - 0.55) * 3)
-            cx = col * cell_w + cell_w / 2
+            cx = draw.pitch_column(col, y_bins)
             cy = row * cell_h + cell_h / 2
             share = zone["home_share_pct"] / 100.0
             home_leads = share >= 0.5
             base = home_colour if home_leads else away_colour
-            ax.text(cx, cy + cell_h * 0.08, str(zone["total_touches"]), color=TEXT,
-                    fontsize=18, fontweight="bold", family=theme.DISPLAY_FONT, ha="center",
-                    va="center", path_effects=draw.outline(label_alpha), alpha=label_alpha, zorder=14)
             leader_share = share if home_leads else 1 - share
-            ax.text(cx, cy - cell_h * 0.20, f"{leader_share * 100:.0f}%",
-                    color=base, fontsize=11, fontweight="bold", family=theme.MONO_FONT,
+            ax.text(cx, cy + cell_h * 0.04, f"{leader_share * 100:.0f}%", color=theme.NUMBER_INK,
+                    fontsize=15, fontweight="bold", family=theme.LABEL_FONT, ha="center",
+                    va="center", path_effects=draw.outline(label_alpha), alpha=label_alpha, zorder=14)
+            ax.text(cx, cy - cell_h * 0.20, str(zone["total_touches"]),
+                    color=TEXT_FAINT, fontsize=10, fontweight="bold", family=theme.LABEL_FONT,
                     ha="center", va="center", path_effects=draw.outline(label_alpha),
                     alpha=label_alpha, zorder=14)
 
@@ -951,9 +951,9 @@ def render_zone_control(bundle: MatchBundle, audit: dict[str, Any], scene: dict[
     _direction_note(fig, rect, bundle.home, home_colour, alpha, above=True)
     _direction_note(fig, rect, bundle.away, away_colour, alpha, above=False)
     draw.legend_row(
-        fig, 0.196,
-        [("bar", home_colour, f"{bundle.home[:12]} zones"),
-         ("bar", away_colour, f"{bundle.away[:12]} zones")],
+        fig, 0.168,
+        [("bar", home_colour, bundle.home[:16]),
+         ("bar", away_colour, bundle.away[:16])],
         alpha=tl.cue(0.52, 0.26), fontsize=theme.label_size(10),
     )
     draw.save_figure(fig, path)
@@ -1093,8 +1093,9 @@ def _chip_row(fig, chips: list[tuple[str, str]], *, y: float, alpha: float,
         width = slot * 0.90
         draw.fig_panel(fig, x, y - 0.026, width, 0.062, color=design["surface"],
                        alpha=0.9 * alpha, edge=design["hairline"], radius=0.010, zorder=10)
-        fig.text(x + width / 2, y + 0.014, value, color=accent, fontsize=30, fontweight="bold",
-                 family=theme.DISPLAY_FONT, ha="center", va="center", alpha=alpha, zorder=14)
+        draw.fig_rect(fig, x + width * 0.30, y + 0.034, width * 0.40, 0.0025, accent, alpha, zorder=12)
+        fig.text(x + width / 2, y + 0.012, value, color=theme.NUMBER_INK, fontsize=25, fontweight="bold",
+                 family=theme.LABEL_FONT, ha="center", va="center", alpha=alpha, zorder=14)
         fig.text(x + width / 2, y - 0.014, str(label).upper(), color=TEXT_FAINT,
                  fontsize=theme.label_size(9), family=theme.LABEL_FONT, fontweight="bold",
                  ha="center", va="center", alpha=alpha, zorder=14)
@@ -1349,23 +1350,15 @@ def render_close(bundle: MatchBundle, audit: dict[str, Any], scene: dict[str, An
                            ease=draw.ease_in_out)
         if local <= 0.02:
             continue
-        y = 0.54 - index * 0.14
-        draw.fig_panel(fig, Layout.MARGIN, y - 0.05, Layout.CONTENT_W, 0.12,
+        y = 0.59 - index * 0.13
+        draw.fig_panel(fig, Layout.MARGIN, y - 0.040, Layout.CONTENT_W, 0.112,
                        color=design["surface"], alpha=0.88 * local, edge=design["hairline"],
                        radius=0.012, zorder=10)
-        home_shown = tl.count_to(float(home.get(key) or 0), start=0.14 + index * 0.08, duration=0.36)
-        away_shown = tl.count_to(float(away.get(key) or 0), start=0.16 + index * 0.08, duration=0.36)
-        fig.text(Layout.MARGIN + 0.08, y, format_stat(key, home_shown),
-                 color=design["home"]["chart"], fontsize=48, fontweight="bold",
-                 family=theme.DISPLAY_FONT, ha="left", va="center", alpha=local, zorder=14,
-                 path_effects=draw.soft_shadow(local))
-        fig.text(0.5, y + 0.018, stat_label(key).upper(), color=TEXT_DIM,
-                 fontsize=theme.label_size(13), family=theme.LABEL_FONT, fontweight="bold",
-                 ha="center", va="center", alpha=local, zorder=14)
-        fig.text(1 - Layout.MARGIN - 0.08, y, format_stat(key, away_shown),
-                 color=design["away"]["chart"], fontsize=48, fontweight="bold",
-                 family=theme.DISPLAY_FONT, ha="right", va="center", alpha=local, zorder=14,
-                 path_effects=draw.soft_shadow(local))
+        draw.comparison_bar(
+            fig, y - 0.004, stat_label(key), float(home.get(key) or 0), float(away.get(key) or 0),
+            design["home"]["chart"], design["away"]["chart"], progress=local,
+            suffix="%" if key.endswith("_pct") else "", left=0.20, right=0.80, zorder=14,
+        )
     draw.stamp_insight(fig, scene, tl)
     draw.save_figure(fig, path)
 
@@ -1406,6 +1399,7 @@ RENDERERS: dict[str, Renderer] = {
     "duel_tower": graphs.render_duel_tower,
     "aerial_war": graphs.render_aerial_war,
     "halftime_split": graphs.render_halftime_split,
+    **infographics.INFOGRAPHIC_RENDERERS,
     "close": render_close,
 }
 

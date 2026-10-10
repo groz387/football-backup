@@ -220,6 +220,17 @@ class TranslationTests(unittest.TestCase):
         out = i18n.patch_leftover_copy(scenes, fallback, "az")
         self.assertEqual(out[0]["title"], "19 ZƏRBƏ")
 
+    def test_scrub_english_narration_uses_native_insight(self):
+        from recap import i18n
+
+        scenes = [{
+            "id": "touch_skyline",
+            "narration": "The tallest block is the busiest zone.",
+            "insight": "El bloque mas alto marca la zona mas cargada.",
+        }]
+        out = i18n.scrub_english_leftovers(scenes, "es")
+        self.assertEqual(out[0]["narration"], scenes[0]["insight"])
+
     def test_build_script_asks_gemini_in_picked_language(self):
         captured: dict[str, str] = {}
 

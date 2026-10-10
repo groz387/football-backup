@@ -196,8 +196,12 @@ class Layout:
     MARGIN = 0.062
     CONTENT_W = 1.0 - 2 * MARGIN
 
-    KICKER_Y = 0.938
-    TITLE_TOP = 0.938
+    # The headline used to begin in the same slot as the kicker, which meant
+    # most analysis cards quietly dropped the useful context line.  The extra
+    # band gives the deck a proper broadcast hierarchy: what we are looking
+    # at, then the claim, then the picture.
+    KICKER_Y = 0.958
+    TITLE_TOP = 0.916
     SUBTITLE_GAP = 0.026
 
     STAGE_TOP = 0.830
@@ -273,10 +277,41 @@ def y_of(x_length: float) -> float:
 
 @lru_cache(maxsize=8)
 def _background_pixels(ink: str, home: str, away: str, width: int, height: int) -> np.ndarray:
-    """Permanent pitch-black canvas; no muddy team-colour wash."""
-    pixel = np.array(theme.hex_to_rgb("#000000"), dtype=float)
-    rgb = np.clip(pixel * 255.0, 0, 255).astype(np.uint8)
-    return np.broadcast_to(rgb, (height, width, 3)).copy()
+    """Near-black stadium depth field shared by every card.
+
+    It deliberately stays almost black: the story colours remain the two
+    teams and the data, not a generic gradient.  A faint overhead glow,
+    vignette and low-energy team spill stop the negative space from looking
+    like a flat PowerPoint export while keeping first-frame hook cards black.
+    """
+    base = np.asarray(theme.hex_to_rgb(ink), dtype=float) * 255.0
+    home_rgb = np.asarray(theme.hex_to_rgb(home), dtype=float) * 255.0
+    away_rgb = np.asarray(theme.hex_to_rgb(away), dtype=float) * 255.0
+    yy = np.linspace(0.0, 1.0, height, dtype=np.float32)[:, None]
+    xx = np.linspace(0.0, 1.0, width, dtype=np.float32)[None, :]
+
+    # A restrained light cone behind the title, with a vignette that makes
+    # bright data objects feel lifted off the canvas.
+    horizon = np.exp(-((yy - 0.28) / 0.24) ** 2) * 2.1
+    centre = np.exp(-(((xx - 0.50) / 0.48) ** 2 + ((yy - 0.46) / 0.62) ** 2)) * 1.15
+    vignette = np.clip(((xx - 0.50) / 0.72) ** 2 + ((yy - 0.48) / 0.95) ** 2, 0.0, 1.0)
+    neutral = np.maximum(0.0, horizon + centre - vignette * 1.5)
+
+    # Team colour only appears as a sub-perceptual sidelight at the bottom.
+    # This reads as depth on a phone, never as a coloured background wash.
+    floor = np.clip((yy - 0.46) / 0.54, 0.0, 1.0) ** 1.7
+    home_spill = np.exp(-((xx - 0.10) / 0.44) ** 2) * floor * 0.050
+    away_spill = np.exp(-((xx - 0.90) / 0.44) ** 2) * floor * 0.050
+
+    image = np.empty((height, width, 3), dtype=np.float32)
+    for channel in range(3):
+        image[..., channel] = (
+            base[channel]
+            + neutral
+            + home_rgb[channel] * home_spill
+            + away_rgb[channel] * away_spill
+        )
+    return np.clip(image, 0, 255).astype(np.uint8)
 
 
 def _paint_background(fig: plt.Figure, design: dict[str, Any]) -> None:
@@ -409,11 +444,11 @@ def outline(alpha: float = 1.0) -> list[Any]:
 
 
 def soft_shadow(alpha: float = 1.0) -> list[Any]:
-    """Soft display-type shadow. Empty at low alpha so frame 1 is not a ghost."""
+    """A restrained separation shadow for type over moving picture."""
     alpha = opacity(alpha)
     if alpha < EFFECT_ALPHA:
         return []
-    return [pe.withStroke(linewidth=5.0, foreground="#040605", alpha=opacity(0.55 * alpha))]
+    return [pe.withStroke(linewidth=2.0, foreground="#040605", alpha=opacity(0.30 * alpha))]
 
 
 def fade_effects(effects: list[Any] | None, alpha: float) -> list[Any]:
@@ -545,7 +580,7 @@ def kicker(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT_
 
 
 def headline(fig: plt.Figure, text: str, subtitle: str = "", *, alpha: float = 1.0,
-             fontsize: float = 52.0, color: str = TEXT) -> float:
+             fontsize: float = 46.0, color: str = TEXT) -> float:
     """Title (and optional subtitle). Returns the y the block ends at.
 
     The returned value is measured, not estimated, so callers can place content
@@ -585,9 +620,9 @@ def insight(fig: plt.Figure, text: str, *, alpha: float = 1.0, color: str = TEXT
              "#040605", 0.30 * alpha, zorder=17)
     fit_text(
         fig, 0.5, Layout.INSIGHT_Y, str(text),
-        fontsize=25.0, max_width=Layout.CONTENT_W - 0.02, max_lines=2, min_fontsize=15.0,
-        ha="center", va="center", color=color, family=theme.DISPLAY_FONT, fontweight="bold",
-        linespacing=1.05, alpha=alpha, zorder=20, path_effects=soft_shadow(),
+        fontsize=18.5, max_width=Layout.CONTENT_W - 0.04, max_lines=2, min_fontsize=13.0,
+        ha="center", va="center", color=color, family=theme.BODY_FONT, fontweight="bold",
+        linespacing=1.12, alpha=alpha, zorder=20,
     )
 
 
@@ -674,16 +709,43 @@ def to_pitch(x: float, y: float, flip: bool = False) -> tuple[float, float]:
 
     With ``flip=False`` the team attacks the top of the frame; with
     ``flip=True`` it attacks the bottom, which is how two teams are shown on
-    one pitch without pretending they shot at the same goal.
+    one pitch without pretending they shot at the same goal. WhoScored ``y``
+    grows toward the attacker's left touchline, so a left winger lands on the
+    left of the frame when attacking up.
     """
     if flip:
-        return 100.0 - y, 100.0 - x
-    return y, x
+        return y, 100.0 - x
+    return 100.0 - y, x
+
+
+def pitch_column(y_bin: int, y_bins: int) -> float:
+    """Screen-x centre (0-100) of a shared-frame y bin, home attacking up."""
+    return 100.0 - (y_bin + 0.5) * 100.0 / max(1, y_bins)
+
+
+PITCH_STRIPES = 12
+
+
+@lru_cache(maxsize=8)
+def _stripe_texture(face: str, stripes: int) -> np.ndarray:
+    """Mown-grass bands plus a soft centre lift, as a tiny RGBA image."""
+    rows = stripes * 8
+    light = np.array(theme.hex_to_rgb(theme.mix(face, "#2a3a30", 0.30)))
+    dark = np.array(theme.hex_to_rgb(theme.mix(face, "#000000", 0.10)))
+    band = (np.arange(rows) // 8) % 2
+    colours = np.where(band[:, None] == 0, light[None, :], dark[None, :])
+    texture = np.ones((rows, 24, 4))
+    texture[..., :3] = colours[:, None, :]
+    across = np.linspace(-1, 1, 24)[None, :]
+    along = np.linspace(-1, 1, rows)[:, None]
+    lift = np.clip(1.0 - 0.55 * (across ** 2) - 0.35 * (along ** 2), 0, 1)
+    texture[..., :3] = np.clip(texture[..., :3] * (0.82 + 0.30 * lift[..., None]), 0, 1)
+    return texture
 
 
 def vertical_pitch(fig: plt.Figure, rect: list[float], *, face: str = PITCH,
                    line: str = PITCH_LINE, alpha: float = 1.0, lw: float = 1.6,
-                   zorder: int = 3) -> plt.Axes:
+                   zorder: int = 3, stripes: bool = True) -> plt.Axes:
     ax = fig.add_axes(rect, zorder=zorder)
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
@@ -693,8 +755,17 @@ def vertical_pitch(fig: plt.Figure, rect: list[float], *, face: str = PITCH,
     ax.set_yticks([])
     for spine in ax.spines.values():
         spine.set_visible(False)
+    if stripes and opacity(alpha) >= VISIBLE_ALPHA:
+        ax.imshow(_stripe_texture(face, PITCH_STRIPES), extent=(0, 100, 0, 100), origin="lower",
+                  aspect="auto", interpolation="bilinear", alpha=opacity(alpha), zorder=1)
     draw_pitch_markings(ax, line=line, alpha=alpha, lw=lw)
     return ax
+
+
+def pixel_of(ax: plt.Axes, x: float, y: float) -> tuple[float, float]:
+    """Data point on *ax* in output pixels, for drawing true circles on a stretched axes."""
+    px, py = ax.transData.transform((x, y))
+    return float(px), float(py)
 
 
 def draw_pitch_markings(ax: plt.Axes, *, line: str = PITCH_LINE, alpha: float = 1.0,
@@ -1377,14 +1448,18 @@ def comparison_bar(
     away_color: str,
     *,
     progress: float = 1.0,
-    height: float = 0.0165,
-    left: float = 0.215,
-    right: float = 0.785,
+    height: float = 0.024,
+    left: float = 0.180,
+    right: float = 0.820,
     decimals: int = 0,
     suffix: str = "",
     zorder: int = 12,
 ) -> None:
-    """One diverging bar: the split point is the two teams' share of the total."""
+    """One diverging bar: the split point is the two teams' share of the total.
+
+    The bar carries the comparison; the numbers at either end are quiet
+    neutral labels so the eye reads the split first.
+    """
     total = home_value + away_value
     home_share = 0.5 if total <= 0 else home_value / total
     width = right - left
@@ -1398,24 +1473,30 @@ def comparison_bar(
              ha="center", va="center", alpha=ink,
              zorder=zorder)
 
-    fig_rect(fig, left, y, width, height, "#171d19", 0.95 * min(1.0, grown * 3), zorder=zorder - 2)
+    fig_panel(fig, left, y, width, height, color="#141a17", alpha=0.95 * min(1.0, grown * 3),
+              edge="none", radius=height * 0.5, zorder=zorder - 2)
 
     split = left + width * home_share
     grown_home = (split - left) * grown
     grown_away = (right - split) * grown
-    fig_rect(fig, split - grown_home, y, grown_home, height, home_color, 0.95, zorder=zorder)
-    fig_rect(fig, split, y, grown_away, height, away_color, 0.95, zorder=zorder)
+    gap = 0.003 if grown_home > 0.01 and grown_away > 0.01 else 0.0
+    for x0, w, colour in ((split - grown_home, grown_home - gap, home_color), (split + gap, grown_away - gap, away_color)):
+        if w <= 0.002:
+            continue
+        fig_rect(fig, x0, y - y_of(0.006), w, height + 2 * y_of(0.006), colour, 0.10 * ink, zorder=zorder - 1)
+        fig_panel(fig, x0, y, w, height, color=colour, alpha=0.96, edge="none",
+                  radius=min(height * 0.5, w / 2), zorder=zorder)
+        fig_rect(fig, x0 + min(0.006, w / 4), y + height * 0.62, max(0.0, w - min(0.012, w / 2)),
+                 height * 0.20, theme.mix(colour, "#ffffff", 0.45), 0.35 * ink, zorder=zorder + 1)
 
     shown_home = hold_count(home_value, grown)
     shown_away = hold_count(away_value, grown)
-    fig.text(left - 0.022, y + height / 2, number_text(shown_home, decimals=decimals, suffix=suffix),
-             color=home_color, fontsize=38, fontweight="bold", family=theme.DISPLAY_FONT,
-             ha="right", va="center", alpha=ink, zorder=zorder,
-             path_effects=soft_shadow(ink))
-    fig.text(right + 0.022, y + height / 2, number_text(shown_away, decimals=decimals, suffix=suffix),
-             color=away_color, fontsize=38, fontweight="bold", family=theme.DISPLAY_FONT,
-             ha="left", va="center", alpha=ink, zorder=zorder,
-             path_effects=soft_shadow(ink))
+    fig.text(left - 0.020, y + height / 2, number_text(shown_home, decimals=decimals, suffix=suffix),
+             color=theme.NUMBER_INK, fontsize=26, fontweight="bold", family=theme.LABEL_FONT,
+             ha="right", va="center", alpha=ink, zorder=zorder)
+    fig.text(right + 0.020, y + height / 2, number_text(shown_away, decimals=decimals, suffix=suffix),
+             color=theme.NUMBER_INK, fontsize=26, fontweight="bold", family=theme.LABEL_FONT,
+             ha="left", va="center", alpha=ink, zorder=zorder)
 
 
 def impact_burst(ax: plt.Axes, x: float, y: float, color: str, progress: float,
@@ -1500,6 +1581,48 @@ def scatter_batch(
     ax.scatter(xs, ys, **kwargs)
 
 
+def glow_plot(ax: plt.Axes, xs: Any, ys: Any, color: str, *, lw: float = 2.0,
+              alpha: float = 1.0, zorder: float = 8, capstyle: str = "round") -> None:
+    """A line with two soft halo passes under it."""
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA:
+        return
+    for width, weight in ((lw * 4.0, 0.08), (lw * 2.2, 0.18)):
+        ax.plot(xs, ys, color=color, lw=width, alpha=opacity(alpha * weight),
+                zorder=zorder - 0.2, solid_capstyle=capstyle)
+    ax.plot(xs, ys, color=color, lw=lw, alpha=alpha, zorder=zorder, solid_capstyle=capstyle)
+
+
+def data_label(target: Any, x: float, y: float, text: str, *, size: float = 15.0,
+               alpha: float = 1.0, ha: str = "center", va: str = "center",
+               color: str = theme.NUMBER_INK, zorder: float = 20, **kwargs: Any) -> None:
+    """A supporting number: present and legible, never the accent."""
+    alpha = opacity(alpha)
+    if alpha < VISIBLE_ALPHA or text in (None, ""):
+        return
+    target.text(x, y, str(text), color=color, fontsize=size, family=theme.LABEL_FONT,
+                fontweight="bold", ha=ha, va=va, alpha=alpha, zorder=zorder, **kwargs)
+
+
+def team_key_row(fig: plt.Figure, design: dict[str, Any], home: str, away: str,
+                 y: float, alpha: float) -> None:
+    """Quiet fixture lock-up; it identifies the sides without becoming the card."""
+    if opacity(alpha) < VISIBLE_ALPHA:
+        return
+    for name, identity, side in ((home, design["home"], -1), (away, design["away"], 1)):
+        badge_x = 0.31 if side < 0 else 0.69
+        team_badge(fig, name, badge_x, y, 0.056, identity=identity, alpha=alpha)
+        fit_text(
+            fig, badge_x - side * 0.040, y, name.upper(), fontsize=13,
+            max_width=0.145, max_lines=1, min_fontsize=8.5,
+            ha="left" if side < 0 else "right", va="center",
+            color=identity["chart"], family=theme.LABEL_FONT, fontweight="bold",
+            alpha=alpha, zorder=20,
+        )
+    fig.text(0.5, y, "×", color=TEXT_FAINT, fontsize=13, family=theme.LABEL_FONT,
+             ha="center", va="center", alpha=opacity(alpha * 0.72), zorder=20)
+
+
 def hero_number(fig: plt.Figure, x: float, y: float, value: Any, *,
                 color: str = TEXT, alpha: float = 1.0, fontsize: float = 160.0,
                 ha: str = "center", va: str = "center") -> None:
@@ -1547,14 +1670,25 @@ def stamp_insight(fig: plt.Figure, scene: dict[str, Any], tl: Timeline,
 
 
 def scene_chrome(fig: plt.Figure, scene: dict[str, Any], tl: Timeline,
-                 *, headline_size: float = 50.0) -> float:
-    """Headline plus a late insight stamp. Shared by scenes and graphs."""
+                 *, headline_size: float = 44.0) -> float:
+    """Broadcast frame shared by scenes, graphs and 3D infographics.
+
+    The kicker and subtitle are deliberately part of the frame rather than
+    optional renderer details.  That makes a territory city or trajectory
+    sculpture understandable before any supporting number appears.
+    """
+    chrome_alpha = tl.cue(0.0, 0.22, ease=ease_out_cubic)
+    if chrome_alpha >= VISIBLE_ALPHA:
+        fig_rect(fig, Layout.MARGIN, Layout.KICKER_Y - 0.016, 0.026, 0.0022,
+                 TEXT_DIM, 0.82 * chrome_alpha, zorder=20)
+        kicker(fig, scene.get("kicker", ""), alpha=chrome_alpha)
     header_bottom = headline(
-        fig, scene.get("title", ""), "",
-        alpha=tl.cue(0.0, 0.28, ease=ease_out_cubic),
+        fig, scene.get("title", ""), scene.get("subtitle", ""),
+        alpha=tl.cue(0.04, 0.28, ease=ease_out_cubic),
         fontsize=headline_size,
     )
     stamp_insight(fig, scene, tl)
+    footer(fig, alpha=tl.cue(0.34, 0.28))
     return header_bottom - 0.016
 
 
@@ -1605,7 +1739,9 @@ def radar_polygon(ax, values: list[float], color: str, *, progress: float = 1.0,
     xs.append(xs[0])
     ys.append(ys[0])
     ax.fill(xs, ys, color=color, alpha=opacity(fill_alpha * progress), zorder=zorder, linewidth=0)
-    ax.plot(xs, ys, color=color, lw=lw, alpha=opacity(0.95 * progress), zorder=zorder + 1)
+    glow_plot(ax, xs, ys, color, lw=lw, alpha=opacity(0.95 * progress), zorder=zorder + 1)
+    ax.scatter(xs[:-1], ys[:-1], s=34, color=color, edgecolor="#050706", linewidth=1.0,
+               alpha=opacity(progress), zorder=zorder + 2)
 
 
 def ring_gauge(ax, cx: float, cy: float, value: float, maximum: float, color: str, *,

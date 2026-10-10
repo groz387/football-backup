@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import math
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -208,6 +208,7 @@ class MatchBundle:
     touches: pd.DataFrame
     players: pd.DataFrame
     score: Score
+    formations: pd.DataFrame = field(default_factory=pd.DataFrame)
 
     @property
     def home(self) -> str:
@@ -279,6 +280,7 @@ def load_match(match_dir: Path) -> MatchBundle:
     shots = read_csv_if_exists(match_dir / "shots.csv")
     touches = read_csv_if_exists(match_dir / "heatmap_touches.csv")
     players = read_csv_if_exists(match_dir / "player_stats.csv")
+    formations = read_csv_if_exists(match_dir / "formations.csv")
 
     for frame in (events, passes, shots, touches):
         for col in NUMERIC_COLUMNS:
@@ -294,6 +296,7 @@ def load_match(match_dir: Path) -> MatchBundle:
         touches=touches,
         players=players,
         score=build_score(summary, events),
+        formations=formations,
     )
 
 

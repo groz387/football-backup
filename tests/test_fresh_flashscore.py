@@ -95,8 +95,13 @@ class FreshFallbackTests(unittest.TestCase):
         self.assertIn("conversion_gauges", ids)
 
     def test_script_keeps_full_stat_sentence_instead_of_tease(self):
-        selected, _ = director.select_visualizations(self.bundle, self.audit, 4, None, "")
-        scenes = director.build_storyboard(self.bundle, self.audit, selected)
+        available = {
+            row["id"]: row
+            for row in director.visualization_candidates(self.bundle, self.audit)
+            if row.get("available")
+        }
+        self.assertIn("match_radar", available)
+        scenes = director.build_storyboard(self.bundle, self.audit, [available["match_radar"]])
         radar = next(row for row in scenes if row["visualization"] == "match_radar")
         self.assertIn("18", radar["narration"])
         self.assertIn("58", radar["narration"])

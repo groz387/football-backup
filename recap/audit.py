@@ -14,6 +14,7 @@ Two rules shape the definitions below:
 from __future__ import annotations
 
 import math
+import re
 from typing import Any
 
 import numpy as np
@@ -455,13 +456,23 @@ def build_phase_pressure(bundle: MatchBundle) -> list[dict[str, Any]]:
 # territory
 # ---------------------------------------------------------------------------
 
+def shared_frame(x: pd.Series, y: pd.Series, side: pd.Series) -> tuple[pd.Series, pd.Series]:
+    """Put both teams on one pitch, in the home side's attacking direction.
+
+    WhoScored records every coordinate from the acting team's own frame, so
+    both goalkeepers sit near x=0. Away rows are rotated 180 degrees before a
+    shared grid can say who owned a zone.
+    """
+    away = side.eq("a")
+    return x.where(~away, 100 - x), y.where(~away, 100 - y)
+
+
 def build_zone_control(bundle: MatchBundle, x_bins: int = 6, y_bins: int = 3) -> list[dict[str, Any]]:
     touches = bundle.touches if not bundle.touches.empty else bundle.events[flag(bundle.events, "isTouch")]
     if touches.empty:
         return []
 
-    x = num(touches, "x")
-    y = num(touches, "y")
+    x, y = shared_frame(num(touches, "x"), num(touches, "y"), text_col(touches, "h_a"))
     valid = x.notna() & y.notna()
     if not valid.any():
         return []
@@ -531,7 +542,8 @@ def build_shots(bundle: MatchBundle) -> list[dict[str, Any]]:
                 "outcome": _shot_outcome(row),
                 "big_chance": str(row.get("bigChanceScored")).lower() == "true"
                 or str(row.get("bigChanceMissed")).lower() == "true",
-                "situation": clean_text(row.get("situation"), "OpenPlay"),
+                "situation": _shot_situation(row),
+                "body": _shot_body(row),
                 "goal_mouth_y": round(float(goal_y), 2) if pd.notna(goal_y) else None,
                 "goal_mouth_z": round(float(goal_z), 2) if pd.notna(goal_z) else None,
                 "xg": _shot_xg(row, "xg"),
@@ -539,6 +551,30 @@ def build_shots(bundle: MatchBundle) -> list[dict[str, Any]]:
             }
         )
     return records
+
+
+def _shot_situation(row: pd.Series) -> str:
+    """WhoScored leaves ``situation`` blank on counter-attack shots; the flags still say so."""
+    raw = clean_text(row.get("situation"))
+    if raw:
+        return raw
+    if any(str(row.get(col)).lower() == "true" for col in ("penaltyScored", "penaltyMissed")):
+        return "Penalty"
+    if str(row.get("shotCounter")).lower() == "true":
+        return "FastBreak"
+    if str(row.get("shotSetPiece")).lower() == "true":
+        return "SetPiece"
+    return "OpenPlay"
+
+
+def _shot_body(row: pd.Series) -> str:
+    raw = clean_text(row.get("shotBodyType"))
+    if raw in {"RightFoot", "LeftFoot", "Head"}:
+        return raw
+    for column, label in (("shotHead", "Head"), ("shotLeftFoot", "LeftFoot"), ("shotRightFoot", "RightFoot")):
+        if str(row.get(column)).lower() == "true":
+            return label
+    return "Other"
 
 
 def _shot_xg(row: pd.Series, kind: str) -> float | None:
@@ -887,9 +923,8 @@ def build_time_zones(bundle: MatchBundle) -> list[dict[str, Any]]:
     positions = clock(events)
     playing = text_col(events, "period").isin(PLAYING_PERIODS)
     touches = flag(events, "isTouch")
-    x = num(events, "x")
-    y = num(events, "y")
     side = text_col(events, "h_a")
+    x, y = shared_frame(num(events, "x"), num(events, "y"), side)
     windows = ((0, 30, "0-30"), (30, 60, "30-60"), (60, 200, "60-90"))
     x_bins, y_bins = 6, 3
     slices: list[dict[str, Any]] = []
@@ -925,14 +960,13 @@ def build_time_zones(bundle: MatchBundle) -> list[dict[str, Any]]:
 
 
 def build_touch_heatmap(bundle: MatchBundle, x_bins: int = 24, y_bins: int = 16) -> dict[str, Any]:
-    """Dense touch grid for a true pitch heatmap."""
+    """Dense touch grid for a true pitch heatmap, both sides in the home frame."""
     touches = bundle.touches if not bundle.touches.empty else bundle.events[flag(bundle.events, "isTouch")]
     if touches.empty:
         return {"x_bins": x_bins, "y_bins": y_bins, "home": [], "away": []}
-    x = num(touches, "x")
-    y = num(touches, "y")
-    valid = x.notna() & y.notna()
     side = text_col(touches, "h_a")
+    x, y = shared_frame(num(touches, "x"), num(touches, "y"), side)
+    valid = x.notna() & y.notna()
     grids: dict[str, list[list[float]]] = {}
     for token, key in (("h", "home"), ("a", "away")):
         mask = valid & side.eq(token)
@@ -1171,6 +1205,364 @@ def build_halftime_split(bundle: MatchBundle) -> dict[str, Any]:
     return {"first": first, "second": second, "ready": ready}
 
 
+# ---------------------------------------------------------------------------
+# players, lineups, passing direction, defensive shape, shot profile
+# ---------------------------------------------------------------------------
+
+_NAME_SUFFIXES = {"junior", "júnior", "jr", "jr.", "filho", "neto", "sobrinho"}
+
+
+def display_surname(name: str) -> str:
+    """'Vinícius Júnior' reads as VINÍCIUS, not JÚNIOR."""
+    parts = [part for part in str(name or "").split() if part]
+    if not parts:
+        return ""
+    if len(parts) > 1 and parts[-1].lower() in _NAME_SUFFIXES:
+        return parts[0]
+    return parts[-1]
+
+
+def _rating_columns(players: pd.DataFrame) -> list[str]:
+    found: list[tuple[int, str]] = []
+    for column in players.columns:
+        head, _, tail = str(column).partition("_")
+        if head == "ratings" and tail.isdigit():
+            found.append((int(tail), column))
+    return [column for _, column in sorted(found)]
+
+
+def _venue_side(value: Any) -> str:
+    venue = clean_text(value).lower()
+    return "h" if venue == "home" else "a" if venue == "away" else ""
+
+
+def _minute_or_none(value: Any) -> float | None:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    return None if math.isnan(number) else number
+
+
+def build_player_ratings(bundle: MatchBundle) -> dict[str, Any]:
+    """WhoScored match ratings: the last value each player's ``ratings_<minute>`` row reached.
+
+    Player rows carry one column per minute the rating changed. The final
+    rating is the last non-empty one; the curve is kept for sparklines.
+    """
+    empty = {"players": [], "top": [], "best": {"h": None, "a": None}, "available": False}
+    players = bundle.players
+    if players is None or getattr(players, "empty", True) or "playerName" not in players.columns:
+        return empty
+    columns = _rating_columns(players)
+    if not columns:
+        return empty
+    minutes = [int(column.split("_", 1)[1]) for column in columns]
+    ratings = players[columns].apply(pd.to_numeric, errors="coerce")
+    final = ratings.ffill(axis=1).iloc[:, -1]
+
+    events = bundle.events
+    names = text_col(events, "playerName")
+    tallies = {
+        "goals": names[flag(events, "isGoal") & ~flag(events, "goalOwn")].value_counts(),
+        "assists": names[flag(events, "assist") | flag(events, "intentionalAssist")].value_counts(),
+        "shots": names[flag(events, "isShot")].value_counts(),
+        "key_passes": names[flag(events, "passKey")].value_counts(),
+        "tackles": names[flag(events, "tackleWon")].value_counts(),
+        "touches": names[flag(events, "isTouch")].value_counts(),
+    }
+    last = float(bundle.last_minute)
+    rows: list[dict[str, Any]] = []
+    for index, row in players.iterrows():
+        rating = final.loc[index]
+        h_a = _venue_side(row.get("venue"))
+        name = clean_text(row.get("playerName"))
+        if pd.isna(rating) or h_a not in {"h", "a"} or not name:
+            continue
+        started = str(row.get("isFirstEleven")).strip().lower() == "true"
+        sub_in = _minute_or_none(row.get("subbedInExpandedMinute"))
+        sub_out = _minute_or_none(row.get("subbedOutExpandedMinute"))
+        if not started and sub_in is None:
+            continue
+        start_minute = 0.0 if started else float(sub_in or 0.0)
+        end_minute = sub_out if sub_out is not None else last
+        curve: list[list[float]] = []
+        for minute, value in zip(minutes, ratings.loc[index].tolist()):
+            if pd.isna(value):
+                continue
+            if curve and abs(curve[-1][1] - float(value)) < 0.005:
+                continue
+            curve.append([minute, round(float(value), 2)])
+        shirt = row.get("shirtNo")
+        record = {
+            "player": name,
+            "surname": display_surname(name),
+            "h_a": h_a,
+            "team": bundle.team(h_a),
+            "shirt": int(shirt) if pd.notna(shirt) else None,
+            "position": clean_text(row.get("position")),
+            "started": started,
+            "minutes": max(0, int(round(end_minute - start_minute))),
+            "rating": round(float(rating), 2),
+            "curve": curve[-48:],
+        }
+        for key, series in tallies.items():
+            record[key] = int(series.get(name, 0))
+        rows.append(record)
+    rows.sort(key=lambda item: (item["rating"], item["minutes"]), reverse=True)
+    best = {side: next((item for item in rows if item["h_a"] == side), None) for side in ("h", "a")}
+    return {"players": rows, "top": rows[:5], "best": best, "available": len(rows) >= 6}
+
+
+def _formation_label(raw: Any) -> str:
+    digits = re.sub(r"\D", "", str(raw or ""))
+    return "-".join(digits) if digits else clean_text(raw)
+
+
+def build_lineups(bundle: MatchBundle, ratings: dict[str, Any]) -> dict[str, Any]:
+    """Starting shapes from formations.csv: WhoScored slot grid, not inferred positions.
+
+    ``vertical`` runs 0 (goalkeeper) to 10 (striker line); ``horizontal`` runs
+    0-10 with low values on the right flank, matching event ``y``.
+    """
+    empty = {"home": None, "away": None, "available": False}
+    frame = bundle.formations
+    required = {"venue", "formationIndex", "formationName", "playerName", "vertical", "horizontal"}
+    if frame is None or getattr(frame, "empty", True) or not required.issubset(frame.columns):
+        return empty
+    by_name = {item["player"]: item for item in ratings.get("players") or []}
+    out: dict[str, Any] = {}
+    for h_a, key in (("h", "home"), ("a", "away")):
+        rows = frame[frame["venue"].astype(str).str.lower().eq(key)]
+        if rows.empty:
+            out[key] = None
+            continue
+        order = pd.to_numeric(rows["formationIndex"], errors="coerce")
+        first = order.min()
+        start = rows[order.eq(first)]
+        players = []
+        for _, row in start.iterrows():
+            vertical = _minute_or_none(row.get("vertical"))
+            horizontal = _minute_or_none(row.get("horizontal"))
+            name = clean_text(row.get("playerName"))
+            if vertical is None or horizontal is None or not name:
+                continue
+            rated = by_name.get(name) or {}
+            players.append({
+                "player": name,
+                "surname": display_surname(name),
+                "shirt": rated.get("shirt") if rated else _shirt_no(bundle, name),
+                "vertical": vertical,
+                "horizontal": horizontal,
+                "rating": rated.get("rating"),
+                "minutes": rated.get("minutes"),
+                "goals": rated.get("goals", 0),
+                "assists": rated.get("assists", 0),
+            })
+        shapes: list[str] = []
+        for value in rows.sort_values("formationIndex")["formationName"].tolist():
+            label = _formation_label(value)
+            if label and (not shapes or shapes[-1] != label):
+                shapes.append(label)
+        out[key] = {
+            "team": bundle.team(h_a),
+            "formation": _formation_label(start["formationName"].iloc[0]),
+            "shapes": shapes,
+            "players": players,
+        }
+    out["available"] = bool(
+        out.get("home") and out.get("away")
+        and len(out["home"]["players"]) >= 10 and len(out["away"]["players"]) >= 10
+    )
+    return out
+
+
+SONAR_SECTORS = 16
+_SET_PIECE_PASS_FLAGS = ("passCorner", "passFreekick", "throwIn")
+
+
+def build_pass_sonar(bundle: MatchBundle, sectors: int = SONAR_SECTORS) -> dict[str, Any]:
+    """Open-play pass directions in metres, per team.
+
+    Angle 0 is straight at the opponent's goal; positive angles lean toward
+    the passer's left touchline (WhoScored ``y`` grows to the left).
+    """
+    blank = {
+        "counts": [0] * sectors, "completed": [0] * sectors, "mean_length_m": [0.0] * sectors,
+        "total": 0, "forward_pct": 0.0, "sideways_pct": 0.0, "backward_pct": 0.0,
+        "avg_length_m": 0.0, "long_pct": 0.0, "accuracy_pct": 0.0,
+    }
+    empty = {"sectors": sectors, "home": dict(blank), "away": dict(blank), "available": False}
+    events = bundle.events
+    if events.empty:
+        return empty
+    mask = text_col(events, "type").eq("Pass")
+    for column in _SET_PIECE_PASS_FLAGS:
+        mask &= ~flag(events, column)
+    x, y, end_x, end_y = num(events, "x"), num(events, "y"), num(events, "endX"), num(events, "endY")
+    mask &= x.notna() & y.notna() & end_x.notna() & end_y.notna()
+    if not mask.any():
+        return empty
+    dx = (end_x - x) * 1.05
+    dy = (end_y - y) * 0.68
+    angle = np.arctan2(dy, dx)
+    length = np.hypot(dx, dy)
+    width = math.tau / sectors
+    sector = (np.floor((angle + math.pi + width / 2) / width).astype("Int64") % sectors)
+    successful = text_col(events, "outcomeType").eq("Successful")
+    side = text_col(events, "h_a")
+    out: dict[str, Any] = {"sectors": sectors}
+    for h_a, key in (("h", "home"), ("a", "away")):
+        team = mask & side.eq(h_a)
+        total = int(team.sum())
+        if not total:
+            out[key] = dict(blank)
+            continue
+        counts, completed, lengths = [0] * sectors, [0] * sectors, [0.0] * sectors
+        frame = pd.DataFrame({
+            "sector": sector[team].astype(int),
+            "ok": successful[team],
+            "length": length[team],
+        })
+        for index, group in frame.groupby("sector"):
+            slot = (int(index) + sectors // 2) % sectors
+            counts[slot] = int(len(group))
+            completed[slot] = int(group["ok"].sum())
+            lengths[slot] = round(float(group["length"].mean()), 1)
+        team_angle = angle[team].abs()
+        out[key] = {
+            "counts": counts,
+            "completed": completed,
+            "mean_length_m": lengths,
+            "total": total,
+            "forward_pct": _pct(int((team_angle < math.pi / 4).sum()), total),
+            "sideways_pct": _pct(int(((team_angle >= math.pi / 4) & (team_angle <= 3 * math.pi / 4)).sum()), total),
+            "backward_pct": _pct(int((team_angle > 3 * math.pi / 4).sum()), total),
+            "avg_length_m": round(float(length[team].mean()), 1),
+            "long_pct": _pct(int((length[team] >= 30).sum()), total),
+            "accuracy_pct": _pct(int((team & successful).sum()), total),
+        }
+    out["available"] = out["home"]["total"] >= 60 and out["away"]["total"] >= 60
+    return out
+
+
+DEFENSIVE_ACTION_TYPES = ("Tackle", "Interception", "BallRecovery", "BlockedPass", "Clearance")
+
+
+def _convex_hull(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
+    unique = sorted(set(points))
+    if len(unique) < 3:
+        return unique
+
+    def cross(o, a, b) -> float:
+        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+
+    lower: list[tuple[float, float]] = []
+    for point in unique:
+        while len(lower) >= 2 and cross(lower[-2], lower[-1], point) <= 0:
+            lower.pop()
+        lower.append(point)
+    upper: list[tuple[float, float]] = []
+    for point in reversed(unique):
+        while len(upper) >= 2 and cross(upper[-2], upper[-1], point) <= 0:
+            upper.pop()
+        upper.append(point)
+    return lower[:-1] + upper[:-1]
+
+
+def build_defensive_shape(bundle: MatchBundle) -> dict[str, Any]:
+    """Where each side won or cleared the ball, in its own attacking frame.
+
+    ``line_height_m`` is the mean distance from a team's own goal line of its
+    tackles won, interceptions, recoveries, blocked passes and clearances.
+    ``block`` is the convex hull of the central 80% of those actions.
+    """
+    blank = {
+        "points": [], "count": 0, "line_height_m": 0.0, "high_pct": 0.0,
+        "by_type": {kind: 0 for kind in DEFENSIVE_ACTION_TYPES}, "block": [],
+    }
+    empty = {"home": dict(blank), "away": dict(blank), "available": False}
+    events = bundle.events
+    if events.empty:
+        return empty
+    types = text_col(events, "type")
+    successful = text_col(events, "outcomeType").eq("Successful")
+    is_action = (
+        (types.eq("Tackle") & successful)
+        | types.isin(["Interception", "BallRecovery", "BlockedPass", "Clearance"])
+    )
+    x, y = num(events, "x"), num(events, "y")
+    is_action &= x.notna() & y.notna()
+    side = text_col(events, "h_a")
+    out: dict[str, Any] = {}
+    for h_a, key in (("h", "home"), ("a", "away")):
+        team = is_action & side.eq(h_a)
+        count = int(team.sum())
+        if not count:
+            out[key] = dict(blank)
+            continue
+        xs, ys = x[team], y[team]
+        lo_x, hi_x = xs.quantile(0.10), xs.quantile(0.90)
+        lo_y, hi_y = ys.quantile(0.10), ys.quantile(0.90)
+        core = (xs.between(lo_x, hi_x)) & (ys.between(lo_y, hi_y))
+        hull = _convex_hull(list(zip(xs[core].round(1).tolist(), ys[core].round(1).tolist())))
+        out[key] = {
+            "points": [
+                {"x": round(float(px), 1), "y": round(float(py), 1), "type": kind}
+                for px, py, kind in zip(xs.tolist(), ys.tolist(), types[team].tolist())
+            ][:160],
+            "count": count,
+            "line_height_m": round(float(xs.mean()) * 1.05, 1),
+            "high_pct": _pct(int(xs.ge(50).sum()), count),
+            "by_type": {kind: int((types[team] == kind).sum()) for kind in DEFENSIVE_ACTION_TYPES},
+            "block": [[round(px, 1), round(py, 1)] for px, py in hull],
+        }
+    out["available"] = out["home"]["count"] >= 15 and out["away"]["count"] >= 15
+    return out
+
+
+SHOT_SITUATIONS = {
+    "OpenPlay": "open_play",
+    "FastBreak": "counter",
+    "FromCorner": "corner",
+    "SetPiece": "set_piece",
+    "DirectFreekick": "free_kick",
+    "Penalty": "penalty",
+}
+SHOT_BODIES = {"RightFoot": "right_foot", "LeftFoot": "left_foot", "Head": "head", "Other": "other"}
+
+
+def build_shot_profile(shots: list[dict[str, Any]]) -> dict[str, Any]:
+    """How each side's shots arrived (situation) and what they were struck with."""
+    def blank() -> dict[str, Any]:
+        return {
+            "total": 0,
+            "situation": {key: 0 for key in dict.fromkeys(SHOT_SITUATIONS.values())},
+            "body": {key: 0 for key in SHOT_BODIES.values()},
+            "outcome": {key: 0 for key in ("goal", "saved", "woodwork", "off_target", "blocked")},
+            "box_pct": 0.0,
+        }
+
+    out = {"home": blank(), "away": blank()}
+    inside = {"home": 0, "away": 0}
+    for shot in shots:
+        key = "home" if shot.get("h_a") == "h" else "away" if shot.get("h_a") == "a" else ""
+        if not key:
+            continue
+        side = out[key]
+        side["total"] += 1
+        side["situation"][SHOT_SITUATIONS.get(str(shot.get("situation")), "open_play")] += 1
+        side["body"][SHOT_BODIES.get(str(shot.get("body")), "other")] += 1
+        outcome = str(shot.get("outcome") or "off_target")
+        side["outcome"][outcome if outcome in side["outcome"] else "off_target"] += 1
+        if float(shot.get("x") or 0) >= BOX_X and BOX_Y_MIN <= float(shot.get("y") or 0) <= BOX_Y_MAX:
+            inside[key] += 1
+    for key in ("home", "away"):
+        out[key]["box_pct"] = _pct(inside[key], out[key]["total"])
+    out["available"] = out["home"]["total"] + out["away"]["total"] >= 6
+    return out
+
+
 def _xy_pairs(frame: pd.DataFrame) -> list[tuple[float, float]]:
     if frame is None or getattr(frame, "empty", True):
         return []
@@ -1280,6 +1672,8 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
         "aerials": build_aerials(bundle),
         "bench_impact": build_bench_impact(bundle),
         "halftime_split": build_halftime_split(bundle),
+        "pass_sonar": build_pass_sonar(bundle),
+        "defensive_shape": build_defensive_shape(bundle),
         "definitions": {
             "pass_share_pct": "Share of all pass attempts in the export. A proxy for territory of the ball, not broadcast possession.",
             "possession_pct": "Provider-reported ball possession; only present when the fallback source publishes it.",
@@ -1296,8 +1690,17 @@ def build_audit(bundle: MatchBundle) -> dict[str, Any]:
                 "Tackle/Interception/Foul/Challenge/BlockedPass with x > 60. Reported only when "
                 "that side has at least five such press actions. Not a broadcast PPDA feed."
             ),
+            "player_rating": "WhoScored match rating: the last value in each player's per-minute ratings row.",
+            "lineup": "Starting formation slots from formations.csv (WhoScored's own grid).",
+            "pass_sonar": "Open-play pass directions in metres, sixteen sectors; corners, free kicks and throw-ins excluded.",
+            "defensive_line_height": "Mean distance from a team's own goal of its tackles won, interceptions, "
+                                     "recoveries, blocked passes and clearances.",
         },
     }
+    ratings = build_player_ratings(bundle)
+    audit["player_ratings"] = ratings
+    audit["lineups"] = build_lineups(bundle, ratings)
+    audit["shot_profile"] = build_shot_profile(audit["shots"])
     audit["goal_timeline"] = goal_timeline(audit)
     audit["facts"] = _describe(bundle, audit)
     return audit
